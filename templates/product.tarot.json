@@ -12,23 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "urgency_NGg3AN": {
-          "type": "urgency",
-          "disabled": true,
-          "settings": {
-            "urgency": "30% OFF ENDING TODAY!",
-            "color_scheme": "inverse",
-            "margin_top": 15,
-            "margin_bottom": 15
-          }
-        },
-        "custom_liquid_UxFKd8": {
-          "type": "custom_liquid",
-          "disabled": true,
-          "settings": {
-            "custom_liquid": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <style>\n        .rating {\n            font-size: 24px;\n            display: inline-block;\n            unicode-bidi: bidi-override;\n            color: #f0a800; /* Yellow color for stars */\n        }\n\n        .rating::before {\n            content: \"★★★★★\";\n            letter-spacing: 3px;\n        }\n\n        .half-rating::before {\n            content: \"★★★★½\";\n            position: absolute;\n            overflow: hidden;\n            top: 0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"rating\">\n        <div class=\"half-rating\" style=\"width: 50%;\"></div>\n    </div>\n    <span> 4.95/5 (416 Reviews)</span>\n</body>\n</html>"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {
@@ -69,6 +52,7 @@
         },
         "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "picker_types": "pills, pills, pills",
             "swatches_custom_colors": "disabled",
@@ -206,8 +190,6 @@
         }
       },
       "block_order": [
-        "urgency_NGg3AN",
-        "custom_liquid_UxFKd8",
         "title",
         "price",
         "text_mj7pnD",
@@ -480,6 +462,7 @@
     },
     "featured_collection_UDTNGa": {
       "type": "featured-collection",
+      "disabled": true,
       "custom_css": [
         "/* Style the YOU MAY ALSO LIKE headline */h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important; /* make the headline smaller */ line-height: 1.2 !important; margin-left: 0 !important;}"
       ],

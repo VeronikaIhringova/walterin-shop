@@ -69,6 +69,7 @@
         },
         "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "picker_types": "pills, pills, pills",
             "swatches_custom_colors": "disabled",
