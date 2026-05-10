@@ -1,0 +1,1022 @@
+{% doc %}
+  @prompt
+    Create a clean, minimal “Author Timeline” section for illustrator Walter Ihring.
+    Use a horizontal timeline on desktop and stacked cards on mobile.
+    
+    Each milestone should be a card with:
+    – Year (big and bold)
+    – Short title
+    – 2–3 lines of text
+    – Small image on the left or top (round or soft-cornered rectangle)
+    
+    Style:
+    – Minimal, lots of white space
+    – Soft lines, no harsh borders
+    – Colours inspired by Walterin (soft yellow / cream accents, black line, subtle highlight)
+    – Typography: one bold headline font for years, one simple sans-serif for text
+    
+    Layout rules:
+    – Desktop: cards in a row with a thin vertical or horizontal line connecting the years
+    – Mobile: cards stacked, line simplified to a dot before each year
+    – Make sure the text stays very readable and the images stay small so they don’t overpower the text.
+    
+    Use these milestones: 30+ years of drawing, Playboy 2010 article, Walterin Bratislava (2015), Golden Gander award (2016), Jury invitation (2017), and the ongoing Walterin series., Create a vertical “Author Timeline” section for illustrator Walter Ihring.
+    
+    Layout:
+    – The timeline should be vertical, with events stacked one under another.
+    – A thin vertical line with dots or icons can run along the left or centre to connect the years.
+    – Each event is a full-width card with generous spacing so it feels clean and easy to read.
+    
+    Images:
+    – For each event, allow me to add 1, 2, or 3 images.
+    – If I upload 1 image, display it large, on top of the text (or left/right, depending on alignment).
+    – If I upload 2 or 3 images, automatically arrange them into a simple collage (e.g. 2-column grid or 1 big + 2 small), with rounded corners.
+    – Images should be clearly visible but not stretched or distorted.
+    
+    Content fields per event:
+    – Year (e.g. “2010”, “2015”, “Present”)
+    – Short title (e.g. “Playboy Feature”, “Golden Gander Award”)
+    – 2–3 lines of description text
+    – Optional image gallery (1–3 images)
+    
+    Alignment & styling:
+    – Give me a setting to change alignment per section (left, centre, or right aligned text) and a global option for the whole timeline.
+    – Minimal, clean design with lots of white/neutral space.
+    – Use a simple sans-serif font for body text; years can be larger and bolder.
+    – Use very light borders or shadows around each event card so it feels soft, not boxy.
+    
+    Mobile behaviour:
+    – On mobile, the timeline should remain vertical (stacked cards).
+    – Images should automatically scale to the screen width and remain tappable.
+    – The vertical line/dots can be simplified, but the order of events must stay clear.
+    – Make sure text stays legible with comfortable spacing and not too small fonts.
+    
+    This timeline will be used to show these events: 1990s – starting out and early drawings; 2010 – Playboy feature; 2015 – Walterin Bratislava; 2016 – Golden Gander award; 2017 – Jury invitation; Present – ongoing Walterin series.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-vtimeline-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-vtimeline-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-vtimeline-heading-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin-bottom: {{ block.settings.heading_spacing }}px;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .ai-vtimeline-subheading-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin-bottom: {{ block.settings.timeline_spacing }}px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.subheading_size }}px;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+
+  .ai-vtimeline-wrapper-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-vtimeline-line-{{ ai_gen_id }} {
+    position: absolute;
+    left: {{ block.settings.line_position }}px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: {{ block.settings.line_color }};
+    z-index: 0;
+  }
+
+  .ai-vtimeline-items-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-vtimeline-item-{{ ai_gen_id }} {
+    position: relative;
+    margin-bottom: {{ block.settings.event_spacing }}px;
+    padding-left: {{ block.settings.content_padding_left }}px;
+  }
+
+  .ai-vtimeline-item-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-vtimeline-dot-{{ ai_gen_id }} {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: {{ block.settings.dot_size }}px;
+    height: {{ block.settings.dot_size }}px;
+    background-color: {{ block.settings.accent_color }};
+    border-radius: 50%;
+    border: 3px solid {{ block.settings.background_color }};
+    box-shadow: 0 0 0 2px {{ block.settings.accent_color }};
+    z-index: 2;
+  }
+
+  .ai-vtimeline-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    border: 1px solid {{ block.settings.card_border_color }};
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-vtimeline-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-vtimeline-year-{{ ai_gen_id }} {
+    font-size: {{ block.settings.year_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.accent_color }};
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .ai-vtimeline-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.heading_color }};
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .ai-vtimeline-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+
+  .ai-vtimeline-images-{{ ai_gen_id }} {
+    margin-top: 24px;
+  }
+
+  .ai-vtimeline-gallery-{{ ai_gen_id }} {
+    display: grid;
+    gap: {{ block.settings.image_gap }}px;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-vtimeline-gallery-1-{{ ai_gen_id }} {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-vtimeline-gallery-2-{{ ai_gen_id }} {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ai-vtimeline-gallery-3-{{ ai_gen_id }} {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .ai-vtimeline-gallery-3-{{ ai_gen_id }} .ai-vtimeline-img-wrapper-{{ ai_gen_id }}:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .ai-vtimeline-img-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    background-color: #f4f4f4;
+    aspect-ratio: 4 / 3;
+  }
+
+  .ai-vtimeline-gallery-1-{{ ai_gen_id }} .ai-vtimeline-img-wrapper-{{ ai_gen_id }} {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ai-vtimeline-img-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-vtimeline-text-left-{{ ai_gen_id }} .ai-vtimeline-year-{{ ai_gen_id }},
+  .ai-vtimeline-text-left-{{ ai_gen_id }} .ai-vtimeline-title-{{ ai_gen_id }},
+  .ai-vtimeline-text-left-{{ ai_gen_id }} .ai-vtimeline-description-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  .ai-vtimeline-text-center-{{ ai_gen_id }} .ai-vtimeline-year-{{ ai_gen_id }},
+  .ai-vtimeline-text-center-{{ ai_gen_id }} .ai-vtimeline-title-{{ ai_gen_id }},
+  .ai-vtimeline-text-center-{{ ai_gen_id }} .ai-vtimeline-description-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-vtimeline-text-right-{{ ai_gen_id }} .ai-vtimeline-year-{{ ai_gen_id }},
+  .ai-vtimeline-text-right-{{ ai_gen_id }} .ai-vtimeline-title-{{ ai_gen_id }},
+  .ai-vtimeline-text-right-{{ ai_gen_id }} .ai-vtimeline-description-{{ ai_gen_id }} {
+    text-align: right;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-vtimeline-line-{{ ai_gen_id }} {
+      left: 10px;
+    }
+
+    .ai-vtimeline-item-{{ ai_gen_id }} {
+      padding-left: 40px;
+    }
+
+    .ai-vtimeline-dot-{{ ai_gen_id }} {
+      left: 4px;
+      width: 12px;
+      height: 12px;
+    }
+
+    .ai-vtimeline-card-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding_mobile }}px;
+    }
+
+    .ai-vtimeline-year-{{ ai_gen_id }} {
+      font-size: {{ block.settings.year_size | times: 0.8 }}px;
+    }
+
+    .ai-vtimeline-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.9 }}px;
+    }
+
+    .ai-vtimeline-gallery-3-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-vtimeline-gallery-3-{{ ai_gen_id }} .ai-vtimeline-img-wrapper-{{ ai_gen_id }}:first-child {
+      grid-row: auto;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-vtimeline-item-{{ ai_gen_id }} {
+      padding-left: {{ block.settings.content_padding_left }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-vtimeline-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-vtimeline-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-vtimeline-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    {% if block.settings.subheading != blank %}
+      <div class="ai-vtimeline-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</div>
+    {% endif %}
+
+    <div class="ai-vtimeline-wrapper-{{ ai_gen_id }}">
+      <div class="ai-vtimeline-line-{{ ai_gen_id }}"></div>
+
+      <div class="ai-vtimeline-items-{{ ai_gen_id }}">
+        {% for i in (1..6) %}
+          {% liquid
+            assign year_key = 'event_' | append: i | append: '_year'
+            assign title_key = 'event_' | append: i | append: '_title'
+            assign description_key = 'event_' | append: i | append: '_description'
+            assign image1_key = 'event_' | append: i | append: '_image_1'
+            assign image2_key = 'event_' | append: i | append: '_image_2'
+            assign image3_key = 'event_' | append: i | append: '_image_3'
+            assign alignment_key = 'event_' | append: i | append: '_alignment'
+
+            assign year = block.settings[year_key]
+            assign title = block.settings[title_key]
+            assign description = block.settings[description_key]
+            assign image1 = block.settings[image1_key]
+            assign image2 = block.settings[image2_key]
+            assign image3 = block.settings[image3_key]
+            assign alignment = block.settings[alignment_key]
+
+            assign image_count = 0
+            if image1
+              assign image_count = image_count | plus: 1
+            endif
+            if image2
+              assign image_count = image_count | plus: 1
+            endif
+            if image3
+              assign image_count = image_count | plus: 1
+            endif
+          %}
+
+          {% if year != blank or title != blank %}
+            <div class="ai-vtimeline-item-{{ ai_gen_id }}">
+              <div class="ai-vtimeline-dot-{{ ai_gen_id }}"></div>
+              <div class="ai-vtimeline-card-{{ ai_gen_id }} ai-vtimeline-text-{{ alignment }}-{{ ai_gen_id }}">
+                {% if year != blank %}
+                  <div class="ai-vtimeline-year-{{ ai_gen_id }}">{{ year }}</div>
+                {% endif %}
+
+                {% if title != blank %}
+                  <h3 class="ai-vtimeline-title-{{ ai_gen_id }}">{{ title }}</h3>
+                {% endif %}
+
+                {% if description != blank %}
+                  <div class="ai-vtimeline-description-{{ ai_gen_id }}">{{ description }}</div>
+                {% endif %}
+
+                {% if image_count > 0 %}
+                  <div class="ai-vtimeline-images-{{ ai_gen_id }}">
+                    <div class="ai-vtimeline-gallery-{{ ai_gen_id }} ai-vtimeline-gallery-{{ image_count }}-{{ ai_gen_id }}">
+                      {% if image1 %}
+                        <div class="ai-vtimeline-img-wrapper-{{ ai_gen_id }}">
+                          <img
+                            src="{{ image1 | image_url: width: 800 }}"
+                            alt="{{ title | escape }}"
+                            loading="lazy"
+                            width="800"
+                            height="600"
+                          >
+                        </div>
+                      {% endif %}
+
+                      {% if image2 %}
+                        <div class="ai-vtimeline-img-wrapper-{{ ai_gen_id }}">
+                          <img
+                            src="{{ image2 | image_url: width: 800 }}"
+                            alt="{{ title | escape }}"
+                            loading="lazy"
+                            width="800"
+                            height="600"
+                          >
+                        </div>
+                      {% endif %}
+
+                      {% if image3 %}
+                        <div class="ai-vtimeline-img-wrapper-{{ ai_gen_id }}">
+                          <img
+                            src="{{ image3 | image_url: width: 800 }}"
+                            alt="{{ title | escape }}"
+                            loading="lazy"
+                            width="800"
+                            height="600"
+                          >
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vertical timeline",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Walter Ihring Timeline"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Decades of illustration, storytelling, and artistic excellence"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Event 1"
+    },
+    {
+      "type": "text",
+      "id": "event_1_year",
+      "label": "Year",
+      "default": "1990s"
+    },
+    {
+      "type": "text",
+      "id": "event_1_title",
+      "label": "Title",
+      "default": "Early Drawings & Starting Out"
+    },
+    {
+      "type": "textarea",
+      "id": "event_1_description",
+      "label": "Description",
+      "default": "Walter Ihring began his artistic journey, developing a distinctive illustration style that would define his career for over three decades."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_1_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_1_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_1_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_1_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Event 2"
+    },
+    {
+      "type": "text",
+      "id": "event_2_year",
+      "label": "Year",
+      "default": "2010"
+    },
+    {
+      "type": "text",
+      "id": "event_2_title",
+      "label": "Title",
+      "default": "Playboy Feature"
+    },
+    {
+      "type": "textarea",
+      "id": "event_2_description",
+      "label": "Description",
+      "default": "Featured in Playboy magazine, Walter's work reached an international audience, showcasing his unique artistic vision and storytelling ability."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_2_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_2_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_2_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_2_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Event 3"
+    },
+    {
+      "type": "text",
+      "id": "event_3_year",
+      "label": "Year",
+      "default": "2015"
+    },
+    {
+      "type": "text",
+      "id": "event_3_title",
+      "label": "Title",
+      "default": "Walterin Bratislava"
+    },
+    {
+      "type": "textarea",
+      "id": "event_3_description",
+      "label": "Description",
+      "default": "The Walterin series launched in Bratislava, bringing the beloved character to life in a fresh format that captured hearts across Slovakia."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_3_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_3_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_3_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_3_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Event 4"
+    },
+    {
+      "type": "text",
+      "id": "event_4_year",
+      "label": "Year",
+      "default": "2016"
+    },
+    {
+      "type": "text",
+      "id": "event_4_title",
+      "label": "Title",
+      "default": "Golden Gander Award"
+    },
+    {
+      "type": "textarea",
+      "id": "event_4_description",
+      "label": "Description",
+      "default": "Honored with the prestigious Golden Gander award, recognizing Walter's outstanding contribution to illustration and visual storytelling."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_4_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_4_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_4_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_4_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Event 5"
+    },
+    {
+      "type": "text",
+      "id": "event_5_year",
+      "label": "Year",
+      "default": "2017"
+    },
+    {
+      "type": "text",
+      "id": "event_5_title",
+      "label": "Title",
+      "default": "Jury Invitation"
+    },
+    {
+      "type": "textarea",
+      "id": "event_5_description",
+      "label": "Description",
+      "default": "Invited to serve as a jury member for international illustration competitions, Walter shared his expertise with the next generation of artists."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_5_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_5_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_5_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_5_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Event 6"
+    },
+    {
+      "type": "text",
+      "id": "event_6_year",
+      "label": "Year",
+      "default": "Present"
+    },
+    {
+      "type": "text",
+      "id": "event_6_title",
+      "label": "Title",
+      "default": "Ongoing Walterin Series"
+    },
+    {
+      "type": "textarea",
+      "id": "event_6_description",
+      "label": "Description",
+      "default": "Walter continues to create new Walterin adventures, delighting readers with timeless stories and charming illustrations that span generations."
+    },
+    {
+      "type": "image_picker",
+      "id": "event_6_image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_6_image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "event_6_image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "select",
+      "id": "event_6_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1200,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Heading spacing",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "timeline_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Timeline spacing",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "event_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Event spacing",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "line_position",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Line position",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding_left",
+      "min": 40,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Dot size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 20,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding (desktop)",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "min": 15,
+      "max": 35,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding (mobile)",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Image radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "min": 5,
+      "max": 20,
+      "step": 5,
+      "unit": "px",
+      "label": "Image gap",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "year_size",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Year size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#fffdf7"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#fce206"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Timeline line",
+      "default": "#e8e8e8"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vertical timeline"
+    }
+  ]
+}
+{% endschema %}

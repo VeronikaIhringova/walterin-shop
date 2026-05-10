@@ -1,0 +1,648 @@
+{% doc %}
+  @prompt
+    Create a clean, editorial-style header section for my Shop page, similar to Rhode’s homepage.
+    The layout should feature:
+    A full-width background image with adjustable opacity and positioning.
+    Centered headline text and optional subheadline over the image.
+    Precise control over text size, weight, spacing, and color.
+    Adjustable vertical and horizontal alignment (so I can move the text higher, lower, left, or right).
+    Optional overlay color or gradient on the image for readability.
+    The ability to toggle background parallax on or off.
+    Full customization for desktop and mobile layout separately.
+    Options for animation or subtle fade-in effects for both text and image.
+    Make it simple, modern, and flexible — everything should be editable: image, text, size, colors, opacity, alignment, and margins.
+    The overall look should be balanced, minimal, and elegant, with the focus on typography and composition rather than decoration.
+    , make the text cnetred in the centre of the image, text centred horizntally and also vertically, so it needs to be in the cnetre of the image, not only vertcially but also horizontally
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-editorial-header-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    min-height: {{ block.settings.min_height_desktop }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-editorial-header-{{ ai_gen_id }} {
+      min-height: {{ block.settings.min_height_mobile }}px;
+    }
+  }
+
+  .ai-editorial-header__image-wrapper-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ai-editorial-header__image-wrapper-{{ ai_gen_id }}.parallax {
+    {% if block.settings.enable_parallax %}
+      background-attachment: fixed;
+      background-position: {{ block.settings.image_position_horizontal }} {{ block.settings.image_position_vertical }};
+      background-size: cover;
+      background-repeat: no-repeat;
+    {% endif %}
+  }
+
+  .ai-editorial-header__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ block.settings.image_position_horizontal }} {{ block.settings.image_position_vertical }};
+    opacity: {{ block.settings.image_opacity | divided_by: 100.0 }};
+    {% if block.settings.enable_image_animation %}
+      opacity: 0;
+      animation: ai-editorial-fade-in-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease-out forwards;
+      animation-delay: {{ block.settings.image_animation_delay }}s;
+    {% endif %}
+  }
+
+  .ai-editorial-header__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    {% if block.settings.overlay_type == 'solid' %}
+      background-color: {{ block.settings.overlay_color }};
+      opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    {% elsif block.settings.overlay_type == 'gradient' %}
+      background: {{ block.settings.overlay_gradient }};
+      opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    {% endif %}
+  }
+
+  .ai-editorial-header__content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    display: flex;
+    align-items: {{ block.settings.vertical_alignment }};
+    justify-content: {{ block.settings.horizontal_alignment }};
+    padding: {{ block.settings.padding_top_desktop }}px {{ block.settings.padding_horizontal_desktop }}px {{ block.settings.padding_bottom_desktop }}px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-editorial-header__content-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top_mobile }}px {{ block.settings.padding_horizontal_mobile }}px {{ block.settings.padding_bottom_mobile }}px;
+      align-items: {{ block.settings.vertical_alignment_mobile }};
+      justify-content: {{ block.settings.horizontal_alignment_mobile }};
+      text-align: {{ block.settings.text_alignment_mobile }};
+    }
+  }
+
+  .ai-editorial-header__text-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_max_width }}px;
+    width: 100%;
+    {% if block.settings.enable_text_animation %}
+      opacity: 0;
+      transform: translateY(20px);
+      animation: ai-editorial-fade-up-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease-out forwards;
+      animation-delay: {{ block.settings.text_animation_delay }}s;
+    {% endif %}
+  }
+
+  .ai-editorial-header__headline-{{ ai_gen_id }} {
+    font-family: {{ block.settings.headline_font.family }}, {{ block.settings.headline_font.fallback_families }};
+    font-weight: {{ block.settings.headline_font.weight }};
+    font-size: {{ block.settings.headline_size_desktop }}px;
+    line-height: {{ block.settings.headline_line_height }};
+    letter-spacing: {{ block.settings.headline_letter_spacing }}em;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-editorial-header__headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size_mobile }}px;
+    }
+  }
+
+  .ai-editorial-header__subheadline-{{ ai_gen_id }} {
+    font-family: {{ block.settings.subheadline_font.family }}, {{ block.settings.subheadline_font.fallback_families }};
+    font-weight: {{ block.settings.subheadline_font.weight }};
+    font-size: {{ block.settings.subheadline_size_desktop }}px;
+    line-height: {{ block.settings.subheadline_line_height }};
+    letter-spacing: {{ block.settings.subheadline_letter_spacing }}em;
+    color: {{ block.settings.subheadline_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-editorial-header__subheadline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheadline_size_mobile }}px;
+    }
+  }
+
+  {% if block.settings.enable_image_animation %}
+    @keyframes ai-editorial-fade-in-{{ ai_gen_id }} {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: {{ block.settings.image_opacity | divided_by: 100.0 }};
+      }
+    }
+  {% endif %}
+
+  {% if block.settings.enable_text_animation %}
+    @keyframes ai-editorial-fade-up-{{ ai_gen_id }} {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  {% endif %}
+{% endstyle %}
+
+<div class="ai-editorial-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-editorial-header__image-wrapper-{{ ai_gen_id }} {% if block.settings.enable_parallax and block.settings.background_image %}parallax{% endif %}" 
+    {% if block.settings.enable_parallax and block.settings.background_image %}
+      style="background-image: url('{{ block.settings.background_image | image_url: width: 2000 }}');"
+    {% endif %}
+  >
+    {% if block.settings.background_image %}
+      {% unless block.settings.enable_parallax %}
+        <img
+          src="{{ block.settings.background_image | image_url: width: 2000 }}"
+          alt="{{ block.settings.background_image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.background_image.width }}"
+          height="{{ block.settings.background_image.height }}"
+          class="ai-editorial-header__image-{{ ai_gen_id }}"
+        >
+      {% endunless %}
+    {% else %}
+      <div class="ai-editorial-header__placeholder-{{ ai_gen_id }}" style="width: 100%; height: 100%; background-color: #f4f4f4; display: flex; align-items: center; justify-content: center;">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if block.settings.overlay_type != 'none' %}
+    <div class="ai-editorial-header__overlay-{{ ai_gen_id }}"></div>
+  {% endif %}
+
+  <div class="ai-editorial-header__content-{{ ai_gen_id }}">
+    <div class="ai-editorial-header__text-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.headline != blank %}
+        <h1 class="ai-editorial-header__headline-{{ ai_gen_id }}">
+          {{ block.settings.headline }}
+        </h1>
+      {% endif %}
+
+      {% if block.settings.subheadline != blank %}
+        <div class="ai-editorial-header__subheadline-{{ ai_gen_id }}">
+          {{ block.settings.subheadline }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Editorial header",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacity",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "image_position_horizontal",
+      "label": "Horizontal position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "image_position_vertical",
+      "label": "Vertical position",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Enable parallax effect",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "select",
+      "id": "overlay_type",
+      "label": "Overlay type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "color_background",
+      "id": "overlay_gradient",
+      "label": "Overlay gradient"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline",
+      "label": "Text",
+      "default": "Editorial Header"
+    },
+    {
+      "type": "font_picker",
+      "id": "headline_font",
+      "label": "Font",
+      "default": "inter_n5"
+    },
+    {
+      "type": "range",
+      "id": "headline_size_desktop",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Size (desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "headline_size_mobile",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Size (mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "headline_line_height",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "headline_letter_spacing",
+      "min": -0.1,
+      "max": 0.5,
+      "step": 0.1,
+      "label": "Letter spacing",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Subheadline"
+    },
+    {
+      "type": "richtext",
+      "id": "subheadline",
+      "label": "Text",
+      "default": "<p>A minimal, elegant approach to modern design</p>"
+    },
+    {
+      "type": "font_picker",
+      "id": "subheadline_font",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size_desktop",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Size (desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Size (mobile)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subheadline_line_height",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "subheadline_letter_spacing",
+      "min": -0.1,
+      "max": 0.5,
+      "step": 0.1,
+      "label": "Letter spacing",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "subheadline_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Layout (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum height",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Horizontal alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Layout (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum height",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment_mobile",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment_mobile",
+      "label": "Horizontal alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment_mobile",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_animation",
+      "label": "Enable image fade-in",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_text_animation",
+      "label": "Enable text fade-in",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "label": "Animation duration",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "image_animation_delay",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "label": "Image delay",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_animation_delay",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "label": "Text delay",
+      "default": 0.3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial header"
+    }
+  ]
+}
+{% endschema %}

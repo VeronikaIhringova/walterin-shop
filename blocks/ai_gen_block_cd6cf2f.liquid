@@ -1,0 +1,1146 @@
+{% doc %}
+  @prompt
+    Create a custom split-section layout that combines image and text in a clean, editorial style.
+    The section should have:
+    1. Customizable background
+    A solid background color block that I can fully customize (color picker + opacity).
+    Option to set background as solid color, gradient, or image.
+    2. Image area (left or right side)
+    Image should cover slightly less than half of the section width (around 45%).
+    Shape should be square or softly rounded rectangle with editable border radius.
+    Option to move the image left, right, top, or bottom, so layout can alternate.
+    Include manual alignment controls (arrows or position toggles):
+    ↔ move horizontally
+    ↕ move vertically
+    ⤢ resize image area
+    Image aspect ratio, width, and height must be fully editable individually.
+    3. Text area (opposite side of image)
+    Editable headline, paragraph, and small subheadline fields.
+    Allow precise manual positioning of each text block — e.g. move up, down, left, or right within the section (using arrows or pixel inputs).
+    Option to change font, size, spacing, and alignment (left/center/right) individually for every text element.
+    4. Button
+    Add a minimal button that looks like this:
+    White background (or transparent)
+    Outlined border in black or editable color
+    Rounded corners
+    Bold text inside (editable)
+    Hover effect: background fills with border color and text color inverts
+    Button text, color, and border must be individually editable.
+    Option to control exact button position within the text area.
+    5. Optional decorative elements
+    Add the ability to place rotated text or repeating words vertically along the section edge (e.g., PAGE BY PAGE • PAGE BY PAGE).
+    This vertical text should be fully editable (text, font, spacing, color, rotation angle).
+    Option to toggle it on/off easily.
+    6. Responsiveness
+    On mobile, image appears above text, stacked vertically with spacing control.
+    All paddings, margins, and text-image ratios must be fully editable for each breakpoint.
+    7. Overall design tone
+    Minimal, creative, and editor, the image has to be half of the background no a single reclagle, but half of the full section, its grea but add option to excatly move the text, like left right, on milimeneters, all of them even the bottom, make the text not go over the image but begin a bit after the centre on the other side of the image
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-split-section-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    min-height: {{ block.settings.section_height }}px;
+  }
+
+  .ai-split-section__bg-wrapper-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: {% if block.settings.layout == 'image-left' %}row{% else %}row-reverse{% endif %};
+  }
+
+  .ai-split-section__image-half-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.image_width }}%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .ai-split-section__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ai-split-section__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-split-section__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-split-section__bg-half-{{ ai_gen_id }} {
+    width: {{ 100 | minus: block.settings.image_width }}%;
+    height: 100%;
+    background-color: {{ block.settings.bg_color }};
+    {% if block.settings.bg_type == 'gradient' %}
+      background: {{ block.settings.bg_gradient }};
+    {% elsif block.settings.bg_type == 'image' and block.settings.bg_image %}
+      background-image: url('{{ block.settings.bg_image | image_url: width: 2000 }}');
+      background-size: cover;
+      background-position: center;
+    {% endif %}
+  }
+
+  .ai-split-section__container-{{ ai_gen_id }} {
+    position: relative;
+    display: grid;
+    grid-template-columns: {% if block.settings.layout == 'image-left' %}{{ block.settings.image_width }}% 1fr{% else %}1fr {{ block.settings.image_width }}%{% endif %};
+    align-items: {{ block.settings.vertical_align }};
+    min-height: {{ block.settings.section_height }}px;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    z-index: 1;
+  }
+
+  .ai-split-section__image-spacer-{{ ai_gen_id }} {
+    width: 100%;
+  }
+
+  .ai-split-section__content-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: {{ block.settings.content_vertical_align }};
+    padding: {{ block.settings.content_padding }}px {{ block.settings.section_padding_horizontal }}px;
+    transform: translate({{ block.settings.content_offset_x }}px, {{ block.settings.content_offset_y }}px);
+  }
+
+  .ai-split-section__subheading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.subheading_font.family }}, {{ block.settings.subheading_font.fallback_families }};
+    font-weight: {{ block.settings.subheading_font.weight }};
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    text-align: {{ block.settings.text_align }};
+    letter-spacing: {{ block.settings.subheading_spacing }}px;
+    text-transform: {{ block.settings.subheading_transform }};
+    margin-bottom: {{ block.settings.subheading_margin }}px;
+    transform: translate({{ block.settings.subheading_offset_x }}px, {{ block.settings.subheading_offset_y }}px);
+  }
+
+  .ai-split-section__heading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    text-align: {{ block.settings.text_align }};
+    line-height: {{ block.settings.heading_line_height }};
+    letter-spacing: {{ block.settings.heading_spacing }}px;
+    margin-bottom: {{ block.settings.heading_margin }}px;
+    transform: translate({{ block.settings.heading_offset_x }}px, {{ block.settings.heading_offset_y }}px);
+  }
+
+  .ai-split-section__text-{{ ai_gen_id }} {
+    font-family: {{ block.settings.text_font.family }}, {{ block.settings.text_font.fallback_families }};
+    font-weight: {{ block.settings.text_font.weight }};
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.text_align }};
+    line-height: {{ block.settings.text_line_height }};
+    letter-spacing: {{ block.settings.text_spacing }}px;
+    margin-bottom: {{ block.settings.text_margin }}px;
+    transform: translate({{ block.settings.text_offset_x }}px, {{ block.settings.text_offset_y }}px);
+  }
+
+  .ai-split-section__button-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: {% if block.settings.text_align == 'left' %}flex-start{% elsif block.settings.text_align == 'center' %}center{% else %}flex-end{% endif %};
+    transform: translate({{ block.settings.button_offset_x }}px, {{ block.settings.button_offset_y }}px);
+  }
+
+  .ai-split-section__button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: {{ block.settings.button_font_weight }};
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-split-section__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-split-section__decorative-text-{{ ai_gen_id }} {
+    position: absolute;
+    {% if block.settings.decorative_position == 'left' %}
+      left: {{ block.settings.decorative_offset }}px;
+    {% else %}
+      right: {{ block.settings.decorative_offset }}px;
+    {% endif %}
+    top: 50%;
+    transform: translateY(-50%) rotate({{ block.settings.decorative_rotation }}deg);
+    transform-origin: center;
+    font-family: {{ block.settings.decorative_font.family }}, {{ block.settings.decorative_font.fallback_families }};
+    font-weight: {{ block.settings.decorative_font.weight }};
+    font-size: {{ block.settings.decorative_size }}px;
+    color: {{ block.settings.decorative_color }};
+    letter-spacing: {{ block.settings.decorative_spacing }}px;
+    text-transform: {{ block.settings.decorative_transform }};
+    white-space: nowrap;
+    opacity: {{ block.settings.decorative_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-split-section-{{ ai_gen_id }} {
+      min-height: auto;
+    }
+
+    .ai-split-section__bg-wrapper-{{ ai_gen_id }} {
+      flex-direction: column;
+      position: relative;
+    }
+
+    .ai-split-section__image-half-{{ ai_gen_id }} {
+      width: 100%;
+      height: {{ block.settings.mobile_image_height }}px;
+    }
+
+    .ai-split-section__bg-half-{{ ai_gen_id }} {
+      width: 100%;
+      height: auto;
+      min-height: 300px;
+    }
+
+    .ai-split-section__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: 0;
+    }
+
+    .ai-split-section__image-spacer-{{ ai_gen_id }} {
+      width: 100%;
+      height: {{ block.settings.mobile_image_height }}px;
+    }
+
+    .ai-split-section__content-wrapper-{{ ai_gen_id }} {
+      padding: {{ block.settings.mobile_padding_top }}px {{ block.settings.mobile_padding_horizontal }}px {{ block.settings.mobile_padding_bottom }}px;
+      transform: translate(0, 0);
+    }
+
+    .ai-split-section__subheading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_subheading_size }}px;
+      transform: translate(0, 0);
+    }
+
+    .ai-split-section__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_heading_size }}px;
+      transform: translate(0, 0);
+    }
+
+    .ai-split-section__text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_text_size }}px;
+      transform: translate(0, 0);
+    }
+
+    .ai-split-section__button-wrapper-{{ ai_gen_id }} {
+      transform: translate(0, 0);
+    }
+
+    .ai-split-section__decorative-text-{{ ai_gen_id }} {
+      display: {% if block.settings.decorative_hide_mobile %}none{% else %}block{% endif %};
+    }
+  }
+{% endstyle %}
+
+<div class="ai-split-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-split-section__bg-wrapper-{{ ai_gen_id }}">
+    <div class="ai-split-section__image-half-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 1200 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          class="ai-split-section__image-{{ ai_gen_id }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+        >
+      {% else %}
+        <div class="ai-split-section__image-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="ai-split-section__bg-half-{{ ai_gen_id }}"></div>
+  </div>
+
+  {% if block.settings.decorative_enabled %}
+    <div class="ai-split-section__decorative-text-{{ ai_gen_id }}">
+      {{ block.settings.decorative_text }}
+    </div>
+  {% endif %}
+
+  <div class="ai-split-section__container-{{ ai_gen_id }}">
+    <div class="ai-split-section__image-spacer-{{ ai_gen_id }}"></div>
+
+    <div class="ai-split-section__content-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.subheading != blank %}
+        <div class="ai-split-section__subheading-{{ ai_gen_id }}">
+          {{ block.settings.subheading }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-split-section__heading-{{ ai_gen_id }}">
+          {{ block.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if block.settings.text != blank %}
+        <div class="ai-split-section__text-{{ ai_gen_id }}">
+          {{ block.settings.text }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.button_text != blank %}
+        <div class="ai-split-section__button-wrapper-{{ ai_gen_id }}">
+          <a
+            href="{{ block.settings.button_link }}"
+            class="ai-split-section__button-{{ ai_gen_id }}"
+          >
+            {{ block.settings.button_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Editorial split section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "image-left",
+          "label": "Left"
+        },
+        {
+          "value": "image-right",
+          "label": "Right"
+        }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum section height",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        {
+          "value": "color",
+          "label": "Solid color"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 30,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "label": "Image width",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Content area"
+    },
+    {
+      "type": "select",
+      "id": "content_vertical_align",
+      "label": "Content vertical alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_offset_x",
+      "min": -200,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Content horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "content_offset_y",
+      "min": -200,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Content vertical offset",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "New Collection"
+    },
+    {
+      "type": "font_picker",
+      "id": "subheading_font",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subheading_spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "subheading_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "subheading_margin",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "subheading_offset_x",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subheading_offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Discover Our Latest Editorial"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Font",
+      "default": "inter_n5"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Font size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": -2,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_margin",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "heading_offset_x",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Explore our carefully curated collection that brings together timeless design and modern aesthetics. Each piece tells a story of craftsmanship and attention to detail.</p>"
+    },
+    {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "text_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_margin",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_offset_x",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_font_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Font weight",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_offset_x",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "button_offset_y",
+      "min": -100,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Decorative text"
+    },
+    {
+      "type": "checkbox",
+      "id": "decorative_enabled",
+      "label": "Enable decorative text",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "decorative_text",
+      "label": "Decorative text",
+      "default": "PAGE BY PAGE • PAGE BY PAGE • PAGE BY PAGE"
+    },
+    {
+      "type": "font_picker",
+      "id": "decorative_font",
+      "label": "Font",
+      "default": "inter_n4"
+    },
+    {
+      "type": "range",
+      "id": "decorative_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "decorative_color",
+      "label": "Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "select",
+      "id": "decorative_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "decorative_offset",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Edge offset",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "decorative_rotation",
+      "min": -180,
+      "max": 180,
+      "step": 5,
+      "label": "Rotation angle",
+      "default": -90
+    },
+    {
+      "type": "range",
+      "id": "decorative_spacing",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "decorative_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "decorative_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacity",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "decorative_hide_mobile",
+      "label": "Hide on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Image height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "mobile_subheading_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial split section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,342 @@
+{% doc %}
+  @prompt
+    Create a collapsible section component for a product page that displays technical specifications (such as size, number of pages, format, materials, etc.). The component should include:
+    
+    A customizable heading text on the button (e.g., “Technical Specifications”).
+    
+    A customizable body text area that appears when the section expands.
+    
+    Fully customizable padding, margin, and spacing for both the button and the expanded content.
+    
+    Customizable colors for the button background, button text, hover state, and border.
+    
+    Smooth expand/collapse animation.
+    
+    Style-friendly code so I can easily tweak fonts, radius, or add icons later.
+    
+    Make the output clean, minimal, and easy to integrate into Shopify sections or product templates.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-tech-specs-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.margin_top }}px;
+    margin-bottom: {{ block.settings.margin_bottom }}px;
+    border: {{ block.settings.border_thickness }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-tech-specs-button-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    cursor: pointer;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 500;
+    text-align: left;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-tech-specs-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  .ai-tech-specs-button-text-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-tech-specs-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+
+  .ai-tech-specs-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    stroke: {{ block.settings.button_text_color }};
+  }
+
+  .ai-tech-specs-{{ ai_gen_id }}[data-expanded="true"] .ai-tech-specs-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-tech-specs-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    background-color: {{ block.settings.content_bg_color }};
+    color: {{ block.settings.content_text_color }};
+  }
+
+  .ai-tech-specs-content-inner-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding_vertical }}px {{ block.settings.content_padding_horizontal }}px;
+    font-size: {{ block.settings.content_font_size }}px;
+    line-height: 1.6;
+  }
+
+  .ai-tech-specs-{{ ai_gen_id }}[data-expanded="true"] .ai-tech-specs-content-{{ ai_gen_id }} {
+    max-height: 2000px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-tech-specs-button-{{ ai_gen_id }} {
+      font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.button_padding_vertical | times: 0.8 }}px {{ block.settings.button_padding_horizontal | times: 0.8 }}px;
+    }
+
+    .ai-tech-specs-content-inner-{{ ai_gen_id }} {
+      font-size: {{ block.settings.content_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.content_padding_vertical | times: 0.8 }}px {{ block.settings.content_padding_horizontal | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<tech-specs-{{ ai_gen_id }}
+  class="ai-tech-specs-{{ ai_gen_id }}"
+  data-expanded="false"
+  {{ block.shopify_attributes }}
+>
+  <button
+    class="ai-tech-specs-button-{{ ai_gen_id }}"
+    aria-expanded="false"
+    aria-controls="ai-tech-specs-content-{{ ai_gen_id }}"
+  >
+    <span class="ai-tech-specs-button-text-{{ ai_gen_id }}">
+      {{ block.settings.heading }}
+    </span>
+    <span class="ai-tech-specs-icon-{{ ai_gen_id }}">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </span>
+  </button>
+
+  <div
+    class="ai-tech-specs-content-{{ ai_gen_id }}"
+    id="ai-tech-specs-content-{{ ai_gen_id }}"
+  >
+    <div class="ai-tech-specs-content-inner-{{ ai_gen_id }}">
+      {{ block.settings.content }}
+    </div>
+  </div>
+</tech-specs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TechSpecs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.button = this.querySelector('.ai-tech-specs-button-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-tech-specs-content-{{ ai_gen_id }}');
+        
+        if (this.button) {
+          this.button.addEventListener('click', this.toggle.bind(this));
+        }
+      }
+
+      toggle() {
+        const isExpanded = this.getAttribute('data-expanded') === 'true';
+        const newState = !isExpanded;
+        
+        this.setAttribute('data-expanded', newState);
+        this.button.setAttribute('aria-expanded', newState);
+      }
+    }
+
+    customElements.define('tech-specs-{{ ai_gen_id }}', TechSpecs{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Technical specifications",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Technical Specifications"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Specifications",
+      "default": "<p><strong>Size:</strong> 210 x 297 mm (A4)</p><p><strong>Pages:</strong> 120 pages</p><p><strong>Format:</strong> Hardcover</p><p><strong>Materials:</strong> Premium paper, cloth binding</p><p><strong>Weight:</strong> 450g</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#222222"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Content style"
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Background",
+      "default": "#fffdf7"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Text",
+      "default": "#222222"
+    },
+    {
+      "type": "range",
+      "id": "content_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "content_padding_vertical",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Border"
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Thickness",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Technical specifications"
+    }
+  ]
+}
+{% endschema %}

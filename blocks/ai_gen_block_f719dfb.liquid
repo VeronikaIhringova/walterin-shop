@@ -1,0 +1,472 @@
+{% doc %}
+  @prompt
+    Create a custom Online Store 2.0 section with a single image and a mouse-following zoom lens effect.
+    
+    SECTION REQUIREMENTS
+    
+    The section contains one image added through an image_picker.
+    
+    The image should be centered, not full-width, with large optional margins/whitespace.
+    
+    Include theme settings for:
+    
+    Image max-width (range: 400–1400 px)
+    
+    Padding top (0–200 px)
+    
+    Padding bottom (0–200 px)
+    
+    Optional background color
+    
+    Image border radius
+    
+    Image shadow on/off
+    
+    ZOOM LENS BEHAVIOR
+    
+    On desktop hover, show a zoom lens that follows the mouse.
+    
+    The lens must:
+    
+    Move with the cursor smoothly.
+    
+    Show a zoomed-in sharp version of the portion the mouse is over.
+    
+    Display zoomed details clearly enough to read small text.
+    
+    Use vanilla JavaScript for the lens logic.
+    
+    On mobile, disable zoom or keep it minimal for readability.
+    
+    BASE SETTINGS (add these into the theme editor)
+    
+    Zoom enabled (checkbox)
+    
+    Zoom level (range: 1.2× – 4×; default 2×)
+    
+    Lens size (range: 80–400 px)
+    
+    Lens shape (dropdown: square, circle, rounded)
+    
+    Lens opacity (0.3–1), Continue building the section with additional customization options for the zoom lens.
+    
+    ADD THESE SETTINGS INTO THE THEME PANEL
+    Zoom Customization
+    
+    High-resolution image for zoom (second image_picker)
+    
+    Zoom smoothness / movement speed (range: 0–300 ms)
+    
+    Zoom transition ease (CSS ease selector)
+    
+    Option to lock lens inside the image boundaries
+    
+    Lens Appearance
+    
+    Lens border width (0–10 px)
+    
+    Lens border color (color picker)
+    
+    Lens shadow on/off
+    
+    Lens shadow blur amount (0–40 px)
+    
+    Lens background opacity when not zooming (0–1)
+    
+    Lens Behavior
+    
+    Enable/disable lens animation
+    
+    Lens follow speed sensitivity
+    
+    Lens hover activation delay (0–500 ms)
+    
+    Lens hide delay (0–500 ms)
+    
+    RESPONSIVENESS
+    
+    Enable zoom only on screens wider than 900px.
+    
+    Ensure the lens never breaks outside the image container.
+    
+    Image always stays centered and scales down on mobile.
+    
+    TECHNICAL REQUIREMENTS
+    
+    Use clean Liquid, CSS, and vanilla JS (no external libraries).
+    
+    Include comments explaining each part.
+    
+    Namespace all classes to avoid conflicts., Create a custom Online Store 2.0 section in Liquid called "image-zoom-lens".
+    
+    Important: Use only one image_picker. The image that I select in the editor must be used both as the normal image and as the zoomed image. Do NOT create a second image field for zoom.
+    
+    The section should:
+    
+    Center the image on the page.
+    
+    Let me set a max width (range setting, e.g. 400–1200px).
+    
+    Let me set top and bottom padding for the whole section (range 0–200px).
+    
+    Zoom behaviour (desktop):
+    
+    When the mouse enters the image, show a square zoom window (lens) that is visually attached to the cursor.
+    
+    The lens must move with the mouse while it is over the image.
+    
+    Inside the lens, show a zoomed-in part of the SAME image, based exactly on the cursor position.
+    
+    When the mouse leaves the image, the lens should disappear immediately.
+    
+    When the mouse enters again, the lens should appear again and start zooming at the current cursor position.
+    
+    Use vanilla JavaScript with mouseenter, mouseleave, and mousemove events to update the lens position and background.
+    
+    On mobile (small screens), disable the zoom and just show the image normally.
+    
+    Add basic settings in the schema:
+    
+    image – image_picker
+    
+    max_width – range
+    
+    padding_top – range
+    
+    padding_bottom – range
+    
+    zoom_enabled – checkbox (default true)
+    
+    zoom_scale – range (1.5–3, default 2), Please update the existing "image-zoom-lens" section.
+    
+    Add a new setting in the schema called lens_size (type: range, min 80, max 400, step 10, default 180).
+    Use this lens_size value for both the width and height of the zoom lens.
+    
+    Where you currently set the lens size in CSS/JS, replace the hardcoded value with this dynamic setting, for example:
+    
+    CSS: width: {{ section.settings.lens_size }}px; height: {{ section.settings.lens_size }}px;
+    
+    JS: also use lensSize = {{ section.settings.lens_size }} (or equivalent) when positioning the lens.
+    
+    Keep everything else the same; just make the lens size fully adjustable from the theme editor.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-image-zoom-section-{{ ai_gen_id }} {
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+    width: 100%;
+  }
+
+  .ai-image-zoom-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-image-zoom-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ai-image-zoom-main-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-image-zoom-placeholder-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-image-zoom-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-image-zoom-empty-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
+
+  .ai-image-zoom-lens-{{ ai_gen_id }} {
+    position: absolute;
+    width: {{ block.settings.lens_size }}px;
+    height: {{ block.settings.lens_size }}px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background-repeat: no-repeat;
+    pointer-events: none;
+    display: none;
+    z-index: 10;
+  }
+
+  .ai-image-zoom-lens-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-image-zoom-wrapper-{{ ai_gen_id }} {
+      cursor: default;
+    }
+
+    .ai-image-zoom-lens-{{ ai_gen_id }} {
+      display: none !important;
+    }
+
+    .ai-image-zoom-container-{{ ai_gen_id }} {
+      padding: 0 15px;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .ai-image-zoom-wrapper-{{ ai_gen_id }} {
+      cursor: crosshair;
+    }
+  }
+{% endstyle %}
+
+<image-zoom-lens-{{ ai_gen_id }}
+  class="ai-image-zoom-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+  data-zoom-enabled="{{ block.settings.zoom_enabled }}"
+  data-zoom-scale="{{ block.settings.zoom_scale }}"
+  data-lens-size="{{ block.settings.lens_size }}"
+>
+  <div class="ai-image-zoom-container-{{ ai_gen_id }}">
+    <div class="ai-image-zoom-wrapper-{{ ai_gen_id }}" data-zoom-wrapper>
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 2000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-image-zoom-main-{{ ai_gen_id }}"
+          data-zoom-image
+          data-zoom-src="{{ block.settings.image | image_url: width: 3000 }}"
+        >
+        {% if block.settings.zoom_enabled %}
+          <div class="ai-image-zoom-lens-{{ ai_gen_id }}" data-zoom-lens></div>
+        {% endif %}
+      {% else %}
+        <div class="ai-image-zoom-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-image-zoom-empty-{{ ai_gen_id }}">
+            Add an image to get started
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</image-zoom-lens-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ImageZoomLens{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.wrapper = null;
+        this.image = null;
+        this.lens = null;
+        this.zoomEnabled = false;
+        this.zoomScale = 2;
+        this.lensSize = 180;
+        this.isMobile = false;
+      }
+
+      connectedCallback() {
+        this.wrapper = this.querySelector('[data-zoom-wrapper]');
+        this.image = this.querySelector('[data-zoom-image]');
+        this.lens = this.querySelector('[data-zoom-lens]');
+        
+        if (!this.wrapper || !this.image) return;
+
+        this.zoomEnabled = this.dataset.zoomEnabled === 'true';
+        this.zoomScale = parseFloat(this.dataset.zoomScale) || 2;
+        this.lensSize = parseInt(this.dataset.lensSize) || 180;
+        this.isMobile = window.innerWidth <= 768;
+
+        window.addEventListener('resize', () => {
+          this.isMobile = window.innerWidth <= 768;
+        });
+
+        if (this.zoomEnabled && !this.isMobile && this.lens) {
+          this.initZoom();
+        }
+      }
+
+      initZoom() {
+        this.wrapper.addEventListener('mouseenter', (e) => this.handleMouseEnter(e));
+        this.wrapper.addEventListener('mouseleave', () => this.handleMouseLeave());
+        this.wrapper.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+
+        this.image.addEventListener('load', () => {
+          this.setupLensBackground();
+        });
+
+        if (this.image.complete) {
+          this.setupLensBackground();
+        }
+      }
+
+      setupLensBackground() {
+        if (!this.lens || !this.image) return;
+        
+        const zoomSrc = this.image.dataset.zoomSrc || this.image.src;
+        this.lens.style.backgroundImage = `url('${zoomSrc}')`;
+        this.lens.style.backgroundSize = `${this.image.width * this.zoomScale}px ${this.image.height * this.zoomScale}px`;
+      }
+
+      handleMouseEnter(e) {
+        if (!this.lens) return;
+        
+        this.lens.classList.add('active');
+        this.updateLensPosition(e);
+      }
+
+      handleMouseLeave() {
+        if (!this.lens) return;
+        
+        this.lens.classList.remove('active');
+      }
+
+      handleMouseMove(e) {
+        this.updateLensPosition(e);
+      }
+
+      updateLensPosition(e) {
+        if (!this.lens || !this.wrapper || !this.image) return;
+
+        const rect = this.wrapper.getBoundingClientRect();
+        const lensWidth = this.lensSize;
+        const lensHeight = this.lensSize;
+        
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        let lensX = mouseX - lensWidth / 2;
+        let lensY = mouseY - lensHeight / 2;
+
+        lensX = Math.max(0, Math.min(lensX, rect.width - lensWidth));
+        lensY = Math.max(0, Math.min(lensY, rect.height - lensHeight));
+
+        this.lens.style.left = lensX + 'px';
+        this.lens.style.top = lensY + 'px';
+
+        const bgPosX = -(mouseX * this.zoomScale - lensWidth / 2);
+        const bgPosY = -(mouseY * this.zoomScale - lensHeight / 2);
+
+        this.lens.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+      }
+    }
+
+    customElements.define('image-zoom-lens-{{ ai_gen_id }}', ImageZoomLens{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Image zoom lens",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "This image will be used for both the display and zoom"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Zoom settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "zoom_enabled",
+      "label": "Enable zoom",
+      "default": true,
+      "info": "Zoom is disabled on mobile devices"
+    },
+    {
+      "type": "range",
+      "id": "zoom_scale",
+      "min": 1.5,
+      "max": 3,
+      "step": 0.5,
+      "label": "Zoom scale",
+      "default": 2,
+      "info": "How much to magnify the image"
+    },
+    {
+      "type": "range",
+      "id": "lens_size",
+      "min": 80,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Lens size",
+      "default": 180,
+      "info": "Size of the zoom lens window"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image zoom lens"
+    }
+  ]
+}
+{% endschema %}

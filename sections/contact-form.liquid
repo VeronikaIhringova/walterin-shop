@@ -1,0 +1,405 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .color-scheme-{{ section.id }}.color-custom {
+    --color-background: {{ section.settings.custom_colors_background.red }}, {{ section.settings.custom_colors_background.green }}, {{ section.settings.custom_colors_background.blue }};
+    --gradient-background: {% if section.settings.custom_gradient_background != blank %}{{ section.settings.custom_gradient_background }}{% else %}{{ section.settings.custom_colors_background }}{% endif %};
+    --color-foreground: {{ section.settings.custom_colors_text.red }}, {{ section.settings.custom_colors_text.green }}, {{ section.settings.custom_colors_text.blue }};
+    --color-button: {{ section.settings.custom_colors_solid_button_background.red }}, {{ section.settings.custom_colors_solid_button_background.green }}, {{ section.settings.custom_colors_solid_button_background.blue }};
+    --color-button-text: {{ section.settings.custom_colors_solid_button_text.red }}, {{ section.settings.custom_colors_solid_button_text.green }}, {{ section.settings.custom_colors_solid_button_text.blue }};
+  }
+
+  .contact-intro {
+    margin-bottom: 28px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .contact-intro p {
+    margin-bottom: 8px;
+  }
+
+  /* Custom dropdown */
+  .wlt-select {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .wlt-select__display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    font-size: 15px;
+    color: rgba(var(--color-foreground), 1);
+    cursor: pointer;
+    user-select: none;
+    border-radius: var(--inputs-radius, 4px);
+    border: var(--inputs-border-width, 1px) solid rgba(var(--color-foreground), 0.55);
+    background: transparent;
+  }
+
+  .wlt-select__display.selected {
+    color: rgb(var(--color-foreground));
+  }
+
+  .wlt-select__arrow {
+    font-size: 11px;
+    margin-left: 8px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .wlt-select__arrow.open {
+    transform: rotate(180deg);
+  }
+
+  .wlt-select__options {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: rgb(var(--color-background));
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    border-radius: var(--inputs-radius, 4px);
+    overflow-y: auto;
+    max-height: 320px;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+
+  .wlt-select__options.open {
+    display: block;
+  }
+
+  .wlt-select__option {
+    padding: 14px 16px;
+    font-size: 15px;
+    color: rgb(var(--color-foreground));
+    cursor: pointer;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.06);
+  }
+
+  .wlt-select__option:last-child {
+    border-bottom: none;
+  }
+
+  .wlt-select__option:hover {
+    background: rgba(var(--color-foreground), 0.04);
+
+   .text-area.field__input {
+    padding-left: 2rem !important;
+  }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} color-scheme-{{ section.id }} gradient">
+  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title title-wrapper--no-top-margin {{ section.settings.heading_size }}">
+        {{ section.settings.heading | escape }}
+      </h2>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
+    {%- endif -%}
+
+    <div class="contact-intro">
+      <p>Feel free to reach out at any time. We're here to help with orders, product questions, and any feedback you may have.</p>
+      <p>Our customer service team is available <strong>Monday–Friday, 9:00–17:00 CET</strong>. We'll aim to get back to you within <strong>2 business days</strong>.</p>
+      <p style="font-size: 13px; opacity: 0.6;">* indicates a required field</p>
+    </div>
+
+    {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {% render 'icon-success' %}
+          {{ 'templates.contact.form.post_success' | t }}
+        </h2>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {% render 'icon-error' %}
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+
+      <div class="contact__fields">
+        <!-- First & Last Name -->
+        <div class="field">
+          <input
+            class="field__input"
+            autocomplete="name"
+            type="text"
+            id="ContactForm-name"
+            name="contact[{{ 'templates.contact.form.name' | t }}]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            placeholder="First and Last Name *"
+            required
+          >
+          <label class="field__label" for="ContactForm-name">First and Last Name <span aria-hidden="true">*</span></label>
+        </div>
+
+        <!-- Email -->
+        <div class="field field--with-error">
+          <input
+            autocomplete="email"
+            type="email"
+            id="ContactForm-email"
+            class="field__input"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="ContactForm-email-error"
+            {% endif %}
+            placeholder="{{ 'templates.contact.form.email' | t }}"
+          >
+          <label class="field__label" for="ContactForm-email">
+            {{- 'templates.contact.form.email' | t }}
+            <span aria-hidden="true">*</span>
+          </label>
+          {%- if form.errors contains 'email' -%}
+            <small class="contact__field-error" id="ContactForm-email-error">
+              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+              <span class="form__message">
+                {%- render 'icon-error' -%}
+                {{- form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email -}}
+              </span>
+            </small>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Contact Reason custom dropdown -->
+      <div class="wlt-select" id="wlt-select">
+        <div class="wlt-select__display" id="wlt-select-display" onclick="wltToggle()">
+          <span id="wlt-select-text">Contact Reason *</span>
+          <span class="wlt-select__arrow" id="wlt-select-arrow">▼</span>
+        </div>
+        <div class="wlt-select__options" id="wlt-select-options">
+          {%- assign reasons = "Order status,Cancel or modify an order,Returns or exchanges,My order is missing,My order arrived damaged,Issue with my product,Shipping questions,Product questions,General feedback,Partnership / Collaboration,Other" | split: "," -%}
+          {%- for reason in reasons -%}
+            <div class="wlt-select__option" onclick="wltSelect('{{ reason }}')">{{ reason }}</div>
+          {%- endfor -%}
+        </div>
+        <input type="hidden" id="ContactForm-reason" name="contact[Contact Reason]" required>
+      </div>
+
+      <!-- Tell us the details -->
+      <div class="field">
+        <textarea
+          rows="10"
+          id="ContactForm-body"
+          class="text-area field__input"
+          name="contact[{{ 'templates.contact.form.comment' | t }}]"
+          placeholder="Tell us the details *"
+          required
+        >{{- form.body -}}</textarea>
+        <label class="form__label field__label" for="ContactForm-body">Tell us the details <span aria-hidden="true">*</span></label>
+      </div>
+
+      <div class="contact__button">
+        <button type="submit" class="button{% if section.settings.button_full_width %} button--full-width{% endif %}">
+          {{ 'templates.contact.form.send' | t }}
+        </button>
+      </div>
+    {%- endform -%}
+
+  </div>
+</div>
+
+<script>
+  // Disable submit button until reason is selected
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.querySelector('#ContactForm button[type="submit"]');
+    if (btn) btn.disabled = true;
+
+    // Also check textarea on input
+    var textarea = document.getElementById('ContactForm-body');
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        var reason = document.getElementById('ContactForm-reason').value;
+        if (reason && textarea.value.trim() !== '') {
+          if (btn) btn.disabled = false;
+        } else {
+          if (btn) btn.disabled = true;
+        }
+      });
+    }
+
+    function wltToggle() {
+      var opts = document.getElementById('wlt-select-options');
+      var arrow = document.getElementById('wlt-select-arrow');
+      var isOpen = opts.classList.contains('open');
+      opts.classList.toggle('open', !isOpen);
+      arrow.classList.toggle('open', !isOpen);
+    }
+
+    function wltSelect(value) {
+      var text = document.getElementById('wlt-select-text');
+      var opts = document.getElementById('wlt-select-options');
+      var arrow = document.getElementById('wlt-select-arrow');
+      var display = document.getElementById('wlt-select-display');
+      text.innerText = value;
+      display.classList.add('selected');
+      document.getElementById('ContactForm-reason').value = value;
+      opts.classList.remove('open');
+      arrow.classList.remove('open');
+      display.style.borderColor = '';
+      // Enable submit button once reason is chosen
+      if (btn) btn.disabled = false;
+    }
+
+    document.addEventListener('click', function(e) {
+      var wrapper = document.getElementById('wlt-select');
+      if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('wlt-select-options').classList.remove('open');
+        document.getElementById('wlt-select-arrow').classList.remove('open');
+      }
+    });
+
+    window.wltToggle = wltToggle;
+    window.wltSelect = wltSelect;
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Contact form",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_full_width",
+      "label": "Use full width button style",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        { "value": "accent-1", "label": "t:sections.all.colors.accent_1.label" },
+        { "value": "accent-2", "label": "t:sections.all.colors.accent_2.label" },
+        { "value": "background-1", "label": "t:sections.all.colors.background_1.label" },
+        { "value": "background-2", "label": "t:sections.all.colors.background_2.label" },
+        { "value": "inverse", "label": "t:sections.all.colors.inverse.label" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "background-1",
+      "label": "t:sections.all.colors.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Custom color scheme",
+      "info": "Applied if Color scheme setting is set to Custom."
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_background",
+      "default": "#FFFFFF",
+      "label": "Background color"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_gradient_background",
+      "label": "Gradient background",
+      "info": "If added, replaces Background color when applicable."
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_text",
+      "default": "#2E2A39",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_solid_button_background",
+      "default": "#dd1d1d",
+      "label": "Solid button background"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_solid_button_text",
+      "default": "#ffffff",
+      "label": "Solid button label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact-form.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,246 @@
+{% doc %}
+  @prompt
+    header im\ge centred white headline, only one healdine no subeheading, cenrted right in the centre, possible to make visible and not visible, next give me the exact image size, so I can fit my image there and make some animation, like a slide animation with this also possibel to turn on and off. 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-image-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ai-header-image__container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-header-image__image-wrapper-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-header-image__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    {% if block.settings.enable_animation %}
+      animation: ai-slide-in-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease-out forwards;
+      opacity: 0;
+    {% endif %}
+  }
+
+  .ai-header-image__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-header-image__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  .ai-header-image__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-header-image__content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .ai-header-image__heading-{{ ai_gen_id }} {
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    {% if block.settings.enable_animation %}
+      animation: ai-fade-in-{{ ai_gen_id }} {{ block.settings.animation_duration }}s ease-out {{ block.settings.animation_duration | times: 0.3 }}s forwards;
+      opacity: 0;
+    {% endif %}
+  }
+
+  {% if block.settings.enable_animation %}
+    @keyframes ai-slide-in-{{ ai_gen_id }} {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes ai-fade-in-{{ ai_gen_id }} {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  {% endif %}
+
+  @media screen and (max-width: 749px) {
+    .ai-header-image__container-{{ ai_gen_id }} {
+      height: {{ block.settings.mobile_image_height }}px;
+    }
+
+    .ai-header-image__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.6 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-header-image-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-header-image__container-{{ ai_gen_id }}">
+    <div class="ai-header-image__image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 2000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-header-image__image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-header-image__placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+          <div class="ai-header-image__empty-state-{{ ai_gen_id }}">
+            Add an image with dimensions {{ block.settings.image_height }}px × {{ block.settings.image_height }}px (desktop) or {{ block.settings.mobile_image_height }}px × {{ block.settings.mobile_image_height }}px (mobile)
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if block.settings.show_heading and block.settings.heading != blank %}
+      <div class="ai-header-image__content-{{ ai_gen_id }}">
+        <h1 class="ai-header-image__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h1>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop image height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "min": 150,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile image height",
+      "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animation",
+      "label": "Enable slide animation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Animation duration",
+      "default": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header image"
+    }
+  ]
+}
+{% endschema %}

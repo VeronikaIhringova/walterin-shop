@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [
+        ".main-page-title,.page__title {display: none !important; /* 🔥 Completely hide the element */ margin: 0 !important; /* Remove all spacing */ padding: 0 !important; /* Just in case it had padding too */ height: 0 !important; /* Ensure it doesn't affect layout height */ overflow: hidden !important; /* Safety: hide any leftover content */}"
+      ],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

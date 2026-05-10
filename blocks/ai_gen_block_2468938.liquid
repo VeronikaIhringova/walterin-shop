@@ -1,0 +1,1112 @@
+{% doc %}
+  @prompt
+    Create a fully customizable Shopify section called “Four Image Gallery.”
+    
+    The section should display 4 images side by side on desktop, with a clean, modern, minimal aesthetic.
+    On mobile, it should automatically adapt into a 2×2 square layout (two on top, two on bottom).
+    Each image must always remain fully visible (no cropping or hidden edges), and all layout, spacing, and animation options must be adjustable in the Shopify theme editor — no coding required.
+    
+    🖼️ Individual Image Settings
+    
+    Each of the 4 images must be individually editable with the following options in the theme editor:
+    
+    Upload image
+    
+    Image width and height: adjustable (default 200px × 200px) with locked aspect ratio
+    
+    Left and right margins: adjustable from –200px to 200px
+    
+    Top and bottom margins: adjustable from –200px to 200px
+    
+    Padding: adjustable 0–100px
+    
+    Gap (distance to the next image): adjustable from –100px to 100px (allows closer or overlapping positioning)
+    
+    Corner radius: adjustable 0–50px
+    
+    Optional clickable link for each image
+    
+    🧩 Section-Wide Controls
+    
+    Global top and bottom padding: adjustable 0–200px
+    
+    Global left and right margins: adjustable –200px to 200px
+    
+    Global gap between all images: adjustable –100px to 100px
+    
+    Optional background color selector
+    
+    Optional section heading and subheading above the images
+    
+    🖥️ Desktop Layout
+    
+    Display all 4 images in one horizontal row (flex or grid layout).
+    
+    Maintain even scaling and spacing between images.
+    
+    Hover effect (see below) triggers individually for each image.
+    
+    All images remain visible inside their frame — no cropping or overset ever.
+    
+    🪄 Hover Animation (Desktop)
+    
+    On hover, the image zooms slightly for a subtle focus effect but remains fully visible:
+    
+    transform: scale(1.05) translateZ(0);
+    object-fit: contain;
+    overflow: visible;
+    transition: transform 0.4s ease-in-out;
+    
+    
+    The effect must never cut edges or hide parts of the image.
+    
+    Smooth, elegant transition — works well with minimalist layouts., 📱 Mobile Layout and Animation
+    
+    On mobile (max-width: 768px), the layout automatically becomes a 2×2 square grid.
+    
+    Each image remains fully visible and can be individually positioned:
+    
+    Mobile top/bottom margin: adjustable –200px to 200px
+    
+    Mobile left/right margin: adjustable –200px to 200px
+    
+    Padding: adjustable (same range as desktop)
+    
+    All distances, gaps, and margins remain fully flexible and editable in the theme editor.
+    
+    🎞️ Mobile Animation (Sequential Zoom)
+    
+    Since mobile doesn’t support hover, add an automatic looping animation that zooms each image one by one:
+    
+    Order: top-left → top-right → bottom-left → bottom-right
+    
+    Each image zooms in smoothly (scale(1.05)) and returns to normal (scale(1)), lasting about 0.8–1 second each.
+    
+    Delay between each image: 0.3–0.5 seconds
+    
+    After all four have animated, wait ~3 seconds before restarting the cycle.
+    
+    The animation must be subtle and elegant — a “living gallery” effect that feels calm and premium.
+    
+    The images should never overlap or move outside their visible area.
+    
+    Example animation logic:
+    
+    @keyframes slowZoom {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    /* Apply delays for sequence */
+    .image-block:nth-child(1) img { animation: slowZoom 6s ease-in-out infinite; animation-delay: 0s; }
+    .image-block:nth-child(2) img { animation: slowZoom 6s ease-in-out infinite; animation-delay: 1s; }
+    .image-block:nth-child(3) img { animation: slowZoom 6s ease-in-out infinite; animation-delay: 2s; }
+    .image-block:nth-child(4) img { animation: slowZoom 6s ease-in-out infinite; animation-delay: 3s; }
+    
+    
+    Adjust durations so the full loop feels smooth (~9–10 seconds total).
+    
+    The animation pauses naturally when the user interacts with the page (scrolls or taps).
+    
+    ⚙️ Technical & Design Requirements
+    
+    Default image container size: 200×200px, adjustable
+    
+    All elements use CSS grid or flexbox for stability
+    
+    No cropping: always show full image inside its frame
+    
+    Enable lazy loading for faster page performance
+    
+    Include alt
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-four-image-gallery-{{ ai_gen_id }} {
+    padding-top: {{ block.settings.section_padding_top }}px;
+    padding-bottom: {{ block.settings.section_padding_bottom }}px;
+    margin-left: {{ block.settings.section_margin_left }}px;
+    margin-right: {{ block.settings.section_margin_right }}px;
+    {% if block.settings.background_color != blank %}
+      background-color: {{ block.settings.background_color }};
+    {% endif %}
+  }
+
+  .ai-four-image-gallery__container-{{ ai_gen_id }} {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-four-image-gallery__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-four-image-gallery__heading-{{ ai_gen_id }} {
+    margin: 0 0 12px;
+    font-size: 32px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-four-image-gallery__subheading-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+  }
+
+  .ai-four-image-gallery__grid-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ block.settings.global_gap }}px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ai-four-image-gallery__item-{{ ai_gen_id }} {
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+
+  .ai-four-image-gallery__item-wrapper-{{ ai_gen_id }} {
+    display: block;
+    position: relative;
+    overflow: visible;
+  }
+
+  .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+    position: relative;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-four-image-gallery__image-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease-in-out;
+    will-change: transform;
+  }
+
+  .ai-four-image-gallery__placeholder-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-four-image-gallery__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @media (min-width: 769px) {
+    .ai-four-image-gallery__grid-{{ ai_gen_id }} {
+      flex-wrap: nowrap;
+    }
+
+    .ai-four-image-gallery__item-wrapper-{{ ai_gen_id }}:hover .ai-four-image-gallery__image-{{ ai_gen_id }} {
+      transform: scale(1.05) translateZ(0);
+    }
+
+    .ai-four-image-gallery__item-1-{{ ai_gen_id }} {
+      width: {{ block.settings.image_1_width }}px;
+      height: {{ block.settings.image_1_height }}px;
+      margin-left: {{ block.settings.image_1_margin_left }}px;
+      margin-right: {{ block.settings.image_1_margin_right }}px;
+      margin-top: {{ block.settings.image_1_margin_top }}px;
+      margin-bottom: {{ block.settings.image_1_margin_bottom }}px;
+      padding: {{ block.settings.image_1_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-1-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_1_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-2-{{ ai_gen_id }} {
+      width: {{ block.settings.image_2_width }}px;
+      height: {{ block.settings.image_2_height }}px;
+      margin-left: {{ block.settings.image_2_margin_left }}px;
+      margin-right: {{ block.settings.image_2_margin_right }}px;
+      margin-top: {{ block.settings.image_2_margin_top }}px;
+      margin-bottom: {{ block.settings.image_2_margin_bottom }}px;
+      padding: {{ block.settings.image_2_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-2-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_2_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-3-{{ ai_gen_id }} {
+      width: {{ block.settings.image_3_width }}px;
+      height: {{ block.settings.image_3_height }}px;
+      margin-left: {{ block.settings.image_3_margin_left }}px;
+      margin-right: {{ block.settings.image_3_margin_right }}px;
+      margin-top: {{ block.settings.image_3_margin_top }}px;
+      margin-bottom: {{ block.settings.image_3_margin_bottom }}px;
+      padding: {{ block.settings.image_3_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-3-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_3_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-4-{{ ai_gen_id }} {
+      width: {{ block.settings.image_4_width }}px;
+      height: {{ block.settings.image_4_height }}px;
+      margin-left: {{ block.settings.image_4_margin_left }}px;
+      margin-right: {{ block.settings.image_4_margin_right }}px;
+      margin-top: {{ block.settings.image_4_margin_top }}px;
+      margin-bottom: {{ block.settings.image_4_margin_bottom }}px;
+      padding: {{ block.settings.image_4_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-4-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_4_radius }}px;
+    }
+  }
+
+  @keyframes ai-four-image-gallery-zoom-{{ ai_gen_id }} {
+    0%, 100% {
+      transform: scale(1) translateZ(0);
+    }
+    50% {
+      transform: scale(1.05) translateZ(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ai-four-image-gallery__grid-{{ ai_gen_id }} {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+
+    .ai-four-image-gallery__item-{{ ai_gen_id }} {
+      width: 100%;
+      aspect-ratio: 1;
+    }
+
+    .ai-four-image-gallery__item-1-{{ ai_gen_id }} {
+      margin-left: {{ block.settings.mobile_image_1_margin_left }}px;
+      margin-right: {{ block.settings.mobile_image_1_margin_right }}px;
+      margin-top: {{ block.settings.mobile_image_1_margin_top }}px;
+      margin-bottom: {{ block.settings.mobile_image_1_margin_bottom }}px;
+      padding: {{ block.settings.mobile_image_1_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-1-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_1_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-2-{{ ai_gen_id }} {
+      margin-left: {{ block.settings.mobile_image_2_margin_left }}px;
+      margin-right: {{ block.settings.mobile_image_2_margin_right }}px;
+      margin-top: {{ block.settings.mobile_image_2_margin_top }}px;
+      margin-bottom: {{ block.settings.mobile_image_2_margin_bottom }}px;
+      padding: {{ block.settings.mobile_image_2_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-2-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_2_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-3-{{ ai_gen_id }} {
+      margin-left: {{ block.settings.mobile_image_3_margin_left }}px;
+      margin-right: {{ block.settings.mobile_image_3_margin_right }}px;
+      margin-top: {{ block.settings.mobile_image_3_margin_top }}px;
+      margin-bottom: {{ block.settings.mobile_image_3_margin_bottom }}px;
+      padding: {{ block.settings.mobile_image_3_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-3-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_3_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-4-{{ ai_gen_id }} {
+      margin-left: {{ block.settings.mobile_image_4_margin_left }}px;
+      margin-right: {{ block.settings.mobile_image_4_margin_right }}px;
+      margin-top: {{ block.settings.mobile_image_4_margin_top }}px;
+      margin-bottom: {{ block.settings.mobile_image_4_margin_bottom }}px;
+      padding: {{ block.settings.mobile_image_4_padding }}px;
+    }
+
+    .ai-four-image-gallery__item-4-{{ ai_gen_id }} .ai-four-image-gallery__image-container-{{ ai_gen_id }} {
+      border-radius: {{ block.settings.image_4_radius }}px;
+    }
+
+    {% if block.settings.enable_mobile_animation %}
+      .ai-four-image-gallery__item-1-{{ ai_gen_id }} .ai-four-image-gallery__image-{{ ai_gen_id }} {
+        animation: ai-four-image-gallery-zoom-{{ ai_gen_id }} 10s ease-in-out infinite;
+        animation-delay: 0s;
+      }
+
+      .ai-four-image-gallery__item-2-{{ ai_gen_id }} .ai-four-image-gallery__image-{{ ai_gen_id }} {
+        animation: ai-four-image-gallery-zoom-{{ ai_gen_id }} 10s ease-in-out infinite;
+        animation-delay: 1s;
+      }
+
+      .ai-four-image-gallery__item-3-{{ ai_gen_id }} .ai-four-image-gallery__image-{{ ai_gen_id }} {
+        animation: ai-four-image-gallery-zoom-{{ ai_gen_id }} 10s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+
+      .ai-four-image-gallery__item-4-{{ ai_gen_id }} .ai-four-image-gallery__image-{{ ai_gen_id }} {
+        animation: ai-four-image-gallery-zoom-{{ ai_gen_id }} 10s ease-in-out infinite;
+        animation-delay: 3s;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="ai-four-image-gallery-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-four-image-gallery__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank or block.settings.subheading != blank %}
+      <div class="ai-four-image-gallery__header-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-four-image-gallery__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <p class="ai-four-image-gallery__subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-four-image-gallery__grid-{{ ai_gen_id }}">
+      {% for i in (1..4) %}
+        {% liquid
+          assign image_key = 'image_' | append: i
+          assign link_key = 'image_' | append: i | append: '_link'
+          assign image = block.settings[image_key]
+          assign link = block.settings[link_key]
+        %}
+
+        <div class="ai-four-image-gallery__item-{{ ai_gen_id }} ai-four-image-gallery__item-{{ i }}-{{ ai_gen_id }}">
+          {% if link != blank %}
+            <a href="{{ link }}" class="ai-four-image-gallery__item-wrapper-{{ ai_gen_id }}">
+          {% else %}
+            <div class="ai-four-image-gallery__item-wrapper-{{ ai_gen_id }}">
+          {% endif %}
+            <div class="ai-four-image-gallery__image-container-{{ ai_gen_id }}">
+              {% if image %}
+                <img
+                  src="{{ image | image_url: width: 800 }}"
+                  alt="{{ image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  class="ai-four-image-gallery__image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-four-image-gallery__placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+          {% if link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Four image gallery",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "section_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "global_gap",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between images",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_animation",
+      "label": "Enable mobile animation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile gap",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "image_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_1_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_1_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_1_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_1_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_1_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_1_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_1_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "image_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_2_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_2_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_2_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_2_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_2_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_2_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_2_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "image_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_3_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_3_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_3_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_3_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_3_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_3_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_3_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "image_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_4_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_4_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_4_margin_left",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_4_margin_right",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_4_margin_top",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_4_margin_bottom",
+      "min": -200,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_4_padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Four image gallery"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,545 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_liquid_bpk4Hh": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>\n\n#cart-icon-bubble svg * {\nstroke: #fff !important;\n}\n\n@media (max-width: 768px) {\n  #cart-icon-bubble svg * { color: #000; }\n  #cart-icon-bubble .icon * { stroke: currentColor !important; }\n}\n\n@media (min-width: 768px) {\n/* white logo*/ \n.header__heading-logo {\n  opacity: 0;\n}\n.header__heading-link {\n  background: url(\"https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Walterin_Logo_SVGWHITE.png?v=1765551307\") no-repeat center;\n  background-size: contain;\n  width: 130px; \n  height: auto; \n  display: block;\nz-index:9;\n}\n}\n\n/* Flexible Text Sizing Classes */\n\n/* Small text size */\n.text-small {\n  font-size: 0.875rem;\n  line-height: 1.4;\n  letter-spacing: 0.3px;\n}\n\n/* Medium text size (default) */\n.text-medium {\n  font-size: 1rem;\n  line-height: 1.5;\n  letter-spacing: 0.2px;\n}\n\n/* Large text size */\n.text-large {\n  font-size: 1.25rem;\n  line-height: 1.6;\n  letter-spacing: 0.1px;\n}\n\n/* Extra-large text size */\n.text-extra-large {\n  font-size: 1.5rem;\n  line-height: 1.7;\n  letter-spacing: 0px;\n}\n\n/* Responsive text sizing for mobile devices */\n@media (max-width: 768px) {\n  .text-small {\n    font-size: 0.8125rem;\n  }\n  \n  .text-medium {\n    font-size: 0.9375rem;\n  }\n  \n  .text-large {\n    font-size: 1.125rem;\n  }\n  \n  .text-extra-large {\n    font-size: 1.375rem;\n  }\n}\n\n/* Optional: Bold text variants */\n.text-small-bold {\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.text-medium-bold {\n  font-size: 1rem;\n  font-weight: 600;\n  line-height: 1.5;\n}\n\n.text-large-bold {\n  font-size: 1.25rem;\n  font-weight: 600;\n  line-height: 1.6;\n}\n\n.text-extra-large-bold {\n  font-size: 1.5rem;\n  font-weight: 600;\n  line-height: 1.7;\n}\n</style>",
+        "color_scheme": "background-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "e6750b05-7703-4f69-ab7c-9ffb0acf18fb": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_H4meDE": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Discover_prague_with_walterin_0f481622-5ebb-4f53-b65b-9021ffb2a564.jpg",
+            "image_link": "shopify://products/walterin-prague",
+            "mobile_image": "shopify://shop_images/HOMEPAGE_phone_a562b586-b879-413b-948a-459146b04a33.png",
+            "mobile_image_link": "shopify://products/walterin-prague",
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://products/walterin-prague",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "background-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_ktLk7b": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Page_by_page_128c1900-ed10-4dbb-8ee4-4cb346bb27be.jpg",
+            "image_link": "shopify://products/walterin-prague",
+            "mobile_image": "shopify://shop_images/HOMEPAGE_phone2_5b723083-bbc8-40a0-8fdb-a2597fd10eb6.png",
+            "mobile_image_link": "shopify://products/walterin-prague",
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://products/walterin-prague",
+            "button_style_secondary": true,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "background-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_WUmpVq": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Inpiration_with_prague_tarot_8f62a62a-a94c-4da0-814c-5f4c7bcd43a1.jpg",
+            "image_link": "shopify://products/walterin-prague",
+            "mobile_image": "shopify://shop_images/HOMEPAGE_phone3_0bdd1018-e787-4ee2-9587-f27d8f26fb78.png",
+            "mobile_image_link": "shopify://products/walterin-prague",
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://products/walterin-prague",
+            "button_style_secondary": true,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "background-1",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_H4meDE",
+        "slide_ktLk7b",
+        "slide_WUmpVq"
+      ],
+      "custom_css": [
+        ".slideshow__controls {display: none !important;}",
+        ".slideshow {max-width: 1350px; width: 90%; margin: 0 auto; box-sizing: border-box; display: flex;}",
+        ".slideshow__media.banner__media.media {border-radius: 20px; overflow: hidden;}",
+        ".slideshow__media a {z-index: 1 !important;}",
+        ".slideshow__slide {z-index: 1;}"
+      ],
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "dots",
+        "auto_rotate": true,
+        "change_slides_speed": 3,
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "image_banner_aHmtUd": {
+      "type": "image-banner",
+      "disabled": true,
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/new_6fcb76c2-d43a-46ae-9fb7-0504ca383867.png",
+        "image_1_visibility": "mobile-hidden",
+        "image_2": "shopify://shop_images/Phone_Version_Philosphy.png",
+        "image_2_visibility": "desktop-hidden",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "url": "",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "17641585126d654f7c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_a2369f9_TKcaPy": {
+          "type": "ai_gen_block_a2369f9",
+          "name": "Custom HTML & CSS",
+          "settings": {
+            "custom_html": "<h1 class=\"pagetitle\">Walterin: Cities Told in Comics</h1>",
+            "custom_css": "h1.pagetitle{text-align: center; max-width: 800px; margin: 50px auto 0px auto; padding: 5px 30px;}"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_e56fc5e_WD46cP": {
+          "type": "ai_gen_block_e56fc5e",
+          "settings": {
+            "max_width": 1200,
+            "gap": 24,
+            "padding_top": 100,
+            "padding_bottom": 40,
+            "icon_spacing": 0,
+            "heading_spacing": 8,
+            "expanded_icon_spacing": 16,
+            "expanded_heading_spacing": 0,
+            "content_spacing": 4,
+            "banner_spacing": 16,
+            "text_spacing": 16,
+            "icon_position": "top-center",
+            "expanded_text_alignment": "center",
+            "section_background": "#fffdf7",
+            "card_background": "#fffdf7",
+            "heading_color": "#222222",
+            "text_color": "#666666",
+            "accent_color": "#fce206",
+            "icon_1": "shopify://shop_images/icons1_1.png",
+            "icon_width_1": 60,
+            "heading_1": "Short Stories",
+            "preview_1": "<p>History, in its sharpest form. <br/>Five minutes or fifty, enter anywhere.</p>",
+            "show_banner_1": false,
+            "full_text_1": "<p>History, in its sharpest form. Five minutes or fifty, enter anywhere.<br/><br/>Each story unfolds in nine frames: precise, distilled, alive. Made for the spaces in between. <br/>And for moments you’d rather not rush.</p>",
+            "expanded_background_1": "#fffdf7",
+            "icon_2": "shopify://shop_images/Group_1066.png",
+            "icon_width_2": 80,
+            "heading_2": "Witty history",
+            "preview_2": "<p>Sharp insights. Clean lines. <br/>A point of view.</p>",
+            "show_banner_2": false,
+            "full_text_2": "<p>Sharp insights. Clean lines. A point of view.<br/><br/>History told with timing, where observation meets nuance, and a single detail can tilt the whole perspective.<br/>The kind of knowledge that lingers longer than the page.</p>",
+            "expanded_background_2": "#fffdf7",
+            "icon_3": "shopify://shop_images/iconsbrushes_1.png",
+            "icon_width_3": 70,
+            "heading_3": "A UNIVERSAL LANGUAGE",
+            "preview_3": "<p>Comics move where <br/>language hesitates.</p>",
+            "show_banner_3": false,
+            "full_text_3": "<p>Comics move where language hesitates.<br/><br/>Cities become symbols. Facts become scenes. Ideas travel lightly, but stay with you.<br/>This is history you don’t just read. You recognize it.<br/><br/></p>",
+            "expanded_background_3": "#fffdf7"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_65a0071_nMHgxN": {
+          "type": "ai_gen_block_65a0071",
+          "disabled": true,
+          "settings": {
+            "max_width": 1200,
+            "gap": 24,
+            "force_vertical_on_desktop": false,
+            "text_alignment": "center",
+            "padding_top": 100,
+            "padding_bottom": 45,
+            "background_color": "#fffdf7",
+            "icon_1": "shopify://shop_images/icons1_1.png",
+            "icon_width_1": 60,
+            "icon_alignment_1": "top",
+            "heading_1": "Page by page short stories",
+            "heading_color_1": "",
+            "subtext_1": "<p>Discover cities with <br/>quick, engaging stories, <br/>perfect for brief reads!</p>",
+            "link_1": "",
+            "icon_2": "shopify://shop_images/Group_1066.png",
+            "icon_width_2": 80,
+            "icon_alignment_2": "top",
+            "heading_2": "Witty history",
+            "heading_color_2": "",
+            "subtext_2": "<p>Snappy historical <br/>insights, enriched with <br/>lively banter!</p>",
+            "link_2": "",
+            "icon_3": "shopify://shop_images/iconsbrushes_1.png",
+            "icon_width_3": 70,
+            "icon_alignment_3": "top",
+            "heading_3": "Illustrated guide for everyone",
+            "heading_color_3": "",
+            "subtext_3": "<p>Explore clever, colourful<br/> illustrations, witty and<br/> lovable for all!</p>",
+            "link_3": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_a2369f9_TKcaPy",
+        "ai_gen_block_e56fc5e_WD46cP",
+        "ai_gen_block_65a0071_nMHgxN"
+      ],
+      "name": "H1 pagetitle 3 feature icons row",
+      "settings": {}
+    },
+    "image_banner_KrLPXF": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_VYAkLY": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_WkfkXL": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VYAkLY",
+        "text_WkfkXL"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Desktop_Icons_Describtion_6ab8c37d-4785-4466-bd39-c14a253fee2f.png",
+        "image_1_visibility": "mobile-hidden",
+        "image_2": "shopify://shop_images/Mobile_Icons_Describtion_9e4a9837-c1c6-4552-9c72-c19c64ef1450.png",
+        "image_2_visibility": "desktop-hidden",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "url": "",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
+      }
+    },
+    "1764162980ebe22c56": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764163918850a2b48": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764164017f74677a7": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764166109323831fd": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764171077bddfe10d": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "featured_collection_NBNdar": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".card--card {background-color: #f3f3f3 !important; /* Grey color */}",
+        ".slider-mobile-gutter {max-width: 1300px;}",
+        ".slider-mobile-gutter {max-width: 1450px !important; margin: 0 auto; width: 100%;}"
+      ],
+      "settings": {
+        "title": "walterin shopping",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "frontpage",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "product_cards_stretch": true,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "outline",
+        "enable_desktop_slider": false,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 44,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    },
+    "17641650850a38c581": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764164809dc95a949": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764163262c617470e": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "blocks_U8d78H": {
+      "type": "_blocks",
+      "name": "Editorial split section",
+      "settings": {}
+    },
+    "featured_blog_7FLRCW": {
+      "type": "featured-blog",
+      "disabled": true,
+      "settings": {
+        "heading": "Witty Stories",
+        "heading_size": "h1",
+        "blog": "news",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "color_scheme": "background-1",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "17627761013f708780": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d287419_9betH4": {
+          "type": "ai_gen_block_d287419",
+          "settings": {
+            "desktop_padding_top": 80,
+            "desktop_padding_bottom": 140,
+            "desktop_margin_left": 120,
+            "desktop_margin_right": 120,
+            "desktop_gap": 30,
+            "background_color": "rgba(0,0,0,0)",
+            "enable_mobile_animation": true,
+            "mobile_gap": 0,
+            "mobile_padding_top": 20,
+            "mobile_padding_bottom": 20,
+            "mobile_margin_left": 90,
+            "mobile_margin_right": 90,
+            "mobile_image_width": 150,
+            "mobile_image_height": 150,
+            "image_1": "shopify://shop_images/Group_1060.png",
+            "image_1_width": 250,
+            "image_1_height": 250,
+            "image_1_margin_top": 55,
+            "image_1_margin_bottom": 0,
+            "image_1_margin_left": 35,
+            "image_1_margin_right": 10,
+            "image_1_padding": 0,
+            "image_1_radius": 0,
+            "image_1_mobile_margin_top": 50,
+            "image_1_mobile_margin_bottom": 0,
+            "image_1_mobile_margin_left": 35,
+            "image_1_mobile_margin_right": 40,
+            "image_1_mobile_padding": 10,
+            "image_2": "shopify://shop_images/Group_676.png",
+            "image_2_width": 230,
+            "image_2_height": 230,
+            "image_2_margin_top": 20,
+            "image_2_margin_bottom": 20,
+            "image_2_margin_left": 20,
+            "image_2_margin_right": 20,
+            "image_2_padding": 0,
+            "image_2_radius": 0,
+            "image_2_mobile_margin_top": 30,
+            "image_2_mobile_margin_bottom": 0,
+            "image_2_mobile_margin_left": -40,
+            "image_2_mobile_margin_right": 30,
+            "image_2_mobile_padding": 15,
+            "image_3": "shopify://shop_images/Group_673.png",
+            "image_3_width": 280,
+            "image_3_height": 280,
+            "image_3_margin_top": 50,
+            "image_3_margin_bottom": 0,
+            "image_3_margin_left": 0,
+            "image_3_margin_right": 0,
+            "image_3_padding": 0,
+            "image_3_radius": 0,
+            "image_3_mobile_margin_top": 15,
+            "image_3_mobile_margin_bottom": 65,
+            "image_3_mobile_margin_left": 50,
+            "image_3_mobile_margin_right": 25,
+            "image_3_mobile_padding": 0,
+            "image_4": "shopify://shop_images/Group_674.png",
+            "image_4_width": 250,
+            "image_4_height": 250,
+            "image_4_margin_top": 30,
+            "image_4_margin_bottom": 40,
+            "image_4_margin_left": 0,
+            "image_4_margin_right": 0,
+            "image_4_padding": 0,
+            "image_4_radius": 0,
+            "image_4_mobile_margin_top": 0,
+            "image_4_mobile_margin_bottom": 20,
+            "image_4_mobile_margin_left": -25,
+            "image_4_mobile_margin_right": 0,
+            "image_4_mobile_padding": 5
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d287419_9betH4"
+      ],
+      "settings": {}
+    },
+    "17627739051d36b1e5": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_0cd3f3d_8gDpVU": {
+          "type": "ai_gen_block_0cd3f3d",
+          "disabled": true,
+          "settings": {
+            "heading": "",
+            "subheading": "",
+            "heading_color": "#121212",
+            "subheading_color": "#121212",
+            "background_color": "#ffffff",
+            "section_padding_top": 50,
+            "section_padding_bottom": 100,
+            "section_margin_horizontal": 100,
+            "global_gap": 0,
+            "image_1": "shopify://shop_images/Group_1060.png",
+            "image_1_alt": "",
+            "image_1_link": "",
+            "image_1_width": 190,
+            "image_1_height": 190,
+            "image_1_margin_left": 50,
+            "image_1_margin_right": -50,
+            "image_1_margin_top": 35,
+            "image_1_margin_bottom": 0,
+            "image_1_padding": 0,
+            "image_1_gap": 0,
+            "image_1_corner_radius": 8,
+            "image_2": "shopify://shop_images/Group_676.png",
+            "image_2_alt": "",
+            "image_2_link": "",
+            "image_2_width": 180,
+            "image_2_height": 180,
+            "image_2_margin_left": 10,
+            "image_2_margin_right": 0,
+            "image_2_margin_top": -15,
+            "image_2_margin_bottom": 30,
+            "image_2_padding": 0,
+            "image_2_gap": 0,
+            "image_2_corner_radius": 8,
+            "image_3": "shopify://shop_images/Group_673.png",
+            "image_3_alt": "",
+            "image_3_link": "",
+            "image_3_width": 210,
+            "image_3_height": 210,
+            "image_3_margin_left": 0,
+            "image_3_margin_right": 0,
+            "image_3_margin_top": 0,
+            "image_3_margin_bottom": -30,
+            "image_3_padding": 0,
+            "image_3_gap": 0,
+            "image_3_corner_radius": 8,
+            "image_4": "shopify://shop_images/Group_674.png",
+            "image_4_alt": "",
+            "image_4_link": "",
+            "image_4_width": 200,
+            "image_4_height": 200,
+            "image_4_margin_left": -35,
+            "image_4_margin_right": 0,
+            "image_4_margin_top": 0,
+            "image_4_margin_bottom": 25,
+            "image_4_padding": 0,
+            "image_4_gap": 0,
+            "image_4_corner_radius": 8
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_0cd3f3d_8gDpVU"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "custom_liquid_bpk4Hh",
+    "e6750b05-7703-4f69-ab7c-9ffb0acf18fb",
+    "image_banner_aHmtUd",
+    "17641585126d654f7c",
+    "image_banner_KrLPXF",
+    "1764162980ebe22c56",
+    "1764163918850a2b48",
+    "1764164017f74677a7",
+    "1764166109323831fd",
+    "1764171077bddfe10d",
+    "featured_collection_NBNdar",
+    "17641650850a38c581",
+    "1764164809dc95a949",
+    "1764163262c617470e",
+    "blocks_U8d78H",
+    "featured_blog_7FLRCW",
+    "17627761013f708780",
+    "17627739051d36b1e5"
+  ]
+}

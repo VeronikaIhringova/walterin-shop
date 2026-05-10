@@ -1,0 +1,402 @@
+{% doc %}
+  @prompt
+    Create a collapsible section component for a product page that displays technical specifications (e.g., size, number of pages, format, materials). Include the following requirements:
+    
+    A customizable heading text on the button (example: “Technical Specifications”).
+    
+    A customizable body text area that appears when expanded.
+    
+    The button text must be centered, and the font (family, size, weight) must be fully customizable.
+    
+    The component should automatically match the page’s existing horizontal margins and spacing, analyzing the current stylesheet so it aligns visually with other elements on the page.
+    
+    All padding and margins inside the button and inside the expanded content must be customizable.
+    
+    Allow customization of button background color, text color, hover color, and border styles.
+    
+    Include a smooth open/close animation.
+    
+    Keep the code clean, minimal, and easy to edit (HTML/CSS/Liquid), so I can later tweak radius, add icons, or adjust layout.
+    
+    Generate code that fits well into Shopify sections or product templates.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collapsible-specs-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-collapsible-specs__button-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: {{ block.settings.button_border_thickness }}px solid {{ block.settings.button_border_color }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: {{ block.settings.button_font.family }}, {{ block.settings.button_font.fallback_families }};
+    font-weight: {{ block.settings.button_font.weight }};
+    font-size: {{ block.settings.button_font_size }}px;
+    text-align: center;
+  }
+
+  .ai-collapsible-specs__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-collapsible-specs__button-text-{{ ai_gen_id }} {
+    flex: 1;
+    text-align: center;
+  }
+
+  .ai-collapsible-specs__icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .ai-collapsible-specs__icon-{{ ai_gen_id }}.active {
+    transform: rotate(180deg);
+  }
+
+  .ai-collapsible-specs__content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    background-color: {{ block.settings.content_bg_color }};
+    border: {{ block.settings.content_border_thickness }}px solid {{ block.settings.content_border_color }};
+    border-top: none;
+    border-radius: 0 0 {{ block.settings.content_border_radius }}px {{ block.settings.content_border_radius }}px;
+  }
+
+  .ai-collapsible-specs__content-{{ ai_gen_id }}.active {
+    max-height: 2000px;
+    padding: {{ block.settings.content_padding_vertical }}px {{ block.settings.content_padding_horizontal }}px;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} {
+    color: {{ block.settings.content_text_color }};
+    font-size: {{ block.settings.content_font_size }}px;
+    line-height: 1.6;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} p {
+    margin: 0 0 12px 0;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} ul,
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} ol {
+    margin: 0 0 12px 0;
+    padding-left: 20px;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} li {
+    margin-bottom: 8px;
+  }
+
+  .ai-collapsible-specs__content-inner-{{ ai_gen_id }} strong {
+    font-weight: 600;
+  }
+{% endstyle %}
+
+<collapsible-specs-{{ ai_gen_id }}
+  class="ai-collapsible-specs-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <button
+    class="ai-collapsible-specs__button-{{ ai_gen_id }}"
+    aria-expanded="false"
+    aria-controls="ai-collapsible-specs-content-{{ ai_gen_id }}"
+  >
+    <span class="ai-collapsible-specs__button-text-{{ ai_gen_id }}">
+      {{ block.settings.heading_text }}
+    </span>
+    <svg
+      class="ai-collapsible-specs__icon-{{ ai_gen_id }}"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <div
+    class="ai-collapsible-specs__content-{{ ai_gen_id }}"
+    id="ai-collapsible-specs-content-{{ ai_gen_id }}"
+  >
+    <div class="ai-collapsible-specs__content-inner-{{ ai_gen_id }}">
+      {{ block.settings.content_text }}
+    </div>
+  </div>
+</collapsible-specs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollapsibleSpecs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.button = this.querySelector('.ai-collapsible-specs__button-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-collapsible-specs__content-{{ ai_gen_id }}');
+        this.icon = this.querySelector('.ai-collapsible-specs__icon-{{ ai_gen_id }}');
+
+        this.button.addEventListener('click', () => this.toggle());
+      }
+
+      toggle() {
+        const isActive = this.content.classList.contains('active');
+
+        if (isActive) {
+          this.close();
+        } else {
+          this.open();
+        }
+      }
+
+      open() {
+        this.content.classList.add('active');
+        this.icon.classList.add('active');
+        this.button.setAttribute('aria-expanded', 'true');
+      }
+
+      close() {
+        this.content.classList.remove('active');
+        this.icon.classList.remove('active');
+        this.button.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    customElements.define('collapsible-specs-{{ ai_gen_id }}', CollapsibleSpecs{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Technical specifications",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Technical Specifications"
+    },
+    {
+      "type": "font_picker",
+      "id": "button_font",
+      "label": "Font",
+      "default": "inter_n5"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#222222"
+    },
+    {
+      "type": "header",
+      "content": "Button border"
+    },
+    {
+      "type": "range",
+      "id": "button_border_thickness",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border thickness",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border color",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Button spacing"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "content_text",
+      "label": "Content",
+      "default": "<p><strong>Size:</strong> 210 x 297 mm (A4)</p><p><strong>Pages:</strong> 120 pages</p><p><strong>Format:</strong> Hardcover</p><p><strong>Materials:</strong> Premium paper, cloth binding</p>"
+    },
+    {
+      "type": "range",
+      "id": "content_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Text color",
+      "default": "#222222"
+    },
+    {
+      "type": "header",
+      "content": "Content border"
+    },
+    {
+      "type": "range",
+      "id": "content_border_thickness",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border thickness",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "content_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "content_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Content spacing"
+    },
+    {
+      "type": "range",
+      "id": "content_padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Technical specifications"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,346 @@
+{% doc %}
+  @prompt
+    Create a custom section for my Online Store 2.0 theme.
+    
+    The section shows one image in the center of the page.
+    
+    The image should have large margins / white space around it so it doesn’t feel full-width or huge.
+    
+    Add settings in the theme editor for:
+    
+    choosing the image (image picker)
+    
+    max width of the image (for example 500–900 px, default 700 px)
+    
+    top and bottom padding for the whole section
+    
+    Hover zoom behaviour (important):
+    
+    On desktop hover, I want a zoom-lens effect, similar to a product image magnifier:
+    
+    When the mouse moves over the image, show a square “lens” that follows the cursor.
+    
+    Inside that lens, show a zoomed-in view of the part of the image under the cursor, so small text can be read.
+    
+    The lens should have a visible but subtle border and a slight shadow.
+    
+    The zoom must actually work – please include the necessary JavaScript or use existing product-image zoom logic from the theme.
+    
+    On mobile, it’s okay if the zoom is disabled, but the image should still be readable (e.g. full-width or tap-to-zoom if possible).
+    
+    Style: clean, minimal, with the image centered, lots of breathing room around it., the zoom in doesnt work
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-zoom-image-section-{{ ai_gen_id }} {
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+    background-color: #fffdf7;
+  }
+
+  .ai-zoom-image-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-zoom-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .ai-zoom-image-main-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .ai-zoom-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 400px;
+  }
+
+  .ai-zoom-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-zoom-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-zoom-lens-{{ ai_gen_id }} {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    display: none;
+    z-index: 10;
+    border-radius: 4px;
+    cursor: none;
+  }
+
+  .ai-zoom-wrapper-active-{{ ai_gen_id }} {
+    cursor: none;
+  }
+
+  .ai-zoom-wrapper-active-{{ ai_gen_id }} .ai-zoom-lens-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-zoom-result-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 20px);
+    width: 400px;
+    height: 400px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: none;
+    pointer-events: none;
+    z-index: 11;
+    border-radius: 12px;
+  }
+
+  .ai-zoom-wrapper-active-{{ ai_gen_id }} .ai-zoom-result-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-zoom-result-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-zoom-image-wrapper-{{ ai_gen_id }} {
+      cursor: default;
+    }
+
+    .ai-zoom-lens-{{ ai_gen_id }},
+    .ai-zoom-result-{{ ai_gen_id }} {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-zoom-image-section-{{ ai_gen_id }} {
+      padding-top: {{ block.settings.padding_top | times: 0.7 | round }}px;
+      padding-bottom: {{ block.settings.padding_bottom | times: 0.7 | round }}px;
+    }
+  }
+{% endstyle %}
+
+<image-zoom-{{ ai_gen_id }}
+  class="ai-zoom-image-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-zoom-image-container-{{ ai_gen_id }}">
+    <div class="ai-zoom-image-wrapper-{{ ai_gen_id }}" data-zoom-wrapper>
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 2000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-zoom-image-main-{{ ai_gen_id }}"
+          data-zoom-image
+        >
+        <div class="ai-zoom-lens-{{ ai_gen_id }}" data-zoom-lens></div>
+        <div class="ai-zoom-result-{{ ai_gen_id }}" data-zoom-result>
+          <img
+            src="{{ block.settings.image | image_url: width: 2000 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            class="ai-zoom-result-image-{{ ai_gen_id }}"
+            data-zoom-result-image
+          >
+        </div>
+      {% else %}
+        <div class="ai-zoom-image-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-zoom-empty-state-{{ ai_gen_id }}">
+            Add an image to enable zoom functionality
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</image-zoom-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ImageZoom{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.wrapper = null;
+        this.image = null;
+        this.lens = null;
+        this.result = null;
+        this.resultImage = null;
+        this.cx = 0;
+        this.cy = 0;
+        this.isActive = false;
+      }
+
+      connectedCallback() {
+        this.wrapper = this.querySelector('[data-zoom-wrapper]');
+        this.image = this.querySelector('[data-zoom-image]');
+        this.lens = this.querySelector('[data-zoom-lens]');
+        this.result = this.querySelector('[data-zoom-result]');
+        this.resultImage = this.querySelector('[data-zoom-result-image]');
+
+        if (!this.image || !this.lens || !this.result || !this.resultImage) {
+          return;
+        }
+
+        if (window.innerWidth <= 989) {
+          return;
+        }
+
+        this.image.addEventListener('load', () => {
+          this.initZoom();
+        });
+
+        if (this.image.complete) {
+          this.initZoom();
+        }
+      }
+
+      initZoom() {
+        this.cx = this.result.offsetWidth / this.lens.offsetWidth;
+        this.cy = this.result.offsetHeight / this.lens.offsetHeight;
+
+        this.wrapper.addEventListener('mouseenter', () => {
+          this.wrapper.classList.add('ai-zoom-wrapper-active-{{ ai_gen_id }}');
+          this.isActive = true;
+        });
+
+        this.wrapper.addEventListener('mouseleave', () => {
+          this.wrapper.classList.remove('ai-zoom-wrapper-active-{{ ai_gen_id }}');
+          this.isActive = false;
+        });
+
+        this.wrapper.addEventListener('mousemove', (e) => {
+          if (this.isActive) {
+            this.moveLens(e);
+          }
+        });
+      }
+
+      moveLens(e) {
+        e.preventDefault();
+        
+        const pos = this.getCursorPos(e);
+        let x = pos.x - (this.lens.offsetWidth / 2);
+        let y = pos.y - (this.lens.offsetHeight / 2);
+
+        const maxX = this.image.offsetWidth - this.lens.offsetWidth;
+        const maxY = this.image.offsetHeight - this.lens.offsetHeight;
+
+        if (x > maxX) x = maxX;
+        if (x < 0) x = 0;
+        if (y > maxY) y = maxY;
+        if (y < 0) y = 0;
+
+        this.lens.style.left = x + 'px';
+        this.lens.style.top = y + 'px';
+
+        this.resultImage.style.width = (this.image.offsetWidth * this.cx) + 'px';
+        this.resultImage.style.height = (this.image.offsetHeight * this.cy) + 'px';
+        this.resultImage.style.left = '-' + (x * this.cx) + 'px';
+        this.resultImage.style.top = '-' + (y * this.cy) + 'px';
+      }
+
+      getCursorPos(e) {
+        const rect = this.image.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        return { x: x, y: y };
+      }
+    }
+
+    customElements.define('image-zoom-{{ ai_gen_id }}', ImageZoom{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Image with zoom",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 700
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with zoom"
+    }
+  ]
+}
+{% endschema %}

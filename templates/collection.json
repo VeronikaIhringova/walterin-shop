@@ -1,0 +1,89 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main-collection-banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "color_scheme": "background-1"
+      }
+    },
+    "176225326094cf5551": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_c1ea7f1_EU97M6": {
+          "type": "ai_gen_block_c1ea7f1",
+          "disabled": true,
+          "settings": {
+            "show_headline": true,
+            "headline": "Travel. Read. Laugh. Repeat.",
+            "headline_color": "#000000",
+            "headline_size": 32,
+            "mobile_headline_size": 16,
+            "show_image": false,
+            "image": "shopify://shop_images/no.png",
+            "image_width": 1200,
+            "image_aspect_ratio": "1.78",
+            "image_border_radius": 0,
+            "mobile_image_fit": "auto",
+            "mobile_max_height": 400,
+            "spacing_between": 5,
+            "mobile_spacing_between": 0,
+            "enable_hover_effect": false,
+            "hover_effect": "flip",
+            "enable_animation": true,
+            "animation_direction": "-100px",
+            "animation_duration": 1,
+            "animation_delay": 0.7,
+            "background_color": "#ffffff",
+            "max_width": 1400,
+            "padding_top": 60,
+            "padding_bottom": 10,
+            "mobile_padding_top": 40,
+            "mobile_padding_bottom": 10
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_c1ea7f1_EU97M6"
+      ],
+      "settings": {}
+    },
+    "main-collection-product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 20,
+        "columns_desktop": 3,
+        "product_cards_stretch": true,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": false,
+        "columns_mobile": "2",
+        "padding_top": 24,
+        "padding_bottom": 44
+      }
+    }
+  },
+  "order": [
+    "main-collection-banner",
+    "176225326094cf5551",
+    "main-collection-product-grid"
+  ]
+}

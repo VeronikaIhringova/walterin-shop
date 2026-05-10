@@ -1,0 +1,684 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "urgency_NGg3AN": {
+          "type": "urgency",
+          "disabled": true,
+          "settings": {
+            "urgency": "30% OFF ENDING TODAY!",
+            "color_scheme": "inverse",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "custom_liquid_UxFKd8": {
+          "type": "custom_liquid",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <style>\n        .rating {\n            font-size: 24px;\n            display: inline-block;\n            unicode-bidi: bidi-override;\n            color: #f0a800; /* Yellow color for stars */\n        }\n\n        .rating::before {\n            content: \"★★★★★\";\n            letter-spacing: 3px;\n        }\n\n        .half-rating::before {\n            content: \"★★★★½\";\n            position: absolute;\n            overflow: hidden;\n            top: 0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"rating\">\n        <div class=\"half-rating\" style=\"width: 50%;\"></div>\n    </div>\n    <span> 4.95/5 (416 Reviews)</span>\n</body>\n</html>"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "text_size": "h1",
+            "title_alignment": "left",
+            "uppercase_title": false,
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "layout": "price_first",
+            "price_color": "text",
+            "compare_price_color": "accent-1",
+            "hide_sale_badge": false,
+            "margin_top": 3,
+            "margin_bottom": 15
+          }
+        },
+        "text_mj7pnD": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "de244682-4323-4802-b4ba-b79b08e0c71d": {
+          "type": "emoji_benefits",
+          "settings": {
+            "benefits": "{{ product.metafields.custom.product_emoji_benefits | metafield_tag }}",
+            "margin_top": 27,
+            "margin_bottom": 27
+          }
+        },
+        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_types": "pills, pills, pills",
+            "swatches_custom_colors": "disabled",
+            "swatches_custom_colors_list": "#000000, #6D388B, #0000FF, #FFCC00",
+            "margin_top": 18,
+            "margin_bottom": 18
+          }
+        },
+        "quantity_selector_9bkp4V": {
+          "type": "quantity_selector",
+          "settings": {
+            "enable_quantity_discounts": true,
+            "headline": "BUNDLE & SAVE",
+            "preselected": "option_1",
+            "display_badge": "option_2",
+            "badge_text": "Most Popular",
+            "enable_variant_selectors": true,
+            "update_prices": false,
+            "enable_variant_selectors_on_quantity_of_1": true,
+            "color_scheme": "text",
+            "option_1_quantity": 1,
+            "option_1_label": "Single Copy",
+            "option_1_benefit": "",
+            "option_1_caption": "You save [amount_saved]",
+            "option_1_percentage_off_text": "0",
+            "option_1_fixed_amount_off": "0",
+            "option_1_compare_price": "compare_price",
+            "option_2_quantity": 2,
+            "option_2_label": "Two Copies",
+            "option_2_benefit": "",
+            "option_2_caption": "You save [amount_saved]",
+            "option_2_percentage_off_text": "0",
+            "option_2_fixed_amount_off": "0",
+            "option_2_compare_price": "compare_price",
+            "option_3_quantity": 0,
+            "option_3_label": "",
+            "option_3_benefit": "",
+            "option_3_caption": "You save [amount_saved]",
+            "option_3_percentage_off_text": "0",
+            "option_3_fixed_amount_off": "0",
+            "option_3_compare_price": "compare_price",
+            "option_4_quantity": 0,
+            "option_4_label": "",
+            "option_4_benefit": "",
+            "option_4_caption": "You save [amount_saved]",
+            "option_4_percentage_off_text": "0",
+            "option_4_fixed_amount_off": "0",
+            "option_4_compare_price": "compare_price",
+            "margin_top": 21,
+            "margin_bottom": 21
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "skip_cart": false,
+            "uppercase_text": true,
+            "enable_custom_color": false,
+            "custom_color": "#000000",
+            "margin_top": 24,
+            "margin_bottom": 24
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "margin_top": 18,
+            "margin_bottom": 18
+          }
+        },
+        "collapsible_tab_LPgBUK": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Details",
+            "icon": "none",
+            "content": "<p>{{ product.metafields.custom.details | metafield_tag }}</p>",
+            "page": "",
+            "margin_top": 15,
+            "margin_bottom": 0
+          }
+        },
+        "custom_liquid_EMWHMD": {
+          "type": "custom_liquid",
+          "name": "Technical Specification",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "<style>\n/* Container */\n.walterin-collapse {\n  width: 100%;\n  margin: 30px 0;\n  border-bottom: 1px solid #ddd;\n  font-family: inherit;\n}\n\n/* Hide checkbox */\n.walterin-collapse input {\n  display: none;\n}\n\n/* Header */\n.walterin-collapse-label {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 14px 0;\n  cursor: pointer;\n\n  font-family: inherit;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n/* + icon */\n.walterin-icon {\n  font-size: 24px;\n  font-weight: 600;\n  transition: transform 0.3s ease;\n  font-family: inherit;\n}\n\n/* + changes to – on open */\n.walterin-collapse input:checked + label .walterin-icon::after {\n  content: \"–\";\n}\n.walterin-icon::after {\n  content: \"+\";\n}\n\n/* Content animation */\n.walterin-content {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.35s ease;\n  padding-right: 5px;\n}\n\n.walterin-collapse input:checked ~ .walterin-content {\n  max-height: 1500px;\n  padding: 10px 0 15px 0;\n}\n\n/* Content text */\n.walterin-content p {\n  margin: 0 0 10px 0;\n  line-height: 1.55;\n}\n\n/* Section titles — bigger + stronger + spaced */\n.walterin-heading {\n  font-weight: 800;\n  font-size: 20px;\n  margin-top: 10px;\n  margin-bottom: 18px;\n  letter-spacing: 0.3px;\n}\n</style>\n\n<div class=\"walterin-collapse\">\n\n  <input type=\"checkbox\" id=\"walterin-specs\">\n\n  <label for=\"walterin-specs\" class=\"walterin-collapse-label\">\n    <span>Technical Specifications</span>\n    <span class=\"walterin-icon\"></span>\n  </label>\n\n  <div class=\"walterin-content\">\n\n    <!-- EBOOK SECTION -->\n    <p class=\"walterin-heading\">Walterin Prague E-book</p>\n\n    <p><strong>Formats:</strong> PDF (high-resolution), EPUB (fixed-layout)</p>\n    <p><strong>Estimated length:</strong> ~180 pages</p>\n    <p><strong>Language options:</strong> Czech / English</p>\n    <p><strong>Layout:</strong> Full-colour, fixed layout across all formats</p>\n    <p><strong>Interactive features:</strong> Clickable Table of Contents, internal navigation links, quick jumps</p>\n    <p><strong>Optimized for:</strong> Desktop, tablet, mobile, and fixed-layout-compatible e-readers</p>\n    <p><strong>Instant access:</strong> Download available immediately after purchase</p>\n\n    <!-- REAL, WORKING EMPTY SPACE -->\n    <br><br>\n\n    <!-- BOOK SECTION -->\n    <p class=\"walterin-heading\">Walterin Prague Book (coming soon)</p>\n\n    <p><strong>Format:</strong> Softcover book</p>\n    <p><strong>Dimensions:</strong> 129 × 207 mm</p>\n    <p><strong>Page count:</strong> approx. 180 pages (may vary)</p>\n    <p><strong>Language options:</strong> Czech / English</p>\n    <p><strong>Print quality:</strong> Full-colour, premium paper</p>\n\n  </div>\n</div>"
+          }
+        },
+        "d505cdfe-d5cf-4aff-8e9e-abca6dae66eb": {
+          "type": "sticky_atc",
+          "settings": {
+            "function": "add_to_cart",
+            "display_when": "after_scroll",
+            "color_scheme": "background-1",
+            "button_label": "Add to cart",
+            "enable_custom_btn_color": false,
+            "custom_btn_color": "#dd1d1d",
+            "show_price_badge": true,
+            "show_variant_picker": false,
+            "desktop_show_title": true,
+            "desktop_show_price": true,
+            "mobile_show_title": true,
+            "mobile_show_price": true
+          }
+        },
+        "2edbf491-d07c-4718-b71e-18ffe22ab7dc": {
+          "type": "estimated_shipping",
+          "settings": {
+            "display_icon": true,
+            "icon_size": "medium",
+            "icon_alignment": "top",
+            "message": "<p>Get it between <strong>[start_date]</strong> and <strong>[end_date]</strong>.</p>",
+            "min_shipping_days": 7,
+            "max_shipping_days": 15,
+            "date_format": "day_mm_dd",
+            "days_labels": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",
+            "months_labels": "January, February, March, April, May, June, July, August, September, October, November, December",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "98db29ee-a7dc-429e-8129-bf71131627da": {
+          "type": "payment_badges",
+          "settings": {
+            "enabled_payment_types": "",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "judge_me_reviews_preview_badge_6fWie9": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "urgency_NGg3AN",
+        "custom_liquid_UxFKd8",
+        "title",
+        "price",
+        "text_mj7pnD",
+        "de244682-4323-4802-b4ba-b79b08e0c71d",
+        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a",
+        "quantity_selector_9bkp4V",
+        "buy_buttons",
+        "description",
+        "collapsible_tab_LPgBUK",
+        "custom_liquid_EMWHMD",
+        "d505cdfe-d5cf-4aff-8e9e-abca6dae66eb",
+        "2edbf491-d07c-4718-b71e-18ffe22ab7dc",
+        "98db29ee-a7dc-429e-8129-bf71131627da",
+        "judge_me_reviews_preview_badge_6fWie9"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "display_variant_image_first": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": true,
+        "desktop_thumbnails_count": 5,
+        "mobile_thumbnails": "show",
+        "mobile_media_corner_radius": 0,
+        "mobile_spacing": true,
+        "mobile_preview_media": true,
+        "mobile_thumbnails_count": 5,
+        "mobile_pagination": "dots_under",
+        "hide_arrows": false,
+        "dots_color_scheme": "inverse",
+        "trust_badge_position": "bottom-left",
+        "trust_badge_size": "small",
+        "mobile_padding_top": 16,
+        "mobile_padding_bottom": 16,
+        "desktop_padding_top": 36,
+        "desktop_padding_bottom": 36
+      }
+    },
+    "image_banner_AVj7db": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_RjrWXL": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_LqLqEj": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_RjrWXL",
+        "text_LqLqEj"
+      ],
+      "custom_css": [],
+      "name": "Take a look inside",
+      "settings": {
+        "image": "shopify://shop_images/walterin-prague-look-inside-comic-illustrated-pages.png",
+        "image_1_visibility": "mobile-hidden",
+        "image_2": "shopify://shop_images/walterin-prague-look-inside-comic-pages-mobile.png",
+        "image_2_visibility": "desktop-hidden",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "url": "",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
+      }
+    },
+    "image_banner_NtQgzj": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_PCQRx7": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_HkVzHD": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_PCQRx7",
+        "text_HkVzHD"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Desktop_Key_Features_25bcfcbd-48fe-4dba-904e-c3db7d1f4d41.png",
+        "image_1_visibility": "mobile-hidden",
+        "image_2": "shopify://shop_images/Mobile_Take_a_look_inside_3e3dcc75-81b6-49ab-b068-1f0aee72a778.png",
+        "image_2_visibility": "desktop-hidden",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "url": "",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
+      }
+    },
+    "rich_text_wdNwrm": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_km47q3": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>About Walterin</p>",
+            "heading_size": "h1"
+          }
+        },
+        "text_VYhJpz": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Walterin</strong> is an original project by Slovak illustrator <em>Walter Ihring</em>,<br/> blending <strong>humor</strong>, <strong>history</strong>, and a <em>distinctive visual style</em>. Its mission is to reveal cities through stories that are <strong>fun</strong>, <em>truthful</em>, and <strong>inspiring</strong>.</p>"
+          }
+        },
+        "button_KHmGm4": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn more",
+            "button_link": "shopify://pages/about-us",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_km47q3",
+        "text_VYhJpz",
+        "button_KHmGm4"
+      ],
+      "name": "About Walterin",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
+    "image_banner_c7Jm7N": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_P93TK3": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_9UPWtF": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_P93TK3",
+        "text_9UPWtF"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/juj.png",
+        "image_1_visibility": "mobile-hidden",
+        "image_2": "shopify://shop_images/image.png",
+        "image_2_visibility": "desktop-hidden",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "url": "",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "blocks_CB9c6w": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "176234031265070326": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "17622621157ec0b48f": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 24
+      }
+    },
+    "176226009147ecedbe": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1762183502b5aa1bea": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "custom_liquid_WWCEKe": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "custom_css": [],
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<div style=\"display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:80px; max-width:1300px; margin:0 auto; padding:80px 20px; text-align:left;\">\n\n  <!-- Flipbook -->\n  <div style=\"flex:0 0 auto; width:480px; display:flex; justify-content:center;\">\n    <iframe \n      src=\"https://heyzine.com/flip-book/6efc367292.html\" \n      title=\"Walterin Flipbook\"\n      loading=\"lazy\"\n      allowfullscreen\n      style=\"width:100%; height:520px; border:none; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,0.08);\">\n    </iframe>\n  </div>\n\n  <!-- Text content -->\n  <div style=\"flex:1; min-width:300px; max-width:580px;\">\n    <p style=\"font-size:1.2rem; text-transform:uppercase; letter-spacing:1.5px; color:#888; margin-bottom:8px; text-align:center;\">\n      Walterin Prague\n    </p>\n    <h2 style=\"font-size:4.5rem; line-height:1.1; font-weight:700; margin:0 0 20px; color:#000; font-family:'Poppins', sans-serif; text-align:center;\">\n      flip through the e-book\n    </h2>\n    <p style=\"font-size:1.425rem; line-height:1.7; color:#555; margin:0 auto; text-align:center;\">\n      This is a preview of the <strong>Walterin ebook</strong>  try it, click, flip, and explore.  \n      <br>Dive into more than <strong>160 pages of stories from Prague</strong> filled with wit, history, and humor.\n    </p>\n  </div>\n\n</div>",
+        "color_scheme": "background-1",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "1760526333235d4932": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "featured_collection_UDTNGa": {
+      "type": "featured-collection",
+      "custom_css": [
+        "/* Style the YOU MAY ALSO LIKE headline */h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important; /* make the headline smaller */ line-height: 1.2 !important; margin-left: 0 !important;}"
+      ],
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "title": "You may also like",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "frontpage",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "product_cards_stretch": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 76,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    },
+    "collapsible_content_FkcErL": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_3qPaxt": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Walterin products authentic?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes! Every piece is either created by us or carefully sourced and delivered directly to you. No replicas, no third-party imitations - just original work with soul.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dKFXkc": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will sold-out items come back?",
+            "icon": "check_mark",
+            "row_content": "<p>It depends! Some things are like dinosaurs - unique and gone forever. Others might make a comeback. Best bet? Follow our newsletter or Instagram <strong>@walterinwittyguide</strong> where we announce when something cool returns to the adventure.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QpPhwm": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I change or cancel my order?",
+            "icon": "check_mark",
+            "row_content": "<p>Once your order hits the road, there's no stopping it. But if we haven't shipped it yet, we can work some magic! Reach out ASAP at <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we'll see what we can do.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_FdpcwR": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where do you ship?",
+            "icon": "check_mark",
+            "row_content": "<p>We ship all over the world! Wherever you are, we're planning to conquer cities globally - just like our comic vision. Your package can find its way to you.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TYHAUf": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "When will my package arrive?",
+            "icon": "check_mark",
+            "row_content": "<p>Delivery times vary by region:</p><ul><li><strong>Europe</strong>: 5-10 business days</li><li><strong>UK</strong>: 7-12 business days</li><li><strong>North America</strong>: 10-15 business days</li><li><strong>Asia</strong>: 12-20 business days</li><li><strong>Rest of the world</strong>: 15-25 business days</li></ul><p>We're not The Flash, but we hustle! Each package is wrapped with love and sent with joy.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_cFiirg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How can I track my order?",
+            "icon": "check_mark",
+            "row_content": "<p>After we ship, you'll get a tracking number via email. You can follow where your package is traveling - almost like a comic book adventure! If something's unclear, just message us.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_xniPrN": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What payment methods do you accept?",
+            "icon": "check_mark",
+            "row_content": "<p>We accept all major card payments including <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut</strong>, as well as <strong>PayPal</strong> and bank transfers. All payments are processed securely through trusted providers. Whatever works best for you - we're flexible.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QFyzcr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is online payment secure?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes. All transactions are protected with SSL encryption and handled by certified, secure payment gateways. Your data is safe with us.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_ghanX9": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is your return policy?",
+            "icon": "check_mark",
+            "row_content": "<p>Changed your mind? No worries! You have <strong>14 days</strong> to return unopened items. Just reach out at <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we'll guide you through it. We want you to love what you get - if not, let's make it right.</p><p></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_kBwdkK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How can I reach customer support?",
+            "icon": "check_mark",
+            "row_content": "<p>Shoot us an email at <a href=\"mailto:support@walterin.com\">support@walterin.com</a> or DM us on Instagram <strong>@walterinwittyguide</strong>. We're real humans who actually care, not bots. Usually respond within 24 hours (sometimes faster if we're caffeinated ☕).</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_3qPaxt",
+        "collapsible_row_dKFXkc",
+        "collapsible_row_QpPhwm",
+        "collapsible_row_FdpcwR",
+        "collapsible_row_TYHAUf",
+        "collapsible_row_cFiirg",
+        "collapsible_row_xniPrN",
+        "collapsible_row_QFyzcr",
+        "collapsible_row_ghanX9",
+        "collapsible_row_kBwdkK"
+      ],
+      "custom_css": [],
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions (FAQ)",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "layout": "section",
+        "color_scheme": "background-1",
+        "container_color_scheme": "background-1",
+        "open_first_collapsible_row": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "custom_colors_background": "#fffdf7",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#fffdf7",
+        "custom_contaner_colors_background": "#fffdf7",
+        "custom_container_gradient_background": "",
+        "custom_contaner_colors_text": "#fffdf7"
+      }
+    },
+    "1764756238d73d5e0e": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_LNk3Kg": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "other_products_reviews"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_LNk3Kg"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_banner_AVj7db",
+    "image_banner_NtQgzj",
+    "rich_text_wdNwrm",
+    "image_banner_c7Jm7N",
+    "blocks_CB9c6w",
+    "176234031265070326",
+    "17622621157ec0b48f",
+    "related-products",
+    "176226009147ecedbe",
+    "1762183502b5aa1bea",
+    "custom_liquid_WWCEKe",
+    "1760526333235d4932",
+    "featured_collection_UDTNGa",
+    "collapsible_content_FkcErL",
+    "1764756238d73d5e0e"
+  ]
+}

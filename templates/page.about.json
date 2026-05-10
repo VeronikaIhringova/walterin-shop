@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "rich_text_FABgJQ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_HKiFia": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p><strong>HI, MY NAME IS WALTER IHRING</strong></p>",
+            "heading_size": "h2"
+          }
+        },
+        "text_krW8A3": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Walter Ihring is a Slovak illustrator and author who has spent more than three decades drawing the world with wit, precision, and an eye for the quietly extraordinary.</strong> His linework carries a gentle irony; his humour is subtle yet sharp, attuned to fleeting moments most people overlook. He first gained recognition in the Slovak cartoon scene by blending observational humour with elegantly restrained line art.</p>"
+          }
+        },
+        "button_Y7BWer": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_HKiFia",
+        "text_krW8A3",
+        "button_Y7BWer"
+      ],
+      "custom_css": [
+        "/* Left-align everything */* {text-align: left !important;}",
+        " /* Keep all headings centered */h1,h2,h3,h4,h5,h6 {text-align: center !important;}"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 28,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
+    "17640782699c48ebbe": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f719dfb_JNQd4e": {
+          "type": "ai_gen_block_f719dfb",
+          "settings": {
+            "image": "shopify://shop_images/illustrated_biography_pixel_e4117d82-0460-4764-857f-344ed512bf0f.png",
+            "max_width": 650,
+            "padding_top": 60,
+            "padding_bottom": 110,
+            "zoom_enabled": true,
+            "zoom_scale": 2,
+            "lens_size": 400
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f719dfb_JNQd4e"
+      ],
+      "settings": {}
+    },
+    "rich_text_kdg7nb": {
+      "type": "rich-text",
+      "blocks": {
+        "text_xw8rpx": {
+          "type": "text",
+          "settings": {
+            "text": "<p>In <strong>2016</strong>, he was awarded the <strong>Zlatý Gunár (Golden Gander)</strong> for outstanding caricature at the festival <strong>Kremnické Gagy</strong> — one of Slovakia’s most established humour and satire festivals. (Official website: <a href=\"https://gagy.eu\">https://gagy.eu</a>)In <strong>2017</strong>, he returned as a <strong>jury member</strong> in the same category — a role reserved almost exclusively for previous winners. His drawings have been exhibited in Slovakia and abroad, and critics often highlight the clarity of his ink work and the quiet sharpness of his humour.</p><p>Ihring’s work has also appeared in mainstream print. In <strong>May 2010</strong>, he wrote and illustrated the feature <strong>„Walter Ihring o ženách“</strong> for the Slovak edition of <strong>Playboy</strong> (issue 5/2010). In this playful essay, he reflected on the differences between men and women with characteristic tongue-in-cheek comparisons — dividing women into “fire-engine” and “racing-car” types, contemplating how feminine beauty fuels his creative energy, and admitting that drawing brings calm to both him and his wife. This rare print appearance shows how naturally his humour resonates beyond the traditional circle of cartoon enthusiasts.</p><p>In <strong>2015</strong>, Ihring transformed his love of travel, cities, and history into the illustrated guidebook <em><strong>Walterin Bratislava</strong></em> — a blend of comic storytelling, local history, and playful discovery.</p><p>In <strong>2024</strong>, he began building the digital platform <strong>Walterin.com</strong> and expanding <em>Walterin</em> into a fully developed illustrated series — bringing his visual storytelling, city narratives, and humour into a new, modern format accessible to readers worldwide.</p><p>Today, the Walterin series continues to grow, offering visual mini-stories that explore cities, culture, and human quirks through his distinct, gently ironic voice. When not drawing, Walter can often be found in a café, observing passers-by and collecting small human moments that later shape his illustrations.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_xw8rpx"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "left",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 16,
+        "padding_bottom": 100,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "rich_text_FABgJQ",
+    "17640782699c48ebbe",
+    "rich_text_kdg7nb",
+    "main"
+  ]
+}
