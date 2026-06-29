@@ -1,0 +1,104 @@
+{% comment %}
+  Renders the Rhode-style in-card quick view panel.
+  Expanded by the <quick-view-card> custom element (assets/quick-view-card.js).
+
+  Accepts:
+  - card_product: {Object} product object (required)
+  - section_id: {String} id of the section that contains this card (required)
+
+  Add-to-cart is delegated to the existing <product-form> element (assets/product-form.js),
+  which posts to routes.cart_add_url and re-renders the cart drawer / notification.
+
+  Usage:
+  {% render 'quick-view-panel', card_product: card_product, section_id: section_id %}
+{% endcomment %}
+{%- capture product_state -%}{%- render 'product-state', product: card_product -%}{%- endcapture -%}
+{%- assign product_state = product_state | strip -%}
+{%- assign qv_form_id = 'qv-' | append: section_id | append: '-' | append: card_product.id -%}
+{%- assign current_variant = card_product.selected_or_first_available_variant -%}
+
+<div class="quick-view-panel" data-quick-view-panel>
+  <button
+    type="button"
+    class="quick-view__close"
+    aria-label="{{ 'accessibility.close' | t }}"
+    data-qv-close
+  >
+    <span aria-hidden="true">&#8211;</span>
+  </button>
+
+  {%- if product_state == 'available' -%}
+    {%- if card_product.variants.size > 1 -%}
+      <div class="quick-view__variants" role="radiogroup" aria-label="{{ card_product.options | join: ', ' }}">
+        {%- for variant in card_product.variants -%}
+          <button
+            type="button"
+            class="quick-view__pill{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-soldout{% endunless %}"
+            role="radio"
+            aria-checked="{% if variant.id == current_variant.id %}true{% else %}false{% endif %}"
+            data-qv-variant="{{ variant.id }}"
+            data-qv-price="{{ variant.price | money }}"
+            data-qv-title="{{ variant.title | escape }}"
+            {% unless variant.available %}data-qv-soldout="true"{% endunless %}
+          >
+            {{ variant.title }}
+          </button>
+        {%- endfor -%}
+      </div>
+      <p class="quick-view__selected-label" data-qv-label>{{ current_variant.title }}</p>
+    {%- endif -%}
+
+    <product-form class="quick-view__form" data-section="{{ section_id }}">
+      {%- form 'product',
+        card_product,
+        id: qv_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          class="product-variant-id"
+          value="{{ current_variant.id }}"
+        >
+        <button
+          type="submit"
+          name="add"
+          class="quick-view__buy button button--full-width"
+          data-qv-buy
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          <span class="quick-view__buy-label" data-qv-buy-label>
+            {%- if current_variant.available -%}
+              {{ 'products.product.quick_view_buy' | t: title: card_product.title }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
+            {%- endif -%}
+          </span>
+          <span class="quick-view__buy-price" data-qv-buy-price>{{ current_variant.price | money }}</span>
+          <div class="loading-overlay__spinner hidden">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              class="spinner"
+              viewBox="0 0 66 66"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+            </svg>
+          </div>
+        </button>
+      {%- endform -%}
+    </product-form>
+
+  {%- elsif product_state == 'coming_soon' -%}
+    <span class="quick-view__state">{{ 'products.product.coming_soon' | t }}</span>
+  {%- else -%}
+    <span class="quick-view__state">{{ 'products.product.sold_out' | t }}</span>
+  {%- endif -%}
+
+  <a href="{{ card_product.url }}" class="quick-view__details link">
+    {{ 'products.product.full_details' | t }} &rarr;
+  </a>
+</div>

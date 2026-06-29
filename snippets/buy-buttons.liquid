@@ -18,7 +18,13 @@
   {% endstyle %}
 {% endif %}
 <div style="--margin-top: {{ block.settings.margin_top | divided_by: 10.0 }}rem;--margin-bottom: {{ block.settings.margin_bottom | divided_by: 10.0 }}rem;" {{ block.shopify_attributes }}>
-  {%- if product != blank -%}
+  {%- capture product_state -%}{%- render 'product-state', product: product -%}{%- endcapture -%}
+  {%- assign product_state = product_state | strip -%}
+  {%- if product != blank and product_state == 'coming_soon' -%}
+    {%- comment -%} Pre-launch: show waitlist instead of add-to-cart {%- endcomment -%}
+    {% render 'coming-soon-notify', product: product %}
+  {%- elsif product != blank -%}
+    {%- comment -%} 'available' renders normal ATC; 'sold_out' renders the disabled "Sold out" button below {%- endcomment -%}
     <product-form class="product-form" data-section="{{ section.id }}" data-options="{{ product.options | join: ',' }}">
       <div class="product-form__error-message-wrapper" role="alert" hidden>
         <svg

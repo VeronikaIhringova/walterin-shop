@@ -9,6 +9,11 @@
   <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
+{%- if section.settings.enable_quick_view -%}
+  {{ 'quick-view-card.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'quick-view-card.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 <noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
 <noscript>{{ 'template-collection.css' | asset_url | stylesheet_tag }}</noscript>
 
@@ -93,6 +98,7 @@
               show_vendor: section.settings.show_vendor,
               show_rating: section.settings.show_rating,
               show_quick_add: section.settings.enable_quick_add,
+              show_quick_view: section.settings.enable_quick_view,
               section_id: section.id
             %}
           </li>
@@ -362,6 +368,13 @@
       "id": "enable_quick_add",
       "default": false,
       "label": "t:sections.featured-collection.settings.enable_quick_buy.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_view",
+      "default": false,
+      "label": "Enable in-card quick view (hover)",
+      "info": "Rhode-style panel that expands inside the card on hover (tap on mobile). Replaces the standard quick add."
     },
     {
       "type": "header",

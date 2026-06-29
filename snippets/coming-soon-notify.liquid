@@ -1,0 +1,224 @@
+{% comment %}
+  Renders the "Coming Soon — Notify Me" waitlist for a pre-launch product.
+
+  Behaviour is driven by the canonical product state (see snippets/product-state.liquid):
+  - 'coming_soon' -> waitlist button + modal with newsletter signup form
+  - 'sold_out'    -> nothing (the disabled "Sold Out" button in buy-buttons covers it)
+  - 'available'   -> nothing
+
+  Accepts:
+  - product: {Object} product object (required)
+
+  Usage:
+  {% render 'coming-soon-notify', product: product %}
+{% endcomment %}
+{%- capture product_state -%}{%- render 'product-state', product: product -%}{%- endcapture -%}
+{%- assign product_state = product_state | strip -%}
+
+{%- if product_state == 'coming_soon' -%}
+  {%- style -%}
+    product-form.product-form { display: none !important; }
+    sticky-atc.sticky-atc { display: none !important; }
+
+    .notify-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .notify-overlay.open { display: flex; }
+    .notify-modal {
+      background: #fff;
+      max-width: 680px;
+      width: 90%;
+      display: flex;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .notify-modal__image {
+      width: 45%;
+      object-fit: cover;
+      display: block;
+    }
+    .notify-modal__body {
+      padding: 2.5rem 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .notify-modal__close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      line-height: 1;
+    }
+    .notify-modal__title {
+      font-family: var(--font-heading-family);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 0;
+      color: rgb(var(--color-foreground));
+    }
+    .notify-modal__subtitle {
+      font-size: 0.9rem;
+      color: rgb(var(--color-foreground));
+      margin: 0;
+      opacity: 0.7;
+    }
+    .notify-modal .field { margin: 0; }
+    .notify-modal__check {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: rgb(var(--color-foreground));
+      opacity: 0.7;
+      cursor: pointer;
+    }
+    .notify-modal__check input {
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .notify-modal__submit {
+      position: relative;
+      overflow: hidden;
+    }
+    .notify-modal__submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    .notify-modal__submit:hover::after { transform: translateX(0); }
+    .notify-modal__legal {
+      font-size: 0.75rem;
+      color: rgb(var(--color-foreground));
+      opacity: 0.5;
+      margin: 0;
+    }
+    .notify-modal__legal a {
+      color: inherit;
+      text-decoration: underline;
+    }
+    .notify-modal__success {
+      font-family: var(--font-heading-family);
+      font-size: 1rem;
+      line-height: 1.5;
+      color: rgb(var(--color-foreground));
+      margin: 0;
+    }
+    .notify-modal__error {
+      font-size: 0.85rem;
+      color: #dd1d1d;
+      margin: 0 0 0.5rem;
+    }
+    @media (max-width: 600px) {
+      .notify-modal { flex-direction: column; }
+      .notify-modal__image { width: 100%; height: 200px; }
+    }
+  {%- endstyle -%}
+
+  <button
+    type="button"
+    id="notify-toggle-btn"
+    class="button button--full-width button--margin-x"
+  >
+    {{ 'products.product.notify_button' | t }}
+  </button>
+
+  <div class="notify-overlay" id="notify-overlay">
+    <div class="notify-modal">
+      <img
+        class="notify-modal__image"
+        src="{{ product.featured_image | image_url: width: 600 }}"
+        alt="{{ product.title | escape }}"
+        width="300"
+        height="400"
+        loading="lazy"
+      >
+      <div class="notify-modal__body">
+        <button class="notify-modal__close" id="notify-close" aria-label="{{ 'accessibility.close' | t }}">&#x2715;</button>
+        <p class="notify-modal__title">{{ product.title | escape }}</p>
+        <p class="notify-modal__subtitle">{{ 'products.product.notify_subtitle' | t }}</p>
+        {% form 'customer' %}
+          {% if form.posted_successfully? %}
+            <p class="notify-modal__success">{{ 'products.product.notify_success' | t }}</p>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                var o = document.getElementById('notify-overlay');
+                if (o) {
+                  o.classList.add('open');
+                  document.body.style.overflow = 'hidden';
+                }
+              });
+            </script>
+          {% else %}
+            {% if form.errors %}
+              <p class="notify-modal__error">{{ form.errors | default_errors }}</p>
+            {% endif %}
+            <input type="hidden" name="contact[tags]" value="newsletter,tarot-waitlist">
+            <div class="field">
+              <input
+                type="email"
+                name="contact[email]"
+                id="notify-email"
+                class="field__input"
+                placeholder="{{ 'products.product.notify_email_placeholder' | t }}"
+                autocomplete="email"
+                required
+              >
+              <label class="field__label" for="notify-email">{{ 'products.product.notify_email_label' | t }}</label>
+            </div>
+            <label class="notify-modal__check">
+              <input type="checkbox" name="contact[accepts_marketing]" value="true" checked>
+              {{ 'products.product.notify_checkbox' | t }}
+            </label>
+            <button type="submit" class="button button--full-width notify-modal__submit">
+              {{ 'products.product.notify_submit' | t }}
+            </button>
+            <p class="notify-modal__legal">{{ 'products.product.notify_legal_html' | t }}</p>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('notify-toggle-btn');
+      var overlay = document.getElementById('notify-overlay');
+      var close = document.getElementById('notify-close');
+      if (!btn || !overlay) return;
+      btn.addEventListener('click', function () {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+      function closeModal() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      close.addEventListener('click', closeModal);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+      });
+    })();
+  </script>
+{%- endif -%}
