@@ -1,0 +1,308 @@
+{% comment %}
+  "What's inside?" — Comics Tarot deck showcase.
+
+  - Centered title + a row of real tarot cards that flip independently (GSAP),
+    each showing a random card from the full 78-card deck (no two slots alike).
+  - Redesigned spec panel: one rounded, hairline-divided grid.
+
+  Card images live in assets/ as card-01.jpg … card-78.jpg (optimised ~800px).
+  They are looped into window.ALL_CARDS below and preloaded for smooth flips.
+  Liquid has no printf/format filter, so filenames are zero-padded manually.
+
+  Only this section owns the .wi-* namespace; nothing else on the page is touched.
+{% endcomment %}
+
+{%- liquid
+  assign card_count = section.settings.card_count | default: 78
+-%}
+
+{%- style -%}
+  .wi-section {
+    background: {{ section.settings.background | default: '#FFFEF7' }};
+    padding: 64px 20px;
+  }
+  .wi-inner {
+    max-width: calc(212px * 4 + 26px * 3);
+    margin: 0 auto;
+  }
+  .wi-title {
+    font-family: "WalterinBold", sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(30px, 4.4vw, 48px);
+    letter-spacing: 0.6px;
+    line-height: 1.05;
+    text-align: center;
+    color: #222;
+    margin: 0 0 46px;
+  }
+
+  /* Card row */
+  .wi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    perspective: 1400px;
+  }
+  .wi-card {
+    box-sizing: border-box;
+    aspect-ratio: 84 / 138;
+    background: #fff;
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.15);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .wi-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    backface-visibility: hidden;
+  }
+
+  /* Spec panel */
+  .wi-specs {
+    margin-top: 64px;
+    background: #fff;
+    border: 1px solid #e6e4da;
+    border-radius: 22px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .wi-spec {
+    padding: 26px;
+    border-top: 1px solid #e6e4da;
+    border-left: 1px solid #e6e4da;
+  }
+  /* 4-col: drop the top row's top border and the first column's left border */
+  .wi-spec:nth-child(-n + 4) { border-top: 0; }
+  .wi-spec:nth-child(4n + 1) { border-left: 0; }
+
+  .wi-spec__label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    color: #6b6b66;
+    margin: 0 0 8px;
+  }
+  .wi-spec__label::before {
+    content: "";
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fce206;
+    display: inline-block;
+  }
+  .wi-spec__value {
+    font-size: 17px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  /* Tablet: 3 cards, 2-col spec grid */
+  @media (max-width: 900px) {
+    .wi-inner { max-width: calc(178px * 3 + 26px * 2); }
+    .wi-row { grid-template-columns: repeat(3, 1fr); }
+    .wi-card:nth-child(4) { display: none; }
+  }
+  @media (max-width: 820px) {
+    .wi-specs { grid-template-columns: repeat(2, 1fr); }
+    .wi-spec:nth-child(-n + 4) { border-top: 1px solid #e6e4da; }
+    .wi-spec:nth-child(4n + 1) { border-left: 1px solid #e6e4da; }
+    .wi-spec:nth-child(-n + 2) { border-top: 0; }
+    .wi-spec:nth-child(2n + 1) { border-left: 0; }
+  }
+  /* Mobile: 2 cards, tighter gap */
+  @media (max-width: 560px) {
+    .wi-inner { max-width: calc(150px * 2 + 16px); }
+    .wi-row { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .wi-card:nth-child(3),
+    .wi-card:nth-child(4) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wi-card { will-change: auto; }
+  }
+{%- endstyle -%}
+
+<section class="wi-section">
+  <div class="wi-inner">
+    <h2 class="wi-title">{{ section.settings.title | default: "What's inside?" | escape }}</h2>
+
+    <div class="wi-row" id="wi-row">
+      {%- for i in (1..4) -%}
+        {%- if i < 10 -%}{%- assign num = i | prepend: '0' -%}{%- else -%}{%- assign num = i | append: '' -%}{%- endif -%}
+        {%- assign fname = 'card-' | append: num | append: '.jpg' -%}
+        <div class="wi-card">
+          <img src="{{ fname | asset_url }}" alt="" width="800" height="1314" loading="lazy" decoding="async">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="wi-specs">
+      {%- assign labels = section.settings.spec_labels | default: 'Cards|Structure|Size|Print|Material|Finish|Each card|Edition' | split: '|' -%}
+      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-panel comic|First launch · 100' | split: '|' -%}
+      {%- for label in labels -%}
+        <div class="wi-spec">
+          <p class="wi-spec__label">{{ label }}</p>
+          <p class="wi-spec__value">{{ values[forloop.index0] }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  window.ALL_CARDS = [
+    {%- for i in (1..card_count) -%}
+      {%- if i < 10 -%}{%- assign num = i | prepend: '0' -%}{%- else -%}{%- assign num = i | append: '' -%}{%- endif -%}
+      {%- assign fname = 'card-' | append: num | append: '.jpg' -%}
+      "{{ fname | asset_url }}"{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+</script>
+
+<script>
+  (function () {
+    var row = document.getElementById('wi-row');
+    if (!row || !window.ALL_CARDS || !window.ALL_CARDS.length) return;
+
+    var ALL = window.ALL_CARDS;
+    var cards = Array.prototype.slice.call(row.querySelectorAll('.wi-card'));
+    var imgs = cards.map(function (c) { return c.querySelector('img'); });
+    var current = imgs.map(function (img) { return img.getAttribute('src'); });
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Preload the whole deck so flips never wait on the network.
+    ALL.forEach(function (src) { var im = new Image(); im.src = src; });
+
+    function randInt(min, max) { return Math.floor(min + Math.random() * (max - min)); }
+
+    // Pick a card not currently shown in ANY slot, so the row is always all-different.
+    function pickNew() {
+      var pool = ALL.filter(function (src) { return current.indexOf(src) === -1; });
+      if (!pool.length) pool = ALL;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function swap(i) {
+      var next = pickNew();
+      current[i] = next;
+      imgs[i].setAttribute('src', next);
+    }
+
+    function scheduleNext(i, gsap) {
+      var delay = randInt(2500, 4300); // re-rolled after every flip
+      setTimeout(function () { flip(i, gsap); }, delay);
+    }
+
+    function flip(i, gsap) {
+      if (!gsap || reduce) {
+        // Reduced motion / no GSAP: just swap (optionally crossfade), keep timers.
+        if (gsap) {
+          gsap.to(imgs[i], { opacity: 0, duration: 0.18, onComplete: function () {
+            swap(i);
+            gsap.to(imgs[i], { opacity: 1, duration: 0.18 });
+          }});
+        } else {
+          swap(i);
+        }
+        scheduleNext(i, gsap);
+        return;
+      }
+      gsap.to(cards[i], {
+        rotationY: 90,
+        duration: 0.28,
+        ease: 'power1.in',
+        onComplete: function () {
+          swap(i);
+          gsap.fromTo(cards[i],
+            { rotationY: -90 },
+            { rotationY: 0, duration: 0.28, ease: 'power1.out',
+              onComplete: function () { scheduleNext(i, gsap); } }
+          );
+        }
+      });
+    }
+
+    function start(gsap) {
+      cards.forEach(function (_, i) {
+        var initial = i * 650 + randInt(0, 600); // staggered, never in sync
+        setTimeout(function () { flip(i, gsap); }, initial);
+      });
+    }
+
+    function init() {
+      var gsap = window.gsap || null;
+      if (gsap) {
+        try { gsap.set(cards, { transformPerspective: 1400 }); } catch (e) {}
+      }
+      start(gsap);
+    }
+
+    if (window.gsap) {
+      init();
+    } else {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+      s.onload = init;
+      s.onerror = function () { init(); }; // graceful: swaps without rotation
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "What's inside?",
+  "tag": "section",
+  "class": "section-whats-inside",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What's inside?"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#FFFEF7"
+    },
+    {
+      "type": "range",
+      "id": "card_count",
+      "label": "Number of card images in assets (card-01.jpg…)",
+      "min": 4,
+      "max": 120,
+      "step": 1,
+      "default": 78
+    },
+    {
+      "type": "textarea",
+      "id": "spec_labels",
+      "label": "Spec labels (pipe | separated)",
+      "default": "Cards|Structure|Size|Print|Material|Finish|Each card|Edition"
+    },
+    {
+      "type": "textarea",
+      "id": "spec_values",
+      "label": "Spec values (pipe | separated, same order)",
+      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-panel comic|First launch · 100"
+    }
+  ],
+  "presets": [
+    { "name": "What's inside?" }
+  ]
+}
+{% endschema %}

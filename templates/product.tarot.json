@@ -419,6 +419,11 @@
       "type": "_blocks",
       "settings": {}
     },
+    "whats_inside_cards": {
+      "type": "whats-inside",
+      "settings": {
+      }
+    },
     "related-products": {
       "type": "related-products",
       "disabled": true,
@@ -656,6 +661,7 @@
     "rich_text_wdNwrm",
     "image_banner_c7Jm7N",
     "blocks_CB9c6w",
+    "whats_inside_cards",
     "176234031265070326",
     "17622621157ec0b48f",
     "related-products",
