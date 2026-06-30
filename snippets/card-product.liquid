@@ -123,26 +123,6 @@
                 >
               {%- endif -%}
             </div>
-            {%- comment -%}
-              Rhode-style hover affordance: a pill that rises over the image on hover.
-              Visual only (aria-hidden, no pointer events) — the whole card already links
-              to the product, where the notify form lives, so it never competes with the
-              card link or the z-index:1 link overlay. Rendered only where there is no
-              quick-add / quick-view (e.g. homepage) so it never stacks on a real button.
-              State-aware + bilingual: coming-soon invites "Notify me", otherwise "View".
-            {%- endcomment -%}
-            {%- if show_quick_add != true and show_quick_view != true and product_state != 'sold_out' -%}
-              <span class="card__cta" aria-hidden="true">
-                <span class="card__cta-label">
-                  {%- if product_state == 'coming_soon' -%}
-                    {{- 'products.product.notify_submit' | t -}}
-                  {%- else -%}
-                    {{- 'products.product.view_full_details' | t -}}
-                  {%- endif -%}
-                </span>
-                <span class="card__cta-price">{{ card_product.price | money }}</span>
-              </span>
-            {%- endif -%}
           </div>
         {%- endif -%}
         {%- if card_badge_label != blank -%}
