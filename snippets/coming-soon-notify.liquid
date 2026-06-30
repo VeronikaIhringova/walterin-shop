@@ -149,6 +149,12 @@
     }
 
     .notify-modal__field { position: relative; margin: 0; }
+    /* Dawn draws the field outline with .field:after (+ .field:before ring); suppress
+       it here so only the single .field__input border below renders (no doubled pill). */
+    .notify-modal .field:after,
+    .notify-modal .field:before {
+      display: none;
+    }
     .notify-modal .field__input {
       box-sizing: border-box;
       width: 100%;
