@@ -2,19 +2,27 @@
   "What's inside?" — Comics Tarot deck showcase.
 
   - Centered title + a row of real tarot cards that flip independently (GSAP),
-    each showing a random card from the full 78-card deck (no two slots alike).
+    each showing a random card from a CURATED set (author-selected), grouped by
+    suit. The randomiser never places two cards of the same suit family next to
+    each other (desktop) or back-to-back in the same slot (mobile single card).
   - Inline spec row: minimal, no container — yellow dot + uppercase label + value,
     separated by whitespace (wraps on tablet, stacks on mobile).
 
-  Card images live in assets/ as card-01.jpg … card-78.jpg (optimised ~800px).
-  They are looped into window.ALL_CARDS below and preloaded for smooth flips.
-  Liquid has no printf/format filter, so filenames are zero-padded manually.
+  Card images live in assets/ as wi-<suit>-NN.jpg (optimised ~800px), where suit ∈
+  {major, wands, cups, swords, pentacles}. They are emitted into window.ALL_CARDS
+  below as {src, suit} objects and preloaded for smooth flips. To add/remove cards,
+  drop new wi-<suit>-NN.jpg files in assets/ and update the lists below.
 
   Only this section owns the .wi-* namespace; nothing else on the page is touched.
 {% endcomment %}
 
 {%- liquid
-  assign card_count = section.settings.card_count | default: 78
+  # Curated card set, grouped by suit family. Filenames live in assets/.
+  assign major_files = 'wi-major-01.jpg,wi-major-02.jpg,wi-major-03.jpg,wi-major-04.jpg,wi-major-05.jpg' | split: ','
+  assign wands_files = 'wi-wands-01.jpg,wi-wands-02.jpg,wi-wands-03.jpg' | split: ','
+  assign cups_files = 'wi-cups-01.jpg,wi-cups-02.jpg,wi-cups-03.jpg' | split: ','
+  assign swords_files = 'wi-swords-01.jpg,wi-swords-02.jpg,wi-swords-03.jpg' | split: ','
+  assign pentacles_files = 'wi-pentacles-01.jpg,wi-pentacles-02.jpg,wi-pentacles-03.jpg' | split: ','
 -%}
 
 {%- style -%}
@@ -84,22 +92,37 @@
   .wi-spec__label {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.3px;
     color: #6b6b66;
     margin: 0 0 6px;
   }
+  /* Star icon before each spec label. Alternates star / star2 across the 6 items
+     and rotates/flips each instance so none look identical. Same footprint +
+     position as the old dot (first flex child, 7px gap, vertically centred). */
   .wi-spec__label::before {
     content: "";
     flex-shrink: 0;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fce206;
+    width: 19px;
+    height: 19px;
+    background: url("{{ 'wi-star.png' | asset_url }}") center / contain no-repeat;
     display: inline-block;
   }
+  /* even items use star2 */
+  .wi-spec:nth-child(2) .wi-spec__label::before,
+  .wi-spec:nth-child(4) .wi-spec__label::before,
+  .wi-spec:nth-child(6) .wi-spec__label::before {
+    background-image: url("{{ 'wi-star2.png' | asset_url }}");
+  }
+  /* per-item rotation / flip for variety */
+  .wi-spec:nth-child(1) .wi-spec__label::before { transform: rotate(-8deg); }
+  .wi-spec:nth-child(2) .wi-spec__label::before { transform: rotate(11deg); }
+  .wi-spec:nth-child(3) .wi-spec__label::before { transform: rotate(6deg) scaleX(-1); }
+  .wi-spec:nth-child(4) .wi-spec__label::before { transform: rotate(-13deg); }
+  .wi-spec:nth-child(5) .wi-spec__label::before { transform: rotate(15deg); }
+  .wi-spec:nth-child(6) .wi-spec__label::before { transform: rotate(-6deg) scaleX(-1); }
   .wi-spec__value {
     font-size: 16px;
     font-weight: 600;
@@ -139,14 +162,15 @@
 
 <section class="wi-section">
   <div class="wi-inner">
-    <h2 class="wi-title">{{ section.settings.title | default: "What's inside?" | escape }}</h2>
+    <h2 class="wi-title">{{ section.settings.title | default: "Meet the cards" | escape }}</h2>
 
     <div class="wi-row" id="wi-row">
-      {%- for i in (1..4) -%}
-        {%- if i < 10 -%}{%- assign num = i | prepend: '0' -%}{%- else -%}{%- assign num = i | append: '' -%}{%- endif -%}
-        {%- assign fname = 'card-' | append: num | append: '.jpg' -%}
+      {%- comment -%} Initial paint: four DIFFERENT suits so no two neighbours match. {%- endcomment -%}
+      {%- assign init_files = major_files[0] | append: ',' | append: wands_files[0] | append: ',' | append: cups_files[0] | append: ',' | append: swords_files[0] | split: ',' -%}
+      {%- assign init_suits = 'major,wands,cups,swords' | split: ',' -%}
+      {%- for fname in init_files -%}
         <div class="wi-card">
-          <img src="{{ fname | asset_url }}" alt="" width="800" height="1314" loading="lazy" decoding="async">
+          <img src="{{ fname | asset_url }}" alt="" data-suit="{{ init_suits[forloop.index0] }}" width="800" height="1314" loading="lazy" decoding="async">
         </div>
       {%- endfor -%}
     </div>
@@ -166,10 +190,18 @@
 
 <script>
   window.ALL_CARDS = [
-    {%- for i in (1..card_count) -%}
-      {%- if i < 10 -%}{%- assign num = i | prepend: '0' -%}{%- else -%}{%- assign num = i | append: '' -%}{%- endif -%}
-      {%- assign fname = 'card-' | append: num | append: '.jpg' -%}
-      "{{ fname | asset_url }}"{%- unless forloop.last -%},{%- endunless -%}
+    {%- assign suit_keys = 'major,wands,cups,swords,pentacles' | split: ',' -%}
+    {%- for key in suit_keys -%}
+      {%- case key -%}
+        {%- when 'major' -%}{%- assign files = major_files -%}
+        {%- when 'wands' -%}{%- assign files = wands_files -%}
+        {%- when 'cups' -%}{%- assign files = cups_files -%}
+        {%- when 'swords' -%}{%- assign files = swords_files -%}
+        {%- when 'pentacles' -%}{%- assign files = pentacles_files -%}
+      {%- endcase -%}
+      {%- for fname in files -%}
+        { "src": "{{ fname | asset_url }}", "suit": "{{ key }}" }{%- unless forloop.last and forloop.parentloop.last -%},{%- endunless -%}
+      {%- endfor -%}
     {%- endfor -%}
   ];
 </script>
@@ -179,40 +211,71 @@
     var row = document.getElementById('wi-row');
     if (!row || !window.ALL_CARDS || !window.ALL_CARDS.length) return;
 
-    var ALL = window.ALL_CARDS;
+    var ALL = window.ALL_CARDS;                          // [{ src, suit }]
+    var suitOf = {};
+    ALL.forEach(function (c) { suitOf[c.src] = c.suit; });
+
     var cards = Array.prototype.slice.call(row.querySelectorAll('.wi-card'));
     var imgs = cards.map(function (c) { return c.querySelector('img'); });
     var current = imgs.map(function (img) { return img.getAttribute('src'); });
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Preload the whole deck so flips never wait on the network.
-    ALL.forEach(function (src) { var im = new Image(); im.src = src; });
+    // Preload the curated set so flips never wait on the network.
+    ALL.forEach(function (c) { var im = new Image(); im.src = c.src; });
 
     function randInt(min, max) { return Math.floor(min + Math.random() * (max - min)); }
+    function suitAt(i) { return suitOf[current[i]]; }
 
     function isVisible(i) {
       return cards[i] && window.getComputedStyle(cards[i]).display !== 'none';
     }
 
-    // Cards currently shown in VISIBLE slots only — exclude these so the visible
-    // row is always all-different. Hidden slots don't reserve images, so a lone
-    // card (mobile) can cycle through the whole deck.
-    function visibleCurrents() {
-      var used = [];
-      for (var k = 0; k < cards.length; k++) {
-        if (isVisible(k)) used.push(current[k]);
-      }
-      return used;
+    // Visible slot indices in DOM order, so we can find a slot's left/right neighbours.
+    function visibleIndices() {
+      var out = [];
+      for (var k = 0; k < cards.length; k++) { if (isVisible(k)) out.push(k); }
+      return out;
     }
-    function pickNew() {
-      var used = visibleCurrents();
-      var pool = ALL.filter(function (src) { return used.indexOf(src) === -1; });
+
+    // Pick a new card for slot i under the "no similar neighbours" rule:
+    //   - never repeat a src already on screen (incl. this slot);
+    //   - never match the suit of the visible left/right neighbours (spatial);
+    //   - never repeat this slot's own current suit (temporal — this is what keeps
+    //     the lone mobile card from showing the same suit twice in a row).
+    // Constraints relax in order (own-suit → neighbour-suit → src-only) so a small
+    // curated set can never deadlock a flip.
+    function pickFor(i) {
+      var vis = visibleIndices();
+      var pos = vis.indexOf(i);
+
+      var usedSrcs = [];
+      vis.forEach(function (k) { usedSrcs.push(current[k]); });
+
+      var neighbourSuits = [];
+      if (pos > 0) neighbourSuits.push(suitAt(vis[pos - 1]));
+      if (pos !== -1 && pos < vis.length - 1) neighbourSuits.push(suitAt(vis[pos + 1]));
+
+      var ownSuit = suitAt(i);
+
+      function candidates(useOwn, useNeighbours) {
+        return ALL.filter(function (c) {
+          if (usedSrcs.indexOf(c.src) !== -1) return false;
+          if (useOwn && c.suit === ownSuit) return false;
+          if (useNeighbours && neighbourSuits.indexOf(c.suit) !== -1) return false;
+          return true;
+        });
+      }
+
+      var pool = candidates(true, true);
+      if (!pool.length) pool = candidates(false, true);
+      if (!pool.length) pool = candidates(true, false);
+      if (!pool.length) pool = ALL.filter(function (c) { return usedSrcs.indexOf(c.src) === -1; });
       if (!pool.length) pool = ALL;
-      return pool[Math.floor(Math.random() * pool.length)];
+      return pool[Math.floor(Math.random() * pool.length)].src;
     }
 
     function swap(i) {
-      var next = pickNew();
+      var next = pickFor(i);
       current[i] = next;
       imgs[i].setAttribute('src', next);
     }
@@ -291,22 +354,13 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "What's inside?"
+      "default": "Meet the cards"
     },
     {
       "type": "color",
       "id": "background",
       "label": "Background",
       "default": "#FFFEF7"
-    },
-    {
-      "type": "range",
-      "id": "card_count",
-      "label": "Number of card images in assets (card-01.jpg…)",
-      "min": 1,
-      "max": 100,
-      "step": 1,
-      "default": 78
     },
     {
       "type": "textarea",
