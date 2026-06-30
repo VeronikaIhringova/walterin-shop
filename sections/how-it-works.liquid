@@ -1,12 +1,13 @@
 {% comment %}
   "How it works" — the nine-frame path.
 
-  Full-bleed dark, hero-scale section (generous top/bottom padding so it reads as
-  standalone). Two columns: a LARGE real card image (left) + headline & body (right).
+  Full-bleed, hero-scale section (generous top/bottom padding so it reads as
+  standalone). Two columns: a LARGE card image (left) + headline & body (right).
   No eyebrow. Canonical concept name used across the page: "nine-frame path".
 
-  The card defaults to an actual deck asset (card-01.jpg = The Fool, a clear 9-frame
-  card); a custom image picker overrides it if set.
+  Background defaults to assets/hiw-bg.jpg (light textured paper) so the copy is set
+  in ink for contrast; the card defaults to assets/hiw-card.jpg (the nine-frame-path
+  diagram). Both have asset-filename + custom image-picker settings.
 {% endcomment %}
 
 {%- liquid
@@ -15,16 +16,31 @@
     assign card_w = 1000
     assign card_h = 1640
   else
-    assign card_asset = section.settings.card_asset | default: 'card-01.jpg'
+    assign card_asset = section.settings.card_asset | default: 'hiw-card.jpg'
     assign card_src = card_asset | asset_url
     assign card_w = 800
     assign card_h = 1314
+  endif
+
+  if section.settings.background_image != blank
+    assign bg_src = section.settings.background_image | image_url: width: 2400
+  else
+    assign bg_asset = section.settings.background_asset | default: 'hiw-bg.jpg'
+    assign bg_src = bg_asset | asset_url
   endif
 -%}
 
 {%- style -%}
   .hiw-section {
-    background: {{ section.settings.background | default: '#1a1916' }};
+    /* Dark treatment: keep the hiw-bg.jpg paper texture but darken it so cream
+       copy reads clearly (overlay opacity tunable). */
+    background-color: {{ section.settings.background | default: '#1a1916' }};
+    background-image:
+      linear-gradient(rgba(20, 19, 17, 0.82), rgba(20, 19, 17, 0.82)),
+      url("{{ bg_src }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: clamp(80px, 11vw, 150px) 24px;
   }
   .hiw-inner {
@@ -33,37 +49,53 @@
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: clamp(44px, 6vw, 100px);
-    align-items: center;
+    align-items: start;
   }
   .hiw-card {
     width: 100%;
-    max-width: 480px;
+    max-width: 466px;
     justify-self: center;
     margin: 0;
+    border-radius: 12px;
+    will-change: transform;
   }
   .hiw-card img {
     width: 100%;
     height: auto;
     display: block;
     border-radius: 12px;
-    box-shadow: 0 34px 80px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.3s ease;
+  }
+  .hiw-card:hover img {
+    box-shadow: 0 44px 92px rgba(0, 0, 0, 0.55);
   }
   .hiw-title {
+    /* Unified with the page's theme h1 (matches main title + About Walterin) */
     font-family: "WalterinBold", sans-serif;
-    color: #fffef7;
-    font-size: clamp(36px, 4.8vw, 62px);
+    color: rgb(var(--color-base-background-1, 255, 253, 247));
+    font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
     line-height: 1.08;
     letter-spacing: 0.4px;
     margin: 0 0 30px;
   }
+  .hiw-title .hiw-nowrap { white-space: nowrap; }
+  @media (min-width: 750px) {
+    .hiw-title { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
+  }
   .hiw-body p {
-    color: rgba(255, 254, 247, 0.74);
+    color: rgba(255, 253, 247, 0.78);
     font-size: clamp(16px, 1.4vw, 19px);
     line-height: 1.75;
     margin: 0 0 20px;
     max-width: 48ch;
   }
   .hiw-body p:last-child { margin-bottom: 0; }
+  .hiw-body strong {
+    color: rgb(var(--color-base-background-1, 255, 253, 247));
+    font-weight: 700;
+  }
+  .hiw-body em { font-style: italic; }
 
   @media (max-width: 900px) {
     .hiw-inner {
@@ -71,8 +103,9 @@
       gap: 44px;
       justify-items: center;
       text-align: center;
+      align-items: center;
     }
-    .hiw-card { max-width: 380px; }
+    .hiw-card { max-width: 340px; }
     .hiw-body p { margin-left: auto; margin-right: auto; }
   }
 {%- endstyle -%}
@@ -90,14 +123,50 @@
       >
     </figure>
     <div class="hiw-text">
-      <h2 class="hiw-title">{{ section.settings.title | default: 'Every card is a nine-frame path' | escape }}</h2>
+      {%- assign hiw_title = section.settings.title | default: 'Every card is a nine-frame path' -%}
+      <h2 class="hiw-title">
+        {%- if hiw_title == 'Every card is a nine-frame path' -%}
+          Every card is a<br><span class="hiw-nowrap">nine-frame path</span>
+        {%- else -%}
+          {{ hiw_title | escape }}
+        {%- endif -%}
+      </h2>
       <div class="hiw-body">
-        <p>{{ section.settings.paragraph_1 | default: 'Inspired by the original Rider–Waite, then redrawn the Walterin way: instead of one image, each card unfolds across nine frames. Look at the picture first. Then read the words.' | escape }}</p>
-        <p>{{ section.settings.paragraph_2 | default: 'The cards do not hand you finished answers. They help you hear what usually stays quiet.' | escape }}</p>
+        <p>{{ section.settings.paragraph_1 }}</p>
+        <p>{{ section.settings.paragraph_2 }}</p>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    var card = document.querySelector('.section-how-it-works .hiw-card');
+    if (!card) card = document.querySelector('.hiw-card');
+    if (!card) return;
+    // Skip the lift on touch / reduced-motion (CSS still does the shadow glow).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    function bind(gsap) {
+      card.addEventListener('mouseenter', function () {
+        gsap.to(card, { y: -8, scale: 1.02, duration: 0.3, ease: 'power2.out' });
+      });
+      card.addEventListener('mouseleave', function () {
+        gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: 'power2.out' });
+      });
+    }
+
+    if (window.gsap) {
+      bind(window.gsap);
+    } else {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+      s.onload = function () { if (window.gsap) bind(window.gsap); };
+      document.head.appendChild(s); // graceful: no lift if blocked; CSS glow remains
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -112,16 +181,16 @@
       "default": "Every card is a nine-frame path"
     },
     {
-      "type": "textarea",
+      "type": "inline_richtext",
       "id": "paragraph_1",
       "label": "Paragraph 1",
-      "default": "Inspired by the original Rider–Waite, then redrawn the Walterin way: instead of one image, each card unfolds across nine frames. Look at the picture first. Then read the words."
+      "default": "Inspired by the original <strong>Rider–Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words."
     },
     {
-      "type": "textarea",
+      "type": "inline_richtext",
       "id": "paragraph_2",
       "label": "Paragraph 2",
-      "default": "The cards do not hand you finished answers. They help you hear what usually stays quiet."
+      "default": "The cards do not hand you <strong>finished answers</strong>. They help you hear <em>what usually stays quiet</em>."
     },
     {
       "type": "header",
@@ -131,8 +200,8 @@
       "type": "text",
       "id": "card_asset",
       "label": "Card asset filename (in assets/)",
-      "info": "Used when no custom image is chosen. e.g. card-01.jpg",
-      "default": "card-01.jpg"
+      "info": "Used when no custom image is chosen. e.g. hiw-card.jpg",
+      "default": "hiw-card.jpg"
     },
     {
       "type": "image_picker",
@@ -143,7 +212,7 @@
       "type": "text",
       "id": "card_alt",
       "label": "Card image alt text",
-      "default": "A Walterin tarot card showing its nine-frame path"
+      "default": "The Walterin nine-frame path"
     },
     {
       "type": "header",
@@ -152,8 +221,20 @@
     {
       "type": "color",
       "id": "background",
-      "label": "Background",
-      "default": "#1A1916"
+      "label": "Background colour (fallback behind the image)",
+      "default": "#E9E7DF"
+    },
+    {
+      "type": "text",
+      "id": "background_asset",
+      "label": "Background asset filename (in assets/)",
+      "info": "Used when no custom background image is chosen. e.g. hiw-bg.jpg",
+      "default": "hiw-bg.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Custom background image (overrides the asset above)"
     }
   ],
   "presets": [

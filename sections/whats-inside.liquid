@@ -26,14 +26,18 @@
     margin: 0 auto;
   }
   .wi-title {
+    /* Unified with the page's theme h1 (matches main title + About Walterin) */
     font-family: "WalterinBold", sans-serif;
     text-transform: uppercase;
-    font-size: clamp(34px, 5vw, 56px);
+    font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
     letter-spacing: 0.6px;
     line-height: 1.05;
     text-align: center;
     color: #222;
     margin: 0 0 58px;
+  }
+  @media (min-width: 750px) {
+    .wi-title { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
   }
 
   /* Card row */
@@ -43,12 +47,15 @@
     gap: 32px;
     perspective: 1600px;
   }
+  /* No inner padding: the card art already carries its own white border, so an
+     extra uniform pad would narrow the inner box's aspect vs the image (0.554 vs
+     0.609) and make object-fit:cover crop the sides. Edge-to-edge = no crop. */
   .wi-card {
     box-sizing: border-box;
     aspect-ratio: 84 / 138;
     background: #fff;
-    border-radius: 18px;
-    padding: 10px;
+    border-radius: 14px;
+    overflow: hidden;
     box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16);
     transform-style: preserve-3d;
     will-change: transform;
@@ -57,12 +64,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: inherit;
     display: block;
     backface-visibility: hidden;
   }
 
-  /* Spec panel */
+  /* Spec panel — 6 cells, 3 columns */
   .wi-specs {
     margin-top: 80px;
     background: #fff;
@@ -70,16 +77,16 @@
     border-radius: 22px;
     overflow: hidden;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .wi-spec {
-    padding: 32px;
+    padding: 30px 32px;
     border-top: 1px solid #e6e4da;
     border-left: 1px solid #e6e4da;
   }
-  /* 4-col: drop the top row's top border and the first column's left border */
-  .wi-spec:nth-child(-n + 4) { border-top: 0; }
-  .wi-spec:nth-child(4n + 1) { border-left: 0; }
+  /* 3-col: drop the top row's top border and the first column's left border */
+  .wi-spec:nth-child(-n + 3) { border-top: 0; }
+  .wi-spec:nth-child(3n + 1) { border-left: 0; }
 
   .wi-spec__label {
     display: flex;
@@ -89,7 +96,7 @@
     text-transform: uppercase;
     letter-spacing: 1.3px;
     color: #6b6b66;
-    margin: 0 0 8px;
+    margin: 0 0 9px;
   }
   .wi-spec__label::before {
     content: "";
@@ -108,23 +115,24 @@
     line-height: 1.35;
   }
 
-  /* Tablet: 3 cards, 2-col spec grid */
+  /* Tablet: 2 cards, 2-col spec grid */
   @media (max-width: 900px) {
-    .wi-inner { max-width: calc(240px * 3 + 30px * 2); }
-    .wi-row { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .wi-inner { max-width: calc(290px * 2 + 32px); }
+    .wi-row { grid-template-columns: repeat(2, 1fr); }
+    .wi-card:nth-child(3),
     .wi-card:nth-child(4) { display: none; }
   }
   @media (max-width: 820px) {
     .wi-specs { grid-template-columns: repeat(2, 1fr); }
-    .wi-spec:nth-child(-n + 4) { border-top: 1px solid #e6e4da; }
-    .wi-spec:nth-child(4n + 1) { border-left: 1px solid #e6e4da; }
+    .wi-spec { border-top: 1px solid #e6e4da; border-left: 1px solid #e6e4da; }
     .wi-spec:nth-child(-n + 2) { border-top: 0; }
     .wi-spec:nth-child(2n + 1) { border-left: 0; }
   }
-  /* Mobile: 2 cards, tighter gap */
+  /* Mobile: 1 large card (cycles through the whole deck via the flip JS) */
   @media (max-width: 560px) {
-    .wi-inner { max-width: calc(170px * 2 + 18px); }
-    .wi-row { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .wi-inner { max-width: 320px; }
+    .wi-row { grid-template-columns: 1fr; gap: 0; }
+    .wi-card:nth-child(2),
     .wi-card:nth-child(3),
     .wi-card:nth-child(4) { display: none; }
   }
@@ -149,8 +157,8 @@
     </div>
 
     <div class="wi-specs">
-      {%- assign labels = section.settings.spec_labels | default: 'Cards|Structure|Size|Print|Material|Finish|Each card|Edition' | split: '|' -%}
-      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-frame path|First launch · 100' | split: '|' -%}
+      {%- assign labels = section.settings.spec_labels | default: 'Cards|Structure|Size|Print|Material|Finish' | split: '|' -%}
+      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte' | split: '|' -%}
       {%- for label in labels -%}
         <div class="wi-spec">
           <p class="wi-spec__label">{{ label }}</p>
@@ -187,9 +195,23 @@
 
     function randInt(min, max) { return Math.floor(min + Math.random() * (max - min)); }
 
-    // Pick a card not currently shown in ANY slot, so the row is always all-different.
+    function isVisible(i) {
+      return cards[i] && window.getComputedStyle(cards[i]).display !== 'none';
+    }
+
+    // Cards currently shown in VISIBLE slots only — exclude these so the visible
+    // row is always all-different. Hidden slots don't reserve images, so a lone
+    // card (mobile) can cycle through the whole deck.
+    function visibleCurrents() {
+      var used = [];
+      for (var k = 0; k < cards.length; k++) {
+        if (isVisible(k)) used.push(current[k]);
+      }
+      return used;
+    }
     function pickNew() {
-      var pool = ALL.filter(function (src) { return current.indexOf(src) === -1; });
+      var used = visibleCurrents();
+      var pool = ALL.filter(function (src) { return used.indexOf(src) === -1; });
       if (!pool.length) pool = ALL;
       return pool[Math.floor(Math.random() * pool.length)];
     }
@@ -206,6 +228,9 @@
     }
 
     function flip(i, gsap) {
+      // Skip hidden slots (tablet/mobile): no animation, just keep a light
+      // heartbeat so they auto-resume if the viewport later reveals them.
+      if (!isVisible(i)) { scheduleNext(i, gsap); return; }
       if (!gsap || reduce) {
         // Reduced motion / no GSAP: just swap (optionally crossfade), keep timers.
         if (gsap) {
@@ -292,13 +317,13 @@
       "type": "textarea",
       "id": "spec_labels",
       "label": "Spec labels (pipe | separated)",
-      "default": "Cards|Structure|Size|Print|Material|Finish|Each card|Edition"
+      "default": "Cards|Structure|Size|Print|Material|Finish"
     },
     {
       "type": "textarea",
       "id": "spec_values",
       "label": "Spec values (pipe | separated, same order)",
-      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-frame path|First launch · 100"
+      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte"
     }
   ],
   "presets": [
