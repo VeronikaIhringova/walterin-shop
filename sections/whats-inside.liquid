@@ -150,7 +150,7 @@
 
     <div class="wi-specs">
       {%- assign labels = section.settings.spec_labels | default: 'Cards|Structure|Size|Print|Material|Finish|Each card|Edition' | split: '|' -%}
-      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-panel comic|First launch · 100' | split: '|' -%}
+      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-frame path|First launch · 100' | split: '|' -%}
       {%- for label in labels -%}
         <div class="wi-spec">
           <p class="wi-spec__label">{{ label }}</p>
@@ -298,7 +298,7 @@
       "type": "textarea",
       "id": "spec_values",
       "label": "Spec values (pipe | separated, same order)",
-      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-panel comic|First launch · 100"
+      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte|Nine-frame path|First launch · 100"
     }
   ],
   "presets": [

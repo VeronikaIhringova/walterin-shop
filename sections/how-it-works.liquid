@@ -1,0 +1,163 @@
+{% comment %}
+  "How it works" — the nine-frame path.
+
+  Full-bleed dark, hero-scale section (generous top/bottom padding so it reads as
+  standalone). Two columns: a LARGE real card image (left) + headline & body (right).
+  No eyebrow. Canonical concept name used across the page: "nine-frame path".
+
+  The card defaults to an actual deck asset (card-01.jpg = The Fool, a clear 9-frame
+  card); a custom image picker overrides it if set.
+{% endcomment %}
+
+{%- liquid
+  if section.settings.card_image != blank
+    assign card_src = section.settings.card_image | image_url: width: 1000
+    assign card_w = 1000
+    assign card_h = 1640
+  else
+    assign card_asset = section.settings.card_asset | default: 'card-01.jpg'
+    assign card_src = card_asset | asset_url
+    assign card_w = 800
+    assign card_h = 1314
+  endif
+-%}
+
+{%- style -%}
+  .hiw-section {
+    background: {{ section.settings.background | default: '#1a1916' }};
+    padding: clamp(80px, 11vw, 150px) 24px;
+  }
+  .hiw-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(44px, 6vw, 100px);
+    align-items: center;
+  }
+  .hiw-card {
+    width: 100%;
+    max-width: 480px;
+    justify-self: center;
+    margin: 0;
+  }
+  .hiw-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 34px 80px rgba(0, 0, 0, 0.5);
+  }
+  .hiw-title {
+    font-family: "WalterinBold", sans-serif;
+    color: #fffef7;
+    font-size: clamp(36px, 4.8vw, 62px);
+    line-height: 1.08;
+    letter-spacing: 0.4px;
+    margin: 0 0 30px;
+  }
+  .hiw-body p {
+    color: rgba(255, 254, 247, 0.74);
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.75;
+    margin: 0 0 20px;
+    max-width: 48ch;
+  }
+  .hiw-body p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .hiw-inner {
+      grid-template-columns: 1fr;
+      gap: 44px;
+      justify-items: center;
+      text-align: center;
+    }
+    .hiw-card { max-width: 380px; }
+    .hiw-body p { margin-left: auto; margin-right: auto; }
+  }
+{%- endstyle -%}
+
+<section class="hiw-section">
+  <div class="hiw-inner">
+    <figure class="hiw-card">
+      <img
+        src="{{ card_src }}"
+        alt="{{ section.settings.card_alt | default: 'A Walterin tarot card showing its nine-frame path' | escape }}"
+        width="{{ card_w }}"
+        height="{{ card_h }}"
+        loading="lazy"
+        decoding="async"
+      >
+    </figure>
+    <div class="hiw-text">
+      <h2 class="hiw-title">{{ section.settings.title | default: 'Every card is a nine-frame path' | escape }}</h2>
+      <div class="hiw-body">
+        <p>{{ section.settings.paragraph_1 | default: 'Inspired by the original Rider–Waite, then redrawn the Walterin way: instead of one image, each card unfolds across nine frames. Look at the picture first. Then read the words.' | escape }}</p>
+        <p>{{ section.settings.paragraph_2 | default: 'The cards do not hand you finished answers. They help you hear what usually stays quiet.' | escape }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "section",
+  "class": "section-how-it-works",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline",
+      "default": "Every card is a nine-frame path"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "Inspired by the original Rider–Waite, then redrawn the Walterin way: instead of one image, each card unfolds across nine frames. Look at the picture first. Then read the words."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "The cards do not hand you finished answers. They help you hear what usually stays quiet."
+    },
+    {
+      "type": "header",
+      "content": "Card image"
+    },
+    {
+      "type": "text",
+      "id": "card_asset",
+      "label": "Card asset filename (in assets/)",
+      "info": "Used when no custom image is chosen. e.g. card-01.jpg",
+      "default": "card-01.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_image",
+      "label": "Custom card image (overrides the asset above)"
+    },
+    {
+      "type": "text",
+      "id": "card_alt",
+      "label": "Card image alt text",
+      "default": "A Walterin tarot card showing its nine-frame path"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#1A1916"
+    }
+  ],
+  "presets": [
+    { "name": "How it works" }
+  ]
+}
+{% endschema %}

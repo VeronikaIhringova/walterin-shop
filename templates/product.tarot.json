@@ -424,6 +424,11 @@
       "settings": {
       }
     },
+    "how_it_works": {
+      "type": "how-it-works",
+      "settings": {
+      }
+    },
     "related-products": {
       "type": "related-products",
       "disabled": true,
@@ -662,6 +667,7 @@
     "image_banner_c7Jm7N",
     "blocks_CB9c6w",
     "whats_inside_cards",
+    "how_it_works",
     "176234031265070326",
     "17622621157ec0b48f",
     "related-products",
