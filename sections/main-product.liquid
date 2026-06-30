@@ -129,10 +129,18 @@
               </div>
             {%- when 'price' -%}
               <div class="no-js-hidden product-page-price" id="price-{{ section.id }}" style="--margin-top: {{ block.settings.margin_top | divided_by: 10.0 }}rem;--margin-bottom: {{ block.settings.margin_bottom | divided_by: 10.0 }}rem;" role="status" {{ block.shopify_attributes }}>
-                {% liquid 
+                {% liquid
                   assign price_second = false
                   if block.settings.layout == 'price_second'
                     assign price_second = true
+                  endif
+                  capture pp_state
+                    render 'product-state', product: product
+                  endcapture
+                  assign pp_state = pp_state | strip
+                  assign hide_sold_out = false
+                  if pp_state == 'coming_soon'
+                    assign hide_sold_out = true
                   endif
                 %}
                 {%- render 'price',
@@ -140,6 +148,7 @@
                   block: block,
                   use_variant: true,
                   show_badges: true,
+                  hide_sold_out: hide_sold_out,
                   hide_sale_badge: block.settings.hide_sale_badge,
                   price_class: 'price--large',
                   price_second: price_second,
@@ -358,10 +367,21 @@
                       {% endif %}
                       {%- if block.settings.mobile_show_price or block.settings.desktop_show_price -%}
                         <div class='sticky-atc__price{% unless block.settings.mobile_show_price %} mobile-hidden{% endunless %}{% unless block.settings.desktop_show_price %} desktop-hidden{% endunless %}' id="atc-price-{{ section.id }}">
+                          {%- liquid
+                            capture sticky_state
+                              render 'product-state', product: product
+                            endcapture
+                            assign sticky_state = sticky_state | strip
+                            assign sticky_hide_sold_out = false
+                            if sticky_state == 'coming_soon'
+                              assign sticky_hide_sold_out = true
+                            endif
+                          -%}
                           {%- render 'price',
                             product: product,
                             use_variant: true,
                             show_badges: block.settings.show_price_badge,
+                            hide_sold_out: sticky_hide_sold_out,
                             price_class: '',
                             hide_currency_code: true
                           -%}
