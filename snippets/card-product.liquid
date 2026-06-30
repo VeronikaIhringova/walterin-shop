@@ -39,6 +39,23 @@
   -%}
   {%- capture product_state -%}{%- render 'product-state', product: card_product -%}{%- endcapture -%}
   {%- assign product_state = product_state | strip -%}
+  {%- comment -%} Coming-soon cards show a clean price: no sold-out strikethrough/dimming (mirrors main-product.liquid). {%- endcomment -%}
+  {%- assign card_hide_sold_out = false -%}
+  {%- if product_state == 'coming_soon' -%}
+    {%- assign card_hide_sold_out = true -%}
+  {%- endif -%}
+  {%- comment -%}
+    Manual per-product marketing label (Rhode-style corner badge): "Limited", "New",
+    "Only at Walterin", etc. Set per product with a tag like `badge:Limited` so Veronka
+    can change it from the Shopify admin without touching code. First matching tag wins.
+  {%- endcomment -%}
+  {%- assign card_badge_label = '' -%}
+  {%- for product_tag in card_product.tags -%}
+    {%- if product_tag contains 'badge:' -%}
+      {%- assign card_badge_label = product_tag | remove_first: 'badge:' | strip -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
   {%- if show_quick_view -%}
     <quick-view-card data-section-id="{{ section_id }}" data-product-id="{{ card_product.id }}">
   {%- endif -%}
@@ -107,6 +124,9 @@
               {%- endif -%}
             </div>
           </div>
+        {%- endif -%}
+        {%- if card_badge_label != blank -%}
+          <span class="card__marketing-badge">{{ card_badge_label | escape }}</span>
         {%- endif -%}
         <div class="card__content">
           <div class="card__information">
@@ -181,43 +201,51 @@
 
             <span class="caption-large light">{{ block.settings.description | escape }}</span>
 
-            {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
-              {% liquid
-                assign rating_decimal = 0
-                assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
-                if decimal >= 0.3 and decimal <= 0.7
-                  assign rating_decimal = 0.5
-                elsif decimal > 0.7
-                  assign rating_decimal = 1
-                endif
-              %}
-              <div
-                class="rating"
-                role="img"
-                aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}"
-              >
-                <span
-                  aria-hidden="true"
-                  class="rating-star color-icon-{{ settings.accent_icons }}"
-                  style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
-                ></span>
+            {%- comment -%}
+              Rating row reserves identical vertical space on every card so the grid stays even.
+              When a product has 0 reviews the row renders empty (no grey stars, no "no reviews" line).
+            {%- endcomment -%}
+            {%- if show_rating -%}
+              <div class="card__rating-row">
+                {%- if card_product.metafields.reviews.rating.value != blank -%}
+                  {% liquid
+                    assign rating_decimal = 0
+                    assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
+                    if decimal >= 0.3 and decimal <= 0.7
+                      assign rating_decimal = 0.5
+                    elsif decimal > 0.7
+                      assign rating_decimal = 1
+                    endif
+                  %}
+                  <div
+                    class="rating"
+                    role="img"
+                    aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="rating-star color-icon-{{ settings.accent_icons }}"
+                      style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
+                    ></span>
+                  </div>
+                  <p class="rating-text caption">
+                    <span aria-hidden="true">
+                      {{- card_product.metafields.reviews.rating.value }} /
+                      {{ card_product.metafields.reviews.rating.value.scale_max -}}
+                    </span>
+                  </p>
+                  <p class="rating-count caption">
+                    <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
+                    <span class="visually-hidden">
+                      {{- card_product.metafields.reviews.rating_count }}
+                      {{ 'accessibility.total_reviews' | t -}}
+                    </span>
+                  </p>
+                {%- endif -%}
               </div>
-              <p class="rating-text caption">
-                <span aria-hidden="true">
-                  {{- card_product.metafields.reviews.rating.value }} /
-                  {{ card_product.metafields.reviews.rating.value.scale_max -}}
-                </span>
-              </p>
-              <p class="rating-count caption">
-                <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
-                <span class="visually-hidden">
-                  {{- card_product.metafields.reviews.rating_count }}
-                  {{ 'accessibility.total_reviews' | t -}}
-                </span>
-              </p>
             {%- endif -%}
 
-            {% render 'price', product: card_product, price_class: '', hide_currency_code: true %}
+            {% render 'price', product: card_product, price_class: '', hide_currency_code: true, hide_sold_out: card_hide_sold_out %}
           </div>
         </div>
         {%- if show_quick_add and show_quick_view != true -%}

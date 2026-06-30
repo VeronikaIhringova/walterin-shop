@@ -3,6 +3,25 @@
   margin: 0;
 }
 
+/*
+ * Reserves a fixed-height row for the star rating on product cards so every
+ * card is the same height whether or not the product has reviews yet.
+ * Empty state renders nothing — the space is simply held open.
+ */
+.card__rating-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.6rem;
+  min-height: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.card__rating-row .rating,
+.card__rating-row .rating-count {
+  line-height: 1;
+}
+
 .product .rating-star {
   --letter-spacing: 0.8;
   --font-size: 1.7;
