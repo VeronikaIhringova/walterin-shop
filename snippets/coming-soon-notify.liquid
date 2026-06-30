@@ -6,6 +6,12 @@
   - 'sold_out'    -> nothing (the disabled "Sold Out" button in buy-buttons covers it)
   - 'available'   -> nothing
 
+  Presentation matches website-redesign/notify-modal-redesign-prototype.html.
+  The form wiring is intentionally unchanged: a server-side {% raw %}{% form 'customer' %}{% endraw %}
+  POST (contact[email] / contact[accepts_marketing] / contact[tags]) that reloads
+  the page; on success the modal re-opens and shows the animated confirmation.
+  All user-facing copy routes through locales so SK/EN parity is preserved.
+
   Accepts:
   - product: {Object} product object (required)
 
@@ -16,120 +22,290 @@
 {%- assign product_state = product_state | strip -%}
 
 {%- if product_state == 'coming_soon' -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
   {%- style -%}
     product-form.product-form { display: none !important; }
     sticky-atc.sticky-atc { display: none !important; }
 
     .notify-overlay {
+      --nm-ink: #222222;
+      --nm-cream: #fffef7;
+      --nm-panel: #f3f2ef;
+      --nm-yellow: #fce206;
+      --nm-yellow-press: #e6ce00;
+      --nm-muted: #6b6b66;
+      --nm-line: #e6e4da;
+      --nm-ui-font: "Inter", "Helvetica Neue", helvetica, sans-serif;
+
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
       z-index: 9999;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
     }
     .notify-overlay.open { display: flex; }
+
     .notify-modal {
-      background: #fff;
-      max-width: 680px;
-      width: 90%;
-      display: flex;
-      border-radius: 4px;
+      box-sizing: border-box;
+      width: min(880px, 94vw);
+      max-height: 94vh;
       overflow: hidden;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
+      display: grid;
+      grid-template-columns: 46% 54%;
       position: relative;
     }
+
+    /* Left image pane */
+    .notify-modal__image-pane {
+      position: relative;
+      min-height: 520px;
+      background: var(--nm-panel);
+    }
     .notify-modal__image {
-      width: 45%;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
+
+    /* Right body pane */
     .notify-modal__body {
-      padding: 2.5rem 2rem;
-      flex: 1;
+      box-sizing: border-box;
+      padding: 52px 48px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
+      font-family: var(--nm-ui-font);
+      color: var(--nm-ink);
+      overflow-y: auto;
     }
+
     .notify-modal__close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
+      top: 18px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: none;
-      font-size: 1.5rem;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--nm-ink);
       cursor: pointer;
-      color: #333;
-      line-height: 1;
+      padding: 0;
+      transition: background 0.2s ease;
     }
-    .notify-modal__title {
-      font-family: var(--font-heading-family);
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .notify-modal__close:hover { background: var(--nm-panel); }
+    .notify-modal__close svg { width: 20px; height: 20px; display: block; }
+
+    .notify-modal__eyebrow {
+      font-family: var(--nm-ui-font);
+      font-size: 12px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      margin: 0;
-      color: rgb(var(--color-foreground));
+      color: var(--nm-muted);
+      margin: 0 0 14px;
     }
+
+    .notify-modal__title {
+      font-family: "WalterinBold", var(--nm-ui-font);
+      font-size: 30px;
+      line-height: 1.12;
+      letter-spacing: 0.4px;
+      color: var(--nm-ink);
+      margin: 0 0 12px;
+    }
+
     .notify-modal__subtitle {
-      font-size: 0.9rem;
-      color: rgb(var(--color-foreground));
-      margin: 0;
-      opacity: 0.7;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--nm-muted);
+      max-width: 34ch;
+      margin: 0 0 28px;
     }
-    .notify-modal .field { margin: 0; }
+
+    .notify-modal__form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin: 0;
+    }
+
+    .notify-modal__field { position: relative; margin: 0; }
+    .notify-modal .field__input {
+      box-sizing: border-box;
+      width: 100%;
+      height: 58px;
+      border-radius: 14px;
+      border: 1px solid var(--nm-line);
+      background: #fff;
+      padding: 0 18px;
+      font-family: var(--nm-ui-font);
+      font-size: 16px;
+      color: var(--nm-ink);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .notify-modal .field__input::placeholder { color: #9a988f; opacity: 1; }
+    .notify-modal .field__input:focus {
+      outline: none;
+      border-color: var(--nm-ink);
+      box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+    }
+    .notify-modal .field__input[aria-invalid="true"] {
+      border-color: #dd1d1d;
+      box-shadow: 0 0 0 3px rgba(221, 29, 29, 0.1);
+    }
+
+    .notify-modal__field-error {
+      margin: 8px 2px 0;
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: #dd1d1d;
+    }
+
+    /* Newsletter checkbox */
     .notify-modal__check {
       display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-size: 0.8rem;
-      color: rgb(var(--color-foreground));
-      opacity: 0.7;
+      align-items: center;
+      gap: 11px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--nm-muted);
       cursor: pointer;
     }
     .notify-modal__check input {
-      margin-top: 2px;
+      -webkit-appearance: none;
+      appearance: none;
       flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      border-radius: 6px;
+      border: 1.5px solid #cfcdc2;
+      background: #fff;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
+    .notify-modal__check input:checked {
+      background-color: var(--nm-ink);
+      border-color: var(--nm-ink);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 13px 13px;
+    }
+    .notify-modal__check input:focus-visible {
+      outline: 2px solid var(--nm-ink);
+      outline-offset: 2px;
+    }
+
+    /* Yellow pill submit — white text, no icon (matches site CTAs) */
     .notify-modal__submit {
-      position: relative;
-      overflow: hidden;
+      height: 60px;
+      border: none;
+      border-radius: 999px;
+      background: var(--nm-yellow);
+      color: #ffffff;
+      font-family: var(--nm-ui-font);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(252, 226, 6, 0.35);
+      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
     }
-    .notify-modal__submit::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateX(-100%);
-      transition: transform 0.4s ease;
+    .notify-modal__submit:hover {
+      background: var(--nm-yellow-press);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(230, 206, 0, 0.45);
     }
-    .notify-modal__submit:hover::after { transform: translateX(0); }
+    .notify-modal__submit:active { transform: translateY(0) scale(0.99); }
+    .notify-modal__submit:focus-visible {
+      outline: 2px solid var(--nm-ink);
+      outline-offset: 3px;
+    }
+
     .notify-modal__legal {
-      font-size: 0.75rem;
-      color: rgb(var(--color-foreground));
-      opacity: 0.5;
-      margin: 0;
-    }
-    .notify-modal__legal a {
-      color: inherit;
-      text-decoration: underline;
-    }
-    .notify-modal__success {
-      font-family: var(--font-heading-family);
-      font-size: 1rem;
+      font-size: 12.5px;
       line-height: 1.5;
-      color: rgb(var(--color-foreground));
+      color: #8a8a85;
+      margin: 18px 0 0;
+    }
+    .notify-modal__legal a { color: inherit; text-decoration: underline; }
+
+    /* Success state */
+    .notify-modal__success {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 6px;
+      padding: 20px 0;
+    }
+    .notify-modal__tick {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 14px;
+    }
+    .notify-modal__tick circle,
+    .notify-modal__tick path {
+      stroke-dasharray: var(--nm-dash, 0);
+      stroke-dashoffset: var(--nm-dash, 0);
+    }
+    .notify-modal__success-title {
+      font-family: "WalterinBold", var(--nm-ui-font);
+      font-size: 24px;
+      line-height: 1.15;
+      color: var(--nm-ink);
       margin: 0;
     }
-    .notify-modal__error {
-      font-size: 0.85rem;
-      color: #dd1d1d;
-      margin: 0 0 0.5rem;
+    .notify-modal__success-text {
+      font-family: var(--nm-ui-font);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--nm-muted);
+      max-width: 34ch;
+      margin: 0;
     }
-    @media (max-width: 600px) {
-      .notify-modal { flex-direction: column; }
-      .notify-modal__image { width: 100%; height: 200px; }
+
+    @media (max-width: 720px) {
+      .notify-modal {
+        grid-template-columns: 1fr;
+        width: 94vw;
+      }
+      .notify-modal__image-pane { min-height: 180px; }
+      .notify-modal__body { padding: 34px 26px 30px; }
+      .notify-modal__title { font-size: 25px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .notify-modal__close,
+      .notify-modal .field__input,
+      .notify-modal__check input,
+      .notify-modal__submit {
+        transition: none;
+      }
+      .notify-modal__submit:hover { transform: none; }
     }
   {%- endstyle -%}
 
@@ -137,42 +313,66 @@
     type="button"
     id="notify-toggle-btn"
     class="button button--full-width button--margin-x"
+    aria-haspopup="dialog"
   >
     {{ 'products.product.notify_button' | t }}
   </button>
 
   <div class="notify-overlay" id="notify-overlay">
-    <div class="notify-modal">
-      <img
-        class="notify-modal__image"
-        src="{{ product.featured_image | image_url: width: 600 }}"
-        alt="{{ product.title | escape }}"
-        width="300"
-        height="400"
-        loading="lazy"
-      >
+    <div
+      class="notify-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="notify-modal-title"
+    >
+      <div class="notify-modal__image-pane">
+        <img
+          class="notify-modal__image"
+          src="{{ product.featured_image | image_url: width: 900 }}"
+          alt="{{ product.title | escape }}"
+          width="900"
+          height="1080"
+          loading="lazy"
+        >
+      </div>
+
       <div class="notify-modal__body">
-        <button class="notify-modal__close" id="notify-close" aria-label="{{ 'accessibility.close' | t }}">&#x2715;</button>
-        <p class="notify-modal__title">{{ product.title | escape }}</p>
-        <p class="notify-modal__subtitle">{{ 'products.product.notify_subtitle' | t }}</p>
-        {% form 'customer' %}
-          {% if form.posted_successfully? %}
-            <p class="notify-modal__success">{{ 'products.product.notify_success' | t }}</p>
-            <script>
-              document.addEventListener('DOMContentLoaded', function () {
-                var o = document.getElementById('notify-overlay');
-                if (o) {
-                  o.classList.add('open');
-                  document.body.style.overflow = 'hidden';
-                }
-              });
-            </script>
-          {% else %}
-            {% if form.errors %}
-              <p class="notify-modal__error">{{ form.errors | default_errors }}</p>
-            {% endif %}
+        <button
+          type="button"
+          class="notify-modal__close"
+          id="notify-close"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+          </svg>
+        </button>
+
+        {%- form 'customer', class: 'contact-form notify-modal__form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="notify-modal__success" id="notify-success">
+              <svg class="notify-modal__tick" viewBox="0 0 52 52" fill="none" aria-hidden="true" focusable="false">
+                <circle cx="26" cy="26" r="24" stroke="#fce206" stroke-width="3"></circle>
+                <path d="M15 27 L23 35 L38 18" stroke="#222222" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              <p class="notify-modal__success-title" id="notify-modal-title">
+                {{- 'products.product.notify_success' | t -}}
+              </p>
+            </div>
+            <script>window.__notifyJustSubmitted = true;</script>
+          {%- else -%}
+            <p class="notify-modal__eyebrow">{{ 'products.product.coming_soon' | t }}</p>
+            <p class="notify-modal__title" id="notify-modal-title">{{ product.title | escape }}</p>
+            <p class="notify-modal__subtitle">{{ 'products.product.notify_subtitle' | t }}</p>
+
+            {%- if form.errors -%}
+              <p class="notify-modal__field-error" role="alert">{{ form.errors | default_errors }}</p>
+            {%- endif -%}
+
             <input type="hidden" name="contact[tags]" value="newsletter,tarot-waitlist">
-            <div class="field">
+
+            <div class="field notify-modal__field">
               <input
                 type="email"
                 name="contact[email]"
@@ -180,45 +380,175 @@
                 class="field__input"
                 placeholder="{{ 'products.product.notify_email_placeholder' | t }}"
                 autocomplete="email"
+                aria-describedby="notify-email-error"
                 required
               >
-              <label class="field__label" for="notify-email">{{ 'products.product.notify_email_label' | t }}</label>
+              <label class="field__label visually-hidden" for="notify-email">
+                {{ 'products.product.notify_email_label' | t }}
+              </label>
+              <p class="notify-modal__field-error" id="notify-email-error" hidden></p>
             </div>
+
             <label class="notify-modal__check">
               <input type="checkbox" name="contact[accepts_marketing]" value="true" checked>
-              {{ 'products.product.notify_checkbox' | t }}
+              <span>{{ 'products.product.notify_checkbox' | t }}</span>
             </label>
-            <button type="submit" class="button button--full-width notify-modal__submit">
+
+            <button type="submit" class="notify-modal__submit">
               {{ 'products.product.notify_submit' | t }}
             </button>
+
             <p class="notify-modal__legal">{{ 'products.product.notify_legal_html' | t }}</p>
-          {% endif %}
-        {% endform %}
+          {%- endif -%}
+        {%- endform -%}
       </div>
     </div>
   </div>
 
-  <script>
+  <script type="module">
     (function () {
-      var btn = document.getElementById('notify-toggle-btn');
       var overlay = document.getElementById('notify-overlay');
-      var close = document.getElementById('notify-close');
-      if (!btn || !overlay) return;
-      btn.addEventListener('click', function () {
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
-      function closeModal() {
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
+      var btn = document.getElementById('notify-toggle-btn');
+      var card = overlay ? overlay.querySelector('.notify-modal') : null;
+      var closeBtn = document.getElementById('notify-close');
+      if (!overlay || !card) return;
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var lastFocused = null;
+      var trap = null;
+      var animate = null;
+      var createFocusTrap = null;
+
+      // Progressive enhancement: load Motion + focus-trap, but never block the modal.
+      var ready = Promise.all([
+        import('https://cdn.jsdelivr.net/npm/motion@11/+esm')
+          .then(function (m) { animate = m.animate; })
+          .catch(function () {}),
+        import('https://cdn.jsdelivr.net/npm/focus-trap@7/+esm')
+          .then(function (m) { createFocusTrap = m.createFocusTrap; })
+          .catch(function () {})
+      ]);
+
+      function lockScroll() { document.body.style.overflow = 'hidden'; }
+      function unlockScroll() { document.body.style.overflow = ''; }
+
+      function activateTrap() {
+        if (!createFocusTrap) return;
+        try {
+          trap = createFocusTrap(card, {
+            escapeDeactivates: false,
+            allowOutsideClick: true,
+            initialFocus: function () {
+              return document.getElementById('notify-email') || closeBtn;
+            }
+          });
+          trap.activate();
+        } catch (e) { /* no-op */ }
       }
-      close.addEventListener('click', closeModal);
+
+      function openModal() {
+        lastFocused = document.activeElement;
+        overlay.classList.add('open');
+        lockScroll();
+        ready.then(function () {
+          if (animate && !reduce) {
+            animate(overlay, { opacity: [0, 1] }, { duration: 0.2 });
+            animate(
+              card,
+              { opacity: [0, 1], scale: [0.96, 1], y: [8, 0] },
+              { duration: 0.34, ease: [0.2, 0.7, 0.2, 1] }
+            );
+          }
+          activateTrap();
+          var email = document.getElementById('notify-email');
+          if (email) { email.focus(); } else if (closeBtn) { closeBtn.focus(); }
+          runSuccess();
+        });
+      }
+
+      function finishClose() {
+        overlay.classList.remove('open');
+        unlockScroll();
+        if (trap) { try { trap.deactivate(); } catch (e) {} trap = null; }
+        if (lastFocused && lastFocused.focus) { lastFocused.focus(); }
+        else if (btn) { btn.focus(); }
+      }
+
+      function closeModal() {
+        if (animate && !reduce) {
+          animate(card, { opacity: [1, 0], scale: [1, 0.97] }, { duration: 0.2 });
+          var p = animate(overlay, { opacity: [1, 0] }, { duration: 0.2 });
+          if (p && p.finished) { p.finished.then(finishClose); }
+          else { setTimeout(finishClose, 200); }
+        } else {
+          finishClose();
+        }
+      }
+
+      if (btn) { btn.addEventListener('click', openModal); }
+      if (closeBtn) { closeBtn.addEventListener('click', closeModal); }
       overlay.addEventListener('click', function (e) {
         if (e.target === overlay) closeModal();
       });
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
       });
+
+      // Inline email validation. The browser localises validationMessage (SK/EN)
+      // automatically, so there is no hardcoded copy to keep in sync.
+      var form = overlay.querySelector('.notify-modal__form');
+      var emailInput = document.getElementById('notify-email');
+      var emailError = document.getElementById('notify-email-error');
+
+      function clearError() {
+        if (!emailInput || !emailError) return;
+        emailInput.setAttribute('aria-invalid', 'false');
+        emailError.hidden = true;
+        emailError.textContent = '';
+      }
+      function showError(msg) {
+        if (!emailInput || !emailError) return;
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailError.textContent = msg;
+        emailError.hidden = false;
+        emailInput.focus();
+      }
+      if (form && emailInput) {
+        emailInput.addEventListener('input', clearError);
+        form.addEventListener('submit', function (e) {
+          if (!emailInput.checkValidity()) {
+            e.preventDefault();
+            showError(emailInput.validationMessage);
+          }
+        });
+      }
+
+      // Animated success tick + auto-close (runs when the reloaded page shows success).
+      function runSuccess() {
+        var success = document.getElementById('notify-success');
+        if (!success) return;
+        var shapes = success.querySelectorAll('.notify-modal__tick circle, .notify-modal__tick path');
+        if (animate && !reduce) {
+          shapes.forEach(function (el) {
+            var len = el.getTotalLength ? el.getTotalLength() : 100;
+            el.style.setProperty('--nm-dash', len);
+            animate(el, { strokeDashoffset: [len, 0] }, { duration: 0.6, ease: [0.2, 0.7, 0.2, 1] });
+          });
+        } else {
+          shapes.forEach(function (el) { el.style.setProperty('--nm-dash', 0); });
+        }
+        var closer = setTimeout(closeModal, 2500);
+        success.addEventListener('click', function () { clearTimeout(closer); closeModal(); });
+      }
+
+      // If the page reloaded after a successful submit, reopen the modal.
+      if (window.__notifyJustSubmitted) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', openModal);
+        } else {
+          openModal();
+        }
+      }
     })();
   </script>
 {%- endif -%}
