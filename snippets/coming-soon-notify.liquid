@@ -58,7 +58,7 @@
 
     .notify-modal {
       box-sizing: border-box;
-      width: min(880px, 94vw);
+      width: min(860px, 94vw);
       max-height: 94vh;
       overflow: hidden;
       background: #fff;
@@ -66,13 +66,15 @@
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
       display: grid;
       grid-template-columns: 46% 54%;
+      align-items: stretch;
       position: relative;
     }
 
-    /* Left image pane */
+    /* Left image pane — a full-height panel column. The image is shown at its
+       NATURAL ratio (contain), never cropped; the panel colour frames it whatever
+       the product photo's ratio (square today, anything later). */
     .notify-modal__image-pane {
       position: relative;
-      min-height: 520px;
       background: var(--nm-panel);
     }
     .notify-modal__image {
@@ -80,7 +82,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
     }
 
@@ -294,14 +296,44 @@
       margin: 0;
     }
 
-    @media (max-width: 720px) {
-      .notify-modal {
-        grid-template-columns: 1fr;
-        width: 94vw;
+    /* Mobile: full-screen scrollable sheet (aligned to Dawn's 750px breakpoint) */
+    @media (max-width: 749px) {
+      .notify-overlay {
+        padding: 0;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
       }
-      .notify-modal__image-pane { min-height: 180px; }
-      .notify-modal__body { padding: 34px 26px 30px; }
+      .notify-modal {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;          /* dynamic vh so iOS chrome can't hide the CTA */
+        max-height: none;
+        border-radius: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        align-items: stretch;
+        overflow-y: auto;        /* the whole sheet scrolls */
+        -webkit-overflow-scrolling: touch;
+      }
+      /* Compact top banner — fixed height, cover crop acceptable here (mobile only) */
+      .notify-modal__image-pane {
+        height: 180px;
+        background: var(--nm-panel);
+      }
+      .notify-modal__image { object-fit: cover; }
+      .notify-modal__body {
+        overflow: visible;       /* sheet scrolls, not the pane */
+        padding: 30px 22px;
+        padding-bottom: max(30px, env(safe-area-inset-bottom));
+      }
       .notify-modal__title { font-size: 25px; }
+      .notify-modal__close {
+        top: 12px;
+        right: 12px;
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.85);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -336,8 +368,8 @@
           class="notify-modal__image"
           src="{{ product.featured_image | image_url: width: 900 }}"
           alt="{{ product.title | escape }}"
-          width="900"
-          height="1080"
+          width="{{ product.featured_image.width | default: 900 }}"
+          height="{{ product.featured_image.height | default: 1205 }}"
           loading="lazy"
         >
       </div>
@@ -419,6 +451,13 @@
       var closeBtn = document.getElementById('notify-close');
       if (!overlay || !card) return;
 
+      // Portal the overlay to <body> so it escapes the product section's stacking
+      // context and reliably covers Dawn's sticky header (z-index 5) + announcement
+      // bar. The {% raw %}{% form %}{% endraw %} and element IDs keep working after the move.
+      if (overlay.parentNode !== document.body) {
+        document.body.appendChild(overlay);
+      }
+
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var lastFocused = null;
       var trap = null;
@@ -435,8 +474,20 @@
           .catch(function () {})
       ]);
 
-      function lockScroll() { document.body.style.overflow = 'hidden'; }
-      function unlockScroll() { document.body.style.overflow = ''; }
+      // Lock both <html> and <body> so the page underneath can't scroll and the
+      // sticky header/announcement bar can't peek. Prior inline values are restored.
+      var prevHtmlOverflow = '';
+      var prevBodyOverflow = '';
+      function lockScroll() {
+        prevHtmlOverflow = document.documentElement.style.overflow;
+        prevBodyOverflow = document.body.style.overflow;
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      }
+      function unlockScroll() {
+        document.documentElement.style.overflow = prevHtmlOverflow;
+        document.body.style.overflow = prevBodyOverflow;
+      }
 
       function activateTrap() {
         if (!createFocusTrap) return;

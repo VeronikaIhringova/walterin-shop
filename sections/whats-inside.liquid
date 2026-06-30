@@ -3,7 +3,8 @@
 
   - Centered title + a row of real tarot cards that flip independently (GSAP),
     each showing a random card from the full 78-card deck (no two slots alike).
-  - Redesigned spec panel: one rounded, hairline-divided grid.
+  - Inline spec row: minimal, no container — yellow dot + uppercase label + value,
+    separated by whitespace (wraps on tablet, stacks on mobile).
 
   Card images live in assets/ as card-01.jpg … card-78.jpg (optimised ~800px).
   They are looped into window.ALL_CARDS below and preloaded for smooth flips.
@@ -69,25 +70,17 @@
     backface-visibility: hidden;
   }
 
-  /* Spec panel — 6 cells, 3 columns */
+  /* Spec row — inline & minimal, no container; whitespace does the separating */
   .wi-specs {
-    margin-top: 80px;
-    background: #fff;
-    border: 1px solid #e6e4da;
-    border-radius: 22px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    margin-top: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px clamp(38px, 5vw, 76px);
   }
   .wi-spec {
-    padding: 30px 32px;
-    border-top: 1px solid #e6e4da;
-    border-left: 1px solid #e6e4da;
+    text-align: left;
   }
-  /* 3-col: drop the top row's top border and the first column's left border */
-  .wi-spec:nth-child(-n + 3) { border-top: 0; }
-  .wi-spec:nth-child(3n + 1) { border-left: 0; }
-
   .wi-spec__label {
     display: flex;
     align-items: center;
@@ -96,7 +89,7 @@
     text-transform: uppercase;
     letter-spacing: 1.3px;
     color: #6b6b66;
-    margin: 0 0 9px;
+    margin: 0 0 6px;
   }
   .wi-spec__label::before {
     content: "";
@@ -108,7 +101,7 @@
     display: inline-block;
   }
   .wi-spec__value {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: #222;
     margin: 0;
@@ -122,11 +115,9 @@
     .wi-card:nth-child(3),
     .wi-card:nth-child(4) { display: none; }
   }
+  /* Tablet: specs wrap naturally to 2–3 per row; tighten the gaps */
   @media (max-width: 820px) {
-    .wi-specs { grid-template-columns: repeat(2, 1fr); }
-    .wi-spec { border-top: 1px solid #e6e4da; border-left: 1px solid #e6e4da; }
-    .wi-spec:nth-child(-n + 2) { border-top: 0; }
-    .wi-spec:nth-child(2n + 1) { border-left: 0; }
+    .wi-specs { gap: 26px 48px; }
   }
   /* Mobile: 1 large card (cycles through the whole deck via the flip JS) */
   @media (max-width: 560px) {
@@ -135,6 +126,10 @@
     .wi-card:nth-child(2),
     .wi-card:nth-child(3),
     .wi-card:nth-child(4) { display: none; }
+    /* Specs stack, centered */
+    .wi-specs { flex-direction: column; align-items: center; gap: 22px; }
+    .wi-spec { text-align: center; }
+    .wi-spec__label { justify-content: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {

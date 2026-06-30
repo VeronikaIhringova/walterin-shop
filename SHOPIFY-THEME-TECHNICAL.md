@@ -222,6 +222,7 @@ Storefront copy must be authored natively in each language (see `BRAND-POSITIONI
 
 - **Liquid:** Follow Shopify section + snippet conventions. `{% schema %}` for theme-editor settings. Sections own their own CSS file.
 - **CSS:** Use existing CSS custom properties — never hardcode color or spacing values. Component-scoped CSS per section.
+- **Mobile-first (standing rule):** Every new section/component is built responsive from the start — designed and verified at mobile, tablet, and desktop before it ships. Never build desktop-only and retrofit mobile later. Align breakpoints to Dawn's 750px. Verify at 360 / 768 / 1280px.
 - **JS:** Vanilla. Web Components / Custom Elements pattern as in Dawn. No frameworks. No build step.
 - **Accessibility:** All interactive elements have ARIA labels. Modals use `details` / `summary` pattern. Keyboard navigable. Color contrast checked against ink-on-canvas and red-on-canvas combinations.
 - **Images:** Always use Shopify's `img_url` filter with `width` parameter for responsive images (e.g., `?width=1500`). Lazy-load below-the-fold media.
