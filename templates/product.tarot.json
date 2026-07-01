@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "meet_walter": {
+      "type": "meet-walter",
+      "settings": {}
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -663,6 +667,7 @@
     "main",
     "whats_inside_cards",
     "how_it_works",
+    "meet_walter",
     "rich_text_wdNwrm",
     "image_banner_AVj7db",
     "image_banner_NtQgzj",

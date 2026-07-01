@@ -28,7 +28,8 @@
 {%- style -%}
   .wi-section {
     background: {{ section.settings.background | default: '#FFFEF7' }};
-    padding: 96px 24px;
+    padding: 52px 24px;
+    border-top: 1px solid #ece9e1; /* subtle separation from the section above */
   }
   .wi-inner {
     max-width: calc(290px * 4 + 32px * 3);
@@ -153,6 +154,16 @@
     .wi-specs { flex-direction: column; align-items: center; gap: 22px; }
     .wi-spec { text-align: center; }
     .wi-spec__label { justify-content: center; }
+  }
+
+  /* Mobile: tighten vertical spacing so the section doesn't over-scroll.
+     - smaller section top/bottom padding
+     - much smaller gap under the headline (was 58px)
+     - smaller gap between the card row and the spec row below (was 64px) */
+  @media (max-width: 749px) {
+    .wi-section { padding: 40px 20px; }
+    .wi-title { margin-bottom: 24px; }
+    .wi-specs { margin-top: 30px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

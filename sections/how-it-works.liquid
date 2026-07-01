@@ -41,7 +41,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: clamp(80px, 11vw, 150px) 24px;
+    padding: 52px 24px;
   }
   .hiw-inner {
     max-width: 1240px;
@@ -84,10 +84,12 @@
     .hiw-title { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
   }
   .hiw-body p {
-    color: rgba(255, 253, 247, 0.78);
-    font-size: clamp(16px, 1.4vw, 19px);
-    line-height: 1.75;
-    margin: 0 0 20px;
+    /* Unified with the page body type (matches About Walterin / Meet the cards). */
+    color: rgba(255, 253, 247, 0.82);
+    font-size: 1.5rem;
+    line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+    letter-spacing: 0.06rem;
+    margin: 0 0 1.8rem;
     max-width: 48ch;
   }
   .hiw-body p:last-child { margin-bottom: 0; }
@@ -107,6 +109,12 @@
     }
     .hiw-card { max-width: 340px; }
     .hiw-body p { margin-left: auto; margin-right: auto; }
+  }
+  /* Mobile: cut the dark section's top/bottom padding (was clamp ≈80px) and the
+     column gap so it doesn't force excessive scrolling. */
+  @media (max-width: 749px) {
+    .hiw-section { padding: 40px 24px; }
+    .hiw-inner { gap: 28px; }
   }
 {%- endstyle -%}
 
