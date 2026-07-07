@@ -1,0 +1,435 @@
+{% comment %}
+  "FAQ with image" — a reusable two-column FAQ (inspired by Rhode).
+
+  LEFT  : section heading ("FAQ"), optional subtitle, then an accordion of
+          question/answer items. Questions are WalterinBold + uppercase; answers
+          use the theme body type. One item open at a time; + rotates to ×.
+  RIGHT : a sticky image that stays put while the FAQ column scrolls, with a
+          subtle scroll-direction parallax (zoom out on scroll-down, zoom in on
+          scroll-up), driven by IntersectionObserver + requestAnimationFrame.
+
+  Typography is deliberately unified with the rest of the product page:
+  - Headings: "WalterinBold" (same face as How it works / About Walterin).
+  - Body: var(--font-body-family), 1.5rem, line-height calc(1 + 0.8/scale),
+    letter-spacing 0.06rem, colour #2e2a39.
+
+  FAQ items are BLOCKS (max 8) so they can be added / removed / reordered from
+  the Theme Editor without touching code. Owns the .fwi-* namespace only.
+
+  Add to any product page: Theme Editor → Add section → "FAQ with image".
+{% endcomment %}
+
+{%- liquid
+  assign uid = section.id | replace: '-', '' | replace: '_', ''
+  if section.settings.image != blank
+    assign img_src = section.settings.image | image_url: width: 1200
+    assign img_w = section.settings.image.width
+    assign img_h = section.settings.image.height
+    assign img_alt = section.settings.image.alt | default: section.settings.heading
+  endif
+-%}
+
+{%- style -%}
+  #fwi-{{ uid }} {
+    background: {{ section.settings.background | default: '#FFFEF7' }};
+    padding: clamp(44px, 6vw, 88px) 24px;
+    border-top: 1px solid #ece9e1;
+  }
+  #fwi-{{ uid }} .fwi-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(40px, 5vw, 88px);
+    align-items: start;
+  }
+
+  /* ---------- Left: heading + accordion ---------- */
+  #fwi-{{ uid }} .fwi-head { margin: 0 0 clamp(24px, 3vw, 40px); }
+  #fwi-{{ uid }} .fwi-heading {
+    font-family: "WalterinBold", sans-serif;
+    color: #2e2a39;
+    font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
+    line-height: 1.05;
+    letter-spacing: 0.4px;
+    margin: 0;
+  }
+  #fwi-{{ uid }} .fwi-subtitle {
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+    letter-spacing: 0.06rem;
+    color: #6a6577;
+    margin: 1rem 0 0;
+    max-width: 42ch;
+  }
+  @media (min-width: 750px) {
+    #fwi-{{ uid }} .fwi-heading { font-size: calc(var(--font-heading-scale, 1.3) * 3rem); }
+  }
+
+  #fwi-{{ uid }} .fwi-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #e2ddd1; /* hairline above the first item */
+  }
+  #fwi-{{ uid }} .fwi-item { border-bottom: 1px solid #e2ddd1; } /* hairline dividers */
+
+  #fwi-{{ uid }} .fwi-q {
+    /* reset button chrome */
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: clamp(18px, 2vw, 26px) 0;
+    cursor: pointer;
+    text-align: left;
+    font-family: "WalterinBold", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    line-height: 1.25;
+    color: #2e2a39;
+    transition: color 0.2s ease;
+  }
+  #fwi-{{ uid }} .fwi-q:hover { color: #000; }
+  #fwi-{{ uid }} .fwi-q:focus-visible {
+    outline: 2px solid #2e2a39;
+    outline-offset: 3px;
+  }
+
+  /* + / × icon: a plus built from two bars; rotates 45° to become × when open */
+  #fwi-{{ uid }} .fwi-icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.35s ease;
+  }
+  #fwi-{{ uid }} .fwi-icon::before,
+  #fwi-{{ uid }} .fwi-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #2e2a39;
+    border-radius: 2px;
+  }
+  #fwi-{{ uid }} .fwi-icon::before { width: 18px; height: 2px; transform: translate(-50%, -50%); }
+  #fwi-{{ uid }} .fwi-icon::after  { width: 2px; height: 18px; transform: translate(-50%, -50%); }
+  #fwi-{{ uid }} .fwi-q[aria-expanded="true"] .fwi-icon { transform: rotate(45deg); }
+
+  /* Answer panel: CSS max-height transition (~0.35s), height set by JS */
+  #fwi-{{ uid }} .fwi-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.35s ease;
+    opacity: 0;
+  }
+  #fwi-{{ uid }} .fwi-panel.is-open { opacity: 1; }
+  #fwi-{{ uid }} .fwi-answer {
+    font-family: var(--font-body-family);
+    font-size: 1.4rem;
+    line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+    letter-spacing: 0.06rem;
+    color: #2e2a39;
+    padding: 0 0 clamp(20px, 2.4vw, 30px);
+    margin: 0;
+    max-width: 54ch;
+  }
+  #fwi-{{ uid }} .fwi-answer p { margin: 0 0 1rem; }
+  #fwi-{{ uid }} .fwi-answer p:last-child { margin-bottom: 0; }
+  #fwi-{{ uid }} .fwi-answer a { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- Right: sticky parallax image ---------- */
+  #fwi-{{ uid }} .fwi-media {
+    position: sticky;
+    top: clamp(24px, 6vh, 56px);
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.16);
+    background: #efece3;
+  }
+  #fwi-{{ uid }} .fwi-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: scale(1.05);
+    transform-origin: center;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  #fwi-{{ uid }} .fwi-media-placeholder {
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    color: #b9b2a2;
+  }
+  #fwi-{{ uid }} .fwi-media-placeholder svg { width: 40%; height: auto; }
+
+  /* ---------- Responsive: stack, image on top ---------- */
+  @media (max-width: 749px) {
+    #fwi-{{ uid }} { padding: 40px 22px; }
+    #fwi-{{ uid }} .fwi-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    #fwi-{{ uid }} .fwi-media {
+      position: static;    /* no sticky on mobile */
+      order: -1;           /* image above the FAQ */
+      max-width: 460px;
+      justify-self: center;
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #fwi-{{ uid }} .fwi-media img { transform: scale(1); }
+    #fwi-{{ uid }} .fwi-panel,
+    #fwi-{{ uid }} .fwi-icon { transition: none; }
+  }
+{%- endstyle -%}
+
+<section id="fwi-{{ uid }}" class="fwi-section">
+  <div class="fwi-inner">
+    <div class="fwi-col fwi-col--text">
+      <div class="fwi-head">
+        <h2 class="fwi-heading">{{ section.settings.heading | default: 'FAQ' | escape }}</h2>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="fwi-subtitle">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="fwi-list">
+          {%- for block in section.blocks -%}
+            {%- assign panel_id = 'fwi-panel-' | append: uid | append: '-' | append: forloop.index -%}
+            <li class="fwi-item" {{ block.shopify_attributes }}>
+              <button
+                type="button"
+                class="fwi-q"
+                aria-expanded="false"
+                aria-controls="{{ panel_id }}"
+              >
+                <span class="fwi-q-text">{{ block.settings.question | escape }}</span>
+                <span class="fwi-icon" aria-hidden="true"></span>
+              </button>
+              <div id="{{ panel_id }}" class="fwi-panel" role="region">
+                <div class="fwi-answer">{{ block.settings.answer }}</div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <figure class="fwi-media" data-fwi-media>
+      {%- if img_src -%}
+        <img
+          src="{{ img_src }}"
+          alt="{{ img_alt | escape }}"
+          {% if img_w %}width="{{ img_w }}" height="{{ img_h }}"{% endif %}
+          loading="lazy"
+          decoding="async"
+        >
+      {%- else -%}
+        <div class="fwi-media-placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </figure>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('fwi-{{ uid }}');
+    if (!root) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- Accordion: one open at a time, JS-driven max-height ---------- */
+    var buttons = root.querySelectorAll('.fwi-q');
+
+    function closePanel(btn) {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      btn.setAttribute('aria-expanded', 'false');
+      panel.style.maxHeight = panel.scrollHeight + 'px'; /* from current height */
+      // force reflow so the transition runs from the set height back to 0
+      panel.offsetHeight; // eslint-disable-line no-unused-expressions
+      panel.style.maxHeight = '0px';
+      panel.classList.remove('is-open');
+    }
+
+    function openPanel(btn) {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      btn.setAttribute('aria-expanded', 'true');
+      panel.classList.add('is-open');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+        buttons.forEach(function (other) {
+          if (other !== btn && other.getAttribute('aria-expanded') === 'true') closePanel(other);
+        });
+        if (isOpen) { closePanel(btn); } else { openPanel(btn); }
+      });
+    });
+
+    // After an open transition, release to a large max-height so nested reflow
+    // (e.g. font swap, resize) never clips the answer.
+    root.querySelectorAll('.fwi-panel').forEach(function (panel) {
+      panel.addEventListener('transitionend', function (e) {
+        if (e.propertyName !== 'max-height') return;
+        if (panel.classList.contains('is-open')) panel.style.maxHeight = '2000px';
+      });
+    });
+
+    /* ---------- Sticky image parallax: scroll-direction zoom ---------- */
+    if (reduce) return;
+    var media = root.querySelector('[data-fwi-media]');
+    var img = media && media.querySelector('img');
+    if (!img) return;
+
+    var MIN = 1.0, MAX = 1.05;
+    var current = MAX, target = MAX;
+    var lastY = window.pageYOffset;
+    var active = false, rafId = null;
+
+    function onScroll() {
+      var y = window.pageYOffset;
+      if (y > lastY + 0.5) { target = MIN; }        // scrolling down → zoom out
+      else if (y < lastY - 0.5) { target = MAX; }   // scrolling up   → zoom in
+      lastY = y;
+    }
+
+    function tick() {
+      current += (target - current) * 0.06;         // gentle ease toward target
+      if (Math.abs(target - current) < 0.0004) current = target;
+      img.style.transform = 'scale(' + current.toFixed(4) + ')';
+      if (active) rafId = requestAnimationFrame(tick);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !active) {
+          active = true;
+          window.addEventListener('scroll', onScroll, { passive: true });
+          rafId = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && active) {
+          active = false;
+          window.removeEventListener('scroll', onScroll);
+          if (rafId) cancelAnimationFrame(rafId);
+        }
+      });
+    }, { threshold: 0 });
+
+    io.observe(root);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ with image",
+  "tag": "section",
+  "class": "section-faq-with-image",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Sticky image",
+      "info": "Shown on the right (desktop) / top (mobile). Stays sticky and parallax-zooms as you scroll."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#FFFEF7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Your question here?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Your answer here. Keep it warm, specific, and to the point.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ with image",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "When does it ship?",
+            "answer": "<p>The first run of 150 decks goes to print soon. Order now and your deck ships the moment it lands — we'll email you the date.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What language is the deck in?",
+            "answer": "<p>The cards are illustration-led, so they speak in pictures first. Packaging and the little guide come in Slovak and English.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to know tarot?",
+            "answer": "<p>Not at all. This is a set of illustrated stories on cards — read the picture, then the words. No experience required.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where do you ship?",
+            "answer": "<p>Across the EU via Packeta. Slovakia and the rest of the EU at checkout; more regions to follow.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
