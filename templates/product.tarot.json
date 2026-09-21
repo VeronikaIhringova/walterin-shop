@@ -9,10 +9,6 @@
  */
 {
   "sections": {
-    "meet_walter": {
-      "type": "meet-walter",
-      "settings": {}
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -80,7 +76,7 @@
             "color_scheme": "text",
             "option_1_quantity": 1,
             "option_1_label": "Comics Tarot of Consciousness",
-            "option_1_benefit": "100 pcs",
+            "option_1_benefit": "",
             "option_1_caption": "",
             "option_1_percentage_off_text": "0",
             "option_1_fixed_amount_off": "0",
@@ -238,6 +234,94 @@
         "desktop_padding_bottom": 36
       }
     },
+    "whats_inside_cards": {
+      "type": "whats-inside",
+      "settings": {
+        "title": "Meet the cards",
+        "background": "#fffef7",
+        "spec_labels": "Cards|Structure|Size|Print|Material|Finish",
+        "spec_values": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte"
+      }
+    },
+    "how_it_works": {
+      "type": "how-it-works",
+      "settings": {
+        "title": "Every card is a nine-frame path",
+        "paragraph_1": "Inspired by the original <strong>Rider–Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words.",
+        "paragraph_2": "The cards do not hand you <strong>finished answers</strong>. They help you hear <em>what usually stays quiet</em>.",
+        "card_asset": "hiw-card.jpg",
+        "card_alt": "The Walterin nine-frame path",
+        "background": "#e9e7df",
+        "background_asset": "hiw-bg.jpg"
+      }
+    },
+    "meet_walter": {
+      "type": "meet-walter",
+      "settings": {
+        "heading": "Hi. My name is Walter Ihring.",
+        "paragraph_1": "I devote my time to <strong>animated humour and caricatures</strong>. I like travelling, especially across India. My pictures also like travelling, especially for exhibitions in cities far away. On their return, they sometimes bring me an award as a souvenir from the competitions they had visited.",
+        "paragraph_2": "On one hot day in summer, I was sipping my coffee in the square, watching tourists race from the town hall to the cathedral, hunting for the stories of the people who lived there. It was there that I decided to link sketching with history, travelling and humour — and create amusing illustrated guides. In 2015 I published my first, about my hometown, <strong>Walterin Bratislava</strong>.",
+        "photo_asset": "wi-walter.jpg",
+        "photo_alt": "Walter Ihring, the illustrator behind Walterin",
+        "background": "#fffef7"
+      }
+    },
+    "faq_with_image_gbXEDU": {
+      "type": "faq-with-image",
+      "blocks": {
+        "faq_item_Y9KJjM": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When does it ship?",
+            "answer": "<p>The first run of 150 decks goes to print soon. Order now and your deck ships the moment it lands — we'll email you the date.</p>"
+          }
+        },
+        "faq_item_t4ADqG": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What language is the deck in?",
+            "answer": "<p>The cards are illustration-led, so they speak in pictures first. Packaging and the little guide come in Slovak and English.</p>"
+          }
+        },
+        "faq_item_8Ld73Y": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to know tarot?",
+            "answer": "<p>Not at all. This is a set of illustrated stories on cards — read the picture, then the words. No experience required.</p>"
+          }
+        },
+        "faq_item_cmGKaB": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where do you ship?",
+            "answer": "<p>Across the EU via Packeta. Slovakia and the rest of the EU at checkout; more regions to follow.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_Y9KJjM",
+        "faq_item_t4ADqG",
+        "faq_item_8Ld73Y",
+        "faq_item_cmGKaB"
+      ],
+      "name": "FAQ with image",
+      "settings": {
+        "heading": "FAQ",
+        "subtitle": "Find out more about Comics Tarot of consciousness.",
+        "image": "shopify://shop_images/PRODUCT_BOOK1_f3f0dc79-452c-4817-ad72-522a357d20fa.jpg",
+        "background": "#FFFEF7"
+      }
+    },
+    "rich_text_wdNwrm": {
+      "type": "about-walterin",
+      "settings": {
+        "heading": "About Walterin",
+        "body": "<p><strong>Walterin</strong> is an original project by Slovak illustrator <em>Walter Ihring</em>, blending <strong>humor</strong>, <strong>history</strong>, and a <em>distinctive visual style</em>. Its mission is to reveal cities through stories that are <strong>fun</strong>, <em>truthful</em>, and <strong>inspiring</strong>.</p>",
+        "button_label": "Learn more",
+        "button_link": "shopify://pages/about-us",
+        "background": "#FFFEF7"
+      }
+    },
     "image_banner_AVj7db": {
       "type": "image-banner",
       "blocks": {
@@ -321,55 +405,6 @@
         "show_text_below": false
       }
     },
-    "rich_text_wdNwrm": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_km47q3": {
-          "type": "heading",
-          "settings": {
-            "heading": "<p>About Walterin</p>",
-            "heading_size": "h1"
-          }
-        },
-        "text_VYhJpz": {
-          "type": "text",
-          "settings": {
-            "text": "<p><strong>Walterin</strong> is an original project by Slovak illustrator <em>Walter Ihring</em>,<br/> blending <strong>humor</strong>, <strong>history</strong>, and a <em>distinctive visual style</em>. Its mission is to reveal cities through stories that are <strong>fun</strong>, <em>truthful</em>, and <strong>inspiring</strong>.</p>"
-          }
-        },
-        "button_KHmGm4": {
-          "type": "button",
-          "settings": {
-            "button_label": "Learn more",
-            "button_link": "shopify://pages/about-us",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_km47q3",
-        "text_VYhJpz",
-        "button_KHmGm4"
-      ],
-      "name": "About Walterin",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "background-1",
-        "full_width": true,
-        "padding_top": 52,
-        "padding_bottom": 52,
-        "custom_colors_background": "#ffffff",
-        "custom_gradient_background": "",
-        "custom_colors_text": "#2e2a39",
-        "custom_colors_solid_button_background": "#dd1d1d",
-        "custom_colors_solid_button_text": "#ffffff",
-        "custom_colors_outline_button": "#dd1d1d"
-      }
-    },
     "image_banner_c7Jm7N": {
       "type": "image-banner",
       "blocks": {
@@ -422,16 +457,6 @@
     "17622621157ec0b48f": {
       "type": "_blocks",
       "settings": {}
-    },
-    "whats_inside_cards": {
-      "type": "whats-inside",
-      "settings": {
-      }
-    },
-    "how_it_works": {
-      "type": "how-it-works",
-      "settings": {
-      }
     },
     "related-products": {
       "type": "related-products",
@@ -502,6 +527,7 @@
         "show_vendor": false,
         "show_rating": false,
         "enable_quick_add": false,
+        "enable_quick_view": false,
         "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 76,
@@ -668,6 +694,7 @@
     "whats_inside_cards",
     "how_it_works",
     "meet_walter",
+    "faq_with_image_gbXEDU",
     "rich_text_wdNwrm",
     "image_banner_AVj7db",
     "image_banner_NtQgzj",

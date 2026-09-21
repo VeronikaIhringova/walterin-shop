@@ -31,7 +31,8 @@
   .mw-section {
     background: {{ section.settings.background | default: '#FFFEF7' }};
     padding: 52px 24px;
-    border-top: 1px solid #ece9e1; /* subtle separation from the section above */
+    /* Rounded cream "window" — radius/margin come from .wlt-window; windows
+       separate by gap, not hairline dividers. */
   }
   .mw-inner {
     max-width: 1240px;            /* same content boundary as the other sections */
@@ -45,9 +46,9 @@
     width: 100%;
     max-width: 220px;
     margin: 0;
-    border-radius: 14px;
+    border-radius: var(--wlt-card-radius, 14px);
     overflow: hidden;
-    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.18);
+    box-shadow: var(--wlt-shadow, 0 24px 56px rgba(0, 0, 0, 0.18));
   }
   .mw-photo img { width: 100%; height: auto; display: block; border-radius: inherit; }
 
@@ -82,9 +83,9 @@
   }
 {%- endstyle -%}
 
-<section class="mw-section">
+<section class="mw-section wlt-window">
   <div class="mw-inner">
-    <figure class="mw-photo">
+    <figure class="mw-photo wlt-hover-lift">
       <img
         src="{{ photo_src }}"
         alt="{{ section.settings.photo_alt | default: 'Walter Ihring, the illustrator behind Walterin' | escape }}"

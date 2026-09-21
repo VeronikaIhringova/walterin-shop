@@ -17,137 +17,126 @@
         "padding_bottom": 36
       }
     },
-    "37e8cdd4-ab58-48f7-b736-913308245cdb": {
-      "type": "collapsible-content",
+    "faq": {
+      "type": "faq-with-image",
       "blocks": {
-        "collapsible_row_DzzEYy": {
-          "type": "collapsible_row",
+        "q_beginner": {
+          "type": "faq_item",
           "settings": {
-            "heading": "Are Walterin products authentic?",
-            "icon": "check_mark",
-            "row_content": "<p>Yes. All Walterin products are original and created or sourced directly by us. We don’t sell replicas or third-party imitations.</p>",
-            "page": ""
+            "question": "Do I need to know tarot?",
+            "answer": "<p>No. It's a set of illustrated stories on cards — read the picture, then the words. No experience required.</p>"
           }
         },
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1": {
-          "type": "collapsible_row",
+        "q_included": {
+          "type": "faq_item",
           "settings": {
-            "heading": "Will sold-out items be restocked?",
-            "icon": "check_mark",
-            "row_content": "<p>Some pieces may return depending on availability and demand. You can subscribe to our newsletter or follow us on Instagram for restock updates.</p>",
-            "page": ""
+            "question": "What's in the box?",
+            "answer": "<p>The full <strong>78-card deck</strong> (22 Major + 56 Minor Arcana), full-colour on premium matte cardstock, in a tuck box with the red back panel — plus a short guide in Slovak and English.</p>"
           }
         },
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2": {
-          "type": "collapsible_row",
+        "q_nineframe": {
+          "type": "faq_item",
           "settings": {
-            "heading": "Can I modify or cancel my order?",
-            "icon": "check_mark",
-            "row_content": "<p>If your order hasn’t been shipped yet, we’ll do our best to make changes or cancel it. Please contact us as soon as possible at <a>walterinwittyguide@gmail.com</a>.</p>",
-            "page": ""
+            "question": "What is the \"nine-frame path\"?",
+            "answer": "<p>Instead of one image per card, each card unfolds across <strong>nine frames</strong> — a tiny comic. Look at the picture first, then read the words.</p>"
           }
         },
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-3": {
-          "type": "collapsible_row",
+        "q_language": {
+          "type": "faq_item",
           "settings": {
-            "heading": "Where do you currently ship?",
-            "icon": "check_mark",
-            "row_content": "<p>We currently ship across <strong>Europe</strong> from our base in Slovakia.</p>",
-            "page": ""
+            "question": "What language is the deck in?",
+            "answer": "<p>The cards speak in pictures first. Packaging and the little guide come in <strong>Slovak and English</strong>.</p>"
           }
         },
-        "collapsible_row_HhN9wC": {
-          "type": "collapsible_row",
+        "q_preorder": {
+          "type": "faq_item",
           "settings": {
-            "heading": "How long does delivery take?",
-            "icon": "check_mark",
-            "row_content": "<p>Orders within Europe are typically delivered within <strong>3–7 business days</strong>, depending on your destination and courier service.</p>",
-            "page": ""
+            "question": "Is this a pre-order? When does it ship?",
+            "answer": "<p>The first run of 150 decks goes to print soon. Order now and your deck ships the moment it lands — we'll email you the date.</p>"
           }
         },
-        "collapsible_row_rL7kEN": {
-          "type": "collapsible_row",
+        "q_shipping": {
+          "type": "faq_item",
           "settings": {
-            "heading": "How can I track my order?",
-            "icon": "check_mark",
-            "row_content": "<p>Once your order ships, you’ll receive an email with a <strong>tracking link</strong> so you can follow your delivery in real time.</p>",
-            "page": ""
+            "question": "Where do you ship?",
+            "answer": "<p>Across the EU via <strong>Packeta</strong>, from our base in Slovakia. More regions to follow.</p>"
           }
         },
-        "collapsible_row_63RXfn": {
-          "type": "collapsible_row",
+        "q_delivery": {
+          "type": "faq_item",
           "settings": {
-            "heading": "What payment methods are accepted?",
-            "icon": "check_mark",
-            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
-            "page": ""
+            "question": "How long does delivery take?",
+            "answer": "<p>Typically <strong>3–7 business days</strong> within the EU, depending on destination and courier.</p>"
           }
         },
-        "collapsible_row_fAmemF": {
-          "type": "collapsible_row",
+        "q_tracking": {
+          "type": "faq_item",
           "settings": {
-            "heading": "Is online payment secure?",
-            "icon": "check_mark",
-            "row_content": "<p>Yes. All transactions are protected with SSL encryption and handled by certified, secure payment gateways.</p>",
-            "page": ""
+            "question": "How can I track my order?",
+            "answer": "<p>Once it ships you'll get an email with a <strong>tracking link</strong> to follow the delivery.</p>"
           }
         },
-        "collapsible_row_JBbCVr": {
-          "type": "collapsible_row",
+        "q_payment": {
+          "type": "faq_item",
           "settings": {
-            "heading": "What is your return policy?",
-            "icon": "check_mark",
-            "row_content": "<p>You can return items within <strong>14 days</strong> of receiving them, provided they are unused and in their original condition. Please email <a>walterinwittyguide@gmail.com</a> to start the process.</p><p></p>",
-            "page": ""
+            "question": "What payment methods do you accept?",
+            "answer": "<p>Visa, Mastercard, Apple Pay, Google Pay, Revolut and PayPal — all processed securely.</p>"
           }
         },
-        "collapsible_row_KXBJQF": {
-          "type": "collapsible_row",
+        "q_digital": {
+          "type": "faq_item",
           "settings": {
-            "heading": "How can I contact customer support?",
-            "icon": "check_mark",
-            "row_content": "<p>For any questions or issues, reach us at <a>walterinwittyguide@gmail.com</a>. We aim to respond within <strong>24 hours</strong> on business days.</p>",
-            "page": ""
+            "question": "Is there a digital version?",
+            "answer": "<p>No. It's a physical, printed collectible — made to be held, shuffled and kept.</p>"
+          }
+        },
+        "q_returns": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's your return policy?",
+            "answer": "<p>Return unused items in original condition within <strong>14 days</strong>. Email <a href=\"mailto:walterinwittyguide@gmail.com\">walterinwittyguide@gmail.com</a> to start.</p>"
+          }
+        },
+        "q_cancel": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I change or cancel my order?",
+            "answer": "<p>If it hasn't shipped yet, contact us at <a href=\"mailto:walterinwittyguide@gmail.com\">walterinwittyguide@gmail.com</a> and we'll do our best.</p>"
+          }
+        },
+        "q_contact": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I reach you?",
+            "answer": "<p><a href=\"mailto:walterinwittyguide@gmail.com\">walterinwittyguide@gmail.com</a> — we aim to reply within <strong>24 hours</strong> on business days.</p>"
           }
         }
       },
       "block_order": [
-        "collapsible_row_DzzEYy",
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1",
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2",
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-3",
-        "collapsible_row_HhN9wC",
-        "collapsible_row_rL7kEN",
-        "collapsible_row_63RXfn",
-        "collapsible_row_fAmemF",
-        "collapsible_row_JBbCVr",
-        "collapsible_row_KXBJQF"
+        "q_beginner",
+        "q_included",
+        "q_nineframe",
+        "q_language",
+        "q_preorder",
+        "q_shipping",
+        "q_delivery",
+        "q_tracking",
+        "q_payment",
+        "q_digital",
+        "q_returns",
+        "q_cancel",
+        "q_contact"
       ],
-      "custom_css": [],
       "settings": {
-        "caption": "",
-        "heading": "Frequently Asked Questions (FAQ)",
-        "heading_size": "h2",
-        "heading_alignment": "left",
-        "layout": "none",
-        "color_scheme": "background-1",
-        "container_color_scheme": "background-2",
-        "open_first_collapsible_row": true,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "custom_colors_background": "#ffffff",
-        "custom_gradient_background": "",
-        "custom_colors_text": "#2e2a39",
-        "custom_contaner_colors_background": "#ffffff",
-        "custom_container_gradient_background": "",
-        "custom_contaner_colors_text": "#2e2a39"
+        "layout": "centered",
+        "heading": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about Comics Tarot of Consciousness.",
+        "background": "#FFFEF7"
       }
     }
   },
   "order": [
     "main",
-    "37e8cdd4-ab58-48f7-b736-913308245cdb"
+    "faq"
   ]
 }

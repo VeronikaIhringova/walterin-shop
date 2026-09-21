@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Walterin Design System (Rhode-inspired)
+   Single source of truth for the "window on white" system:
+   - white page, cream/dark rounded window cards
+   - unified type scale, card radius, hover behaviour, spacing
+   Sections reference these tokens instead of re-declaring numbers.
+   1rem = 10px (theme root font-size), so 1.5rem = 15px, etc.
+   ========================================================================== */
+
+:root {
+  /* Surfaces */
+  --wlt-page-bg: #ffffff;
+  --wlt-window-bg: #FFFEF7;          /* cream window fill */
+  --wlt-window-bg-dark: #1a1916;     /* dark window (how-it-works) */
+
+  /* Radius */
+  --wlt-window-radius: 24px;         /* the section "windows" */
+  --wlt-card-radius: 14px;           /* inner cards / photos */
+
+  /* Ink */
+  --wlt-ink: #2e2a39;                /* primary text */
+  --wlt-ink-soft: #6a6577;           /* subtitles / secondary */
+  --wlt-label: #6b6b66;              /* small uppercase labels */
+  --wlt-hairline: #e2ddd1;           /* accordion dividers */
+
+  /* Type — headings */
+  --wlt-h-ls: 0.4px;                 /* unified heading letter-spacing */
+
+  /* Spacing */
+  --wlt-window-gutter: clamp(16px, 4vw, 48px);  /* horizontal page margin around windows */
+  --wlt-window-gap: clamp(20px, 4vw, 40px);     /* vertical rhythm between windows */
+
+  /* Shadows (window lift) */
+  --wlt-shadow: 0 20px 46px rgba(0, 0, 0, 0.16);
+  --wlt-shadow-hover: 0 30px 64px rgba(0, 0, 0, 0.22);
+  --wlt-shadow-dark: 0 30px 70px rgba(0, 0, 0, 0.45);
+  --wlt-shadow-dark-hover: 0 44px 92px rgba(0, 0, 0, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   Window: a section rendered as a rounded card floating on the white page.
+   Applied to the OUTER <section>. Keeps the section's own inner max-width
+   wrapper + padding; only adds the card fill, radius, gutter and gap.
+   -------------------------------------------------------------------------- */
+.wlt-window {
+  background: var(--wlt-window-bg);
+  border-radius: var(--wlt-window-radius);
+  margin: var(--wlt-window-gap) var(--wlt-window-gutter);
+  /* No overflow:hidden — border-radius already clips the fill, and clipping
+     would break the sticky parallax image inside faq-with-image. */
+}
+.wlt-window--dark {
+  background: var(--wlt-window-bg-dark);
+}
+
+/* On small screens keep a slim gutter so cards still breathe but use the width. */
+@media (max-width: 749px) {
+  .wlt-window {
+    margin: clamp(14px, 3vw, 20px) clamp(10px, 3vw, 16px);
+    border-radius: 18px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hover lift: shared interaction for cards / photos.
+   translateY + shadow deepen. Disabled for reduced-motion and touch.
+   -------------------------------------------------------------------------- */
+.wlt-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .wlt-hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--wlt-shadow-hover);
+  }
+  .wlt-hover-lift.wlt-hover-lift--dark:hover {
+    box-shadow: var(--wlt-shadow-dark-hover);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wlt-hover-lift { transition: none; }
+  .wlt-hover-lift:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Button hover: unified lift + shadow for the custom CTAs / secondary buttons.
+   -------------------------------------------------------------------------- */
+.wlt-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .wlt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wlt-btn { transition: color 0.2s ease, background-color 0.2s ease; }
+  .wlt-btn:hover { transform: none; }
+}

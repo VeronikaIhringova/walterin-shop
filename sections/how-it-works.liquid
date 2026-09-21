@@ -42,6 +42,10 @@
     background-position: center;
     background-repeat: no-repeat;
     padding: 52px 24px;
+    /* Rounded dark "window" floating on the white page (border-radius clips the
+       paper-texture background automatically; see walterin-design-system.css). */
+    border-radius: var(--wlt-window-radius, 24px);
+    margin: var(--wlt-window-gap, 32px) var(--wlt-window-gutter, 48px);
   }
   .hiw-inner {
     max-width: 1240px;
@@ -56,19 +60,19 @@
     max-width: 466px;
     justify-self: center;
     margin: 0;
-    border-radius: 12px;
+    border-radius: var(--wlt-card-radius, 14px);
     will-change: transform;
   }
   .hiw-card img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 12px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+    border-radius: var(--wlt-card-radius, 14px);
+    box-shadow: var(--wlt-shadow-dark, 0 30px 70px rgba(0, 0, 0, 0.45));
     transition: box-shadow 0.3s ease;
   }
   .hiw-card:hover img {
-    box-shadow: 0 44px 92px rgba(0, 0, 0, 0.55);
+    box-shadow: var(--wlt-shadow-dark-hover, 0 44px 92px rgba(0, 0, 0, 0.55));
   }
   .hiw-title {
     /* Unified with the page's theme h1 (matches main title + About Walterin) */
@@ -113,7 +117,11 @@
   /* Mobile: cut the dark section's top/bottom padding (was clamp ≈80px) and the
      column gap so it doesn't force excessive scrolling. */
   @media (max-width: 749px) {
-    .hiw-section { padding: 40px 24px; }
+    .hiw-section {
+      padding: 40px 24px;
+      margin: clamp(14px, 3vw, 20px) clamp(10px, 3vw, 16px);
+      border-radius: 18px;
+    }
     .hiw-inner { gap: 28px; }
   }
 {%- endstyle -%}
