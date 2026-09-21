@@ -297,9 +297,17 @@ h5,
       }
     </script>
     {% include 'bucks-cc' %}
+    {%- liquid
+      # Comics Tarot page: own fonts, CSS, data and JS. No other template is affected.
+      assign is_tarot_page = false
+      if template.name == 'product' and template.suffix == 'tarot'
+        assign is_tarot_page = true
+      endif
+    -%}
+    {%- if is_tarot_page -%}{% render 'tarot-head' %}{%- endif -%}
   </head>
 
-  <body class="gradient">
+  <body class="gradient{% if is_tarot_page %} t-page{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

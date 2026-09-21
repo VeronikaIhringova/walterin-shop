@@ -2102,5 +2102,220 @@
         "default": "+ Add"
       }
     ]
+  },
+  {
+    "name": "Tarot page",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shared by every section on the Comics Tarot page. Only these 12 cards are ever shown on the site; the rest of the deck appears as red card backs."
+      },
+      {
+        "type": "header",
+        "content": "Preview card names"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_02_name",
+        "label": "Card 02 (card-02.jpg)",
+        "default": "The Magician"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_01_name",
+        "label": "Card 01 (card-01.jpg)",
+        "default": "The Fool"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_10_name",
+        "label": "Card 10 (card-10.jpg)",
+        "default": "The Hermit"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_11_name",
+        "label": "Card 11 (card-11.jpg)",
+        "default": "Wheel of Fortune"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_18_name",
+        "label": "Card 18 (card-18.jpg)",
+        "default": "The Star"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_20_name",
+        "label": "Card 20 (card-20.jpg)",
+        "default": "The Sun"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_24_name",
+        "label": "Card 24 (card-24.jpg)",
+        "default": "Two of Wands"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_34_name",
+        "label": "Card 34 (card-34.jpg)",
+        "default": "Knight of Wands"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_42_name",
+        "label": "Card 42 (card-42.jpg)",
+        "default": "Six of Cups"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_57_name",
+        "label": "Card 57 (card-57.jpg)",
+        "default": "Seven of Swords"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_66_name",
+        "label": "Card 66 (card-66.jpg)",
+        "default": "Two of Pentacles"
+      },
+      {
+        "type": "text",
+        "id": "tarot_card_71_name",
+        "label": "Card 71 (card-71.jpg)",
+        "default": "Seven of Pentacles"
+      },
+      {
+        "type": "header",
+        "content": "Nine-frame path"
+      },
+      {
+        "type": "text",
+        "id": "tarot_row_1_question",
+        "label": "Row 1 question",
+        "default": "What to understand?"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_11_name",
+        "label": "Row 1 · frame 1 name",
+        "default": "Change"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_11_desc",
+        "label": "Row 1 · frame 1 description",
+        "default": "Recognise the moment"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_12_name",
+        "label": "Row 1 · frame 2 name",
+        "default": "Idea"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_12_desc",
+        "label": "Row 1 · frame 2 description",
+        "default": "What has potential"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_13_name",
+        "label": "Row 1 · frame 3 name",
+        "default": "Value"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_13_desc",
+        "label": "Row 1 · frame 3 description",
+        "default": "What matters"
+      },
+      {
+        "type": "text",
+        "id": "tarot_row_2_question",
+        "label": "Row 2 question",
+        "default": "What to accept?"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_21_name",
+        "label": "Row 2 · frame 1 name",
+        "default": "Openness"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_21_desc",
+        "label": "Row 2 · frame 1 description",
+        "default": "Embrace the unexpected"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_22_name",
+        "label": "Row 2 · frame 2 name",
+        "default": "Meaning"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_22_desc",
+        "label": "Row 2 · frame 2 description",
+        "default": "Why do it"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_23_name",
+        "label": "Row 2 · frame 3 name",
+        "default": "Trust"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_23_desc",
+        "label": "Row 2 · frame 3 description",
+        "default": "Release control"
+      },
+      {
+        "type": "text",
+        "id": "tarot_row_3_question",
+        "label": "Row 3 question",
+        "default": "What to transform?"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_31_name",
+        "label": "Row 3 · frame 1 name",
+        "default": "To try"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_31_desc",
+        "label": "Row 3 · frame 1 description",
+        "default": "Begin unprepared"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_32_name",
+        "label": "Row 3 · frame 2 name",
+        "default": "To develop"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_32_desc",
+        "label": "Row 3 · frame 2 description",
+        "default": "Carry on"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_33_name",
+        "label": "Row 3 · frame 3 name",
+        "default": "To create"
+      },
+      {
+        "type": "text",
+        "id": "tarot_frame_33_desc",
+        "label": "Row 3 · frame 3 description",
+        "default": "Bring into consciousness"
+      }
+    ]
   }
 ]

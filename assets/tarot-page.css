@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Comics Tarot page: shared foundation
+   Loaded only on templates/product.tarot.json (see snippets/tarot-head.liquid).
+   Section-specific styles live in each section's {% stylesheet %}.
+   Everything is prefixed t- / wt- so nothing leaks into or out of the theme.
+   Px units on purpose: the theme sets html { font-size: 62.5% }.
+   ========================================================================== */
+
+.t-page {
+  --t-paper: #FFFDF7;
+  --t-paper2: #F6F2E7;
+  --t-table: #EFE8D6;
+  --t-ink: #222222;
+  --t-muted: #5E5A52;
+  --t-hair: rgba(34, 34, 34, 0.16);
+  --t-yellow: #FCE206;
+  --t-yellow-soft: #FFF9D6;
+  --t-hl: #FFE94A;
+  --t-red: #C9352C;
+
+  --t-display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', 'Marker Felt', sans-serif;
+  --t-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --t-lit: 'Cormorant Garamond', Georgia, serif;
+
+  --t-r: 10px;
+  --t-r-card: 12px;
+  --t-bw: 2.5px;
+  --t-shadow: 5px 5px 0 var(--t-ink);
+  --t-wrap: 1180px;
+  --t-s1: 112px;
+  --t-s2: 52px;
+  --t-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+
+  background: var(--t-paper);
+}
+
+/* Paper grain over the whole page (prototype body::after). Decorative only. */
+.t-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   Scope: every tarot section root carries .t-scope
+   -------------------------------------------------------------------------- */
+.t-scope {
+  color: var(--t-ink);
+  font-family: var(--t-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.t-scope *,
+.t-scope *::before,
+.t-scope *::after { box-sizing: border-box; }
+.t-scope img { max-width: 100%; display: block; height: auto; }
+.t-scope button { font: inherit; color: inherit; }
+.t-scope a { color: inherit; }
+.t-scope p { margin: 0; }
+.t-scope :focus-visible { outline: 3px solid var(--t-red); outline-offset: 3px; box-shadow: none; }
+
+/* The theme forces WalterinBold + its own size/colour on h1–h5; re-set for this page. */
+.t-scope :is(h1, h2, h3, h4) {
+  font-family: var(--t-display) !important;
+  font-weight: 400;
+  line-height: 1.02;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--t-ink);
+  text-wrap: balance;
+}
+.t-scope h2 { font-size: clamp(36px, 4.6vw, 56px); }
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+.t-wrap { max-width: var(--t-wrap); margin: 0 auto; padding-inline: 24px; }
+@media (max-width: 600px) { .t-wrap { padding-inline: 16px; } }
+
+.t-sec { padding-block: var(--t-s1); position: relative; border-top: var(--t-bw) solid var(--t-ink); }
+@media (max-width: 749px) { .t-sec { padding-block: 68px; } }
+
+.t-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: var(--t-s2); max-width: 760px; }
+.t-head--center { margin-inline: auto; text-align: center; align-items: center; }
+
+/* Grid children must be allowed to shrink (no horizontal scroll at 390px). */
+.t-grid > * { min-width: 0; }
+
+/* --------------------------------------------------------------------------
+   Type helpers
+   -------------------------------------------------------------------------- */
+.t-kicker { font-family: var(--t-display); font-size: 16px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--t-muted); }
+.t-lede { font-size: 18px; max-width: 52ch; }
+.t-small { font-size: 14px; color: var(--t-muted); }
+.t-hand { font-family: var(--t-display); text-transform: uppercase; letter-spacing: 0.03em; }
+.t-lit { font-family: var(--t-lit); font-style: italic; font-weight: 700; }
+.t-red { color: var(--t-red); }
+.t-sr {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.t-rte > * + * { margin-top: 12px; }
+.t-rte a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Text link / button that looks like a link */
+.t-link {
+  font: 600 14px var(--t-ui);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   The one button (snippets/wt-button.liquid)
+   Never white text on yellow: ink on yellow, ink on white.
+   -------------------------------------------------------------------------- */
+.wt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--t-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--t-yellow);
+  color: var(--t-ink);
+  border: var(--t-bw) solid var(--t-ink);
+  border-radius: 8px;
+  padding: 15px 26px;
+  box-shadow: var(--t-shadow);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.wt-btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--t-ink); }
+.wt-btn:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--t-ink); }
+.wt-btn[disabled],
+.wt-btn[aria-disabled='true'] { cursor: not-allowed; opacity: 0.55; transform: none; box-shadow: var(--t-shadow); }
+.wt-btn--white { background: #fff; }
+.wt-btn--sm { font-size: 18px; padding: 11px 18px; box-shadow: 4px 4px 0 var(--t-ink); }
+.wt-btn--sm:hover { box-shadow: 2px 2px 0 var(--t-ink); }
+.wt-btn--block { width: 100%; }
+
+/* --------------------------------------------------------------------------
+   Cards: red back, flipper, paper shadow, sheen
+   -------------------------------------------------------------------------- */
+.t-back {
+  aspect-ratio: 800 / 1314;
+  border-radius: var(--t-r-card);
+  border: 3px solid var(--t-red);
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cg fill='none' stroke='%23C9352C' stroke-width='3.2'%3E%3Ccircle cx='0' cy='0' r='30'/%3E%3Ccircle cx='60' cy='0' r='30'/%3E%3Ccircle cx='30' cy='52' r='30'/%3E%3Ccircle cx='0' cy='104' r='30'/%3E%3Ccircle cx='60' cy='104' r='30'/%3E%3Ccircle cx='30' cy='0' r='30'/%3E%3Ccircle cx='0' cy='52' r='30'/%3E%3Ccircle cx='60' cy='52' r='30'/%3E%3Ccircle cx='30' cy='104' r='30'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 70px;
+  background-position: center;
+}
+
+.t-paper-shadow {
+  box-shadow: 0 1px 1px rgba(60, 45, 20, 0.12), 0 10px 22px -10px rgba(60, 45, 20, 0.45), 0 26px 40px -24px rgba(60, 45, 20, 0.35);
+}
+
+.t-flipper {
+  position: relative;
+  aspect-ratio: 800 / 1314;
+  transform-style: preserve-3d;
+  transition: transform 0.85s var(--t-ease);
+}
+.t-flipper.is-up { transform: rotateY(180deg); }
+.t-flipper > .t-flipper__back,
+.t-flipper > .t-flipper__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--t-r-card);
+}
+.t-flipper > .t-flipper__face { transform: rotateY(180deg); overflow: hidden; background: #fff; }
+.t-flipper > .t-flipper__face img { width: 100%; height: 100%; object-fit: cover; }
+
+.t-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 30%), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 45%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  mix-blend-mode: soft-light;
+}
+.t-tilt:hover .t-sheen { opacity: 1; }
+
+.t-icon { width: 24px; height: 24px; flex: none; }
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+@keyframes t-fadeup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-scope *,
+  .t-scope *::before,
+  .t-scope *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

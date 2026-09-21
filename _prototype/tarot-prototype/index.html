@@ -1,0 +1,713 @@
+<title>Tarot Page Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600;1,700&display=swap">
+<style>
+@font-face{font-family:"WalterinBold";src:url("img/WalterinBold.woff2") format("woff2");font-display:swap}
+:root{
+  --paper:#FFFDF7; --paper2:#F6F2E7; --table:#EFE8D6; --ink:#222222; --muted:#5E5A52; --hair:rgba(34,34,34,.16);
+  --yellow:#FCE206; --yellow-soft:#FFF9D6; --hl:#FFE94A; --red:#C9352C;
+  --display:"WalterinBold","Chalkboard SE","Comic Sans MS","Marker Felt",sans-serif;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --lit:"Cormorant Garamond",Georgia,serif;
+  --r:10px; --bw:2.5px; --shadow:5px 5px 0 var(--ink);
+  --wrap:1180px; --s1:112px; --s2:52px;
+  --ease:cubic-bezier(.2,.75,.2,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+/* paper grain over everything */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.07;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{max-width:100%;display:block;height:auto}
+button{font:inherit;color:inherit}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+h2{font-size:clamp(36px,4.6vw,56px)}
+p{margin:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:24px}
+@media (max-width:600px){.wrap{padding-inline:16px}}
+.sec{padding-block:var(--s1);position:relative;border-top:var(--bw) solid var(--ink)}
+@media (max-width:749px){.sec{padding-block:68px}}
+.head{display:flex;flex-direction:column;gap:14px;margin-bottom:var(--s2);max-width:760px}
+.head.c{margin-inline:auto;text-align:center;align-items:center}
+.kicker{font-family:var(--display);font-size:16px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.lede{font-size:18px;max-width:52ch}
+.small{font-size:14px;color:var(--muted)}
+.hand{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em}
+.lit{font-family:var(--lit);font-style:italic;font-weight:700}
+.red{color:var(--red)}
+.tag{position:absolute;top:16px;left:16px;z-index:6;font:600 12px/1 var(--ui);letter-spacing:.03em;background:var(--ink);color:#fff;padding:7px 10px;border-radius:999px;pointer-events:none}
+.flag{display:inline-block;font:600 11.5px/1.3 var(--ui);background:#FFE3DF;color:#8A1E15;border:1.5px solid #8A1E15;border-radius:6px;padding:2px 7px;vertical-align:middle;font-style:normal;text-transform:none;letter-spacing:0}
+body.clean .tag,body.clean .flag,body.clean .only-labels{display:none!important}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.buy>*,.how>*,.walter>*,.faq>*,.closein>*,.unbox>*{min-width:0}
+
+/* ---------- components ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-size:22px;letter-spacing:.03em;text-transform:uppercase;background:var(--yellow);color:var(--ink);border:var(--bw) solid var(--ink);border-radius:8px;padding:15px 26px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;text-decoration:none;line-height:1}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn.block{width:100%}
+.btn.ghost{background:#fff}
+.btn.sm{font-size:18px;padding:11px 18px;box-shadow:4px 4px 0 var(--ink)}
+.link{font:600 14px var(--ui);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;background:none;border:0;padding:0;cursor:pointer;color:inherit}
+.back{aspect-ratio:800/1314;border-radius:12px;border:3px solid var(--red);background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cg fill='none' stroke='%23C9352C' stroke-width='3.2'%3E%3Ccircle cx='0' cy='0' r='30'/%3E%3Ccircle cx='60' cy='0' r='30'/%3E%3Ccircle cx='30' cy='52' r='30'/%3E%3Ccircle cx='0' cy='104' r='30'/%3E%3Ccircle cx='60' cy='104' r='30'/%3E%3Ccircle cx='30' cy='0' r='30'/%3E%3Ccircle cx='0' cy='52' r='30'/%3E%3Ccircle cx='60' cy='52' r='30'/%3E%3Ccircle cx='30' cy='104' r='30'/%3E%3C/g%3E%3C/svg%3E");background-size:40px 70px;background-position:center}
+.icon{width:24px;height:24px;flex:none}
+.paper-shadow{box-shadow:0 1px 1px rgba(60,45,20,.12),0 10px 22px -10px rgba(60,45,20,.45),0 26px 40px -24px rgba(60,45,20,.35)}
+.flipper{position:relative;aspect-ratio:800/1314;transform-style:preserve-3d;transition:transform .85s var(--ease)}
+.flipper.up{transform:rotateY(180deg)}
+.flipper>.bk,.flipper>.fc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px}
+.flipper>.fc{transform:rotateY(180deg);overflow:hidden;background:#fff}
+.flipper>.fc img{width:100%;height:100%;object-fit:cover}
+.sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.45),rgba(255,255,255,0) 45%);opacity:0;transition:opacity .25s;mix-blend-mode:soft-light}
+.tilt:hover .sheen{opacity:1}
+
+/* ---------- header ---------- */
+.announce{background:var(--ink);color:#fff;text-align:center;font-family:var(--display);letter-spacing:.07em;font-size:15px;padding:9px 16px;text-transform:uppercase}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-block:18px}
+.nav .links{display:flex;gap:28px}
+.nav .links a{font:600 14px var(--ui);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.nav .links a[aria-current]{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+.nav .logo{font-family:var(--display);font-size:38px;text-decoration:none}
+.nav .icons{display:flex;justify-content:flex-end;gap:18px}
+@media (max-width:749px){.nav .links a:not(:first-child){display:none}.nav .logo{font-size:30px}}
+
+/* ---------- S1 buy ---------- */
+.buy{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:60px;align-items:start;padding-block:24px 96px}
+@media (max-width:920px){.buy{grid-template-columns:minmax(0,1fr);gap:28px}}
+.gal{position:sticky;top:20px}
+@media (max-width:920px){.gal{position:static}}
+.gal-main{position:relative;aspect-ratio:1;border:var(--bw) solid var(--ink);border-radius:var(--r);overflow:hidden;background:#ECE9E0}
+.gal-main img{width:100%;height:100%;object-fit:cover}
+.gal-main .box-bg{background:radial-gradient(circle at 50% 45%,#FFFDF7,#E9E3D3)}
+.gal-main .box-bg img{object-fit:contain;padding:8%;filter:drop-shadow(18px 24px 22px rgba(60,45,20,.35))}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:repeating-linear-gradient(45deg,#F4F1E6 0 14px,#EFEBDD 14px 28px);font-size:14px;color:var(--muted)}
+.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
+.thumbs button{aspect-ratio:1;border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;cursor:pointer;background:#ECE9E0}
+.thumbs button[aria-current="true"]{border-color:var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs .box-t{object-fit:contain;padding:8%;background:#F4EFE2}
+.thumbs .t-ph{display:flex;align-items:center;justify-content:center;font:600 11px/1.2 var(--ui);color:var(--muted);height:100%;background:repeating-linear-gradient(45deg,#F4F1E6 0 8px,#EFEBDD 8px 16px)}
+.info{display:flex;flex-direction:column;gap:22px}
+.info h1{font-size:clamp(42px,4.8vw,62px)}
+.thesis{font-family:var(--lit);font-style:italic;font-weight:600;font-size:25px;line-height:1.28;max-width:30ch}
+.price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.price b{font:700 30px var(--ui)}
+.price span{font-size:14px;color:var(--muted)}
+.ed-label{font:600 13px var(--ui);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
+.editions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ed{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:var(--bw) solid var(--ink);border-radius:var(--r);padding:14px 16px;background:#fff;cursor:pointer;position:relative;transition:background .15s}
+.ed:hover{background:var(--yellow-soft)}
+.ed[aria-checked="true"]{background:var(--yellow);box-shadow:var(--shadow)}
+.ed .n{font-family:var(--display);font-size:23px;text-transform:uppercase;line-height:1}
+.ed .s{font-size:13px;color:#3d3a34}
+.ed .dot{position:absolute;top:14px;right:14px;width:18px;height:18px;border:2.5px solid var(--ink);border-radius:50%;background:#fff}
+.ed[aria-checked="true"] .dot{background:radial-gradient(circle,var(--ink) 0 4px,#fff 5px)}
+.cta{display:flex;flex-direction:column;gap:12px}
+.notify{display:flex;gap:10px}
+.notify input{flex:1;min-width:0;font:inherit;padding:14px;border:var(--bw) solid var(--ink);border-radius:8px;background:#fff}
+.done{border:var(--bw) solid var(--ink);border-radius:8px;background:var(--yellow-soft);padding:14px 16px;font-weight:600}
+.pay{display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border-radius:8px;border:var(--bw) solid var(--ink);background:#000;color:#fff;font:600 20px var(--ui);cursor:pointer;width:100%}
+.pay.g{background:#fff;color:#000}
+.pay svg{height:22px;width:auto}
+.paysplit{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.jump{display:flex;gap:18px;flex-wrap:wrap}
+.trust{display:grid;gap:12px;border-top:1.5px solid var(--hair);padding-top:20px}
+.trust div{display:flex;gap:12px;align-items:center;font-size:15px}
+.trust b{font-weight:600}
+.state-pre .only-launch{display:none!important}
+.state-launch .only-pre{display:none!important}
+details.more{border-top:1.5px solid var(--hair);border-bottom:1.5px solid var(--hair);padding-block:14px}
+details.more summary{font-family:var(--display);font-size:20px;text-transform:uppercase;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"+";font-family:var(--ui);font-weight:500}
+details.more[open] summary::after{content:"–"}
+details.more p{margin-top:10px;font-size:15px}
+
+/* ---------- S2 how to read ---------- */
+.s2{background:var(--table)}
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:64px;align-items:center}
+@media (max-width:920px){.how{display:flex;flex-direction:column;gap:24px}.how .side{display:contents}.how .side>.kicker,.how .side>h2,.how .tabs{order:1}.how .stagewrap{order:2;min-height:0}.how .panel{order:3}.how .fine{order:4}}
+.side{display:flex;flex-direction:column;gap:22px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font-family:var(--display);text-transform:uppercase;font-size:15.5px;letter-spacing:.02em;border:var(--bw) solid var(--ink);border-bottom-width:var(--bw);background:#FBF7EC;padding:10px 14px 9px;border-radius:9px 9px 3px 3px;cursor:pointer;transform:translateY(3px);transition:transform .18s var(--ease),background .18s}
+.tabs button:hover{transform:translateY(0)}
+.tabs button[aria-selected="true"]{background:var(--yellow);transform:translateY(-3px);box-shadow:0 4px 0 var(--ink)}
+.panel{display:none;flex-direction:column;gap:16px}
+.panel.on{display:flex;animation:fadeup .45s var(--ease)}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel .qs{display:flex;flex-direction:column;gap:6px}
+.panel .qs span{font-family:var(--lit);font-style:italic;font-weight:700;font-size:22px;line-height:1.25}
+.picker{display:flex;flex-direction:column;gap:10px}
+.picker .lab{font:600 12.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.minis{display:flex;gap:6px;flex-wrap:wrap}
+.minis button{width:40px;padding:0;border:0;background:none;cursor:pointer;border-radius:4px;transition:transform .2s var(--ease)}
+.minis button img{border-radius:4px;box-shadow:0 0 0 1.5px rgba(34,34,34,.35)}
+.minis button:hover{transform:translateY(-6px) rotate(-4deg)}
+.minis button[aria-pressed="true"]{transform:translateY(-8px)}
+.minis button[aria-pressed="true"] img{box-shadow:0 0 0 2.5px var(--ink),0 6px 0 -2px var(--yellow)}
+.fine{font-size:13.5px;color:var(--muted);border-top:1.5px dashed rgba(34,34,34,.25);padding-top:14px}
+
+.stagewrap{position:relative;min-height:640px;display:flex;align-items:center;justify-content:center}
+@media (max-width:600px){.stagewrap{min-height:0}}
+.view{display:none;width:100%;justify-content:center}
+.view.on{display:flex;animation:fadeup .5s var(--ease)}
+/* annotated card */
+.anno{position:relative;padding-left:46px;width:min(100%,430px)}
+@media (max-width:600px){.anno{padding-left:30px}}
+.card{position:relative;border-radius:14px;touch-action:manipulation}
+.card>img{width:100%;border-radius:14px}
+.card .clip{position:absolute;inset:0;border-radius:14px;overflow:hidden;pointer-events:none}
+.spot{position:absolute;border-radius:10px;box-shadow:0 0 26px 2000px rgba(34,26,14,.58);opacity:0;transition:left .38s var(--ease),top .38s var(--ease),width .38s var(--ease),height .38s var(--ease),opacity .3s}
+.card.lit .spot{opacity:1}
+.lift{position:absolute;background-repeat:no-repeat;border-radius:4px;opacity:0;transform:scale(1);transition:left .38s var(--ease),top .38s var(--ease),width .38s var(--ease),height .38s var(--ease),opacity .25s,transform .38s var(--ease);box-shadow:0 14px 26px -8px rgba(0,0,0,.55);pointer-events:none;z-index:2}
+.card.lit .lift{opacity:1;transform:scale(1.07) rotate(-.6deg)}
+.hot{position:absolute;border:0;background:transparent;padding:0;cursor:pointer;z-index:3}
+.hot:focus-visible{outline:3px solid var(--yellow);outline-offset:-3px}
+/* margin notes */
+.rows{position:absolute;left:0;top:0;bottom:0;width:40px}
+@media (max-width:600px){.rows{width:26px}}
+.row{position:absolute;left:0;width:100%;display:flex;align-items:center;justify-content:center;transition:color .25s}
+.row::before{content:"";position:absolute;right:4px;top:6px;bottom:6px;width:9px;border:2px solid currentColor;border-right:0;border-radius:6px 0 0 6px;opacity:.5}
+.row span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--display);text-transform:uppercase;font-size:13px;letter-spacing:.04em;white-space:nowrap;color:var(--muted);padding:2px 0;background:linear-gradient(var(--hl),var(--hl)) no-repeat center bottom/100% 0;transition:background-size .35s var(--ease),color .25s;margin-right:10px}
+@media (max-width:600px){.row span{font-size:10.5px;margin-right:7px}}
+.row.on span{background-size:100% 100%;color:var(--ink)}
+.row.on::before{opacity:1}
+/* paper label on the frame */
+.label{position:absolute;z-index:5;pointer-events:none;background:#FFFDF6;padding:9px 14px 10px;border-radius:3px;box-shadow:0 8px 18px -8px rgba(0,0,0,.55);opacity:0;transform:translate(-50%,-8px) rotate(-2.5deg) scale(.96);transition:opacity .25s,transform .35s var(--ease),left .38s var(--ease),top .38s var(--ease);max-width:230px;text-align:center}
+.label::before{content:"";position:absolute;left:50%;top:-9px;width:54px;height:17px;transform:translateX(-50%) rotate(3deg);background:rgba(252,226,6,.72);box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.label b{display:block;font-family:var(--display);font-weight:400;font-size:19px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.label i{display:block;font-family:var(--lit);font-weight:700;font-size:17px;line-height:1.15;margin-top:3px}
+.label small{display:block;font:600 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.card.lit ~ .label,.anno.lit .label{opacity:1;transform:translate(-50%,0) rotate(-2.5deg)}
+@media (max-width:600px){.label{padding:7px 10px 8px;max-width:170px}.label b{font-size:15px}.label i{font-size:14px}}
+.hint{position:absolute;right:-6px;top:-34px;font-family:var(--display);font-size:15px;text-transform:uppercase;color:var(--muted);transform:rotate(3deg);display:flex;align-items:center;gap:6px;transition:opacity .3s}
+.anno.lit .hint,.anno.used .hint{opacity:0}
+.hint .tp{display:none}@media (hover:none){.hint .tp{display:inline}.hint .hv{display:none}}
+/* table readings */
+.deal{display:flex;flex-direction:column;align-items:center;gap:26px;width:100%}
+.spread{display:flex;gap:18px;justify-content:center;perspective:1400px;width:100%}
+.slot{display:flex;flex-direction:column;align-items:center;gap:10px;width:min(30%,180px)}
+.one .slot{width:min(62%,250px)}
+.slot .flipper{width:100%;cursor:pointer}
+.slot .flipper .fc,.slot .flipper .bk{box-shadow:0 12px 24px -12px rgba(60,45,20,.55)}
+.slot .pos{font-family:var(--lit);font-style:italic;font-weight:700;color:var(--red);font-size:18px;text-align:center;line-height:1.15;min-height:2.3em}
+.slot .nm{font-family:var(--display);text-transform:uppercase;font-size:16px;text-align:center;line-height:1.1;min-height:1.1em}
+.slot .flipper.away{transform:translateY(-40px) rotate(-8deg) scale(.92);opacity:0}
+.slot .flipper{transition:transform .85s var(--ease),opacity .4s}
+@media (max-width:520px){.spread{gap:10px}.slot .pos{font-size:14.5px}.slot .nm{font-size:12.5px}}
+
+/* ---------- S3 meet the cards ---------- */
+.meet{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,.8fr);gap:26px;align-items:end;perspective:1400px}
+@media (max-width:860px){.meet{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.meet .more66{grid-column:span 2;max-width:220px;justify-self:center}}
+.mcard{cursor:pointer;border:0;padding:0;background:none;text-align:center;display:flex;flex-direction:column;gap:12px}
+.mcard .flipper{transition:transform .9s var(--ease)}
+.mcard .cap{font-family:var(--display);text-transform:uppercase;font-size:15px;letter-spacing:.03em;min-height:1.2em}
+.mcard:hover .flipper{transform:translateY(-8px) rotate(-1.5deg)}
+.mcard:hover .flipper.up{transform:rotateY(180deg) translateY(-8px) rotate(1.5deg)}
+.more66{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.pile{position:relative;width:100%;aspect-ratio:800/1314}
+.pile .back{position:absolute;inset:0}
+.pile .back:nth-child(1){transform:rotate(-6deg) translate(-6px,6px)}
+.pile .back:nth-child(2){transform:rotate(-2deg) translate(-2px,2px)}
+.pile .back:nth-child(3){transform:rotate(3deg)}
+.pile .n{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:44px;color:var(--ink);text-shadow:0 0 0 #fff;z-index:2}
+.pile .n span{background:#fff;padding:4px 12px;border:var(--bw) solid var(--ink);border-radius:8px;transform:rotate(-4deg)}
+.specs{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:64px;padding-top:32px;border-top:1.5px solid var(--hair)}
+@media (max-width:900px){.specs{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.specs{grid-template-columns:repeat(2,1fr)}}
+.spec .l{display:flex;gap:8px;align-items:center;font:600 12px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.spec .l img{width:20px}
+.spec .v{font-weight:600;font-size:17px;margin-top:4px}
+
+/* ---------- S4 unboxing ---------- */
+.s4{background:var(--paper2);overflow:hidden}
+.unbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:48px;align-items:center}
+@media (max-width:900px){.unbox{grid-template-columns:minmax(0,1fr);gap:24px}}
+.ubtext{display:flex;flex-direction:column;gap:20px}
+.ublist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.ublist li{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;font-size:16px}
+.ublist li b{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:21px;display:block;line-height:1.05}
+.ublist .dot{width:34px;height:34px;border-radius:50%;border:var(--bw) solid var(--ink);background:var(--yellow);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:17px}
+.stage4{position:relative;height:600px}
+@media (max-width:600px){.stage4{height:440px}}
+.boxwrap{position:absolute;left:50%;bottom:0;width:min(46%,250px);transform:translateX(-58%);z-index:3;transition:transform .9s var(--ease)}
+.boxwrap img{filter:drop-shadow(22px 26px 20px rgba(60,45,20,.35))}
+.out{position:absolute;z-index:2;width:min(24%,132px);left:50%;bottom:40%;transform:translate(-80%,0) rotate(0);transition:transform 1s var(--ease),opacity .4s;opacity:0}
+.out img,.out .gc{border-radius:9px;box-shadow:0 12px 22px -12px rgba(60,45,20,.6)}
+.s4.open .out{opacity:1}
+.s4.open .o1{transform:translate(-18%,-92%) rotate(16deg)}
+.s4.open .o2{transform:translate(-68%,-112%) rotate(4deg)}
+.s4.open .o3{transform:translate(-118%,-96%) rotate(-10deg)}
+.s4.open .g1{transform:translate(-240%,-4%) rotate(-14deg)}
+.s4.open .g2{transform:translate(78%,0) rotate(12deg)}
+.s4.open .boxwrap{transform:translateX(-58%) rotate(-2deg)}
+.o2{transition-delay:.08s}.o3{transition-delay:.16s}.g1{transition-delay:.3s}.g2{transition-delay:.38s}
+.gc{aspect-ratio:800/1314;background:#fff;padding:9px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;font-family:var(--lit);font-style:italic;font-weight:700;font-size:9.5px;line-height:1.2;border:1px solid #e3dccb}
+.gc .t{font-family:var(--display);font-style:normal;font-size:11.5px;text-transform:uppercase;line-height:1}
+.gc .mb{display:flex;gap:3px;justify-content:center;width:100%}
+.gc .mb .back{width:26%;border-width:1.5px;background-size:9px 16px;border-radius:3px}
+.gc .w{font-family:var(--display);font-style:normal;font-size:10px;margin-top:auto}
+.note{position:absolute;z-index:4;font-family:var(--display);text-transform:uppercase;font-size:17px;line-height:1;opacity:0;transition:opacity .4s .7s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.s4.open .note{opacity:1}
+.note svg{width:46px;height:30px;flex:none}
+@media (max-width:600px){.note{display:none}.s4.open .g1{transform:translate(-175%,-2%) rotate(-14deg)}.s4.open .g2{transform:translate(55%,0) rotate(12deg)}}
+.replay{position:absolute;right:0;bottom:0;z-index:5}
+
+/* ---------- S5 walter ---------- */
+.walter{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:72px;align-items:center}
+@media (max-width:860px){.walter{grid-template-columns:minmax(0,1fr);gap:36px}}
+.ba{position:relative;max-width:400px;width:100%;margin-inline:auto;aspect-ratio:800/1314;border-radius:14px;overflow:hidden;border:var(--bw) solid var(--ink);user-select:none;touch-action:pan-y}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .sk{filter:grayscale(1) contrast(1.9) brightness(1.25);clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.ba .hd{position:absolute;top:0;bottom:0;left:var(--x,50%);width:0;border-left:3px solid var(--ink);pointer-events:none}
+.ba .hd span{position:absolute;top:50%;left:-24px;width:44px;height:44px;border-radius:50%;background:var(--yellow);border:var(--bw) solid var(--ink);transform:translateY(-50%);display:flex;align-items:center;justify-content:center;font:700 16px var(--ui)}
+.ba input{position:absolute;inset:0;opacity:0;cursor:ew-resize;width:100%;height:100%;margin:0}
+.ba .lab{position:absolute;bottom:12px;font:600 12px var(--ui);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 10px;pointer-events:none}
+.wtxt{display:flex;flex-direction:column;gap:18px}
+.wtxt p{font-size:17.5px;max-width:58ch}
+.wtxt .pull{font-family:var(--lit);font-style:italic;font-weight:700;font-size:clamp(25px,2.7vw,34px);line-height:1.2;border-left:5px solid var(--yellow);padding-left:20px}
+.wtxt .sign{font-family:var(--display);font-size:30px}
+
+/* ---------- S6 faq ---------- */
+.faq{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:72px;align-items:start}
+@media (max-width:860px){.faq{grid-template-columns:minmax(0,1fr);gap:28px}}
+.faqvis{position:sticky;top:24px;display:flex;flex-direction:column;gap:18px}
+.faqcard{width:74%;max-width:270px;border:0;padding:0;background:none;cursor:pointer;position:relative;border-radius:14px}
+.faqcard img{border-radius:14px;transition:transform .2s}
+.faqcap{font:600 12.5px var(--ui);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:860px){.faqvis{position:static;flex-direction:row;align-items:center;flex-wrap:wrap}.faqcard{width:96px}}
+.qa{border:var(--bw) solid var(--ink);border-radius:var(--r);background:#fff}
+.qa + .qa{margin-top:12px}
+.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1.1}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .pm{flex:none;width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font:600 18px var(--ui);transition:transform .2s,background .2s}
+.qa[open] summary .pm{transform:rotate(45deg);background:var(--yellow)}
+.qa[open]{background:#FFFCEB}
+.qa .ans{padding:0 22px 20px;font-size:16px;max-width:62ch;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.qa .ans .row2{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ---------- S7 closing ---------- */
+.close{background:var(--yellow)}
+.closein{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center}
+@media (max-width:860px){.closein{grid-template-columns:minmax(0,1fr);text-align:center;justify-items:center}}
+.close h2{font-size:clamp(36px,5vw,62px)}
+.close .sub{font-family:var(--lit);font-style:italic;font-weight:700;font-size:23px;margin-top:14px}
+.fan{position:relative;width:330px;height:270px;flex:none}
+.fan img{position:absolute;width:140px;border-radius:10px;border:2px solid var(--ink);top:24px;transition:transform .3s}
+.fan img:nth-child(1){left:8px;transform:rotate(-12deg)}
+.fan img:nth-child(2){left:95px;top:0}
+.fan img:nth-child(3){left:182px;transform:rotate(12deg)}
+.fan:hover img:nth-child(1){transform:rotate(-17deg) translateX(-12px)}
+.fan:hover img:nth-child(3){transform:rotate(17deg) translateX(12px)}
+@media (max-width:420px){.fan{width:280px;height:230px}.fan img{width:118px}.fan img:nth-child(2){left:80px}.fan img:nth-child(3){left:152px}}
+.revnote{border-top:var(--bw) solid var(--ink);background:repeating-linear-gradient(45deg,#F7F4EA 0 12px,#F1EDE0 12px 24px);padding:26px 16px;text-align:center;font:600 14px var(--ui);color:var(--muted);position:relative}
+
+/* ---------- footer ---------- */
+footer{border-top:var(--bw) solid var(--ink);padding-block:64px 32px;position:relative}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.2fr;gap:32px}
+@media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.fgrid{grid-template-columns:1fr}}
+.fgrid h4{font-size:20px;margin-bottom:14px}
+.fgrid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.fgrid a{text-decoration:none}
+.fgrid a:hover{text-decoration:underline}
+.nl{display:flex;flex-direction:column;gap:12px}
+.nl input{font:inherit;padding:13px 14px;border:var(--bw) solid var(--ink);border-radius:8px;background:#fff}
+.fbot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:48px;padding-top:20px;border-top:1.5px solid var(--hair);font-size:13px;color:var(--muted)}
+.pm-row{display:flex;gap:8px;flex-wrap:wrap}
+.pm-row span{border:1.5px solid rgba(34,34,34,.35);border-radius:5px;padding:3px 8px;font:600 12px var(--ui);color:var(--ink);background:#fff}
+
+/* ---------- sticky + tools ---------- */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--paper);border-top:var(--bw) solid var(--ink);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none;align-items:center;gap:12px;transform:translateY(110%);transition:transform .25s}
+.sticky.show{transform:none}
+.sticky img{width:32px;border-radius:4px}
+.sticky .t{flex:1;font-family:var(--display);font-size:16px;text-transform:uppercase;line-height:1.1}
+.sticky .t span{font:500 12.5px var(--ui);text-transform:none;display:block}
+.sticky .btn{font-size:17px;padding:10px 16px;box-shadow:3px 3px 0 var(--ink)}
+@media (max-width:749px){.sticky{display:flex}}
+.tools{position:fixed;right:16px;bottom:16px;z-index:50;background:#fff;border:var(--bw) solid var(--ink);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);font:600 12.5px var(--ui);width:230px}
+.tools .r{display:flex;gap:6px}
+.tools button{flex:1;border:2px solid var(--ink);border-radius:6px;background:#fff;padding:6px 8px;cursor:pointer;font:600 12px var(--ui)}
+.tools button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.tools .x{position:absolute;top:4px;right:6px;border:0;flex:none;padding:2px 6px;background:none;font-size:16px}
+.toc{display:flex;flex-wrap:wrap;gap:5px}
+.toc a{font:600 11px var(--ui);border:1.5px solid var(--ink);border-radius:999px;padding:3px 7px;text-decoration:none}
+@media (max-width:749px){.tools{bottom:84px;width:200px}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<div class="state-pre" id="root">
+
+<div class="announce">First edition · 100 in English · 100 in Slovak</div>
+<div class="wrap"><nav class="nav" aria-label="Main">
+  <div class="links"><a href="#" aria-current="page">Tarot</a><a href="#">Books</a><a href="#">About</a></div>
+  <a class="logo" href="#">Walterin</a>
+  <div class="icons" aria-hidden="true">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+  </div>
+</nav></div>
+
+<!-- S1 BUY -->
+<section id="s1" style="position:relative">
+  <span class="tag">S1 · Buy</span>
+  <div class="wrap buy">
+    <div class="gal">
+      <div class="gal-main" id="galMain"></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+    <div class="info">
+      <div class="kicker">78-card tarot deck · illustrated by Walter Ihring</div>
+      <h1>Comics Tarot of Consciousness</h1>
+      <p class="thesis">78 cards. One illustrator. Every card a nine-frame comic.</p>
+      <div class="price"><b>€39</b><span>VAT included · shipping at checkout</span></div>
+      <div>
+        <div class="ed-label">Choose your edition</div>
+        <div class="editions" role="radiogroup" aria-label="Edition">
+          <button class="ed" role="radio" aria-checked="true" data-ed="en" type="button"><span class="dot"></span><span class="n">English</span><span class="s">Limited to 100 copies</span></button>
+          <button class="ed" role="radio" aria-checked="false" data-ed="sk" type="button"><span class="dot"></span><span class="n">Slovenčina</span><span class="s">Limitovaná na 100 kópií</span></button>
+        </div>
+      </div>
+      <div class="cta only-pre" id="notifyBox">
+        <form class="notify" id="notifyForm"><label class="sr" for="n-email">Email</label><input id="n-email" type="email" placeholder="Your email" required><button class="btn sm" type="submit">Notify me</button></form>
+        <p class="small">One email on release day, for the <b data-edname>English</b> edition. Nothing else.</p>
+      </div>
+      <div class="cta only-launch">
+        <button class="btn block" type="button">Add to cart · <span data-edname>English</span> · €39</button>
+        <div class="paysplit">
+          <button class="pay" type="button" aria-label="Buy now with Apple Pay"><svg viewBox="0 0 17 20" fill="currentColor"><path d="M14.1 10.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9C3.8 4.9 2.2 5.9 1.3 7.4c-1.8 3.2-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.3.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.8-1.1-2.8-4.2zM11.6 3.1c.7-.9 1.2-2 1.1-3.1-1 0-2.3.7-3 1.5-.7.8-1.2 1.9-1.1 3 1.1.1 2.3-.6 3-1.4z"/></svg>Pay</button>
+          <button class="pay g" type="button" aria-label="Buy now with Google Pay"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.6 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.3-4.8 3.3-8.1z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.8 14.2a6.6 6.6 0 0 1 0-4.3V7H2.1a11 11 0 0 0 0 9.9z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2A11 11 0 0 0 2.1 7l3.7 2.9C6.7 7.3 9.1 5.4 12 5.4z"/></svg>Pay</button>
+        </div>
+        <p class="small">Card or PayPal? <a href="#">More payment options</a> · Ships in 2–4 working days <span class="flag">confirm</span></p>
+      </div>
+      <div class="jump"><a class="link" href="#s2" data-mode-link="read">How a card reads ↓</a><a class="link" href="#s2" data-mode-link="day">Draw a card ↓</a></div>
+      <div class="trust">
+        <div><svg class="icon" viewBox="0 0 32 32" fill="none" stroke="#222" stroke-width="2.2"><rect x="7" y="3" width="18" height="26" rx="3"/><path d="M12 10h8M12 15h8M12 20h5"/></svg><span><b>First edition, limited</b>: 100 copies per language</span></div>
+        <div><svg class="icon" viewBox="0 0 32 32" fill="none" stroke="#222" stroke-width="2.2"><rect x="3" y="7" width="26" height="18" rx="2"/><path d="M3 12h26M8 20h6"/></svg><span><b>Apple Pay, Google Pay</b>, cards and PayPal</span></div>
+        <div><svg class="icon" viewBox="0 0 32 32" fill="none" stroke="#222" stroke-width="2.2"><path d="M16 3 4 9v14l12 6 12-6V9z"/><path d="M4 9l12 6 12-6M16 15v14"/></svg><span><b>Ships across the EU</b> with Packeta</span></div>
+      </div>
+      <details class="more"><summary>Details</summary><p>78 cards, 22 Major and 56 Minor Arcana. Inspired by the original Rider–Waite and redrawn as nine-frame comics. In a tuck box with two guide cards. 84 × 138 mm, matte.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- S2 HOW TO READ -->
+<section id="s2" class="sec s2">
+  <span class="tag">S2 · How to read (one section, 3 modes)</span>
+  <div class="wrap how">
+    <div class="side">
+      <div class="kicker">Inspired by Rider–Waite, redrawn the Walterin way</div>
+      <h2>Every card is a nine-frame comic</h2>
+      <div class="tabs" role="tablist" aria-label="How to read">
+        <button role="tab" aria-selected="true" data-mode="read" type="button">Read a card</button>
+        <button role="tab" aria-selected="false" data-mode="day" type="button">Card of the day</button>
+        <button role="tab" aria-selected="false" data-mode="three" type="button">Reading of consciousness</button>
+      </div>
+
+      <div class="panel on" data-panel="read">
+        <p class="lede">Look at the picture first. Then read the words. Three rows, three questions: what to understand, what to accept, what to transform.</p>
+        <div><button class="btn sm" id="play" type="button">Read it frame by frame</button></div>
+        <div class="picker"><span class="lab">Try another card · 12 of 78</span><div class="minis" id="minis"></div></div>
+      </div>
+
+      <div class="panel" data-panel="day">
+        <p class="lede">Ask the deck whatever is on your mind. If nothing comes, ask:</p>
+        <div class="qs"><span class="red">What does today want to tell me?</span></div>
+        <div><button class="btn sm" id="dealDay" type="button">Draw a card</button></div>
+      </div>
+
+      <div class="panel" data-panel="three">
+        <p class="lede">Three cards, three questions. Lay them left to right.</p>
+        <div class="qs"><span><span class="red">1.</span> What to understand?</span><span><span class="red">2.</span> What to accept?</span><span><span class="red">3.</span> What to transform?</span></div>
+        <div><button class="btn sm" id="dealThree" type="button">Draw three</button></div>
+      </div>
+
+      <p class="fine">You're trying it with 12 cards. The full deck and both reading guides, word for word, come in the box.</p>
+    </div>
+
+    <div class="stagewrap">
+      <div class="view on" data-view="read">
+        <div class="anno" id="anno">
+          <div class="rows" id="rows" aria-hidden="true"></div>
+          <div class="card" id="card">
+            <img id="cardImg" src="img/cards/c02.webp" alt="The Magician" width="760" height="1248">
+            <div class="clip"><div class="spot" id="spot"></div></div>
+            <div class="lift" id="lift"></div>
+          </div>
+          <div class="label" id="label" aria-hidden="true"><b></b><i></i><small></small></div>
+          <div class="hint" aria-hidden="true"><svg width="34" height="22" viewBox="0 0 34 22" fill="none" stroke="#5E5A52" stroke-width="2" stroke-linecap="round"><path d="M32 4C22 2 12 6 6 16"/><path d="M4 9l2 8 8-2"/></svg><span class="hv">Hover a frame</span><span class="tp">Tap a frame</span></div>
+          <p class="sr" id="live" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="view" data-view="day"><div class="deal one"><div class="spread" id="spreadDay"></div></div></div>
+      <div class="view" data-view="three"><div class="deal"><div class="spread" id="spreadThree"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 MEET THE CARDS -->
+<section id="s3" class="sec">
+  <span class="tag">S3 · Meet the cards + specs</span>
+  <div class="wrap">
+    <div class="head c"><div class="kicker">A few from the deck</div><h2>Meet the cards</h2><p class="lede">They turn on their own. Tap one to read it.</p></div>
+    <div class="meet" id="meet">
+      <div class="more66"><div class="pile"><div class="back"></div><div class="back"></div><div class="back"></div><div class="n"><span>+66</span></div></div><span class="hand" style="font-size:15px">In the box</span></div>
+    </div>
+    <div class="specs">
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Cards</div><div class="v">78 · full deck</div></div>
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Structure</div><div class="v">22 Major · 56 Minor</div></div>
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Size</div><div class="v">84 × 138 mm</div></div>
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Print</div><div class="v">Full colour</div></div>
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Paper</div><div class="v">Black-core card, 350 g <span class="flag">confirm</span></div></div>
+      <div class="spec"><div class="l"><img src="img/wi-star.png" alt="">Finish</div><div class="v">Matte, both sides</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S4 IN THE BOX -->
+<section id="s4" class="sec s4">
+  <span class="tag">S4 · In the box (opens on scroll)</span>
+  <div class="wrap unbox">
+    <div class="ubtext">
+      <div class="kicker">What you hold</div>
+      <h2>Open the box</h2>
+      <ul class="ublist">
+        <li><span class="dot">1</span><span><b>78 cards</b>22 Major and 56 Minor Arcana, every one a nine-frame comic.</span></li>
+        <li><span class="dot">2</span><span><b>2 guide cards</b>Card of the day and Reading of consciousness. <button class="link" type="button" data-mode-link="day">Try one</button></span></li>
+        <li><span class="dot">3</span><span><b>The tuck box</b>Stands on a shelf like a small book.</span></li>
+      </ul>
+    </div>
+    <div class="stage4" id="stage4">
+      <div class="out o3"><img src="img/cards/c18.webp" alt=""></div>
+      <div class="out o2"><img src="img/cards/c02.webp" alt=""></div>
+      <div class="out o1"><img src="img/cards/c20.webp" alt=""></div>
+      <div class="out g1"><div class="gc"><span class="t">Card of the day</span><div class="mb"><div class="back"></div></div><span>Ask the deck whatever question is on your mind right now.</span><span class="red">What does today want to tell me?</span><span class="w">Walterin</span></div></div>
+      <div class="out g2"><div class="gc"><span class="t">Reading of consciousness</span><div class="mb"><div class="back"></div><div class="back"></div><div class="back"></div></div><span class="red">What to understand?</span><span class="red">What to accept?</span><span class="red">What to transform?</span><span class="w">Walterin</span></div></div>
+      <div class="boxwrap"><img src="img/box.webp" alt="The Comics Tarot of Consciousness tuck box, open, with cards inside" width="540" height="1100"></div>
+      <div class="note" style="left:4%;top:8%"><span>78 cards</span><svg viewBox="0 0 46 30" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"><path d="M2 6c16-4 30 2 40 18"/><path d="M34 22l8 3 1-8"/></svg></div>
+      <div class="note" style="left:0;bottom:16%"><svg viewBox="0 0 46 30" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" style="order:2"><path d="M2 24C14 26 30 20 42 6"/><path d="M34 6h8v8"/></svg><span>2 guide cards</span></div>
+      <div class="note" style="right:2%;bottom:14%"><svg viewBox="0 0 46 30" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"><path d="M44 6C30 4 14 12 6 26"/><path d="M4 18l2 8 8-3"/></svg><span>the tuck box</span></div>
+      <button class="btn sm ghost replay" id="replay" type="button">Close the box</button>
+    </div>
+  </div>
+</section>
+
+<!-- S5 WALTER -->
+<section id="s5" class="sec">
+  <span class="tag">S5 · Walter + sketch slider</span>
+  <div class="wrap walter">
+    <div>
+      <div class="ba" id="ba" style="--x:50%">
+        <img src="img/cards/c02.webp" alt="The Magician, finished">
+        <img class="sk" src="img/cards/c02.webp" alt="The Magician, ink sketch">
+        <div class="hd"><span aria-hidden="true">↔</span></div>
+        <span class="lab" style="left:12px">Sketch</span><span class="lab" style="right:12px">Finished</span>
+        <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Compare sketch and finished card">
+      </div>
+      <p class="small" style="text-align:center;margin-top:12px">Drag to see how a card is made. <span class="flag">needs Walter's real sketch scan</span></p>
+    </div>
+    <div class="wtxt">
+      <div class="kicker">The illustrator</div>
+      <h2>Why a comic artist redrew the tarot</h2>
+      <span class="flag" style="align-self:flex-start">Draft: Walter rewrites in his own words</span>
+      <p class="pull">“A tarot card is already a comic. One picture with a whole story folded inside. I unfolded it.”</p>
+      <p>For years I drew cities like Bratislava and Prague as illustrated stories: history told with a wink. The tarot pulled me the same way. Seventy-eight old pictures that everyone recognises and few people really read.</p>
+      <p>So I kept the Rider–Waite skeleton and drew each card again as nine frames, the way I draw everything: by hand, in ink, one line after another. The cards don't tell you what will happen. They show you a small story and let you find yourself in it.</p>
+      <p class="sign">Walter Ihring</p>
+    </div>
+  </div>
+</section>
+
+<!-- S6 FAQ -->
+<section id="s6" class="sec" style="background:var(--paper2)">
+  <span class="tag">S6 · Questions (each has its card)</span>
+  <div class="wrap faq">
+    <div class="faqvis">
+      <div class="head" style="margin-bottom:0"><div class="kicker">Before you order</div><h2>Questions</h2></div>
+      <button class="faqcard tilt paper-shadow" id="faqCard" type="button" aria-label="Read this card"><img id="faqImg" src="img/cards/c01.webp" alt="The Fool"><span class="sheen"></span></button>
+      <span class="faqcap" id="faqCap"></span>
+    </div>
+    <div id="faqList">
+      <details class="qa" open data-card="1"><summary>Do I need to know tarot?<span class="pm">+</span></summary><div class="ans"><p>No. These are illustrated stories on cards: look at the picture, then read the words. The nine frames guide you, and two guide cards in the box show you how to start.</p><button class="link" type="button" data-mode-link="day">Draw a card</button></div></details>
+      <details class="qa" data-card="24"><summary>English or Slovak?<span class="pm">+</span></summary><div class="ans"><p>Pick the language you want to read the cards in. Each edition has its own captions and guide cards. <span class="flag">confirm</span></p><div class="row2"><button class="btn sm ghost" data-set-ed="en" type="button">English edition</button><button class="btn sm ghost" data-set-ed="sk" type="button">Slovenská edícia</button></div></div></details>
+      <details class="qa" data-card="11"><summary>How many are there?<span class="pm">+</span></summary><div class="ans"><p>The first edition is 100 copies in English and 100 in Slovak.</p></div></details>
+      <details class="qa" data-card="71"><summary>When does it ship?<span class="pm">+</span></summary><div class="ans"><p>As soon as the print run is in our hands. Leave your email and you'll get one message on release day.</p><a class="link" href="#s1" data-go="notify">Leave my email</a></div></details>
+      <details class="qa" data-card="34"><summary>Where do you ship?<span class="pm">+</span></summary><div class="ans"><p>Across the EU with Packeta, to a pickup point or your door. <span class="flag">confirm delivery times</span></p></div></details>
+      <details class="qa" data-card="66"><summary>Can I return it?<span class="pm">+</span></summary><div class="ans"><p>Yes, within 14 days of delivery, unopened and in its box. Details in our <a href="#">refund policy</a>. <span class="flag">check policy</span></p></div></details>
+      <details class="qa" data-card="42"><summary>Is it a good gift?<span class="pm">+</span></summary><div class="ans"><p>It's made to be given: a limited deck someone can read on their own from day one, even if they've never held a tarot card.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<div class="revnote only-labels"><span class="tag">Reviews</span>Reviews stay hidden until the first verified reviews arrive (Judge.me). No placeholder on the live page.</div>
+
+<!-- S7 CLOSING -->
+<section id="s7" class="sec close">
+  <span class="tag">S7 · Closing (remembers your reading)</span>
+  <div class="wrap closein">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div><h2 id="closeH">100 in English.<br>100 in Slovak.</h2><p class="sub" id="closeSub">That's the whole first edition.</p></div>
+      <div><button class="btn ghost only-pre" type="button" data-go="notify">Notify me · <span data-edname>English</span></button><button class="btn ghost only-launch" type="button">Add to cart · <span data-edname>English</span> · €39</button></div>
+    </div>
+    <div class="fan" id="fan"><img src="img/cards/c18.webp" alt=""><img src="img/cards/c02.webp" alt=""><img src="img/cards/c20.webp" alt=""></div>
+  </div>
+</section>
+
+<footer id="s8">
+  <span class="tag">S8 · Footer</span>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="nl"><h4>Letters from the studio</h4><p style="font-size:15px">New cards, new stories, first access to every print run. A few times a year.</p><label class="sr" for="f-email">Email</label><input id="f-email" type="email" placeholder="Your email"><button class="btn sm" type="button">Subscribe</button></div>
+      <div><h4>Shop</h4><ul><li><a href="#">Comics Tarot</a></li><li><a href="#">Books</a></li><li><a href="#">Where to find us</a></li></ul></div>
+      <div><h4>Walterin</h4><ul><li><a href="#">About Walter</a></li><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>Follow</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">Facebook</a></li></ul></div>
+      <div><h4>Support</h4><ul><li>Mon–Fri, 9:00–17:00 CET</li><li>We reply within one working day.</li><li><a href="#">Write to us</a></li><li>Walterin · Bratislava, Slovakia</li></ul></div>
+    </div>
+    <div class="fbot"><span>© 2026 Walterin · Made in Bratislava</span><div class="pm-row"><span>Apple Pay</span><span>Google Pay</span><span>Visa</span><span>Mastercard</span><span>PayPal</span></div><span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Refunds</a> · <a href="#">Cookies</a></span></div>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><img src="img/cards/c02.webp" alt=""><span class="t">Comics Tarot<span>€39 · <b data-edname>English</b> edition</span></span><a class="btn" href="#s1"><span class="only-pre">Notify me</span><span class="only-launch">Buy</span></a></div>
+
+<div class="tools" id="tools" role="region" aria-label="Prototype controls">
+  <button class="x" id="toolsX" type="button" aria-label="Hide controls">×</button>
+  <span>Prototype controls</span>
+  <div class="r"><button type="button" id="stPre" aria-pressed="true">Before launch</button><button type="button" id="stLaunch" aria-pressed="false">Launch day</button></div>
+  <div class="r"><button type="button" id="lbl" aria-pressed="true">Labels + flags</button></div>
+  <div class="toc" id="toc"></div>
+</div>
+</div>
+
+<script>
+(function(){
+var NAMES={1:"The Fool",2:"The Magician",10:"The Hermit",11:"Wheel of Fortune",18:"The Star",20:"The Sun",24:"Two of Wands",34:"Knight of Wands",42:"Six of Cups",57:"Seven of Swords",66:"Two of Pentacles",71:"Seven of Pentacles"};
+var SET=[2,1,10,11,18,20,24,34,42,57,66,71];
+var GRID={1:[[4.5,36,66.5,96.1],[1.8,31.8,62.1,90.3]],2:[[3.5,33.6,64.2,96],[1.7,31.7,62.1,90.4]],10:[[3.9,35.5,66.2,96.5],[2,32,62.3,91.6]],11:[[3.2,34.1,65,96.8],[2.1,32.4,62.3,91.5]],18:[[3.2,34,66,97],[2.1,31.9,62.5,91.7]],20:[[3.8,35.5,66.8,96.5],[1.8,32.3,62.7,91.5]],24:[[3.2,35.6,67,97.2],[1.7,31.9,62.6,90.9]],34:[[3,35.5,66.9,97.5],[1.8,32.3,62.7,91.8]],42:[[2.5,36.2,67.2,97.2],[1.8,32.6,63.5,91.6]],57:[[3.1,35.8,67,96.5],[1.7,31.7,63,91.4]],66:[[3,36,66.6,97],[1.7,32.4,62.9,91.6]],71:[[3,35.9,66.8,97.1],[1.7,32.4,63.4,91.9]]};
+var ROWQ=["What to understand?","What to accept?","What to transform?"];
+var LAB=[["Change","Idea","Value"],["Openness","Meaning","Trust"],["To try","To develop","To create"]];
+var DESC=[["Recognise the moment","What has potential","What matters"],["Embrace the unexpected","Why do it","Release control"],["Begin unprepared","Carry on","Bring into consciousness"]];
+var ED={en:"English",sk:"Slovak"};
+function src(i){return "img/cards/c"+String(i).padStart(2,"0")+".webp"}
+var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,c){return (c||document).querySelector(s)}
+function $$(s,c){return [].slice.call((c||document).querySelectorAll(s))}
+function go(id){document.getElementById(id).scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
+function wait(ms){return new Promise(function(r){setTimeout(r,reduce?0:ms)})}
+var state={edition:"en",card:2,frame:-1,reading:null};
+
+/* ===== edition ===== */
+function setEdition(e){state.edition=e;$$(".ed").forEach(function(b){b.setAttribute("aria-checked",b.dataset.ed===e?"true":"false")});$$("[data-edname]").forEach(function(n){n.textContent=ED[e]})}
+$$(".ed").forEach(function(b){b.onclick=function(){setEdition(b.dataset.ed)}});
+$$("[data-set-ed]").forEach(function(b){b.onclick=function(){setEdition(b.dataset.setEd);go("s1")}});
+$("#notifyForm").onsubmit=function(e){e.preventDefault();$("#notifyBox").innerHTML='<div class="done">You\'re on the list for the '+ED[state.edition]+' edition. One email on release day.</div>'};
+$$("[data-go=notify]").forEach(function(b){b.onclick=function(e){e.preventDefault();go("s1");setTimeout(function(){var i=$("#n-email");i&&i.focus({preventScroll:true})},reduce?0:600)}});
+
+/* ===== S1 gallery ===== */
+var G=[["box","img/box.webp","The tuck box, open"],["img","img/g-fan.webp","Three cards fanned out"],["img","img/g-magician.webp","The Magician"],["img","img/g-spread.webp","A three-card reading"],["img","img/g-macro.webp","Close-up of the ink line"],["ph","","Video to shoot: 6-second shuffle loop"]];
+var th=$("#thumbs"),gm=$("#galMain");
+function showG(g){gm.innerHTML=g[0]==="ph"?'<div class="ph"><span class="flag">'+g[2]+'</span><span>Daylight, warm wood, hands in frame.</span></div>':g[0]==="box"?'<div class="box-bg" style="position:absolute;inset:0"><img src="'+g[1]+'" alt="'+g[2]+'"></div>':'<img src="'+g[1]+'" alt="'+g[2]+'">'}
+G.forEach(function(g,k){var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",g[2]);b.setAttribute("aria-current",k===0?"true":"false");
+ b.innerHTML=g[0]==="ph"?'<span class="t-ph">Video</span>':'<img src="'+g[1]+'" alt=""'+(g[0]==="box"?' class="box-t"':'')+'>';
+ b.onclick=function(){$$("button",th).forEach(function(c){c.setAttribute("aria-current","false")});b.setAttribute("aria-current","true");showG(g)};th.appendChild(b)});
+showG(G[0]);
+
+/* ===== S2 modes ===== */
+function setMode(m){$$(".tabs button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.mode===m?"true":"false")});
+ $$(".panel").forEach(function(p){p.classList.toggle("on",p.dataset.panel===m)});$$(".view").forEach(function(v){v.classList.toggle("on",v.dataset.view===m)});if(m!=="read")stopPlay()}
+$$(".tabs button").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode)}});
+$$("[data-mode-link]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();setMode(a.dataset.modeLink);go("s2")})});
+
+/* ===== S2 annotated card ===== */
+var anno=$("#anno"),card=$("#card"),cardImg=$("#cardImg"),spot=$("#spot"),lift=$("#lift"),label=$("#label"),rowsBox=$("#rows"),hots=[],rows=[],playing=null;
+for(var r=0;r<3;r++){var d=document.createElement("div");d.className="row";d.innerHTML="<span>"+ROWQ[r]+"</span>";rowsBox.appendChild(d);rows.push(d)}
+for(var f=0;f<9;f++){(function(f){var b=document.createElement("button");b.type="button";b.className="hot";b.setAttribute("aria-label",ROWQ[Math.floor(f/3)]+" "+LAB[Math.floor(f/3)][f%3]);
+ b.addEventListener("focus",function(){stopPlay();light(f)});b.addEventListener("click",function(){stopPlay();light(f)});card.appendChild(b);hots.push(b)})(f)}
+function layout(){var g=GRID[state.card],X=g[0],Y=g[1];
+ hots.forEach(function(b,f){var r=Math.floor(f/3),c=f%3;b.style.left=X[c]+"%";b.style.width=(X[c+1]-X[c])+"%";b.style.top=Y[r]+"%";b.style.height=(Y[r+1]-Y[r])+"%"});
+ rows.forEach(function(el,r){el.style.top=Y[r]+"%";el.style.height=(Y[r+1]-Y[r])+"%"})}
+function frameAt(x,y){var g=GRID[state.card],X=g[0],Y=g[1],c=-1,r=-1;for(var i=0;i<3;i++){if(x>=X[i]&&x<X[i+1])c=i;if(y>=Y[i]&&y<Y[i+1])r=i}return (c<0||r<0)?-1:r*3+c}
+function light(f){state.frame=f;if(f<0){card.classList.remove("lit");anno.classList.remove("lit");rows.forEach(function(x){x.classList.remove("on")});return}
+ var r=Math.floor(f/3),c=f%3,g=GRID[state.card],X=g[0],Y=g[1];var pad=.6;
+ var L=X[c]-pad,T=Y[r]-pad,W=X[c+1]-X[c]+pad*2,H=Y[r+1]-Y[r]+pad*2;
+ [spot,lift].forEach(function(el){el.style.left=L+"%";el.style.top=T+"%";el.style.width=W+"%";el.style.height=H+"%"});
+ var fw=W/100,fh=H/100;lift.style.backgroundImage="url("+src(state.card)+")";lift.style.backgroundSize=(100/fw)+"% "+(100/fh)+"%";lift.style.backgroundPosition=(L/100/(1-fw)*100)+"% "+(T/100/(1-fh)*100)+"%";
+ /* label sits under the frame (above it on the bottom row) */
+ var cx=(X[c]+X[c+1])/2,ly=r<2?Y[r+1]-4:Y[r]-2;label.style.left="calc(46px + (100% - 46px) * "+(cx/100)+")";
+ if(window.innerWidth<=600)label.style.left="calc(30px + (100% - 30px) * "+(cx/100)+")";
+ label.style.top=r<2?(ly/100*card.offsetHeight)+"px":"auto";label.style.bottom=r<2?"auto":((100-Y[r])/100*card.offsetHeight+10)+"px";
+ label.querySelector("b").textContent=LAB[r][c];label.querySelector("i").textContent=DESC[r][c];label.querySelector("small").textContent="Row "+(r+1)+" · "+ROWQ[r];
+ rows.forEach(function(x,j){x.classList.toggle("on",j===r)});card.classList.add("lit");anno.classList.add("lit","used");
+ $("#live").textContent=ROWQ[r]+" "+LAB[r][c]+": "+DESC[r][c]}
+card.addEventListener("pointermove",function(e){if(e.pointerType==="touch")return;var rc=card.getBoundingClientRect();var f=frameAt((e.clientX-rc.left)/rc.width*100,(e.clientY-rc.top)/rc.height*100);if(f!==state.frame){stopPlay();light(f)}});
+card.addEventListener("pointerleave",function(e){if(e.pointerType==="touch")return;if(!playing)light(-1)});
+function loadCard(i,row){state.card=i;cardImg.src=src(i);cardImg.alt=NAMES[i];layout();light(-1);
+ $$("button",$("#minis")).forEach(function(b){b.setAttribute("aria-pressed",+b.dataset.i===i?"true":"false")});
+ if(row!=null){setTimeout(function(){light(row*3+1)},reduce?0:450)}}
+SET.forEach(function(i){var b=document.createElement("button");b.type="button";b.dataset.i=i;b.setAttribute("aria-label",NAMES[i]);b.innerHTML='<img src="'+src(i)+'" alt="">';b.onclick=function(){stopPlay();loadCard(i)};$("#minis").appendChild(b)});
+function stopPlay(){if(playing){clearInterval(playing);playing=null;$("#play").textContent="Read it frame by frame"}}
+$("#play").onclick=function(){if(playing){stopPlay();light(-1);return}var f=0;light(0);$("#play").textContent="Stop";playing=setInterval(function(){f++;if(f>8){stopPlay();light(-1);return}light(f)},reduce?2600:1600)};
+function openCard(i,row){stopPlay();setMode("read");loadCard(i,row);go("s2")}
+window.addEventListener("resize",function(){if(state.frame>=0)light(state.frame)});
+
+/* ===== S2 readings ===== */
+function pickN(n){var a=SET.slice(),o=[];while(o.length<n){o.push(a.splice(Math.floor(Math.random()*a.length),1)[0])}return o}
+function buildSpread(el,pos){el.innerHTML="";pos.forEach(function(p){var s=document.createElement("div");s.className="slot";s.innerHTML='<div class="flipper"><div class="bk back"></div><div class="fc"><img alt=""></div></div><span class="pos">'+p+'</span><span class="nm"></span>';el.appendChild(s)})}
+buildSpread($("#spreadDay"),["Card of the day"]);buildSpread($("#spreadThree"),["1. What to understand?","2. What to accept?","3. What to transform?"]);
+var busy=false;
+function deal(el,btn,isThree){if(busy)return;busy=true;var slots=$$(".slot",el),cards=pickN(slots.length);
+ slots.forEach(function(s){var fl=$(".flipper",s);fl.classList.remove("up");fl.classList.add("away");$(".nm",s).textContent=""});
+ var p=wait(450);
+ slots.forEach(function(s,k){p=p.then(function(){var fl=$(".flipper",s),img=$(".fc img",s);img.src=src(cards[k]);img.alt=NAMES[cards[k]];fl.classList.remove("away");return wait(380)}).then(function(){var fl=$(".flipper",s);fl.classList.add("up");return wait(520)}).then(function(){var fl=$(".flipper",s);$(".nm",s).textContent=NAMES[cards[k]];fl.onclick=function(){openCard(cards[k],isThree?k:null)};fl.title="Read "+NAMES[cards[k]]})});
+ p.then(function(){busy=false;btn.textContent=isThree?"Draw three again":"Draw again";state.reading={cards:cards};updateClose()})}
+$("#dealDay").onclick=function(){deal($("#spreadDay"),this,false)};
+$("#dealThree").onclick=function(){deal($("#spreadThree"),this,true)};
+
+/* ===== S3 meet the cards (turn on their own) ===== */
+var meet=$("#meet"),mc=[],pool=SET.slice(),shown=[2,57,24,66];
+shown.forEach(function(i,k){var b=document.createElement("button");b.type="button";b.className="mcard";b.innerHTML='<div class="flipper up"><div class="bk back"></div><div class="fc tilt"><img src="'+src(i)+'" alt="'+NAMES[i]+'"><span class="sheen"></span></div></div><span class="cap">'+NAMES[i]+'</span>';
+ b.dataset.i=i;b.onclick=function(){openCard(+b.dataset.i)};meet.insertBefore(b,$(".more66"));mc.push(b)});
+var turn=0;
+function cycle(){var b=mc[turn%4];turn++;var fl=$(".flipper",b);var used=mc.map(function(x){return +x.dataset.i});var next=pool.filter(function(i){return used.indexOf(i)<0});var n=next[Math.floor(Math.random()*next.length)];
+ fl.classList.remove("up");setTimeout(function(){var img=$(".fc img",b);img.src=src(n);img.alt=NAMES[n];b.dataset.i=n;$(".cap",b).textContent=NAMES[n];fl.classList.add("up")},reduce?0:900)}
+var cyc=null;if(!reduce&&"IntersectionObserver" in window){new IntersectionObserver(function(en){if(en[0].isIntersecting){if(!cyc)cyc=setInterval(cycle,2600)}else{clearInterval(cyc);cyc=null}},{threshold:.3}).observe(meet)}
+
+/* ===== S4 unboxing ===== */
+var s4=$("#s4");
+if("IntersectionObserver" in window){new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){s4.classList.add("open");$("#replay").textContent="Close the box"}})},{threshold:.45}).observe($("#stage4"))}else{s4.classList.add("open")}
+$("#replay").onclick=function(){var o=s4.classList.toggle("open");this.textContent=o?"Close the box":"Open the box"};
+
+/* ===== S5 slider ===== */
+$("#baRange").oninput=function(e){$("#ba").style.setProperty("--x",e.target.value+"%")};
+
+/* ===== S6 FAQ ===== */
+var faqCard=1;
+function faqShow(i){faqCard=i;$("#faqImg").src=src(i);$("#faqImg").alt=NAMES[i];$("#faqCap").textContent=NAMES[i]+" · tap to read it"}
+$$("#faqList .qa").forEach(function(d){d.addEventListener("toggle",function(){if(!d.open)return;faqShow(+d.dataset.card);$$("#faqList .qa").forEach(function(o){if(o!==d)o.open=false})})});
+faqShow(1);$("#faqCard").onclick=function(){openCard(faqCard)};
+
+/* sheen + tilt on paper cards */
+if(!reduce){$$(".tilt").forEach(function(el){el.addEventListener("pointermove",function(e){var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;el.style.setProperty("--mx",x*100+"%");el.style.setProperty("--my",y*100+"%")})})}
+
+/* ===== S7 closing ===== */
+function updateClose(){var r=state.reading;if(!r)return;var imgs=$$("#fan img");
+ if(r.cards.length===1){imgs[0].style.visibility="hidden";imgs[2].style.visibility="hidden";imgs[1].src=src(r.cards[0])}
+ else{imgs.forEach(function(im,k){im.style.visibility="";im.src=src(r.cards[k])})}
+ $("#closeH").innerHTML=r.cards.length===1?"Today you drew<br>"+NAMES[r.cards[0]]+".":"Your reading:<br>"+r.cards.map(function(i){return NAMES[i]}).join(", ")+".";
+ $("#closeSub").textContent="Take the whole deck home. 100 copies per language."}
+
+/* ===== sticky + tools ===== */
+var st=$("#sticky");if("IntersectionObserver" in window){new IntersectionObserver(function(en){st.classList.toggle("show",!en[0].isIntersecting)}).observe($("#s1"))}
+var root=$("#root"),pre=$("#stPre"),la=$("#stLaunch"),lbl=$("#lbl");
+pre.onclick=function(){root.className="state-pre";pre.setAttribute("aria-pressed","true");la.setAttribute("aria-pressed","false")};
+la.onclick=function(){root.className="state-launch";la.setAttribute("aria-pressed","true");pre.setAttribute("aria-pressed","false")};
+lbl.onclick=function(){var on=document.body.classList.toggle("clean");lbl.setAttribute("aria-pressed",on?"false":"true")};
+$("#toolsX").onclick=function(){$("#tools").hidden=true};
+for(var k=1;k<=8;k++){var a=document.createElement("a");a.href="#s"+k;a.textContent="S"+k;$("#toc").appendChild(a)}
+
+loadCard(2);setEdition("en");
+})();
+</script>

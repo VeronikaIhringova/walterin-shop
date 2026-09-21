@@ -1,0 +1,57 @@
+{% comment %}
+  Everything the Comics Tarot page needs in <head>: self-hosted fonts, the shared
+  stylesheet, the card data and the one page script. Rendered by layout/theme.liquid
+  only on templates/product.tarot.json, so no other page is affected.
+
+  Fonts (nothing else on this page): WalterinBold (display), Inter (UI/body, variable 400–700),
+  Cormorant Garamond italic (literary, variable 600–700). latin + latin-ext cover Slovak.
+{% endcomment %}
+{{ 'WalterinBold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+{{ 'tarot-inter-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+{{ 'tarot-cormorant-italic-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+{%- style -%}
+  @font-face {
+    font-family: 'WalterinBold';
+    src: url('{{ 'WalterinBold.woff2' | asset_url }}') format('woff2');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('{{ 'tarot-inter-latin-ext.woff2' | asset_url }}') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('{{ 'tarot-inter-latin.woff2' | asset_url }}') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-weight: 600 700;
+    font-display: swap;
+    src: url('{{ 'tarot-cormorant-italic-latin-ext.woff2' | asset_url }}') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-weight: 600 700;
+    font-display: swap;
+    src: url('{{ 'tarot-cormorant-italic-latin.woff2' | asset_url }}') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+{%- endstyle -%}
+{{ 'tarot-page.css' | asset_url | stylesheet_tag }}
+{%- comment -%} Flags for progressive enhancement: set before first paint so there's no flash of the no-JS layout. {%- endcomment -%}
+<script>
+  document.documentElement.classList.add('t-js');
+</script>
+{% render 'tarot-data' %}
+<script src="{{ 'tarot-page.js' | asset_url }}" defer></script>

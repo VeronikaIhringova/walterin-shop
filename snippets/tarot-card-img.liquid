@@ -1,0 +1,38 @@
+{% comment %}
+  One preview card as a responsive <img>. Alt text = the card's name from
+  Theme settings → "Tarot page", so it reads without JavaScript.
+
+  Accepts:
+  - id: {String} two-digit card id, e.g. '02' (required; one of the 12 preview cards)
+  - sizes: {String} sizes attribute (default: '(min-width: 750px) 25vw, 45vw')
+  - class: {String} extra classes
+  - loading: {String} 'lazy' (default) | 'eager'
+  - alt: {String} override alt text ('' for decorative duplicates)
+  - attrs: {String} extra raw attributes
+
+  Usage:
+  {% render 'tarot-card-img', id: '18', sizes: '140px', alt: '' %}
+{% endcomment %}
+{%- liquid
+  assign file = 'card-' | append: id | append: '.jpg'
+  assign name_key = 'tarot_card_' | append: id | append: '_name'
+  assign alt_text = settings[name_key]
+  if alt != nil
+    assign alt_text = alt
+  endif
+-%}
+<img
+  src="{{ file | asset_img_url: '600x' }}"
+  srcset="{{ file | asset_img_url: '160x' }} 160w, {{ file | asset_img_url: '300x' }} 300w, {{ file | asset_img_url: '600x' }} 600w, {{ file | asset_url }} 800w"
+  sizes="{{ sizes | default: '(min-width: 750px) 25vw, 45vw' }}"
+  width="800"
+  height="1314"
+  alt="{{ alt_text | escape }}"
+  loading="{{ loading | default: 'lazy' }}"
+  decoding="async"
+  {% if class != blank %}
+    class="{{ class }}"
+  {% endif %}
+  data-card-img="{{ id }}"
+  {{ attrs }}
+>

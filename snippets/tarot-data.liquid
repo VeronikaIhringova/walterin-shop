@@ -1,0 +1,55 @@
+{% comment %}
+  Comics Tarot page: the 12 preview cards + the nine-frame path, as JSON for assets/tarot-page.js.
+
+  Names and frame labels come from Theme settings → "Tarot page" (translatable).
+  Frame edges are geometry, not copy, so they live here: percentages of card width (x)
+  and height (y), measured from the art. Format per card: id|x1,x2,x3,x4|y1,y2,y3,y4
+  Order = order of the picker in "Read a card".
+
+  Only these 12 card files exist in assets/. Never add the rest of the deck.
+
+  Usage (once, in <head>, tarot template only):
+  {% render 'tarot-data' %}
+{% endcomment %}
+{%- liquid
+  assign geometry = '02|3.5,33.6,64.2,96|1.7,31.7,62.1,90.4;01|4.5,36,66.5,96.1|1.8,31.8,62.1,90.3;10|3.9,35.5,66.2,96.5|2,32,62.3,91.6;11|3.2,34.1,65,96.8|2.1,32.4,62.3,91.5;18|3.2,34,66,97|2.1,31.9,62.5,91.7;20|3.8,35.5,66.8,96.5|1.8,32.3,62.7,91.5;24|3.2,35.6,67,97.2|1.7,31.9,62.6,90.9;34|3,35.5,66.9,97.5|1.8,32.3,62.7,91.8;42|2.5,36.2,67.2,97.2|1.8,32.6,63.5,91.6;57|3.1,35.8,67,96.5|1.7,31.7,63,91.4;66|3,36,66.6,97|1.7,32.4,62.9,91.6;71|3,35.9,66.8,97.1|1.7,32.4,63.4,91.9' | split: ';'
+-%}
+<script type="application/json" id="tarot-data">
+  {
+    "cards": [
+      {%- for entry in geometry -%}
+        {%- liquid
+          assign parts = entry | split: '|'
+          assign id = parts[0]
+          assign file = 'card-' | append: id | append: '.jpg'
+          assign name_key = 'tarot_card_' | append: id | append: '_name'
+        -%}
+        {
+          "id": {{ id | json }},
+          "name": {{ settings[name_key] | json }},
+          "src": {{ file | asset_url | json }},
+          "thumb": {{ file | asset_img_url: '160x' | json }},
+          "x": [{{ parts[1] }}],
+          "y": [{{ parts[2] }}]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ],
+    "rows": [
+      {%- for r in (1..3) -%}
+        {%- assign q_key = 'tarot_row_' | append: r | append: '_question' -%}
+        {
+          "question": {{ settings[q_key] | json }},
+          "frames": [
+            {%- for c in (1..3) -%}
+              {%- liquid
+                assign n_key = 'tarot_frame_' | append: r | append: c | append: '_name'
+                assign d_key = 'tarot_frame_' | append: r | append: c | append: '_desc'
+              -%}
+              { "name": {{ settings[n_key] | json }}, "desc": {{ settings[d_key] | json }} }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
