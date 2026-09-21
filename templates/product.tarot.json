@@ -76,7 +76,7 @@
             "color_scheme": "text",
             "option_1_quantity": 1,
             "option_1_label": "Comics Tarot of Consciousness",
-            "option_1_benefit": "",
+            "option_1_benefit": "100 pcs",
             "option_1_caption": "",
             "option_1_percentage_off_text": "0",
             "option_1_fixed_amount_off": "0",
@@ -313,13 +313,52 @@
       }
     },
     "rich_text_wdNwrm": {
-      "type": "about-walterin",
+      "type": "rich-text",
+      "blocks": {
+        "heading_km47q3": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>About Walterin</p>",
+            "heading_size": "h1"
+          }
+        },
+        "text_VYhJpz": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Walterin</strong> is an original project by Slovak illustrator <em>Walter Ihring</em>,<br/> blending <strong>humor</strong>, <strong>history</strong>, and a <em>distinctive visual style</em>. Its mission is to reveal cities through stories that are <strong>fun</strong>, <em>truthful</em>, and <strong>inspiring</strong>.</p>"
+          }
+        },
+        "button_KHmGm4": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn more",
+            "button_link": "shopify://pages/about-us",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_km47q3",
+        "text_VYhJpz",
+        "button_KHmGm4"
+      ],
+      "name": "About Walterin",
       "settings": {
-        "heading": "About Walterin",
-        "body": "<p><strong>Walterin</strong> is an original project by Slovak illustrator <em>Walter Ihring</em>, blending <strong>humor</strong>, <strong>history</strong>, and a <em>distinctive visual style</em>. Its mission is to reveal cities through stories that are <strong>fun</strong>, <em>truthful</em>, and <strong>inspiring</strong>.</p>",
-        "button_label": "Learn more",
-        "button_link": "shopify://pages/about-us",
-        "background": "#FFFEF7"
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
       }
     },
     "image_banner_AVj7db": {

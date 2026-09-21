@@ -21,10 +21,6 @@
 
 {%- liquid
   assign uid = section.id | replace: '-', '' | replace: '_', ''
-  assign is_centered = false
-  if section.settings.layout == 'centered'
-    assign is_centered = true
-  endif
   if section.settings.image != blank
     assign img_src = section.settings.image | image_url: width: 1200
     assign img_w = section.settings.image.width
@@ -37,7 +33,7 @@
   #fwi-{{ uid }} {
     background: {{ section.settings.background | default: '#FFFEF7' }};
     padding: clamp(44px, 6vw, 88px) 24px;
-    /* Rounded cream "window" — radius/margin come from .wlt-window. */
+    border-top: 1px solid #ece9e1;
   }
   #fwi-{{ uid }} .fwi-inner {
     max-width: 1240px;
@@ -55,7 +51,7 @@
     color: #2e2a39;
     font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
     line-height: 1.05;
-    letter-spacing: var(--wlt-h-ls, 0.4px);
+    letter-spacing: 0.4px;
     margin: 0;
   }
   #fwi-{{ uid }} .fwi-subtitle {
@@ -68,7 +64,7 @@
     max-width: 42ch;
   }
   @media (min-width: 750px) {
-    #fwi-{{ uid }} .fwi-heading { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
+    #fwi-{{ uid }} .fwi-heading { font-size: calc(var(--font-heading-scale, 1.3) * 3rem); }
   }
 
   #fwi-{{ uid }} .fwi-list {
@@ -138,7 +134,7 @@
   #fwi-{{ uid }} .fwi-panel.is-open { opacity: 1; }
   #fwi-{{ uid }} .fwi-answer {
     font-family: var(--font-body-family);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
     letter-spacing: 0.06rem;
     color: #2e2a39;
@@ -177,20 +173,6 @@
   }
   #fwi-{{ uid }} .fwi-media-placeholder svg { width: 40%; height: auto; }
 
-  /* ---------- Centered / no-image mode (full-page FAQ) ---------- */
-  #fwi-{{ uid }}.fwi--centered .fwi-inner {
-    grid-template-columns: 1fr;
-    max-width: 760px;
-  }
-  #fwi-{{ uid }}.fwi--centered .fwi-head {
-    text-align: center;
-    margin-bottom: clamp(28px, 4vw, 48px);
-  }
-  #fwi-{{ uid }}.fwi--centered .fwi-subtitle {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   /* ---------- Responsive: stack, image on top ---------- */
   @media (max-width: 749px) {
     #fwi-{{ uid }} { padding: 40px 22px; }
@@ -214,7 +196,7 @@
   }
 {%- endstyle -%}
 
-<section id="fwi-{{ uid }}" class="fwi-section wlt-window{% if is_centered %} fwi--centered{% endif %}">
+<section id="fwi-{{ uid }}" class="fwi-section">
   <div class="fwi-inner">
     <div class="fwi-col fwi-col--text">
       <div class="fwi-head">
@@ -247,23 +229,21 @@
       {%- endif -%}
     </div>
 
-    {%- unless is_centered -%}
-      <figure class="fwi-media" data-fwi-media>
-        {%- if img_src -%}
-          <img
-            src="{{ img_src }}"
-            alt="{{ img_alt | escape }}"
-            {% if img_w %}width="{{ img_w }}" height="{{ img_h }}"{% endif %}
-            loading="lazy"
-            decoding="async"
-          >
-        {%- else -%}
-          <div class="fwi-media-placeholder">
-            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-          </div>
-        {%- endif -%}
-      </figure>
-    {%- endunless -%}
+    <figure class="fwi-media" data-fwi-media>
+      {%- if img_src -%}
+        <img
+          src="{{ img_src }}"
+          alt="{{ img_alt | escape }}"
+          {% if img_w %}width="{{ img_w }}" height="{{ img_h }}"{% endif %}
+          loading="lazy"
+          decoding="async"
+        >
+      {%- else -%}
+        <div class="fwi-media-placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </figure>
   </div>
 </section>
 
@@ -362,19 +342,8 @@
   "name": "FAQ with image",
   "tag": "section",
   "class": "section-faq-with-image",
-  "max_blocks": 14,
+  "max_blocks": 8,
   "settings": [
-    {
-      "type": "select",
-      "id": "layout",
-      "label": "Layout",
-      "options": [
-        { "value": "with_image", "label": "With image (two columns)" },
-        { "value": "centered", "label": "Centered, no image (full page)" }
-      ],
-      "default": "with_image",
-      "info": "\"Centered\" hides the image and centres a single column — use for a full FAQ page."
-    },
     {
       "type": "text",
       "id": "heading",
@@ -394,7 +363,7 @@
       "type": "image_picker",
       "id": "image",
       "label": "Sticky image",
-      "info": "Shown on the right (desktop) / top (mobile). Ignored in the centered layout."
+      "info": "Shown on the right (desktop) / top (mobile). Stays sticky and parallax-zooms as you scroll."
     },
     {
       "type": "header",

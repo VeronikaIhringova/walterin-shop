@@ -370,7 +370,7 @@
         {{ product.description }}
       </div>
 
-      {% form 'product', product, class: 'ai-product-form-' | append: ai_gen_id %}
+      {% form ai_gen_id %}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         <div class="ai-product-quantity-{{ ai_gen_id }}">
@@ -933,3 +933,14 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% form 'product', product, class: 'ai-product-form-' | append: ai_gen_id
+    %}"
+  to: "{% form ai_gen_id %}"
+  position: 10348..10368
+{% endcomment %}

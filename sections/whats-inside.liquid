@@ -29,8 +29,7 @@
   .wi-section {
     background: {{ section.settings.background | default: '#FFFEF7' }};
     padding: 52px 24px;
-    /* Rounded cream "window" — radius/margin come from .wlt-window; windows
-       separate by gap, not hairline dividers. */
+    border-top: 1px solid #ece9e1; /* subtle separation from the section above */
   }
   .wi-inner {
     max-width: calc(290px * 4 + 32px * 3);
@@ -41,7 +40,7 @@
     font-family: "WalterinBold", sans-serif;
     text-transform: uppercase;
     font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
-    letter-spacing: var(--wlt-h-ls, 0.4px);
+    letter-spacing: 0.6px;
     line-height: 1.05;
     text-align: center;
     color: #222;
@@ -65,9 +64,9 @@
     box-sizing: border-box;
     aspect-ratio: 84 / 138;
     background: #fff;
-    border-radius: var(--wlt-card-radius, 14px);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: var(--wlt-shadow, 0 20px 46px rgba(0, 0, 0, 0.16));
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16);
     transform-style: preserve-3d;
     will-change: transform;
   }
@@ -172,7 +171,7 @@
   }
 {%- endstyle -%}
 
-<section class="wi-section wlt-window">
+<section class="wi-section">
   <div class="wi-inner">
     <h2 class="wi-title">{{ section.settings.title | default: "Meet the cards" | escape }}</h2>
 
