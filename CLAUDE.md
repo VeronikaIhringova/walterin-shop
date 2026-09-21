@@ -67,7 +67,7 @@ Be concise and direct. Prioritize actionable output over explanation. Challenge 
 
 ## Theme Deployment Workflow (mandatory)
 - Draft theme: **"Walterin Draft (Claude)"**, ID **188994257225** (unpublished), store `0ed210-bf.myshopify.com`.
-- After every change: `git commit`, then push **only** to the draft:
+- After every change: `git commit`, then `git push` (to the current branch on `origin`), then push the theme **only** to the draft:
   `shopify theme push --theme 188994257225 --store 0ed210-bf.myshopify.com`
 - Then give Veronka the preview link: https://0ed210-bf.myshopify.com?preview_theme_id=188994257225
 - **Never** push to the live theme. **Never** publish any theme (`--publish`, `theme publish`). **Never** run `shopify theme pull` unless Veronka explicitly asks.
