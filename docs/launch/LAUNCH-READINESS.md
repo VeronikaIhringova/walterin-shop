@@ -13,6 +13,27 @@ Audit date: 22 September 2026 · read-only (Admin API read scopes, live theme 16
 
 Effort: S = under 1 h · M = half a day · L = 1–3 days.
 
+## Status update: GO-LIVE (22 Sep 2026, ~17:40)
+
+Approved items 0–12 are **live**, each one read back:
+- Tax setting off.
+- Theme: 26 files pushed to live 164726866249.
+- Notice images uploaded to Files.
+- Terms, Refund, Privacy and Contact published (EN + SK).
+- Withdrawal page published at `/pages/withdrawal`.
+- `custom.safety_info` metafield definition created.
+- Prague/Paris crossed-out prices removed.
+- Tarot renamed "Tarot of Consciousness: A Graphic Journey" / "Komiksový tarot vedomia".
+- Printed editions set as physical.
+- EU market active (26 countries, EUR, taxes not included).
+
+**Item 13 (eBook inventory tracking off) is NOT done:** it waits for the Digital Products files. Until then no eBook can be bought.
+
+**Follow-ups found during go-live:**
+- (1) The Prague page's "BUNDLE & SAVE / You save €0 / Most Popular" quantity-breaks block is misleading for an eBook. Proposal: switch off quantity discounts on `product.walterin-prague-book.json`. This is a theme change that needs your OK.
+- (2) The old draft theme 188994257225 can now be deleted (by Veronka).
+- (3) Plain product URLs are served from Shopify's page cache for a few minutes. Fresh renders already show the Product safety row.
+
 ## Status update: final setup (22 Sep 2026, late)
 
 - **Workflow:** one live theme, preview with `shopify theme dev`, push only changed files after "OK live", GitHub as backup (CLAUDE.md, ground truth).

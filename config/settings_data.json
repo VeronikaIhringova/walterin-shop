@@ -142,6 +142,7 @@
     "show_vendor": false,
     "show_cart_note": false,
     "show_cart_payment_badges": false,
+    "enabled_cart_payment_types": "visa,master,american_express,jcb,discover,diners_club,apple_pay,google_pay",
     "cart_trust_badges_width": 100,
     "cart_drawer_collection": "",
     "enable_cart_discount": false,
@@ -206,9 +207,7 @@
         }
       }
     },
-    "content_for_index": [],
-    "blocks": {},
-    "enabled_cart_payment_types": "visa,master,american_express,jcb,discover,diners_club,apple_pay,google_pay"
+    "content_for_index": []
   },
   "presets": {
     "Default": {

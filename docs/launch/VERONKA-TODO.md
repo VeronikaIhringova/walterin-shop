@@ -1,8 +1,8 @@
 # Veronka – čo musíš urobiť sama
 
 **Zajtra, pred predajom e-kníh (v tomto poradí):**
-1. **Schváliť zápisy:** prečítaj `docs/launch/APPROVAL-LIST.md` a odpíš „OK all“ alebo čísla položiek.
-2. **DPH vypnúť:** Settings → Taxes and duties → pri trhu Slovakia (a neskôr European Union) vypni „Include sales tax in product price…“. Daj mi vedieť, overím to.
+1. ✅ Zápisy 0–12 sú naživo. **Bod 13 (e-knihy predajné) spravím až po tvojom potvrdení súborov v Digital Products** (bod 6 nižšie).
+2. ✅ DPH vypnutá (overené).
 3. **Účtovník (telefonicky):** 2 otázky sú v `docs/launch/EBOOK-LAUNCH.md` (OSS pri e-knihách a aký doklad dávame zákazníkovi). Odpovede mi pošli.
 4. **Stripe naostro:** Settings → Payments → Stripe → skontroluj, že nie je zapnutý test mode a výplaty idú na firemný účet.
 5. **PayPal:** Settings → Payments → skontroluj, prečo Shopify uvádza PayPal ako zapnutý. Kým ho nenastavíme, vypni ho.
@@ -16,6 +16,7 @@
 11. **Paríž:** ceny, slovenský súbor e-knihy a či chceš slovenský variant. Potom ho vytvorím.
 12. **Právnik:** pošli mu `docs/legal/` (VOP, reklamácie, poučenie, ochrana údajov, e-maily, plán § 20a). Otázky sú v [NA POTVRDENIE].
 13. **Opustené košíky:** Settings → Checkout → Abandoned checkouts → posielať len zákazníkom so súhlasom s marketingom.
-14. **Stará draft téma:** keď ti napíšem, že je všetko naživo, zmaž tému „Walterin Draft (Claude)“ (Online Store → Themes).
+14. **Stará draft téma:** všetko je naživo, môžeš zmazať tému „Walterin Draft (Claude)“ (Online Store → Themes → … → Delete).
+17. **Praha „BUNDLE & SAVE / You save €0“:** rozhodni, či ten blok vypneme (navrhujem áno, pri e-knihe je zavádzajúci).
 15. **Pack4you (neskôr):** pošli `docs/launch/pack4you.md`.
 16. **Slovenčina:** Settings → Languages → Slovak → Publish, keď budú preložené texty sekcií.
