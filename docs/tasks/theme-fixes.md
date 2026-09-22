@@ -2,7 +2,7 @@
 
 Found during the legal / privacy work, 22 Sep 2026. Draft theme = "Walterin Draft (Claude)" 188994257225 unless noted.
 
-## 1. Notify-me form and the launch email (draft) · PROPOSAL, needs OK before building
+## 1. Notify-me form and the launch email (draft) · APPROVED 22 Sep 2026, build in the draft theme task
 
 **Goal:** every notify-me signup gets the launch email through Shopify Email. Only people who tick the newsletter box get the `newsletter` tag and newsletters.
 

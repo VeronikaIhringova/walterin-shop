@@ -1,0 +1,226 @@
+{
+  "menus": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Menu/258615345481",
+        "handle": "main-menu",
+        "title": "Main menu",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/718219706697",
+            "title": "WALTERIN",
+            "type": "FRONTPAGE",
+            "url": "/",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/718219739465",
+            "title": "SHOP",
+            "type": "COLLECTION",
+            "url": "/collections/all-products",
+            "resourceId": "gid://shopify/Collection/677811323209",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/718219772233",
+            "title": "ABOUT",
+            "type": "PAGE",
+            "url": "/pages/about-us",
+            "resourceId": "gid://shopify/Page/139414896969",
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/258615378249",
+        "handle": "footer",
+        "title": "Footer menu",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/611415294281",
+            "title": "Search",
+            "type": "SEARCH",
+            "url": "/search",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/269295649097",
+        "handle": "customer-account-main-menu",
+        "title": "Customer account main menu",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/646083019081",
+            "title": "Orders",
+            "type": "CUSTOMER_ACCOUNT_PAGE",
+            "url": "https://shopify.com/89788645705/account/orders",
+            "resourceId": "gid://shopify/CustomerAccountPage/94085349705",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/731776647497",
+            "title": "Profile",
+            "type": "CUSTOMER_ACCOUNT_PAGE",
+            "url": "https://shopify.com/89788645705/account/profile",
+            "resourceId": "gid://shopify/CustomerAccountPage/94085382473",
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/295529513289",
+        "handle": "navigate",
+        "title": "FOOTER MENU: NAVIGATE",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/717864075593",
+            "title": "Walterin",
+            "type": "FRONTPAGE",
+            "url": "/",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717864108361",
+            "title": "Shop",
+            "type": "CATALOG",
+            "url": "/collections/all",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717865451849",
+            "title": "About",
+            "type": "PAGE",
+            "url": "/pages/about-us",
+            "resourceId": "gid://shopify/Page/139414896969",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717866303817",
+            "title": "Where to Find Us",
+            "type": "FRONTPAGE",
+            "url": "/",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/295531577673",
+        "handle": "social-footer-menu",
+        "title": "FOOTER MENU: SOCIAL",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/717869252937",
+            "title": "Instagram",
+            "type": "HTTP",
+            "url": "https://www.instagram.com/walterinwittyguide?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717869285705",
+            "title": "Tiktok",
+            "type": "HTTP",
+            "url": "https://www.tiktok.com/@walterinwittyguide",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717869318473",
+            "title": "LinkedIn",
+            "type": "HTTP",
+            "url": "https://www.linkedin.com/company/walterin?trk=public_profile_topcard-current-company",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/295532364105",
+        "handle": "official",
+        "title": "FOOTER MENU: OFFICIAL",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/717871677769",
+            "title": "Privacy",
+            "type": "SHOP_POLICY",
+            "url": "/policies/privacy-policy",
+            "resourceId": "gid://shopify/ShopPolicy/37369971017",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717871710537",
+            "title": "Terms",
+            "type": "SHOP_POLICY",
+            "url": "/policies/terms-of-service",
+            "resourceId": "gid://shopify/ShopPolicy/49655415113",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717871743305",
+            "title": "FAQ",
+            "type": "PAGE",
+            "url": "/pages/faq",
+            "resourceId": "gid://shopify/Page/153259999561",
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/717871776073",
+            "title": "Contact",
+            "type": "PAGE",
+            "url": "/pages/contact",
+            "resourceId": "gid://shopify/Page/139368694089",
+            "tags": [],
+            "items": []
+          }
+        ]
+      },
+      {
+        "id": "gid://shopify/Menu/295684964681",
+        "handle": "footer-menu-support",
+        "title": "FOOTER MENU - SUPPORT",
+        "items": [
+          {
+            "id": "gid://shopify/MenuItem/720683204937",
+            "title": "We’re here M-F 9:00 – 17:00 (CET).",
+            "type": "HTTP",
+            "url": "#javascript:void(0)",
+            "resourceId": null,
+            "tags": [],
+            "items": []
+          },
+          {
+            "id": "gid://shopify/MenuItem/718257029449",
+            "title": "Drop us a note anytime.",
+            "type": "PAGE",
+            "url": "/pages/drop-us-a-note-anytime",
+            "resourceId": "gid://shopify/Page/153756926281",
+            "tags": [],
+            "items": []
+          }
+        ]
+      }
+    ]
+  }
+}

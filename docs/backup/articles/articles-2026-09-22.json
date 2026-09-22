@@ -1,0 +1,126 @@
+{
+  "blogs": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Blog/112518562121",
+        "handle": "news",
+        "title": "News",
+        "articles": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Article/608423412041",
+              "handle": "kissing",
+              "title": "KISSING",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:29:18Z",
+              "author": {
+                "name": "Tomas Samko"
+              },
+              "tags": [],
+              "body": "<h1 class=\"entry-title\" data-mce-fragment=\"1\">Scientists have even found that it has a positive effect on lowering blood pressure, cholesterol, and defenses.</h1>",
+              "summary": ""
+            },
+            {
+              "id": "gid://shopify/Article/608423444809",
+              "handle": "world-ufo-day",
+              "title": "World UFO Day",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:29:18Z",
+              "author": {
+                "name": "Tomas Samko"
+              },
+              "tags": [],
+              "body": "",
+              "summary": ""
+            },
+            {
+              "id": "gid://shopify/Article/610481897801",
+              "handle": "the-first-coffee-in-prague",
+              "title": "The First Coffee in Prague",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:28:46Z",
+              "author": {
+                "name": "Veronika Ihringová"
+              },
+              "tags": [],
+              "body": "",
+              "summary": ""
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Blog/112530981193",
+        "handle": "vincenzo-peruggia",
+        "title": "Vincenzo Peruggia",
+        "articles": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Article/608423313737",
+              "handle": "vincenzo-peruggia",
+              "title": "Vincenzo Peruggia",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:29:18Z",
+              "author": {
+                "name": "Tomas Samko"
+              },
+              "tags": [],
+              "body": "<h1 class=\"entry-title\" data-mce-fragment=\"1\">Vincenzo Peruggia stole a painting of Leonardo Da Vinci by Mona Lisa in Louvre on August 21, 1911.</h1>",
+              "summary": ""
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Blog/112531112265",
+        "handle": "aqua",
+        "title": "Aqua",
+        "articles": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Article/608423346505",
+              "handle": "aqua",
+              "title": "Aqua",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:29:18Z",
+              "author": {
+                "name": "Tomas Samko"
+              },
+              "tags": [],
+              "body": "",
+              "summary": ""
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Blog/112531177801",
+        "handle": "best-wishes-his-holiness-6-7-1935",
+        "title": "BEST WISHES HIS HOLINESS 6.7.1935",
+        "articles": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Article/608423379273",
+              "handle": "best-wishes-his-holiness-6-7-1935",
+              "title": "BEST WISHES HIS HOLINESS 6.7. 1935",
+              "isPublished": false,
+              "publishedAt": null,
+              "updatedAt": "2026-09-22T11:29:18Z",
+              "author": {
+                "name": "Tomas Samko"
+              },
+              "tags": [],
+              "body": "",
+              "summary": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
