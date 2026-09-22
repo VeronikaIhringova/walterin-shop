@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buy column · mock-ups</title>
+<!--
+  Walterin buy column: two design directions, every state, EN + SK. Static mock-up, not theme code.
+  URL params: dir=A|B · product=tarot|book · state=… · lang=en|sk · board=0 (hide the review bar)
+  Tarot states: coming_soon · available · low_stock · sold_out_one · sold_out_all
+  Book states:  printed · ebook · unavailable
+  Book prices, languages and the missing SK eBook are SAMPLE data for the mock-up (real prices are TBD).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'WalterinBold'; src: url('https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093'), url('../../../assets/WalterinBold.woff2') format('woff2'); font-display: block; }
+
+:root {
+  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205; --sky: #6FE9FA; --red: #F60403; --green: #9FDA29;
+  --line: 2.5px; --radius: 8px; --sh: 4px; --shadow: var(--sh) var(--sh) 0 var(--ink); --shadow-hover: 2px 2px 0 var(--ink);
+  --display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
+  --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-heading: 32px; --fs-label: 20px; --fs-price: 28px; --fs-body: 16px; --fs-small: 14px;
+  --group: 32px; --frame-pad: 15px;
+  --ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+@media (min-width: 750px) {
+  :root { --fs-heading: 40px; --fs-label: 22px; --fs-price: 32px; --fs-body: 17px; --group: 40px; --frame-pad: 50px; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+p, ul, fieldset, legend, h1, h2, dl, dd { margin: 0; padding: 0; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Review bar (not part of the design) ---------- */
+.board { font: 13px/1.4 var(--body); background: #fff; border-bottom: 1px dashed #999; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.board b { font-weight: 700; }
+.board a { color: inherit; padding: 2px 6px; border: 1px solid #bbb; border-radius: 4px; text-decoration: none; }
+.board a[aria-current='true'] { background: var(--yellow); border-color: var(--ink); }
+.board .grp { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+body.noboard .board { display: none; }
+
+/* ---------- Fake site header (edges = the real header) ---------- */
+.wrap { width: 92%; max-width: 1400px; margin-inline: auto; padding-inline: var(--frame-pad); }
+.site { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.site__logo { font-family: var(--display); font-size: 34px; }
+.site__nav { display: flex; gap: 40px; font-weight: 700; font-size: 17px; text-transform: uppercase; }
+.site__icons { display: flex; gap: 20px; font-size: 14px; }
+@media (max-width: 749px) { .site { height: 56px; } .site__nav { display: none; } .site__logo { font-size: 28px; } }
+
+/* ---------- Page grid ---------- */
+.pdp { padding-block: 24px 64px; }
+@media (min-width: 990px) { .pdp { padding-block: 48px 96px; } }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+@media (min-width: 990px) { .grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: start; } }
+
+/* Gallery */
+.gal__main { position: relative; aspect-ratio: 1; border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
+.gal__main img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+.gal__count { position: absolute; right: 12px; bottom: 12px; padding: 4px 8px; font-size: 14px; line-height: 1.2; font-variant-numeric: tabular-nums; background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius); }
+.gal__thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; margin-top: 12px; padding: 0 var(--sh) var(--sh) 0; }
+.gal__thumbs span { aspect-ratio: 1; border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.gal__thumbs span:first-child { box-shadow: var(--shadow); outline: 3px solid var(--yellow); outline-offset: -5.5px; }
+.gal__thumbs img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 749px) { .gal__thumbs { display: none; } }
+
+/* ================================================================
+   Shared buy-column system (both directions)
+   Three text levels: headline (title) · subheadline (labels) · body/small. Price is its own role.
+   Every hard shadow reserves --sh on the right and bottom so its outer edge meets the column edge.
+   ================================================================ */
+.col { display: flex; flex-direction: column; gap: var(--group); min-width: 0; }
+.trim { text-box: trim-both cap alphabetic; } /* optical measurement: from the letters, not the line box */
+.title { font-family: var(--display); font-weight: 400; font-size: var(--fs-heading); line-height: 1.05; letter-spacing: 0.01em; text-transform: uppercase; text-wrap: balance; }
+.label { font-family: var(--display); font-weight: 400; font-size: var(--fs-label); line-height: 1.1; letter-spacing: 0.04em; text-transform: uppercase; }
+.small { font-size: var(--fs-small); line-height: 1.45; }
+.price { font-weight: 700; font-size: var(--fs-price); line-height: 1; font-variant-numeric: tabular-nums; }
+.head { display: flex; flex-direction: column; }
+.head .title + .pricebox { margin-top: 24px; }
+.pricebox { display: flex; flex-direction: column; gap: 8px; }
+.link { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.link:hover { text-decoration-color: var(--yellow); text-decoration-thickness: 4px; }
+
+.opt { border: 0; min-width: 0; display: flex; flex-direction: column; }
+.opt + .opt { margin-top: 24px; }
+.opt legend { float: left; width: 100%; margin-bottom: 16px; }
+.opt__note { margin-top: 12px; }
+.opt__live { min-height: 0; }
+
+/* The one button */
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 52px; padding: 12px 24px; margin: 0;
+  font-family: var(--display); font-size: var(--fs-label); line-height: 1; letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--ink); background: var(--yellow); border: var(--line) solid var(--ink); border-radius: var(--radius);
+  box-shadow: var(--shadow); cursor: pointer; -webkit-appearance: none; appearance: none; -webkit-tap-highlight-color: transparent;
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.btn:hover { transform: translate(2px, 2px); box-shadow: var(--shadow-hover); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
+.btn:disabled { background: var(--paper); box-shadow: none; transform: none; cursor: not-allowed; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
+.btn .num { font-family: var(--body); font-weight: 700; font-size: var(--fs-body); letter-spacing: 0; text-transform: none; }
+.reserve { margin-right: var(--sh); margin-bottom: var(--sh); } /* shadow room */
+.btn--block { width: calc(100% - var(--sh)); }
+
+.cta { display: flex; flex-direction: column; }
+.cta > * + * { margin-top: 12px; }
+.express { height: 52px; width: 100%; border-radius: var(--radius); background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; font: 600 17px/1 -apple-system, system-ui, sans-serif; }
+.express small { font: 400 12px/1 var(--body); opacity: .8; margin-left: 6px; }
+.more-pay { font-size: var(--fs-small); text-align: center; }
+.pay { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pay span { height: 24px; min-width: 38px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--ink); border-radius: 4px; font: 700 10px/1 var(--body); letter-spacing: .02em; background: var(--paper); }
+.pay .mock { font-size: 11px; font-weight: 400; border: 0; padding: 0; min-width: 0; margin-left: 4px; }
+
+/* Notify */
+.notify { display: flex; flex-direction: column; }
+.notify__row { display: flex; gap: 12px; }
+.input { flex: 1; min-width: 0; min-height: 52px; padding: 0 16px; font-size: var(--fs-body); background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius); outline: none; }
+.input::placeholder { color: var(--ink); opacity: .55; }
+.input:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.notify .btn { flex: none; }
+.check { display: flex; align-items: flex-start; gap: 8px; margin-top: 12px; cursor: pointer; }
+.check input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--ink); }
+.notify__note { margin-top: 8px; }
+@media (max-width: 479px) { .notify__row { flex-direction: column; } .notify .btn { width: calc(100% - var(--sh)); } }
+
+.status { padding: 12px 16px; border: var(--line) solid var(--ink); border-radius: var(--radius); font-size: var(--fs-small); background: var(--sky); }
+
+/* Accordions */
+.accs { display: grid; gap: 12px; }
+.acc { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
+.acc > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; list-style: none; cursor: pointer; border-radius: calc(var(--radius) - 2px); }
+.acc > summary::-webkit-details-marker { display: none; }
+.acc > summary:hover .acc__icon { background: var(--yellow); }
+.acc__icon { position: relative; flex: none; width: 28px; height: 28px; border: var(--line) solid var(--ink); border-radius: 50%; background: var(--paper); transition: transform .2s var(--ease), background-color .2s; }
+.acc__icon::before, .acc__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: var(--ink); transform: translate(-50%, -50%); }
+.acc__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.acc[open] .acc__icon { transform: rotate(45deg); background: var(--yellow); }
+.acc__body { padding: 0 16px 16px; font-size: var(--fs-small); line-height: 1.55; display: grid; gap: 12px; }
+.acc__body .lead { font-size: var(--fs-body); line-height: 1.5; }
+.list { display: grid; gap: 8px; }
+.list li { position: relative; padding-left: 16px; }
+.list li::before { content: ''; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; background: var(--ink); border-radius: 1px; }
+
+/* ---------- Choice tiles (A) ---------- */
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); padding: 0 var(--sh) var(--sh) 0; }
+.tile {
+  position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 16px;
+  background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius);
+  box-shadow: var(--shadow); cursor: pointer; transition: box-shadow .12s var(--ease), background-color .12s;
+}
+.tile:hover { box-shadow: var(--shadow-hover); }
+.tile:has(input:checked) { background: var(--yellow); box-shadow: var(--shadow); }
+.tile:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+.tile input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.tile__dot { flex: none; width: 16px; height: 16px; border: var(--line) solid var(--ink); border-radius: 50%; background: var(--paper); }
+.tile:has(input:checked) .tile__dot { background: radial-gradient(circle, var(--ink) 0 3px, var(--paper) 3.5px); }
+.tile__text { display: flex; flex-direction: column; min-width: 0; }
+.tile__name { font-family: var(--display); font-size: var(--fs-label); line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; overflow-wrap: anywhere; }
+.tile__note { font-size: var(--fs-small); line-height: 1.3; font-variant-numeric: tabular-nums; }
+.tile__price { margin-left: auto; font-weight: 700; font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
+.tile:has(input:disabled) { cursor: not-allowed; box-shadow: none; }
+.tile:has(input:disabled):hover { box-shadow: none; }
+.tile:has(input:disabled) .tile__name { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
+.tile:has(input:disabled) .tile__dot { border-style: dashed; }
+@media (max-width: 479px) {
+  .tiles[data-n='3'], .tiles[data-priced] { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Direction B: the decision panel + segmented switch ---------- */
+.dirB .panel { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); padding: 24px; display: flex; flex-direction: column; gap: 32px; margin: 0 var(--sh) var(--sh) 0; }
+@media (max-width: 749px) { .dirB .panel { padding: 16px; gap: 24px; } }
+.dirB .head--row .pricebox { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.seg { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.seg__opt { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 52px; padding: 6px 8px; text-align: center; cursor: pointer; background: var(--paper); transition: background-color .12s; }
+.seg__opt + .seg__opt { border-left: var(--line) solid var(--ink); }
+.seg__opt:hover { background: color-mix(in srgb, var(--yellow) 35%, var(--paper)); }
+.seg__opt:has(input:checked) { background: var(--yellow); }
+.seg__opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: -6px; }
+.seg__opt input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: inherit; }
+.seg__opt .tile__name { white-space: normal; }
+.seg__opt:has(input:disabled) { cursor: not-allowed; background: var(--paper); }
+.seg__opt:has(input:disabled) .tile__name { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
+@media (max-width: 479px) { .seg[data-n='3'] .tile__name { font-size: 17px; } }
+
+/* ---------- Mobile sticky bar ---------- */
+.sticky { display: none; }
+@media (max-width: 749px) {
+  body.show-sticky .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; align-items: center; gap: 12px; padding: 12px calc(4vw + 15px) calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--paper); border-top: var(--line) solid var(--ink); }
+  .sticky__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .sticky__text .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 18px; }
+  .sticky .btn { min-height: 44px; padding: 8px 16px; box-shadow: 3px 3px 0 var(--ink); margin-right: 3px; }
+}
+
+/* ---------- Zoom (PhotoSwipe look, rendered statically for review) ---------- */
+.zoom { position: fixed; inset: 0; z-index: 10; background: var(--paper); display: none; flex-direction: column; }
+body.show-zoom .zoom { display: flex; }
+.zoom__bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); border-bottom: var(--line) solid var(--ink); }
+.zoom__stage { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.zoom__stage img { width: 170%; max-width: none; transform: translate(12%, 6%); }
+.zoom__hint { padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: var(--line) solid var(--ink); text-align: center; }
+.zoom .btn { min-height: 44px; padding: 8px 14px; box-shadow: 3px 3px 0 var(--ink); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="board" id="board"></div>
+
+<header class="wrap site" aria-hidden="true">
+  <span class="site__nav"><span>Walterin</span><span>Shop</span><span>About</span></span>
+  <span class="site__logo">Walterin</span>
+  <span class="site__icons"><span>⌕</span><span>◯</span><span>▢</span></span>
+</header>
+
+<main class="pdp">
+  <div class="wrap grid" id="pdp">
+    <div class="gal" id="gal"></div>
+    <div id="col"></div>
+  </div>
+</main>
+
+<div class="sticky" id="sticky"></div>
+<div class="zoom" id="zoom"></div>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var S = {
+    dir: q.get('dir') || 'A',
+    product: q.get('product') || 'tarot',
+    state: q.get('state') || '',
+    lang: q.get('lang') || 'en',
+    extra: q.get('extra') || ''
+  };
+  if (!S.state) S.state = S.product === 'book' ? 'printed' : 'coming_soon';
+  if (q.get('board') === '0') document.body.classList.add('noboard');
+  if (S.extra === 'sticky') document.body.classList.add('show-sticky');
+  if (S.extra === 'zoom') document.body.classList.add('show-zoom');
+  document.documentElement.lang = S.lang;
+
+  var CDN = 'https://cdn.shopify.com/s/files/1/0897/8864/5705/files/';
+  var IMG = {
+    tarot: ['https://walterin.com/cdn/shop/files/PRODUCT_BOOK1_f3f0dc79-452c-4817-ad72-522a357d20fa.jpg?width=1600',
+            'https://walterin.com/cdn/shop/files/Generated_Image_April_09_2026_-_12_55PM.jpg?width=1600'],
+    book: [CDN + 'walterin-prague-illustrated-comic-guide-book-cover.jpg?width=1600',
+           CDN + 'walterin-prague-witty-illustrated-comic-guide-book-outdoor.jpg?width=1600',
+           CDN + 'walterin-prague-illustrated-comic-guide-book-in-hands.jpg?width=1600']
+  };
+
+  /* Copy: approved texts verbatim where they exist (locales walterin.notify.*) */
+  var T = {
+    en: {
+      tarot: 'Tarot of Consciousness: A Graphic Journey', tarotShort: 'Tarot of Consciousness',
+      book: 'Walterin Prague', ship: 'Shipping calculated at checkout',
+      language: 'Language', format: 'Format',
+      langs: { en: 'English', sk: 'Slovak', cs: 'Czech' },
+      formats: { ebook: 'Interactive eBook', print: 'Printed book' },
+      editionNote: 'First edition. 100 copies in each language.',
+      left: '[n] of 100 left', soldOut: 'Sold out', notYetEbook: 'Not as an eBook yet',
+      atc: 'Add to cart', notify: 'Notify me', email: 'Your email address',
+      newsletter: "And the newsletter: what's new, what's next.",
+      note: "One email when it's ready. That's all.", privacy: 'Privacy policy',
+      more: 'More payment options',
+      ebookLine: 'PDF + EPUB. Download right after payment.',
+      switched: 'Slovak is not an eBook yet. Switched to English.',
+      acc: { about: 'About the deck', aboutBook: 'About the book', box: "What's in the box", delivery: 'Delivery', safety: 'Product safety' },
+      about: ['Inspired by the Rider–Waite tarot, drawn by Walter Ihring. Every card is a nine-frame comic: one picture becomes a small story, read frame by frame. Look first. Then read the words.',
+              'Two guide cards show two ways in: Card of the day, and Reading of consciousness: what to understand, what to accept, what to transform.'],
+      aboutBook: ['Short comic stories about Prague: its culture and history, told with humour. Every story in nine frames, original artwork by Walter Ihring, with hidden details to find.'],
+      box: ['78 cards: 22 Major and 56 Minor Arcana', '2 guide cards: Card of the day and Reading of consciousness', 'Tuck box'],
+      boxBook: ['140+ illustrated pages'],
+      boxEbook: ['PDF (high resolution) and EPUB (fixed layout)', '140+ illustrated pages'],
+      deliveryEbook: 'PDF + EPUB. The download link arrives by email right after payment.',
+      safety: 'Manufacturer: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, Slovakia · support@walterin.com',
+      product: 'Product',
+      price: '€39'
+    },
+    sk: {
+      tarot: 'Komiksový tarot vedomia', tarotShort: 'Tarot vedomia',
+      book: 'Walterin Praha', ship: 'Doprava sa vypočíta v pokladni',
+      language: 'Jazyk', format: 'Formát',
+      langs: { en: 'Angličtina', sk: 'Slovenčina', cs: 'Čeština' },
+      formats: { ebook: 'Interaktívna e-kniha', print: 'Tlačená kniha' },
+      editionNote: 'Prvé vydanie. 100 kusov v každom jazyku.',
+      left: 'Zostáva [n] zo 100', soldOut: 'Vypredané', notYetEbook: 'Zatiaľ nie ako e-kniha',
+      atc: 'Do košíka', notify: 'Dajte mi vedieť', email: 'Váš e-mail',
+      newsletter: 'Aj newsletter: čo je nové a čo chystáme.',
+      note: 'Jeden e-mail, keď bude hotový. Nič viac.', privacy: 'Ochrana osobných údajov',
+      more: 'Ďalšie možnosti platby',
+      ebookLine: 'PDF + EPUB. Na stiahnutie hneď po zaplatení.',
+      switched: 'Slovenčina zatiaľ nie je ako e-kniha. Prepnuté na angličtinu.',
+      acc: { about: 'O balíčku', aboutBook: 'O knihe', box: 'Čo je v krabičke', delivery: 'Doprava', safety: 'Bezpečnosť výrobku' },
+      about: ['Inšpirovaný tarotom Rider–Waite, nakreslil Walter Ihring. Každá karta je komiks v deviatich okienkach: z jedného obrazu je malý príbeh, ktorý sa číta okienko po okienku. Najprv sa pozerajte. Potom čítajte.',
+              'Dve sprievodné karty ukazujú dve cesty: Karta dňa a Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť.'],
+      aboutBook: ['Krátke komiksové príbehy o Prahe: jej kultúra a dejiny, s humorom. Každý príbeh v deviatich okienkach, pôvodné ilustrácie Waltera Ihringa a skryté detaily na objavovanie.'],
+      box: ['78 kariet: 22 veľkých a 56 malých arkán', '2 sprievodné karty: Karta dňa a Čítanie vedomia', 'Krabička'],
+      boxBook: ['140+ ilustrovaných strán'],
+      boxEbook: ['PDF (vysoké rozlíšenie) a EPUB (pevné rozloženie)', '140+ ilustrovaných strán'],
+      deliveryEbook: 'PDF + EPUB. Odkaz na stiahnutie príde e-mailom hneď po zaplatení.',
+      safety: 'Výrobca: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, Slovensko · support@walterin.com',
+      product: 'Výrobok',
+      price: '39 €'
+    }
+  };
+  var t = T[S.lang];
+  function money(eur) { return S.lang === 'sk' ? eur.toFixed(2).replace('.', ',') + ' €' : '€' + eur.toFixed(2); }
+
+  /* ---------- Data per product/state ---------- */
+  var model;
+  if (S.product === 'tarot') {
+    var tv = { en: { ok: true, left: 0 }, sk: { ok: true, left: 0 } };
+    if (S.state === 'low_stock') tv.en.left = 12;
+    if (S.state === 'sold_out_one') tv.en.ok = false;
+    if (S.state === 'sold_out_all') { tv.en.ok = false; tv.sk.ok = false; }
+    model = {
+      title: t.tarot, short: t.tarotShort, price: t.price, physical: true,
+      mode: S.state === 'coming_soon' ? 'notify' : (S.state === 'sold_out_all' ? 'soldout' : 'buy'),
+      options: [{ key: 'language', legend: t.language, values: ['en', 'sk'].map(function (c) {
+        var note = '';
+        if (S.state !== 'coming_soon') { if (!tv[c].ok) note = t.soldOut; else if (tv[c].left) note = t.left.replace('[n]', tv[c].left); }
+        return { code: c, name: t.langs[c], note: note, disabled: S.state !== 'coming_soon' && !tv[c].ok };
+      }) }],
+      selected: { language: S.state === 'sold_out_one' ? 'sk' : (S.lang === 'sk' ? 'sk' : 'en') },
+      editionNote: true
+    };
+    if (S.state === 'sold_out_all') model.selected.language = S.lang;
+  } else {
+    var fmt = S.state === 'printed' ? 'print' : 'ebook';
+    var prices = { ebook: 18.99, print: 27.99 };
+    model = {
+      title: t.book, short: t.book, price: money(prices[fmt]), physical: fmt === 'print', mode: 'buy',
+      options: [
+        { key: 'format', legend: t.format, values: ['ebook', 'print'].map(function (c) { return { code: c, name: t.formats[c], price: money(prices[c]) }; }) },
+        { key: 'language', legend: t.language, values: ['en', 'cs', 'sk'].map(function (c) {
+          var dis = fmt === 'ebook' && c === 'sk';
+          return { code: c, name: t.langs[c], note: dis ? t.notYetEbook : '', disabled: dis };
+        }) }
+      ],
+      selected: { format: fmt, language: S.state === 'printed' && S.lang === 'sk' ? 'sk' : 'en' },
+      announce: S.state === 'unavailable' ? t.switched : ''
+    };
+  }
+
+  /* ---------- Render ---------- */
+  var imgs = IMG[S.product];
+  document.getElementById('gal').innerHTML =
+    '<div class="gal__main"><img src="' + imgs[0] + '" alt="" width="1600" height="1600"><span class="gal__count">1 / ' + imgs.length + '</span></div>' +
+    '<div class="gal__thumbs">' + imgs.map(function (s) { return '<span><img src="' + s.replace('width=1600', 'width=200') + '" alt=""></span>'; }).join('') + '</div>';
+
+  function optionHTML(o) {
+    var n = o.values.length;
+    var sel = model.selected[o.key];
+    var inner = o.values.map(function (v) {
+      var checked = v.code === sel ? ' checked' : '';
+      var dis = v.disabled ? ' disabled' : '';
+      if (S.dir === 'B') {
+        return '<label class="seg__opt"><input type="radio" name="' + o.key + '" value="' + v.code + '"' + checked + dis + '>' +
+          '<span class="tile__name">' + v.name + '</span>' + (v.note ? '<span class="tile__note">' + v.note + '</span>' : (v.price ? '<span class="tile__note">' + v.price + '</span>' : '')) + '</label>';
+      }
+      return '<label class="tile"><input type="radio" name="' + o.key + '" value="' + v.code + '"' + checked + dis + '>' +
+        '<span class="tile__dot" aria-hidden="true"></span><span class="tile__text"><span class="tile__name">' + v.name + '</span>' +
+        (v.note ? '<span class="tile__note">' + v.note + '</span>' : '') + '</span>' +
+        (v.price ? '<span class="tile__price">' + v.price + '</span>' : '') + '</label>';
+    }).join('');
+    var wrapCls = S.dir === 'B' ? 'seg' : 'tiles';
+    return '<fieldset class="opt"><legend class="label trim">' + o.legend + '</legend>' +
+      '<div class="' + wrapCls + '" data-n="' + n + '"' + (o.values[0].price ? ' data-priced' : '') + ' style="--n:' + n + '">' + inner + '</div>' +
+      (model.editionNote && o.key === 'language' ? '<p class="small opt__note">' + t.editionNote + '</p>' : '') +
+      '</fieldset>';
+  }
+
+  function ctaHTML() {
+    if (model.mode === 'notify') {
+      return '<form class="notify" onsubmit="return false">' +
+        '<label class="sr" for="em">' + t.email + '</label>' +
+        '<div class="notify__row"><input class="input" id="em" type="email" placeholder="' + t.email + '" autocomplete="email">' +
+        '<button class="btn reserve" type="submit">' + t.notify + '</button></div>' +
+        '<label class="check small"><input type="checkbox"><span>' + t.newsletter + '</span></label>' +
+        '<p class="small notify__note">' + t.note + ' <a class="link" href="#">' + t.privacy + '</a></p></form>';
+    }
+    if (model.mode === 'soldout') {
+      return '<div class="cta"><button class="btn btn--block reserve" disabled>' + t.soldOut + '</button></div>';
+    }
+    var isEbook = S.product === 'book' && model.selected.format === 'ebook';
+    var h = '<div class="cta"><button class="btn btn--block reserve" type="button">' + t.atc +
+      ' <span class="num">· ' + model.price + '</span></button>';
+    if (isEbook) {
+      h += '<p class="small">' + t.ebookLine + '</p>';
+    } else {
+      h += '<div class="express" aria-hidden="true">Buy with <b>G&nbsp;Pay</b></div>' +
+           '<a class="link more-pay" href="#">' + t.more + '</a>';
+    }
+    h += '<div class="pay" aria-label="Payment methods"><span>VISA</span><span>MC</span><span>AMEX</span><span> Pay</span><span>G Pay</span><span class="mock">(Shopify icons, active methods only)</span></div></div>';
+    return h;
+  }
+
+  function accHTML() {
+    var isBook = S.product === 'book';
+    var isEbook = isBook && model.selected.format === 'ebook';
+    var a = '';
+    function acc(title, body, open) {
+      return '<details class="acc"' + (open ? ' open' : '') + '><summary><span class="label trim">' + title + '</span><span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body">' + body + '</div></details>';
+    }
+    var aboutParas = isBook ? t.aboutBook : t.about;
+    a += acc(isBook ? t.acc.aboutBook : t.acc.about, aboutParas.map(function (p, i) { return '<p' + (i === 0 ? ' class="lead"' : '') + '>' + p + '</p>'; }).join(''), false);
+    var boxItems = isBook ? (isEbook ? t.boxEbook : t.boxBook) : t.box;
+    a += acc(t.acc.box, '<ul class="list">' + boxItems.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>');
+    if (isEbook) a += acc(t.acc.delivery, '<p>' + t.deliveryEbook + '</p>'); // physical Delivery hidden until Pack4you is signed
+    if (model.physical) a += acc(t.acc.safety, '<p>' + t.safety + '<br>' + t.product + ': ' + model.title + '</p>');
+    return '<div class="accs">' + a + '</div>';
+  }
+
+  var head = '<div class="head' + (S.dir === 'B' ? ' head--row' : '') + '"><h1 class="title trim">' + model.title + '</h1>' +
+    '<div class="pricebox"><p class="price trim">' + model.price + '</p>' +
+    (model.physical ? '<p class="small">' + t.ship + '</p>' : '') + '</div></div>';
+  var opts = '<div class="opts">' + model.options.map(optionHTML).join('') +
+    '<p class="sr" role="status" aria-live="polite">' + (model.announce || '') + '</p>' +
+    (model.announce ? '<p class="status" style="margin-top:12px">' + model.announce + '</p>' : '') + '</div>';
+
+  var col = document.getElementById('col');
+  col.className = 'col dir' + S.dir;
+  if (S.dir === 'B') {
+    col.innerHTML = '<div class="panel">' + head + opts + ctaHTML() + '</div>' + accHTML();
+  } else {
+    col.innerHTML = head + opts + ctaHTML() + accHTML();
+  }
+
+  // Sticky bar + zoom previews
+  document.getElementById('sticky').innerHTML =
+    '<p class="sticky__text"><span class="label">' + model.short + '</span><span class="small">' + model.price + ' · ' + (t.langs[model.selected.language] || '') + '</span></p>' +
+    '<a class="btn" href="#">' + (model.mode === 'notify' ? t.notify : t.atc) + '</a>';
+  document.getElementById('zoom').innerHTML =
+    '<div class="zoom__bar"><span class="small" style="font-variant-numeric:tabular-nums">1 / ' + imgs.length + '</span><button class="btn" type="button">✕</button></div>' +
+    '<div class="zoom__stage"><img src="' + imgs[0] + '" alt=""></div>' +
+    '<p class="zoom__hint small">' + (S.lang === 'sk' ? 'Priblížte prstami alebo dvojitým ťuknutím · potiahnite na ďalší obrázok · potiahnite dole na zavretie' : 'Pinch or double-tap to zoom · swipe for the next image · swipe down to close') + '</p>';
+
+  // Live interaction in the mock-up: clicking a tile re-renders with that choice
+  col.addEventListener('change', function (e) {
+    var i = e.target; if (i.type !== 'radio') return;
+    var p = new URLSearchParams(location.search);
+    if (S.product === 'tarot' && S.state !== 'sold_out_all') { model.selected.language = i.value; }
+    if (S.product === 'book' && i.name === 'format') { p.set('state', i.value === 'print' ? 'printed' : 'ebook'); location.search = p; }
+  });
+
+  // Review bar
+  function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); if (k === 'product') p.delete('state'); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === v) + '">' + (label || v) + '</a>'; }
+  var states = S.product === 'tarot' ? ['coming_soon', 'available', 'low_stock', 'sold_out_one', 'sold_out_all'] : ['printed', 'ebook', 'unavailable'];
+  document.getElementById('board').innerHTML =
+    '<span class="grp"><b>Direction</b>' + link('dir', 'A', 'A · Caption') + link('dir', 'B', 'B · Panel') + '</span>' +
+    '<span class="grp"><b>Product</b>' + link('product', 'tarot') + link('product', 'book') + '</span>' +
+    '<span class="grp"><b>State</b>' + states.map(function (s) { return link('state', s); }).join('') + '</span>' +
+    '<span class="grp"><b>Lang</b>' + link('lang', 'en', 'EN') + link('lang', 'sk', 'SK') + '</span>' +
+    '<span class="grp"><b>Phone</b>' + link('extra', '', 'none') + link('extra', 'sticky') + link('extra', 'zoom') + '</span>' +
+    (S.product === 'book' ? '<span>Book prices/languages = sample data</span>' : '');
+})();
+</script>
+</body>
+</html>
