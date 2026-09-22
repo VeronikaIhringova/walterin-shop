@@ -13,6 +13,37 @@ Audit date: 22 September 2026 · read-only (Admin API read scopes, live theme 16
 
 Effort: S = under 1 h · M = half a day · L = 1–3 days.
 
+## Status update: 22 Sep 2026, evening
+
+**Done (live store, each approved and read back):**
+- New privacy policy EN + SK (L1).
+- Old legal pages unpublished (L2).
+- Company details + SOI in the contact policy (L7).
+- False claims removed from the tarot page, Prague page, tarot description and metafield (L13).
+- Live notify form: no pre-ticked newsletter box.
+
+**Done (draft theme 188994257225, pushed, screenshots in `docs/launch/screenshots/`):**
+- § 20a footer link + withdrawal page (L8; the confirmation email still needs an app, see `docs/legal/withdrawal-function-plan.md`).
+- eBook consent in the cart; express buttons hidden for eBooks (L9).
+- EU legal-guarantee notice, official colour image, EN/SK (L11).
+- GPSR block (L14; the safety data is still missing).
+- No VAT wording (T1).
+- PayPal/Revolut claims removed (P2 in the draft).
+- Judge.me/REZ/Appikon leftovers removed; blog noindex; notify form with the optional newsletter box (TH1–TH4).
+
+**Drafted (docs/legal/, for the lawyer):**
+- VOP / Terms (L3), Refund policy (L4), withdrawal instructions + model form (L5).
+- Order confirmation + digital download email texts (L10).
+- GPSR data sheet.
+- Legal-guarantee notes.
+- Publish-ready "now" versions: `docs/legal/publish/`.
+
+**Waiting for your OK:** `docs/launch/APPROVAL-LIST.md`: Terms + Refund policy live, privacy §4, three live templates with PayPal/Revolut claims, withdrawal page, GPSR metafield, printed/digital variant fixes.
+
+**On hold – Pack4you:** L6, S2, S3, S5, S7, S8 (shipping policy, rates, location/connection, SKUs, customs, packaging).
+
+**New finding:** Prague page shows "€35,00 · SAVE 45%". The crossed-out price must be the lowest price of the previous 30 days (price-reduction rule). This is a decision for Veronka, since it's price data.
+
 ## Table
 
 | # | Area | What's there now | What's missing | Blocker | Who | Effort |
@@ -23,7 +54,7 @@ Effort: S = under 1 h · M = half a day · L = 1–3 days.
 | L3 | Terms (VOP) | `/policies/terms-of-service` = US template with "[LINK]". | SK VOP (binding) + EN: ordering, price, delivery, payment, withdrawal, claims, digital content, ADR, SOI, governing law. | **YES** | Claude Code draft → lawyer | M |
 | L4 | Refund policy | Clothing template: 30 days, "tags", "unworn", `[INSERT RETURN ADDRESS]`, info@. | Statutory 14-day withdrawal + claims (reklamácie) policy; return address. | **YES** | Claude Code draft → lawyer; Veronka: return address | M |
 | L5 | Withdrawal instructions + model form | None. | Instructions (Annex 3 of 108/2024, incl. text 3a for the online function) + model form (Annex 2), SK + EN. | **YES** | Claude Code → lawyer | S |
-| L6 | Shipping policy | None (`/policies/shipping-policy` 404). | Countries, carriers, times, prices, customs, split delivery. | **YES** | Claude Code structure; Pack4you data | M |
+| L6 | Shipping policy | None (`/policies/shipping-policy` 404). | Countries, carriers, times, prices, customs, split delivery. | **on hold – Pack4you** | Claude Code structure; Pack4you data | M |
 | L7 | Contact information / legal notice | Contact policy: "Walterin s.r.o.", address, phone, **info@**. No IČO, register entry or supervisory authority. Footer has no company details. | § 4(1) zákon 22/2004 requires business name, registered office, **register + entry no.**, email, phone, **supervisory authority (SOI)**, easily and permanently accessible. | **YES** | Claude Code (policy update after OK) | S |
 | L8 | § 20a online withdrawal function | None. Applies to online contracts concluded after 18 Jun 2026 (§ 53b). | "Odstúpiť od zmluvy tu" link, continuously available, no login; form (name, contract ID, email); "Potvrdiť odstúpenie od zmluvy" button; confirmation on durable medium with content + date/time. | **YES** | Claude Code (Task 2 plan → build) | M–L |
 | L9 | Digital content (eBooks) | No consent mechanism. Cart page has **dynamic checkout buttons** (Apple/Google Pay) that skip the cart. | Before supply: separate notice + consumer's declaration + express consent (§ 17(10), § 19(1)(m)); confirmation on durable medium (§ 17(12)(b)). Without it the customer can withdraw **and** pays nothing (§ 22(4)(b)). Shopify Basic can't add a checkbox in checkout, so collect it in the cart and switch off express buttons for eBooks. | **YES** (for eBooks) | Claude Code (theme) + lawyer confirms | M |
@@ -47,13 +78,13 @@ Effort: S = under 1 h · M = half a day · L = 1–3 days.
 | T2 | OSS / eBooks / distance sales | Unknown. | See the accountant questions below. | **YES** | Accountant | — |
 | **SHIPPING** |
 | S1 | **Markets** | **Only "Slovakia" is active** (one market, SK only, no web presences). | Customers outside SK can't check out. Create an EU market (and later UK), decide countries, languages per market. | **YES** | Veronka decides; Claude Code configures (after OK) | M |
-| S2 | Shipping zones and rates | General profile: Domestic SK **€0**; "International" **€18** to 28 countries incl. US, CA, AU, JP, KR, SG, HK, MY, IL, AE, NZ, GB, CH, NO. Missing EU countries: BG, HR, CY, EE, GR, HU, LV, LT, LU, MT, RO, SI. | Real Pack4you rates per zone. Remove non-EU countries until customs/duties/VAT are settled. | **YES** | Pack4you → Veronka → Claude Code | M |
-| S3 | Fulfilment location / Pack4you | One location "Shop location" (Slovakia, no address). No fulfilment service or app. | Pack4you contract; connection method (app, API or manual CSV); location with their address; stock there. | **YES** | Veronka + Pack4you | M–L |
+| S2 | Shipping zones and rates | General profile: Domestic SK **€0**; "International" **€18** to 28 countries incl. US, CA, AU, JP, KR, SG, HK, MY, IL, AE, NZ, GB, CH, NO. Missing EU countries: BG, HR, CY, EE, GR, HU, LV, LT, LU, MT, RO, SI. | Real Pack4you rates per zone. Remove non-EU countries until customs/duties/VAT are settled. | **on hold – Pack4you** | Pack4you → Veronka → Claude Code | M |
+| S3 | Fulfilment location / Pack4you | One location "Shop location" (Slovakia, no address). No fulfilment service or app. | Pack4you contract; connection method (app, API or manual CSV); location with their address; stock there. | **on hold – Pack4you** | Veronka + Pack4you | M–L |
 | S4 | Weights | 0 kg on all physical variants except stickers (0.05). | Real weights incl. packaging. | **YES** | Walter / printer → Claude Code | S |
-| S5 | SKUs | None anywhere. | SKU scheme (Pack4you WMS needs them), e.g. `WT-TAROT-EN`, `WT-TAROT-SK`, `WT-PRG-BOOK-EN`. | **YES** | Veronka / Pack4you; Claude Code enters | S |
+| S5 | SKUs | None anywhere. | SKU scheme (Pack4you WMS needs them), e.g. `WT-TAROT-EN`, `WT-TAROT-SK`, `WT-PRG-BOOK-EN`. | **on hold – Pack4you** | Veronka / Pack4you; Claude Code enters | S |
 | S6 | Inventory | Tarot EN/SK: tracked, qty 0 (needs 100/100). T-shirt and Prague Tarot: **"continue selling when out of stock"** at qty 0 → oversell risk. | Stock at the Pack4you location; switch overselling off for limited items. | **YES** | Veronka | S |
-| S7 | HS codes / country of origin | Missing on all variants. | Needed for UK / non-EU customs only. | no (EU) / yes (UK) | Veronka / Pack4you | S |
-| S8 | Packaging | Unknown. | Box sizes / protection for deck and book (Pack4you). | yes | Pack4you | — |
+| S7 | HS codes / country of origin | Missing on all variants. | Needed for UK / non-EU customs only. | on hold – Pack4you | Veronka / Pack4you | S |
+| S8 | Packaging | Unknown. | Box sizes / protection for deck and book (Pack4you). | on hold – Pack4you | Pack4you | — |
 | **DIGITAL DELIVERY** |
 | D1 | eBook variants | Walterin Prague "Digital Interactive Edition" (EN €18.99, CZ €20.99): **inventory tracked, qty 0, DENY**, so they can't be bought. Paris is DRAFT. | Stop tracking inventory on digital variants. Veronka checks in Digital Products: file attached per variant (PDF + EPUB), download limit, email text EN + SK. | **YES** | Veronka + Claude Code | S |
 | D2 | **Printed editions misconfigured** | Prague and Paris "**Printed** Collector's Edition" variants: `requiresShipping: false`, `taxable: false`. Checkout would not ask for an address or charge shipping. | Set "physical product" + weight on printed variants. | **YES** | Claude Code (after OK) | S |

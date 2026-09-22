@@ -91,7 +91,7 @@ Cookies sú malé súbory uložené vo vašom prehliadači. Používame:
 - **Nevyhnutné cookies:** potrebné na fungovanie obchodu (košík, pokladňa, bezpečnosť, uloženie vašej voľby cookies). Nevyžadujú súhlas.
 - **Preferenčné, analytické a marketingové cookies** (vrátane tých, ktoré používa Meta a Shopify Network Intelligence): len s vaším súhlasom.
 
-Pri prvej návšteve sa vás lišta cookies opýta na voľbu. Cookies, ktoré nie sú nevyhnutné, môžete prijať alebo odmietnuť. Ich odmietnutie vám nebráni používať obchod. Súhlas môžete kedykoľvek odvolať: vymažte cookies pre walterin.com v nastaveniach prehliadača a lišta sa vás opýta znova, alebo nám napíšte na support@walterin.com. Cookies, ktoré používa Shopify, nájdete na https://www.shopify.com/legal/cookies.
+Pri prvej návšteve sa vás lišta cookies opýta na voľbu. Cookies, ktoré nie sú nevyhnutné, môžete prijať alebo odmietnuť. Ich odmietnutie vám nebráni používať obchod. Súhlas môžete kedykoľvek zmeniť alebo odvolať cez odkaz na nastavenia cookies v pätičke každej stránky, vymazaním cookies pre walterin.com v prehliadači alebo e-mailom na support@walterin.com. Cookies, ktoré používa Shopify, nájdete na https://www.shopify.com/legal/cookies.
 
 ## 5. Kde sa údaje spracúvajú
 

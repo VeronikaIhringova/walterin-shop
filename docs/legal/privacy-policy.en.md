@@ -91,7 +91,7 @@ Cookies are small files stored in your browser. We use:
 - **Strictly necessary cookies:** needed for the store to work (cart, checkout, security, saving your cookie choice). They do not require consent.
 - **Preference, analytics and marketing cookies** (including those used by Meta and by Shopify Network Intelligence): used only with your consent.
 
-On your first visit, the cookie banner asks for your choice. You can accept or reject non-essential cookies. Rejecting them does not stop you from using the store. You can withdraw your consent at any time: delete the cookies for walterin.com in your browser settings and the banner will ask you again, or write to support@walterin.com. The cookies Shopify uses are listed at https://www.shopify.com/legal/cookies.
+On your first visit, the cookie banner asks for your choice. You can accept or reject non-essential cookies. Rejecting them does not stop you from using the store. You can change or withdraw your consent at any time via the "Cookie preferences" link in the footer of every page, by deleting the cookies for walterin.com in your browser, or by writing to support@walterin.com. The cookies Shopify uses are listed at https://www.shopify.com/legal/cookies.
 
 ## 5. Where your data is processed
 
