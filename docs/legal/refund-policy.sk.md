@@ -36,7 +36,7 @@ Za vady tovaru zodpovedáme 24 mesiacov od prevzatia, za vady e-knihy 24 mesiaco
 
 ### 2.1 Ako reklamovať
 
-Napíšte na support@walterin.com, uveďte číslo objednávky, popis vady a čo požadujete (oprava alebo výmena; ak nie sú možné, zľava alebo vrátenie peňazí). Vadu nám oznámte do dvoch mesiacov od jej zistenia. Reklamáciu vám potvrdíme e-mailom a vybavíme najneskôr do 30 dní. Náklady na zaslanie reklamovaného tovaru znášame my.
+Napíšte na support@walterin.com, uveďte číslo objednávky, popis vady a čo požadujete (oprava alebo výmena; ak nie sú možné, zľava alebo vrátenie peňazí). Reklamáciu vám potvrdíme e-mailom a vybavíme najneskôr do 30 dní. Náklady na zaslanie reklamovaného tovaru znášame my.
 
 ### 2.2 Poškodený alebo nesprávny tovar
 

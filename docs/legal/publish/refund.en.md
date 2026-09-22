@@ -34,7 +34,7 @@ We are liable for defects in goods for 24 months from delivery, and for defects 
 
 ### 2.1 How to claim
 
-Write to support@walterin.com with your order number, a description of the defect and what you ask for (repair or replacement; if neither is possible, a price reduction or a refund). Tell us about the defect within two months of discovering it. We confirm your claim by email and settle it within 30 days at the latest. We pay the cost of sending the claimed goods.
+Write to support@walterin.com with your order number, a description of the defect and what you ask for (repair or replacement; if neither is possible, a price reduction or a refund). We confirm your claim by email and settle it within 30 days at the latest. We pay the cost of sending the claimed goods.
 
 ### 2.2 Damaged or wrong item
 

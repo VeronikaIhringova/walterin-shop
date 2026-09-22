@@ -142,7 +142,7 @@ For a defect in goods you are entitled to free repair or replacement. If that is
 
 ### 9.4 How to claim
 
-Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Tell us about the defect within two months of discovering it. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
+Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
 
 ### 9.5 Damaged or wrong item
 

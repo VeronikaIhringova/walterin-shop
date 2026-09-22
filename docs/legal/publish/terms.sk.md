@@ -136,7 +136,7 @@ Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je mo
 
 ### 9.4 Ako reklamovať
 
-Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Vadu nám oznámte do dvoch mesiacov od jej zistenia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
+Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
 
 ### 9.5 Poškodený alebo nesprávny tovar
 
