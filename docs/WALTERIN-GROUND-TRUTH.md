@@ -57,7 +57,7 @@
 - **Naming:** only "nine-frame comic" or "nine-frame path". Never "9-layer system" or "9-frame system".
 - **Reading systems:** "Card of the day" and "Reading of consciousness" (what to understand / accept / transform). The nine-frame path is the guide inside every card.
 - Specs (size, paper, finish, corners, box): TBD, from Walter or the printer. Never guess.
-- Reviews: hidden until real, verified reviews exist.
+- Reviews: hidden until real, verified reviews exist. Judge.me uninstalled; review tool TBD.
 - Product description and metafields in admin are outdated (still say "hand-signed", "9-layer"). To be rewritten.
 
 ---
@@ -67,7 +67,9 @@
 - Fulfilment: **Pack4you** (Slovakia), ships via Packeta, DPD, DHL and others depending on country.
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
-- Payments: Apple Pay, Google Pay, cards, PayPal, Revolut Pay.
+- Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
+- Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Track123, Socialwidget InstaFeed, Facebook & Instagram channel (Meta pixel, "Maximum" data sharing). **Judge.me and REZ Preorder Notify me: uninstalled** (Sep 2026).
+- Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.
 - Returns: 14-day withdrawal, customer pays return shipping, full refund incl. original standard delivery within 14 days.
 
 ---

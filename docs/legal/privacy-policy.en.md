@@ -2,7 +2,7 @@
 
 Last updated: 22 September 2026
 
-This policy explains how Walterin s. r. o. processes personal data when you visit walterin.com, sign up to be notified, subscribe to our newsletter, place an order or contact us.
+This policy explains how Walterin s. r. o. processes personal data when you visit walterin.com, ask to be notified about a product, subscribe to our newsletter, place an order or contact us.
 
 ## 1. Who we are
 
@@ -21,53 +21,51 @@ We have not appointed a data protection officer. For any question about your per
 
 ### 2.1 Visiting the website
 
-- **Data:** IP address, device and browser information, pages visited, date and time of access, and data stored in cookies (see section 4).
+- **Data:** IP address, device and browser information, pages visited, date and time of access, and data stored in cookies and similar technologies (see section 4).
 - **Purpose:** to display the website, keep it secure and working, and remember your settings (for example language, cart and cookie choices).
-- **Legal basis:** our legitimate interest in running a secure, working website (Art. 6(1)(f) GDPR). For cookies that are not strictly necessary: your consent (Art. 6(1)(a) GDPR).
-- **Retention:** as set out for each cookie in the cookie banner or by the provider. Server logs are kept by Shopify for the period set by Shopify.
+- **Legal basis:** our legitimate interest in running a secure, working website (Art. 6(1)(f) GDPR). For cookies and similar technologies that are not strictly necessary: your consent (Art. 6(1)(a) GDPR; § 109 of Act No. 452/2021 Coll. on electronic communications).
+- **Retention:** strictly necessary cookies for the time shown in the cookie banner. Other data for as long as needed for the purpose, as set out in this policy.
 
 ### 2.2 "Notify me" sign-up
 
-- **Data:** email address. The language edition you chose (English / Slovak) may also be recorded. [TO CONFIRM: any other fields]
-- **Purpose:** to send you a notice when the product you signed up for becomes available. This is **not** a newsletter sign-up. We will not send you newsletters or other marketing because of this sign-up.
+- **Data:** email address. We also record the product and language edition you signed up for.
+- **Purpose:** to send you a one-off notice when the product becomes available. This is **not** a newsletter subscription. We will not send you newsletters or other marketing because of this sign-up.
 - **Legal basis:** your consent (Art. 6(1)(a) GDPR), which you give by submitting the form.
-- **Retention:** until we have sent the notice and for [TO CONFIRM: e.g. 3 months] afterwards, or until you withdraw consent, whichever is earlier. After that, the sign-up is deleted unless you have also become our customer or newsletter subscriber on another basis.
+- **Retention:** until 3 months after we send the notice, or until you withdraw your consent, whichever is earlier. After that, the sign-up is deleted, unless you have also become our customer or newsletter subscriber on another basis.
 
 ### 2.3 Newsletter
 
 - **Data:** email address. We also record the date and way you subscribed as evidence of your consent.
 - **Purpose:** to send you news about Walterin: stories, new work and products.
-- **Legal basis:** your consent (Art. 6(1)(a) GDPR; § 116(15) of Act No. 452/2021 Coll. on electronic communications [TO CONFIRM section]).
-- **Retention:** until you unsubscribe. Every newsletter contains an unsubscribe link. We keep evidence of the consent and of its withdrawal for as long as we may need to prove it [TO CONFIRM period].
+- **Legal basis:** your consent (Art. 6(1)(a) GDPR and the rules on electronic marketing in Act No. 452/2021 Coll.).
+- **Retention:** until you unsubscribe. Every newsletter contains an unsubscribe link. We keep evidence of your consent and of its withdrawal for as long as we may need to prove it.
 
 ### 2.4 Orders, payment and delivery
 
-- **Data:** name, email, phone number, billing and delivery address, the products ordered, price, payment method and payment status (we do not receive or store full card numbers), delivery and tracking information, and correspondence about the order.
-- **Purpose:** to conclude and perform the purchase contract, take payment, deliver the goods and send order and shipping notifications.
+- **Data:** name, email, phone number, billing and delivery address, the products ordered, price, payment method and payment status, delivery and tracking information, and correspondence about the order. We do not receive or store full card numbers.
+- **Purpose:** to conclude and perform the purchase contract, take payment, deliver the goods (including sending download links for eBooks) and send order and shipping notifications.
 - **Legal basis:** performance of a contract (Art. 6(1)(b) GDPR).
-- **Retention:** for the duration of the contract and then for as long as needed to handle claims until the relevant limitation periods expire [TO CONFIRM period]. Accounting documents (such as invoices) are kept for 10 years under § 35 of Act No. 431/2002 Coll. on accounting (Art. 6(1)(c) GDPR).
+- **Retention:** for the duration of the contract and then until the limitation periods for claims arising from it expire. Accounting documents (such as invoices) are kept for 10 years under § 35 of Act No. 431/2002 Coll. on accounting (Art. 6(1)(c) GDPR).
 
 ### 2.5 Withdrawals, complaints and customer service
 
 - **Data:** your contact details, order details, the content of your message and our reply.
-- **Purpose:** to handle withdrawals from contracts, complaints about defective goods (reklamácie) and your questions.
-- **Legal basis:** compliance with our legal obligations under consumer protection law and the Civil Code (Art. 6(1)(c) GDPR). For general questions: performance of a contract or steps before one (Art. 6(1)(b) GDPR), or our legitimate interest in answering you (Art. 6(1)(f) GDPR).
-- **Retention:** for the period required by law [TO CONFIRM: record-keeping period for complaints under Act No. 108/2024 Coll.]. General correspondence is kept for up to [TO CONFIRM] after the matter is closed.
+- **Purpose:** to handle withdrawals from contracts, complaints about defective goods and your questions, including those sent through the contact form.
+- **Legal basis:** compliance with our legal obligations under consumer protection law and the Civil Code (Art. 6(1)(c) GDPR). For other questions: steps taken at your request before entering into a contract or performance of a contract (Art. 6(1)(b) GDPR), or our legitimate interest in answering you (Art. 6(1)(f) GDPR).
+- **Retention:** for as long as consumer protection law requires records of withdrawals and complaints to be kept. Other correspondence is kept until the matter is resolved and any related claims are time-barred.
 
-### 2.6 Reviews
+### 2.6 Advertising and measurement (Meta)
 
-- **Data:** name or display name, email, review text, rating and any photos you add, and the order the review relates to.
-- **Purpose:** to ask verified buyers for a review and to publish reviews on the website.
-- **Legal basis:** your consent for publishing your review (Art. 6(1)(a) GDPR). For the review-request email after a purchase: [TO CONFIRM with lawyer: consent vs. legitimate interest with opt-out]. We will not send review requests until this is confirmed.
-- **Retention:** as long as the review is published, or until you ask us to remove it.
-
-### 2.7 Advertising and measurement (Meta pixel)
-
-- **Data:** information about your visit and actions on the website (for example pages viewed, adding to cart, purchase), IP address, browser information and cookie identifiers. With Advanced Matching, the data may also include a hashed email or phone number [TO CONFIRM whether Advanced Matching is enabled].
+- **Data:** information about your visit and actions on the website (for example pages viewed, adding to cart, purchase), IP address, browser information and cookie identifiers. For matching, we may also share contact details you gave us (such as email, phone number or name) in hashed (encrypted) form.
+- **Tools:** the Meta pixel and the Meta Conversions API, via the Facebook & Instagram sales channel.
 - **Purpose:** to measure the results of our ads on Facebook and Instagram and to show relevant ads.
-- **Legal basis:** your consent given in the cookie banner (Art. 6(1)(a) GDPR; § 109(8) of Act No. 452/2021 Coll.). **The pixel only runs if you have consented.** [TO CONFIRM: consent mode / cookie banner blocks the pixel before consent.]
-- **Joint controllership:** for collecting this data on our website and transmitting it to Meta, we and Meta Platforms Ireland Limited are joint controllers. The terms are available at https://www.facebook.com/legal/controller_addendum. Meta's own processing is governed by its privacy policy: https://www.facebook.com/privacy/policy.
-- **Retention:** as set by Meta. On our side, until you withdraw consent.
+- **Legal basis:** your consent to marketing cookies in the cookie banner (Art. 6(1)(a) GDPR; § 109 of Act No. 452/2021 Coll.). We use these tools for you only if you have given this consent.
+- **Joint controllership:** we and Meta Platforms Ireland Limited (Merrion Road, Dublin 4, D04 X2K5, Ireland) are joint controllers for collecting this data on our website and transmitting it to Meta (Art. 26 GDPR). The essential terms of our arrangement are set out in Meta's Controller Addendum: https://www.facebook.com/legal/controller_addendum. Meta is responsible for its own further processing, and you can exercise your rights for data stored by Meta directly with Meta. For matching hashed contact details, Meta acts as our processor and deletes the data once matching is complete. Information on Meta's processing, its legal bases and your rights: https://www.facebook.com/privacy/policy.
+- **Retention:** until you withdraw your consent. Meta keeps the data for the periods set out in its own terms.
+
+### 2.7 Shopify Network Intelligence
+
+Our store uses Shopify Network Intelligence. In this setting, Shopify uses data about your interactions with our store, and with other Shopify stores and with Shopify, to provide analytics, personalisation and advertising services. For this processing Shopify is an **independent controller**, not our processor, and its Consumer Privacy Policy applies: https://www.shopify.com/legal/privacy/customers. Shopify uses your data for targeted advertising only with your consent. If you reject non-essential cookies in our cookie banner, data from your device is excluded from non-essential uses. You can exercise your rights towards Shopify, including withdrawing consent or objecting, through the Shopify privacy portal: https://privacy.shopify.com. If you ask us to delete your data, it is also deleted from Shopify Network Intelligence.
 
 ### 2.8 Legal claims and security
 
@@ -75,16 +73,13 @@ We may process the data described above to establish, exercise or defend legal c
 
 ## 3. Who receives your data
 
-We use the following providers (processors, unless stated otherwise). They process data only on our instructions and under a data processing agreement.
+We use the following providers. Unless stated otherwise, they act as our processors: they process data only on our instructions and under a data processing agreement.
 
-- **Shopify** (Shopify International Limited, Ireland): the store platform, including hosting, checkout, customer records, order processing and the cookie banner. It also runs these Shopify apps: **Shopify Email / Messaging** (newsletter and notification emails), **Shopify Flow** (automated store workflows), **Translate & Adapt** (translations; it processes no customer data [TO CONFIRM]) and **Digital Products** [TO CONFIRM: whether used, and what data it processes].
-- **Payment providers:** Shopify Payments [TO CONFIRM operator, e.g. Stripe], PayPal (PayPal (Europe) S.à r.l. et Cie, S.C.A., Luxembourg) and Revolut Pay [TO CONFIRM operator]. Apple Pay and Google Pay run through the card payment provider. For their own processing (for example fraud checks and regulatory duties), payment providers may act as independent controllers.
-- **Judge.me** [TO CONFIRM legal entity and country]: collecting and displaying product reviews.
-- **Track123** [TO CONFIRM legal entity and country]: order tracking and shipping notifications.
-- **REZ Preorder Notify me** [TO CONFIRM legal entity and country]: "notify me" sign-ups and availability notices [TO CONFIRM whether sign-ups currently go through this app or through Shopify's own form].
-- **Socialwidget InstaFeed** [TO CONFIRM legal entity and country]: shows our Instagram feed on the website. When the feed loads, your browser may connect to Instagram / Meta servers, which receive your IP address [TO CONFIRM].
-- **Meta Platforms Ireland Limited** (Facebook & Instagram sales channel): see section 2.7, as joint controller.
-- **Fulfilment and delivery:** Pack4you (Slovakia) stores, packs and ships orders [TO CONFIRM: contract not yet signed]. Delivery is handled by carriers such as Packeta, DPD or DHL, depending on the destination. Carriers receive the name, delivery address, phone and email needed for delivery.
+- **Shopify** (Shopify International Limited, Dublin, Ireland): the store platform, including hosting, checkout, customer records, order processing, the notify-me and contact forms, and the cookie banner. It also covers these Shopify apps: **Shopify Messaging** (newsletter, notify-me and order emails), **Shopify Flow** (automated store workflows), **Shopify Digital Products** (delivery of eBook download links) and **Translate & Adapt** (translation of store content; it does not process customer data). For Shopify Network Intelligence, Shopify is an independent controller (see section 2.7).
+- **Stripe** (Stripe Payments Europe, Limited, Ireland): card payments, including Apple Pay and Google Pay. Stripe processes payment data on our behalf. It acts as an independent controller for its own purposes, such as fraud prevention and compliance with financial regulation: https://stripe.com/privacy.
+- **Track123** (Track123, Las Vegas, USA): the order tracking page and shipping status notifications. It processes order, delivery and contact details.
+- **Meta Platforms Ireland Limited**: see section 2.6.
+- **Fulfilment and delivery:** Pack4you (Slovakia) stores, packs and ships physical orders. Delivery is handled by carriers such as Packeta, DPD or DHL, depending on the destination. Carriers receive the name, delivery address, phone and email needed for delivery, and act as independent controllers for the delivery.
 - **Accounting and legal advisers**, bound by professional confidentiality, to the extent required.
 - **Public authorities**, where the law requires it.
 
@@ -94,14 +89,14 @@ We do not sell your personal data.
 
 Cookies are small files stored in your browser. We use:
 
-- **Strictly necessary cookies:** needed for the store to work (cart, checkout, security, cookie choices). They do not require consent.
-- **Preference, analytics and marketing cookies** (including the Meta pixel): used only with your consent.
+- **Strictly necessary cookies:** needed for the store to work (cart, checkout, security, saving your cookie choice). They do not require consent.
+- **Preference, analytics and marketing cookies** (including those used by Meta and by Shopify Network Intelligence): used only with your consent.
 
-When you first visit, the cookie banner asks for your choice. You can accept, reject or change your choice at any time via the cookie settings link in the footer [TO CONFIRM: link present]. Rejecting cookies has no effect on your ability to use the store. A list of cookies set by Shopify is available at https://www.shopify.com/legal/cookies.
+On your first visit, the cookie banner asks for your choice. You can accept or reject non-essential cookies. Rejecting them does not stop you from using the store. You can withdraw your consent at any time: delete the cookies for walterin.com in your browser settings and the banner will ask you again, or write to support@walterin.com. The cookies Shopify uses are listed at https://www.shopify.com/legal/cookies.
 
-## 5. Transfers outside the EEA
+## 5. Where your data is processed
 
-Some providers (for example Shopify and Meta, and possibly others listed in section 3) may process data outside the European Economic Area, in particular in Canada and the United States. Such transfers take place only on the basis of a European Commission adequacy decision (for example for Canada, or for US companies certified under the EU–U.S. Data Privacy Framework) or of standard contractual clauses approved by the European Commission (Art. 45 and 46 GDPR). [TO CONFIRM for Judge.me, Track123, REZ and Socialwidget.]
+Our store's customer data is stored in the European Union. Some providers may still process data outside the European Economic Area: Shopify (in particular Canada, the USA and Singapore), Stripe (in particular the USA) and Meta (the USA). For these transfers, the providers state that they rely on an adequacy decision of the European Commission (for Canada, and for US companies certified under the EU–U.S. Data Privacy Framework, Art. 45 GDPR) or on appropriate safeguards such as standard contractual clauses or binding corporate rules (Art. 46–47 GDPR). You can ask us for more information about these safeguards at support@walterin.com.
 
 ## 6. Your rights
 
@@ -115,13 +110,13 @@ You have the right to:
 - **object** to processing based on our legitimate interest (Art. 21);
 - **withdraw your consent** at any time. This does not affect processing carried out before the withdrawal (Art. 7(3)).
 
-To exercise your rights, write to support@walterin.com. We will reply within one month, which may be extended in the cases allowed by Art. 12(3) GDPR.
+To exercise your rights, write to support@walterin.com. We will reply within one month. In the cases allowed by Art. 12(3) GDPR, this period may be extended.
 
-You also have the right to lodge a complaint with a supervisory authority, in particular in the EU country where you live or work. In Slovakia this is the Úrad na ochranu osobných údajov Slovenskej republiky, Hraničná 12, 820 07 Bratislava 27, https://dataprotection.gov.sk. If you live in the United Kingdom, you can also complain to the Information Commissioner's Office (ico.org.uk).
+You also have the right to lodge a complaint with a supervisory authority, in particular in the EU country where you live or work. In Slovakia this is the Úrad na ochranu osobných údajov Slovenskej republiky, Hraničná 12, 820 07 Bratislava 27, https://dataprotection.gov.sk. If you live in the United Kingdom, you can also complain to the Information Commissioner's Office (https://ico.org.uk).
 
 ## 7. Is providing data required?
 
-Data needed to conclude and perform a purchase (name, contact and delivery details) is a contractual requirement. Without it we cannot accept your order. Providing data for notify-me sign-ups, the newsletter and reviews is voluntary.
+Data needed to conclude and perform a purchase (name, contact and delivery details) is a contractual requirement. Without it we cannot accept your order. Providing data for the notify-me sign-up and the newsletter is voluntary.
 
 We do not use automated decision-making, including profiling, that has legal or similarly significant effects on you.
 
