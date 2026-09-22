@@ -1,0 +1,253 @@
+{
+  "locations": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Location/100731945289",
+        "name": "Shop location",
+        "isActive": true,
+        "fulfillsOnlineOrders": true,
+        "address": {
+          "city": null,
+          "country": "Slovakia"
+        },
+        "fulfillmentService": null
+      }
+    ]
+  },
+  "deliveryProfiles": {
+    "nodes": [
+      {
+        "id": "gid://shopify/DeliveryProfile/119592059209",
+        "name": "General profile",
+        "default": true,
+        "productVariantsCount": {
+          "count": 13
+        },
+        "profileLocationGroups": [
+          {
+            "locationGroupZones": {
+              "nodes": [
+                {
+                  "zone": {
+                    "name": "Domestic",
+                    "countries": [
+                      {
+                        "code": {
+                          "countryCode": "SK",
+                          "restOfWorld": false
+                        }
+                      }
+                    ]
+                  },
+                  "methodDefinitions": {
+                    "nodes": [
+                      {
+                        "name": "Standard",
+                        "active": true,
+                        "rateProvider": {
+                          "price": {
+                            "amount": "0.0",
+                            "currencyCode": "EUR"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "zone": {
+                    "name": "International",
+                    "countries": [
+                      {
+                        "code": {
+                          "countryCode": "AE",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "AT",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "AU",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "BE",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "CA",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "CH",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "CZ",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "DE",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "DK",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "ES",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "FI",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "FR",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "GB",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "HK",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "IE",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "IL",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "IT",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "JP",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "KR",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "MY",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "NL",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "NO",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "NZ",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "PL",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "PT",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "SE",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "SG",
+                          "restOfWorld": false
+                        }
+                      },
+                      {
+                        "code": {
+                          "countryCode": "US",
+                          "restOfWorld": false
+                        }
+                      }
+                    ]
+                  },
+                  "methodDefinitions": {
+                    "nodes": [
+                      {
+                        "name": "Standard",
+                        "active": true,
+                        "rateProvider": {
+                          "price": {
+                            "amount": "18.0",
+                            "currencyCode": "EUR"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

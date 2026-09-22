@@ -1,0 +1,63 @@
+<claude-code-hint v="1" type="plugin" value="shopify-ai-toolkit@claude-plugins-official" />
+{
+  "shop": {
+    "name": "Walterin",
+    "email": "info@walterin.com",
+    "contactEmail": "support@walterin.com",
+    "currencyCode": "EUR",
+    "enabledPresentmentCurrencies": [
+      "EUR"
+    ],
+    "taxesIncluded": true,
+    "taxShipping": false,
+    "weightUnit": "KILOGRAMS",
+    "ianaTimezone": "Europe/Bratislava",
+    "billingAddress": {
+      "country": "Slovakia",
+      "city": "Bratislava"
+    },
+    "primaryDomain": {
+      "host": "walterin.com"
+    },
+    "plan": {
+      "publicDisplayName": "Basic"
+    },
+    "setupRequired": false,
+    "checkoutApiSupported": true,
+    "customerAccounts": "OPTIONAL",
+    "features": {
+      "storefront": true
+    },
+    "paymentSettings": {
+      "supportedDigitalWallets": [
+        "APPLE_PAY",
+        "GOOGLE_PAY"
+      ]
+    },
+    "resourceLimits": {
+      "maxProductVariants": 2048
+    }
+  },
+  "shopLocales": [
+    {
+      "locale": "cs",
+      "primary": false,
+      "published": false
+    },
+    {
+      "locale": "de",
+      "primary": false,
+      "published": false
+    },
+    {
+      "locale": "en",
+      "primary": true,
+      "published": true
+    },
+    {
+      "locale": "sk",
+      "primary": false,
+      "published": false
+    }
+  ]
+}

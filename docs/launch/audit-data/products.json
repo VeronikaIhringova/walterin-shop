@@ -1,0 +1,547 @@
+{
+  "products": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Product/9279897338185",
+        "title": "Walterin Prague – Comic Book",
+        "handle": "walterin-prague",
+        "status": "ACTIVE",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [
+          "PRAGUE"
+        ],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": "https://walterin.com/products/walterin-prague",
+        "publishedAt": "2024-09-01T12:45:12Z",
+        "templateSuffix": "walterin-prague-book",
+        "seo": {
+          "title": "Walterin Prague | Illustrated Book of Stories & Pocket History",
+          "description": "Discover Prague through 140+ illustrated pages, comic storytelling, and visual humour in this witty, design-driven book. Available as eBook or premium print."
+        },
+        "descriptionHtml": "<p data-end=\"370\" data-start=\"206\">∙ <meta charset=\"utf-8\"><strong data-end=\"234\" data-start=\"208\">140+ illustrated pages</strong><br><meta charset=\"utf-8\">∙ <meta charset=\"utf-8\">9-frame comic storytelling<br data-start=\"225\" data-end=\"228\">∙ Original artwork &amp; visual humour<br data-start=\"262\" data-end=\"265\">∙ <em data-start=\"267\" data-end=\"295\">Hidden details to discover</em></p>\n<p data-start=\"297\" data-end=\"431\">∙ Fast, light, and truly fun to read<br data-start=\"333\" data-end=\"336\">∙ A fresh take on <strong data-start=\"354\" data-end=\"375\">culture &amp; history</strong><br data-start=\"375\" data-end=\"378\">∙ Ideal for travellers, curious minds &amp; design lovers</p>\n<p data-start=\"433\" data-end=\"511\">∙ Available in <strong data-start=\"448\" data-end=\"459\">English</strong> &amp; <strong data-start=\"462\" data-end=\"471\">Czech</strong><br data-start=\"471\" data-end=\"474\">∙ Choose: <strong>eBook</strong> or <em>Printed Book</em></p>",
+        "media": {
+          "nodes": [
+            {
+              "alt": "Walterin Prague illustrated comic guide book with witty cover design stacked on a white background",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "Witty illustrated Prague comic guide book by Walterin photographed outdoors on stone pavement",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "Person holding the Walterin Prague illustrated comic guide book featuring witty cultural stories",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "Look inside the Walterin Prague book showing illustrated comic pages and witty 9 frame mini stories",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/51921130357065",
+              "title": "English / Digital Interactive Edition",
+              "sku": "",
+              "price": "18.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53512997339465",
+              "title": "English / Printed Collector’s Edition",
+              "sku": null,
+              "price": "27.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/51921130324297",
+              "title": "Czech / Digital Interactive Edition",
+              "sku": "",
+              "price": "20.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53512997372233",
+              "title": "Czech / Printed Collector’s Edition",
+              "sku": null,
+              "price": "27.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579076911433",
+        "title": "Walterin Prague T-shirt (The Absinth Drinker & Green Fairy)",
+        "handle": "t-shirt",
+        "status": "DRAFT",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [
+          "PRAGUE"
+        ],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": null,
+        "publishedAt": null,
+        "templateSuffix": "",
+        "seo": {
+          "title": "Walterin Prague T-shirt | Illustrated Absinthe Drinker & Green Fairy",
+          "description": "Premium cotton T-shirt with original Walterin artwork inspired by the Café Slavia story. Features subtle front emblem and full Absinthe Drinker design."
+        },
+        "descriptionHtml": "<p data-start=\"299\" data-end=\"360\"><meta charset=\"utf-8\">· Original artwork inspired by the <strong>Café Slavia</strong> story<br><meta charset=\"utf-8\">· <strong>Full Absinthe Drinker illustration</strong> on the back + subtle emblem on the front<br><meta charset=\"utf-8\">· Includes the Green Fairy character from the classic painting<br><meta charset=\"utf-8\">· Illustrated by the Walterin series cartoonist<br><meta charset=\"utf-8\">· A thoughtful, design-forward piece for Prague lovers, art fans, and collectors</p>",
+        "media": {
+          "nodes": [
+            {
+              "alt": "White Walterin Prague T-shirt with green fairy and absinth drinker illustration on the front",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "Close-up of Walterin Prague green fairy and absinth drinker illustrated emblem on the T-shirt",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "Walterin Prague T-shirt with full comic-style illustration of the absinth drinker and green fairy on the back",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53416754381129",
+              "title": "White",
+              "sku": null,
+              "price": "25.00",
+              "compareAtPrice": null,
+              "taxable": true,
+              "barcode": null,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": true,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579275223369",
+        "title": "Walterin Prague Sticker Set",
+        "handle": "stickers",
+        "status": "ACTIVE",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [
+          "PARIS"
+        ],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": "https://walterin.com/products/stickers",
+        "publishedAt": "2025-03-11T14:46:16Z",
+        "templateSuffix": "",
+        "seo": {
+          "title": "Walterin Prague Sticker Set | Illustrated City Icons & Characters",
+          "description": "A fun illustrated Prague sticker set with Walterin characters, city icons, and comic-style artwork. Ideal for notebooks, gifts, creatives, and Prague lovers."
+        },
+        "descriptionHtml": "",
+        "media": {
+          "nodes": [
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/51887536505161",
+              "title": "Default Title",
+              "sku": "",
+              "price": "12.50",
+              "compareAtPrice": null,
+              "taxable": true,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": true,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0.05,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9869964673353",
+        "title": "Walterin Prague Tarot Cards",
+        "handle": "prague-tarot",
+        "status": "DRAFT",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": null,
+        "publishedAt": null,
+        "templateSuffix": "",
+        "seo": {
+          "title": "Walterin Prague Tarot | Illustrated Tarot Cards of the Royal Route",
+          "description": "An illustrated Prague Tarot inspired by Prague’s Royal Route, with Walterin artwork and symbols. A unique gift for tarot fans, travellers, and art lovers."
+        },
+        "descriptionHtml": "",
+        "media": {
+          "nodes": [
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53132099649865",
+              "title": "Default Title",
+              "sku": null,
+              "price": "17.90",
+              "compareAtPrice": null,
+              "taxable": true,
+              "barcode": null,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": true,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9872039575881",
+        "title": "Comics Tarot of Consciousness",
+        "handle": "tarot",
+        "status": "ACTIVE",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": "https://walterin.com/products/tarot",
+        "publishedAt": "2025-10-16T07:20:12Z",
+        "templateSuffix": "tarot",
+        "seo": {
+          "title": null,
+          "description": null
+        },
+        "descriptionHtml": "<p data-start=\"136\" data-end=\"230\">• <strong>Intuitive 9-layer system</strong><br data-start=\"162\" data-end=\"165\">•<strong> Everything lives within the cards </strong>- no heavy guidebook needed</p>\n<p data-start=\"232\" data-end=\"314\">• <em>Includes 3 reading systems</em><br data-start=\"260\" data-end=\"263\">• Built around the <strong>unique 9-frame Walterin system</strong></p>\n<p data-start=\"316\" data-end=\"370\">• Original illustrations<br data-start=\"340\" data-end=\"343\">• Inspired by Rider–Waite</p>\n<p data-start=\"372\" data-end=\"396\">• Major &amp; Minor Arcana</p>\n<p data-start=\"398\" data-end=\"446\">• Limited edition — 100 pieces<br data-start=\"428\" data-end=\"431\">• Hand-signed<strong data-start=\"544\" data-end=\"594\"></strong></p>",
+        "media": {
+          "nodes": [
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            },
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/54514390139209",
+              "title": "English",
+              "sku": null,
+              "price": "39.00",
+              "compareAtPrice": null,
+              "taxable": true,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": true,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/54514390171977",
+              "title": "Slovak",
+              "sku": null,
+              "price": "39.00",
+              "compareAtPrice": null,
+              "taxable": true,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": true,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/10024621801801",
+        "title": "Walterin Paris",
+        "handle": "walterin-paris",
+        "status": "DRAFT",
+        "productType": "",
+        "vendor": "Walterin",
+        "tags": [
+          "PRAGUE"
+        ],
+        "totalInventory": 0,
+        "tracksInventory": true,
+        "onlineStoreUrl": null,
+        "publishedAt": null,
+        "templateSuffix": "walterin-prague-book",
+        "seo": {
+          "title": "Walterin Paris | Illustrated Book of Stories & Pocket History",
+          "description": "Discover Paris through 140+ illustrated pages, comic storytelling, and visual humour in this witty, design-driven book. Available as eBook or premium print."
+        },
+        "descriptionHtml": "<p data-end=\"370\" data-start=\"206\">∙ <meta charset=\"utf-8\"><strong data-end=\"234\" data-start=\"208\">140+ illustrated pages</strong><br><meta charset=\"utf-8\">∙ <meta charset=\"utf-8\">9-frame comic storytelling<br data-start=\"225\" data-end=\"228\">∙ Original artwork &amp; visual humour<br data-start=\"262\" data-end=\"265\">∙ <em data-start=\"267\" data-end=\"295\">Hidden details to discover</em></p>\n<p data-start=\"297\" data-end=\"431\">∙ Fast, light, and truly fun to read<br data-start=\"333\" data-end=\"336\">∙ A fresh take on <strong data-start=\"354\" data-end=\"375\">culture &amp; history</strong><br data-start=\"375\" data-end=\"378\">∙ Ideal for travellers, curious minds &amp; design lovers</p>\n<p data-start=\"433\" data-end=\"511\">∙ Available in <strong data-start=\"448\" data-end=\"459\">English</strong> &amp; <strong data-start=\"462\" data-end=\"471\">French</strong><br data-start=\"471\" data-end=\"474\">∙ Choose: <strong>eBook</strong> or <em>Printed Book</em></p>",
+        "media": {
+          "nodes": [
+            {
+              "alt": "",
+              "mediaContentType": "IMAGE"
+            }
+          ]
+        },
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53676764102985",
+              "title": "English / Digital Interactive Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764135753",
+              "title": "English / Printed Collector’s Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764168521",
+              "title": "French / Digital Interactive Edition",
+              "sku": null,
+              "price": "26.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764201289",
+              "title": "French / Printed Collector’s Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "taxable": false,
+              "barcode": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "inventoryItem": {
+                "tracked": true,
+                "requiresShipping": false,
+                "countryCodeOfOrigin": null,
+                "harmonizedSystemCode": null,
+                "measurement": {
+                  "weight": {
+                    "value": 0,
+                    "unit": "KILOGRAMS"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

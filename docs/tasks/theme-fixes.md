@@ -36,11 +36,17 @@ Same fix as on the live theme on 22 Sep 2026: newsletter box not pre-ticked, `ne
 - REZ and Appikon embed entries (disabled) and REZ custom CSS in `config/settings_data.json`.
 - Remove all of these in the draft. The live theme gets replaced when the draft is published.
 
-## 4. Cookie settings link in the footer
-There's no link that lets visitors reopen the cookie banner. Add a "Cookie settings" / "Nastavenia cookies" link that calls `window.Shopify.customerPrivacy.showPreferences()`. After that, update privacy policy section 4 to mention the link.
+## 4. Cookie settings link in the footer · CORRECTED 22 Sep 2026
+A "Cookie preferences" link (`#shopifyReshowConsentBanner`) is already in the footer policy list on the live and draft themes; Shopify adds it automatically. No theme work needed. Only privacy policy section 4 should mention it (policy update, needs OK).
 
-## 5. Trust row: payments
-The buy section trust row mentions "PayPal", which isn't active yet. Payments are Stripe cards + Apple Pay + Google Pay. Update when PayPal goes live.
+## 5. Trust row, footer icons and wrong claims (draft)
+- Buy section trust row: "Apple Pay, Google Pay, cards, PayPal". PayPal isn't active yet, so remove it.
+- Footer payment icons show **Revolut** and **PayPal** (from the enabled payment types, on live and draft). Veronka is checking Settings → Payments.
+- Buy section: "€39 **VAT included**". Remove until the accountant confirms the VAT status (ground truth).
+- FAQ on the tarot page: "The first run of **150** decks… Order now and your deck ships the moment it lands". Correct to 100 EN + 100 SK, and no shipping promise.
+
+## 6. Blog pages: noindex (approved 22 Sep 2026, option c)
+The 4 empty blogs (`/blogs/news`, `/blogs/vincenzo-peruggia`, `/blogs/aqua`, `/blogs/best-wishes-his-holiness-6-7-1935`) are public (200) and listed in `sitemap_blogs_1.xml`. All their articles are unpublished. In the draft theme, add `<meta name="robots" content="noindex">` in `layout/theme.liquid` when `template.name == 'blog' or template.name == 'article'`. Do not delete the blogs.
 
 ## Notes
 - `web-pixel-shopify-custom-pixel` shows up in network requests, but Veronka checked Settings → Customer events and there are no custom pixels, only Facebook & Instagram. It's Shopify's pixel sandbox loader. It isn't configured in admin and isn't in the privacy policy.

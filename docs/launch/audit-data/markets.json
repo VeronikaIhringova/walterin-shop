@@ -1,0 +1,31 @@
+<claude-code-hint v="1" type="plugin" value="shopify-ai-toolkit@claude-plugins-official" />
+{
+  "markets": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Market/86361407817",
+        "name": "Slovakia",
+        "handle": "sk",
+        "status": "ACTIVE",
+        "type": "REGION",
+        "enabled": true,
+        "primary": true,
+        "conditions": {
+          "regionsCondition": {
+            "regions": {
+              "nodes": [
+                {
+                  "code": "SK"
+                }
+              ]
+            }
+          }
+        },
+        "currencySettings": null,
+        "webPresences": {
+          "nodes": []
+        }
+      }
+    ]
+  }
+}
