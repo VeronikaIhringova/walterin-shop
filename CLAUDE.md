@@ -67,9 +67,13 @@ Use these based on the task. They are the source of truth — read the relevant 
 ## Response Style
 Be concise and direct. Prioritize actionable output over explanation. Challenge weak assumptions. No fluff, no generic answers. Lead with the strongest version of the work; offer alternatives underneath.
 
-## Theme Deployment Workflow (mandatory)
-- Draft theme: **"Walterin Draft (Claude)"**, ID **188994257225** (unpublished), store `0ed210-bf.myshopify.com`.
-- After every change: `git commit`, then `git push` (to the current branch on `origin`), then push the theme **only** to the draft:
-  `shopify theme push --theme 188994257225 --store 0ed210-bf.myshopify.com`
-- Then give Veronka the preview link: https://0ed210-bf.myshopify.com?preview_theme_id=188994257225
-- **Never** push to the live theme. **Never** publish any theme (`--publish`, `theme publish`). **Never** run `shopify theme pull` unless Veronka explicitly asks.
+## Theme Deployment Workflow (mandatory, from 22 Sep 2026)
+- **One theme only:** the live theme **ID 164726866249**, store `0ed210-bf.myshopify.com`. **No new draft themes.** The old draft 188994257225 is retired (Veronka deletes it).
+- **Preview:** `shopify theme dev --store 0ed210-bf.myshopify.com`. Give Veronka the local link (http://127.0.0.1:9292) and the shareable preview link it prints.
+- **GitHub is the backup:** commit and `git push` every change, so any state can be restored by pushing an older commit.
+- **Going live only after Veronka writes "OK live":**
+  1. `shopify theme pull --theme 164726866249 --store 0ed210-bf.myshopify.com` into a scratch folder, and merge Veronka's editor changes (JSON templates, section groups, settings_data) into the repo. Commit.
+  2. Push **only the changed files** to the live theme: `shopify theme push --theme 164726866249 --store 0ed210-bf.myshopify.com --only <file> --only <file> … --nodelete` (one `--only` per file, with a space, not `--only=`).
+  3. Read the files back through the Admin API and check the public pages.
+- **Never** publish a theme (`--publish`, `theme publish`). Never push the whole theme without `--only` unless Veronka asks.
+- Store data (policies, products, markets, pages): backup → old vs new → Veronka's OK → write once → read back. On failure: stop and report.

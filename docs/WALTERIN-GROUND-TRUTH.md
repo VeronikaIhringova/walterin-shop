@@ -14,13 +14,13 @@
 | Registered address | Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia |
 | IČO | 57297991 |
 | DIČ | 2122655755 |
-| IČ DPH | TBD (confirm VAT status with accountant) |
+| IČ DPH | **Not a VAT payer** (Veronka, 22 Sep 2026). Prices are final. |
 | Commercial register | Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka č. 193235/B |
 | Customer email | support@walterin.com |
 | Phone | +421 905 549 907 |
 | Return address | TBD (company address for now, later possibly Pack4you) |
 
-⚠️ If the company is **not** a VAT payer, "VAT included" must not appear anywhere on the site.
+⚠️ Walterin is **not** a VAT payer: no VAT wording anywhere ("VAT included", "Tax included", "DPH"). In Shopify, "Include tax in prices" must be **off**. The theme shows tax wording only when that setting is on, so VAT can be switched on later without theme changes.
 
 ---
 
@@ -31,20 +31,23 @@
 | Domain | walterin.com |
 | Store | 0ed210-bf.myshopify.com |
 | Theme | Shrine LITE 1.3.0 |
-| **Live theme** | ID **164726866249**. Never push, never edit in the editor during the rebuild |
-| **Draft theme** | "Walterin Draft (Claude)", ID **188994257225**. All work goes here |
-| Draft preview | https://0ed210-bf.myshopify.com/products/tarot?preview_theme_id=188994257225 |
+| **Live theme** | ID **164726866249**. The only theme. Preview with `shopify theme dev`; push only changed files after Veronka's "OK live" (see CLAUDE.md) |
+| Old draft theme | "Walterin Draft (Claude)", ID 188994257225: **retired 22 Sep 2026**, Veronka deletes it after go-live. No new draft themes |
+| Preview | `shopify theme dev --store 0ed210-bf.myshopify.com` → http://127.0.0.1:9292 + shareable link |
 | Repo | github.com/VeronikaIhringova/walterin-shop · local `~/walterin-shop` |
 | Working branch | `tarot-improve` |
 | Backup branch | `tarot-prototype-rebuild` (old prototype attempt, not used) |
 | Backend access | Claude Code via Shopify AI Toolkit (Shopify CLI 4.8). Minimum scopes, one task at a time |
 
-**Publishing:** Veronka publishes the draft manually in Shopify admin → Online Store → Themes. Claude Code never publishes.
+**Publishing:** Claude Code never publishes a theme. Live changes = push of changed files to the live theme after "OK live". GitHub is the backup (roll back by pushing an older commit).
+
+**Product files:** `docs/products/*.md` (Tarot, Prague, Paris) are binding for each product.
 
 ---
 
-## 3. Product: Comics Tarot of Consciousness
+## 3. Product: Tarot of Consciousness: A Graphic Journey
 
+- Name: EN **Tarot of Consciousness: A Graphic Journey**, SK **Komiksový tarot vedomia** (short: Tarot of Consciousness / Tarot vedomia). Old name "Comics Tarot of Consciousness" retired on the website (tuck box still says COMICS TAROT, TO CONFIRM). Handle `tarot`.
 - 78 cards (22 Major + 56 Minor Arcana), 2 guide cards, tuck box.
 - Price: €39, always taken from the product, never hardcoded.
 - Editions = variants of the option "Language/Jazyk": **English** and **Slovak**.
@@ -67,6 +70,7 @@
 - Fulfilment: **Pack4you** (Slovakia), ships via Packeta, DPD, DHL and others depending on country.
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
+- eBooks (Prague, Paris) are digital (no shipping) and go on sale first. Printed books and the tarot are physical and stay unbuyable until Pack4you is signed.
 - Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
 - Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Facebook & Instagram channel (Meta pixel + Conversions API, "Maximum" data sharing). **Uninstalled (Sep 2026): Judge.me, REZ Preorder Notify me, Track123, Socialwidget.**
 - Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.
@@ -129,7 +133,7 @@ Dry, warm, short factual sentences, British spelling. Literary, never generic. N
 
 | Decision | Who |
 |---|---|
-| VAT status (IČ DPH) | Accountant |
+| VAT status | Decided: not a VAT payer. Open for the accountant: OSS for eBooks, customer document |
 | Return address | Veronka |
 | Specs: size, paper, finish, corners, box | Walter / printer |
 | Pack4you contract: delivery times, prices | Veronka |
