@@ -1,0 +1,51 @@
+{% comment %}
+  Walterin line icons: 24px grid, 2px ink stroke, round joins.
+  Placeholders until Walter draws the suit set (cup, pentacle, sword, wand, star):
+  those names are reserved below and currently map to simple geometric stand-ins.
+
+  Accepts:
+  - icon: {String} 'edition' | 'payment' | 'shipping' | 'delivery' | 'returns' | 'close' | 'zoom'
+          | 'cup' | 'pentacle' | 'sword' | 'wand' | 'star'
+  - class: {String} extra classes
+
+  Usage:
+  {% render 'wui-icon', icon: 'shipping' %}
+{% endcomment %}
+<svg
+  class="wui-icon{% if class != blank %} {{ class }}{% endif %}"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {%- case icon -%}
+    {%- when 'edition' -%}
+      <rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/>
+    {%- when 'payment' -%}
+      <rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 9.5h19M6.5 14.5h4"/>
+    {%- when 'shipping' -%}
+      <path d="M12 2.5 3 7v10l9 4.5 9-4.5V7z"/><path d="M3 7l9 4.5L21 7M12 11.5v10"/>
+    {%- when 'delivery' -%}
+      <path d="M2.5 6.5h11v10h-11zM13.5 10h4l3 3v3.5h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+    {%- when 'returns' -%}
+      <path d="M8 5 4 9l4 4"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>
+    {%- when 'close' -%}
+      <path d="M6 6l12 12M18 6 6 18"/>
+    {%- when 'zoom' -%}
+      <circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/>
+    {%- when 'cup' -%}
+      <path d="M6 3.5h12v4a6 6 0 0 1-12 0zM12 13.5v5M8 20.5h8"/>
+    {%- when 'pentacle' -%}
+      <circle cx="12" cy="12" r="9"/><path d="M12 4.5l2.2 6.8h-6.6l5.4-3.9-2.1 6.5L12 4.5"/>
+    {%- when 'sword' -%}
+      <path d="M12 2.5v14M8.5 16.5h7M12 16.5v5"/>
+    {%- when 'wand' -%}
+      <path d="M5 19 17 7M15 4.5l4.5 4.5"/>
+    {%- when 'star' -%}
+      <path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z"/>
+  {%- endcase -%}
+</svg>

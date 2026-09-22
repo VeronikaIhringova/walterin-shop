@@ -1,0 +1,868 @@
+{% comment %}
+  Walterin · Buy section (product page). Used by templates/product.tarot.json; main-product is untouched.
+  Design system: assets/walterin-ui.css (body.wui). Behaviour: assets/walterin-buy.js.
+
+  Order follows the buyer's questions: what is it → which edition → how much in total →
+  button → when will it arrive / can I return it / can I pay my way → more → details → small print.
+
+  States (snippets/product-state.liquid):
+  - coming_soon → edition tiles pick the waitlist; inline notify form (customer form, tagged per edition)
+  - available   → edition tiles are the variant radios (name="id") inside the real product form;
+                  add to cart through the theme's <product-form> (cart drawer) + Shopify express checkout
+  - sold_out    → tiles and button disabled
+  "Preview state" (theme editor only) forces launch day or "English sold out" for review.
+
+  Editions = the first two variants, by position: variant 1 = en, variant 2 = sk.
+  Delivery, shipping price and returns lines stay hidden until their settings / zone blocks are filled in.
+{% endcomment %}
+{%- liquid
+  assign preview = 'real'
+  if request.design_mode
+    assign preview = section.settings.editor_state
+  endif
+
+  capture product_state
+    render 'product-state', product: product
+  endcapture
+  assign product_state = product_state | strip
+  if preview == 'buyable' or preview == 'en_sold_out'
+    assign product_state = 'available'
+  endif
+
+  assign selected = product.selected_or_first_available_variant
+  if preview == 'en_sold_out' and product.variants.size > 1
+    assign selected = product.variants[1]
+  endif
+  assign selected_available = selected.available
+  if preview == 'buyable' or preview == 'en_sold_out'
+    assign selected_available = true
+  endif
+
+  assign edition_keys = 'en,sk' | split: ','
+  assign current_key = 'en'
+  for variant in product.variants limit: 2
+    if variant.id == selected.id
+      assign current_key = edition_keys[forloop.index0]
+    endif
+  endfor
+
+  assign price = selected.price | money_without_trailing_zeros
+  capture edname_html
+    echo '<span data-edname>' | append: selected.title | append: '</span>'
+  endcapture
+
+  assign form_id = 'WuiBuyForm-' | append: section.id
+  assign notify_id = 'WuiNotify-' | append: section.id
+  assign buy_id = 'WuiBuy-' | append: section.id
+  assign delivery_id = 'WuiDelivery-' | append: section.id
+
+  # ---- Delivery zones: match the visitor's country (Shopify localization), '*' = everywhere else
+  assign visitor_code = localization.country.iso_code
+  assign visitor_name = localization.country.name
+  assign zone = false
+  assign zone_fallback = false
+  assign zone_count = 0
+  for block in section.blocks
+    if block.type == 'zone' and block.settings.countries != blank
+      assign zone_count = zone_count | plus: 1
+      assign codes = block.settings.countries | upcase | remove: ' ' | split: ','
+      if zone == false and codes contains visitor_code
+        assign zone = block
+      endif
+      if zone_fallback == false and codes contains '*'
+        assign zone_fallback = block
+      endif
+    endif
+  endfor
+  if zone == false
+    assign zone = zone_fallback
+  endif
+
+  assign days_text = ''
+  if zone and zone.settings.days_min != blank
+    assign days_text = zone.settings.days_min | append: ''
+    if zone.settings.days_max != blank and zone.settings.days_max != zone.settings.days_min
+      assign days_text = days_text | append: '–' | append: zone.settings.days_max
+    endif
+  endif
+
+  assign show_delivery_block = false
+  if zone_count > 0 or section.settings.show_returns
+    assign show_delivery_block = true
+  endif
+
+  assign spec_count = 0
+  for i in (1..8)
+    assign v_key = 'spec_' | append: i | append: '_value'
+    if section.settings[v_key] != blank
+      assign spec_count = spec_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- capture edition_tiles -%}
+  <fieldset class="wui-buy__editions">
+    <legend class="wui-caption wui-buy__legend">{{ section.settings.edition_legend | escape }}</legend>
+    <div class="wui-choices">
+      {%- for variant in product.variants limit: 2 -%}
+        {%- liquid
+          assign key = edition_keys[forloop.index0]
+          assign name_key = 'edition_' | append: key | append: '_name'
+          assign note_key = 'edition_' | append: key | append: '_note'
+
+          assign v_available = variant.available
+          if preview == 'buyable'
+            assign v_available = true
+          elsif preview == 'en_sold_out'
+            if forloop.first
+              assign v_available = false
+            else
+              assign v_available = true
+            endif
+          endif
+
+          assign v_disabled = false
+          if product_state == 'sold_out'
+            assign v_disabled = true
+          elsif product_state == 'available' and v_available == false
+            assign v_disabled = true
+          endif
+
+          assign remaining = ''
+          if section.settings.show_remaining and product_state == 'available' and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold
+            assign remaining = section.settings.remaining_text | replace: '[n]', variant.inventory_quantity
+          endif
+        -%}
+        <label class="wui-choice">
+          <input
+            type="radio"
+            class="wui-choice__input"
+            name="{% if product_state == 'available' %}id{% else %}edition{% endif %}"
+            value="{{ variant.id }}"
+            data-edition="{{ key }}"
+            data-edname="{{ variant.title | escape }}"
+            data-price="{{ variant.price | money_without_trailing_zeros | escape }}"
+            data-available="{{ v_available }}"
+            data-remaining="{{ remaining | escape }}"
+            {% if variant.id == selected.id %}
+              checked
+            {% endif %}
+            {% if v_disabled %}
+              disabled
+            {% endif %}
+          >
+          <span class="wui-choice__dot" aria-hidden="true"></span>
+          <span class="wui-choice__name">{{ section.settings[name_key] | default: variant.title | escape }}</span>
+          <span class="wui-choice__note">
+            {%- if v_disabled and product_state != 'coming_soon' -%}
+              {{ section.settings.sold_out_label | escape }}
+            {%- else -%}
+              {{ section.settings[note_key] | escape }}
+            {%- endif -%}
+          </span>
+        </label>
+      {%- endfor -%}
+    </div>
+    {%- liquid
+      assign selected_remaining = ''
+      if section.settings.show_remaining and product_state == 'available' and selected.inventory_management == 'shopify' and selected.inventory_quantity > 0 and selected.inventory_quantity <= section.settings.remaining_threshold
+        assign selected_remaining = section.settings.remaining_text | replace: '[n]', selected.inventory_quantity
+      endif
+    -%}
+    <p class="wui-small wui-buy__remaining" data-wui-remaining {% if selected_remaining == blank %}hidden{% endif %}>
+      {{- selected_remaining | escape -}}
+    </p>
+  </fieldset>
+{%- endcapture -%}
+
+{%- if product_state == 'available' -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+<script src="{{ 'walterin-buy.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="wui-scope wui-buy"
+  id="{{ buy_id }}"
+  data-wui-buy
+  data-state="{{ product_state }}"
+  data-sold-out-label="{{ section.settings.sold_out_label | escape }}"
+  data-atc-label="{{ section.settings.atc_label | escape }}"
+>
+  <div class="wui-wrap wui-buy__grid">
+    {%- comment -%} ================= Gallery ================= {%- endcomment -%}
+    <div class="wui-buy__gallery">
+      <div class="wui-frame wui-gallery__main">
+        <div class="wui-gallery__track" data-wui-track tabindex="0" aria-label="{{ section.settings.gallery_label | escape }}">
+          {%- for media in product.media -%}
+            {%- if media.media_type == 'image' -%}
+              <div class="wui-gallery__slide" id="WuiSlide-{{ section.id }}-{{ forloop.index }}" data-wui-slide>
+                {%- if section.settings.enable_zoom -%}
+                  <a
+                    class="wui-gallery__zoom"
+                    href="{{ media | image_url: width: 2400 }}"
+                    data-wui-zoom
+                    aria-label="{{ section.settings.zoom_label | escape }}{% if media.alt != blank %}: {{ media.alt | escape }}{% endif %}"
+                  >
+                {%- endif -%}
+                {{
+                  media
+                  | image_url: width: 1600
+                  | image_tag:
+                    widths: '400, 600, 800, 1000, 1300, 1600',
+                    sizes: '(min-width: 990px) 560px, calc(100vw - 32px)',
+                    alt: media.alt,
+                    loading: 'eager'
+                }}
+                {%- if section.settings.enable_zoom -%}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <span class="wui-gallery__count wui-caption" aria-hidden="true" data-wui-count>1 / {{ product.media.size }}</span>
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <nav class="wui-gallery__thumbs" aria-label="{{ section.settings.thumbs_label | escape }}">
+          {%- for media in product.media -%}
+            {%- if media.media_type == 'image' -%}
+              <a
+                class="wui-gallery__thumb"
+                href="#WuiSlide-{{ section.id }}-{{ forloop.index }}"
+                data-wui-thumb
+                aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-label="{{ section.settings.thumbs_label | escape }} {{ forloop.index }}"
+              >
+                {{- media | image_url: width: 200 | image_tag: alt: '', loading: 'lazy', sizes: '80px', widths: '100, 200' -}}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ================= Buy box ================= {%- endcomment -%}
+    <div class="wui-buy__box">
+      <div class="wui-buy__intro">
+        <h1 class="wui-h1">{{ product.title | escape }}</h1>
+        {%- if section.settings.thesis != blank -%}
+          <p class="wui-lead">{{ section.settings.thesis | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="wui-buy__price">
+        <p class="wui-buy__amount" data-edprice>{{ price }}</p>
+        <p class="wui-small">
+          {{- section.settings.vat_note | escape -}}
+          {%- if zone and zone.settings.price != blank -%}
+            {%- assign ship_line = section.settings.shipping_template | replace: '[country]', visitor_name | replace: '[price]', zone.settings.price -%}
+            {{ ' · ' }}{{ ship_line | escape }}
+            {%- if zone.settings.free_over != blank -%}
+              {{ ' · ' }}{{ section.settings.free_template | replace: '[amount]', zone.settings.free_over | escape }}
+            {%- endif -%}
+          {%- elsif section.settings.shipping_fallback != blank -%}
+            {{ ' · ' }}{{ section.settings.shipping_fallback | escape }}
+          {%- endif -%}
+        </p>
+      </div>
+
+      {%- case product_state -%}
+        {%- when 'available' -%}
+          <product-form class="wui-buy__form" data-section="{{ section.id }}">
+            <div class="product-form__error-message-wrapper wui-status wui-status--error" role="alert" hidden>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              {{ edition_tiles }}
+              <div class="wui-buy__cta">
+                <button
+                  type="submit"
+                  name="add"
+                  id="WuiSubmit-{{ section.id }}"
+                  class="wui-btn wui-btn--block"
+                  data-wui-submit
+                  {% unless selected_available %}
+                    disabled
+                  {% endunless %}
+                >
+                  <span data-wui-submit-label>
+                    {%- if selected_available -%}
+                      {{ section.settings.atc_label | escape }}
+                      <span class="wui-num">·</span>
+                      {{ edname_html }}
+                      <span class="wui-num">· <span data-edprice>{{ price }}</span></span>
+                    {%- else -%}
+                      {{ section.settings.sold_out_label | escape }}
+                    {%- endif -%}
+                  </span>
+                  <span class="loading-overlay__spinner hidden wui-spinner" aria-hidden="true"></span>
+                </button>
+                {%- if section.settings.show_express -%}
+                  <div class="wui-buy__express">{{ form | payment_button }}</div>
+                {%- endif -%}
+              </div>
+            {%- endform -%}
+          </product-form>
+
+        {%- when 'coming_soon' -%}
+          {{ edition_tiles }}
+          <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
+            {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
+              {%- if form.posted_successfully? -%}
+                <p class="wui-status wui-status--success" role="status" tabindex="-1" data-wui-notify-done>
+                  {{ section.settings.notify_success | escape | replace: '[edition]', edname_html }}
+                </p>
+              {%- else -%}
+                <input
+                  type="hidden"
+                  name="contact[tags]"
+                  value="tarot-waitlist,tarot-waitlist-{{ current_key }}"
+                  data-wui-tag="tarot-waitlist,tarot-waitlist-{ed}"
+                >
+                <input type="hidden" name="contact[accepts_marketing]" value="true">
+                <label class="wui-sr" for="{{ notify_id }}-email">{{ section.settings.notify_label | escape }}</label>
+                <div class="wui-notify__row">
+                  <input
+                    type="email"
+                    id="{{ notify_id }}-email"
+                    name="contact[email]"
+                    class="wui-input"
+                    placeholder="{{ section.settings.notify_placeholder | escape }}"
+                    autocomplete="email"
+                    required
+                    data-wui-email
+                    {% if form.errors %}
+                      aria-invalid="true" aria-describedby="{{ notify_id }}-error"
+                    {% endif %}
+                  >
+                  {%- render 'wui-button', label: section.settings.notify_button, type: 'submit' -%}
+                </div>
+                {%- if form.errors -%}
+                  <p class="wui-status wui-status--error" id="{{ notify_id }}-error" role="alert" data-wui-notify-error>
+                    {{ form.errors | default_errors }}
+                  </p>
+                {%- endif -%}
+                <p class="wui-small">{{ section.settings.notify_note | escape | replace: '[edition]', edname_html }}</p>
+                {%- if section.settings.notify_privacy != blank -%}
+                  <div class="wui-small wui-rte">{{ section.settings.notify_privacy }}</div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+
+        {%- else -%}
+          {{ edition_tiles }}
+          <div class="wui-buy__cta">
+            {%- render 'wui-button', label: section.settings.sold_out_label, block: true, attrs: 'disabled' -%}
+          </div>
+      {%- endcase -%}
+
+      {%- comment -%} ---- Assurance rows: when will it arrive, can I return it, can I pay my way ---- {%- endcomment -%}
+      <ul class="wui-assure wui-buy__assure" role="list">
+        {%- if days_text != blank and section.settings.delivery_template != blank -%}
+          <li class="wui-assure__row">
+            {%- render 'wui-icon', icon: 'delivery' -%}
+            <span
+              data-wui-arrival
+              {% if product_state == 'available' and section.settings.dispatch_days != blank %}
+                data-days-min="{{ zone.settings.days_min }}"
+                data-days-max="{{ zone.settings.days_max | default: zone.settings.days_min }}"
+                data-dispatch="{{ section.settings.dispatch_days }}"
+                data-cutoff="{{ section.settings.cutoff_hour }}"
+                data-template="{{ section.settings.arrival_template | replace: '[country]', visitor_name | escape }}"
+              {% endif %}
+            >
+              {{- section.settings.delivery_template | replace: '[country]', visitor_name | replace: '[days]', days_text | escape -}}
+            </span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.show_returns and section.settings.returns_line != blank -%}
+          <li class="wui-assure__row">
+            {%- render 'wui-icon', icon: 'returns' -%}
+            <span>
+              {%- if shop.refund_policy.url != blank -%}
+                <a class="wui-link" href="{{ shop.refund_policy.url }}">{{ section.settings.returns_line | escape }}</a>
+              {%- else -%}
+                {{ section.settings.returns_line | escape }}
+              {%- endif -%}
+              {%- if section.settings.returns_more != blank -%}
+                {{ ' · ' }}<a class="wui-link" href="#{{ delivery_id }}" data-wui-open="{{ delivery_id }}">{{ section.settings.returns_more | escape }}</a>
+              {%- endif -%}
+            </span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.assure_payment != blank -%}
+          <li class="wui-assure__row">{% render 'wui-icon', icon: 'payment' %}<span>{{ section.settings.assure_payment | escape }}</span></li>
+        {%- endif -%}
+        {%- if section.settings.assure_shipping != blank -%}
+          <li class="wui-assure__row">{% render 'wui-icon', icon: 'shipping' %}<span>{{ section.settings.assure_shipping | escape }}</span></li>
+        {%- endif -%}
+        {%- if section.settings.assure_edition != blank -%}
+          <li class="wui-assure__row">{% render 'wui-icon', icon: 'edition' %}<span>{{ section.settings.assure_edition | escape }}</span></li>
+        {%- endif -%}
+      </ul>
+
+      {%- comment -%} ---- Short description + Read more ---- {%- endcomment -%}
+      {%- if section.settings.desc_short != blank -%}
+        <div class="wui-buy__desc">
+          <div class="wui-rte">{{ section.settings.desc_short }}</div>
+          {%- if section.settings.desc_more != blank -%}
+            <details class="wui-buy__more">
+              <summary class="wui-link">
+                <span class="wui-buy__more-open">{{ section.settings.read_more | escape }}</span>
+                <span class="wui-buy__more-close">{{ section.settings.read_less | escape }}</span>
+              </summary>
+              <div class="wui-rte">{{ section.settings.desc_more }}</div>
+            </details>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ---- Details + Delivery & returns ---- {%- endcomment -%}
+      <div class="wui-buy__accordions">
+        <details class="wui-accordion" id="WuiDetails-{{ section.id }}">
+          <summary>
+            <span>{{ section.settings.details_heading | escape }}</span>
+            <span class="wui-accordion__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="wui-accordion__body">
+            <div>
+              <h2 class="wui-caption wui-buy__subhead">{{ section.settings.box_heading | escape }}</h2>
+              <ul class="wui-list" role="list">
+                {%- for i in (1..4) -%}
+                  {%- assign item_key = 'box_item_' | append: i -%}
+                  {%- if section.settings[item_key] != blank -%}
+                    <li>{{ section.settings[item_key] | escape }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+            {%- if spec_count > 0 -%}
+              <div>
+                <h2 class="wui-caption wui-buy__subhead">{{ section.settings.specs_heading | escape }}</h2>
+                <dl class="wui-dl">
+                  {%- for i in (1..8) -%}
+                    {%- liquid
+                      assign l_key = 'spec_' | append: i | append: '_label'
+                      assign v_key = 'spec_' | append: i | append: '_value'
+                    -%}
+                    {%- if section.settings[v_key] != blank -%}
+                      <dt>{{ section.settings[l_key] | escape }}</dt>
+                      <dd>{{ section.settings[v_key] | escape }}</dd>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </dl>
+              </div>
+            {%- endif -%}
+          </div>
+        </details>
+
+        {%- if show_delivery_block -%}
+          <details class="wui-accordion" id="{{ delivery_id }}">
+            <summary>
+              <span>{{ section.settings.delivery_heading | escape }}</span>
+              <span class="wui-accordion__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="wui-accordion__body">
+              {%- if zone_count > 0 -%}
+                <div>
+                  {%- if section.settings.ships_from != blank -%}
+                    <p>{{ section.settings.ships_from | escape }}</p>
+                  {%- endif -%}
+                  <div class="wui-table-wrap">
+                    <table class="wui-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">{{ section.settings.col_country | escape }}</th>
+                          <th scope="col">{{ section.settings.col_carriers | escape }}</th>
+                          <th scope="col">{{ section.settings.col_time | escape }}</th>
+                          <th scope="col">{{ section.settings.col_cost | escape }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {%- for block in section.blocks -%}
+                          {%- if block.type == 'zone' and block.settings.countries != blank -%}
+                            {%- liquid
+                              assign row_days = block.settings.days_min | append: ''
+                              if block.settings.days_max != blank and block.settings.days_max != block.settings.days_min
+                                assign row_days = row_days | append: '–' | append: block.settings.days_max
+                              endif
+                            -%}
+                            <tr {% if zone and block.settings.countries == zone.settings.countries %}class="is-current"{% endif %} {{ block.shopify_attributes }}>
+                              <td>{{ block.settings.name | default: block.settings.countries | escape }}</td>
+                              <td>{{ block.settings.carriers | escape }}</td>
+                              <td>
+                                {%- if block.settings.days_min != blank -%}
+                                  {{ section.settings.days_template | replace: '[days]', row_days | escape }}
+                                {%- endif -%}
+                              </td>
+                              <td>
+                                {{- block.settings.price | escape -}}
+                                {%- if block.settings.free_over != blank -%}
+                                  <br>{{ section.settings.free_template | replace: '[amount]', block.settings.free_over | escape }}
+                                {%- endif -%}
+                              </td>
+                            </tr>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              {%- endif -%}
+              {%- if section.settings.show_returns -%}
+                <div>
+                  <h2 class="wui-caption wui-buy__subhead">{{ section.settings.returns_heading | escape }}</h2>
+                  <div class="wui-rte">{{ section.settings.returns_text }}</div>
+                  {%- if shop.refund_policy.url != blank and section.settings.policy_link != blank -%}
+                    <p><a class="wui-link" href="{{ shop.refund_policy.url }}">{{ section.settings.policy_link | escape }}</a></p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </details>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ================= Mobile sticky bar ================= {%- endcomment -%}
+  {%- if section.settings.show_sticky -%}
+    <div class="wui-sticky" data-wui-sticky inert>
+      {%- if product.featured_media -%}
+        <span class="wui-sticky__thumb">
+          {{- product.featured_media | image_url: width: 120 | image_tag: alt: '', loading: 'lazy', width: 40, height: 40 -}}
+        </span>
+      {%- endif -%}
+      <p class="wui-sticky__text">
+        <span class="wui-caption">{{ section.settings.sticky_title | escape }}</span>
+        <span class="wui-sticky__line"><span data-edprice>{{ price }}</span> · {{ edname_html }}</span>
+      </p>
+      {%- if product_state == 'available' -%}
+        <button
+          type="submit"
+          name="add"
+          form="{{ form_id }}"
+          class="wui-btn wui-btn--sm"
+          data-wui-sticky-submit
+          {% unless selected_available %}
+            disabled
+          {% endunless %}
+        >
+          {{- section.settings.sticky_buy | escape -}}
+        </button>
+      {%- elsif product_state == 'coming_soon' -%}
+        {%- capture notify_href -%}#{{ notify_id }}-wrap{%- endcapture -%}
+        {%- render 'wui-button', label: section.settings.sticky_notify, href: notify_href, size: 'sm', attrs: 'data-wui-focus-notify' -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.enable_zoom -%}
+    <dialog class="wui-zoom" data-wui-dialog aria-label="{{ section.settings.zoom_label | escape }}">
+      <div class="wui-zoom__bar">
+        <button type="button" class="wui-btn wui-btn--sm wui-btn--secondary" data-wui-close>
+          {%- render 'wui-icon', icon: 'close' -%}
+          {{ section.settings.close_label | escape }}
+        </button>
+      </div>
+      <div class="wui-zoom__stage" data-wui-zoom-stage></div>
+    </dialog>
+  {%- endif -%}
+</div>
+
+{%- liquid
+  if selected.featured_media
+    assign seo_media = selected.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {% if seo_media -%}
+      "image": [{{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}],
+    {%- endif %}
+    "description": {{ section.settings.desc_short | strip_html | default: product.description | strip_html | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type": "Offer",
+          {%- if variant.sku != blank -%}"sku": {{ variant.sku | json }},{%- endif -%}
+          "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price": {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "url": {{ request.origin | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% stylesheet %}
+  .wui .wui-buy { padding-block: var(--wui-space-s) var(--wui-space-l); }
+  .wui .wui-buy__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--wui-space-m); align-items: start; }
+  .wui .wui-buy__grid > * { min-width: 0; }
+  @media (max-width: 989px) {
+    .wui .wui-buy { padding-block: var(--wui-space-xs) var(--wui-space-m); }
+    .wui .wui-buy__grid { grid-template-columns: minmax(0, 1fr); gap: var(--wui-space-s); }
+  }
+
+  /* Gallery: scroll-snap strip (swipes on touch, works without JS: thumbs are anchors) */
+  .wui .wui-buy__gallery { position: sticky; top: var(--wui-space-s); }
+  @media (max-width: 989px) { .wui .wui-buy__gallery { position: static; } }
+  .wui .wui-gallery__main { position: relative; aspect-ratio: 1; }
+  .wui .wui-gallery__track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .wui .wui-gallery__track::-webkit-scrollbar { display: none; }
+  .wui .wui-gallery__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
+  .wui .wui-gallery__zoom { display: block; height: 100%; cursor: zoom-in; }
+  .wui .wui-gallery__slide img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-gallery__count {
+    position: absolute;
+    right: var(--wui-space-xs);
+    bottom: var(--wui-space-xs);
+    padding: 6px 10px 5px;
+    font-size: 15px;
+    background: var(--wui-paper);
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    pointer-events: none;
+  }
+  .wui .wui-gallery__thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: var(--wui-space-xs); margin-top: var(--wui-space-xs); }
+  .wui .wui-gallery__thumb {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    background: var(--wui-paper);
+    transition: box-shadow 0.12s var(--wui-ease);
+  }
+  .wui .wui-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-gallery__thumb:hover { box-shadow: var(--wui-shadow-hover); }
+  .wui .wui-gallery__thumb[aria-current='true'] { box-shadow: var(--wui-shadow); outline: 3px solid var(--wui-yellow); outline-offset: -5.5px; }
+
+  /* Buy box rhythm: 24px between groups, 12px inside a group */
+  .wui .wui-buy__box { display: flex; flex-direction: column; gap: var(--wui-space-s); }
+  .wui .wui-buy__intro { display: flex; flex-direction: column; gap: var(--wui-space-xs); }
+  .wui .wui-buy__price { display: flex; flex-direction: column; gap: 2px; }
+  .wui .wui-buy__amount { font-family: var(--wui-body); font-weight: 700; font-size: 30px; line-height: 1.2; }
+  .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-space-s); }
+  .wui .wui-buy__editions { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--wui-space-xs); }
+  .wui .wui-buy__legend { padding: 0; margin-bottom: var(--wui-space-xs); font-size: 17px; }
+  .wui .wui-buy__remaining { font-weight: 700; }
+  .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-space-xs); }
+  .wui .wui-buy__cta .wui-btn { position: relative; }
+  .wui .wui-buy__express { margin-inline: -3px; }
+  .wui .wui-notify { display: flex; flex-direction: column; gap: var(--wui-space-xs); }
+  .wui .wui-notify__row { display: flex; gap: var(--wui-space-xs); }
+  .wui .wui-notify__row .wui-input { flex: 1; }
+  .wui .wui-notify__row .wui-btn { flex: none; }
+  @media (max-width: 400px) {
+    .wui .wui-notify__row { flex-direction: column; }
+    .wui .wui-notify__row .wui-btn { width: 100%; }
+  }
+  .wui .wui-buy__assure { padding-top: var(--wui-space-s); border-top: var(--wui-line-thin) solid var(--wui-ink); }
+  .wui .wui-buy__desc { display: flex; flex-direction: column; gap: var(--wui-space-xs); }
+  .wui .wui-buy__more > summary { list-style: none; display: inline; font-size: 15px; }
+  .wui .wui-buy__more > summary::-webkit-details-marker { display: none; }
+  .wui .wui-buy__more .wui-buy__more-close,
+  .wui .wui-buy__more[open] .wui-buy__more-open { display: none; }
+  .wui .wui-buy__more[open] .wui-buy__more-close { display: inline; }
+  .wui .wui-buy__more[open] > .wui-rte { margin-bottom: var(--wui-space-xs); }
+  .wui .wui-buy__more { display: flex; flex-direction: column-reverse; } /* no gap: the closed content slot would add one */
+  .wui .wui-buy__subhead { font-size: 16px; margin-bottom: 8px; }
+
+  /* Mobile sticky bar */
+  .wui .wui-sticky { display: none; }
+  @media (max-width: 749px) {
+    .wui .wui-sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: var(--wui-space-xs);
+      padding: 10px var(--wui-gutter) calc(10px + env(safe-area-inset-bottom, 0px));
+      background: var(--wui-paper);
+      border-top: var(--wui-line) solid var(--wui-ink);
+      transform: translateY(110%);
+      transition: transform 0.25s var(--wui-ease);
+    }
+    .wui .wui-sticky.is-shown { transform: none; }
+  }
+  .wui .wui-sticky__thumb { flex: none; width: 40px; height: 40px; overflow: hidden; border: var(--wui-line) solid var(--wui-ink); border-radius: 6px; }
+  .wui .wui-sticky__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-sticky__text { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+  .wui .wui-sticky__text .wui-caption { font-size: 16px; }
+  .wui .wui-sticky__line { font-size: 14px; }
+  .wui .wui-sticky .wui-btn { flex: none; white-space: nowrap; }
+
+  /* Zoom dialog */
+  .wui .wui-zoom {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--wui-paper);
+  }
+  .wui .wui-zoom::backdrop { background: var(--wui-paper); }
+  .wui .wui-zoom__bar { position: sticky; top: 0; z-index: 1; display: flex; justify-content: flex-end; padding: var(--wui-space-xs) var(--wui-gutter); background: var(--wui-paper); border-bottom: var(--wui-line) solid var(--wui-ink); }
+  .wui .wui-zoom__stage { display: flex; justify-content: center; padding: var(--wui-space-s) var(--wui-gutter); }
+  .wui .wui-zoom__stage img { width: auto; max-width: min(100%, 1400px); height: auto; border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Walterin · Buy",
+  "tag": "section",
+  "class": "wui-section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "select", "id": "editor_state", "label": "Preview state (theme editor only)", "info": "Review launch day in the editor. Visitors always see the real product state.", "options": [
+      { "value": "real", "label": "Real product state" },
+      { "value": "buyable", "label": "Launch day: both editions buyable" },
+      { "value": "en_sold_out", "label": "Launch day: English sold out" }
+    ], "default": "real" },
+
+    { "type": "header", "content": "Gallery" },
+    { "type": "paragraph", "content": "Uses the product's images. Set alt text and focal points in the product admin." },
+    { "type": "checkbox", "id": "enable_zoom", "label": "Click to enlarge", "default": true },
+    { "type": "text", "id": "gallery_label", "label": "Gallery label (screen readers)", "default": "Product images. Swipe or use the arrow keys." },
+    { "type": "text", "id": "thumbs_label", "label": "Thumbnail label (screen readers)", "default": "Image" },
+    { "type": "text", "id": "zoom_label", "label": "Enlarge label (screen readers)", "default": "Enlarge image" },
+    { "type": "text", "id": "close_label", "label": "Close button", "default": "Close" },
+
+    { "type": "header", "content": "What is it" },
+    { "type": "text", "id": "thesis", "label": "Thesis line", "default": "78 cards. One illustrator. Every card a nine-frame comic." },
+
+    { "type": "header", "content": "Price" },
+    { "type": "text", "id": "vat_note", "label": "VAT note", "default": "VAT included" },
+    { "type": "text", "id": "shipping_fallback", "label": "Shipping note when no delivery zones are set", "default": "Shipping calculated at checkout" },
+    { "type": "text", "id": "shipping_template", "label": "Shipping cost line", "info": "Used once delivery zones exist. [country] = visitor's country, [price] = zone price.", "default": "Shipping to [country] [price]" },
+    { "type": "text", "id": "free_template", "label": "Free shipping line", "info": "[amount] = the zone's threshold.", "default": "free over [amount]" },
+
+    { "type": "header", "content": "Edition" },
+    { "type": "paragraph", "content": "Variant 1 = English tile, variant 2 = Slovak tile. The edition name in buttons comes from the variant title." },
+    { "type": "text", "id": "edition_legend", "label": "Heading", "default": "Edition" },
+    { "type": "text", "id": "edition_en_name", "label": "English: name", "default": "English" },
+    { "type": "text", "id": "edition_en_note", "label": "English: note", "default": "Limited to 100 copies" },
+    { "type": "text", "id": "edition_sk_name", "label": "Slovak: name", "default": "Slovenčina" },
+    { "type": "text", "id": "edition_sk_note", "label": "Slovak: note", "default": "Limited to 100 copies" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
+    { "type": "checkbox", "id": "show_remaining", "label": "Show copies left when stock is low", "info": "Needs inventory tracking on the variants. Switch on at launch.", "default": false },
+    { "type": "range", "id": "remaining_threshold", "label": "Show below", "min": 1, "max": 50, "step": 1, "unit": "pcs", "default": 20 },
+    { "type": "text", "id": "remaining_text", "label": "Copies left text", "info": "[n] = copies left.", "default": "[n] of 100 left" },
+
+    { "type": "header", "content": "Before launch: notify me" },
+    { "type": "text", "id": "notify_label", "label": "Email label (screen readers)", "default": "Email address" },
+    { "type": "text", "id": "notify_placeholder", "label": "Email placeholder", "default": "Your email address" },
+    { "type": "text", "id": "notify_button", "label": "Button", "default": "Notify me" },
+    { "type": "text", "id": "notify_note", "label": "Note", "info": "[edition] = the chosen edition.", "default": "One email when the [edition] edition is ready. Nothing else." },
+    { "type": "text", "id": "notify_success", "label": "Success message", "info": "[edition] = the chosen edition.", "default": "You're on the list for the [edition] edition. One email when it's ready." },
+    { "type": "richtext", "id": "notify_privacy", "label": "Privacy line", "default": "<p>We use your email for this message only. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>" },
+
+    { "type": "header", "content": "Launch day: buy" },
+    { "type": "text", "id": "atc_label", "label": "Add to cart button", "info": "Followed by the edition and price.", "default": "Add to cart" },
+    { "type": "checkbox", "id": "show_express", "label": "Show Apple Pay / Google Pay / PayPal button", "info": "Shopify shows the fastest wallet for each buyer, plus 'More payment options'.", "default": true },
+
+    { "type": "header", "content": "Assurance rows (under the button)" },
+    { "type": "text", "id": "assure_payment", "label": "Payment", "default": "Apple Pay, Google Pay, cards, PayPal" },
+    { "type": "text", "id": "assure_shipping", "label": "Shipping", "default": "Ships across the EU" },
+    { "type": "text", "id": "assure_edition", "label": "Edition", "default": "First edition, 100 copies per language" },
+    { "type": "checkbox", "id": "show_returns", "label": "Show returns (line + section)", "info": "Switch on once the refund policy is published.", "default": false },
+    { "type": "text", "id": "returns_line", "label": "Returns line", "info": "Links to the store's refund policy.", "default": "14-day returns" },
+    { "type": "text", "id": "returns_more", "label": "Returns: link to Delivery & returns", "default": "Delivery & returns ↓" },
+    { "type": "text", "id": "delivery_template", "label": "Delivery line", "info": "Shown once a delivery zone matches the visitor. [country], [days].", "default": "Delivery to [country]: [days] working days" },
+
+    { "type": "header", "content": "Description" },
+    { "type": "richtext", "id": "desc_short", "label": "Short description (2–3 sentences)", "default": "<p>Walter Ihring drew all 78 cards. Each one is a nine-frame comic: look at the picture first, then read the words. Two guide cards in the box show two ways to read them: Card of the day and Reading of consciousness.</p>" },
+    { "type": "richtext", "id": "desc_more", "label": "Read more", "default": "<p>The deck follows the original Rider–Waite structure, 22 Major and 56 Minor Arcana, redrawn so that every card tells a small story in nine frames.</p><p>The first edition is 100 copies in English and 100 in Slovak.</p>" },
+    { "type": "text", "id": "read_more", "label": "Read more label", "default": "Read more" },
+    { "type": "text", "id": "read_less", "label": "Read less label", "default": "Read less" },
+
+    { "type": "header", "content": "Details" },
+    { "type": "text", "id": "details_heading", "label": "Heading", "default": "Details" },
+    { "type": "text", "id": "box_heading", "label": "What's in the box: heading", "default": "What's in the box" },
+    { "type": "text", "id": "box_item_1", "label": "Item 1", "default": "78 cards: 22 Major and 56 Minor Arcana" },
+    { "type": "text", "id": "box_item_2", "label": "Item 2", "default": "2 guide cards: Card of the day and Reading of consciousness" },
+    { "type": "text", "id": "box_item_3", "label": "Item 3", "default": "Tuck box" },
+    { "type": "text", "id": "box_item_4", "label": "Item 4" },
+    { "type": "text", "id": "specs_heading", "label": "Specs: heading", "info": "Specs appear once a value is filled in.", "default": "Specs" },
+    { "type": "text", "id": "spec_1_label", "label": "Spec 1 label", "default": "Size" },
+    { "type": "text", "id": "spec_1_value", "label": "Spec 1 value" },
+    { "type": "text", "id": "spec_2_label", "label": "Spec 2 label", "default": "Paper" },
+    { "type": "text", "id": "spec_2_value", "label": "Spec 2 value" },
+    { "type": "text", "id": "spec_3_label", "label": "Spec 3 label", "default": "Finish" },
+    { "type": "text", "id": "spec_3_value", "label": "Spec 3 value" },
+    { "type": "text", "id": "spec_4_label", "label": "Spec 4 label", "default": "Corners" },
+    { "type": "text", "id": "spec_4_value", "label": "Spec 4 value" },
+    { "type": "text", "id": "spec_5_label", "label": "Spec 5 label", "default": "Print" },
+    { "type": "text", "id": "spec_5_value", "label": "Spec 5 value" },
+    { "type": "text", "id": "spec_6_label", "label": "Spec 6 label", "default": "Box" },
+    { "type": "text", "id": "spec_6_value", "label": "Spec 6 value" },
+    { "type": "text", "id": "spec_7_label", "label": "Spec 7 label", "default": "Printed in" },
+    { "type": "text", "id": "spec_7_value", "label": "Spec 7 value" },
+    { "type": "text", "id": "spec_8_label", "label": "Spec 8 label", "default": "Languages" },
+    { "type": "text", "id": "spec_8_value", "label": "Spec 8 value" },
+
+    { "type": "header", "content": "Delivery & returns" },
+    { "type": "paragraph", "content": "Add a 'Delivery zone' block per country group. Everything stays hidden until a zone has countries." },
+    { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Delivery & returns" },
+    { "type": "text", "id": "ships_from", "label": "Ships from line", "default": "Packed and shipped from Slovakia." },
+    { "type": "text", "id": "col_country", "label": "Column: country", "default": "Country" },
+    { "type": "text", "id": "col_carriers", "label": "Column: carriers", "default": "Carriers" },
+    { "type": "text", "id": "col_time", "label": "Column: delivery time", "default": "Delivery" },
+    { "type": "text", "id": "col_cost", "label": "Column: cost", "default": "Cost" },
+    { "type": "text", "id": "days_template", "label": "Delivery time format", "info": "[days] = e.g. 2–3.", "default": "[days] working days" },
+    { "type": "number", "id": "dispatch_days", "label": "Working days until dispatch", "info": "With this set, launch day shows an arrival date range instead of a speed." },
+    { "type": "range", "id": "cutoff_hour", "label": "Same-day dispatch cut-off (Bratislava time)", "min": 0, "max": 23, "step": 1, "unit": "h", "default": 13 },
+    { "type": "text", "id": "arrival_template", "label": "Arrival line", "info": "[country], [from], [to].", "default": "Arrives [from] – [to] to [country]" },
+    { "type": "text", "id": "returns_heading", "label": "Returns: heading", "default": "Returns" },
+    { "type": "richtext", "id": "returns_text", "label": "Returns: text", "default": "<p>Changed your mind? Send it back within 14 days of delivery. You pay the return shipping. We refund the full price, including the original delivery cost.</p>" },
+    { "type": "text", "id": "policy_link", "label": "Refund policy link", "default": "Read the full refund policy" },
+
+    { "type": "header", "content": "Mobile sticky bar" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show on phones once the button scrolls away", "default": true },
+    { "type": "text", "id": "sticky_title", "label": "Title", "default": "Comics Tarot" },
+    { "type": "text", "id": "sticky_notify", "label": "Button before launch", "default": "Notify me" },
+    { "type": "text", "id": "sticky_buy", "label": "Button on launch day", "default": "Add to cart" }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Delivery zone",
+      "settings": [
+        { "type": "text", "id": "countries", "label": "Country codes", "info": "Comma-separated ISO codes, e.g. SK or CZ, AT, HU, PL. Use * for every other country." },
+        { "type": "text", "id": "name", "label": "Name shown in the table", "info": "e.g. Slovakia, or Rest of the EU" },
+        { "type": "text", "id": "carriers", "label": "Carriers", "info": "e.g. Packeta, DPD" },
+        { "type": "number", "id": "days_min", "label": "Delivery time from (working days)" },
+        { "type": "number", "id": "days_max", "label": "Delivery time to (working days)" },
+        { "type": "text", "id": "price", "label": "Shipping price", "info": "e.g. €2.90" },
+        { "type": "text", "id": "free_over", "label": "Free shipping over", "info": "e.g. €60. Leave empty if none." }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Walterin · Buy" } ]
+}
+{% endschema %}

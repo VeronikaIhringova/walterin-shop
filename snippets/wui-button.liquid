@@ -1,0 +1,37 @@
+{% comment %}
+  The one Walterin button (styles: assets/walterin-ui.css → .wui-btn).
+  Ink text on yellow, ink border, hard offset shadow that presses in on hover.
+
+  Accepts:
+  - label: {String} content; may contain markup (required)
+  - href: {String} renders <a> instead of <button>
+  - type: {String} 'button' (default) | 'submit'
+  - variant: {String} 'primary' (default) | 'secondary' (paper fill, for use on yellow)
+  - size: {String} 'md' (default) | 'sm'
+  - block: {Boolean} full width
+  - class: {String} extra classes
+  - attrs: {String} extra raw attributes (id=, form=, name=, disabled, data-*)
+
+  Usage:
+  {% render 'wui-button', label: 'Notify me', type: 'submit' %}
+{% endcomment %}
+{%- liquid
+  assign classes = 'wui-btn'
+  if variant == 'secondary'
+    assign classes = classes | append: ' wui-btn--secondary'
+  endif
+  if size == 'sm'
+    assign classes = classes | append: ' wui-btn--sm'
+  endif
+  if block
+    assign classes = classes | append: ' wui-btn--block'
+  endif
+  if class != blank
+    assign classes = classes | append: ' ' | append: class
+  endif
+-%}
+{%- if href != blank -%}
+  <a href="{{ href }}" class="{{ classes }}" {{ attrs }}>{{ label }}</a>
+{%- else -%}
+  <button type="{{ type | default: 'button' }}" class="{{ classes }}" {{ attrs }}>{{ label }}</button>
+{%- endif -%}

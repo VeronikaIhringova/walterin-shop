@@ -297,9 +297,20 @@ h5,
       }
     </script>
     {% include 'bucks-cc' %}
+    {%- liquid
+      # Walterin UI design system (assets/walterin-ui.css). On for the tarot product page only for now;
+      # to roll it out, widen this condition.
+      assign wui_enabled = false
+      if template.name == 'product' and template.suffix == 'tarot'
+        assign wui_enabled = true
+      endif
+    -%}
+    {%- if wui_enabled -%}
+      {{ 'walterin-ui.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
   </head>
 
-  <body class="gradient">
+  <body class="gradient{% if wui_enabled %} wui{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

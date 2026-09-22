@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Walterin UI: the site works like the cards.
+   Ink outlines, flat deck colours, frames in a grid, short hand-lettered captions.
+
+   Scoped under body.wui (switched on per template in layout/theme.liquid).
+   Every component rule is written `.wui .wui-x` so it outranks the theme's
+   single-class rules; resets use :where() so they never fight section styles.
+   Px on purpose: the theme sets html { font-size: 62.5% }.
+
+   Colour roles
+     yellow = action + selected     sky   = information
+     green  = success               red   = error + sold out (fills and lines only)
+     ink    = all text              paper = every background
+   No grey, no gradients, no soft shadows. Secondary text is smaller, never greyer.
+   ========================================================================== */
+
+.wui {
+  --wui-paper: #FFFDF7;
+  --wui-ink: #222222;
+  --wui-yellow: #FCF205;
+  --wui-sky: #6FE9FA;
+  --wui-red: #F60403;
+  --wui-green: #9FDA29;
+
+  --wui-line: 2.5px;
+  --wui-line-thin: 1.5px;
+  --wui-radius: 8px;
+  --wui-shadow: 4px 4px 0 var(--wui-ink);
+  --wui-shadow-hover: 2px 2px 0 var(--wui-ink);
+
+  /* Page rhythm: three sizes. Inside components the gap is half a step (12px). */
+  --wui-space-l: 96px;
+  --wui-space-m: 48px;
+  --wui-space-s: 24px;
+  --wui-space-xs: 12px;
+
+  --wui-width: 1200px;
+  --wui-gutter: 24px;
+
+  --wui-display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
+  --wui-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --wui-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+
+  background-color: var(--wui-paper);
+}
+@media (max-width: 749px) {
+  .wui { --wui-gutter: 16px; }
+}
+
+/* --------------------------------------------------------------------------
+   Scope + resets (zero specificity)
+   -------------------------------------------------------------------------- */
+.wui .wui-scope {
+  color: var(--wui-ink);
+  font-family: var(--wui-body);
+  font-size: 17px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.55;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+:where(.wui-scope) *,
+:where(.wui-scope) *::before,
+:where(.wui-scope) *::after { box-sizing: border-box; }
+:where(.wui-scope) :is(p, ul, ol, dl, dd, figure, fieldset, legend, table) { margin: 0; padding: 0; }
+:where(.wui-scope) :is(ul, ol) { list-style: none; }
+:where(.wui-scope) img { display: block; max-width: 100%; height: auto; }
+:where(.wui-scope) a { color: inherit; }
+:where(.wui-scope) button { font: inherit; color: inherit; }
+.wui .wui-scope :focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; box-shadow: none; }
+
+.wui .wui-wrap { max-width: calc(var(--wui-width) + 2 * var(--wui-gutter)); margin-inline: auto; padding-inline: var(--wui-gutter); }
+
+/* --------------------------------------------------------------------------
+   Type: WalterinBold for headings and short captions only; Inter for reading.
+   -------------------------------------------------------------------------- */
+.wui .wui-h1,
+.wui .wui-h2,
+.wui .wui-caption {
+  font-family: var(--wui-display) !important; /* theme forces WalterinBold !important on h1–h5 anyway */
+  font-weight: 400;
+  font-style: normal;
+  color: var(--wui-ink);
+  text-transform: uppercase;
+  margin: 0;
+}
+.wui .wui-h1 { font-size: clamp(38px, 4.2vw, 54px); line-height: 1.02; letter-spacing: 0.01em; text-wrap: balance; }
+.wui .wui-h2 { font-size: clamp(30px, 3.4vw, 42px); line-height: 1.05; letter-spacing: 0.01em; }
+.wui .wui-caption { font-size: 17px; line-height: 1.1; letter-spacing: 0.04em; }
+.wui .wui-lead { font-size: 20px; line-height: 1.4; }
+.wui .wui-small { font-size: 15px; line-height: 1.5; }
+.wui .wui-sr {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.wui .wui-rte > * + * { margin-top: var(--wui-space-xs); }
+.wui .wui-rte :is(strong, b) { font-weight: 700; }
+.wui .wui-rte :is(em, i) { font-style: normal; }
+.wui .wui-rte a,
+.wui .wui-link {
+  color: var(--wui-ink);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.wui .wui-rte a:hover,
+.wui .wui-link:hover { text-decoration-color: var(--wui-yellow); text-decoration-thickness: 4px; }
+
+/* --------------------------------------------------------------------------
+   Frame: the basic unit (images, boxes, fields, buttons)
+   -------------------------------------------------------------------------- */
+.wui .wui-frame {
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  background-color: var(--wui-paper);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   The one button: ink text on yellow, ink border, hard shadow that presses in
+   -------------------------------------------------------------------------- */
+.wui .wui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  margin: 0;
+  padding: 12px 24px;
+  font-family: var(--wui-display);
+  font-size: 22px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  color: var(--wui-ink);
+  background: var(--wui-yellow);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: var(--wui-shadow);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s var(--wui-ease), box-shadow 0.12s var(--wui-ease);
+}
+.wui .wui-btn:hover { transform: translate(2px, 2px); box-shadow: var(--wui-shadow-hover); }
+.wui .wui-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--wui-ink); }
+.wui .wui-btn::before,
+.wui .wui-btn::after { content: none; } /* theme draws button borders with pseudo-elements */
+.wui .wui-btn--secondary { background: var(--wui-paper); }
+.wui .wui-btn--block { width: 100%; }
+.wui .wui-btn--sm { min-height: 44px; padding: 8px 16px; font-size: 18px; box-shadow: 3px 3px 0 var(--wui-ink); }
+.wui .wui-btn:disabled,
+.wui .wui-btn[aria-disabled='true'] {
+  background: var(--wui-paper);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-color: var(--wui-red);
+  text-decoration-thickness: 3px;
+}
+.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: 0.82em; letter-spacing: 0; text-transform: none; }
+
+/* Loading state used by the theme's <product-form> (adds .loading, toggles .hidden on the spinner) */
+.wui .wui-btn.loading > :not(.wui-spinner) { visibility: hidden; }
+.wui .wui-spinner { position: absolute; width: 22px; height: 22px; border: 3px solid var(--wui-ink); border-right-color: transparent; border-radius: 50%; animation: wui-spin 0.7s linear infinite; }
+.wui .wui-spinner.hidden { display: none; }
+@keyframes wui-spin { to { transform: rotate(360deg); } }
+
+/* --------------------------------------------------------------------------
+   Field
+   -------------------------------------------------------------------------- */
+.wui .wui-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 56px;
+  margin: 0;
+  padding: 0 16px;
+  font-family: var(--wui-body);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.wui .wui-input::placeholder { color: var(--wui-ink); opacity: 0.55; }
+.wui .wui-input:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
+.wui .wui-input[aria-invalid='true'] { border-color: var(--wui-red); }
+
+/* --------------------------------------------------------------------------
+   Choice tiles (real radios; the whole tile is the hit area)
+   States: unselected (paper) · selected (yellow + shadow) · sold out (struck in red)
+   -------------------------------------------------------------------------- */
+.wui .wui-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--wui-space-xs); border: 0; min-width: 0; }
+.wui .wui-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 76px;
+  padding: 14px 44px 14px 16px;
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  cursor: pointer;
+  transition: box-shadow 0.12s var(--wui-ease), transform 0.12s var(--wui-ease);
+}
+.wui .wui-choice:hover { box-shadow: var(--wui-shadow-hover); }
+.wui .wui-choice:has(input:checked) { background: var(--wui-yellow); box-shadow: var(--wui-shadow); }
+.wui .wui-choice:has(input:focus-visible) { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
+.wui .wui-choice:has(input:disabled) { cursor: not-allowed; box-shadow: none; }
+.wui .wui-choice__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.wui .wui-choice__name { font-family: var(--wui-display); font-size: 22px; line-height: 1; text-transform: uppercase; letter-spacing: 0.02em; }
+.wui .wui-choice__note { font-size: 14px; line-height: 1.35; }
+.wui .wui-choice__dot {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: 50%;
+  background: var(--wui-paper);
+}
+.wui .wui-choice__input:checked ~ .wui-choice__dot { background: radial-gradient(circle, var(--wui-ink) 0 4px, var(--wui-paper) 4.5px); }
+.wui .wui-choice:has(input:disabled) .wui-choice__name { text-decoration: line-through; text-decoration-color: var(--wui-red); text-decoration-thickness: 3px; }
+.wui .wui-choice:has(input:disabled) .wui-choice__dot { border-style: dashed; }
+@media (max-width: 380px) { .wui .wui-choice__name { font-size: 19px; } }
+
+/* --------------------------------------------------------------------------
+   Assurance rows (icon + one short line)
+   -------------------------------------------------------------------------- */
+.wui .wui-assure { display: grid; gap: var(--wui-space-xs); }
+.wui .wui-assure__row { display: flex; align-items: flex-start; gap: var(--wui-space-xs); font-size: 15px; line-height: 1.45; }
+.wui .wui-assure__row .wui-icon { margin-top: -1px; }
+
+.wui .wui-icon { width: 22px; height: 22px; flex: none; color: var(--wui-ink); }
+
+/* --------------------------------------------------------------------------
+   Accordion: framed <details>
+   -------------------------------------------------------------------------- */
+.wui .wui-accordion { border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper); }
+.wui .wui-accordion + .wui-accordion { margin-top: var(--wui-space-xs); }
+.wui .wui-accordion > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wui-space-xs);
+  padding: 16px 18px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--wui-display);
+  font-size: 20px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.wui .wui-accordion > summary::-webkit-details-marker { display: none; }
+.wui .wui-accordion > summary::before,
+.wui .wui-accordion > summary::after { content: none; }
+.wui .wui-accordion__icon {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: 50%;
+  background: var(--wui-paper);
+  transition: transform 0.2s var(--wui-ease), background-color 0.2s;
+}
+.wui .wui-accordion__icon::before,
+.wui .wui-accordion__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: var(--wui-ink); transform: translate(-50%, -50%); }
+.wui .wui-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.wui .wui-accordion[open] .wui-accordion__icon { transform: rotate(45deg); background: var(--wui-yellow); }
+.wui .wui-accordion__body { padding: 0 18px 18px; font-size: 15px; line-height: 1.55; }
+.wui .wui-accordion__body > * + * { margin-top: var(--wui-space-s); }
+
+/* Definition list (specs, what's in the box) */
+.wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr); gap: 8px var(--wui-space-xs); }
+.wui .wui-dl dt { font-family: var(--wui-display); font-size: 16px; line-height: 1.4; text-transform: uppercase; letter-spacing: 0.03em; }
+.wui .wui-dl dd { margin: 0; }
+.wui .wui-list > li { position: relative; padding-left: 18px; }
+.wui .wui-list > li + li { margin-top: 6px; }
+.wui .wui-list > li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; background: var(--wui-ink); border-radius: 2px; }
+
+/* Table (delivery zones) */
+.wui .wui-table-wrap { overflow-x: auto; }
+.wui .wui-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.wui .wui-table :is(th, td) { padding: 8px 10px; text-align: left; vertical-align: top; border-bottom: var(--wui-line-thin) solid var(--wui-ink); }
+.wui .wui-table th { font-family: var(--wui-display); font-weight: 400; font-size: 15px; text-transform: uppercase; letter-spacing: 0.03em; }
+.wui .wui-table tr.is-current td { background: var(--wui-sky); }
+
+/* Status boxes */
+.wui .wui-status { padding: 14px 16px; border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); font-size: 15px; }
+.wui .wui-status--success { background: var(--wui-green); }
+.wui .wui-status--error { background: var(--wui-paper); border-color: var(--wui-red); }
+
+/* --------------------------------------------------------------------------
+   Shopify accelerated checkout (Apple Pay, Google Pay, PayPal…)
+   Only these custom properties are supported; colours, fonts and border width are Shopify's.
+   Ink ring instead of a border, no offset shadow: framed, but secondary to the yellow button.
+   -------------------------------------------------------------------------- */
+.wui shopify-accelerated-checkout {
+  --shopify-accelerated-checkout-button-block-size: 54px;
+  --shopify-accelerated-checkout-button-border-radius: 8px;
+  --shopify-accelerated-checkout-button-box-shadow: 0 0 0 2.5px #222222;
+  --shopify-accelerated-checkout-skeleton-background-color: #6FE9FA;
+}
+.wui .shopify-payment-button { padding: 3px; } /* room for the ink ring */
+.wui .shopify-payment-button__button--unbranded {
+  min-height: 54px;
+  font-family: var(--wui-display);
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+}
+.wui .shopify-payment-button__button--unbranded:hover:not([disabled]) { background: var(--wui-paper); text-decoration: underline; }
+.wui .shopify-payment-button__more-options {
+  margin-top: var(--wui-space-xs);
+  font-family: var(--wui-body);
+  font-size: 15px;
+  color: var(--wui-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .wui .wui-scope *,
+  .wui .wui-scope *::before,
+  .wui .wui-scope *::after { transition: none !important; animation: none !important; }
+  .wui .wui-scope .wui-spinner { animation: wui-spin 1.4s linear infinite !important; }
+}
