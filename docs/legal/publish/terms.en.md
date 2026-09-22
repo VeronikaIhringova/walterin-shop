@@ -174,5 +174,4 @@ We process personal data under our Privacy Policy: https://walterin.com/policies
 
 **Annexes:** Withdrawal instructions and model withdrawal form (on the Returns and refunds page)
 
----
 Legislation: Act No. 108/2024 Coll. on consumer protection (§ 5, § 15, § 17, §§ 19–22, § 20a); Act No. 40/1964 Coll. Civil Code (§§ 612–626, §§ 852a–852m); Act No. 22/2004 Coll. on electronic commerce (§ 4, § 5); Act No. 391/2015 Coll. on alternative dispute resolution (§ 11); Regulation (EC) No 593/2008 (Rome I), Art. 6; Implementing Regulation (EU) 2025/1960.

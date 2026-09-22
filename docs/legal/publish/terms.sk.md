@@ -174,5 +174,4 @@ Osobné údaje spracúvame podľa Zásad ochrany osobných údajov: https://walt
 
 **Prílohy:** Poučenie o odstúpení od zmluvy a vzorový formulár (na stránke Vrátenie tovaru a reklamácie)
 
----
 Právne predpisy: zákon č. 108/2024 Z. z. o ochrane spotrebiteľa (§ 5, § 15, § 17, § 19 – § 22, § 20a); zákon č. 40/1964 Zb. Občiansky zákonník (§§ 612 – 626, §§ 852a – 852m); zákon č. 22/2004 Z. z. o elektronickom obchode (§ 4, § 5); zákon č. 391/2015 Z. z. o alternatívnom riešení spotrebiteľských sporov (§ 11); nariadenie (ES) č. 593/2008 (Rím I), čl. 6; vykonávacie nariadenie (EÚ) 2025/1960.
