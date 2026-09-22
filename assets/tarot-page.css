@@ -56,13 +56,14 @@
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-.t-scope *,
-.t-scope *::before,
-.t-scope *::after { box-sizing: border-box; }
-.t-scope img { max-width: 100%; display: block; height: auto; }
-.t-scope button { font: inherit; color: inherit; }
-.t-scope a { color: inherit; }
-.t-scope p { margin: 0; }
+/* :where() keeps these resets at zero specificity, so any section rule wins regardless of load order. */
+:where(.t-scope) *,
+:where(.t-scope) *::before,
+:where(.t-scope) *::after { box-sizing: border-box; }
+:where(.t-scope) img { max-width: 100%; display: block; height: auto; }
+:where(.t-scope) button { font: inherit; color: inherit; }
+:where(.t-scope) a { color: inherit; }
+:where(.t-scope) p { margin: 0; }
 .t-scope :focus-visible { outline: 3px solid var(--t-red); outline-offset: 3px; box-shadow: none; }
 
 /* The theme forces WalterinBold + its own size/colour on h1–h5; re-set for this page. */

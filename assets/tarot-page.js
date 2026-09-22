@@ -188,3 +188,84 @@
 /* ==========================================================================
    Section modules (added phase by phase)
    ========================================================================== */
+
+/* ---------- S1 · Buy (sections/tarot-buy.liquid) ---------- */
+(function (Tarot) {
+  var $ = Tarot.$, $$ = Tarot.$$;
+
+  Tarot.modules.buy = function (root) {
+    /* Gallery: thumbs scroll the snap strip without moving the page; swiping updates the thumbs. */
+    var track = $('[data-gal-track]', root);
+    var thumbs = $$('[data-gal-thumb]', root);
+    function current(slide) {
+      thumbs.forEach(function (t) {
+        t.setAttribute('aria-current', t.getAttribute('href') === '#' + slide.id ? 'true' : 'false');
+      });
+    }
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function (e) {
+        var slide = document.getElementById(t.getAttribute('href').slice(1));
+        if (!slide || !track) return;
+        e.preventDefault();
+        track.scrollTo({ left: slide.offsetLeft - track.offsetLeft - track.clientLeft, behavior: Tarot.reduced() ? 'auto' : 'smooth' });
+        current(slide);
+      });
+    });
+    if (track && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) current(en.target); });
+      }, { root: track, threshold: 0.6 });
+      $$('[data-gal-slide]', track).forEach(function (s) { io.observe(s); });
+    }
+    if (track) {
+      track.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        track.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * track.clientWidth, behavior: Tarot.reduced() ? 'auto' : 'smooth' });
+      });
+    }
+
+    /* Edition → price everywhere (both editions cost the same today, but stay honest if that changes). */
+    document.addEventListener('tarot:edition', function (e) {
+      var price = e.detail.input.dataset.price;
+      if (price) $$('[data-edprice]').forEach(function (n) { n.textContent = price; });
+    });
+
+    /* Notify: submit without leaving the page. Shopify's bot challenge or any failure → normal POST. */
+    var form = $('[data-notify-form]', root);
+    if (form && window.fetch && window.DOMParser) {
+      form.addEventListener('submit', function (e) {
+        var email = $('[data-notify-email]', form);
+        if (email && !email.checkValidity()) return; // browser shows the message
+        e.preventDefault();
+        var btn = $('[type="submit"]', form);
+        if (btn) btn.setAttribute('aria-disabled', 'true');
+        fetch(form.action, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
+          .then(function (res) {
+            if (res.redirected && /challenge/.test(res.url)) throw new Error('challenge');
+            return res.text();
+          })
+          .then(function (html) {
+            var fresh = new DOMParser().parseFromString(html, 'text/html').getElementById(form.id);
+            if (!fresh || (!$('[data-notify-done]', fresh) && !$('[data-notify-error]:not([hidden])', fresh))) throw new Error('unknown');
+            form.innerHTML = fresh.innerHTML;
+            Tarot.setEdition(Tarot.state.edition); // refresh [data-edname] inside the new markup
+            var msg = $('[data-notify-done]', form) || $('[data-notify-email]', form);
+            if (msg) { msg.tabIndex = -1; msg.focus({ preventScroll: true }); }
+          })
+          .catch(function () { HTMLFormElement.prototype.submit.call(form); });
+      });
+    }
+
+    /* Mobile sticky bar: shows once the buy box has scrolled away. */
+    var sticky = $('[data-sticky]', root);
+    var info = $('.t-info', root) || root;
+    if (sticky && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        var away = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+        sticky.classList.toggle('is-shown', away);
+        if (away) sticky.removeAttribute('inert'); else sticky.setAttribute('inert', '');
+      }).observe(info);
+    }
+  };
+})(window.Tarot);

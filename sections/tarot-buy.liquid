@@ -1,0 +1,584 @@
+{% comment %}
+  Comics Tarot · S1 Buy (+ mobile sticky buy bar)
+  Replaces main-product on templates/product.tarot.json only; main-product itself is untouched.
+
+  States come from snippets/product-state.liquid:
+  - coming_soon → edition tiles + inline notify form (customer form, tagged per edition)
+  - available   → edition tiles are the real variant radios (name="id") inside the product form,
+                  add to cart via the theme's <product-form> (cart drawer), dynamic checkout below
+  - sold_out    → edition tiles + disabled button
+  In the theme editor only, "Preview state" can force the buyable layout for review.
+
+  Editions map to variants by position: variant 1 = 'en', variant 2 = 'sk'.
+  Edition names shown in [data-edname] are the variant titles (translate them on the product).
+{% endcomment %}
+{%- liquid
+  assign selected = product.selected_or_first_available_variant
+
+  capture product_state
+    render 'product-state', product: product
+  endcapture
+  assign product_state = product_state | strip
+  if request.design_mode and section.settings.editor_state == 'available'
+    assign product_state = 'available'
+    assign forced_available = true
+  endif
+
+  assign edition_keys = 'en,sk' | split: ','
+  assign current_key = 'en'
+  for variant in product.variants
+    if variant.id == selected.id
+      assign current_key = edition_keys[forloop.index0] | default: 'en'
+    endif
+  endfor
+
+  assign price = selected.price | money_without_trailing_zeros
+  capture edname_html
+    echo '<b data-edname>' | append: selected.title | append: '</b>'
+  endcapture
+  capture edname_plain_html
+    echo '<span data-edname>' | append: selected.title | append: '</span>'
+  endcapture
+
+  if product_state == 'available'
+    assign radio_name = 'id'
+  else
+    assign radio_name = 'edition'
+  endif
+  assign form_id = 'TarotBuyForm-' | append: section.id
+  assign notify_form_id = 'TarotNotify-' | append: section.id
+-%}
+
+{%- capture edition_tiles -%}
+  <fieldset class="t-editions">
+    <legend class="t-editions__label">{{ section.settings.edition_heading | escape }}</legend>
+    <div class="t-editions__grid">
+      {%- for variant in product.variants limit: 2 -%}
+        {%- liquid
+          assign key = edition_keys[forloop.index0]
+          assign label_key = 'edition_' | append: key | append: '_label'
+          assign note_key = 'edition_' | append: key | append: '_note'
+        -%}
+        <label class="t-ed">
+          <input
+            type="radio"
+            class="t-ed__input"
+            name="{{ radio_name }}"
+            value="{{ variant.id }}"
+            data-edition="{{ key }}"
+            data-edname="{{ variant.title | escape }}"
+            data-price="{{ variant.price | money_without_trailing_zeros | escape }}"
+            {% if variant.id == selected.id %}
+              checked
+            {% endif %}
+          >
+          <span class="t-ed__dot" aria-hidden="true"></span>
+          <span class="t-ed__name">{{ section.settings[label_key] | default: variant.title | escape }}</span>
+          <span class="t-ed__note">{{ section.settings[note_key] | escape }}</span>
+        </label>
+      {%- endfor -%}
+    </div>
+  </fieldset>
+{%- endcapture -%}
+
+{%- if product_state == 'available' -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<div
+  class="t-scope t-buy"
+  id="tarot-buy"
+  data-tarot-module="buy"
+  data-tarot-anchor="buy"
+  data-state="{{ product_state }}"
+>
+  <div class="t-wrap t-buy__grid t-grid">
+    {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
+    <div class="t-gal">
+      <div class="t-gal__main" data-gal-track tabindex="0" aria-label="{{ product.title | escape }}">
+        <div class="t-gal__slide t-gal__slide--box" id="TarotSlide-{{ section.id }}-0" data-gal-slide>
+          {%- if section.settings.box_image != blank -%}
+            {{
+              section.settings.box_image
+              | image_url: width: 1100
+              | image_tag:
+                widths: '400, 700, 1100',
+                sizes: '(min-width: 921px) 45vw, 90vw',
+                alt: section.settings.box_alt,
+                loading: 'eager',
+                fetchpriority: 'high'
+            }}
+          {%- else -%}
+            <img
+              src="{{ 'box.webp' | asset_url }}"
+              alt="{{ section.settings.box_alt | escape }}"
+              width="540"
+              height="1100"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- endif -%}
+        </div>
+        {%- for media in product.media -%}
+          {%- if media.media_type == 'image' -%}
+            <div class="t-gal__slide" id="TarotSlide-{{ section.id }}-{{ forloop.index }}" data-gal-slide>
+              {{
+                media
+                | image_url: width: 1400
+                | image_tag:
+                  widths: '400, 700, 1000, 1400',
+                  sizes: '(min-width: 921px) 50vw, 100vw',
+                  alt: media.alt,
+                  loading: 'lazy'
+              }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <nav class="t-gal__thumbs" aria-label="{{ section.settings.gallery_label | escape }}">
+        <a
+          class="t-gal__thumb t-gal__thumb--box"
+          href="#TarotSlide-{{ section.id }}-0"
+          data-gal-thumb="0"
+          aria-current="true"
+          aria-label="{{ section.settings.box_alt | escape }}"
+        >
+          {%- if section.settings.box_image != blank -%}
+            {{ section.settings.box_image | image_url: width: 200 | image_tag: alt: '', loading: 'lazy' }}
+          {%- else -%}
+            <img src="{{ 'box.webp' | asset_url }}" alt="" width="540" height="1100" loading="lazy">
+          {%- endif -%}
+        </a>
+        {%- for media in product.media -%}
+          {%- if media.media_type == 'image' -%}
+            <a
+              class="t-gal__thumb"
+              href="#TarotSlide-{{ section.id }}-{{ forloop.index }}"
+              data-gal-thumb="{{ forloop.index }}"
+              aria-current="false"
+              aria-label="{{ media.alt | default: product.title | escape }}"
+            >
+              {{ media | image_url: width: 200 | image_tag: alt: '', loading: 'lazy' }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    {%- comment -%} ---------- Info ---------- {%- endcomment -%}
+    <div class="t-info">
+      {%- if section.settings.kicker != blank -%}
+        <p class="t-kicker">{{ section.settings.kicker | escape }}</p>
+      {%- endif -%}
+      <h1 class="t-info__title">{{ product.title | escape }}</h1>
+      {%- if section.settings.thesis != blank -%}
+        <p class="t-info__thesis">{{ section.settings.thesis | escape }}</p>
+      {%- endif -%}
+      <p class="t-info__price">
+        <b data-edprice>{{ price }}</b>
+        {%- if section.settings.price_note != blank -%}
+          <span>{{ section.settings.price_note | escape }}</span>
+        {%- endif -%}
+      </p>
+
+      {%- case product_state -%}
+        {%- when 'available' -%}
+          <product-form class="t-buy__form" data-section="{{ section.id }}">
+            <div class="product-form__error-message-wrapper t-buy__error" role="alert" hidden>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              {{ edition_tiles }}
+              <div class="t-cta">
+                <button
+                  type="submit"
+                  name="add"
+                  id="TarotSubmit-{{ section.id }}"
+                  class="wt-btn wt-btn--block"
+                  data-buy-submit
+                  {% unless selected.available or forced_available %}
+                    disabled
+                  {% endunless %}
+                >
+                  <span class="t-cta__label">
+                    {{- section.settings.atc_label | escape }}
+                    <span class="t-ui">·</span>
+                    {{ edname_plain_html }}
+                    <span class="t-ui">· <span data-edprice>{{ price }}</span></span>
+                  </span>
+                  <span class="loading-overlay__spinner hidden t-spinner" aria-hidden="true"></span>
+                </button>
+                <div class="t-cta__pay">{{ form | payment_button }}</div>
+                {%- if section.settings.delivery_note != blank -%}
+                  <p class="t-small">{{ section.settings.delivery_note | escape }}</p>
+                {%- endif -%}
+              </div>
+            {%- endform -%}
+          </product-form>
+
+        {%- when 'coming_soon' -%}
+          {{ edition_tiles }}
+          <div class="t-cta" data-notify-box>
+            {%- form 'customer', id: notify_form_id, class: 't-notify', data-notify-form: '' -%}
+              {%- if form.posted_successfully? -%}
+                <p class="t-done" role="status" data-notify-done>
+                  {{ section.settings.notify_success | escape | replace: '[edition]', edname_html }}
+                </p>
+              {%- else -%}
+                <input
+                  type="hidden"
+                  name="contact[tags]"
+                  value="tarot-waitlist,tarot-waitlist-{{ current_key }}"
+                  data-edition-tag="tarot-waitlist,tarot-waitlist-{ed}"
+                >
+                <input type="hidden" name="contact[accepts_marketing]" value="true">
+                <div class="t-notify__row">
+                  <label class="t-sr" for="TarotNotifyEmail-{{ section.id }}">
+                    {{- section.settings.notify_email_label | escape -}}
+                  </label>
+                  <input
+                    type="email"
+                    id="TarotNotifyEmail-{{ section.id }}"
+                    name="contact[email]"
+                    class="t-notify__input"
+                    placeholder="{{ section.settings.notify_placeholder | escape }}"
+                    autocomplete="email"
+                    required
+                    data-notify-email
+                    {% if form.errors %}
+                      aria-invalid="true" aria-describedby="TarotNotifyError-{{ section.id }}"
+                    {% endif %}
+                  >
+                  {%- render 'wt-button', label: section.settings.notify_button, type: 'submit', size: 'sm' -%}
+                </div>
+                <p
+                  class="t-notify__error"
+                  id="TarotNotifyError-{{ section.id }}"
+                  role="alert"
+                  data-notify-error
+                  {% unless form.errors %}
+                    hidden
+                  {% endunless %}
+                >
+                  {%- if form.errors -%}{{ form.errors | default_errors }}{%- endif -%}
+                </p>
+                <p class="t-small">{{ section.settings.notify_note | escape | replace: '[edition]', edname_html }}</p>
+                {%- if section.settings.notify_legal != blank -%}
+                  <div class="t-small t-notify__legal">{{ section.settings.notify_legal }}</div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+
+        {%- else -%}
+          {{ edition_tiles }}
+          <div class="t-cta">
+            {%- render 'wt-button', label: section.settings.sold_out_label, block: true, attrs: 'disabled' -%}
+          </div>
+      {%- endcase -%}
+
+      <p class="t-info__jump">
+        {%- if section.settings.jump_read != blank -%}
+          <a class="t-link" href="#tarot-read" data-mode-link="read">{{ section.settings.jump_read | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.jump_draw != blank -%}
+          <a class="t-link" href="#tarot-read" data-mode-link="day">{{ section.settings.jump_draw | escape }}</a>
+        {%- endif -%}
+      </p>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="t-trust" role="list">
+          {%- for block in section.blocks -%}
+            <li class="t-trust__row" {{ block.shopify_attributes }}>
+              {%- render 'tarot-icon', icon: block.settings.icon -%}
+              <span>{{ block.settings.text | remove: '<p>' | remove: '</p>' }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.details_text != blank -%}
+        <details class="t-details">
+          <summary>{{ section.settings.details_heading | escape }}</summary>
+          <div class="t-rte">{{ section.settings.details_text }}</div>
+        </details>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ---------- Mobile sticky buy bar (JS shows it once the buy box is out of view) ---------- {%- endcomment -%}
+  <div class="t-sticky" data-sticky inert>
+    {%- render 'tarot-card-img', id: section.settings.sticky_card, sizes: '32px', alt: '', class: 't-sticky__card' -%}
+    <p class="t-sticky__text">
+      {{ section.settings.sticky_title | escape }}
+      <span>{{ section.settings.sticky_line | escape | replace: '[price]', price | replace: '[edition]', edname_html }}</span>
+    </p>
+    {%- liquid
+      if product_state == 'available'
+        assign sticky_label = section.settings.sticky_buy
+      else
+        assign sticky_label = section.settings.sticky_notify
+      endif
+    -%}
+    {%- render 'wt-button', label: sticky_label, href: '#tarot-buy', size: 'sm', class: 't-sticky__btn', attrs: 'data-focus-notify' -%}
+  </div>
+</div>
+
+{%- liquid
+  if selected.featured_media
+    assign seo_media = selected.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {% if seo_media -%}
+      "image": [{{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}],
+    {%- endif %}
+    "description": {{ product.description | strip_html | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type": "Offer",
+          {%- if variant.sku != blank -%}"sku": {{ variant.sku | json }},{%- endif -%}
+          "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price": {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "url": {{ request.origin | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% stylesheet %}
+  .t-buy { padding-block: 24px 96px; scroll-margin-top: 16px; }
+  .t-buy__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 60px; align-items: start; }
+  @media (max-width: 920px) {
+    .t-buy { padding-block: 16px 68px; }
+    .t-buy__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  }
+
+  /* Gallery: a scroll-snap strip, so it swipes on touch and works without JS (thumbs are anchors). */
+  .t-gal { position: sticky; top: 20px; }
+  @media (max-width: 920px) { .t-gal { position: static; } }
+  .t-gal__main {
+    display: flex;
+    aspect-ratio: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    border: var(--t-bw) solid var(--t-ink);
+    border-radius: var(--t-r);
+    background: #ECE9E0;
+    overscroll-behavior-x: contain;
+  }
+  .t-gal__main::-webkit-scrollbar { display: none; }
+  .t-gal__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; position: relative; }
+  .t-gal__slide img { width: 100%; height: 100%; object-fit: cover; }
+  .t-gal__slide--box { background: radial-gradient(circle at 50% 45%, #FFFDF7, #E9E3D3); }
+  .t-gal__slide--box img { object-fit: contain; padding: 8%; filter: drop-shadow(18px 24px 22px rgba(60, 45, 20, 0.35)); }
+  .t-gal__thumbs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .t-gal__thumb { display: block; aspect-ratio: 1; border: 2px solid transparent; border-radius: 8px; overflow: hidden; background: #ECE9E0; }
+  .t-gal__thumb[aria-current='true'] { border-color: var(--t-ink); }
+  .t-gal__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .t-gal__thumb--box { background: #F4EFE2; }
+  .t-gal__thumb--box img { object-fit: contain; padding: 8%; }
+
+  /* Info column */
+  .t-info { display: flex; flex-direction: column; gap: 22px; }
+  .t-scope .t-info__title { font-size: clamp(42px, 4.8vw, 62px); }
+  .t-info__thesis { font-family: var(--t-lit); font-style: italic; font-weight: 600; font-size: 25px; line-height: 1.28; max-width: 30ch; }
+  .t-info__price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .t-info__price b { font: 700 30px var(--t-ui); }
+  .t-info__price span { font-size: 14px; color: var(--t-muted); }
+  .t-info__jump { display: flex; gap: 18px; flex-wrap: wrap; }
+
+  /* Edition tiles: real radios, the whole tile is the hit area */
+  .t-editions { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .t-editions__label { font: 600 13px var(--t-ui); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; padding: 0; }
+  .t-editions__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .t-ed {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    border: var(--t-bw) solid var(--t-ink);
+    border-radius: var(--t-r);
+    padding: 14px 44px 14px 16px;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .t-ed:hover { background: var(--t-yellow-soft); }
+  .t-ed:has(.t-ed__input:checked) { background: var(--t-yellow); box-shadow: var(--t-shadow); }
+  .t-ed:has(.t-ed__input:focus-visible) { outline: 3px solid var(--t-red); outline-offset: 3px; }
+  .t-ed__input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .t-ed__name { font-family: var(--t-display); font-size: 23px; text-transform: uppercase; line-height: 1; }
+  .t-ed__note { font-size: 13px; color: #3d3a34; }
+  .t-ed__dot { position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; border: 2.5px solid var(--t-ink); border-radius: 50%; background: #fff; }
+  .t-ed__input:checked ~ .t-ed__dot { background: radial-gradient(circle, var(--t-ink) 0 4px, #fff 5px); }
+  @media (max-width: 380px) { .t-ed__name { font-size: 19px; } }
+
+  /* CTA */
+  .t-buy__form form { display: flex; flex-direction: column; gap: 22px; }
+  .t-cta { display: flex; flex-direction: column; gap: 12px; }
+  .t-ui { font-family: var(--t-ui); font-weight: 700; font-size: 0.8em; letter-spacing: 0; }
+  .t-cta .wt-btn { position: relative; }
+  .t-cta .wt-btn.loading .t-cta__label { visibility: hidden; }
+  .t-spinner { position: absolute; width: 22px; height: 22px; border: 3px solid var(--t-ink); border-right-color: transparent; border-radius: 50%; animation: t-spin 0.7s linear infinite; }
+  .t-spinner.hidden { display: none; }
+  @keyframes t-spin { to { transform: rotate(360deg); } }
+  .t-cta__pay .shopify-payment-button__button { min-height: 58px; border-radius: 8px; }
+  .t-cta__pay .shopify-payment-button__more-options { font: 600 14px var(--t-ui); color: var(--t-ink); text-decoration: underline; text-underline-offset: 3px; margin-top: 10px; }
+  .t-buy__error { border: var(--t-bw) solid var(--t-red); border-radius: 8px; padding: 10px 14px; color: var(--t-red); font-weight: 600; margin-bottom: 12px; }
+
+  .t-notify { display: flex; flex-direction: column; gap: 12px; }
+  .t-notify__row { display: flex; gap: 10px; }
+  .t-notify__input {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    font-size: 16px;
+    padding: 14px;
+    border: var(--t-bw) solid var(--t-ink);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--t-ink);
+  }
+  .t-notify__input:focus-visible { outline: 3px solid var(--t-red); outline-offset: 2px; }
+  .t-notify__error { color: var(--t-red); font-weight: 600; font-size: 14px; }
+  .t-notify__legal { font-size: 12.5px; }
+  .t-notify__legal a { color: inherit; }
+  .t-done { border: var(--t-bw) solid var(--t-ink); border-radius: 8px; background: var(--t-yellow-soft); padding: 14px 16px; font-weight: 600; }
+  @media (max-width: 380px) { .t-notify__row { flex-direction: column; } }
+
+  /* Trust rows + details */
+  .t-trust { display: grid; gap: 12px; border-top: 1.5px solid var(--t-hair); padding: 20px 0 0; margin: 0; list-style: none; }
+  .t-trust__row { display: flex; gap: 12px; align-items: center; font-size: 15px; }
+  .t-trust__row strong, .t-trust__row b { font-weight: 600; }
+  .t-details { border-top: 1.5px solid var(--t-hair); border-bottom: 1.5px solid var(--t-hair); padding-block: 14px; }
+  .t-details summary { font-family: var(--t-display); font-size: 20px; text-transform: uppercase; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+  .t-details summary::-webkit-details-marker { display: none; }
+  .t-details summary::after { content: '+'; font-family: var(--t-ui); font-weight: 500; }
+  .t-details[open] summary::after { content: '–'; }
+  .t-details .t-rte { margin-top: 10px; font-size: 15px; }
+
+  /* Mobile sticky buy bar */
+  .t-sticky { display: none; }
+  @media (max-width: 749px) {
+    .t-page { padding-bottom: 76px; }
+    .t-js .t-sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--t-paper);
+      border-top: var(--t-bw) solid var(--t-ink);
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      transform: translateY(110%);
+      transition: transform 0.25s;
+    }
+    .t-js .t-sticky.is-shown { transform: none; }
+  }
+  .t-sticky__card { width: 32px; border-radius: 4px; flex: none; }
+  .t-sticky__text { flex: 1; min-width: 0; font-family: var(--t-display); font-size: 16px; text-transform: uppercase; line-height: 1.1; }
+  .t-sticky__text span { font: 500 12.5px var(--t-ui); text-transform: none; display: block; }
+  .t-sticky .t-sticky__btn { font-size: 17px; padding: 10px 16px; box-shadow: 3px 3px 0 var(--t-ink); white-space: nowrap; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Tarot · Buy",
+  "tag": "section",
+  "class": "t-section-buy",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "select", "id": "editor_state", "label": "Preview state (theme editor only)", "info": "Force the buyable layout while reviewing in the editor. Visitors always see the real product state.", "options": [ { "value": "auto", "label": "Real product state" }, { "value": "available", "label": "Buyable (launch day)" } ], "default": "auto" },
+
+    { "type": "header", "content": "Gallery" },
+    { "type": "image_picker", "id": "box_image", "label": "Box render (first image)", "info": "Leave empty to use box.webp from the theme. Product photos follow." },
+    { "type": "text", "id": "box_alt", "label": "Box render alt text", "default": "The Comics Tarot of Consciousness tuck box, open" },
+    { "type": "text", "id": "gallery_label", "label": "Thumbnails label (screen readers)", "default": "Product images" },
+
+    { "type": "header", "content": "Intro" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "78-card tarot deck · illustrated by Walter Ihring" },
+    { "type": "text", "id": "thesis", "label": "Thesis line", "default": "78 cards. One illustrator. Every card a nine-frame comic." },
+    { "type": "text", "id": "price_note", "label": "Next to the price", "default": "VAT included · shipping at checkout" },
+
+    { "type": "header", "content": "Editions" },
+    { "type": "paragraph", "content": "Variant 1 = English tile, variant 2 = Slovak tile. The edition name used in buttons and notes is the variant title." },
+    { "type": "text", "id": "edition_heading", "label": "Heading", "default": "Choose your edition" },
+    { "type": "text", "id": "edition_en_label", "label": "English tile: name", "default": "English" },
+    { "type": "text", "id": "edition_en_note", "label": "English tile: note", "default": "Limited to 100 copies" },
+    { "type": "text", "id": "edition_sk_label", "label": "Slovak tile: name", "default": "Slovenčina" },
+    { "type": "text", "id": "edition_sk_note", "label": "Slovak tile: note", "default": "Limitovaná na 100 kópií" },
+
+    { "type": "header", "content": "Before launch: notify" },
+    { "type": "text", "id": "notify_email_label", "label": "Email label (screen readers)", "default": "Email" },
+    { "type": "text", "id": "notify_placeholder", "label": "Email placeholder", "default": "Your email" },
+    { "type": "text", "id": "notify_button", "label": "Button", "default": "Notify me" },
+    { "type": "text", "id": "notify_note", "label": "Note under the field", "info": "[edition] becomes the chosen edition's name.", "default": "One email on release day, for the [edition] edition. Nothing else." },
+    { "type": "text", "id": "notify_success", "label": "Success message", "info": "[edition] becomes the chosen edition's name.", "default": "You're on the list for the [edition] edition. One email on release day." },
+    { "type": "richtext", "id": "notify_legal", "label": "Privacy note", "default": "<p>By signing up you agree to our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>" },
+
+    { "type": "header", "content": "When buyable" },
+    { "type": "text", "id": "atc_label", "label": "Add to cart button", "info": "Followed by the edition and price.", "default": "Add to cart" },
+    { "type": "text", "id": "delivery_note", "label": "Delivery note", "info": "Shown only when the deck is buyable. Leave empty until the shipping time is confirmed." },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out button", "default": "Sold out" },
+
+    { "type": "header", "content": "Links to How to read" },
+    { "type": "text", "id": "jump_read", "label": "Read a card link", "default": "How a card reads ↓" },
+    { "type": "text", "id": "jump_draw", "label": "Card of the day link", "default": "Draw a card ↓" },
+
+    { "type": "header", "content": "Details" },
+    { "type": "text", "id": "details_heading", "label": "Heading", "default": "Details" },
+    { "type": "richtext", "id": "details_text", "label": "Text", "default": "<p>78 cards, 22 Major and 56 Minor Arcana. Inspired by the original Rider–Waite and redrawn as nine-frame comics. In a tuck box with two guide cards. 84 × 138 mm, matte.</p>" },
+
+    { "type": "header", "content": "Mobile sticky bar" },
+    { "type": "select", "id": "sticky_card", "label": "Mini card", "options": [
+      { "value": "02", "label": "The Magician" }, { "value": "01", "label": "The Fool" }, { "value": "10", "label": "The Hermit" },
+      { "value": "11", "label": "Wheel of Fortune" }, { "value": "18", "label": "The Star" }, { "value": "20", "label": "The Sun" },
+      { "value": "24", "label": "Two of Wands" }, { "value": "34", "label": "Knight of Wands" }, { "value": "42", "label": "Six of Cups" },
+      { "value": "57", "label": "Seven of Swords" }, { "value": "66", "label": "Two of Pentacles" }, { "value": "71", "label": "Seven of Pentacles" }
+    ], "default": "02" },
+    { "type": "text", "id": "sticky_title", "label": "Title", "default": "Comics Tarot" },
+    { "type": "text", "id": "sticky_line", "label": "Line", "info": "[price] and [edition] are filled in.", "default": "[price] · [edition] edition" },
+    { "type": "text", "id": "sticky_notify", "label": "Button before launch", "default": "Notify me" },
+    { "type": "text", "id": "sticky_buy", "label": "Button when buyable", "default": "Buy" }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust row",
+      "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "edition", "label": "Edition (card)" }, { "value": "payment", "label": "Payment (card)" }, { "value": "shipping", "label": "Shipping (box)" } ], "default": "edition" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p><strong>First edition, limited</strong>: 100 copies per language</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tarot · Buy",
+      "blocks": [
+        { "type": "trust", "settings": { "icon": "edition", "text": "<p><strong>First edition, limited</strong>: 100 copies per language</p>" } },
+        { "type": "trust", "settings": { "icon": "payment", "text": "<p><strong>Apple Pay, Google Pay</strong>, cards and PayPal</p>" } },
+        { "type": "trust", "settings": { "icon": "shipping", "text": "<p><strong>Ships across the EU</strong> with Packeta</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
