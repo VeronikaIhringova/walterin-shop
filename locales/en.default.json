@@ -536,6 +536,28 @@
       "country": "Slovakia",
       "identifier": "Product",
       "physical_only": "printed or physical edition"
+    },
+    "buy": {
+      "shipping": "Shipping calculated at checkout",
+      "sold_out": "Sold out",
+      "unavailable": "Not available",
+      "switched": "That combination isn’t available. Switched to [value].",
+      "payment_methods": "Payment methods",
+      "suggestion": "Suggestion",
+      "value": {
+        "en": "English",
+        "sk": "Slovak",
+        "cs": "Czech",
+        "de": "German",
+        "ebook": "Interactive eBook",
+        "print": "Printed book"
+      },
+      "option": {
+        "format": "Format",
+        "jazyk": "Language",
+        "language": "Language",
+        "language-jazyk": "Language"
+      }
     }
   }
 }

@@ -1,0 +1,79 @@
+{
+  "sections": {
+    "main": {
+      "type": "walterin-buy",
+      "blocks": {
+        "value_en": {
+          "type": "value",
+          "settings": {
+            "value": "English",
+            "code": "en"
+          }
+        },
+        "value_cs": {
+          "type": "value",
+          "settings": {
+            "value": "Czech",
+            "code": "cs"
+          }
+        },
+        "value_sk": {
+          "type": "value",
+          "settings": {
+            "value": "Slovenčina",
+            "code": "sk"
+          }
+        },
+        "value_ebook": {
+          "type": "value",
+          "settings": {
+            "value": "Digital Interactive Edition",
+            "code": "ebook"
+          }
+        },
+        "value_print": {
+          "type": "value",
+          "settings": {
+            "value": "Printed Collector’s Edition",
+            "code": "print"
+          }
+        },
+        "acc_walter": {
+          "type": "accordion",
+          "settings": {
+            "heading": "About Walter",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "value_en",
+        "value_cs",
+        "value_sk",
+        "value_ebook",
+        "value_print",
+        "acc_walter"
+      ],
+      "settings": {
+        "edition_note": "",
+        "about_heading": "About the book",
+        "about_text": "<p>Short comic stories about Prague: its culture and history, told with humour. Every story in nine frames, original artwork by Walter Ihring, with hidden details to find.</p>",
+        "box_heading": "What's in the book",
+        "box_item_1": "140+ illustrated pages",
+        "box_item_2": "",
+        "box_item_3": "",
+        "sticky_title": "Walterin Prague",
+        "waitlist_tag": "prague-waitlist",
+        "digital_note": "PDF + EPUB. Download right after payment.",
+        "delivery_heading": "Delivery",
+        "delivery_digital": "<p>PDF + EPUB. The download link arrives by email right after payment.</p>",
+        "show_delivery_physical": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

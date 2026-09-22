@@ -566,6 +566,28 @@
       "country": "Slovensko",
       "identifier": "Výrobok",
       "physical_only": "tlačené alebo fyzické vydanie"
+    },
+    "buy": {
+      "shipping": "Doprava sa vypočíta v pokladni",
+      "sold_out": "Vypredané",
+      "unavailable": "Nie je k dispozícii",
+      "switched": "Táto kombinácia nie je k dispozícii. Prepnuté na [value].",
+      "payment_methods": "Spôsoby platby",
+      "suggestion": "Návrh",
+      "value": {
+        "en": "Angličtina",
+        "sk": "Slovenčina",
+        "cs": "Čeština",
+        "de": "Nemčina",
+        "ebook": "Interaktívna e-kniha",
+        "print": "Tlačená kniha"
+      },
+      "option": {
+        "format": "Formát",
+        "jazyk": "Jazyk",
+        "language": "Jazyk",
+        "language-jazyk": "Jazyk"
+      }
     }
   }
 }

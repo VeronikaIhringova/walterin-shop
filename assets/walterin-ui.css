@@ -7,10 +7,10 @@
    single-class rules; resets use :where() so they never fight section styles.
    Px on purpose: the theme sets html { font-size: 62.5% }.
 
-   Colour roles
-     yellow = action + selected     sky   = information
-     green  = success               red   = error + sold out (fills and lines only)
-     ink    = all text              paper = every background
+   Colour roles (UI): ink = every line and letter · paper = every background
+                      yellow = action, selected, marker. Nothing else carries meaning.
+   Sky, red and green belong to Walter's artwork, never to the interface.
+   Unavailable = faded (40%), never a strike-through, never a grey fill.
    No grey, no gradients, no soft shadows. Secondary text is smaller, never greyer.
    ========================================================================== */
 
@@ -19,6 +19,7 @@
   --wui-paper: #FFFDF7;
   --wui-ink: #222222;
   --wui-yellow: #FCF205;
+  /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
   --wui-sky: #6FE9FA;
   --wui-red: #F60403;
   --wui-green: #9FDA29;
@@ -29,6 +30,10 @@
   --wui-radius: 8px;
   --wui-shadow: 4px 4px 0 var(--wui-ink);
   --wui-shadow-hover: 2px 2px 0 var(--wui-ink);
+  /* Room a hard shadow needs, so its outer edge lands on the column edge (never past it) */
+  --wui-sh: 4px;
+  /* Faded, the only way something is shown as unavailable. Never a strike-through, never grey fill. */
+  --wui-faded: 0.4;
 
   /* Spacing: the only allowed steps.
      8/12 = a label and its control · 16 = inside a component · 24 = between related items
@@ -52,8 +57,8 @@
   --wui-edge: calc(4vw + var(--wui-frame-pad));
 
   /* Type scale */
-  --wui-display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
-  --wui-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --wui-display: 'WalterinBold', 'Walterin Fallback', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
+  --wui-body: 'Inter', 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
   /* Six sizes, nothing else (mobile values here, desktop below):
      display  WalterinBold  page title
      heading  WalterinBold  section headings
@@ -68,7 +73,11 @@
   --wui-fs-body: 16px;
   --wui-fs-small: 14px;
 
+  /* Motion: short, eased out, never bouncing. Only transform, opacity, colour and height move. */
   --wui-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+  --wui-t-hover: 120ms;
+  --wui-t-pick: 180ms;
+  --wui-t-open: 200ms;
 
   background-color: var(--wui-paper);
 }
@@ -105,6 +114,20 @@
 :where(.wui-scope) img { display: block; max-width: 100%; height: auto; }
 :where(.wui-scope) a { color: inherit; }
 :where(.wui-scope) :is(button, input) { font: inherit; color: inherit; }
+/* No hyphenation and no mid-word breaks anywhere in the scope, including headings:
+   base.css and theme.liquid set `word-break: break-word` on h1–h6. */
+.wui .wui-scope,
+.wui .wui-scope :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, span, a, button, summary, legend, label) {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+.wui .wui-nb { white-space: nowrap; } /* keeps hyphenated words whole: "e-kniha" */
+.wui .wui-scope [hidden] { display: none !important; } /* components set display, which beats [hidden] */
+/* Container-query wrapper. Needs an explicit width: as a flex item (and inside a <fieldset>)
+   an inline-size container does not stretch, and would collapse to zero. */
+.wui .wui-cq { container-type: inline-size; width: 100%; align-self: stretch; min-width: 0; }
 .wui .wui-scope :focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; box-shadow: none; }
 
 /* The page frame (same left/right edges as the header) */
@@ -199,10 +222,10 @@
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.12s var(--wui-ease), box-shadow 0.12s var(--wui-ease);
+  transition: transform var(--wui-t-hover) var(--wui-ease), box-shadow var(--wui-t-hover) var(--wui-ease), color var(--wui-t-hover) var(--wui-ease), border-color var(--wui-t-hover) var(--wui-ease);
 }
-.wui .wui-btn:hover { transform: translate(2px, 2px); box-shadow: var(--wui-shadow-hover); }
-.wui .wui-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--wui-ink); }
+.wui .wui-btn:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: var(--wui-shadow-hover); }
+.wui .wui-btn:active:not(:disabled) { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--wui-ink); }
 .wui .wui-btn::before,
 .wui .wui-btn::after { content: none; } /* the theme draws button borders with pseudo-elements */
 .wui .wui-btn--secondary { background: var(--wui-paper); }
@@ -210,13 +233,12 @@
 .wui .wui-btn--sm { min-height: 44px; padding: 8px 16px; font-size: var(--wui-fs-label); box-shadow: 3px 3px 0 var(--wui-ink); }
 .wui .wui-btn:disabled,
 .wui .wui-btn[aria-disabled='true'] {
+  color: rgb(34 34 34 / var(--wui-faded));
   background: var(--wui-paper);
+  border-color: rgb(34 34 34 / var(--wui-faded));
   box-shadow: none;
   transform: none;
   cursor: not-allowed;
-  text-decoration: line-through;
-  text-decoration-color: var(--wui-red);
-  text-decoration-thickness: 3px;
 }
 .wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-body); letter-spacing: 0; text-transform: none; }
 
@@ -250,99 +272,124 @@
 }
 .wui .wui-input::placeholder { color: var(--wui-ink); opacity: 0.55; }
 .wui .wui-input:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
-.wui .wui-input[aria-invalid='true'] { border-color: var(--wui-red); }
+.wui .wui-input[aria-invalid='true'] { border-color: var(--wui-ink); box-shadow: 0 0 0 1.5px var(--wui-ink); }
 
 /* --------------------------------------------------------------------------
-   Choice tiles (real radios; the whole tile is the hit area)
-   States: unselected (paper) · selected (yellow + shadow) · sold out (struck in red)
-   Layouts: .wui-choices--tiles (2 side by side) · .wui-choices--rows (1, 3+ options, or narrow)
+   Choices (real radios, frameless): a dot, the name, an optional note.
+   Picked = the name gets a yellow marker stroke and the dot fills; the marker eases in.
+   Unavailable = faded, never struck through, never a grey fill.
+   Side by side while every label fits whole; otherwise stacked. The decision is made from the
+   space the group really has (container query), so it holds inside any layout.
    -------------------------------------------------------------------------- */
-.wui .wui-choices { display: grid; gap: var(--wui-12); border: 0; min-width: 0; }
-.wui .wui-choices--tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.wui .wui-choices--rows { grid-template-columns: minmax(0, 1fr); }
+.wui .wui-choices { display: grid; gap: var(--wui-8) var(--wui-24); grid-template-columns: repeat(var(--wui-n, 2), minmax(0, 1fr)); border: 0; min-width: 0; }
+@container (max-width: 319px) { .wui .wui-choices[data-n='2'] { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 439px) { .wui .wui-choices[data-n='3'], .wui .wui-choices[data-priced] { grid-template-columns: minmax(0, 1fr); } }
 .wui .wui-choice {
   position: relative;
-  display: grid;
-  grid-template-columns: 16px minmax(0, 1fr);
-  column-gap: var(--wui-12);
-  row-gap: 2px;
+  display: flex;
   align-items: center;
-  padding: var(--wui-12) var(--wui-16);
-  background: var(--wui-paper);
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
+  gap: var(--wui-12);
+  min-height: 44px;
+  padding: 6px 0;
   cursor: pointer;
-  transition: box-shadow 0.12s var(--wui-ease);
 }
-.wui .wui-choices--tiles .wui-choice { padding-block: var(--wui-8); }
-.wui .wui-choices--rows .wui-choice { grid-template-columns: 16px auto minmax(0, 1fr); }
-.wui .wui-choice:hover { box-shadow: var(--wui-shadow-hover); }
-.wui .wui-choice:has(input:checked) { background: var(--wui-yellow); box-shadow: var(--wui-shadow); }
-.wui .wui-choice:has(input:focus-visible) { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
-.wui .wui-choice:has(input:disabled) { cursor: not-allowed; box-shadow: none; }
 .wui .wui-choice__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
 .wui .wui-choice__dot {
-  grid-row: 1;
-  grid-column: 1;
-  width: 16px;
-  height: 16px;
+  flex: none;
+  width: 18px;
+  height: 18px;
   border: var(--wui-line) solid var(--wui-ink);
   border-radius: 50%;
   background: var(--wui-paper);
+  transition: background-color var(--wui-t-hover) var(--wui-ease);
 }
-.wui .wui-choice__name { grid-row: 1; grid-column: 2; font-family: var(--wui-display); font-size: var(--wui-fs-label); line-height: 1.1; text-transform: uppercase; letter-spacing: 0.02em; }
-.wui .wui-choice__note { grid-row: 2; grid-column: 2; font-size: var(--wui-fs-small); line-height: 1.35; }
-.wui .wui-choices--rows .wui-choice__note { grid-row: 1; grid-column: 3; text-align: right; }
-/* Two tiles don't fit side by side on narrow phones: switch to rows there too. */
-@media (max-width: 479px) {
-  .wui .wui-choices--tiles { grid-template-columns: minmax(0, 1fr); }
-  .wui .wui-choices--tiles .wui-choice { grid-template-columns: 16px auto minmax(0, 1fr); padding-block: var(--wui-12); }
-  .wui .wui-choices--tiles .wui-choice__note { grid-row: 1; grid-column: 3; text-align: right; }
+.wui .wui-choice:hover .wui-choice__dot { background-color: color-mix(in srgb, var(--wui-yellow) 50%, var(--wui-paper)); }
+.wui .wui-choice__input:checked ~ .wui-choice__dot { background: radial-gradient(circle, var(--wui-ink) 0 4px, var(--wui-yellow) 4.5px); }
+.wui .wui-choice__text { display: flex; flex-direction: column; min-width: 0; }
+.wui .wui-choice__name {
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgb(34 34 34 / 0.78);
+  padding: 0 2px;
+  /* the marker grows from the left instead of appearing: background-size never moves layout */
+  background-image: linear-gradient(var(--wui-yellow), var(--wui-yellow));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 0% 38%;
+  transition: background-size var(--wui-t-pick) var(--wui-ease), color var(--wui-t-pick) var(--wui-ease);
 }
-.wui .wui-choice__input:checked ~ .wui-choice__dot { background: radial-gradient(circle, var(--wui-ink) 0 3px, var(--wui-paper) 3.5px); }
-.wui .wui-choice:has(input:disabled) .wui-choice__name { text-decoration: line-through; text-decoration-color: var(--wui-red); text-decoration-thickness: 3px; }
-.wui .wui-choice:has(input:disabled) .wui-choice__dot { border-style: dashed; }
+.wui .wui-choice__input:checked ~ .wui-choice__text .wui-choice__name { color: var(--wui-ink); background-size: 100% 38%; }
+.wui .wui-choice:hover .wui-choice__name { color: var(--wui-ink); }
+.wui .wui-choice__note { font-size: var(--wui-fs-small); line-height: 1.35; font-variant-numeric: tabular-nums; }
+.wui .wui-choice:has(input:focus-visible) .wui-choice__dot { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
+.wui .wui-choice:has(input:disabled) { cursor: not-allowed; }
+.wui .wui-choice:has(input:disabled) > * { opacity: var(--wui-faded); }
+.wui .wui-choice:has(input:disabled):hover .wui-choice__dot { background-color: var(--wui-paper); }
+/* A long name (11+ letters) or three options step down to the body size instead of breaking */
+.wui .wui-choices--long .wui-choice__name,
+.wui .wui-choices[data-n='3'] .wui-choice__name { font-size: var(--wui-fs-body); letter-spacing: 0.03em; }
 
 /* --------------------------------------------------------------------------
-   Assurance rows (icon + one short line)
+   Icon + one line (shipping note, small facts)
    -------------------------------------------------------------------------- */
-.wui .wui-assure { display: grid; gap: var(--wui-8); }
-.wui .wui-assure__row { display: flex; align-items: flex-start; gap: var(--wui-12); font-size: var(--wui-fs-small); line-height: 1.45; }
+.wui .wui-iconline { display: inline-flex; align-items: center; gap: var(--wui-8); }
 .wui .wui-icon { width: 20px; height: 20px; flex: none; color: var(--wui-ink); }
+.wui .wui-iconline .wui-icon { width: 22px; height: 22px; }
 
 /* --------------------------------------------------------------------------
-   Accordion: framed <details>
+   Accordion: ruled rows, no boxes. Opens and closes with a smooth height +
+   opacity move (walterin-buy.js animates it; without JS it just opens).
+   The icon never rotates here: it sits on the column edge, and a rotated square
+   would reach past it. Plus becomes minus instead.
    -------------------------------------------------------------------------- */
-.wui .wui-accordions { display: grid; gap: var(--wui-12); }
-.wui .wui-accordion { border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper); }
+.wui .wui-accordions { display: grid; gap: 0; border-top: var(--wui-line) solid var(--wui-ink); }
+.wui .wui-accordion { border-bottom: 1px solid var(--wui-ink); background: var(--wui-paper); }
+.wui .wui-accordion--suggest { border-bottom-style: dashed; }
 .wui .wui-accordion > summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--wui-12);
-  padding: var(--wui-16);
+  padding: 18px 0;
   list-style: none;
   cursor: pointer;
 }
 .wui .wui-accordion > summary::-webkit-details-marker { display: none; }
 .wui .wui-accordion > summary::before,
 .wui .wui-accordion > summary::after { content: none; }
+.wui .wui-accordion__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.wui .wui-accordion > summary .wui-label { transition: text-decoration-color var(--wui-t-hover) var(--wui-ease); text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 4px; text-underline-offset: 4px; }
+.wui .wui-accordion > summary:hover .wui-label { text-decoration-color: var(--wui-yellow); }
 .wui .wui-accordion__icon {
   position: relative;
   flex: none;
-  width: 28px;
-  height: 28px;
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: 50%;
-  background: var(--wui-paper);
-  transition: transform 0.2s var(--wui-ease), background-color 0.2s;
+  width: 24px;
+  height: 24px;
 }
 .wui .wui-accordion__icon::before,
-.wui .wui-accordion__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: var(--wui-ink); transform: translate(-50%, -50%); }
-.wui .wui-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
-.wui .wui-accordion[open] .wui-accordion__icon { transform: rotate(45deg); background: var(--wui-yellow); }
-.wui .wui-accordion__body { display: grid; gap: var(--wui-24); padding: 0 var(--wui-16) var(--wui-16); font-size: var(--wui-fs-small); line-height: 1.5; }
+.wui .wui-accordion__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 14px; height: 2.5px; background: var(--wui-ink); transform: translate(-50%, -50%); }
+.wui .wui-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: opacity var(--wui-t-open) var(--wui-ease), transform var(--wui-t-open) var(--wui-ease); }
+.wui .wui-accordion[open] .wui-accordion__icon::after,
+.wui .wui-accordion.is-opening .wui-accordion__icon::after { opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
+.wui .wui-accordion.is-closing .wui-accordion__icon::after { opacity: 1; transform: translate(-50%, -50%) rotate(90deg); }
+.wui .wui-accordion__wrap { overflow: hidden; }
+.wui .wui-accordion__body { display: grid; gap: var(--wui-16); padding: 0 0 20px; font-size: var(--wui-fs-small); line-height: 1.55; }
+.wui .wui-accordion__body .wui-lead { font-size: var(--wui-fs-body); line-height: 1.5; }
 .wui .wui-accordion__group { display: grid; gap: var(--wui-12); }
+.wui .wui-tag {
+  font-family: var(--wui-body);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 6px;
+  border: 1.5px dashed var(--wui-ink);
+  border-radius: 4px;
+}
 
 /* Definition list (specs) */
 .wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: var(--wui-8) var(--wui-12); }
@@ -357,12 +404,34 @@
 .wui .wui-table { width: 100%; border-collapse: collapse; font-size: var(--wui-fs-small); }
 .wui .wui-table :is(th, td) { padding: var(--wui-8) var(--wui-12); text-align: left; vertical-align: top; border-bottom: var(--wui-line-thin) solid var(--wui-ink); }
 .wui .wui-table th { font-weight: 700; }
-.wui .wui-table tr.is-current td { background: var(--wui-sky); }
+.wui .wui-table tr.is-current td { font-weight: 700; box-shadow: inset 3px 0 0 var(--wui-yellow); }
 
 /* Status boxes */
-.wui .wui-status { padding: var(--wui-12) var(--wui-16); border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); font-size: var(--wui-fs-small); }
-.wui .wui-status--success { background: var(--wui-green); }
-.wui .wui-status--error { background: var(--wui-paper); border-color: var(--wui-red); }
+.wui .wui-status {
+  display: flex;
+  gap: var(--wui-8);
+  align-items: flex-start;
+  padding: var(--wui-12) var(--wui-16);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  font-size: var(--wui-fs-small);
+}
+.wui .wui-status::before {
+  content: 'i';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--wui-ink);
+  border-radius: 50%;
+  font-family: var(--wui-body);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+.wui .wui-status--success::before { content: '✓'; background: var(--wui-yellow); }
+.wui .wui-status--error::before { content: '!'; }
 
 /* --------------------------------------------------------------------------
    Shopify accelerated checkout (Apple Pay, Google Pay, PayPal…)
@@ -373,7 +442,7 @@
   --shopify-accelerated-checkout-button-block-size: 52px;
   --shopify-accelerated-checkout-button-border-radius: 8px;
   --shopify-accelerated-checkout-button-box-shadow: 0 0 0 2.5px #222222;
-  --shopify-accelerated-checkout-skeleton-background-color: #6FE9FA;
+  --shopify-accelerated-checkout-skeleton-background-color: #FFFDF7;
 }
 .wui .shopify-payment-button { padding: var(--wui-line); } /* the ink ring is drawn outside the button: inset it so its outer edge meets the column edge */
 .wui .shopify-payment-button__button--unbranded {

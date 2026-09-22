@@ -12,30 +12,103 @@
     "main": {
       "type": "walterin-buy",
       "blocks": {
-        "edition_en": {
-          "type": "edition",
+        "value_en": {
+          "type": "value",
           "settings": {
-            "position": 1,
-            "name": "English",
-            "note": "Limited to 100 copies",
+            "value": "English",
             "code": "en"
           }
         },
-        "edition_sk": {
-          "type": "edition",
+        "value_sk": {
+          "type": "value",
           "settings": {
-            "position": 2,
-            "name": "Slovenčina",
-            "note": "Limited to 100 copies",
+            "value": "Slovak",
+            "code": "sk"
+          }
+        },
+        "acc_when": {
+          "type": "accordion",
+          "settings": {
+            "heading": "When can I have it?",
+            "show_when": "coming_soon",
+            "suggestion": true,
+            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.</p><p>Leave your email above and you'll get one message when it's ready.</p>"
+          }
+        },
+        "acc_read": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How to read",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.</p><p>Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.</p>"
+          }
+        },
+        "acc_nine": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Why nine frames",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>One picture shows a moment. Nine frames show what happens next.</p><p>Each card carries its theme through nine small scenes, so the meaning isn't handed to you in a single symbol. You follow it, frame by frame, the way you read a comic. It is how Walterin tells every story, in the city books too.</p>"
+          }
+        },
+        "acc_which": {
+          "type": "accordion",
+          "settings": {
+            "heading": "English or Slovak?",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>The same 78 drawings in both editions. Only the words change: the captions in the frames and the guide cards are in English or in Slovak. Choose the language you want to read in.</p>"
+          }
+        },
+        "acc_gift": {
+          "type": "accordion",
+          "settings": {
+            "heading": "As a gift",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.</p><p>Sending it straight to them? Enter their address as the delivery address at checkout.</p>"
+          }
+        },
+        "acc_walter": {
+          "type": "accordion",
+          "settings": {
+            "heading": "About Walter",
+            "show_when": "always",
+            "suggestion": true,
+            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.</p>"
+          }
+        },
+        "value_sk2": {
+          "type": "value",
+          "settings": {
+            "value": "Slovenčina",
             "code": "sk"
           }
         }
       },
       "block_order": [
-        "edition_en",
-        "edition_sk"
+        "value_en",
+        "value_sk",
+        "value_sk2",
+        "acc_when",
+        "acc_read",
+        "acc_nine",
+        "acc_which",
+        "acc_gift",
+        "acc_walter"
       ],
-      "settings": {}
+      "settings": {
+        "edition_note": "First edition. 100 copies in each language.",
+        "about_heading": "About the deck",
+        "box_heading": "What's in the box",
+        "sticky_title": "Tarot of Consciousness",
+        "waitlist_tag": "tarot-waitlist",
+        "digital_note": "",
+        "delivery_digital": "",
+        "show_delivery_physical": false
+      }
     },
     "whats_inside_cards": {
       "type": "whats-inside",
@@ -49,11 +122,11 @@
     "how_it_works": {
       "type": "how-it-works",
       "settings": {
-        "title": "Every card is a nine-frame path",
-        "paragraph_1": "Inspired by the original <strong>Rider–Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words.",
+        "title": "Every card is a nine‑frame path",
+        "paragraph_1": "Inspired by the original <strong>Rider–⁠Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words.",
         "paragraph_2": "The cards do not hand you <strong>finished answers</strong>. They help you hear <em>what usually stays quiet</em>.",
         "card_asset": "hiw-card.jpg",
-        "card_alt": "The Walterin nine-frame path",
+        "card_alt": "The Walterin nine‑frame path",
         "background": "#e9e7df",
         "background_asset": "hiw-bg.jpg"
       }

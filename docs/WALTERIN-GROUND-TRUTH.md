@@ -54,7 +54,7 @@
 - **First edition: 100 copies in English + 100 in Slovak.** Never "150".
 - **Not signed, not numbered.** No "signed" wording anywhere, no certificate.
 - **No launch date** anywhere until a real date exists.
-- Before launch: notify-me form. Tags `tarot-waitlist`, `tarot-waitlist-en` / `tarot-waitlist-sk`. No newsletter checkbox.
+- Before launch: notify-me form. Tags `tarot-waitlist`, `tarot-waitlist-en` / `tarot-waitlist-sk`. **One optional newsletter checkbox** (Veronka, 22 Sep 2026), unticked by default; the tag `newsletter` is added only when it is ticked.
 - Pre-order vs notify-me: undecided (Veronka + Walter).
 - **Never show the full deck.** Only the 12-card preview set: The Magician, The Fool, The Hermit, Wheel of Fortune, The Star, The Sun, Two of Wands, Knight of Wands, Six of Cups, Seven of Swords, Two of Pentacles, Seven of Pentacles.
 - **Naming:** only "nine-frame comic" or "nine-frame path". Never "9-layer system" or "9-frame system".
@@ -92,8 +92,10 @@
 
 **Look:** comic frames, not floating cards. Ink outlines, flat colour, paper. No grey, no gradients, no soft shadows. All text is ink.
 
-**Colours:** paper #FFFDF7 · ink #222222 · yellow #FCF205 · sky #6FE9FA · red #F60403 (fills and large type only) · green #9FDA29
-Roles: yellow = action / selected · sky = information · green = success · red = error / sold out.
+**Colours (UI):** paper #FFFDF7 · ink #222222 · yellow #FCF205. Nothing else carries meaning in the interface (Veronka, 22 Sep 2026).
+Roles: ink = every line and letter · paper = every background · yellow = action, selected, marker.
+Unavailable / sold out = faded to 40%. Never a strike-through, never a grey fill.
+**Sky #6FE9FA · red #F60403 · green #9FDA29 belong to Walter's artwork only**, never to the UI.
 
 **Frames:** 2.5px ink border · 8px radius · hard shadow 4px 4px 0 ink.
 
@@ -110,6 +112,10 @@ Roles: yellow = action / selected · sky = information · green = success · red
 | Small | Inter 400 | 14 / 14 | VAT line, notes, privacy, trust rows |
 
 WalterinBold lacks € · → : those characters render in Inter.
+
+**Text never breaks inside a word.** No hyphenation, no mid-word breaks. Hyphenated terms use a
+non-breaking hyphen (U+2011): "nine‑frame". Labels that don't fit side by side stack; a long label
+steps down one size instead of breaking. Buy column rules: `docs/design/BUY-SECTION-SPEC.md`.
 
 **Spacing tokens:** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96
 Measured **optically** (from visible letters to the next border, from a shadow's outer edge).

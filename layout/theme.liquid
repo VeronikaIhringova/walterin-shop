@@ -223,9 +223,32 @@
           cursor: url({{ settings.custom_cursor | image_url: width: 32 }}), auto;
         {% endif %}
       }
-@font-face { 
+@font-face {
 font-family: 'WalterinBold';
 src: url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');
+/* optional + preload: the font is normally there before the first paint (and always on the next
+   page), and when it isn't, the metric-matched 'Walterin Fallback' below is kept for that load.
+   Nothing ever swaps in late, so a headline can never re-wrap: CLS stays at zero. */
+font-display: optional;
+}
+/* Metric-matched stand-in for WalterinBold: same advance width (83.4% of Arial) and the same
+   ascent/descent ratios, so a headline keeps its line count while the real font loads. */
+@font-face {
+font-family: 'Walterin Fallback';
+src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans');
+size-adjust: 83.4%;
+ascent-override: 123.5%;
+descent-override: 30%;
+line-gap-override: 0%;
+}
+/* Metric-matched stand-in for Inter, so body text does not reflow when the real font arrives */
+@font-face {
+font-family: 'Inter Fallback';
+src: local('Arial');
+ascent-override: 96.8%;
+descent-override: 24.1%;
+line-gap-override: 0%;
+size-adjust: 96%;
 } 
 
 
@@ -278,6 +301,7 @@ h5,
 
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      <link rel="preload" as="font" href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093" type="font/woff2" crossorigin>
     {%- endunless -%}
     {%- unless settings.type_header_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
@@ -303,7 +327,8 @@ h5,
       # Walterin UI design system (assets/walterin-ui.css). On for the tarot product page only for now;
       # to roll it out, widen this condition.
       assign wui_enabled = false
-      if template.name == 'product' and template.suffix == 'tarot'
+      assign wui_product_templates = 'tarot,book,qa' | split: ','
+      if template.name == 'product' and wui_product_templates contains template.suffix
         assign wui_enabled = true
       endif
       if template.name == 'page' and template.suffix == 'withdrawal'

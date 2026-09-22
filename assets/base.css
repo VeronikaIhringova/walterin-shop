@@ -2711,3 +2711,17 @@ body {
 /* Walterin: long URLs in policy pages wrap on phones instead of widening the page */
 .shopify-policy__body a,
 .shopify-policy__body p { overflow-wrap: anywhere; }
+
+/* Walterin: never break a word in half.
+   Dawn ships `word-break: break-word` on every heading and on several components, which splits
+   words like "ANGLIČTINA" across two lines. Words wrap whole; lines wrap at spaces. */
+h1, h2, h3, h4, h5, h6,
+.h0, .h1, .h2, .h3, .h4, .h5,
+.badge, .break, .header__heading-link,
+.card__heading, .product__title, .banner__heading, .rich-text__heading,
+.accordion__title, .collapsible-content__heading, .article-card__title {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
