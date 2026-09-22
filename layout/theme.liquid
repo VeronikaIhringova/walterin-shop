@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
+    {%- if template.name == 'blog' or template.name == 'article' -%}
+      <meta name="robots" content="noindex">
+    {%- endif -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
 
@@ -272,7 +275,6 @@ h5,
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'judgeme-walterin.css' | asset_url | stylesheet_tag }}
 
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
@@ -302,6 +304,9 @@ h5,
       # to roll it out, widen this condition.
       assign wui_enabled = false
       if template.name == 'product' and template.suffix == 'tarot'
+        assign wui_enabled = true
+      endif
+      if template.name == 'page' and template.suffix == 'withdrawal'
         assign wui_enabled = true
       endif
     -%}

@@ -408,7 +408,7 @@
               <p class="notify-modal__field-error" role="alert">{{ form.errors | default_errors }}</p>
             {%- endif -%}
 
-            <input type="hidden" name="contact[tags]" value="newsletter,tarot-waitlist">
+            <input type="hidden" name="contact[tags]" value="tarot-waitlist">
 
             <div class="field notify-modal__field">
               <input
@@ -428,7 +428,7 @@
             </div>
 
             <label class="notify-modal__check">
-              <input type="checkbox" name="contact[accepts_marketing]" value="true" checked>
+              <input type="checkbox" name="contact[accepts_marketing]" value="true">
               <span>{{ 'products.product.notify_checkbox' | t }}</span>
             </label>
 
@@ -576,7 +576,12 @@
           if (!emailInput.checkValidity()) {
             e.preventDefault();
             showError(emailInput.validationMessage);
+            return;
           }
+          // Newsletter tag only when the visitor ticks the newsletter box.
+          var tags = form.querySelector('input[name="contact[tags]"]');
+          var optIn = form.querySelector('input[name="contact[accepts_marketing]"]');
+          if (tags) tags.value = optIn && optIn.checked ? 'newsletter,tarot-waitlist' : 'tarot-waitlist';
         });
       }
 

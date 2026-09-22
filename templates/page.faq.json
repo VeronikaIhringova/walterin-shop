@@ -79,7 +79,7 @@
           "settings": {
             "heading": "What payment methods are accepted?",
             "icon": "check_mark",
-            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
+            "row_content": "<p>We accept Visa, Mastercard, Apple Pay and Google Pay. All payments are processed securely through trusted providers.</p>",
             "page": ""
           }
         },

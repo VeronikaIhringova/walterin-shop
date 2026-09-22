@@ -1,0 +1,41 @@
+{%- comment -%}
+  eBook consent (§ 17(10) and § 19(1)(m) zákona 108/2024 Z. z.).
+  Shown when the cart contains an item that needs no shipping (= digital: eBook via Digital Products).
+  The checkbox is required and belongs to the cart form, so the browser blocks "Check out" until it is ticked.
+  The declaration is saved as a cart attribute and appears on the order ("eBook consent").
+  Accepts:
+  - form_id: {String} id of the cart <form> ('cart' on the cart page, 'CartDrawer-Form' in the drawer)
+  Note: relies on digital variants having "requires shipping" off and printed ones on (see LAUNCH-READINESS D2).
+{%- endcomment -%}
+{%- liquid
+  assign has_ebook = false
+  for item in cart.items
+    if item.requires_shipping == false
+      assign has_ebook = true
+      break
+    endif
+  endfor
+-%}
+{%- if has_ebook -%}
+  <div class="cart-ebook-consent" data-ebook-consent>
+    <p class="cart-ebook-consent__notice">{{ 'walterin.ebook_consent.notice' | t }}</p>
+    <label class="cart-ebook-consent__label" for="EbookConsent-{{ form_id }}">
+      <input
+        type="checkbox"
+        id="EbookConsent-{{ form_id }}"
+        class="cart-ebook-consent__box"
+        name="attributes[eBook consent]"
+        value="{{ 'walterin.ebook_consent.declaration' | t | escape }}"
+        form="{{ form_id }}"
+        required
+      >
+      <span>{{ 'walterin.ebook_consent.declaration' | t }}</span>
+    </label>
+  </div>
+  <style>
+    .cart-ebook-consent { display: grid; gap: 0.8rem; margin: 1.2rem 0; padding: 1.2rem 1.4rem; border: 2px solid rgb(var(--color-foreground)); border-radius: 8px; font-size: 1.4rem; line-height: 1.45; text-align: left; }
+    .cart-ebook-consent__notice { margin: 0; }
+    .cart-ebook-consent__label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; }
+    .cart-ebook-consent__box { flex: none; width: 2rem; height: 2rem; margin: 0.1rem 0 0; accent-color: rgb(var(--color-foreground)); }
+  </style>
+{%- endif -%}

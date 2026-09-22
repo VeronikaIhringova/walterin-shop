@@ -186,7 +186,7 @@
       "view_full_details": "Zobraziť všetky podrobnosti",
       "xr_button": "Zobraziť vo vašom priestore",
       "xr_button_label": "Zobraziť vo vašom priestore, položka sa načíta do okna rozšírenej reality",
-      "include_taxes": "Vrátane DPH.",
+      "include_taxes": "",
       "shipping_policy_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe."
     },
     "modal": {
@@ -311,10 +311,10 @@
       "empty": "Váš košík je prázdny",
       "cart_error": "Pri aktualizácii košíka sa vyskytla chyba. Skúste to znova.",
       "cart_quantity_error_html": "Do košíka môžete túto položku pridať len v počte {{ quantity }}.",
-      "taxes_and_shipping_policy_at_checkout_html": "DPH a <a href=\"{{ link }}\">doprava</a> sa vypočítajú pri platbe",
-      "taxes_included_but_shipping_at_checkout": "Vrátane DPH. Doprava sa vypočíta pri platbe.",
-      "taxes_included_and_shipping_policy_html": "Vrátane DPH. <a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe.",
-      "taxes_and_shipping_at_checkout": "DPH a doprava sa vypočítajú pri platbe",
+      "taxes_and_shipping_policy_at_checkout_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe",
+      "taxes_included_but_shipping_at_checkout": "Doprava sa vypočíta pri platbe.",
+      "taxes_included_and_shipping_policy_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe.",
+      "taxes_and_shipping_at_checkout": "Doprava sa vypočíta pri platbe",
       "headings": {
         "product": "Produkt",
         "price": "Cena",
@@ -527,6 +527,51 @@
           "generic": "Vyskytol sa problém s PayPalom. Skúste to znova alebo použite iný spôsob platby."
         }
       }
+    }
+  },
+  "walterin": {
+    "notify": {
+      "newsletter": "Aj newsletter: čo je nové a čo chystáme.",
+      "note": "Jeden e-mail, keď bude hotový. Nič viac.",
+      "privacy_html": "Newsletter len ak zaškrtnete políčko. <a href=\"{{ link }}\">Ochrana osobných údajov</a>."
+    },
+    "withdrawal": {
+      "link": "Odstúpiť od zmluvy tu",
+      "title": "Odstúpenie od zmluvy",
+      "intro": "Od kúpy môžete odstúpiť do 14 dní bez udania dôvodu. Vyplňte formulár a potvrďte. Potvrdenie uvidíte hneď tu a pošleme vám ho aj e-mailom.",
+      "name": "Meno a priezvisko",
+      "email": "E-mail na potvrdenie",
+      "order": "Číslo objednávky",
+      "order_date": "Dátum objednávky (nepovinné)",
+      "items": "Ktorý tovar (nepovinné)",
+      "items_help": "Ak odstupujete od celej objednávky, nechajte prázdne.",
+      "confirm": "Potvrdiť odstúpenie od zmluvy",
+      "subject": "Odstúpenie od zmluvy (online formulár)",
+      "statement": "Týmto oznamujem, že odstupujem od zmluvy na tovar alebo o dodaní digitálneho obsahu uvedeného v tomto formulári.",
+      "success_title": "Odstúpenie sme prijali",
+      "success_body": "Vaše odstúpenie od zmluvy bolo odoslané. Nižšie je jeho obsah a čas odoslania. Uschovajte si ho alebo ho vytlačte. Rovnaké potvrdenie vám posielame e-mailom.",
+      "success_next_html": "Ďalší krok: tovar nám pošlite späť do 14 dní. Ako a kam: <a href=\"{{ link }}\">vrátenie tovaru a peňazí</a>.",
+      "print": "Vytlačiť alebo uložiť",
+      "summary_labels": "Vyhlásenie|Meno|E-mail|Objednávka|Dátum objednávky|Tovar|Odoslané",
+      "note_ebook_html": "Stiahli ste si e-knihu? Ak ste súhlasili s jej okamžitým dodaním a potvrdili, že strácate právo na odstúpenie od zmluvy, pri tejto e-knihe už neplatí. Pozrite si <a href=\"{{ link }}\">obchodné podmienky</a>.",
+      "note_other_html": "Odstúpiť môžete aj e-mailom na <a href=\"mailto:support@walterin.com\">support@walterin.com</a>, poštou alebo vzorovým formulárom."
+    },
+    "ebook_consent": {
+      "notice": "E-knihu dostanete ako odkaz na stiahnutie. Po začatí dodania pri e-knihe zaniká 14-dňové právo na odstúpenie od zmluvy.",
+      "declaration": "Výslovne súhlasím so začatím dodania e-knihy pred uplynutím lehoty na odstúpenie od zmluvy a potvrdzujem, že som bol(a) poučený(á), že tým strácam právo na odstúpenie od zmluvy."
+    },
+    "legal_guarantee": {
+      "title": "Zákonná záruka",
+      "alt": "Zákonná záruka: harmonizované oznámenie EÚ o zákonnej záruke súladu",
+      "text_1": "Zákonná záruka. Minimálne dvojročná zákonná záruka na tovar predávaný v Európskej únii. Spotrebitelia si môžu uplatniť svoje práva na základe zákonnej záruky súladu, napríklad ak tovar nezodpovedá opisu alebo nefunguje tak, ako má. Predajcovia sú zodpovední za akýkoľvek nesúlad, ktorý existoval v čase dodania tovaru a ktorý sa prejaví v zákonnej záručnej lehote. Predajcovia sú v takejto situácii povinní ponúknuť bezplatnú opravu alebo bezplatnú výmenu, v niektorých prípadoch zníženú cenu alebo úplné vrátenie peňazí.",
+      "text_2": "Niektoré krajiny majú dlhšiu zákonnú záručnú lehotu. Na použitý tovar sa môže uplatňovať kratšia lehota, nie však kratšia než jeden rok. Ak sa chcete dozvedieť viac o svojich právach v konkrétnej krajine, naskenujte kód QR alebo sa opýtajte predajcu: europa.eu/youreurope/záruky_sk. Čo robiť, ak dostanete tovar, ktorý nie je v súlade so zmluvou: 1. čo najskôr kontaktujte predajcu a nahláste chybu; 2. poskytnite doklad o kúpe, ako napríklad potvrdenie o zaplatení, faktúru alebo výpis z bankového účtu. Predajcovia a výrobcovia môžu ponúkať aj obchodné záruky, ktoré sa uplatňujú nezávisle od zákonnej záruky. Môžete si napríklad všimnúť toto označenie GARAN. Predstavuje obchodnú záruku životnosti, ktorú ponúka výrobca bez dodatočných nákladov a ktorá sa vzťahuje na celý tovar."
+    },
+    "gpsr": {
+      "title": "Bezpečnosť výrobku",
+      "manufacturer": "Výrobca",
+      "country": "Slovensko",
+      "identifier": "Výrobok",
+      "safety": "Bezpečnostné informácie"
     }
   }
 }

@@ -199,10 +199,6 @@
             "margin_top": 15,
             "margin_bottom": 15
           }
-        },
-        "judge_me_reviews_preview_badge_6fWie9": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
         }
       },
       "block_order": [
@@ -220,8 +216,7 @@
         "custom_liquid_EMWHMD",
         "d505cdfe-d5cf-4aff-8e9e-abca6dae66eb",
         "2edbf491-d07c-4718-b71e-18ffe22ab7dc",
-        "98db29ee-a7dc-429e-8129-bf71131627da",
-        "judge_me_reviews_preview_badge_6fWie9"
+        "98db29ee-a7dc-429e-8129-bf71131627da"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -577,7 +572,7 @@
           "settings": {
             "heading": "What payment methods are accepted?",
             "icon": "check_mark",
-            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
+            "row_content": "<p>We accept Visa, Mastercard, Apple Pay and Google Pay. All payments are processed securely through trusted providers.</p>",
             "page": ""
           }
         },
@@ -646,27 +641,20 @@
     },
     "1764756238d73d5e0e": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_LNk3Kg": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "other_products_reviews"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_LNk3Kg"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "include_margins": true
       }
+    },
+    "legal_info": {
+      "type": "walterin-legal-info",
+      "settings": {}
     }
   },
   "order": [
     "main",
+    "legal_info",
     "image_banner_AVj7db",
     "image_banner_NtQgzj",
     "rich_text_wdNwrm",

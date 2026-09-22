@@ -289,16 +289,16 @@
         </div>
         <div class="wui-buy__price">
           <p class="wui-buy__amount" data-edprice>{{ price }}</p>
+          {%- comment -%} No VAT wording until the VAT status is confirmed (ground truth §1). {%- endcomment -%}
           <p class="wui-small">
-            {{- section.settings.vat_note | escape -}}
             {%- if zone and zone.settings.price != blank -%}
               {%- assign ship_line = section.settings.shipping_template | replace: '[country]', visitor_name | replace: '[price]', zone.settings.price -%}
-              {{ ' · ' }}{{ ship_line | escape }}
+              {{ ship_line | escape }}
               {%- if zone.settings.free_over != blank -%}
                 {{ ' · ' }}{{ section.settings.free_template | replace: '[amount]', zone.settings.free_over | escape }}
               {%- endif -%}
             {%- elsif section.settings.shipping_fallback != blank -%}
-              {{ ' · ' }}{{ section.settings.shipping_fallback | escape }}
+              {{ section.settings.shipping_fallback | escape }}
             {%- endif -%}
           </p>
         </div>
@@ -383,11 +383,13 @@
                       {{ form.errors | default_errors }}
                     </p>
                   {%- endif -%}
+                  <label class="wui-check wui-small" for="{{ notify_id }}-newsletter">
+                    <input type="checkbox" id="{{ notify_id }}-newsletter" class="wui-check__box" data-wui-newsletter>
+                    <span>{{ 'walterin.notify.newsletter' | t }}</span>
+                  </label>
                   <div class="wui-notify__notes wui-small">
-                    <p>{{ section.settings.notify_note | escape | replace: '[edition]', edname_html }}</p>
-                    {%- if section.settings.notify_privacy != blank -%}
-                      <div class="wui-rte">{{ section.settings.notify_privacy }}</div>
-                    {%- endif -%}
+                    <p>{{ 'walterin.notify.note' | t }}</p>
+                    <div class="wui-rte"><p>{{ 'walterin.notify.privacy_html' | t: link: shop.privacy_policy.url }}</p></div>
                   </div>
                 {%- endif -%}
               {%- endform -%}
@@ -723,6 +725,8 @@
   .wui .wui-notify__row .wui-input { flex: 1; }
   .wui .wui-notify__row .wui-btn { flex: none; }
   .wui .wui-notify__notes { display: flex; flex-direction: column; gap: var(--wui-8); }
+  .wui .wui-check { display: flex; align-items: flex-start; gap: var(--wui-8); cursor: pointer; }
+  .wui .wui-check__box { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--wui-ink, #222); }
   @media (max-width: 479px) {
     .wui .wui-notify__row { flex-direction: column; }
     .wui .wui-notify__row .wui-btn { width: 100%; }
@@ -803,7 +807,6 @@
     { "type": "text", "id": "thesis", "label": "Thesis line", "default": "78 cards. One illustrator. Every card a nine-frame comic." },
 
     { "type": "header", "content": "Price" },
-    { "type": "text", "id": "vat_note", "label": "VAT note", "default": "VAT included" },
     { "type": "text", "id": "shipping_fallback", "label": "Shipping note when no delivery zones are set", "default": "Shipping calculated at checkout" },
     { "type": "text", "id": "shipping_template", "label": "Shipping cost line", "info": "Used once delivery zones exist. [country] = visitor's country, [price] = zone price.", "default": "Shipping to [country] [price]" },
     { "type": "text", "id": "free_template", "label": "Free shipping line", "info": "[amount] = the zone's threshold.", "default": "free over [amount]" },
@@ -821,17 +824,15 @@
     { "type": "text", "id": "notify_label", "label": "Email label (screen readers)", "default": "Email address" },
     { "type": "text", "id": "notify_placeholder", "label": "Email placeholder", "default": "Your email address" },
     { "type": "text", "id": "notify_button", "label": "Button", "default": "Notify me" },
-    { "type": "text", "id": "notify_note", "label": "Note", "info": "[edition] = the chosen edition.", "default": "One email when the [edition] edition is ready. Nothing else." },
-    { "type": "text", "id": "notify_success", "label": "Success message", "info": "[edition] = the chosen edition.", "default": "You're on the list for the [edition] edition. One email when it's ready." },
-    { "type": "richtext", "id": "notify_privacy", "label": "Privacy line", "default": "<p>We use your email for this message only. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>" },
+        { "type": "text", "id": "notify_success", "label": "Success message", "info": "[edition] = the chosen edition.", "default": "You're on the list for the [edition] edition. One email when it's ready." },
     { "type": "text", "id": "waitlist_tag", "label": "Customer tag", "info": "Signups get this tag plus one per edition, e.g. tarot-waitlist-en. Not shown to visitors.", "default": "tarot-waitlist" },
 
     { "type": "header", "content": "Launch day: buy" },
     { "type": "text", "id": "atc_label", "label": "Add to cart button", "info": "Followed by the edition and price.", "default": "Add to cart" },
-    { "type": "checkbox", "id": "show_express", "label": "Show Apple Pay / Google Pay / PayPal button", "info": "Shopify shows the fastest wallet for each buyer, plus 'More payment options'.", "default": true },
+    { "type": "checkbox", "id": "show_express", "label": "Show express checkout button (Apple Pay / Google Pay)", "info": "Shopify shows the fastest wallet for each buyer, plus 'More payment options'.", "default": true },
 
     { "type": "header", "content": "Assurance rows (under the button)" },
-    { "type": "text", "id": "assure_payment", "label": "Payment", "default": "Apple Pay, Google Pay, cards, PayPal" },
+    { "type": "text", "id": "assure_payment", "label": "Payment", "default": "Apple Pay, Google Pay, cards" },
     { "type": "text", "id": "assure_shipping", "label": "Shipping", "default": "Ships across the EU" },
     { "type": "text", "id": "assure_edition", "label": "Edition", "default": "First edition, 100 copies per language" },
     { "type": "checkbox", "id": "show_returns", "label": "Show returns (line + section)", "info": "Switch on once the refund policy is published.", "default": false },

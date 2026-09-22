@@ -1,0 +1,81 @@
+{%- comment -%}
+  Product legal info, under the product.
+  1. Legal guarantee: the EU harmonised notice (§ 5(1)(f) zákona 108/2024 Z. z. from 27 Sep 2026;
+     Implementing Regulation (EU) 2025/1960), shown open, not collapsed ("prominent").
+  2. Product safety (GPSR, Reg. (EU) 2023/988, Art. 19): manufacturer, product identifier, safety notes.
+     Safety notes come from the product metafield custom.safety_info (multi-line text) or the section setting.
+     Nothing is invented: if neither is set, visitors see no safety line; the theme editor shows a reminder.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign safety = product.metafields.custom.safety_info.value | default: section.settings.safety_info
+-%}
+<div class="page-width wli" id="LegalInfo-{{ section.id }}">
+  {%- comment -%}
+    Official harmonised notice, unedited, in colour (Impl. Reg. (EU) 2025/1960, Annex I, notes 1 and 5).
+    Image files: official Annex I images (EN / SK). Other languages fall back to EN.
+  {%- endcomment -%}
+  {%- if request.locale.iso_code == 'sk' -%}
+    {%- assign notice_file = 'eu-legal-guarantee-notice-sk.jpg' -%}
+  {%- else -%}
+    {%- assign notice_file = 'eu-legal-guarantee-notice-en.jpg' -%}
+  {%- endif -%}
+  <figure class="wli__notice">
+    <a href="{{ notice_file | asset_url }}" target="_blank" rel="noopener">
+      <img
+        src="{{ notice_file | asset_url }}"
+        alt="{{ 'walterin.legal_guarantee.alt' | t | escape }}"
+        width="1215" height="1569" loading="lazy"
+      >
+    </a>
+    <figcaption class="visually-hidden">{{ 'walterin.legal_guarantee.text_1' | t }} {{ 'walterin.legal_guarantee.text_2' | t }}</figcaption>
+  </figure>
+  <details class="wli__item">
+    <summary class="wli__summary">{{ 'walterin.gpsr.title' | t }}</summary>
+    <div class="wli__body rte">
+      <p><strong>{{ 'walterin.gpsr.manufacturer' | t }}</strong><br>
+        Walterin s. r. o.<br>
+        Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, {{ 'walterin.gpsr.country' | t }}<br>
+        <a href="mailto:support@walterin.com">support@walterin.com</a>
+      </p>
+      <p><strong>{{ 'walterin.gpsr.identifier' | t }}</strong><br>
+        {{ product.title | escape }}
+        {%- unless product.has_only_default_variant %} · {{ v.title | escape }}{% endunless -%}
+        {%- if v.sku != blank %} · SKU {{ v.sku | escape }}{% endif -%}
+        {%- if v.barcode != blank %} · {{ v.barcode | escape }}{% endif -%}
+      </p>
+      {%- if safety != blank -%}
+        <p><strong>{{ 'walterin.gpsr.safety' | t }}</strong><br>{{ safety | escape | newline_to_br }}</p>
+      {%- elsif request.design_mode -%}
+        <p class="wli__todo">Safety notes missing: fill the product metafield custom.safety_info (from Walter / printer). Not shown to visitors.</p>
+      {%- endif -%}
+    </div>
+  </details>
+</div>
+
+<style>
+  .wli { display: grid; gap: 1.2rem; padding-block: 3.2rem; max-width: 76rem; }
+  .wli__item { border: 2px solid rgb(var(--color-foreground, 34 34 34)); border-radius: 8px; background: rgb(var(--color-background, 255 253 247)); }
+  .wui .wli__item { border-color: var(--wui-ink); background: var(--wui-paper); }
+  .wli__summary { cursor: pointer; padding: 1.4rem 1.6rem; font-weight: 700; font-size: 1.6rem; list-style-position: inside; }
+  .wli__body { padding: 0 1.6rem 1.6rem; font-size: 1.4rem; line-height: 1.5; }
+  .wli__body p { margin: 0 0 1rem; }
+  .wli__todo { padding: 0.8rem 1rem; background: #fcf205; }
+  .wli__notice { margin: 0 0 1.2rem; max-width: 56rem; }
+  .wli__notice img { display: block; width: 100%; height: auto; }
+  .wui .wli__summary { font-family: var(--wui-display, inherit); font-size: var(--wui-fs-label, 2rem); font-weight: 400; }
+  .wui .wli__body { font-size: var(--wui-fs-small, 1.4rem); }
+</style>
+
+{% schema %}
+{
+  "name": "Legal info",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "textarea", "id": "safety_info", "label": "Safety notes (fallback)", "info": "Used when the product has no custom.safety_info metafield. Real data only (Walter / printer)." }
+  ],
+  "presets": [{ "name": "Legal info" }]
+}
+{% endschema %}

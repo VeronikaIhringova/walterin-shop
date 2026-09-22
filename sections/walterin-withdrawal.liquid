@@ -1,0 +1,138 @@
+{%- comment -%}
+  Online withdrawal function (§ 20a zákona 108/2024 Z. z.; Art. 11a Directive 2011/83/EU).
+  - Reached from the footer link "Odstúpiť od zmluvy tu" / "Withdraw from contract here".
+  - Works without login: Shopify contact form, sent to the store's contact email.
+  - Asks for name, order identification and the email for the confirmation (§ 20a(3)).
+  - Submit button "Potvrdiť odstúpenie od zmluvy" / "Confirm withdrawal" (§ 20a(4)).
+  - On success: on-screen confirmation with content, date and time; the customer can print it.
+    The confirmation EMAIL to the customer (§ 20a(5), durable medium) needs an app — see
+    docs/legal/withdrawal-function-plan.md. Do not publish this page before that works.
+  Texts: locales (walterin.withdrawal.*).
+{%- endcomment -%}
+{%- assign fid = 'WuiWithdrawal-' | append: section.id -%}
+<div class="wui-scope">
+  <div class="wui-wrap wui-withdraw">
+    <h1 class="wui-title">{{ 'walterin.withdrawal.title' | t }}</h1>
+    <div class="wui-withdraw__intro wui-rte">
+      <p>{{ 'walterin.withdrawal.intro' | t }}</p>
+    </div>
+
+    {%- form 'contact', id: fid, class: 'wui-withdraw__form', data-wui-withdraw: '' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="wui-status wui-status--success wui-withdraw__done" role="status" tabindex="-1" data-wui-withdraw-done>
+          <p class="wui-label">{{ 'walterin.withdrawal.success_title' | t }}</p>
+          <p>{{ 'walterin.withdrawal.success_body' | t }}</p>
+          <dl class="wui-dl wui-small" data-wui-withdraw-summary hidden></dl>
+          <p class="wui-small">{{ 'walterin.withdrawal.success_next_html' | t: link: shop.refund_policy.url }}</p>
+          <p>
+            {%- capture print_label -%}{{ 'walterin.withdrawal.print' | t }}{%- endcapture -%}
+            {%- render 'wui-button', label: print_label, variant: 'secondary', size: 'sm', attrs: 'data-wui-print' -%}
+          </p>
+        </div>
+      {%- else -%}
+        {%- if form.errors -%}
+          <p class="wui-status wui-status--error" role="alert">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+        <input type="hidden" name="contact[subject]" value="{{ 'walterin.withdrawal.subject' | t }}">
+        <input type="hidden" name="contact[statement]" value="{{ 'walterin.withdrawal.statement' | t }}">
+        <input type="hidden" name="contact[sent_at]" value="" data-wui-sent-at>
+        <input type="hidden" name="contact[language]" value="{{ request.locale.iso_code }}">
+
+        <div class="wui-withdraw__field">
+          <label class="wui-label" for="{{ fid }}-name">{{ 'walterin.withdrawal.name' | t }}</label>
+          <input class="wui-input" type="text" id="{{ fid }}-name" name="contact[name]" autocomplete="name" required>
+        </div>
+        <div class="wui-withdraw__field">
+          <label class="wui-label" for="{{ fid }}-email">{{ 'walterin.withdrawal.email' | t }}</label>
+          <input class="wui-input" type="email" id="{{ fid }}-email" name="contact[email]" autocomplete="email" required>
+        </div>
+        <div class="wui-withdraw__field">
+          <label class="wui-label" for="{{ fid }}-order">{{ 'walterin.withdrawal.order' | t }}</label>
+          <input class="wui-input" type="text" id="{{ fid }}-order" name="contact[order_number]" placeholder="#1001" required>
+        </div>
+        <div class="wui-withdraw__field">
+          <label class="wui-label" for="{{ fid }}-date">{{ 'walterin.withdrawal.order_date' | t }}</label>
+          <input class="wui-input" type="date" id="{{ fid }}-date" name="contact[order_date]">
+        </div>
+        <div class="wui-withdraw__field">
+          <label class="wui-label" for="{{ fid }}-items">{{ 'walterin.withdrawal.items' | t }}</label>
+          <textarea class="wui-input wui-withdraw__textarea" id="{{ fid }}-items" name="contact[items]" rows="3"></textarea>
+          <p class="wui-small">{{ 'walterin.withdrawal.items_help' | t }}</p>
+        </div>
+
+        {%- capture confirm_label -%}{{ 'walterin.withdrawal.confirm' | t }}{%- endcapture -%}
+        {%- render 'wui-button', label: confirm_label, type: 'submit', block: true -%}
+
+        <div class="wui-withdraw__notes wui-small wui-rte">
+          <p>{{ 'walterin.withdrawal.note_ebook_html' | t: link: shop.terms_of_service.url }}</p>
+          <p>{{ 'walterin.withdrawal.note_other_html' | t }}</p>
+        </div>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById('{{ fid }}');
+    if (!form) return;
+    var KEY = 'wui-withdrawal';
+    var done = form.querySelector('[data-wui-withdraw-done]');
+    if (!done) {
+      form.addEventListener('submit', function () {
+        var now = new Date();
+        var stamp = now.toLocaleString(document.documentElement.lang || undefined, { dateStyle: 'long', timeStyle: 'short' });
+        var sent = form.querySelector('[data-wui-sent-at]');
+        if (sent) sent.value = now.toISOString() + ' (' + stamp + ')';
+        var get = function (n) { var el = form.querySelector('[name="contact[' + n + ']"]'); return el ? el.value : ''; };
+        try {
+          sessionStorage.setItem(KEY, JSON.stringify({
+            name: get('name'), email: get('email'), order: get('order_number'),
+            date: get('order_date'), items: get('items'), statement: get('statement'), sent: stamp
+          }));
+        } catch (e) {}
+      });
+      return;
+    }
+    done.focus({ preventScroll: false });
+    var box = done.querySelector('[data-wui-withdraw-summary]');
+    var data = null;
+    try { data = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (box && data) {
+      var labels = {{ 'walterin.withdrawal.summary_labels' | t | json }}.split('|');
+      var rows = [data.statement, data.name, data.email, data.order, data.date, data.items, data.sent];
+      rows.forEach(function (v, i) {
+        if (!v) return;
+        var dt = document.createElement('dt'); dt.textContent = labels[i] || '';
+        var dd = document.createElement('dd'); dd.textContent = v;
+        box.appendChild(dt); box.appendChild(dd);
+      });
+      box.hidden = false;
+    }
+    var print = done.querySelector('[data-wui-print]');
+    if (print) print.addEventListener('click', function (e) { e.preventDefault(); window.print(); });
+  })();
+</script>
+
+<style>
+  .wui .wui-withdraw { max-width: 640px; padding-block: var(--wui-48) var(--wui-96); display: grid; gap: var(--wui-group); }
+  .wui .wui-withdraw__form { display: grid; gap: var(--wui-24); }
+  .wui .wui-withdraw__field { display: grid; gap: var(--wui-16); }
+  .wui .wui-withdraw__field .wui-small { margin: 0; }
+  .wui .wui-withdraw__textarea { min-height: 96px; resize: vertical; }
+  .wui .wui-withdraw__notes { display: grid; gap: var(--wui-8); }
+  .wui .wui-withdraw__done { display: grid; gap: var(--wui-12); }
+  @media (max-width: 749px) { .wui .wui-withdraw { padding-block: var(--wui-24) var(--wui-48); } }
+  @media print {
+    body.wui > *:not(main), .wui header, .wui footer, .wui [data-wui-print] { display: none !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Withdrawal (§ 20a)",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

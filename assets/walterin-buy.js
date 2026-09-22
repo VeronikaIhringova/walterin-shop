@@ -153,7 +153,18 @@
   /* ---------- Notify ---------- */
   function notify(root) {
     var form = $('[data-wui-notify]', root);
-    if (!form || !window.fetch || !window.DOMParser) return;
+    if (!form) return;
+    // Every signup gets the waitlist tags; 'newsletter' only when the visitor ticks the box.
+    // The box has no name, so without JS nobody is tagged for the newsletter.
+    form.addEventListener('submit', function () {
+      var tags = $('[data-wui-tag]', form);
+      var box = $('[data-wui-newsletter]', form);
+      if (!tags) return;
+      var list = tags.value.split(',').filter(function (x) { return x && x !== 'newsletter'; });
+      if (box && box.checked) list.push('newsletter');
+      tags.value = list.join(',');
+    });
+    if (!window.fetch || !window.DOMParser) return;
     form.addEventListener('submit', function (e) {
       var email = $('[data-wui-email]', form);
       if (email && !email.checkValidity()) return; // let the browser explain

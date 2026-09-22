@@ -461,6 +461,20 @@
                 </li>
               {%- endif -%}
             {%- endfor -%}
+            {%- comment -%} § 20a online withdrawal function: always visible, no login. {%- endcomment -%}
+            <li>
+              <small class="copyright__content"
+                ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
+              >
+            </li>
+          </ul>
+        {%- else -%}
+          <ul class="policies list-unstyled">
+            <li>
+              <small class="copyright__content"
+                ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
+              >
+            </li>
           </ul>
         {%- endif -%}
       </div>

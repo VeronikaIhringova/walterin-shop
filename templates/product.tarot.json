@@ -76,7 +76,7 @@
           "type": "faq_item",
           "settings": {
             "question": "When does it ship?",
-            "answer": "<p>The first run of 150 decks goes to print soon. Order now and your deck ships the moment it lands — we'll email you the date.</p>"
+            "answer": "<p>First edition: 100 copies in English, 100 in Slovak. No date yet. Leave your email and we'll tell you when it's ready.</p>"
           }
         },
         "faq_item_t4ADqG": {
@@ -443,7 +443,7 @@
           "settings": {
             "heading": "What payment methods are accepted?",
             "icon": "check_mark",
-            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
+            "row_content": "<p>We accept Visa, Mastercard, Apple Pay and Google Pay. All payments are processed securely through trusted providers.</p>",
             "page": ""
           }
         },
@@ -512,27 +512,20 @@
     },
     "1764756238d73d5e0e": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_LNk3Kg": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "other_products_reviews"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_LNk3Kg"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "include_margins": true
       }
+    },
+    "legal_info": {
+      "type": "walterin-legal-info",
+      "settings": {}
     }
   },
   "order": [
     "main",
+    "legal_info",
     "whats_inside_cards",
     "how_it_works",
     "meet_walter",

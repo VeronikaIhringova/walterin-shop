@@ -590,7 +590,7 @@
           "settings": {
             "heading": "What payment methods are accepted?",
             "icon": "check_mark",
-            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
+            "row_content": "<p>We accept Visa, Mastercard, Apple Pay and Google Pay. All payments are processed securely through trusted providers.</p>",
             "page": ""
           }
         },
@@ -655,10 +655,15 @@
         "custom_container_gradient_background": "",
         "custom_contaner_colors_text": "#fffdf7"
       }
+    },
+    "legal_info": {
+      "type": "walterin-legal-info",
+      "settings": {}
     }
   },
   "order": [
     "main",
+    "legal_info",
     "image_banner_AVj7db",
     "image_banner_NtQgzj",
     "rich_text_wdNwrm",

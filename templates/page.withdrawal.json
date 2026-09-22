@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "walterin-withdrawal",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

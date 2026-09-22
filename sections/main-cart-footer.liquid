@@ -48,6 +48,7 @@
             {% when 'discount_field' %}
               {% render 'cart-discount-field' %}
             {%- else -%}
+              {%- render 'cart-ebook-consent', form_id: 'cart' -%}
               <div class="cart__ctas" {{ block.shopify_attributes }}>
                 <noscript>
                   <button type="submit" class="cart__update-button button button--secondary" form="cart">
@@ -69,7 +70,12 @@
                 </button>
               </div>
 
-              {%- if additional_checkout_buttons -%}
+              {%- comment -%} Express buttons skip the eBook consent, so hide them when an eBook is in the cart. {%- endcomment -%}
+              {%- assign cart_has_ebook = false -%}
+              {%- for item in cart.items -%}
+                {%- if item.requires_shipping == false -%}{%- assign cart_has_ebook = true -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if additional_checkout_buttons and cart_has_ebook == false -%}
                 <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
                   {{ content_for_additional_checkout_buttons }}
                 </div>

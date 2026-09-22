@@ -97,7 +97,12 @@
               </svg>
             </div>
           </button>
-          {%- if block.settings.show_dynamic_checkout -%}
+          {%- comment -%} No express checkout for products with a digital (eBook) variant: it would skip the eBook consent in the cart. {%- endcomment -%}
+          {%- assign product_has_ebook = false -%}
+          {%- for v in product.variants -%}
+            {%- if v.requires_shipping == false -%}{%- assign product_has_ebook = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if block.settings.show_dynamic_checkout and product_has_ebook == false -%}
             {{ form | payment_button }}
           {%- endif -%}
         </div>
