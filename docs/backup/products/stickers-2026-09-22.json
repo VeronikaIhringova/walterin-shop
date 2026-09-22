@@ -1,0 +1,74 @@
+{
+  "productByHandle": {
+    "id": "gid://shopify/Product/9579275223369",
+    "title": "Walterin Prague Sticker Set",
+    "descriptionHtml": "",
+    "metafields": {
+      "nodes": [
+        {
+          "id": "gid://shopify/Metafield/156740169793865",
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Walterin Prague Sticker Set | Illustrated City Icons & Characters"
+        },
+        {
+          "id": "gid://shopify/Metafield/156740169826633",
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "A fun illustrated Prague sticker set with Walterin characters, city icons, and comic-style artwork. Ideal for notebooks, gifts, creatives, and Prague lovers."
+        },
+        {
+          "id": "gid://shopify/Metafield/156740750147913",
+          "namespace": "custom",
+          "key": "details",
+          "type": "multi_line_text_field",
+          "value": "– Two 210 × 210 mm sticker sheets (high-quality matte finish)\n– Walterin original comic stickers from the Prague edition\n– Durable adhesive (long-lasting, won’t peel easily)\n– Crisp, vibrant colours with premium art-print quality\n– Each sheet includes mini Prague stories hidden in the icons\n– Designed for laptops, notebooks, journals, water bottles & gifts"
+        },
+        {
+          "id": "gid://shopify/Metafield/156741477925193",
+          "namespace": "custom",
+          "key": "emoji_benefits",
+          "type": "multi_line_text_field",
+          "value": "🎨 Original artwork illustrated by the Walterin cartoonist\n👕 Premium cotton comfort — soft, breathable, everyday wear\n🏛️ Prague-inspired design featuring Café Slavia & Absinthe Drinker"
+        },
+        {
+          "id": "gid://shopify/Metafield/156741637439817",
+          "namespace": "custom",
+          "key": "product_emoji_benefits",
+          "type": "rich_text_field",
+          "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"✨ \"},{\"type\":\"text\",\"value\":\"30 Prague Comic Stickers\",\"bold\":true},{\"type\":\"text\",\"value\":\"\\n\\n📄 \"},{\"type\":\"text\",\"value\":\"Two\",\"bold\":true},{\"type\":\"text\",\"value\":\" \"},{\"type\":\"text\",\"value\":\"square sheets\",\"bold\":true},{\"type\":\"text\",\"value\":\" (210 × 210 mm)\\n\\n📌 Long-lasting hold for \"},{\"type\":\"text\",\"value\":\"journals, laptops, luggage & bottles\",\"bold\":true}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"\"}]}]}"
+        },
+        {
+          "id": "gid://shopify/Metafield/158809200853321",
+          "namespace": "shopify",
+          "key": "theme",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/280772247881\",\"gid://shopify/Metaobject/280772542793\",\"gid://shopify/Metaobject/280772575561\",\"gid://shopify/Metaobject/280772608329\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158809222775113",
+          "namespace": "shopify",
+          "key": "color-pattern",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/280772641097\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158809222807881",
+          "namespace": "shopify",
+          "key": "adhesive-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/280772739401\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158809222840649",
+          "namespace": "shopify",
+          "key": "embellishment-trim-material",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/280772673865\",\"gid://shopify/Metaobject/280772706633\"]"
+        }
+      ]
+    }
+  }
+}

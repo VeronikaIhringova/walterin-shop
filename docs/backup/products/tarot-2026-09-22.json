@@ -1,0 +1,39 @@
+{
+  "productByHandle": {
+    "id": "gid://shopify/Product/9872039575881",
+    "title": "Comics Tarot of Consciousness",
+    "descriptionHtml": "<p data-start=\"136\" data-end=\"230\">• <strong>Intuitive 9-layer system</strong><br data-start=\"162\" data-end=\"165\">•<strong> Everything lives within the cards </strong>- no heavy guidebook needed</p>\n<p data-start=\"232\" data-end=\"314\">• <em>Includes 3 reading systems</em><br data-start=\"260\" data-end=\"263\">• Built around the <strong>unique 9-frame Walterin system</strong></p>\n<p data-start=\"316\" data-end=\"370\">• Original illustrations<br data-start=\"340\" data-end=\"343\">• Inspired by Rider–Waite</p>\n<p data-start=\"372\" data-end=\"396\">• Major &amp; Minor Arcana</p>\n<p data-start=\"398\" data-end=\"446\">• Limited edition — 100 pieces<br data-start=\"428\" data-end=\"431\">• Hand-signed<strong data-start=\"544\" data-end=\"594\"></strong></p>",
+    "metafields": {
+      "nodes": [
+        {
+          "id": "gid://shopify/Metafield/154998202040649",
+          "namespace": "shopify",
+          "key": "skill-level",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/219982102857\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/160384299041097",
+          "namespace": "custom",
+          "key": "product_emoji_benefits",
+          "type": "rich_text_field",
+          "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🎴 \"},{\"type\":\"text\",\"value\":\"78-Card Original Illustrated Deck\",\"bold\":true}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🧠 \"},{\"type\":\"text\",\"value\":\"Intuitive Design:\",\"bold\":true},{\"type\":\"text\",\"value\":\" No guidebook required\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"💎 \"},{\"type\":\"text\",\"value\":\"Limited:\",\"bold\":true},{\"type\":\"text\",\"value\":\" Only 100 signed & numbered copies\"}]}]}"
+        },
+        {
+          "id": "gid://shopify/Metafield/160384538804553",
+          "namespace": "custom",
+          "key": "details",
+          "type": "multi_line_text_field",
+          "value": "– Cards: 78\n– Content: Comic-style illustrated cards\n– Structure: 22 Major Arcana & 56 Minor Arcana\n– Size: 84 × 138 mm\n– System: Walterin 9-frame storytelling\n– Print: Full-colour (CMYK)\n– Material: Premium cardstock\n– Finish: Matte\n– Language: English"
+        },
+        {
+          "id": "gid://shopify/Metafield/161905838555465",
+          "namespace": "mc-facebook",
+          "key": "google_product_category",
+          "type": "string",
+          "value": "499711"
+        }
+      ]
+    }
+  }
+}
