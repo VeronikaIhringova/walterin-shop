@@ -1,0 +1,977 @@
+{% doc %}
+  @prompt
+    Create a custom Online Store 2.0 section in Liquid called "feature-icons-row".
+    
+    The section should display three feature items similar to an icon + text row. Use blocks, so I can add up to 3 items.
+    
+    Each block must contain:
+    
+    an icon image (image_picker)
+    
+    a heading (text)
+    
+    a subtext (richtext or textarea)
+    
+    a link (URL/page selector)
+    
+    The icon image must be clickable and behave as a button: clicking anywhere on the icon or the block should go to the block’s link.
+    
+    Layout:
+    
+    On desktop, show the blocks horizontally in one row (3 columns).
+    
+    On mobile, stack them vertically (one per row).
+    
+    Use a clean, minimal style based on this structure:
+    
+    icon on the left / top
+    
+    heading in bold
+    
+    subtext below
+    
+    Add section settings:
+    
+    background color (color picker)
+    
+    padding top + padding bottom (range)
+    
+    max width for the content (range, e.g. 800–1400px) and center it.
+    
+    Add block settings:
+    
+    icon width (range, e.g. 40–120px)
+    
+    heading text
+    
+    subtext text
+    
+    link (url)
+    
+    Use semantic HTML, flexbox for layout, and a simple default for font sizes., Continue improving the "feature-icons-row" section you just created.
+    
+    Responsive behaviour
+    
+    Use CSS media queries so that:
+    
+    For screens ≥ 900px, the blocks are arranged in a horizontal row with equal width (3 columns).
+    
+    For screens < 900px, the blocks stack vertically and span full width.
+    
+    Also add a section setting called force_vertical_on_desktop (checkbox). If true, always stack blocks vertically even on large screens.
+    
+    Interactive icons / buttons
+    
+    Make each block behave like a button:
+    
+    cursor changes to pointer on hover
+    
+    add a hover effect: slight scale-up and subtle shadow (e.g. transform: scale(1.03); box-shadow).
+    
+    add a smooth transition (e.g. 150–200ms) for transform and shadow.
+    
+    Ensure the whole block is clickable, not only the text.
+    
+    Extra customization settings
+    
+    Section settings:
+    
+    gap between blocks (range, e.g. 8–48px)
+    
+    text alignment (dropdown: left, center)
+    
+    Block settings:
+    
+    icon alignment (dropdown: left, center, top)
+    
+    optional accent co, but i need 3 of these and also desktop horizontal layout and mobile vertical layout, plus I need when clicked to open a widow which will show an image on the top like a banner horizontal and heading and mor etext, like extention of the text in with the icon, so the text within the icon should end with ... and like a read more.. so they open it to read more about the sections, and it has to be 3 buttons like this next to each other, so one two three, each having the icon, heading and text and they are next to each other, okay lets not make the window it doesnt look good, lets make it that the text expands horizontally on desktop over the other buttons and on mobile vertically down. , it doesnt work properly the window opening, it should expand over the buttons placement, not beneath, also get rid of the close button, only do read more read less and also when cliked on the button it opens and when clikec on the opened window anywhere on it it closes, add when clicked on the heading when the window is opened also close it so the two closing things are the read less and the heading part. , more options to move the icons like on the top of the text, centre, down, left alignment up or centred, insetad of the button effect the square behind the text, lets make all of them like grey including the yellow read more, and when hovered everything turns colourful, when clicked else where on the page clos ethe window, and get rid of the background square behind the frame which kinda hold it, only when opened keep a white background behind the body text, when the window opens up, also get rid of the background square frame, make it the same looking just like extended version. add possibility to show or not show the expanded banner and also add that the full text and the read less can be aligned to left right or center, okay add a background behind the opening window, but make the edges bleded very well not too sharp and also give me option to change the colour of it, when the content is expanded make the text centred yes but also the icon and the heading, add a nice animation when opened and closed like a slower, not too quick like now, just make the expanded colour of the container not blended like now, make it solid with just a little blend on the edges and so we can use different oclur son each button, make it customisable eahc of them, the same with the banner, one can have a banner other doesnt have to have it, the space between the heading and text should be the same when the widown is closed and when opened, also with the banner, so the space betwene the heading and banner or text alaway sthe same and can beaslo edited, add customisable option of the spaces between, also make each icon separate in sizing so each can have different size, expanded content I need more option to edit the spacing between the content, between the heading and the body text please, there is a bug when closing the expanded content, it shows some things for asecond, we want this to be smooth without any bugs
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-features-row-{{ ai_gen_id }} {
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.section_background }};
+  }
+
+  .ai-features-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .ai-features-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.gap }}px;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }} {
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    padding: 24px;
+    background-color: transparent;
+    position: relative;
+    filter: grayscale(1);
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}:hover {
+    filter: grayscale(0);
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    filter: grayscale(0);
+    box-shadow: 0 0 40px 15px var(--expanded-bg-color);
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--expanded-bg-color);
+    border-radius: 8px;
+    z-index: -1;
+    opacity: 0.95;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-left-top {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-left-center {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-left-bottom {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-top-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-top-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-bottom-left {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .ai-feature-content-{{ ai_gen_id }}.layout-bottom-center {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-content-{{ ai_gen_id }}.align-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-content-{{ ai_gen_id }}.align-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-content-{{ ai_gen_id }}.align-right {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .ai-feature-icon-wrapper-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: {{ block.settings.icon_spacing }}px;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-icon-wrapper-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.expanded_icon_spacing }}px;
+  }
+
+  .ai-feature-icon-{{ ai_gen_id }} {
+    height: auto;
+    display: block;
+  }
+
+  .ai-feature-text-{{ ai_gen_id }} {
+    flex-grow: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .layout-top-center .ai-feature-text-{{ ai_gen_id }},
+  .layout-bottom-center .ai-feature-text-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .layout-left-top .ai-feature-text-{{ ai_gen_id }},
+  .layout-left-center .ai-feature-text-{{ ai_gen_id }},
+  .layout-left-bottom .ai-feature-text-{{ ai_gen_id }},
+  .layout-top-left .ai-feature-text-{{ ai_gen_id }},
+  .layout-bottom-left .ai-feature-text-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-text-{{ ai_gen_id }} {
+    text-align: {{ block.settings.expanded_text_alignment }};
+  }
+
+  .ai-feature-heading-{{ ai_gen_id }} {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 {{ block.settings.heading_spacing }}px 0;
+    color: {{ block.settings.heading_color }};
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-heading-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.expanded_heading_spacing }}px;
+  }
+
+  .ai-feature-preview-{{ ai_gen_id }} {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    opacity: 1;
+    max-height: 100px;
+    transition: opacity 0.2s ease, max-height 0.3s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-preview-{{ ai_gen_id }} {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .ai-feature-read-more-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 8px;
+    display: inline-block;
+    opacity: 1;
+    max-height: 30px;
+    transition: opacity 0.2s ease, max-height 0.3s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-read-more-{{ ai_gen_id }} {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .ai-feature-placeholder-{{ ai_gen_id }} {
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .ai-feature-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-feature-expanded-content-{{ ai_gen_id }} {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-expanded-content-{{ ai_gen_id }} {
+    max-height: 2000px;
+    opacity: 1;
+    margin-top: {{ block.settings.content_spacing }}px;
+    text-align: {{ block.settings.expanded_text_alignment }};
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.5s ease 0.2s;
+  }
+
+  .ai-feature-banner-{{ ai_gen_id }} {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: {{ block.settings.banner_spacing }}px;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-banner-{{ ai_gen_id }} {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, opacity 0.5s ease 0.3s;
+  }
+
+  .ai-feature-banner-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 200px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-bottom: {{ block.settings.banner_spacing }}px;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-banner-placeholder-{{ ai_gen_id }} {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, opacity 0.5s ease 0.3s;
+  }
+
+  .ai-feature-banner-placeholder-{{ ai_gen_id }} svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.3;
+  }
+
+  .ai-feature-full-text-{{ ai_gen_id }} {
+    font-size: 16px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+    margin-bottom: {{ block.settings.text_spacing }}px;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-full-text-{{ ai_gen_id }} {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s, opacity 0.5s ease 0.4s;
+  }
+
+  .ai-feature-full-text-{{ ai_gen_id }} p {
+    margin: 0 0 16px 0;
+  }
+
+  .ai-feature-full-text-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-feature-read-less-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .ai-feature-item-{{ ai_gen_id }}.expanded .ai-feature-read-less-{{ ai_gen_id }} {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s, opacity 0.5s ease 0.5s;
+  }
+
+  @media screen and (max-width: 899px) {
+    .ai-features-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-feature-content-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ai-feature-text-{{ ai_gen_id }} {
+      text-align: left;
+    }
+
+    .ai-feature-banner-{{ ai_gen_id }},
+    .ai-feature-banner-placeholder-{{ ai_gen_id }} {
+      height: 150px;
+    }
+  }
+{% endstyle %}
+
+<features-row-{{ ai_gen_id }} {{ block.shopify_attributes }}>
+  <div class="ai-features-row-{{ ai_gen_id }}">
+    <div class="ai-features-container-{{ ai_gen_id }}">
+      <div class="ai-features-grid-{{ ai_gen_id }}">
+        {% for i in (1..3) %}
+          {% liquid
+            assign icon_key = 'icon_' | append: i
+            assign icon_width_key = 'icon_width_' | append: i
+            assign heading_key = 'heading_' | append: i
+            assign preview_key = 'preview_' | append: i
+            assign banner_key = 'banner_' | append: i
+            assign show_banner_key = 'show_banner_' | append: i
+            assign full_text_key = 'full_text_' | append: i
+            assign expanded_bg_key = 'expanded_background_' | append: i
+
+            assign icon = block.settings[icon_key]
+            assign icon_width = block.settings[icon_width_key]
+            assign heading = block.settings[heading_key]
+            assign preview = block.settings[preview_key]
+            assign banner = block.settings[banner_key]
+            assign show_banner = block.settings[show_banner_key]
+            assign full_text = block.settings[full_text_key]
+            assign expanded_bg = block.settings[expanded_bg_key]
+          %}
+
+          <div
+            class="ai-feature-item-{{ ai_gen_id }}"
+            data-feature="{{ i }}"
+            style="--expanded-bg-color: {{ expanded_bg }};"
+          >
+            <div class="ai-feature-content-{{ ai_gen_id }} layout-{{ block.settings.icon_position }} align-{{ block.settings.expanded_text_alignment }}" data-header>
+              <div class="ai-feature-icon-wrapper-{{ ai_gen_id }}">
+                {% if icon %}
+                  <img
+                    src="{{ icon | image_url: width: 240 }}"
+                    alt="{{ icon.alt | default: heading | escape }}"
+                    class="ai-feature-icon-{{ ai_gen_id }}"
+                    style="width: {{ icon_width }}px;"
+                    width="{{ icon_width }}"
+                    height="{{ icon_width }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="ai-feature-placeholder-{{ ai_gen_id }}" style="width: {{ icon_width }}px; height: {{ icon_width }}px;">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="ai-feature-text-{{ ai_gen_id }}">
+                {% if heading != blank %}
+                  <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ heading }}</h3>
+                {% endif %}
+
+                {% if preview != blank %}
+                  <div class="ai-feature-preview-{{ ai_gen_id }}">
+                    {{ preview }}
+                  </div>
+                  <span class="ai-feature-read-more-{{ ai_gen_id }}">Read more →</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="ai-feature-expanded-content-{{ ai_gen_id }}" data-expanded>
+              {% if show_banner %}
+                {% if banner %}
+                  <img
+                    src="{{ banner | image_url: width: 1400 }}"
+                    alt="{{ banner.alt | default: heading | escape }}"
+                    class="ai-feature-banner-{{ ai_gen_id }}"
+                    width="1400"
+                    height="200"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="ai-feature-banner-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              {% if full_text != blank %}
+                <div class="ai-feature-full-text-{{ ai_gen_id }}">
+                  {{ full_text }}
+                </div>
+              {% endif %}
+
+              <span class="ai-feature-read-less-{{ ai_gen_id }}">Read less ←</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</features-row-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class FeaturesRow{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.features = this.querySelectorAll('[data-feature]');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.features.forEach((feature) => {
+          const header = feature.querySelector('[data-header]');
+          const expanded = feature.querySelector('[data-expanded]');
+
+          header.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (feature.classList.contains('expanded')) {
+              this.closeFeature(feature);
+            } else {
+              this.expandFeature(feature);
+            }
+          });
+
+          expanded.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.closeFeature(feature);
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('[data-feature]')) {
+            this.closeAllFeatures();
+          }
+        });
+      }
+
+      expandFeature(feature) {
+        this.features.forEach((f) => {
+          if (f !== feature) {
+            f.classList.remove('expanded');
+          }
+        });
+        feature.classList.add('expanded');
+      }
+
+      closeFeature(feature) {
+        feature.classList.remove('expanded');
+      }
+
+      closeAllFeatures() {
+        this.features.forEach((f) => {
+          f.classList.remove('expanded');
+        });
+      }
+    }
+
+    customElements.define('features-row-{{ ai_gen_id }}', FeaturesRow{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Feature icons row",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between items",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Collapsed spacing"
+    },
+    {
+      "type": "range",
+      "id": "icon_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon bottom spacing",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading bottom spacing",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Expanded spacing"
+    },
+    {
+      "type": "range",
+      "id": "expanded_icon_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "expanded_heading_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Content top spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "banner_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Banner bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Body text bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Icon style"
+    },
+    {
+      "type": "select",
+      "id": "icon_position",
+      "label": "Icon position",
+      "options": [
+        {
+          "value": "left-top",
+          "label": "Left - Top aligned"
+        },
+        {
+          "value": "left-center",
+          "label": "Left - Center aligned"
+        },
+        {
+          "value": "left-bottom",
+          "label": "Left - Bottom aligned"
+        },
+        {
+          "value": "top-left",
+          "label": "Top - Left aligned"
+        },
+        {
+          "value": "top-center",
+          "label": "Top - Center aligned"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom - Left aligned"
+        },
+        {
+          "value": "bottom-center",
+          "label": "Bottom - Center aligned"
+        }
+      ],
+      "default": "left-center"
+    },
+    {
+      "type": "header",
+      "content": "Expanded content"
+    },
+    {
+      "type": "select",
+      "id": "expanded_text_alignment",
+      "label": "Expanded alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "info": "Aligns icon, heading, and text when expanded"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background",
+      "default": "#fffdf7"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#fce206"
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "Icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_1",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Heading",
+      "default": "Feature 1"
+    },
+    {
+      "type": "richtext",
+      "id": "preview_1",
+      "label": "Preview text",
+      "default": "<p>Short preview that will be truncated with read more</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner_1",
+      "label": "Show banner when expanded",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_1",
+      "label": "Expanded banner"
+    },
+    {
+      "type": "richtext",
+      "id": "full_text_1",
+      "label": "Full text",
+      "default": "<p>Complete detailed description for feature 1. This will be shown when expanded.</p>"
+    },
+    {
+      "type": "color",
+      "id": "expanded_background_1",
+      "label": "Expanded background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_2",
+      "label": "Icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_2",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Heading",
+      "default": "Feature 2"
+    },
+    {
+      "type": "richtext",
+      "id": "preview_2",
+      "label": "Preview text",
+      "default": "<p>Short preview that will be truncated with read more</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner_2",
+      "label": "Show banner when expanded",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_2",
+      "label": "Expanded banner"
+    },
+    {
+      "type": "richtext",
+      "id": "full_text_2",
+      "label": "Full text",
+      "default": "<p>Complete detailed description for feature 2. This will be shown when expanded.</p>"
+    },
+    {
+      "type": "color",
+      "id": "expanded_background_2",
+      "label": "Expanded background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_3",
+      "label": "Icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_3",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "heading_3",
+      "label": "Heading",
+      "default": "Feature 3"
+    },
+    {
+      "type": "richtext",
+      "id": "preview_3",
+      "label": "Preview text",
+      "default": "<p>Short preview that will be truncated with read more</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner_3",
+      "label": "Show banner when expanded",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_3",
+      "label": "Expanded banner"
+    },
+    {
+      "type": "richtext",
+      "id": "full_text_3",
+      "label": "Full text",
+      "default": "<p>Complete detailed description for feature 3. This will be shown when expanded.</p>"
+    },
+    {
+      "type": "color",
+      "id": "expanded_background_3",
+      "label": "Expanded background",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature icons row"
+    }
+  ]
+}
+{% endschema %}

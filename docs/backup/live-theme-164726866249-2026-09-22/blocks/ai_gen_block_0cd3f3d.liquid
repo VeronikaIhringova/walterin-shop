@@ -1,0 +1,888 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section called “Four Image Gallery.”
+    
+    This section should display 4 images in a single row (side by side), optimized for both desktop and mobile.
+    
+    Each image must be individually editable in the theme editor, with the following customizable settings for each image:
+    
+    Upload image
+    
+    Image width and height (adjustable, maintaining aspect ratio)
+    
+    Left and right margin
+    
+    Padding
+    
+    Distance between images (gap control)
+    
+    Option for corner radius (to round corners if desired)
+    
+    Option for image link (so each image can be clickable)
+    
+    The section itself should include:
+    
+    Global control for overall padding (top and bottom)
+    
+    Global control for horizontal margins (left and right sides of the whole section)
+    
+    Responsive layout that stacks vertically on mobile
+    
+    The layout must never crop or hide any part of the image — images should resize or scale down as needed to remain fully visible within their frame
+    
+    Add a smooth zoom-in animation on hover for each image:
+    
+    When hovered, the image gently scales up (e.g., scale(1.05)) with a 0.4s ease-in-out transition
+    
+    The zoom must not cause the image to go outside or under its frame — use overflow: hidden to keep it contained
+    
+    The design should be clean, minimal, and user-friendly in the theme editor.
+    
+    Additional requirements:
+    
+    Include alt text for accessibility
+    
+    Use lazy loading for performance
+    
+    Make sure spacing and scaling work across desktop, tablet, and mobile
+    
+    Add an optional section heading and subheading above the row of images
+    
+    Add an optional background color selector for the section
+    
+    Section name: Four Image Gallery, When the image zooms in on hover, it must remain fully visible within its frame — no cropping or hidden edges. The hover effect should either:
+    
+    Scale inward (simulate zoom without enlarging beyond the container), or
+    
+    Adjust the container size dynamically so the full image is always visible.
+    
+    In CSS terms:
+    
+    Replace transform: scale(1.05); with a non-cropping effect, such as transform: scale(1.05) translateZ(0); object-fit: contain;
+    
+    Or use a zoom-out illusion (e.g., slight scale decrease + brightness increase) instead of a true zoom-in, to preserve full image visibility.
+    
+    Ensure the container uses overflow: visible; and object-fit: contain; to prevent any clipping., Create a custom Shopify section called “Four Image Gallery.”
+    
+    This section should display 4 images side by side (in one row) and be fully responsive (4 per row on desktop, 2×2 on tablet, 1×4 stacked on mobile).
+    
+    🖼️ Individual image settings
+    
+    Each image must be individually editable in the theme editor with the following options:
+    
+    Upload image
+    
+    Adjustable image width and height (default 200 px × 200 px, maintaining aspect ratio)
+    
+    Adjustable left and right margins (allowing negative values for fine positioning)
+    
+    Adjustable top and bottom margins (also allowing negative values to move images up or down)
+    
+    Adjustable padding
+    
+    Adjustable distance (gap) between this image and the next one
+    
+    Option for corner radius (for rounded edges if desired)
+    
+    Option to add a clickable link for each image
+    
+    🧩 Section-wide controls
+    
+    Global top and bottom padding controls
+    
+    Global left and right margin controls for the whole section
+    
+    Global gap control between images (default = 10 px, but fully adjustable)
+    
+    Optional background color selector
+    
+    Optional section heading and subheading above the images
+    
+    🪄 Hover animation (non-cropping zoom effect)
+    
+    When hovered, the image should appear to zoom in smoothly but always remain fully visible within its frame (no edges hidden or cropped).
+    
+    Use a subtle transform: scale(1.05) effect combined with object-fit: contain; overflow: visible; to keep the entire image in view.
+    
+    Transition: 0.4s ease-in-out
+    
+    The hover effect should give a soft focus/zoom illusion, not a literal enlargement that cuts off edges.
+    
+    ⚙️ Technical and design requirements
+    
+    Default image size: 200 px width × 200 px height, adjustable per image
+    
+    No image should ever be cropped or hidden, regardless of zoom or resizing
+    
+    Use lazy loading for performance
+    
+    Include alt text for accessibility
+    
+    Clean, minimal visual style (aligned with modern Shopify themes like Dawn or Sense)
+    
+    All layout and spacing adjustments should be visible directly in the theme editor UI (no code editing needed)
+    
+    Full
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-four-image-gallery-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_top }}px {{ block.settings.section_margin_horizontal }}px {{ block.settings.section_padding_bottom }}px {{ block.settings.section_margin_horizontal }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-four-image-gallery__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-four-image-gallery__heading-{{ ai_gen_id }} {
+    margin: 0 0 12px 0;
+    color: {{ block.settings.heading_color }};
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .ai-four-image-gallery__subheading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.subheading_color }};
+    font-size: 16px;
+  }
+
+  .ai-four-image-gallery__container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: {{ block.settings.global_gap }}px;
+    max-width: 100%;
+  }
+
+  .ai-four-image-gallery__item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ai-four-image-gallery__link-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-four-image-gallery__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    transition: transform 0.4s ease-in-out;
+  }
+
+  .ai-four-image-gallery__image-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: filter 0.4s ease-in-out;
+  }
+
+  .ai-four-image-gallery__link-{{ ai_gen_id }}:hover .ai-four-image-gallery__image-wrapper-{{ ai_gen_id }},
+  .ai-four-image-gallery__image-wrapper-{{ ai_gen_id }}:hover {
+    transform: scale(1.05) translateZ(0);
+  }
+
+  .ai-four-image-gallery__link-{{ ai_gen_id }}:hover .ai-four-image-gallery__image-{{ ai_gen_id }},
+  .ai-four-image-gallery__image-wrapper-{{ ai_gen_id }}:hover .ai-four-image-gallery__image-{{ ai_gen_id }} {
+    filter: brightness(1.05);
+  }
+
+  .ai-four-image-gallery__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-four-image-gallery__placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    .ai-four-image-gallery__container-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-four-image-gallery__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-four-image-gallery__heading-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-four-image-gallery__subheading-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+  }
+
+  {% for i in (1..4) %}
+    {% liquid
+      assign width_key = 'image_' | append: i | append: '_width'
+      assign height_key = 'image_' | append: i | append: '_height'
+      assign margin_left_key = 'image_' | append: i | append: '_margin_left'
+      assign margin_right_key = 'image_' | append: i | append: '_margin_right'
+      assign margin_top_key = 'image_' | append: i | append: '_margin_top'
+      assign margin_bottom_key = 'image_' | append: i | append: '_margin_bottom'
+      assign padding_key = 'image_' | append: i | append: '_padding'
+      assign gap_key = 'image_' | append: i | append: '_gap'
+      assign corner_radius_key = 'image_' | append: i | append: '_corner_radius'
+
+      assign image_width = block.settings[width_key]
+      assign image_height = block.settings[height_key]
+      assign margin_left = block.settings[margin_left_key]
+      assign margin_right = block.settings[margin_right_key]
+      assign margin_top = block.settings[margin_top_key]
+      assign margin_bottom = block.settings[margin_bottom_key]
+      assign padding = block.settings[padding_key]
+      assign gap = block.settings[gap_key]
+      assign corner_radius = block.settings[corner_radius_key]
+    %}
+
+    .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} {
+      margin-left: {{ margin_left }}px;
+      margin-right: {{ margin_right }}px;
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+      padding: {{ padding }}px;
+    }
+
+    .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} .ai-four-image-gallery__image-wrapper-{{ ai_gen_id }} {
+      max-width: {{ image_width }}px;
+      margin: 0 auto;
+      border-radius: {{ corner_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} .ai-four-image-gallery__image-{{ ai_gen_id }} {
+      aspect-ratio: {{ image_width }} / {{ image_height }};
+      border-radius: {{ corner_radius }}px;
+    }
+
+    .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} .ai-four-image-gallery__placeholder-{{ ai_gen_id }} {
+      aspect-ratio: {{ image_width }} / {{ image_height }};
+      border-radius: {{ corner_radius }}px;
+    }
+
+    {% if gap > 0 %}
+      .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} {
+        margin-right: calc({{ margin_right }}px + {{ gap }}px);
+      }
+    {% endif %}
+
+    @media screen and (max-width: 749px) {
+      .ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }} {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  {% endfor %}
+{% endstyle %}
+
+<div class="ai-four-image-gallery-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank or block.settings.subheading != blank %}
+    <div class="ai-four-image-gallery__header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-four-image-gallery__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.subheading != blank %}
+        <p class="ai-four-image-gallery__subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-four-image-gallery__container-{{ ai_gen_id }}">
+    {% for i in (1..4) %}
+      {% liquid
+        assign image_key = 'image_' | append: i
+        assign link_key = 'image_' | append: i | append: '_link'
+        assign alt_key = 'image_' | append: i | append: '_alt'
+        
+        assign image = block.settings[image_key]
+        assign link = block.settings[link_key]
+        assign alt_text = block.settings[alt_key]
+      %}
+
+      <div class="ai-four-image-gallery__item-{{ ai_gen_id }} ai-four-image-gallery__item-{{ ai_gen_id }}-{{ i }}">
+        {% if link != blank %}
+          <a href="{{ link }}" class="ai-four-image-gallery__link-{{ ai_gen_id }}">
+            <div class="ai-four-image-gallery__image-wrapper-{{ ai_gen_id }}">
+              {% if image != blank %}
+                <img
+                  src="{{ image | image_url: width: 1200 }}"
+                  alt="{{ alt_text | default: image.alt | escape }}"
+                  class="ai-four-image-gallery__image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                >
+              {% else %}
+                <div class="ai-four-image-gallery__placeholder-{{ ai_gen_id }}">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+          </a>
+        {% else %}
+          <div class="ai-four-image-gallery__image-wrapper-{{ ai_gen_id }}">
+            {% if image != blank %}
+              <img
+                src="{{ image | image_url: width: 1200 }}"
+                alt="{{ alt_text | default: image.alt | escape }}"
+                class="ai-four-image-gallery__image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            {% else %}
+              <div class="ai-four-image-gallery__placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Four Image Gallery",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_margin_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal margin",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Gallery layout"
+    },
+    {
+      "type": "range",
+      "id": "global_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Global gap between images",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_1_alt",
+      "label": "Alt text"
+    },
+    {
+      "type": "url",
+      "id": "image_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_1_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_1_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_left",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_right",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_top",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_margin_bottom",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap to next image",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_1_corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_2_alt",
+      "label": "Alt text"
+    },
+    {
+      "type": "url",
+      "id": "image_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_2_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_2_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_left",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_right",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_top",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_margin_bottom",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap to next image",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_2_corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_3_alt",
+      "label": "Alt text"
+    },
+    {
+      "type": "url",
+      "id": "image_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_3_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_3_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_left",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_right",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_top",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_margin_bottom",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap to next image",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_3_corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_4_alt",
+      "label": "Alt text"
+    },
+    {
+      "type": "url",
+      "id": "image_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "image_4_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Width",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_4_height",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Height",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_left",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_right",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Right margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_top",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_margin_bottom",
+      "min": -50,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap to next image",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_4_corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Four Image Gallery"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,252 @@
+{% comment %}
+  "How it works" — the nine-frame path.
+
+  Full-bleed, hero-scale section (generous top/bottom padding so it reads as
+  standalone). Two columns: a LARGE card image (left) + headline & body (right).
+  No eyebrow. Canonical concept name used across the page: "nine-frame path".
+
+  Background defaults to assets/hiw-bg.jpg (light textured paper) so the copy is set
+  in ink for contrast; the card defaults to assets/hiw-card.jpg (the nine-frame-path
+  diagram). Both have asset-filename + custom image-picker settings.
+{% endcomment %}
+
+{%- liquid
+  if section.settings.card_image != blank
+    assign card_src = section.settings.card_image | image_url: width: 1000
+    assign card_w = 1000
+    assign card_h = 1640
+  else
+    assign card_asset = section.settings.card_asset | default: 'hiw-card.jpg'
+    assign card_src = card_asset | asset_url
+    assign card_w = 800
+    assign card_h = 1314
+  endif
+
+  if section.settings.background_image != blank
+    assign bg_src = section.settings.background_image | image_url: width: 2400
+  else
+    assign bg_asset = section.settings.background_asset | default: 'hiw-bg.jpg'
+    assign bg_src = bg_asset | asset_url
+  endif
+-%}
+
+{%- style -%}
+  .hiw-section {
+    /* Dark treatment: keep the hiw-bg.jpg paper texture but darken it so cream
+       copy reads clearly (overlay opacity tunable). */
+    background-color: {{ section.settings.background | default: '#1a1916' }};
+    background-image:
+      linear-gradient(rgba(20, 19, 17, 0.82), rgba(20, 19, 17, 0.82)),
+      url("{{ bg_src }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 52px 24px;
+  }
+  .hiw-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(44px, 6vw, 100px);
+    align-items: start;
+  }
+  .hiw-card {
+    width: 100%;
+    max-width: 466px;
+    justify-self: center;
+    margin: 0;
+    border-radius: 12px;
+    will-change: transform;
+  }
+  .hiw-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.3s ease;
+  }
+  .hiw-card:hover img {
+    box-shadow: 0 44px 92px rgba(0, 0, 0, 0.55);
+  }
+  .hiw-title {
+    /* Unified with the page's theme h1 (matches main title + About Walterin) */
+    font-family: "WalterinBold", sans-serif;
+    color: rgb(var(--color-base-background-1, 255, 253, 247));
+    font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
+    line-height: 1.08;
+    letter-spacing: 0.4px;
+    margin: 0 0 30px;
+  }
+  .hiw-title .hiw-nowrap { white-space: nowrap; }
+  @media (min-width: 750px) {
+    .hiw-title { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
+  }
+  .hiw-body p {
+    /* Unified with the page body type (matches About Walterin / Meet the cards). */
+    color: rgba(255, 253, 247, 0.82);
+    font-size: 1.5rem;
+    line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+    letter-spacing: 0.06rem;
+    margin: 0 0 1.8rem;
+    max-width: 48ch;
+  }
+  .hiw-body p:last-child { margin-bottom: 0; }
+  .hiw-body strong {
+    color: rgb(var(--color-base-background-1, 255, 253, 247));
+    font-weight: 700;
+  }
+  .hiw-body em { font-style: italic; }
+
+  @media (max-width: 900px) {
+    .hiw-inner {
+      grid-template-columns: 1fr;
+      gap: 44px;
+      justify-items: center;
+      text-align: center;
+      align-items: center;
+    }
+    .hiw-card { max-width: 340px; }
+    .hiw-body p { margin-left: auto; margin-right: auto; }
+  }
+  /* Mobile: cut the dark section's top/bottom padding (was clamp ≈80px) and the
+     column gap so it doesn't force excessive scrolling. */
+  @media (max-width: 749px) {
+    .hiw-section { padding: 40px 24px; }
+    .hiw-inner { gap: 28px; }
+  }
+{%- endstyle -%}
+
+<section class="hiw-section">
+  <div class="hiw-inner">
+    <figure class="hiw-card">
+      <img
+        src="{{ card_src }}"
+        alt="{{ section.settings.card_alt | default: 'A Walterin tarot card showing its nine-frame path' | escape }}"
+        width="{{ card_w }}"
+        height="{{ card_h }}"
+        loading="lazy"
+        decoding="async"
+      >
+    </figure>
+    <div class="hiw-text">
+      {%- assign hiw_title = section.settings.title | default: 'Every card is a nine-frame path' -%}
+      <h2 class="hiw-title">
+        {%- if hiw_title == 'Every card is a nine-frame path' -%}
+          Every card is a<br><span class="hiw-nowrap">nine-frame path</span>
+        {%- else -%}
+          {{ hiw_title | escape }}
+        {%- endif -%}
+      </h2>
+      <div class="hiw-body">
+        <p>{{ section.settings.paragraph_1 }}</p>
+        <p>{{ section.settings.paragraph_2 }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var card = document.querySelector('.section-how-it-works .hiw-card');
+    if (!card) card = document.querySelector('.hiw-card');
+    if (!card) return;
+    // Skip the lift on touch / reduced-motion (CSS still does the shadow glow).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    function bind(gsap) {
+      card.addEventListener('mouseenter', function () {
+        gsap.to(card, { y: -8, scale: 1.02, duration: 0.3, ease: 'power2.out' });
+      });
+      card.addEventListener('mouseleave', function () {
+        gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: 'power2.out' });
+      });
+    }
+
+    if (window.gsap) {
+      bind(window.gsap);
+    } else {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+      s.onload = function () { if (window.gsap) bind(window.gsap); };
+      document.head.appendChild(s); // graceful: no lift if blocked; CSS glow remains
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "section",
+  "class": "section-how-it-works",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline",
+      "default": "Every card is a nine-frame path"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "Inspired by the original <strong>Rider–Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "The cards do not hand you <strong>finished answers</strong>. They help you hear <em>what usually stays quiet</em>."
+    },
+    {
+      "type": "header",
+      "content": "Card image"
+    },
+    {
+      "type": "text",
+      "id": "card_asset",
+      "label": "Card asset filename (in assets/)",
+      "info": "Used when no custom image is chosen. e.g. hiw-card.jpg",
+      "default": "hiw-card.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_image",
+      "label": "Custom card image (overrides the asset above)"
+    },
+    {
+      "type": "text",
+      "id": "card_alt",
+      "label": "Card image alt text",
+      "default": "The Walterin nine-frame path"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background colour (fallback behind the image)",
+      "default": "#E9E7DF"
+    },
+    {
+      "type": "text",
+      "id": "background_asset",
+      "label": "Background asset filename (in assets/)",
+      "info": "Used when no custom background image is chosen. e.g. hiw-bg.jpg",
+      "default": "hiw-bg.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Custom background image (overrides the asset above)"
+    }
+  ],
+  "presets": [
+    { "name": "How it works" }
+  ]
+}
+{% endschema %}

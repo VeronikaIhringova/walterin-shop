@@ -1,0 +1,374 @@
+{% doc %}
+  @prompt
+    Create a custom Online Store 2.0 section in Liquid and CSS for my theme.
+    
+    Goal:
+    A single image that sits in the middle of the page with big margins/white space around it, and on hover it shows a zoom-lens effect (a square that follows the mouse and shows a zoomed-in part of the image so small text can be read). This effect is similar to product image zoom, but used here as a standalone “look closer” image section.
+    
+    Functional requirements
+    
+    The section should:
+    
+    Display one image selected from the theme editor (image_picker).
+    
+    Keep the image not too large:
+    
+    Use a max-width setting (e.g. default 700–800px on desktop).
+    
+    Center it horizontally.
+    
+    Allow large margins / whitespace around the image:
+    
+    Add settings for top and bottom spacing (e.g. section_padding_top, section_padding_bottom) and apply them in padding or margin.
+    
+    On desktop hover:
+    
+    Show a square zoom lens that follows the mouse cursor.
+    
+    The lens shows a zoomed-in version of the image area under the cursor.
+    
+    The zoom level should be configurable (e.g. 1.5x–3x with a default).
+    
+    The lens should have a subtle border and slight shadow so it’s clearly visible.
+    
+    On mobile:
+    
+    Either disable the effect or switch it to tap to zoom (a simple version is enough, disabling is fine as long as it looks clean).
+    
+    Theme editor settings (schema)
+    
+    Please include a JSON schema with these settings:
+    
+    image – type image_picker.
+    
+    max_width – type range (e.g. 400–1200px, default 800px) applied as max-width on the image container.
+    
+    padding_top and padding_bottom – type range (0–160px) to control vertical whitespace.
+    
+    zoom_enabled – type checkbox (default true).
+    
+    zoom_scale – type range (1.5–3, step 0.1, default 2).
+    
+    lens_size – type range (100–300px, default 180px).
+    
+    lens_border_radius – type range to allow square or slightly rounded corners.
+    
+    Technical details
+    
+    Use plain Liquid + CSS + vanilla JavaScript (no external libraries).
+    
+    Make sure the section is responsive:
+    
+    Image scales down nicely on smaller screens.
+    
+    Zoom lens and JS are only 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-zoom-image-section-{{ ai_gen_id }} {
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-zoom-image-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    position: relative;
+    cursor: crosshair;
+  }
+
+  .ai-zoom-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    display: block;
+  }
+
+  .ai-zoom-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-zoom-image-placeholder-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-zoom-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-zoom-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-zoom-lens-{{ ai_gen_id }} {
+    position: absolute;
+    width: {{ block.settings.lens_size }}px;
+    height: {{ block.settings.lens_size }}px;
+    border: 2px solid {{ block.settings.lens_border_color }};
+    border-radius: {{ block.settings.lens_border_radius }}px;
+    background-repeat: no-repeat;
+    background-size: calc(100% * {{ block.settings.zoom_scale }});
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+  }
+
+  .ai-zoom-lens-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-zoom-image-container-{{ ai_gen_id }} {
+      cursor: default;
+    }
+
+    .ai-zoom-lens-{{ ai_gen_id }} {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<zoom-image-{{ ai_gen_id }}
+  class="ai-zoom-image-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+  data-zoom-enabled="{{ block.settings.zoom_enabled }}"
+  data-zoom-scale="{{ block.settings.zoom_scale }}"
+  data-lens-size="{{ block.settings.lens_size }}"
+>
+  <div class="ai-zoom-image-container-{{ ai_gen_id }}">
+    <div class="ai-zoom-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 2000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-zoom-image-{{ ai_gen_id }}"
+          data-zoom-image
+        >
+        {% if block.settings.zoom_enabled %}
+          <div class="ai-zoom-lens-{{ ai_gen_id }}" data-zoom-lens></div>
+        {% endif %}
+      {% else %}
+        <div class="ai-zoom-image-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-zoom-empty-state-{{ ai_gen_id }}">
+            Add an image to enable zoom effect
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</zoom-image-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ZoomImage{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.zoomEnabled = this.dataset.zoomEnabled === 'true';
+        this.zoomScale = parseFloat(this.dataset.zoomScale);
+        this.lensSize = parseInt(this.dataset.lensSize);
+      }
+
+      connectedCallback() {
+        if (!this.zoomEnabled) return;
+
+        this.image = this.querySelector('[data-zoom-image]');
+        this.lens = this.querySelector('[data-zoom-lens]');
+        this.container = this.querySelector('.ai-zoom-image-container-{{ ai_gen_id }}');
+
+        if (!this.image || !this.lens) return;
+
+        this.setupZoom();
+      }
+
+      setupZoom() {
+        const isMobile = window.matchMedia('(max-width: 749px)').matches;
+        if (isMobile) return;
+
+        this.lens.style.backgroundImage = `url(${this.image.src})`;
+
+        this.container.addEventListener('mouseenter', () => {
+          this.lens.classList.add('active');
+        });
+
+        this.container.addEventListener('mouseleave', () => {
+          this.lens.classList.remove('active');
+        });
+
+        this.container.addEventListener('mousemove', (e) => {
+          this.moveLens(e);
+        });
+      }
+
+      moveLens(e) {
+        const rect = this.image.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        let lensX = x - this.lensSize / 2;
+        let lensY = y - this.lensSize / 2;
+
+        if (lensX < 0) lensX = 0;
+        if (lensY < 0) lensY = 0;
+        if (lensX > rect.width - this.lensSize) lensX = rect.width - this.lensSize;
+        if (lensY > rect.height - this.lensSize) lensY = rect.height - this.lensSize;
+
+        this.lens.style.left = lensX + 'px';
+        this.lens.style.top = lensY + 'px';
+
+        const bgX = -(lensX * this.zoomScale);
+        const bgY = -(lensY * this.zoomScale);
+
+        this.lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
+      }
+    }
+
+    customElements.define('zoom-image-{{ ai_gen_id }}', ZoomImage{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Zoom image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fffdf7"
+    },
+    {
+      "type": "header",
+      "content": "Zoom effect"
+    },
+    {
+      "type": "checkbox",
+      "id": "zoom_enabled",
+      "label": "Enable zoom on hover",
+      "default": true,
+      "info": "Zoom effect is disabled on mobile devices"
+    },
+    {
+      "type": "range",
+      "id": "zoom_scale",
+      "min": 1.5,
+      "max": 3,
+      "step": 0.1,
+      "label": "Zoom level",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "lens_size",
+      "min": 100,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Lens size",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "lens_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Lens border radius",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "lens_border_color",
+      "label": "Lens border color",
+      "default": "#222222"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Zoom image"
+    }
+  ]
+}
+{% endschema %}

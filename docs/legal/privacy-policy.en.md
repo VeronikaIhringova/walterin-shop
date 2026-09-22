@@ -36,7 +36,7 @@ We have not appointed a data protection officer. For any question about your per
 ### 2.3 Newsletter
 
 - **Data:** email address. We also record the date and way you subscribed as evidence of your consent.
-- **Purpose:** to send you news about Walterin: stories, new work and products.
+- **Purpose:** to send you news about new Walterin products and announcements.
 - **Legal basis:** your consent (Art. 6(1)(a) GDPR and the rules on electronic marketing in Act No. 452/2021 Coll.).
 - **Retention:** until you unsubscribe. Every newsletter contains an unsubscribe link. We keep evidence of your consent and of its withdrawal for as long as we may need to prove it.
 
@@ -77,7 +77,6 @@ We use the following providers. Unless stated otherwise, they act as our process
 
 - **Shopify** (Shopify International Limited, Dublin, Ireland): the store platform, including hosting, checkout, customer records, order processing, the notify-me and contact forms, and the cookie banner. It also covers these Shopify apps: **Shopify Messaging** (newsletter, notify-me and order emails), **Shopify Flow** (automated store workflows), **Shopify Digital Products** (delivery of eBook download links) and **Translate & Adapt** (translation of store content; it does not process customer data). For Shopify Network Intelligence, Shopify is an independent controller (see section 2.7).
 - **Stripe** (Stripe Payments Europe, Limited, Ireland): card payments, including Apple Pay and Google Pay. Stripe processes payment data on our behalf. It acts as an independent controller for its own purposes, such as fraud prevention and compliance with financial regulation: https://stripe.com/privacy.
-- **Track123** (Track123, Las Vegas, USA): the order tracking page and shipping status notifications. It processes order, delivery and contact details.
 - **Meta Platforms Ireland Limited**: see section 2.6.
 - **Fulfilment and delivery:** Pack4you (Slovakia) stores, packs and ships physical orders. Delivery is handled by carriers such as Packeta, DPD or DHL, depending on the destination. Carriers receive the name, delivery address, phone and email needed for delivery, and act as independent controllers for the delivery.
 - **Accounting and legal advisers**, bound by professional confidentiality, to the extent required.
@@ -127,3 +126,7 @@ The store is not intended for children under 16. We do not knowingly collect the
 ## 9. Changes
 
 We may update this policy, for example when we add a new service. The current version is always published on this page, with the date of the last update.
+
+## 10. Language versions
+
+This policy is published in Slovak and English. The Slovak version is the original. In case of discrepancy, the Slovak version prevails.

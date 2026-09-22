@@ -36,7 +36,7 @@ Zodpovednú osobu sme nevymenovali. S akoukoľvek otázkou o vašich osobných �
 ### 2.3 Newsletter
 
 - **Údaje:** e-mailová adresa. Ako doklad o súhlase evidujeme aj dátum a spôsob prihlásenia.
-- **Účel:** posielanie noviniek o značke Walterin: príbehov, novej tvorby a produktov.
+- **Účel:** posielanie noviniek o nových produktoch a oznámeniach značky Walterin.
 - **Právny základ:** váš súhlas (čl. 6 ods. 1 písm. a) GDPR a pravidlá elektronického marketingu podľa zákona č. 452/2021 Z. z.).
 - **Doba uchovávania:** do odhlásenia. Každý newsletter obsahuje odkaz na odhlásenie. Doklad o súhlase a jeho odvolaní uchovávame, kým ho môžeme potrebovať preukázať.
 
@@ -77,7 +77,6 @@ Využívame týchto poskytovateľov. Ak nie je uvedené inak, sú našimi sprost
 
 - **Shopify** (Shopify International Limited, Dublin, Írsko): platforma obchodu vrátane hostingu, pokladne, zákazníckych záznamov, spracovania objednávok, formulárov na upozornenie a kontakt a lišty cookies. Zahŕňa aj tieto aplikácie Shopify: **Shopify Messaging** (newsletter, upozornenia a e-maily k objednávkam), **Shopify Flow** (automatizované procesy obchodu), **Shopify Digital Products** (zasielanie odkazov na stiahnutie e-kníh) a **Translate & Adapt** (preklad obsahu obchodu; zákaznícke údaje nespracúva). Pri Shopify Network Intelligence je Shopify samostatným prevádzkovateľom (pozri časť 2.7).
 - **Stripe** (Stripe Payments Europe, Limited, Írsko): platby kartou vrátane Apple Pay a Google Pay. Stripe spracúva platobné údaje v našom mene. Na vlastné účely, napríklad predchádzanie podvodom a plnenie finančnej regulácie, je samostatným prevádzkovateľom: https://stripe.com/privacy.
-- **Track123** (Track123, Las Vegas, USA): stránka na sledovanie objednávky a oznámenia o stave doručenia. Spracúva údaje o objednávke, doručení a kontaktné údaje.
 - **Meta Platforms Ireland Limited**: pozri časť 2.6.
 - **Fulfilment a doručenie:** Pack4you (Slovensko) skladuje, balí a odosiela fyzické objednávky. Doručenie zabezpečujú prepravcovia, napríklad Packeta, DPD alebo DHL, podľa krajiny doručenia. Prepravcovia dostanú meno, doručovaciu adresu, telefón a e-mail potrebné na doručenie a pri doručení sú samostatnými prevádzkovateľmi.
 - **Účtovní a právni poradcovia**, viazaní povinnosťou mlčanlivosti, v nevyhnutnom rozsahu.
@@ -127,3 +126,7 @@ Obchod nie je určený deťom mladším ako 16 rokov. Ich osobné údaje vedome 
 ## 9. Zmeny
 
 Tieto zásady môžeme aktualizovať, napríklad pri zavedení novej služby. Aktuálne znenie je vždy zverejnené na tejto stránke spolu s dátumom poslednej aktualizácie.
+
+## 10. Jazykové verzie
+
+Tieto zásady sú zverejnené v slovenskom a anglickom jazyku. Pôvodným znením je slovenská verzia. V prípade rozporu má prednosť slovenská verzia.

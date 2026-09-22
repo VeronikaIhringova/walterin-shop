@@ -1,0 +1,780 @@
+{% doc %}
+  @prompt
+    Create a custom Online Store 2.0 section in Liquid called "feature-icons-row".
+    
+    The section should display three feature items similar to an icon + text row. Use blocks, so I can add up to 3 items.
+    
+    Each block must contain:
+    
+    an icon image (image_picker)
+    
+    a heading (text)
+    
+    a subtext (richtext or textarea)
+    
+    a link (URL/page selector)
+    
+    a detail image (image_picker)
+    
+    a detail text (richtext)
+    
+    The icon image must be clickable and behave as a button: clicking anywhere on the icon or the block should go to the block’s link.
+    
+    New behavior:
+    
+    Each block also has a hidden detail area (collapsed by default).
+    
+    When the block is clicked, below that block show the detail area with:
+    
+    the detail image
+    
+    the detail text
+    
+    Clicking again collapses it.
+    
+    Only one block should be expanded at a time.
+    
+    Layout:
+    
+    On desktop, show the blocks horizontally in one row (3 columns).
+    
+    On mobile, stack them vertically (one per row).
+    
+    Use a clean, minimal style based on this structure:
+    
+    icon on the left / top
+    
+    heading in bold
+    
+    subtext below
+    
+    Add section settings:
+    
+    background color (color picker)
+    
+    padding top + padding bottom (range)
+    
+    max width for the content (range, e.g. 800–1400px) and center it.
+    
+    Add block settings:
+    
+    icon width (range, e.g. 40–120px)
+    
+    heading text
+    
+    subtext text
+    
+    link (url)
+    
+    detail image
+    
+    detail text
+    
+    Use semantic HTML, flexbox for layout, and a simple default for font sizes., Accordion behaviour
+    
+    Use JavaScript so that clicking a block:
+    
+    smoothly expands its detail area (image + text) using height animation (scrollHeight)
+    
+    collapses any other open block.
+    
+    Responsive behaviour
+    
+    Use CSS media queries so that:
+    
+    For screens ≥ 900px, the blocks are arranged in a horizontal row with equal width (3 columns).
+    
+    For screens < 900px, the blocks stack vertically and span full width.
+    
+    Also add a section setting called force_vertical_on_desktop (checkbox). If true, always stack blocks vertically even on large screens.
+    
+    Interactive icons / buttons
+    
+    Make each block behave like a button:
+    
+    cursor changes to pointer on hover
+    
+    add a hover effect: slight scale-up and subtle shadow (e.g. transform: scale(1.03); box-shadow)
+    
+    add a smooth transition (e.g. 150–200ms) for transform and shadow.
+    
+    Ensure the whole block is clickable, not only the text.
+    
+    Extra customization settings
+    
+    Section settings:
+    
+    gap between blocks (range, e.g. 8–48px)
+    
+    text alignment (dropdown: left, center)
+    
+    Block settings:
+    
+    icon alignment (dropdown: left, center, top)
+    
+    optional accent color for heading (color picker).
+    
+    Please keep the code clean, commented, and namespaced so it doesn’t affect other sections
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-feature-icons-row-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color }};
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-feature-icons-row__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-feature-icons-row__grid-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.gap_between_blocks }}px;
+    flex-wrap: wrap;
+    {% if block.settings.force_vertical_on_desktop %}
+      flex-direction: column;
+    {% endif %}
+  }
+
+  .ai-feature-icons-row__item-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 250px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 8px;
+    {% unless block.settings.force_vertical_on_desktop %}
+      @media screen and (max-width: 899px) {
+        min-width: 100%;
+      }
+    {% endunless %}
+  }
+
+  .ai-feature-icons-row__item-{{ ai_gen_id }}:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-feature-icons-row__item-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-feature-icons-row__item-content-{{ ai_gen_id }}--icon-top {
+    flex-direction: column;
+    align-items: {{ block.settings.text_alignment }};
+  }
+
+  .ai-feature-icons-row__item-content-{{ ai_gen_id }}--icon-left {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .ai-feature-icons-row__item-content-{{ ai_gen_id }}--icon-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-feature-icons-row__icon-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ai-feature-icons-row__icon-{{ ai_gen_id }} {
+    width: var(--icon-width);
+    height: auto;
+    display: block;
+  }
+
+  .ai-feature-icons-row__icon-placeholder-{{ ai_gen_id }} {
+    width: var(--icon-width);
+    height: var(--icon-width);
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .ai-feature-icons-row__icon-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-feature-icons-row__text-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-feature-icons-row__heading-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--heading-color);
+  }
+
+  .ai-feature-icons-row__subtext-{{ ai_gen_id }} {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: {{ settings.colors_text }};
+  }
+
+  .ai-feature-icons-row__detail-{{ ai_gen_id }} {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+
+  .ai-feature-icons-row__detail-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+
+  .ai-feature-icons-row__detail-image-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+  }
+
+  .ai-feature-icons-row__detail-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .ai-feature-icons-row__detail-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+
+  .ai-feature-icons-row__detail-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-feature-icons-row__detail-text-{{ ai_gen_id }} {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.6;
+    color: {{ settings.colors_text }};
+  }
+
+  @media screen and (max-width: 899px) {
+    .ai-feature-icons-row__grid-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-feature-icons-row__item-{{ ai_gen_id }} {
+      min-width: 100%;
+    }
+
+    .ai-feature-icons-row__detail-content-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-feature-icons-row__detail-image-{{ ai_gen_id }} {
+      width: 100%;
+      height: 200px;
+    }
+  }
+{% endstyle %}
+
+<feature-icons-row-{{ ai_gen_id }} class="ai-feature-icons-row-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-feature-icons-row__container-{{ ai_gen_id }}">
+    <div class="ai-feature-icons-row__grid-{{ ai_gen_id }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign icon_key = 'icon_image_' | append: i
+          assign icon_width_key = 'icon_width_' | append: i
+          assign icon_alignment_key = 'icon_alignment_' | append: i
+          assign heading_key = 'heading_' | append: i
+          assign heading_color_key = 'heading_color_' | append: i
+          assign subtext_key = 'subtext_' | append: i
+          assign link_key = 'link_' | append: i
+          assign detail_image_key = 'detail_image_' | append: i
+          assign detail_text_key = 'detail_text_' | append: i
+
+          assign icon_image = block.settings[icon_key]
+          assign icon_width = block.settings[icon_width_key]
+          assign icon_alignment = block.settings[icon_alignment_key]
+          assign heading = block.settings[heading_key]
+          assign heading_color = block.settings[heading_color_key]
+          assign subtext = block.settings[subtext_key]
+          assign link = block.settings[link_key]
+          assign detail_image = block.settings[detail_image_key]
+          assign detail_text = block.settings[detail_text_key]
+
+          if heading_color == blank
+            assign heading_color = settings.colors_text
+          endif
+        %}
+
+        {% if heading != blank or icon_image %}
+          <div 
+            class="ai-feature-icons-row__item-{{ ai_gen_id }}" 
+            data-item-id="{{ i }}"
+            data-link="{{ link }}"
+            style="--icon-width: {{ icon_width }}px; --heading-color: {{ heading_color }};"
+            role="button"
+            tabindex="0"
+            aria-expanded="false"
+          >
+            <div class="ai-feature-icons-row__item-content-{{ ai_gen_id }} ai-feature-icons-row__item-content-{{ ai_gen_id }}--icon-{{ icon_alignment }}">
+              <div class="ai-feature-icons-row__icon-wrapper-{{ ai_gen_id }}">
+                {% if icon_image %}
+                  <img 
+                    src="{{ icon_image | image_url: width: 200 }}" 
+                    alt="{{ heading | escape }}"
+                    class="ai-feature-icons-row__icon-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="{{ icon_width }}"
+                    height="{{ icon_width }}"
+                  >
+                {% else %}
+                  <div class="ai-feature-icons-row__icon-placeholder-{{ ai_gen_id }}">
+                    {{ 'image' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="ai-feature-icons-row__text-wrapper-{{ ai_gen_id }}">
+                {% if heading != blank %}
+                  <h3 class="ai-feature-icons-row__heading-{{ ai_gen_id }}">{{ heading }}</h3>
+                {% endif %}
+
+                {% if subtext != blank %}
+                  <div class="ai-feature-icons-row__subtext-{{ ai_gen_id }}">{{ subtext }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="ai-feature-icons-row__detail-{{ ai_gen_id }}" data-detail-id="{{ i }}">
+              <div class="ai-feature-icons-row__detail-content-{{ ai_gen_id }}">
+                <div class="ai-feature-icons-row__detail-image-{{ ai_gen_id }}">
+                  {% if detail_image %}
+                    <img 
+                      src="{{ detail_image | image_url: width: 300 }}" 
+                      alt="{{ heading | escape }}"
+                      loading="lazy"
+                      width="150"
+                      height="150"
+                    >
+                  {% else %}
+                    <div class="ai-feature-icons-row__detail-image-placeholder-{{ ai_gen_id }}">
+                      {{ 'image' | placeholder_svg_tag }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                {% if detail_text != blank %}
+                  <div class="ai-feature-icons-row__detail-text-{{ ai_gen_id }}">
+                    {{ detail_text }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</feature-icons-row-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class FeatureIconsRow{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.items = [];
+        this.details = [];
+        this.activeIndex = null;
+      }
+
+      connectedCallback() {
+        this.items = this.querySelectorAll('.ai-feature-icons-row__item-{{ ai_gen_id }}');
+        this.details = this.querySelectorAll('.ai-feature-icons-row__detail-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.items.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            this.handleItemClick(item, index);
+          });
+
+          item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              this.handleItemClick(item, index);
+            }
+          });
+        });
+      }
+
+      handleItemClick(item, index) {
+        const link = item.getAttribute('data-link');
+        const detail = this.details[index];
+        const isExpanded = this.activeIndex === index;
+
+        if (isExpanded) {
+          this.collapseDetail(detail, item);
+          this.activeIndex = null;
+
+          if (link && link !== '') {
+            setTimeout(() => {
+              window.location.href = link;
+            }, 300);
+          }
+        } else {
+          this.collapseAllDetails();
+          this.expandDetail(detail, item);
+          this.activeIndex = index;
+        }
+      }
+
+      expandDetail(detail, item) {
+        const content = detail.querySelector('.ai-feature-icons-row__detail-content-{{ ai_gen_id }}');
+        detail.style.height = content.scrollHeight + 'px';
+        item.setAttribute('aria-expanded', 'true');
+      }
+
+      collapseDetail(detail, item) {
+        detail.style.height = '0px';
+        item.setAttribute('aria-expanded', 'false');
+      }
+
+      collapseAllDetails() {
+        this.details.forEach((detail, idx) => {
+          this.collapseDetail(detail, this.items[idx]);
+        });
+      }
+    }
+
+    customElements.define('feature-icons-row-{{ ai_gen_id }}', FeatureIconsRow{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Feature icons row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "gap_between_blocks",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between blocks",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "force_vertical_on_desktop",
+      "label": "Force vertical layout on desktop",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_1",
+      "label": "Icon image"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_1",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment_1",
+      "label": "Icon alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Heading",
+      "default": "Feature 1"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_1",
+      "label": "Heading color"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_1",
+      "label": "Subtext",
+      "default": "<p>Add a short description for this feature</p>"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image_1",
+      "label": "Detail image"
+    },
+    {
+      "type": "richtext",
+      "id": "detail_text_1",
+      "label": "Detail text",
+      "default": "<p>Add detailed information that appears when this feature is clicked</p>"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_2",
+      "label": "Icon image"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_2",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment_2",
+      "label": "Icon alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Heading",
+      "default": "Feature 2"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_2",
+      "label": "Heading color"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_2",
+      "label": "Subtext",
+      "default": "<p>Add a short description for this feature</p>"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image_2",
+      "label": "Detail image"
+    },
+    {
+      "type": "richtext",
+      "id": "detail_text_2",
+      "label": "Detail text",
+      "default": "<p>Add detailed information that appears when this feature is clicked</p>"
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_3",
+      "label": "Icon image"
+    },
+    {
+      "type": "range",
+      "id": "icon_width_3",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment_3",
+      "label": "Icon alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "text",
+      "id": "heading_3",
+      "label": "Heading",
+      "default": "Feature 3"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_3",
+      "label": "Heading color"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_3",
+      "label": "Subtext",
+      "default": "<p>Add a short description for this feature</p>"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image_3",
+      "label": "Detail image"
+    },
+    {
+      "type": "richtext",
+      "id": "detail_text_3",
+      "label": "Detail text",
+      "default": "<p>Add detailed information that appears when this feature is clicked</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature icons row"
+    }
+  ]
+}
+{% endschema %}

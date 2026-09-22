@@ -68,7 +68,7 @@
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
 - Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
-- Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Track123, Socialwidget InstaFeed, Facebook & Instagram channel (Meta pixel, "Maximum" data sharing). **Judge.me and REZ Preorder Notify me: uninstalled** (Sep 2026).
+- Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Facebook & Instagram channel (Meta pixel + Conversions API, "Maximum" data sharing). **Uninstalled (Sep 2026): Judge.me, REZ Preorder Notify me, Track123, Socialwidget.**
 - Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.
 - Returns: 14-day withdrawal, customer pays return shipping, full refund incl. original standard delivery within 14 days.
 

@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "custom_css": [
+        ".main-page-title,.page__title {display: none !important; /* 🔥 Completely hide the element */ margin: 0 !important; /* Remove all spacing */ padding: 0 !important; /* Just in case it had padding too */ height: 0 !important; /* Ensure it doesn't affect layout height */ overflow: hidden !important; /* Safety: hide any leftover content */}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "contact_form_d8byQY": {
+      "type": "contact-form",
+      "custom_css": [],
+      "name": "t:sections.contact-form.presets.name",
+      "settings": {
+        "heading": "drop us a note anytime.",
+        "heading_size": "h1",
+        "button_full_width": true,
+        "color_scheme": "background-1",
+        "padding_top": 16,
+        "padding_bottom": 88,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "contact_form_d8byQY"
+  ]
+}

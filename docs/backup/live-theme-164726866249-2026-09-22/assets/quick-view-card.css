@@ -1,0 +1,191 @@
+/*
+ * Rhode-style in-card quick view.
+ * The panel lives inside the product card and expands on hover (desktop)
+ * or tap (mobile). No borders, no shadows — clean typography only.
+ */
+
+quick-view-card {
+  display: block;
+  position: relative;
+}
+
+/* Expand trigger affordance (mainly for touch / no-hover devices) */
+.quick-view__trigger {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity var(--duration-short) ease, transform var(--duration-short) ease;
+}
+
+.quick-view__trigger:hover {
+  opacity: 1;
+}
+
+quick-view-card.is-expanded .quick-view__trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Collapsed by default */
+.quick-view-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-top: 0;
+  transition: max-height var(--duration-long) ease, opacity var(--duration-long) ease,
+    padding-top var(--duration-long) ease;
+}
+
+quick-view-card.is-expanded .quick-view-panel {
+  max-height: 40rem;
+  opacity: 1;
+  padding-top: 1.4rem;
+}
+
+/* Minimal "–" close button, top-right of the panel */
+.quick-view__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity var(--duration-short) ease;
+}
+
+.quick-view__close:hover {
+  opacity: 1;
+}
+
+/* Variant pills — borderless, typographic */
+.quick-view__variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-right: 2.6rem;
+}
+
+.quick-view__pill {
+  padding: 0.4rem 0;
+  margin-right: 0.6rem;
+  border: none;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  opacity: 0.55;
+  text-underline-offset: 0.4rem;
+  transition: opacity var(--duration-short) ease;
+}
+
+.quick-view__pill:hover {
+  opacity: 0.85;
+}
+
+.quick-view__pill.is-selected {
+  opacity: 1;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.quick-view__pill.is-soldout {
+  text-decoration: line-through;
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.quick-view__selected-label {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Buy button shows label + price on one row */
+.quick-view__buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.quick-view__buy-price {
+  font-weight: 600;
+}
+
+.quick-view__buy-price::before {
+  content: '—';
+  margin-right: 0.4rem;
+  opacity: 0.6;
+}
+
+.quick-view__state {
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.quick-view__details {
+  font-size: 1.3rem;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity var(--duration-short) ease;
+}
+
+.quick-view__details:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+/* Mobile: panel stacks under the image, expanded via tap (.is-expanded) */
+@media screen and (max-width: 749px) {
+  quick-view-card.is-expanded .quick-view-panel {
+    max-height: 48rem;
+  }
+}
+
+/* Hide the trigger affordance on hover-capable desktops — hover handles expand */
+@media screen and (min-width: 990px) and (hover: hover) {
+  .quick-view__trigger {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-view-panel {
+    transition: none;
+  }
+}

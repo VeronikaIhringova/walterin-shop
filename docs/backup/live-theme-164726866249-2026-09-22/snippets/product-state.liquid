@@ -1,0 +1,28 @@
+{% comment %}
+  Resolves the canonical purchasable state of a product.
+
+  Outputs one of: 'available' | 'coming_soon' | 'sold_out'
+
+  Signal:
+  - product.available == true                       -> 'available'  (normal buy)
+  - product.available == false, no 'sold-out' tag   -> 'coming_soon' (pre-launch + waitlist)
+  - product.available == false, has 'sold-out' tag  -> 'sold_out'    (discontinued, no waitlist)
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+
+  Usage (capture + strip, since snippets don't return values):
+  {%- capture product_state -%}{%- render 'product-state', product: card_product -%}{%- endcapture -%}
+  {%- assign product_state = product_state | strip -%}
+{% endcomment %}
+{%- liquid
+  assign state = 'available'
+  if product.available == false
+    if product.tags contains 'sold-out'
+      assign state = 'sold_out'
+    else
+      assign state = 'coming_soon'
+    endif
+  endif
+  echo state
+-%}
