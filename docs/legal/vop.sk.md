@@ -31,7 +31,7 @@ Orgán dozoru: Slovenská obchodná inšpekcia (SOI), Inšpektorát SOI pre Brat
 
 3.1 Hlavné vlastnosti tovaru a e-kníh sú uvedené pri každom produkte v obchode.
 
-3.2 Ceny sú uvedené v eurách a sú konečné. Pred odoslaním objednávky vám zobrazíme celkovú cenu vrátane nákladov na doručenie. Iné poplatky neúčtujeme. [NA POTVRDENIE – účtovník: text o DPH podľa toho, či je predávajúci platiteľom DPH]
+3.2 Ceny sú uvedené v eurách a sú konečné. Pred odoslaním objednávky vám zobrazíme celkovú cenu vrátane nákladov na doručenie. Iné poplatky neúčtujeme.
 
 3.3 Pri doručení mimo Európskej únie môže štát, do ktorého sa tovar doručuje, vyrubiť clo, dovozné dane alebo poplatky. Tieto platí kupujúci, ak Podmienky doručenia neurčujú inak.
 
@@ -116,7 +116,7 @@ Ak niektorá z týchto podmienok nie je splnená, právo na odstúpenie od zmluv
 
 9.1 **Zodpovedáme za vady** tovaru, ktoré sa prejavia do **24 mesiacov** od jeho prevzatia, a za vady e-knihy do 24 mesiacov od jej dodania. Ak sa vada tovaru prejaví v tejto lehote, predpokladá sa, že existovala už pri jeho prevzatí. (Občiansky zákonník §§ 619 – 626; pri digitálnom obsahu §§ 852h – 852l)
 
-9.2 Harmonizované oznámenie EÚ o zákonnej záruke súladu je zobrazené na stránke každého tovaru.
+9.2 Harmonizované oznámenie EÚ o zákonnej záruke súladu nájdete v článku 10.
 
 9.3 **Vaše práva.** Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je možné alebo sa to nepodarí v lehote 30 dní, máte právo na primeranú zľavu z ceny alebo na odstúpenie od zmluvy. Pri odstúpení vám peniaze vrátime do 14 dní.
 
@@ -126,25 +126,31 @@ Ak niektorá z týchto podmienok nie je splnená, právo na odstúpenie od zmluv
 
 9.6 Reklamáciu vám bez zbytočného odkladu písomne (e-mailom) potvrdíme a uvedieme lehotu na jej vybavenie, ktorá je najviac 30 dní. O vybavení vás informujeme e-mailom. Ak reklamáciu zamietneme, písomne uvedieme dôvod.
 
-## 10. Riešenie sporov
+## 10. Zákonná záruka: harmonizované oznámenie EÚ
 
-10.1 Ak nie ste spokojní s tým, ako sme vybavili vašu reklamáciu, alebo si myslíte, že sme porušili vaše práva, môžete nás požiadať o nápravu na support@walterin.com.
+![Zákonná záruka: harmonizované oznámenie EÚ o zákonnej záruke súladu]([NOTICE_IMG_SK])
 
-10.2 Ak vašu žiadosť o nápravu zamietneme alebo na ňu neodpovieme do 30 dní od jej odoslania, môžete podať návrh na začatie alternatívneho riešenia sporu subjektu alternatívneho riešenia spotrebiteľských sporov podľa zákona č. 391/2015 Z. z. Príslušným subjektom je najmä Slovenská obchodná inšpekcia (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) alebo iný oprávnený subjekt zapísaný v zozname Ministerstva hospodárstva SR: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+Oficiálne harmonizované oznámenie podľa vykonávacieho nariadenia (EÚ) 2025/1960. Viac o vašich právach: https://europa.eu/youreurope/citizens/consumers/shopping/guarantees-returns/index_sk.htm
 
-10.3 Tým nie je dotknuté vaše právo obrátiť sa na súd.
+## 11. Riešenie sporov
 
-## 11. Ochrana osobných údajov
+11.1 Ak nie ste spokojní s tým, ako sme vybavili vašu reklamáciu, alebo si myslíte, že sme porušili vaše práva, môžete nás požiadať o nápravu na support@walterin.com.
+
+11.2 Ak vašu žiadosť o nápravu zamietneme alebo na ňu neodpovieme do 30 dní od jej odoslania, môžete podať návrh na začatie alternatívneho riešenia sporu subjektu alternatívneho riešenia spotrebiteľských sporov podľa zákona č. 391/2015 Z. z. Príslušným subjektom je najmä Slovenská obchodná inšpekcia (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) alebo iný oprávnený subjekt zapísaný v zozname Ministerstva hospodárstva SR: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+
+11.3 Tým nie je dotknuté vaše právo obrátiť sa na súd.
+
+## 12. Ochrana osobných údajov
 
 Osobné údaje spracúvame podľa Zásad ochrany osobných údajov: https://walterin.com/policies/privacy-policy
 
-## 12. Záverečné ustanovenia
+## 13. Záverečné ustanovenia
 
-12.1 Zmluva sa riadi právom Slovenskej republiky. Ak ste spotrebiteľ s obvyklým pobytom v inom štáte, táto voľba práva vás nezbavuje ochrany, ktorú vám poskytujú ustanovenia práva tohto štátu, od ktorých sa nemožno odchýliť dohodou.
+13.1 Zmluva sa riadi právom Slovenskej republiky. Ak ste spotrebiteľ s obvyklým pobytom v inom štáte, táto voľba práva vás nezbavuje ochrany, ktorú vám poskytujú ustanovenia práva tohto štátu, od ktorých sa nemožno odchýliť dohodou.
 
-12.2 Tieto VOP môžeme zmeniť. Na zmluvu sa vzťahuje znenie VOP platné v čase odoslania objednávky.
+13.2 Tieto VOP môžeme zmeniť. Na zmluvu sa vzťahuje znenie VOP platné v čase odoslania objednávky.
 
-12.3 Tieto VOP sú zverejnené v slovenskom a anglickom jazyku. V prípade rozporu má prednosť slovenská verzia.
+13.3 Tieto VOP sú zverejnené v slovenskom a anglickom jazyku. V prípade rozporu má prednosť slovenská verzia.
 
 **Prílohy:** Poučenie o odstúpení od zmluvy · Vzorový formulár na odstúpenie od zmluvy · Podmienky doručenia
 

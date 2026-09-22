@@ -207,7 +207,8 @@
       }
     },
     "content_for_index": [],
-    "blocks": {}
+    "blocks": {},
+    "enabled_cart_payment_types": "visa,master,american_express,jcb,discover,diners_club,apple_pay,google_pay"
   },
   "presets": {
     "Default": {

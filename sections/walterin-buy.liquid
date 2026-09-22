@@ -289,8 +289,12 @@
         </div>
         <div class="wui-buy__price">
           <p class="wui-buy__amount" data-edprice>{{ price }}</p>
-          {%- comment -%} No VAT wording until the VAT status is confirmed (ground truth §1). {%- endcomment -%}
+          {%- comment -%}
+            Tax wording only when Shopify's "Include tax in prices" is on (cart.taxes_included).
+            Walterin is not a VAT payer: keep that setting off → no VAT wording. Switch it on later → wording appears, no theme change.
+          {%- endcomment -%}
           <p class="wui-small">
+            {%- if cart.taxes_included -%}{{ 'products.product.include_taxes' | t }} {% endif -%}
             {%- if zone and zone.settings.price != blank -%}
               {%- assign ship_line = section.settings.shipping_template | replace: '[country]', visitor_name | replace: '[price]', zone.settings.price -%}
               {{ ship_line | escape }}
@@ -498,6 +502,13 @@
                       {%- endif -%}
                     {%- endfor -%}
                   </dl>
+                </div>
+              {%- endif -%}
+              {%- assign gpsr_physical = product.variants | where: 'requires_shipping', true -%}
+              {%- if gpsr_physical.size > 0 -%}
+                <div class="wui-accordion__group wui-small">
+                  <h2 class="wui-label">{{ 'walterin.gpsr.title' | t }}</h2>
+                  {%- render 'gpsr-row', product: product -%}
                 </div>
               {%- endif -%}
             </div>
@@ -889,7 +900,7 @@
 
     { "type": "header", "content": "Mobile sticky bar" },
     { "type": "checkbox", "id": "show_sticky", "label": "Show on phones once the button scrolls away", "default": true },
-    { "type": "text", "id": "sticky_title", "label": "Title", "default": "Comics Tarot" },
+    { "type": "text", "id": "sticky_title", "label": "Title", "default": "Tarot of Consciousness" },
     { "type": "text", "id": "sticky_notify", "label": "Button before launch", "default": "Notify me" },
     { "type": "text", "id": "sticky_buy", "label": "Button on launch day", "default": "Add to cart" }
   ],

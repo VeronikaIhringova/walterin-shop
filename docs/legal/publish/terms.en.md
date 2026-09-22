@@ -87,6 +87,7 @@ Supervisory authority: Slovak Trade Inspection (Slovenská obchodná inšpekcia,
 - for an eBook, on the day the contract is concluded.
 
 8.3 You can withdraw:
+- online via the **"Withdraw from contract here"** function in the footer of every page of the store (https://walterin.com/pages/withdrawal); we will send you an acknowledgement of receipt by email, including its content and the date and time of its submission, without undue delay;
 - by email to support@walterin.com;
 - by post to the seller's address in clause 1.
 
@@ -109,33 +110,41 @@ If any of these conditions is not met, you keep the right of withdrawal for the 
 
 9.1 **We are liable for defects** in goods that appear within **24 months** of delivery, and for defects in eBooks within 24 months of supply. If a defect in goods appears within this period, it is presumed to have existed at delivery. (Civil Code §§ 619–626; for digital content §§ 852h–852l)
 
-9.2 **Your rights.** For a defect in goods you are entitled to free repair or replacement. If that is not possible or is not done within 30 days, you are entitled to a reasonable price reduction or to withdraw from the contract. If you withdraw, we refund you within 14 days.
+9.2 The EU harmonised notice on the legal guarantee of conformity is in clause 10.
 
-9.3 **How to claim.** Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Tell us about the defect within two months of discovering it. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
+9.3 **Your rights.** For a defect in goods you are entitled to free repair or replacement. If that is not possible or is not done within 30 days, you are entitled to a reasonable price reduction or to withdraw from the contract. If you withdraw, we refund you within 14 days.
 
-9.4 **Damaged or wrong item.** If you receive damaged goods or goods other than those ordered, write to us. We replace damaged or wrong goods; if that is not possible, we refund you. We bear all costs.
+9.4 **How to claim.** Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Tell us about the defect within two months of discovering it. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
 
-9.5 We confirm your claim in writing (by email) without undue delay and state the deadline for handling it, which is at most 30 days. We tell you the outcome by email. If we reject the claim, we give the reason in writing.
+9.5 **Damaged or wrong item.** If you receive damaged goods or goods other than those ordered, write to us. We replace damaged or wrong goods; if that is not possible, we refund you. We bear all costs.
 
-## 10. Dispute resolution
+9.6 We confirm your claim in writing (by email) without undue delay and state the deadline for handling it, which is at most 30 days. We tell you the outcome by email. If we reject the claim, we give the reason in writing.
 
-10.1 If you are not satisfied with how we handled your claim, or you believe we have breached your rights, you can ask us for redress at support@walterin.com.
+## 10. Legal guarantee: EU harmonised notice
 
-10.2 If we reject your request or do not reply within 30 days of it being sent, you may submit a proposal for alternative dispute resolution to an ADR entity under Act No. 391/2015 Coll. The competent entity is in particular the Slovak Trade Inspection (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) or another authorised entity listed by the Ministry of Economy of the Slovak Republic: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+![Legal guarantee: EU harmonised notice on the legal guarantee of conformity]([NOTICE_IMG_EN])
 
-10.3 This does not affect your right to go to court.
+Official harmonised notice under Implementing Regulation (EU) 2025/1960. More about your rights: https://europa.eu/youreurope/citizens/consumers/shopping/guarantees-returns/index_en.htm
 
-## 11. Personal data
+## 11. Dispute resolution
+
+11.1 If you are not satisfied with how we handled your claim, or you believe we have breached your rights, you can ask us for redress at support@walterin.com.
+
+11.2 If we reject your request or do not reply within 30 days of it being sent, you may submit a proposal for alternative dispute resolution to an ADR entity under Act No. 391/2015 Coll. The competent entity is in particular the Slovak Trade Inspection (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) or another authorised entity listed by the Ministry of Economy of the Slovak Republic: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+
+11.3 This does not affect your right to go to court.
+
+## 12. Personal data
 
 We process personal data under our Privacy Policy: https://walterin.com/policies/privacy-policy
 
-## 12. Final provisions
+## 13. Final provisions
 
-12.1 The contract is governed by Slovak law. If you are a consumer habitually resident in another country, this choice of law does not deprive you of the protection given to you by the provisions of that country's law that cannot be derogated from by agreement.
+13.1 The contract is governed by Slovak law. If you are a consumer habitually resident in another country, this choice of law does not deprive you of the protection given to you by the provisions of that country's law that cannot be derogated from by agreement.
 
-12.2 We may change these Terms. The version valid when you placed your order applies to your contract.
+13.2 We may change these Terms. The version valid when you placed your order applies to your contract.
 
-12.3 These Terms are published in Slovak and English. In case of discrepancy, the Slovak version prevails.
+13.3 These Terms are published in Slovak and English. In case of discrepancy, the Slovak version prevails.
 
 **Annexes:** Withdrawal instructions and model withdrawal form (on the Returns and refunds page)
 

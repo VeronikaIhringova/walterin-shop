@@ -5,6 +5,7 @@
 You can withdraw from a purchase without giving a reason within 14 days. The period starts on the day you receive the goods (for several parcels from one order, the day you receive the last one). For an eBook, it starts on the day the contract is concluded.
 
 **How to withdraw:**
+- online via the **"Withdraw from contract here"** link in the footer; we send you a confirmation by email without undue delay;
 - by email to support@walterin.com;
 - by post to Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, Slovakia.
 
@@ -28,7 +29,7 @@ We are liable for defects in goods for 24 months from delivery, and for defects 
 
 If you are not satisfied, ask us for redress at support@walterin.com. If we reject your request or do not reply within 30 days, you can turn to an alternative dispute resolution body, in particular the Slovak Trade Inspection (ars@soi.sk), or another body on the list of the Slovak Ministry of Economy.
 
-Full details: Terms and Conditions, clauses 8 to 10. In case of discrepancy, the Slovak version prevails.
+Full details: Terms and Conditions, clauses 8 to 11. In case of discrepancy, the Slovak version prevails.
 
 ## Withdrawal instructions
 
@@ -39,6 +40,8 @@ You have the right to withdraw from this contract within 14 days without giving 
 The withdrawal period will expire after 14 days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the goods. For multiple goods ordered in one order and delivered separately, it expires after 14 days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the last good. For an eBook (digital content not supplied on a tangible medium), it expires after 14 days from the day of the conclusion of the contract.
 
 To exercise the right of withdrawal, you must inform us (Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia, phone +421 905 549 907, email support@walterin.com) of your decision to withdraw from this contract by an unequivocal statement (e.g. a letter sent by post or email). You may use the attached model withdrawal form, but it is not obligatory.
+
+You can also exercise your right of withdrawal online at https://walterin.com/pages/withdrawal, via the "Withdraw from contract here" link in the footer of every page of the store. If you use this online feature, we will send you an acknowledgement of receipt of the withdrawal on a durable medium (e.g. by email), including its content and the date and time of its submission, without undue delay.
 
 To meet the withdrawal deadline, it is sufficient for you to send your communication concerning your exercise of the right of withdrawal before the withdrawal period has expired.
 

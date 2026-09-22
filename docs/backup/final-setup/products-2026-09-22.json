@@ -1,0 +1,429 @@
+{
+  "products": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Product/9279897338185",
+        "title": "Walterin Prague – Comic Book",
+        "handle": "walterin-prague",
+        "status": "ACTIVE",
+        "publishedAt": "2024-09-01T12:45:12Z",
+        "options": [
+          {
+            "name": "Language/Jazyk",
+            "values": [
+              "English",
+              "Czech"
+            ]
+          },
+          {
+            "name": "Format",
+            "values": [
+              "Digital Interactive Edition",
+              "Printed Collector’s Edition"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/51921130357065",
+              "title": "English / Digital Interactive Edition",
+              "sku": "",
+              "price": "18.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "English"
+                },
+                {
+                  "name": "Format",
+                  "value": "Digital Interactive Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/52406559801673",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53512997339465",
+              "title": "English / Printed Collector’s Edition",
+              "sku": null,
+              "price": "27.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "English"
+                },
+                {
+                  "name": "Format",
+                  "value": "Printed Collector’s Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/53995584258377",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/51921130324297",
+              "title": "Czech / Digital Interactive Edition",
+              "sku": "",
+              "price": "20.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "Czech"
+                },
+                {
+                  "name": "Format",
+                  "value": "Digital Interactive Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/52406559768905",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53512997372233",
+              "title": "Czech / Printed Collector’s Edition",
+              "sku": null,
+              "price": "27.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "Czech"
+                },
+                {
+                  "name": "Format",
+                  "value": "Printed Collector’s Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/53995584291145",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579076911433",
+        "title": "Walterin Prague T-shirt (The Absinth Drinker & Green Fairy)",
+        "handle": "t-shirt",
+        "status": "DRAFT",
+        "publishedAt": null,
+        "options": [
+          {
+            "name": "Color",
+            "values": [
+              "White"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53416754381129",
+              "title": "White",
+              "sku": null,
+              "price": "25.00",
+              "compareAtPrice": null,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Color",
+                  "value": "White"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/53898977902921",
+                "tracked": true,
+                "requiresShipping": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579275223369",
+        "title": "Walterin Prague Sticker Set",
+        "handle": "stickers",
+        "status": "ACTIVE",
+        "publishedAt": "2025-03-11T14:46:16Z",
+        "options": [
+          {
+            "name": "Title",
+            "values": [
+              "Default Title"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/51887536505161",
+              "title": "Default Title",
+              "sku": "",
+              "price": "12.50",
+              "compareAtPrice": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Title",
+                  "value": "Default Title"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/52372921647433",
+                "tracked": true,
+                "requiresShipping": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9869964673353",
+        "title": "Walterin Prague Tarot Cards",
+        "handle": "prague-tarot",
+        "status": "DRAFT",
+        "publishedAt": null,
+        "options": [
+          {
+            "name": "Title",
+            "values": [
+              "Default Title"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53132099649865",
+              "title": "Default Title",
+              "sku": null,
+              "price": "17.90",
+              "compareAtPrice": null,
+              "inventoryPolicy": "CONTINUE",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Title",
+                  "value": "Default Title"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/53610631954761",
+                "tracked": true,
+                "requiresShipping": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9872039575881",
+        "title": "Comics Tarot of Consciousness",
+        "handle": "tarot",
+        "status": "ACTIVE",
+        "publishedAt": "2025-10-16T07:20:12Z",
+        "options": [
+          {
+            "name": "Language/Jazyk",
+            "values": [
+              "English",
+              "Slovak"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/54514390139209",
+              "title": "English",
+              "sku": null,
+              "price": "39.00",
+              "compareAtPrice": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "English"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/55018584998217",
+                "tracked": true,
+                "requiresShipping": true
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/54514390171977",
+              "title": "Slovak",
+              "sku": null,
+              "price": "39.00",
+              "compareAtPrice": null,
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "Slovak"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/55018585030985",
+                "tracked": true,
+                "requiresShipping": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/10024621801801",
+        "title": "Walterin Paris",
+        "handle": "walterin-paris",
+        "status": "DRAFT",
+        "publishedAt": null,
+        "options": [
+          {
+            "name": "Language/Jazyk",
+            "values": [
+              "English",
+              "French"
+            ]
+          },
+          {
+            "name": "Format",
+            "values": [
+              "Digital Interactive Edition",
+              "Printed Collector’s Edition"
+            ]
+          }
+        ],
+        "variants": {
+          "nodes": [
+            {
+              "id": "gid://shopify/ProductVariant/53676764102985",
+              "title": "English / Digital Interactive Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "English"
+                },
+                {
+                  "name": "Format",
+                  "value": "Digital Interactive Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/54161966825801",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764135753",
+              "title": "English / Printed Collector’s Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "English"
+                },
+                {
+                  "name": "Format",
+                  "value": "Printed Collector’s Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/54161966858569",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764168521",
+              "title": "French / Digital Interactive Edition",
+              "sku": null,
+              "price": "26.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "French"
+                },
+                {
+                  "name": "Format",
+                  "value": "Digital Interactive Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/54161966891337",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            },
+            {
+              "id": "gid://shopify/ProductVariant/53676764201289",
+              "title": "French / Printed Collector’s Edition",
+              "sku": null,
+              "price": "24.99",
+              "compareAtPrice": "35.00",
+              "inventoryPolicy": "DENY",
+              "inventoryQuantity": 0,
+              "selectedOptions": [
+                {
+                  "name": "Language/Jazyk",
+                  "value": "French"
+                },
+                {
+                  "name": "Format",
+                  "value": "Printed Collector’s Edition"
+                }
+              ],
+              "inventoryItem": {
+                "id": "gid://shopify/InventoryItem/54161966924105",
+                "tracked": true,
+                "requiresShipping": false
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

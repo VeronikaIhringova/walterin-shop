@@ -110,7 +110,7 @@
       "name": "FAQ with image",
       "settings": {
         "heading": "FAQ",
-        "subtitle": "Find out more about Comics Tarot of consciousness.",
+        "subtitle": "Find out more about the Tarot of Consciousness.",
         "image": "shopify://shop_images/PRODUCT_BOOK1_f3f0dc79-452c-4817-ad72-522a357d20fa.jpg",
         "background": "#FFFEF7"
       }
@@ -517,15 +517,10 @@
       "settings": {
         "include_margins": true
       }
-    },
-    "legal_info": {
-      "type": "walterin-legal-info",
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "legal_info",
     "whats_inside_cards",
     "how_it_works",
     "meet_walter",

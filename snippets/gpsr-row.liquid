@@ -1,0 +1,22 @@
+{%- comment -%}
+  Product safety (GPSR, Reg. (EU) 2023/988, Art. 19), physical products only.
+  Manufacturer + product identifier always; safety notes from product metafield custom.safety_info.
+  Nothing invented: without the metafield no safety line is shown to visitors (theme editor shows a reminder).
+  Accepts: product
+{%- endcomment -%}
+{%- liquid
+  assign physical = product.variants | where: 'requires_shipping', true
+  assign safety = product.metafields.custom.safety_info.value
+-%}
+{%- if physical.size > 0 -%}
+  <p class="gpsr-row">
+    {{ 'walterin.gpsr.manufacturer' | t }}: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, {{ 'walterin.gpsr.country' | t }} · <a href="mailto:support@walterin.com">support@walterin.com</a><br>
+    {{ 'walterin.gpsr.identifier' | t }}: {{ product.title | escape }}
+    {%- if physical.size < product.variants.size %} ({{ 'walterin.gpsr.physical_only' | t }}){% endif -%}
+    {%- if physical.first.sku != blank %} · {{ physical.first.sku | escape }}{% endif -%}
+    {%- if safety != blank -%}<br>{{ safety | escape | newline_to_br }}{%- endif -%}
+  </p>
+  {%- if safety == blank and request.design_mode -%}
+    <p class="gpsr-row" style="background:#fcf205;padding:4px 8px;">Safety notes missing: fill product metafield custom.safety_info (Walter / printer). Not shown to visitors.</p>
+  {%- endif -%}
+{%- endif -%}

@@ -31,4 +31,4 @@ Za vady tovaru zodpovedáme 24 mesiacov od prevzatia, za vady e-knihy 24 mesiaco
 
 Ak nie ste spokojní s vybavením, požiadajte nás o nápravu na support@walterin.com. Ak žiadosť zamietneme alebo neodpovieme do 30 dní, môžete sa obrátiť na subjekt alternatívneho riešenia sporov, najmä Slovenskú obchodnú inšpekciu (ars@soi.sk), alebo na iný subjekt zo zoznamu Ministerstva hospodárstva SR.
 
-Podrobnosti sú vo Všeobecných obchodných podmienkach, bod 8 až 10. V prípade rozporu má prednosť slovenská verzia.
+Podrobnosti sú vo Všeobecných obchodných podmienkach, články 8 až 11. V prípade rozporu má prednosť slovenská verzia.

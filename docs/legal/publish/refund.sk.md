@@ -5,6 +5,7 @@
 Od kúpy môžete odstúpiť bez udania dôvodu do 14 dní. Lehota plynie odo dňa, keď prevezmete tovar (pri viacerých zásielkach z jednej objednávky odo dňa prevzatia poslednej). Pri e-knihe plynie odo dňa uzavretia zmluvy.
 
 **Ako odstúpiť:**
+- online cez odkaz **„Odstúpiť od zmluvy tu“** v pätičke stránky; potvrdenie vám bezodkladne pošleme e-mailom;
 - e-mailom na support@walterin.com;
 - listom na adresu Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava.
 
@@ -28,7 +29,7 @@ Za vady tovaru zodpovedáme 24 mesiacov od prevzatia, za vady e-knihy 24 mesiaco
 
 Ak nie ste spokojní s vybavením, požiadajte nás o nápravu na support@walterin.com. Ak žiadosť zamietneme alebo neodpovieme do 30 dní, môžete sa obrátiť na subjekt alternatívneho riešenia sporov, najmä Slovenskú obchodnú inšpekciu (ars@soi.sk), alebo na iný subjekt zo zoznamu Ministerstva hospodárstva SR.
 
-Podrobnosti sú vo Všeobecných obchodných podmienkach, bod 8 až 10. V prípade rozporu má prednosť slovenská verzia.
+Podrobnosti sú vo Všeobecných obchodných podmienkach, články 8 až 11. V prípade rozporu má prednosť slovenská verzia.
 
 ## Poučenie o uplatnení práva spotrebiteľa na odstúpenie od zmluvy
 
@@ -39,6 +40,8 @@ Máte právo odstúpiť od tejto zmluvy bez uvedenia dôvodu v lehote 14 dní.
 Lehota na odstúpenie od zmluvy uplynie po 14 dňoch odo dňa, keď Vy alebo Vami určená tretia osoba okrem dopravcu prevezmete tovar. Pri dodaní viacerých tovarov Vami objednaných v jednej objednávke oddelene uplynie po 14 dňoch odo dňa, keď Vy alebo Vami určená tretia osoba okrem dopravcu prevezmete tovar, ktorý bol dodaný ako posledný. Pri e-knihe (digitálny obsah dodávaný inak ako na hmotnom nosiči) uplynie po 14 dňoch odo dňa uzavretia zmluvy.
 
 Pri uplatnení práva na odstúpenie od zmluvy nás informujte o svojom rozhodnutí odstúpiť od tejto zmluvy jednoznačným vyhlásením (napríklad listom zaslaným poštou alebo e-mailom) na adrese: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovensko, telefón +421 905 549 907, e-mail support@walterin.com. Na tento účel môžete použiť vzorový formulár na odstúpenie od zmluvy, ktorý sme Vám odovzdali alebo zaslali, jeho použitie však nie je povinné.
+
+Právo na odstúpenie od zmluvy môžete uplatniť aj online na adrese https://walterin.com/sk/pages/withdrawal, odkaz „Odstúpiť od zmluvy tu“ nájdete v pätičke každej stránky obchodu. Ak využijete túto možnosť, potvrdenie o doručení odstúpenia od zmluvy vrátane jeho obsahu, dátumu a času jeho odoslania Vám bezodkladne poskytneme na trvanlivom médiu (napríklad e-mailom).
 
 Lehota na odstúpenie od zmluvy je zachovaná, ak zašlete oznámenie o uplatnení práva na odstúpenie od zmluvy pred tým, ako uplynie lehota na odstúpenie od zmluvy.
 

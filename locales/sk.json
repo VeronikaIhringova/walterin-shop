@@ -186,7 +186,7 @@
       "view_full_details": "Zobraziť všetky podrobnosti",
       "xr_button": "Zobraziť vo vašom priestore",
       "xr_button_label": "Zobraziť vo vašom priestore, položka sa načíta do okna rozšírenej reality",
-      "include_taxes": "",
+      "include_taxes": "Vrátane DPH.",
       "shipping_policy_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe."
     },
     "modal": {
@@ -312,8 +312,8 @@
       "cart_error": "Pri aktualizácii košíka sa vyskytla chyba. Skúste to znova.",
       "cart_quantity_error_html": "Do košíka môžete túto položku pridať len v počte {{ quantity }}.",
       "taxes_and_shipping_policy_at_checkout_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe",
-      "taxes_included_but_shipping_at_checkout": "Doprava sa vypočíta pri platbe.",
-      "taxes_included_and_shipping_policy_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe.",
+      "taxes_included_but_shipping_at_checkout": "Vrátane DPH. Doprava sa vypočíta pri platbe.",
+      "taxes_included_and_shipping_policy_html": "Vrátane DPH. <a href=\"{{ link }}\">Doprava</a> sa vypočíta pri platbe.",
       "taxes_and_shipping_at_checkout": "Doprava sa vypočíta pri platbe",
       "headings": {
         "product": "Produkt",
@@ -560,18 +560,12 @@
       "notice": "E-knihu dostanete ako odkaz na stiahnutie. Po začatí dodania pri e-knihe zaniká 14-dňové právo na odstúpenie od zmluvy.",
       "declaration": "Výslovne súhlasím so začatím dodania e-knihy pred uplynutím lehoty na odstúpenie od zmluvy a potvrdzujem, že som bol(a) poučený(á), že tým strácam právo na odstúpenie od zmluvy."
     },
-    "legal_guarantee": {
-      "title": "Zákonná záruka",
-      "alt": "Zákonná záruka: harmonizované oznámenie EÚ o zákonnej záruke súladu",
-      "text_1": "Zákonná záruka. Minimálne dvojročná zákonná záruka na tovar predávaný v Európskej únii. Spotrebitelia si môžu uplatniť svoje práva na základe zákonnej záruky súladu, napríklad ak tovar nezodpovedá opisu alebo nefunguje tak, ako má. Predajcovia sú zodpovední za akýkoľvek nesúlad, ktorý existoval v čase dodania tovaru a ktorý sa prejaví v zákonnej záručnej lehote. Predajcovia sú v takejto situácii povinní ponúknuť bezplatnú opravu alebo bezplatnú výmenu, v niektorých prípadoch zníženú cenu alebo úplné vrátenie peňazí.",
-      "text_2": "Niektoré krajiny majú dlhšiu zákonnú záručnú lehotu. Na použitý tovar sa môže uplatňovať kratšia lehota, nie však kratšia než jeden rok. Ak sa chcete dozvedieť viac o svojich právach v konkrétnej krajine, naskenujte kód QR alebo sa opýtajte predajcu: europa.eu/youreurope/záruky_sk. Čo robiť, ak dostanete tovar, ktorý nie je v súlade so zmluvou: 1. čo najskôr kontaktujte predajcu a nahláste chybu; 2. poskytnite doklad o kúpe, ako napríklad potvrdenie o zaplatení, faktúru alebo výpis z bankového účtu. Predajcovia a výrobcovia môžu ponúkať aj obchodné záruky, ktoré sa uplatňujú nezávisle od zákonnej záruky. Môžete si napríklad všimnúť toto označenie GARAN. Predstavuje obchodnú záruku životnosti, ktorú ponúka výrobca bez dodatočných nákladov a ktorá sa vzťahuje na celý tovar."
-    },
     "gpsr": {
       "title": "Bezpečnosť výrobku",
       "manufacturer": "Výrobca",
       "country": "Slovensko",
       "identifier": "Výrobok",
-      "safety": "Bezpečnostné informácie"
+      "physical_only": "tlačené alebo fyzické vydanie"
     }
   }
 }

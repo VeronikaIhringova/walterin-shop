@@ -31,4 +31,4 @@ We are liable for defects in goods for 24 months from delivery, and for defects 
 
 If you are not satisfied, ask us for redress at support@walterin.com. If we reject your request or do not reply within 30 days, you can turn to an alternative dispute resolution body, in particular the Slovak Trade Inspection (ars@soi.sk), or another body on the list of the Slovak Ministry of Economy.
 
-Full details: Terms and Conditions, clauses 8 to 10. In case of discrepancy, the Slovak version prevails.
+Full details: Terms and Conditions, clauses 8 to 11. In case of discrepancy, the Slovak version prevails.

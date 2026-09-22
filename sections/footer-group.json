@@ -94,7 +94,7 @@
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": true,
-        "enabled_payment_types": "visa,master,apple_pay,google_pay,revolut,paypal",
+        "enabled_payment_types": "visa,master,american_express,jcb,discover,diners_club,apple_pay,google_pay",
         "show_policy": true,
         "branding_text": "",
         "margin_top": 0,

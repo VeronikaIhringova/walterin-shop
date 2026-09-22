@@ -87,6 +87,7 @@ Orgán dozoru: Slovenská obchodná inšpekcia (SOI), Inšpektorát SOI pre Brat
 - pri e-knihe dňom uzavretia zmluvy.
 
 8.3 Odstúpiť môžete:
+- online cez funkciu **„Odstúpiť od zmluvy tu“** v pätičke každej stránky obchodu (https://walterin.com/sk/pages/withdrawal); potvrdenie o doručení odstúpenia vrátane jeho obsahu, dátumu a času odoslania vám bezodkladne pošleme e-mailom;
 - e-mailom na support@walterin.com;
 - listom na adresu predávajúceho uvedenú v bode 1.
 
@@ -109,33 +110,41 @@ Ak niektorá z týchto podmienok nie je splnená, právo na odstúpenie od zmluv
 
 9.1 **Zodpovedáme za vady** tovaru, ktoré sa prejavia do **24 mesiacov** od jeho prevzatia, a za vady e-knihy do 24 mesiacov od jej dodania. Ak sa vada tovaru prejaví v tejto lehote, predpokladá sa, že existovala už pri jeho prevzatí. (Občiansky zákonník §§ 619 – 626; pri digitálnom obsahu §§ 852h – 852l)
 
-9.2 **Vaše práva.** Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je možné alebo sa to nepodarí v lehote 30 dní, máte právo na primeranú zľavu z ceny alebo na odstúpenie od zmluvy. Pri odstúpení vám peniaze vrátime do 14 dní.
+9.2 Harmonizované oznámenie EÚ o zákonnej záruke súladu nájdete v článku 10.
 
-9.3 **Ako reklamovať.** Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Vadu nám oznámte do dvoch mesiacov od jej zistenia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
+9.3 **Vaše práva.** Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je možné alebo sa to nepodarí v lehote 30 dní, máte právo na primeranú zľavu z ceny alebo na odstúpenie od zmluvy. Pri odstúpení vám peniaze vrátime do 14 dní.
 
-9.4 **Poškodený alebo nesprávny tovar.** Ak dostanete poškodený alebo iný ako objednaný tovar, napíšte nám. Poškodený alebo nesprávny tovar vymeníme; ak to nie je možné, vrátime vám peniaze. Všetky náklady znášame my.
+9.4 **Ako reklamovať.** Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Vadu nám oznámte do dvoch mesiacov od jej zistenia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
 
-9.5 Reklamáciu vám bez zbytočného odkladu písomne (e-mailom) potvrdíme a uvedieme lehotu na jej vybavenie, ktorá je najviac 30 dní. O vybavení vás informujeme e-mailom. Ak reklamáciu zamietneme, písomne uvedieme dôvod.
+9.5 **Poškodený alebo nesprávny tovar.** Ak dostanete poškodený alebo iný ako objednaný tovar, napíšte nám. Poškodený alebo nesprávny tovar vymeníme; ak to nie je možné, vrátime vám peniaze. Všetky náklady znášame my.
 
-## 10. Riešenie sporov
+9.6 Reklamáciu vám bez zbytočného odkladu písomne (e-mailom) potvrdíme a uvedieme lehotu na jej vybavenie, ktorá je najviac 30 dní. O vybavení vás informujeme e-mailom. Ak reklamáciu zamietneme, písomne uvedieme dôvod.
 
-10.1 Ak nie ste spokojní s tým, ako sme vybavili vašu reklamáciu, alebo si myslíte, že sme porušili vaše práva, môžete nás požiadať o nápravu na support@walterin.com.
+## 10. Zákonná záruka: harmonizované oznámenie EÚ
 
-10.2 Ak vašu žiadosť o nápravu zamietneme alebo na ňu neodpovieme do 30 dní od jej odoslania, môžete podať návrh na začatie alternatívneho riešenia sporu subjektu alternatívneho riešenia spotrebiteľských sporov podľa zákona č. 391/2015 Z. z. Príslušným subjektom je najmä Slovenská obchodná inšpekcia (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) alebo iný oprávnený subjekt zapísaný v zozname Ministerstva hospodárstva SR: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+![Zákonná záruka: harmonizované oznámenie EÚ o zákonnej záruke súladu]([NOTICE_IMG_SK])
 
-10.3 Tým nie je dotknuté vaše právo obrátiť sa na súd.
+Oficiálne harmonizované oznámenie podľa vykonávacieho nariadenia (EÚ) 2025/1960. Viac o vašich právach: https://europa.eu/youreurope/citizens/consumers/shopping/guarantees-returns/index_sk.htm
 
-## 11. Ochrana osobných údajov
+## 11. Riešenie sporov
+
+11.1 Ak nie ste spokojní s tým, ako sme vybavili vašu reklamáciu, alebo si myslíte, že sme porušili vaše práva, môžete nás požiadať o nápravu na support@walterin.com.
+
+11.2 Ak vašu žiadosť o nápravu zamietneme alebo na ňu neodpovieme do 30 dní od jej odoslania, môžete podať návrh na začatie alternatívneho riešenia sporu subjektu alternatívneho riešenia spotrebiteľských sporov podľa zákona č. 391/2015 Z. z. Príslušným subjektom je najmä Slovenská obchodná inšpekcia (Bajkalská 21/A, P. O. Box 29, 827 99 Bratislava 27, ars@soi.sk) alebo iný oprávnený subjekt zapísaný v zozname Ministerstva hospodárstva SR: https://www.mhsr.sk/obchod/ochrana-spotrebitela/alternativne-riesenie-spotrebitelskych-sporov-1/zoznam-subjektov-alternativneho-riesenia-spotrebitelskych-sporov-1
+
+11.3 Tým nie je dotknuté vaše právo obrátiť sa na súd.
+
+## 12. Ochrana osobných údajov
 
 Osobné údaje spracúvame podľa Zásad ochrany osobných údajov: https://walterin.com/policies/privacy-policy
 
-## 12. Záverečné ustanovenia
+## 13. Záverečné ustanovenia
 
-12.1 Zmluva sa riadi právom Slovenskej republiky. Ak ste spotrebiteľ s obvyklým pobytom v inom štáte, táto voľba práva vás nezbavuje ochrany, ktorú vám poskytujú ustanovenia práva tohto štátu, od ktorých sa nemožno odchýliť dohodou.
+13.1 Zmluva sa riadi právom Slovenskej republiky. Ak ste spotrebiteľ s obvyklým pobytom v inom štáte, táto voľba práva vás nezbavuje ochrany, ktorú vám poskytujú ustanovenia práva tohto štátu, od ktorých sa nemožno odchýliť dohodou.
 
-12.2 Tieto VOP môžeme zmeniť. Na zmluvu sa vzťahuje znenie VOP platné v čase odoslania objednávky.
+13.2 Tieto VOP môžeme zmeniť. Na zmluvu sa vzťahuje znenie VOP platné v čase odoslania objednávky.
 
-12.3 Tieto VOP sú zverejnené v slovenskom a anglickom jazyku. V prípade rozporu má prednosť slovenská verzia.
+13.3 Tieto VOP sú zverejnené v slovenskom a anglickom jazyku. V prípade rozporu má prednosť slovenská verzia.
 
 **Prílohy:** Poučenie o odstúpení od zmluvy a vzorový formulár (na stránke Vrátenie tovaru a reklamácie)
 
