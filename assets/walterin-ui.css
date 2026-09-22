@@ -39,6 +39,8 @@
   --wui-24: 24px;
   --wui-48: 48px;
   --wui-96: 96px;
+  /* Between groups inside a block (price → edition → button → trust rows): 32 mobile, 40 desktop */
+  --wui-group: 32px;
 
   /* Page frame: the same edges as the site header.
      Header = custom CSS `header { width: 92% }` (sections/header-group.json), max 1400px,
@@ -52,13 +54,19 @@
   /* Type scale */
   --wui-display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
   --wui-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --wui-fs-title: 36px;   /* page title */
-  --wui-fs-price: 28px;   /* price: the second thing you read */
-  --wui-fs-label: 18px;   /* section labels, accordion titles (WalterinBold) */
-  --wui-fs-choice: 17px;  /* edition names in tiles (WalterinBold) */
-  --wui-fs-lead: 17px;    /* one-line thesis */
-  --wui-fs-body: 16px;    /* reading text */
-  --wui-fs-small: 14px;   /* notes, captions, reference lists */
+  /* Six sizes, nothing else (mobile values here, desktop below):
+     display  WalterinBold  page title
+     heading  WalterinBold  section headings
+     label    WalterinBold  labels, edition names, buttons, accordion titles
+     price    Inter 700     price
+     body     Inter 400     reading text
+     small    Inter 400     VAT line, notes, privacy, trust rows, reference lists */
+  --wui-fs-display: 40px;
+  --wui-fs-heading: 32px;
+  --wui-fs-label: 20px;
+  --wui-fs-price: 28px;
+  --wui-fs-body: 16px;
+  --wui-fs-small: 14px;
 
   --wui-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
 
@@ -67,11 +75,12 @@
 @media (min-width: 750px) {
   .wui {
     --wui-frame-pad: 50px;
-    --wui-fs-title: 48px;
+    --wui-group: 40px;
+    --wui-fs-display: 56px;
+    --wui-fs-heading: 40px;
+    --wui-fs-label: 22px;
     --wui-fs-price: 32px;
-    --wui-fs-label: 20px;
-    --wui-fs-choice: 18px;
-    --wui-fs-lead: 18px;
+    --wui-fs-body: 17px;
   }
 }
 
@@ -110,6 +119,7 @@
    Type: WalterinBold for headings and short captions only; Inter for reading.
    -------------------------------------------------------------------------- */
 .wui .wui-title,
+.wui .wui-heading,
 .wui .wui-label {
   font-family: var(--wui-display) !important; /* theme forces WalterinBold !important on h1–h5 anyway */
   font-weight: 400;
@@ -118,9 +128,9 @@
   text-transform: uppercase;
   margin: 0;
 }
-.wui .wui-title { font-size: var(--wui-fs-title); line-height: 1.02; letter-spacing: 0.01em; text-wrap: balance; }
+.wui .wui-title { font-size: var(--wui-fs-display); line-height: 1; letter-spacing: 0.01em; text-wrap: balance; }
+.wui .wui-heading { font-size: var(--wui-fs-heading); line-height: 1.05; letter-spacing: 0.01em; text-wrap: balance; }
 .wui .wui-label { font-size: var(--wui-fs-label); line-height: 1.1; letter-spacing: 0.04em; }
-.wui .wui-lead { font-size: var(--wui-fs-lead); line-height: 1.4; }
 .wui .wui-small { font-size: var(--wui-fs-small); line-height: 1.45; }
 .wui .wui-sr {
   position: absolute !important;
@@ -172,7 +182,7 @@
   margin: 0;
   padding: 12px 24px;
   font-family: var(--wui-display);
-  font-size: 20px;
+  font-size: var(--wui-fs-label);
   font-weight: 400;
   font-style: normal;
   line-height: 1;
@@ -197,7 +207,7 @@
 .wui .wui-btn::after { content: none; } /* the theme draws button borders with pseudo-elements */
 .wui .wui-btn--secondary { background: var(--wui-paper); }
 .wui .wui-btn--block { width: 100%; }
-.wui .wui-btn--sm { min-height: 44px; padding: 8px 16px; font-size: 17px; box-shadow: 3px 3px 0 var(--wui-ink); }
+.wui .wui-btn--sm { min-height: 44px; padding: 8px 16px; font-size: var(--wui-fs-label); box-shadow: 3px 3px 0 var(--wui-ink); }
 .wui .wui-btn:disabled,
 .wui .wui-btn[aria-disabled='true'] {
   background: var(--wui-paper);
@@ -208,7 +218,7 @@
   text-decoration-color: var(--wui-red);
   text-decoration-thickness: 3px;
 }
-.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: 0.82em; letter-spacing: 0; text-transform: none; }
+.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-body); letter-spacing: 0; text-transform: none; }
 
 /* Loading state used by the theme's <product-form> (adds .loading, toggles .hidden on the spinner) */
 .wui .wui-btn.loading > :not(.wui-spinner) { visibility: hidden; }
@@ -227,7 +237,7 @@
   margin: 0;
   padding: 0 16px;
   font-family: var(--wui-body);
-  font-size: 16px;
+  font-size: var(--wui-fs-body);
   font-weight: 400;
   color: var(--wui-ink);
   background: var(--wui-paper);
@@ -280,7 +290,7 @@
   border-radius: 50%;
   background: var(--wui-paper);
 }
-.wui .wui-choice__name { grid-row: 1; grid-column: 2; font-family: var(--wui-display); font-size: var(--wui-fs-choice); line-height: 1.1; text-transform: uppercase; letter-spacing: 0.02em; overflow-wrap: anywhere; }
+.wui .wui-choice__name { grid-row: 1; grid-column: 2; font-family: var(--wui-display); font-size: var(--wui-fs-label); line-height: 1.1; text-transform: uppercase; letter-spacing: 0.02em; }
 .wui .wui-choice__note { grid-row: 2; grid-column: 2; font-size: var(--wui-fs-small); line-height: 1.35; }
 .wui .wui-choices--rows .wui-choice__note { grid-row: 1; grid-column: 3; text-align: right; }
 /* Two tiles don't fit side by side on narrow phones: switch to rows there too. */
@@ -332,8 +342,7 @@
 .wui .wui-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
 .wui .wui-accordion[open] .wui-accordion__icon { transform: rotate(45deg); background: var(--wui-yellow); }
 .wui .wui-accordion__body { display: grid; gap: var(--wui-24); padding: 0 var(--wui-16) var(--wui-16); font-size: var(--wui-fs-small); line-height: 1.5; }
-.wui .wui-accordion__group { display: grid; gap: var(--wui-8); }
-.wui .wui-accordion__group .wui-label { font-size: 16px; }
+.wui .wui-accordion__group { display: grid; gap: var(--wui-12); }
 
 /* Definition list (specs) */
 .wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: var(--wui-8) var(--wui-12); }
@@ -370,7 +379,7 @@
 .wui .shopify-payment-button__button--unbranded {
   min-height: 52px;
   font-family: var(--wui-display);
-  font-size: 20px;
+  font-size: var(--wui-fs-label);
   text-transform: uppercase;
   color: var(--wui-ink);
   background: var(--wui-paper);

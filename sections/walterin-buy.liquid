@@ -284,7 +284,7 @@
         <div class="wui-buy__intro">
           <h1 class="wui-title">{{ product.title | escape }}</h1>
           {%- if section.settings.thesis != blank -%}
-            <p class="wui-lead">{{ section.settings.thesis | escape }}</p>
+            <p class="wui-buy__thesis">{{ section.settings.thesis | escape }}</p>
           {%- endif -%}
         </div>
         <div class="wui-buy__price">
@@ -681,9 +681,10 @@
     right: var(--wui-12);
     bottom: var(--wui-12);
     padding: 4px var(--wui-8);
-    font-family: var(--wui-display);
+    font-family: var(--wui-body);
     font-size: var(--wui-fs-small);
     line-height: 1.2;
+    font-variant-numeric: tabular-nums;
     background: var(--wui-paper);
     border: var(--wui-line) solid var(--wui-ink);
     border-radius: var(--wui-radius);
@@ -704,11 +705,13 @@
   .wui .wui-gallery__thumb:hover { box-shadow: var(--wui-shadow-hover); }
   .wui .wui-gallery__thumb[aria-current='true'] { box-shadow: var(--wui-shadow); outline: 3px solid var(--wui-yellow); outline-offset: -5.5px; }
 
-  /* Buy box: groups 48 apart; inside a group 24; label ↔ control 8–12 */
-  .wui .wui-buy__box { display: flex; flex-direction: column; gap: var(--wui-48); }
+  /* Buy box rhythm. Groups (intro → price → edition → button → trust rows → description → accordions)
+     sit --wui-group apart (32 mobile / 40 desktop). Inside a group 8–12; a label is 12 above its control. */
+  .wui .wui-buy__box,
   .wui .wui-buy__group,
-  .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-24); }
+  .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
   .wui .wui-buy__intro { display: flex; flex-direction: column; gap: var(--wui-12); }
+  .wui .wui-buy__thesis { font-size: var(--wui-fs-body); line-height: 1.45; text-wrap: pretty; }
   .wui .wui-buy__price { display: flex; flex-direction: column; gap: var(--wui-8); }
   .wui .wui-buy__amount { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-price); line-height: 1; font-variant-numeric: tabular-nums; }
   .wui .wui-buy__editions { display: flex; flex-direction: column; gap: var(--wui-12); border: 0; margin: 0; padding: 0; min-width: 0; }
@@ -756,7 +759,6 @@
   .wui .wui-sticky__thumb { flex: none; width: 40px; height: 40px; overflow: hidden; border: var(--wui-line) solid var(--wui-ink); border-radius: 6px; }
   .wui .wui-sticky__thumb img { width: 100%; height: 100%; object-fit: cover; }
   .wui .wui-sticky__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .wui .wui-sticky__text .wui-label { font-size: 16px; }
   .wui .wui-sticky .wui-btn { flex: none; white-space: nowrap; }
 
   /* Zoom dialog */
