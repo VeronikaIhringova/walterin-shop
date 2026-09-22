@@ -5,12 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Buy column · mock-ups</title>
 <!--
-  Walterin buy column: design directions, every state, EN + SK. Static mock-up, not theme code.
-  URL params: dir=B|C|A · product=tarot|book · state=… · lang=en|sk · extra=sticky|zoom · board=0 (hide the review bar)
+  Walterin buy column: five directions, same content and approved copy. Static mock-up, not theme code.
+  URL params: dir=B|L|F|E|S · product=tarot|book · state=… · lang=en|sk · extra=sticky|zoom · board=0
+    B Panel · L Light panel · F Frameless · E Editorial · S Strip
   Tarot states: coming_soon · available · low_stock · sold_out_one · sold_out_all
   Book states:  printed · ebook · unavailable
   Book prices, languages and the missing SK eBook are SAMPLE data (real prices are TBD).
-  Dashed accordions = suggestions for Veronka to choose from, not approved copy.
+  Dashed accordions tagged "Suggestion" = drafts for Veronka to choose from.
+  UI palette: ink, paper, yellow only. Sky / red / green live only inside the artwork.
+  Text never breaks inside a word: overflow-wrap normal, hyphens none, word-break normal;
+  hyphenated words are kept whole (.nb); choice columns are at least as wide as their longest word.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,25 +23,27 @@
 @font-face { font-family: 'WalterinBold'; src: url('https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093') format('woff2'), url('../../../assets/WalterinBold.woff2') format('woff2'); font-display: block; }
 
 :root {
-  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205; --sky: #6FE9FA; --red: #F60403; --green: #9FDA29;
-  --line: 2.5px; --radius: 8px; --sh: 4px; --shadow: var(--sh) var(--sh) 0 var(--ink); --shadow-hover: 2px 2px 0 var(--ink);
+  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205;
+  --line: 2.5px; --thin: 1.5px; --hair: 1px; --radius: 8px; --sh: 4px;
+  --shadow: var(--sh) var(--sh) 0 var(--ink); --shadow-hover: 2px 2px 0 var(--ink);
   --display: 'WalterinBold', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
   --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  /* Ground-truth type scale only (mobile here, desktop below) */
+  /* Ground-truth type scale only (mobile, desktop below) */
   --fs-heading: 32px; --fs-label: 20px; --fs-price: 28px; --fs-body: 16px; --fs-small: 14px;
   --group: 32px; --frame-pad: 15px;
-  /* Panel sizing: the generous unit */
-  --panel-pad: 20px; --panel-gap: 24px; --choice-h: 56px; --btn-h: 56px; --pay-h: 48px;
+  --pad: 20px; --gap: 24px; --choice-h: 56px; --btn-h: 56px; --pay-h: 48px;
   --faded: 0.4;
   --ease: cubic-bezier(0.2, 0.75, 0.2, 1);
 }
 @media (min-width: 750px) {
   :root { --fs-heading: 40px; --fs-label: 22px; --fs-price: 32px; --fs-body: 17px; --group: 40px; --frame-pad: 50px;
-          --panel-pad: 32px; --panel-gap: 32px; --choice-h: 64px; --btn-h: 60px; --pay-h: 52px; }
+          --pad: 32px; --gap: 32px; --choice-h: 64px; --btn-h: 60px; --pay-h: 52px; }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--paper); color: var(--ink); }
-body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.55; -webkit-font-smoothing: antialiased;
+       overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-hyphens: none; }
+.nb { white-space: nowrap; }
 p, ul, fieldset, legend, h1, h2, dl, dd { margin: 0; padding: 0; }
 ul { list-style: none; }
 img { display: block; max-width: 100%; }
@@ -61,13 +67,11 @@ body.noboard .board { display: none; }
 .site__icons { display: flex; gap: 20px; font-size: 14px; }
 @media (max-width: 749px) { .site { height: 56px; } .site__nav { display: none; } .site__logo { font-size: 28px; } }
 
-/* ---------- Page grid ---------- */
+/* ---------- Page grid + gallery ---------- */
 .pdp { padding-block: 24px 64px; }
 @media (min-width: 990px) { .pdp { padding-block: 48px 96px; } }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
 @media (min-width: 990px) { .grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: start; } }
-
-/* Gallery */
 .gal__main { position: relative; aspect-ratio: 1; border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
 .gal__main img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
 .gal__count { position: absolute; right: 12px; bottom: 12px; padding: 4px 8px; font-size: 14px; line-height: 1.2; font-variant-numeric: tabular-nums; background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius); }
@@ -78,12 +82,11 @@ body.noboard .board { display: none; }
 @media (max-width: 749px) { .gal__thumbs { display: none; } }
 
 /* ================================================================
-   Shared buy-column system
-   Three text levels: headline (title) · subheadline (labels) · body/small. Price is its own role.
-   Every hard shadow reserves --sh on the right and bottom so its outer edge meets the column edge.
+   Shared system: three text levels (headline · label · body/small), price is its own role.
+   Hard shadows reserve --sh right + bottom, so their outer edge meets the column edge.
    ================================================================ */
 .col { display: flex; flex-direction: column; gap: var(--group); min-width: 0; }
-.trim { text-box: trim-both cap alphabetic; } /* optical measurement: from the letters, not the line box */
+.trim { text-box: trim-both cap alphabetic; }
 .title { font-family: var(--display); font-weight: 400; font-size: var(--fs-heading); line-height: 1.05; letter-spacing: 0.01em; text-transform: uppercase; text-wrap: pretty; }
 .label { font-family: var(--display); font-weight: 400; font-size: var(--fs-label); line-height: 1.1; letter-spacing: 0.04em; text-transform: uppercase; }
 .small { font-size: var(--fs-small); line-height: 1.45; }
@@ -96,43 +99,50 @@ body.noboard .board { display: none; }
 
 .head { display: flex; flex-direction: column; }
 .head .title + .pricebox { margin-top: 24px; }
-.pricebox { display: flex; flex-direction: column; gap: 8px; }
-.head--row .pricebox { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }
+.pricebox { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }
 
 .opt { border: 0; min-width: 0; display: flex; flex-direction: column; }
 .opt + .opt { margin-top: 24px; }
 .opt legend { float: left; width: 100%; margin-bottom: 16px; }
 .opt__note { margin-top: 12px; }
 
+/* Choice names: WalterinBold label; a long group (a word ≥ 11 letters) steps down to Body size */
+.cname { font-family: var(--display); font-size: var(--fs-label); line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; }
+.long .cname, .choices[data-n='3'] .cname { font-size: var(--fs-body); letter-spacing: 0.03em; }
+.cnote { font-size: var(--fs-small); line-height: 1.3; font-variant-numeric: tabular-nums; }
+.choice input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.choice { position: relative; cursor: pointer; min-width: min-content; }
+.choice:has(input:disabled) { cursor: not-allowed; }
+.choice:has(input:disabled) > span { opacity: var(--faded); }
+/* Side by side only when every label fits whole; otherwise stack. Decided by the space the group
+   actually has (container query), not by the screen, so it holds in panels, strips and label columns. */
+.cq { container-type: inline-size; min-width: 0; }
+.choices { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); }
+@container (max-width: 319px) { .choices[data-n='2'] { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 439px) { .choices[data-priced] { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 439px) { .choices[data-n='3'] { grid-template-columns: minmax(0, 1fr); } }
+
 /* The one button */
-.btn {
-  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: var(--btn-h); padding: 12px 28px; margin: 0;
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--btn-h); padding: 12px 28px; margin: 0;
   font-family: var(--display); font-size: var(--fs-label); line-height: 1; letter-spacing: 0.03em; text-transform: uppercase;
   color: var(--ink); background: var(--yellow); border: var(--line) solid var(--ink); border-radius: var(--radius);
   box-shadow: var(--shadow); cursor: pointer; -webkit-appearance: none; appearance: none; -webkit-tap-highlight-color: transparent;
-  transition: transform .12s var(--ease), box-shadow .12s var(--ease);
-}
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease); white-space: nowrap; }
 .btn:hover { transform: translate(2px, 2px); box-shadow: var(--shadow-hover); }
 .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
-/* Sold out: faded, never struck through */
-.btn:disabled { background: var(--paper); box-shadow: none; transform: none; cursor: not-allowed; }
-.btn:disabled > * , .btn:disabled { color: rgb(34 34 34 / var(--faded)); border-color: rgb(34 34 34 / var(--faded)); }
+.btn:disabled { background: var(--paper); box-shadow: none; transform: none; cursor: not-allowed; color: rgb(34 34 34 / var(--faded)); border-color: rgb(34 34 34 / var(--faded)); }
 .btn .num { font-family: var(--body); font-weight: 700; font-size: var(--fs-body); letter-spacing: 0; text-transform: none; }
 .reserve { margin-right: var(--sh); margin-bottom: var(--sh); }
 .btn--block { width: calc(100% - var(--sh)); }
 
 .cta { display: flex; flex-direction: column; }
 .cta > * + * { margin-top: 12px; }
-/* Express checkout: Shopify renders the wallets the device supports; the mock-up shows both */
 .express { margin-inline: var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-.wallet { height: var(--pay-h); border-radius: var(--radius); background: #000; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; font: 500 19px/1 -apple-system, 'SF Pro Text', system-ui, sans-serif; box-shadow: 0 0 0 var(--line) var(--ink); }
+.wallet { height: var(--pay-h); border-radius: var(--radius); background: #000; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; font: 500 19px/1 -apple-system, 'SF Pro Text', system-ui, sans-serif; box-shadow: 0 0 0 var(--line) var(--ink); white-space: nowrap; }
 .wallet svg { height: 20px; width: auto; }
-.wallet b { font-weight: 500; }
 .pay { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
 .pay span { height: 24px; min-width: 38px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--ink); border-radius: 4px; font: 700 10px/1 var(--body); letter-spacing: .02em; background: var(--paper); }
 
-/* Notify */
 .notify { display: flex; flex-direction: column; }
 .notify__row { display: flex; gap: 12px; }
 .input { flex: 1; min-width: 0; min-height: var(--btn-h); padding: 0 16px; font-size: var(--fs-body); background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius); outline: none; }
@@ -144,99 +154,116 @@ body.noboard .board { display: none; }
 .notify__note { margin-top: 8px; }
 @media (max-width: 479px) { .notify__row { flex-direction: column; } .notify .btn { width: calc(100% - var(--sh)); } }
 
-.status { padding: 12px 16px; border: var(--line) solid var(--ink); border-radius: var(--radius); font-size: var(--fs-small); background: var(--sky); }
+/* Status (no colour): ink frame + ink icon */
+.status { display: flex; gap: 8px; align-items: flex-start; padding: 12px 16px; border: var(--line) solid var(--ink); border-radius: var(--radius); font-size: var(--fs-small); background: var(--paper); }
+.status::before { content: 'i'; flex: none; width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 50%; font: 700 12px/16px var(--body); text-align: center; }
 
-/* Accordions */
+/* ---------- Accordions (three weights; same structure) ---------- */
 .accs { display: grid; gap: 12px; }
 .acc { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
-.acc--suggest { border-style: dashed; }
-.acc > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; list-style: none; cursor: pointer; border-radius: calc(var(--radius) - 2px); }
+.acc > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; list-style: none; cursor: pointer; }
 .acc > summary::-webkit-details-marker { display: none; }
 .acc > summary:hover .acc__icon { background: var(--yellow); }
 .acc__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.chip { font: 700 11px/1 var(--body); letter-spacing: .04em; text-transform: uppercase; padding: 4px 6px; border: 1.5px solid var(--ink); border-radius: 4px; background: var(--sky); }
+.tag { font: 700 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; padding: 4px 6px; border: 1.5px dashed var(--ink); border-radius: 4px; }
 .acc__icon { position: relative; flex: none; width: 28px; height: 28px; border: var(--line) solid var(--ink); border-radius: 50%; background: var(--paper); transition: transform .2s var(--ease), background-color .2s; }
 .acc__icon::before, .acc__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: var(--ink); transform: translate(-50%, -50%); }
 .acc__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
 .acc[open] .acc__icon { transform: rotate(45deg); background: var(--yellow); }
 .acc__body { padding: 0 16px 16px; font-size: var(--fs-small); line-height: 1.55; display: grid; gap: 12px; }
 .acc__body .lead { font-size: var(--fs-body); line-height: 1.5; }
+.acc--suggest { border-style: dashed; }
 .list { display: grid; gap: 8px; }
 .list li { position: relative; padding-left: 16px; }
 .list li::before { content: ''; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; background: var(--ink); border-radius: 1px; }
 .gpsr { font-size: 13px; line-height: 1.45; margin-top: 4px; }
+/* thin */
+.accs--thin .acc { border-width: var(--thin); }
+.accs--thin .acc__icon { border-width: var(--thin); }
+.accs--thin .acc__icon::before, .accs--thin .acc__icon::after { height: 1.5px; }
+/* rules: no boxes, a line between rows */
+.accs--rule { gap: 0; border-top: var(--line) solid var(--ink); }
+.accs--rule .acc { border: 0; border-bottom: var(--hair) solid var(--ink); border-radius: 0; }
+.accs--rule .acc > summary { padding: 18px 0; }
+.accs--rule .acc__body { padding: 0 0 20px; }
+.accs--rule .acc--suggest { border-bottom-style: dashed; }
+/* No rotation here: the icon sits on the column edge, and a rotated square would grow past it.
+   Plus becomes minus instead. */
+.accs--rule .acc__icon { border: 0; width: 24px; height: 24px; transform: none; }
+.accs--rule .acc[open] .acc__icon { transform: none; }
+.accs--rule .acc__icon::after { transition: opacity .2s var(--ease); }
+.accs--rule .acc[open] .acc__icon::after { opacity: 0; }
+.accs--rule .acc[open] .acc__icon { background: transparent; }
+.accs--rule .acc > summary:hover .acc__icon { background: transparent; }
+.accs--rule .acc > summary:hover .label { text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 4px; text-underline-offset: 4px; }
 
-/* ---------- Direction A: tiles ---------- */
-.tiles { display: grid; gap: 12px; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); padding: 0 var(--sh) var(--sh) 0; }
-.tile { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 16px; background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); cursor: pointer; transition: box-shadow .12s var(--ease), background-color .12s; }
-.tile:hover { box-shadow: var(--shadow-hover); }
-.tile:has(input:checked) { background: var(--yellow); box-shadow: var(--shadow); }
-.tile:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
-.tile input, .seg__opt input, .cell--opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
-.tile__dot { flex: none; width: 16px; height: 16px; border: var(--line) solid var(--ink); border-radius: 50%; background: var(--paper); }
-.tile:has(input:checked) .tile__dot { background: radial-gradient(circle, var(--ink) 0 3px, var(--paper) 3.5px); }
-.tile__text { display: flex; flex-direction: column; min-width: 0; }
-.tile__name { font-family: var(--display); font-size: var(--fs-label); line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; overflow-wrap: anywhere; }
-.tile__note { font-size: var(--fs-small); line-height: 1.3; font-variant-numeric: tabular-nums; }
-.tile__price { margin-left: auto; font-weight: 700; font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
-.tile:has(input:disabled) { cursor: not-allowed; box-shadow: none; }
-.tile:has(input:disabled) > * { opacity: var(--faded); }
-@media (max-width: 479px) { .tiles[data-n='3'], .tiles[data-priced] { grid-template-columns: minmax(0, 1fr); } }
+/* ================= Direction B · Panel ================= */
+.dirB .panel { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); padding: var(--pad); display: flex; flex-direction: column; gap: var(--gap); margin: 0 var(--sh) var(--sh) 0; }
+.seg { border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.seg .choice { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; min-height: var(--choice-h); padding: 8px 12px; text-align: center; background: var(--paper); transition: background-color .12s; }
+.seg .choice + .choice { border-left: var(--line) solid var(--ink); }
+.seg .choice:hover { background: color-mix(in srgb, var(--yellow) 35%, var(--paper)); }
+.seg .choice:has(input:checked) { background: var(--yellow); }
+.seg .choice:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: -7px; }
+.seg .choice:has(input:disabled) { background: var(--paper); }
+@container (max-width: 319px) { .seg[data-n='2'] .choice + .choice { border-left: 0; border-top: var(--line) solid var(--ink); } }
+@container (max-width: 439px) { .seg[data-priced] .choice + .choice { border-left: 0; border-top: var(--line) solid var(--ink); } }
+@container (max-width: 439px) { .seg[data-n='3'] .choice + .choice { border-left: 0; border-top: var(--line) solid var(--ink); } }
 
-/* ---------- Direction B: the panel + segmented switch ---------- */
-.dirB .panel { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); padding: var(--panel-pad); display: flex; flex-direction: column; gap: var(--panel-gap); margin: 0 var(--sh) var(--sh) 0; }
-.seg { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); border: var(--line) solid var(--ink); border-radius: var(--radius); overflow: hidden; }
-.seg__opt { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; min-height: var(--choice-h); padding: 8px; text-align: center; cursor: pointer; background: var(--paper); transition: background-color .12s; }
-.seg__opt + .seg__opt { border-left: var(--line) solid var(--ink); }
-.seg__opt:hover { background: color-mix(in srgb, var(--yellow) 35%, var(--paper)); }
-.seg__opt:has(input:checked) { background: var(--yellow); }
-.seg__opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: -7px; }
-.seg__opt:has(input:disabled) { cursor: not-allowed; background: var(--paper); }
-.seg__opt:has(input:disabled) > span { opacity: var(--faded); }
-@media (max-width: 479px) {
-  .seg[data-n='3'] .tile__name { font-size: 17px; }
-  .seg[data-priced] .tile__name { font-size: 18px; }
-}
+/* ================= Direction L · Light panel ================= */
+.dirL .panel { border: var(--thin) solid var(--ink); border-radius: var(--radius); background: var(--paper); padding: var(--pad); display: flex; flex-direction: column; gap: var(--gap); }
+.dirL .seg { border-width: var(--thin); }
+.dirL .seg .choice + .choice { border-left-width: var(--thin); }
+.dirL .seg .choice + .choice { border-top-width: var(--thin); }
 
-/* ---------- Direction C: the column drawn like a card (frames in a grid) ---------- */
-.card { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); margin: 0 var(--sh) var(--sh) 0; overflow: hidden; }
-.card__row { display: grid; border: 0; min-width: 0; }
-.card__row + .card__row { border-top: var(--line) solid var(--ink); }
-.cell { padding: calc(var(--panel-pad) * .75) var(--panel-pad); min-width: 0; }
-.cell + .cell { border-left: var(--line) solid var(--ink); }
-.card__head { background: var(--sky); padding-block: var(--panel-pad); }
-.card__meta { grid-template-columns: auto minmax(0, 1fr); align-items: stretch; }
-.card__meta .cell:only-child { grid-column: 1 / -1; }
-.card__meta .cell { display: flex; align-items: center; }
-.card__cap { float: left; width: 100%; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; padding: 12px var(--panel-pad); border-bottom: var(--line) solid var(--ink); }
-.card__opts { clear: both; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); }
-.cell--opt { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: calc(var(--choice-h) + 8px); padding: 12px var(--panel-pad); cursor: pointer; background: var(--paper); transition: background-color .12s; }
-.cell--opt + .cell--opt { border-left: var(--line) solid var(--ink); }
-.cell--opt:hover { background: color-mix(in srgb, var(--yellow) 35%, var(--paper)); }
-.cell--opt:has(input:checked) { background: var(--yellow); }
-.cell--opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: -7px; }
-.cell--opt:has(input:disabled) { cursor: not-allowed; background: var(--paper); }
-.cell--opt:has(input:disabled) > span { opacity: var(--faded); }
-.card__cta { padding: var(--panel-pad); }
-@media (max-width: 479px) {
-  .card__opts[data-n='3'] { grid-template-columns: minmax(0, 1fr); }
-  .card__opts[data-n='3'] .cell--opt + .cell--opt { border-left: 0; border-top: var(--line) solid var(--ink); }
-  .card__opts[data-priced] .cell--opt { padding-inline: 14px; }
-  .card__opts[data-priced] .tile__name { font-size: 18px; }
-  .card__meta { grid-template-columns: minmax(0, 1fr); }
-  .card__meta .cell + .cell { border-left: 0; border-top: var(--line) solid var(--ink); }
-}
+/* ================= Direction F · Frameless ================= */
+/* Choices are text radios: a dot and the name; the chosen name gets a yellow highlighter stroke. */
+.radios { gap: 8px 24px; }
+.radios .choice { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 6px 0; }
+.radios .dot { flex: none; width: 18px; height: 18px; border: var(--line) solid var(--ink); border-radius: 50%; background: var(--paper); transition: background-color .12s; }
+.radios .choice:hover .dot { background: color-mix(in srgb, var(--yellow) 50%, var(--paper)); }
+.radios .choice:has(input:checked) .dot { background: radial-gradient(circle, var(--ink) 0 4px, var(--yellow) 4.5px); }
+.radios .txt { display: flex; flex-direction: column; }
+.radios .cname { padding: 0 2px; transition: background .12s; }
+.radios .choice:has(input:checked) .cname { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 92%, transparent 92%); }
+.radios .choice:has(input:focus-visible) .dot { outline: 3px solid var(--ink); outline-offset: 3px; }
+/* Text radios flow like words in a line and wrap whole */
+.choices.radios { display: flex; flex-wrap: wrap; }
+.radios .choice { flex: 0 0 auto; }
+
+/* ================= Direction E · Editorial ================= */
+/* A printed page: a heavy rule under the title, hairlines between rows, a label column on the left. */
+.dirE .page { display: flex; flex-direction: column; }
+.dirE .head { padding-bottom: 24px; border-bottom: var(--line) solid var(--ink); }
+.dirE .row { display: grid; grid-template-columns: 8em minmax(0, 1fr); gap: 8px 16px; align-items: start; padding: 20px 0; border: 0; border-bottom: var(--hair) solid var(--ink); margin: 0; min-width: 0; }
+.dirE .row > legend, .dirE .row > .rowlabel { float: left; margin: 0; padding: 0; padding-top: 14px; }
+.dirE .row .label { font-size: var(--fs-small); font-family: var(--body); font-weight: 700; letter-spacing: .08em; }
+.dirE .row .opt__note { grid-column: 2; margin-top: 0; }
+.dirE .ctarow { padding-top: 24px; }
+@media (max-width: 479px) { .dirE .row { grid-template-columns: minmax(0, 1fr); } .dirE .row > legend { padding-top: 0; } .dirE .row .opt__note { grid-column: 1; } }
+
+/* ================= Direction S · Strip ================= */
+/* A comic strip: separate panels with gutters, uneven widths, thin frames; only the button casts a shadow. */
+.dirS .strip { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; }
+.dirS .p { border: var(--line) solid var(--ink); border-radius: var(--radius); padding: calc(var(--pad) * .75); min-width: 0; background: var(--paper); }
+.dirS .p--title { grid-column: 1 / -1; }
+.dirS .p--price { display: flex; align-items: center; }
+.dirS .p--opts { display: flex; flex-direction: column; }
+.dirS .p--cta { grid-column: 1 / -1; }
+.dirS .p--cta .ship { margin-top: 12px; justify-content: center; width: 100%; }
+.dirS .p--opts.wide { grid-column: 1 / -1; }
+@media (max-width: 749px) { .dirS .strip { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Mobile sticky bar ---------- */
 .sticky { display: none; }
 @media (max-width: 749px) {
   body.show-sticky .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; align-items: center; gap: 12px; padding: 12px calc(4vw + 15px) calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--paper); border-top: var(--line) solid var(--ink); }
   .sticky__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .sticky__text .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 18px; }
+  .sticky__text .label { font-size: var(--fs-body); }
   .sticky .btn { min-height: 44px; padding: 8px 16px; box-shadow: 3px 3px 0 var(--ink); margin-right: 3px; }
 }
 
-/* ---------- Zoom (PhotoSwipe look, rendered statically for review) ---------- */
+/* ---------- Zoom (PhotoSwipe look) ---------- */
 .zoom { position: fixed; inset: 0; z-index: 10; background: var(--paper); display: none; flex-direction: column; }
 body.show-zoom .zoom { display: flex; }
 .zoom__bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); border-bottom: var(--line) solid var(--ink); }
@@ -286,10 +313,9 @@ body.show-zoom .zoom { display: flex; }
            CDN + 'walterin-prague-witty-illustrated-comic-guide-book-outdoor.jpg?width=1600',
            CDN + 'walterin-prague-illustrated-comic-guide-book-in-hands.jpg?width=1600']
   };
-  var ICON_SHIP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 12.5 12 17l9-4.5"/><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"/><path d="M3 7.5v9L12 21l9-4.5v-9"/><path d="M12 12v9"/></svg>';
+  var ICON_SHIP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"/><path d="M3 7.5v9L12 21l9-4.5v-9"/><path d="M12 12v9"/></svg>';
   var APPLE = '<svg viewBox="0 0 17 20" aria-hidden="true"><path fill="#fff" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.3c-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2ZM11.6 3c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5Z"/></svg>';
 
-  /* Copy: approved texts verbatim. Dashed accordions (suggest*) are drafts for Veronka to choose. */
   var T = {
     en: {
       tarot: 'Tarot of Consciousness: A Graphic Journey', tarotShort: 'Tarot of Consciousness',
@@ -298,14 +324,15 @@ body.show-zoom .zoom { display: flex; }
       langs: { en: 'English', sk: 'Slovak', cs: 'Czech' },
       formats: { ebook: 'Interactive eBook', print: 'Printed book' },
       editionNote: 'First edition. 100 copies in each language.',
-      left: '[n] of 100 left', soldOut: 'Sold out', notYetEbook: 'Not as an eBook yet',
+      left: '[n] of 100 left', soldOut: 'Sold out', printOnly: 'Printed only',
       atc: 'Add to cart', notify: 'Notify me', email: 'Your email address',
       newsletter: "And the newsletter: what's new, what's next.",
       note: "One email when it's ready. That's all.", privacy: 'Privacy policy',
       ebookLine: 'PDF + EPUB. Download right after payment.',
-      switched: 'Slovak is not an eBook yet. Switched to English.',
+      switched: 'Slovak is printed only. Switched to English.',
       suggestion: 'Suggestion',
-      acc: { about: 'About the deck', aboutBook: 'About the book', box: "What's in the box", delivery: 'Delivery', read: 'How to read', walter: 'About Walter', which: 'English or Slovak?' },
+      acc: { about: 'About the deck', aboutBook: 'About the book', box: "What's in the box", delivery: 'Delivery',
+             read: 'How to read', which: 'English or Slovak?', walter: 'About Walter', nine: 'Why nine frames', gift: 'As a gift', when: 'When can I have it?' },
       about: ['Inspired by the Rider–Waite tarot, drawn by Walter Ihring. Every card is a nine-frame comic: one picture becomes a small story, read frame by frame. Look first. Then read the words.',
               'Two guide cards show two ways in: Card of the day, and Reading of consciousness: what to understand, what to accept, what to transform.'],
       aboutBook: ['Short comic stories about Prague: its culture and history, told with humour. Every story in nine frames, original artwork by Walter Ihring, with hidden details to find.'],
@@ -317,9 +344,15 @@ body.show-zoom .zoom { display: flex; }
       gpsr2: 'Product: ',
       read: ['Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.',
              'Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.'],
+      which: ['The same 78 drawings in both editions. Only the words change: the captions in the frames and the guide cards are in English or in Slovak. Choose the language you want to read in.'],
       walter: ['Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.',
                'In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.'],
-      which: ['The same 78 drawings in both editions. Only the words change: the captions in the frames and the guide cards are in English or in Slovak. Choose the language you want to read in.'],
+      nine: ['One picture shows a moment. Nine frames show what happens next.',
+             'Each card carries its theme through nine small scenes, so the meaning isn’t handed to you in a single symbol. You follow it, frame by frame, the way you read a comic. It is how Walterin tells every story, in the city books too.'],
+      gift: ['For someone who reads comics, collects decks, or simply likes a well-drawn thing. Pick the edition in the language they read.',
+             'Sending it straight to them? Enter their address as the delivery address at checkout.'],
+      when: ['Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won’t guess one.',
+             'Leave your email above and you’ll get one message when it’s ready.'],
       price: '€39'
     },
     sk: {
@@ -329,14 +362,15 @@ body.show-zoom .zoom { display: flex; }
       langs: { en: 'Angličtina', sk: 'Slovenčina', cs: 'Čeština' },
       formats: { ebook: 'Interaktívna e-kniha', print: 'Tlačená kniha' },
       editionNote: 'Prvé vydanie. 100 kusov v každom jazyku.',
-      left: 'Zostáva [n] zo 100', soldOut: 'Vypredané', notYetEbook: 'Zatiaľ nie ako e-kniha',
+      left: 'Zostáva [n] zo 100', soldOut: 'Vypredané', printOnly: 'Len tlačená',
       atc: 'Do košíka', notify: 'Dajte mi vedieť', email: 'Váš e-mail',
       newsletter: 'Aj newsletter: čo je nové a čo chystáme.',
       note: 'Jeden e-mail, keď bude hotový. Nič viac.', privacy: 'Ochrana osobných údajov',
       ebookLine: 'PDF + EPUB. Na stiahnutie hneď po zaplatení.',
-      switched: 'Slovenčina zatiaľ nie je ako e-kniha. Prepnuté na angličtinu.',
+      switched: 'Slovenčina je len tlačená. Prepnuté na angličtinu.',
       suggestion: 'Návrh',
-      acc: { about: 'O balíčku', aboutBook: 'O knihe', box: 'Čo je v krabičke', delivery: 'Doprava', read: 'Ako čítať', walter: 'O Walterovi', which: 'Anglicky alebo slovensky?' },
+      acc: { about: 'O balíčku', aboutBook: 'O knihe', box: 'Čo je v krabičke', delivery: 'Doprava',
+             read: 'Ako čítať', which: 'Anglicky alebo slovensky?', walter: 'O Walterovi', nine: 'Prečo deväť okienok', gift: 'Ako darček', when: 'Kedy ho dostanem?' },
       about: ['Inšpirovaný tarotom Rider–Waite, nakreslil Walter Ihring. Každá karta je komiks v deviatich okienkach: z jedného obrazu je malý príbeh, ktorý sa číta okienko po okienku. Najprv sa pozerajte. Potom čítajte.',
               'Dve sprievodné karty ukazujú dve cesty: Karta dňa a Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť.'],
       aboutBook: ['Krátke komiksové príbehy o Prahe: jej kultúra a dejiny, s humorom. Každý príbeh v deviatich okienkach, pôvodné ilustrácie Waltera Ihringa a skryté detaily na objavovanie.'],
@@ -348,17 +382,26 @@ body.show-zoom .zoom { display: flex; }
       gpsr2: 'Výrobok: ',
       read: ['Najprv sa pozerajte, potom čítajte. Každá karta rozpráva svoj príbeh v deviatich okienkach, ako komiksová strana. Popisky prídu na rad až potom.',
              'Balíček má dve cesty. Karta dňa: vytiahnite jednu a nechajte ju pôsobiť. Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť. Obe vysvetľujú sprievodné karty v krabičke. Skúsenosti s tarotom netreba.'],
+      which: ['V oboch vydaniach je tých istých 78 kresieb. Mení sa len text: popisky v okienkach a sprievodné karty sú po anglicky alebo po slovensky. Vyberte si jazyk, v ktorom chcete čítať.'],
       walter: ['Walter Ihring je slovenský ilustrátor humoru a karikatúry. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.',
                'V roku 2015 vyšiel prvý ilustrovaný sprievodca Walterin Bratislava. Nasledovali Praha a Paríž. Tarot je prvý balíček kariet.'],
-      which: ['V oboch vydaniach je tých istých 78 kresieb. Mení sa len text: popisky v okienkach a sprievodné karty sú po anglicky alebo po slovensky. Vyberte si jazyk, v ktorom chcete čítať.'],
+      nine: ['Jeden obraz ukáže okamih. Deväť okienok ukáže, čo sa stane potom.',
+             'Každá karta prevedie svoju tému deviatimi malými scénami, takže význam nedostanete v jednom symbole. Sledujete ho okienko po okienku, ako keď čítate komiks. Takto Walterin rozpráva každý príbeh, aj v knihách o mestách.'],
+      gift: ['Pre toho, kto číta komiksy, zbiera balíčky kariet alebo má jednoducho rád dobre nakreslené veci. Vyberte vydanie v jazyku, v ktorom obdarovaný číta.',
+             'Chcete ho poslať priamo obdarovanému? V pokladni zadajte jeho adresu ako adresu doručenia.'],
+      when: ['Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine. Dátum ešte nemáme a hádať ho nebudeme.',
+             'Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.'],
       price: '39 €'
     }
   };
   var t = T[S.lang];
   function money(eur) { return S.lang === 'sk' ? eur.toFixed(2).replace('.', ',') + ' €' : '€' + eur.toFixed(2); }
+  // Keep hyphenated words whole ("e-kniha" never breaks at the hyphen)
+  function nb(s) { return String(s).replace(/(\S*-\S*)/g, '<span class="nb">$1</span>'); }
+  function titleHTML(x) { return nb(x).replace(': ', ':<br>'); }
+  function longest(list) { return list.reduce(function (m, s) { return Math.max(m, Math.max.apply(null, s.split(/\s+/).map(function (w) { return w.length; }))); }, 0); }
 
-  /* ---------- Data per product/state ---------- */
-  function titleHTML(x) { return x.replace(': ', ':<br>'); }
+  /* ---------- Data ---------- */
   var model;
   if (S.product === 'tarot') {
     var tv = { en: { ok: true, left: 0 }, sk: { ok: true, left: 0 } };
@@ -383,10 +426,10 @@ body.show-zoom .zoom { display: flex; }
     model = {
       title: t.book, short: t.book, price: money(prices[fmt]), physical: fmt === 'print', mode: 'buy',
       options: [
-        { key: 'format', legend: t.format, values: ['ebook', 'print'].map(function (c) { return { code: c, name: t.formats[c], price: money(prices[c]) }; }) },
+        { key: 'format', legend: t.format, values: ['ebook', 'print'].map(function (c) { return { code: c, name: t.formats[c], note: money(prices[c]), priced: true }; }) },
         { key: 'language', legend: t.language, values: ['en', 'cs', 'sk'].map(function (c) {
           var dis = fmt === 'ebook' && c === 'sk';
-          return { code: c, name: t.langs[c], note: dis ? t.notYetEbook : '', disabled: dis };
+          return { code: c, name: t.langs[c], note: dis ? t.printOnly : '', disabled: dis };
         }) }
       ],
       selected: { format: fmt, language: S.state === 'printed' && S.lang === 'sk' ? 'sk' : 'en' },
@@ -396,36 +439,30 @@ body.show-zoom .zoom { display: flex; }
   var isBook = S.product === 'book';
   var isEbook = isBook && model.selected.format === 'ebook';
 
-  /* ---------- Render ---------- */
+  /* ---------- Pieces ---------- */
   var imgs = IMG[S.product];
   document.getElementById('gal').innerHTML =
     '<div class="gal__main"><img src="' + imgs[0] + '" alt="" width="1600" height="1600"><span class="gal__count">1 / ' + imgs.length + '</span></div>' +
     '<div class="gal__thumbs">' + imgs.map(function (s) { return '<span><img src="' + s.replace('width=1600', 'width=200') + '" alt=""></span>'; }).join('') + '</div>';
 
-  function input(o, v) {
-    return '<input type="radio" name="' + o.key + '" value="' + v.code + '"' + (v.code === model.selected[o.key] ? ' checked' : '') + (v.disabled ? ' disabled' : '') + '>';
-  }
-  function sub(v) { return v.note || v.price || ''; }
+  function input(o, v) { return '<input type="radio" name="' + o.key + '" value="' + v.code + '"' + (v.code === model.selected[o.key] ? ' checked' : '') + (v.disabled ? ' disabled' : '') + '>'; }
+  var style = { B: 'seg', L: 'seg', S: 'seg', F: 'radios', E: 'radios' }[S.dir];
 
+  function choicesHTML(o) {
+    var n = o.values.length;
+    var isLong = longest(o.values.map(function (v) { return v.name; })) >= 11; // e.g. INTERAKTÍVNA, INTERACTIVE
+    var attrs = ' data-n="' + n + '"' + (o.values[0].priced ? ' data-priced' : '') + ' style="--n:' + n + '"';
+    return '<div class="cq"><div class="choices ' + style + (isLong ? ' long' : '') + '"' + attrs + '>' + o.values.map(function (v) {
+      var note = v.note ? '<span class="cnote">' + nb(v.note) + '</span>' : '';
+      if (style === 'radios') return '<label class="choice">' + input(o, v) + '<span class="dot" aria-hidden="true"></span><span class="txt"><span class="cname">' + nb(v.name) + '</span>' + note + '</span></label>';
+      return '<label class="choice">' + input(o, v) + '<span class="cname">' + nb(v.name) + '</span>' + note + '</label>';
+    }).join('') + '</div></div>';
+  }
+  function noteFor(o) { return model.editionNote && o.key === 'language' ? t.editionNote : ''; }
   function optionHTML(o) {
-    var n = o.values.length, priced = o.values[0].price ? ' data-priced' : '';
-    var note = model.editionNote && o.key === 'language' ? t.editionNote : '';
-    if (S.dir === 'C') {
-      return '<fieldset class="card__row"><legend class="card__cap"><span class="label trim">' + o.legend + '</span>' +
-        (note ? '<span class="small">' + note + '</span>' : '') + '</legend>' +
-        '<div class="card__opts" data-n="' + n + '"' + priced + ' style="--n:' + n + '">' +
-        o.values.map(function (v) {
-          return '<label class="cell--opt">' + input(o, v) + '<span class="tile__name">' + v.name + '</span>' + (sub(v) ? '<span class="tile__note body">' + sub(v) + '</span>' : '') + '</label>';
-        }).join('') + '</div></fieldset>';
-    }
-    var inner = o.values.map(function (v) {
-      if (S.dir === 'B') return '<label class="seg__opt">' + input(o, v) + '<span class="tile__name">' + v.name + '</span>' + (sub(v) ? '<span class="tile__note">' + sub(v) + '</span>' : '') + '</label>';
-      return '<label class="tile">' + input(o, v) + '<span class="tile__dot" aria-hidden="true"></span><span class="tile__text"><span class="tile__name">' + v.name + '</span>' +
-        (v.note ? '<span class="tile__note">' + v.note + '</span>' : '') + '</span>' + (v.price ? '<span class="tile__price">' + v.price + '</span>' : '') + '</label>';
-    }).join('');
-    return '<fieldset class="opt"><legend class="label trim">' + o.legend + '</legend>' +
-      '<div class="' + (S.dir === 'B' ? 'seg' : 'tiles') + '" data-n="' + n + '"' + priced + ' style="--n:' + n + '">' + inner + '</div>' +
-      (note ? '<p class="' + (S.dir === 'B' ? 'body' : 'small') + ' opt__note">' + note + '</p>' : '') + '</fieldset>';
+    var note = noteFor(o);
+    if (S.dir === 'E') return '<fieldset class="row"><legend class="label">' + o.legend + '</legend>' + choicesHTML(o) + (note ? '<p class="small opt__note">' + note + '</p>' : '') + '</fieldset>';
+    return '<fieldset class="opt"><legend class="label trim">' + o.legend + '</legend>' + choicesHTML(o) + (note ? '<p class="body opt__note">' + note + '</p>' : '') + '</fieldset>';
   }
 
   function ctaHTML() {
@@ -434,50 +471,64 @@ body.show-zoom .zoom { display: flex; }
         '<div class="notify__row"><input class="input" id="em" type="email" placeholder="' + t.email + '" autocomplete="email">' +
         '<button class="btn reserve" type="submit">' + t.notify + '</button></div>' +
         '<label class="check small"><input type="checkbox"><span>' + t.newsletter + '</span></label>' +
-        '<p class="small notify__note">' + t.note + ' <a class="link" href="#">' + t.privacy + '</a></p></form>';
+        '<p class="small notify__note">' + nb(t.note) + ' <a class="link" href="#">' + t.privacy + '</a></p></form>';
     }
     if (model.mode === 'soldout') return '<div class="cta"><button class="btn btn--block reserve" disabled>' + t.soldOut + '</button></div>';
     var h = '<div class="cta"><button class="btn btn--block reserve" type="button">' + t.atc + ' <span class="num">· ' + model.price + '</span></button>';
-    if (isEbook) h += '<p class="small">' + t.ebookLine + '</p>';
-    else h += '<div class="express" aria-hidden="true"><span class="wallet">' + APPLE + '<b>Pay</b></span><span class="wallet"><b>Buy with</b>&nbsp;<b style="font-weight:700">G Pay</b></span></div>';
+    if (isEbook) h += '<p class="small">' + nb(t.ebookLine) + '</p>';
+    else h += '<div class="express" aria-hidden="true"><span class="wallet">' + APPLE + '<b style="font-weight:500">Pay</b></span><span class="wallet">Buy with&nbsp;<b>G Pay</b></span></div>';
     h += '<div class="pay" aria-label="Payment methods"><span>VISA</span><span>MC</span><span>AMEX</span><span>JCB</span><span>DISC</span><span>DINERS</span></div></div>';
     return h;
   }
 
   function accHTML() {
     function acc(title, body, suggest) {
-      return '<details class="acc' + (suggest ? ' acc--suggest' : '') + '"><summary><span class="acc__title"><span class="label trim">' + title + '</span>' +
-        (suggest ? '<span class="chip">' + t.suggestion + '</span>' : '') + '</span><span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body">' + body + '</div></details>';
+      return '<details class="acc' + (suggest ? ' acc--suggest' : '') + '"><summary><span class="acc__title"><span class="label trim">' + nb(title) + '</span>' +
+        (suggest ? '<span class="tag">' + t.suggestion + '</span>' : '') + '</span><span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body">' + body + '</div></details>';
     }
-    function paras(list) { return list.map(function (p, i) { return '<p' + (i === 0 ? ' class="lead"' : '') + '>' + p + '</p>'; }).join(''); }
+    function paras(list) { return list.map(function (p, i) { return '<p' + (i === 0 ? ' class="lead"' : '') + '>' + nb(p) + '</p>'; }).join(''); }
     var a = acc(isBook ? t.acc.aboutBook : t.acc.about, paras(isBook ? t.aboutBook : t.about));
     var items = isBook ? (isEbook ? t.boxEbook : t.boxBook) : t.box;
-    var box = '<ul class="list">' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
-    if (model.physical) box += '<p class="gpsr">' + t.gpsr1 + '<br>' + t.gpsr2 + model.title + '</p>'; // GPSR, physical only
+    var box = '<ul class="list">' + items.map(function (x) { return '<li>' + nb(x) + '</li>'; }).join('') + '</ul>';
+    if (model.physical) box += '<p class="gpsr">' + nb(t.gpsr1) + '<br>' + t.gpsr2 + model.title + '</p>';
     a += acc(t.acc.box, box);
-    if (isEbook) a += acc(t.acc.delivery, '<p>' + t.deliveryEbook + '</p>'); // physical Delivery hidden until Pack4you is signed
-    if (!isBook) { a += acc(t.acc.read, paras(t.read), true); a += acc(t.acc.which, paras(t.which), true); }
+    if (isEbook) a += acc(t.acc.delivery, '<p>' + nb(t.deliveryEbook) + '</p>'); // physical Delivery hidden until Pack4you is signed
+    if (!isBook) {
+      if (model.mode === 'notify') a += acc(t.acc.when, paras(t.when), true);
+      a += acc(t.acc.read, paras(t.read), true);
+      a += acc(t.acc.nine, paras(t.nine), true);
+      a += acc(t.acc.which, paras(t.which), true);
+      a += acc(t.acc.gift, paras(t.gift), true);
+    }
     a += acc(t.acc.walter, paras(t.walter), true);
-    return '<div class="accs">' + a + '</div>';
+    var weight = { B: '', L: ' accs--thin', S: '', F: ' accs--rule', E: ' accs--rule' }[S.dir];
+    return '<div class="accs' + weight + '">' + a + '</div>';
   }
 
-  var shipLine = model.physical ? '<p class="' + (S.dir === 'A' ? 'small' : 'body') + ' ship">' + ICON_SHIP + '<span>' + t.ship + '</span></p>' : '';
-  var announce = '<p class="sr" role="status" aria-live="polite">' + (model.announce || '') + '</p>' + (model.announce ? '<p class="status">' + model.announce + '</p>' : '');
+  var shipLine = model.physical ? '<p class="body ship">' + ICON_SHIP + '<span>' + t.ship + '</span></p>' : '';
+  var announce = model.announce ? '<p class="sr" role="status" aria-live="polite">' + model.announce + '</p><p class="status" aria-hidden="true">' + model.announce + '</p>' : '';
+  var title = '<h1 class="title trim">' + titleHTML(model.title) + '</h1>';
+  var head = '<div class="head">' + title + '<div class="pricebox"><p class="price trim">' + model.price + '</p>' + shipLine + '</div></div>';
+  var opts = '<div class="opts">' + model.options.map(optionHTML).join('') + (announce ? '<div style="margin-top:12px">' + announce + '</div>' : '') + '</div>';
+
   var col = document.getElementById('col');
   col.className = 'col dir' + S.dir;
-
-  if (S.dir === 'C') {
-    col.innerHTML = '<div class="card">' +
-      '<div class="card__row"><div class="cell card__head"><h1 class="title trim">' + titleHTML(model.title) + '</h1></div></div>' +
-      '<div class="card__row card__meta"><div class="cell"><p class="price trim">' + model.price + '</p></div>' + (shipLine ? '<div class="cell">' + shipLine + '</div>' : '') + '</div>' +
-      model.options.map(optionHTML).join('') +
-      '<div class="card__row"><div class="card__cta cta">' + (model.announce ? announce : '') + ctaHTML() + '</div></div>' +
+  if (S.dir === 'B' || S.dir === 'L') {
+    col.innerHTML = '<div class="panel">' + head + opts + ctaHTML() + '</div>' + accHTML();
+  } else if (S.dir === 'F') {
+    col.innerHTML = head + opts + ctaHTML() + accHTML();
+  } else if (S.dir === 'E') {
+    col.innerHTML = '<div class="page">' + head + model.options.map(optionHTML).join('') +
+      (announce ? '<div class="row"><span class="rowlabel"></span>' + announce + '</div>' : '') +
+      '<div class="ctarow">' + ctaHTML() + '</div></div>' + accHTML();
+  } else { // S · Strip
+    var many = model.options.length > 1;
+    col.innerHTML = '<div class="strip">' +
+      '<div class="p p--title">' + title + '</div>' +
+      '<div class="p p--price"><p class="price trim">' + model.price + '</p></div>' +
+      model.options.map(function (o, i) { return '<div class="p p--opts' + (many && i > 0 ? ' wide' : '') + '">' + optionHTML(o) + '</div>'; }).join('') +
+      '<div class="p p--cta">' + (announce ? '<div style="margin-bottom:12px">' + announce + '</div>' : '') + ctaHTML() + (shipLine ? shipLine.replace('body ship', 'small ship') : '') + '</div>' +
       '</div>' + accHTML();
-  } else {
-    var head = '<div class="head' + (S.dir === 'B' ? ' head--row' : '') + '"><h1 class="title trim">' + titleHTML(model.title) + '</h1>' +
-      '<div class="pricebox"><p class="price trim">' + model.price + '</p>' + shipLine + '</div></div>';
-    var opts = '<div class="opts">' + model.options.map(optionHTML).join('') + (model.announce ? '<div style="margin-top:12px">' + announce + '</div>' : '') + '</div>';
-    col.innerHTML = S.dir === 'B' ? '<div class="panel">' + head + opts + ctaHTML() + '</div>' + accHTML() : head + opts + ctaHTML() + accHTML();
   }
 
   document.getElementById('sticky').innerHTML =
@@ -496,12 +547,12 @@ body.show-zoom .zoom { display: flex; }
   function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); if (k === 'product') p.delete('state'); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === v) + '">' + (label || v) + '</a>'; }
   var states = S.product === 'tarot' ? ['coming_soon', 'available', 'low_stock', 'sold_out_one', 'sold_out_all'] : ['printed', 'ebook', 'unavailable'];
   document.getElementById('board').innerHTML =
-    '<span class="grp"><b>Direction</b>' + link('dir', 'B', 'B · Panel') + link('dir', 'C', 'C · Card') + link('dir', 'A', 'A · Caption (old)') + '</span>' +
+    '<span class="grp"><b>Direction</b>' + link('dir', 'B', 'B · Panel') + link('dir', 'L', 'L · Light panel') + link('dir', 'F', 'F · Frameless') + link('dir', 'E', 'E · Editorial') + link('dir', 'S', 'S · Strip') + '</span>' +
     '<span class="grp"><b>Product</b>' + link('product', 'tarot') + link('product', 'book') + '</span>' +
     '<span class="grp"><b>State</b>' + states.map(function (s) { return link('state', s); }).join('') + '</span>' +
     '<span class="grp"><b>Lang</b>' + link('lang', 'en', 'EN') + link('lang', 'sk', 'SK') + '</span>' +
     '<span class="grp"><b>Phone</b>' + link('extra', '', 'none') + link('extra', 'sticky') + link('extra', 'zoom') + '</span>' +
-    '<span>Dashed accordions = suggestions · book data = sample</span>';
+    '<span>Dashed = suggestion · book data = sample</span>';
 })();
 </script>
 </body>
