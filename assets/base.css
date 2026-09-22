@@ -2707,3 +2707,7 @@ body {
     fill: #000000 !important;
   }
 }
+
+/* Walterin: long URLs in policy pages wrap on phones instead of widening the page */
+.shopify-policy__body a,
+.shopify-policy__body p { overflow-wrap: anywhere; }
