@@ -1,0 +1,393 @@
+{% comment %}
+  "What's inside?" — Comics Tarot deck showcase.
+
+  - Centered title + a row of real tarot cards that flip independently (GSAP),
+    each showing a random card from a CURATED set (author-selected), grouped by
+    suit. The randomiser never places two cards of the same suit family next to
+    each other (desktop) or back-to-back in the same slot (mobile single card).
+  - Inline spec row: minimal, no container — yellow dot + uppercase label + value,
+    separated by whitespace (wraps on tablet, stacks on mobile).
+
+  Card images live in assets/ as wi-<suit>-NN.jpg (optimised ~800px), where suit ∈
+  {major, wands, cups, swords, pentacles}. They are emitted into window.ALL_CARDS
+  below as {src, suit} objects and preloaded for smooth flips. To add/remove cards,
+  drop new wi-<suit>-NN.jpg files in assets/ and update the lists below.
+
+  Only this section owns the .wi-* namespace; nothing else on the page is touched.
+{% endcomment %}
+
+{%- liquid
+  # Curated card set, grouped by suit family. Filenames live in assets/.
+  assign major_files = 'wi-major-01.jpg,wi-major-02.jpg,wi-major-03.jpg,wi-major-04.jpg,wi-major-05.jpg' | split: ','
+  assign wands_files = 'wi-wands-01.jpg,wi-wands-02.jpg,wi-wands-03.jpg' | split: ','
+  assign cups_files = 'wi-cups-01.jpg,wi-cups-02.jpg,wi-cups-03.jpg' | split: ','
+  assign swords_files = 'wi-swords-01.jpg,wi-swords-02.jpg,wi-swords-03.jpg' | split: ','
+  assign pentacles_files = 'wi-pentacles-01.jpg,wi-pentacles-02.jpg,wi-pentacles-03.jpg' | split: ','
+-%}
+
+{%- style -%}
+  .wi-section {
+    background: {{ section.settings.background | default: '#FFFEF7' }};
+    padding: 52px 24px;
+    border-top: 1px solid #ece9e1; /* subtle separation from the section above */
+  }
+  .wi-inner {
+    max-width: calc(290px * 4 + 32px * 3);
+    margin: 0 auto;
+  }
+  .wi-title {
+    /* Unified with the page's theme h1 (matches main title + About Walterin) */
+    font-family: "WalterinBold", sans-serif;
+    text-transform: uppercase;
+    font-size: calc(var(--font-heading-scale, 1.3) * 2.5rem);
+    letter-spacing: 0.6px;
+    line-height: 1.05;
+    text-align: center;
+    color: #222;
+    margin: 0 0 58px;
+  }
+  @media (min-width: 750px) {
+    .wi-title { font-size: calc(var(--font-heading-scale, 1.3) * 3.25rem); }
+  }
+
+  /* Card row */
+  .wi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    perspective: 1600px;
+  }
+  /* No inner padding: the card art already carries its own white border, so an
+     extra uniform pad would narrow the inner box's aspect vs the image (0.554 vs
+     0.609) and make object-fit:cover crop the sides. Edge-to-edge = no crop. */
+  .wi-card {
+    box-sizing: border-box;
+    aspect-ratio: 84 / 138;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .wi-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+    backface-visibility: hidden;
+  }
+
+  /* Spec row — inline & minimal, no container; whitespace does the separating */
+  .wi-specs {
+    margin-top: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px clamp(38px, 5vw, 76px);
+  }
+  .wi-spec {
+    text-align: left;
+  }
+  .wi-spec__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    color: #6b6b66;
+    margin: 0 0 6px;
+  }
+  /* Star icon before each spec label. Alternates star / star2 across the 6 items
+     and rotates/flips each instance so none look identical. Same footprint +
+     position as the old dot (first flex child, 7px gap, vertically centred). */
+  .wi-spec__label::before {
+    content: "";
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    background: url("{{ 'wi-star.png' | asset_url }}") center / contain no-repeat;
+    display: inline-block;
+  }
+  /* even items use star2 */
+  .wi-spec:nth-child(2) .wi-spec__label::before,
+  .wi-spec:nth-child(4) .wi-spec__label::before,
+  .wi-spec:nth-child(6) .wi-spec__label::before {
+    background-image: url("{{ 'wi-star2.png' | asset_url }}");
+  }
+  /* per-item rotation / flip for variety */
+  .wi-spec:nth-child(1) .wi-spec__label::before { transform: rotate(-8deg); }
+  .wi-spec:nth-child(2) .wi-spec__label::before { transform: rotate(11deg); }
+  .wi-spec:nth-child(3) .wi-spec__label::before { transform: rotate(6deg) scaleX(-1); }
+  .wi-spec:nth-child(4) .wi-spec__label::before { transform: rotate(-13deg); }
+  .wi-spec:nth-child(5) .wi-spec__label::before { transform: rotate(15deg); }
+  .wi-spec:nth-child(6) .wi-spec__label::before { transform: rotate(-6deg) scaleX(-1); }
+  .wi-spec__value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  /* Tablet: 2 cards, 2-col spec grid */
+  @media (max-width: 900px) {
+    .wi-inner { max-width: calc(290px * 2 + 32px); }
+    .wi-row { grid-template-columns: repeat(2, 1fr); }
+    .wi-card:nth-child(3),
+    .wi-card:nth-child(4) { display: none; }
+  }
+  /* Tablet: specs wrap naturally to 2–3 per row; tighten the gaps */
+  @media (max-width: 820px) {
+    .wi-specs { gap: 26px 48px; }
+  }
+  /* Mobile: 1 large card (cycles through the whole deck via the flip JS) */
+  @media (max-width: 560px) {
+    .wi-inner { max-width: 320px; }
+    .wi-row { grid-template-columns: 1fr; gap: 0; }
+    .wi-card:nth-child(2),
+    .wi-card:nth-child(3),
+    .wi-card:nth-child(4) { display: none; }
+    /* Specs stack, centered */
+    .wi-specs { flex-direction: column; align-items: center; gap: 22px; }
+    .wi-spec { text-align: center; }
+    .wi-spec__label { justify-content: center; }
+  }
+
+  /* Mobile: tighten vertical spacing so the section doesn't over-scroll.
+     - smaller section top/bottom padding
+     - much smaller gap under the headline (was 58px)
+     - smaller gap between the card row and the spec row below (was 64px) */
+  @media (max-width: 749px) {
+    .wi-section { padding: 40px 20px; }
+    .wi-title { margin-bottom: 24px; }
+    .wi-specs { margin-top: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wi-card { will-change: auto; }
+  }
+{%- endstyle -%}
+
+<section class="wi-section">
+  <div class="wi-inner">
+    <h2 class="wi-title">{{ section.settings.title | default: "Meet the cards" | escape }}</h2>
+
+    <div class="wi-row" id="wi-row">
+      {%- comment -%} Initial paint: four DIFFERENT suits so no two neighbours match. {%- endcomment -%}
+      {%- assign init_files = major_files[0] | append: ',' | append: wands_files[0] | append: ',' | append: cups_files[0] | append: ',' | append: swords_files[0] | split: ',' -%}
+      {%- assign init_suits = 'major,wands,cups,swords' | split: ',' -%}
+      {%- for fname in init_files -%}
+        <div class="wi-card">
+          <img src="{{ fname | asset_url }}" alt="" data-suit="{{ init_suits[forloop.index0] }}" width="800" height="1314" loading="lazy" decoding="async">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="wi-specs">
+      {%- assign labels = section.settings.spec_labels | default: 'Cards|Structure|Size|Print|Material|Finish' | split: '|' -%}
+      {%- assign values = section.settings.spec_values | default: '78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte' | split: '|' -%}
+      {%- for label in labels -%}
+        <div class="wi-spec">
+          <p class="wi-spec__label">{{ label }}</p>
+          <p class="wi-spec__value">{{ values[forloop.index0] }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  window.ALL_CARDS = [
+    {%- assign suit_keys = 'major,wands,cups,swords,pentacles' | split: ',' -%}
+    {%- for key in suit_keys -%}
+      {%- case key -%}
+        {%- when 'major' -%}{%- assign files = major_files -%}
+        {%- when 'wands' -%}{%- assign files = wands_files -%}
+        {%- when 'cups' -%}{%- assign files = cups_files -%}
+        {%- when 'swords' -%}{%- assign files = swords_files -%}
+        {%- when 'pentacles' -%}{%- assign files = pentacles_files -%}
+      {%- endcase -%}
+      {%- for fname in files -%}
+        { "src": "{{ fname | asset_url }}", "suit": "{{ key }}" }{%- unless forloop.last and forloop.parentloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  ];
+</script>
+
+<script>
+  (function () {
+    var row = document.getElementById('wi-row');
+    if (!row || !window.ALL_CARDS || !window.ALL_CARDS.length) return;
+
+    var ALL = window.ALL_CARDS;                          // [{ src, suit }]
+    var suitOf = {};
+    ALL.forEach(function (c) { suitOf[c.src] = c.suit; });
+
+    var cards = Array.prototype.slice.call(row.querySelectorAll('.wi-card'));
+    var imgs = cards.map(function (c) { return c.querySelector('img'); });
+    var current = imgs.map(function (img) { return img.getAttribute('src'); });
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Preload the curated set so flips never wait on the network.
+    ALL.forEach(function (c) { var im = new Image(); im.src = c.src; });
+
+    function randInt(min, max) { return Math.floor(min + Math.random() * (max - min)); }
+    function suitAt(i) { return suitOf[current[i]]; }
+
+    function isVisible(i) {
+      return cards[i] && window.getComputedStyle(cards[i]).display !== 'none';
+    }
+
+    // Visible slot indices in DOM order, so we can find a slot's left/right neighbours.
+    function visibleIndices() {
+      var out = [];
+      for (var k = 0; k < cards.length; k++) { if (isVisible(k)) out.push(k); }
+      return out;
+    }
+
+    // Pick a new card for slot i under the "no similar neighbours" rule:
+    //   - never repeat a src already on screen (incl. this slot);
+    //   - never match the suit of the visible left/right neighbours (spatial);
+    //   - never repeat this slot's own current suit (temporal — this is what keeps
+    //     the lone mobile card from showing the same suit twice in a row).
+    // Constraints relax in order (own-suit → neighbour-suit → src-only) so a small
+    // curated set can never deadlock a flip.
+    function pickFor(i) {
+      var vis = visibleIndices();
+      var pos = vis.indexOf(i);
+
+      var usedSrcs = [];
+      vis.forEach(function (k) { usedSrcs.push(current[k]); });
+
+      var neighbourSuits = [];
+      if (pos > 0) neighbourSuits.push(suitAt(vis[pos - 1]));
+      if (pos !== -1 && pos < vis.length - 1) neighbourSuits.push(suitAt(vis[pos + 1]));
+
+      var ownSuit = suitAt(i);
+
+      function candidates(useOwn, useNeighbours) {
+        return ALL.filter(function (c) {
+          if (usedSrcs.indexOf(c.src) !== -1) return false;
+          if (useOwn && c.suit === ownSuit) return false;
+          if (useNeighbours && neighbourSuits.indexOf(c.suit) !== -1) return false;
+          return true;
+        });
+      }
+
+      var pool = candidates(true, true);
+      if (!pool.length) pool = candidates(false, true);
+      if (!pool.length) pool = candidates(true, false);
+      if (!pool.length) pool = ALL.filter(function (c) { return usedSrcs.indexOf(c.src) === -1; });
+      if (!pool.length) pool = ALL;
+      return pool[Math.floor(Math.random() * pool.length)].src;
+    }
+
+    function swap(i) {
+      var next = pickFor(i);
+      current[i] = next;
+      imgs[i].setAttribute('src', next);
+    }
+
+    function scheduleNext(i, gsap) {
+      var delay = randInt(2500, 4300); // re-rolled after every flip
+      setTimeout(function () { flip(i, gsap); }, delay);
+    }
+
+    function flip(i, gsap) {
+      // Skip hidden slots (tablet/mobile): no animation, just keep a light
+      // heartbeat so they auto-resume if the viewport later reveals them.
+      if (!isVisible(i)) { scheduleNext(i, gsap); return; }
+      if (!gsap || reduce) {
+        // Reduced motion / no GSAP: just swap (optionally crossfade), keep timers.
+        if (gsap) {
+          gsap.to(imgs[i], { opacity: 0, duration: 0.18, onComplete: function () {
+            swap(i);
+            gsap.to(imgs[i], { opacity: 1, duration: 0.18 });
+          }});
+        } else {
+          swap(i);
+        }
+        scheduleNext(i, gsap);
+        return;
+      }
+      gsap.to(cards[i], {
+        rotationY: 90,
+        duration: 0.28,
+        ease: 'power1.in',
+        onComplete: function () {
+          swap(i);
+          gsap.fromTo(cards[i],
+            { rotationY: -90 },
+            { rotationY: 0, duration: 0.28, ease: 'power1.out',
+              onComplete: function () { scheduleNext(i, gsap); } }
+          );
+        }
+      });
+    }
+
+    function start(gsap) {
+      cards.forEach(function (_, i) {
+        var initial = i * 650 + randInt(0, 600); // staggered, never in sync
+        setTimeout(function () { flip(i, gsap); }, initial);
+      });
+    }
+
+    function init() {
+      var gsap = window.gsap || null;
+      if (gsap) {
+        try { gsap.set(cards, { transformPerspective: 1400 }); } catch (e) {}
+      }
+      start(gsap);
+    }
+
+    if (window.gsap) {
+      init();
+    } else {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+      s.onload = init;
+      s.onerror = function () { init(); }; // graceful: swaps without rotation
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "What's inside?",
+  "tag": "section",
+  "class": "section-whats-inside",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Meet the cards"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#FFFEF7"
+    },
+    {
+      "type": "textarea",
+      "id": "spec_labels",
+      "label": "Spec labels (pipe | separated)",
+      "default": "Cards|Structure|Size|Print|Material|Finish"
+    },
+    {
+      "type": "textarea",
+      "id": "spec_values",
+      "label": "Spec values (pipe | separated, same order)",
+      "default": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte"
+    }
+  ],
+  "presets": [
+    { "name": "What's inside?" }
+  ]
+}
+{% endschema %}

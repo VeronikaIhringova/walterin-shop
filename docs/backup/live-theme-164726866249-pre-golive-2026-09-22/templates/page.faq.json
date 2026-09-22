@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "37e8cdd4-ab58-48f7-b736-913308245cdb": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_DzzEYy": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are Walterin products authentic?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes. All Walterin products are original and created or sourced directly by us. We don’t sell replicas or third-party imitations.</p>",
+            "page": ""
+          }
+        },
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will sold-out items be restocked?",
+            "icon": "check_mark",
+            "row_content": "<p>Some pieces may return depending on availability and demand. You can subscribe to our newsletter or follow us on Instagram for restock updates.</p>",
+            "page": ""
+          }
+        },
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I modify or cancel my order?",
+            "icon": "check_mark",
+            "row_content": "<p>If your order hasn’t been shipped yet, we’ll do our best to make changes or cancel it. Please contact us as soon as possible at <a>walterinwittyguide@gmail.com</a>.</p>",
+            "page": ""
+          }
+        },
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where do you currently ship?",
+            "icon": "check_mark",
+            "row_content": "<p>We currently ship across <strong>Europe</strong> from our base in Slovakia.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_HhN9wC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long does delivery take?",
+            "icon": "check_mark",
+            "row_content": "<p>Orders within Europe are typically delivered within <strong>3–7 business days</strong>, depending on your destination and courier service.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_rL7kEN": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How can I track my order?",
+            "icon": "check_mark",
+            "row_content": "<p>Once your order ships, you’ll receive an email with a <strong>tracking link</strong> so you can follow your delivery in real time.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_63RXfn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What payment methods are accepted?",
+            "icon": "check_mark",
+            "row_content": "<p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_fAmemF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is online payment secure?",
+            "icon": "check_mark",
+            "row_content": "<p>Yes. All transactions are protected with SSL encryption and handled by certified, secure payment gateways.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_JBbCVr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is your return policy?",
+            "icon": "check_mark",
+            "row_content": "<p>You can return items within <strong>14 days</strong> of receiving them, provided they are unused and in their original condition. Please email <a>walterinwittyguide@gmail.com</a> to start the process.</p><p></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_KXBJQF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How can I contact customer support?",
+            "icon": "check_mark",
+            "row_content": "<p>For any questions or issues, reach us at <a>walterinwittyguide@gmail.com</a>. We aim to respond within <strong>24 hours</strong> on business days.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_DzzEYy",
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1",
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2",
+        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-3",
+        "collapsible_row_HhN9wC",
+        "collapsible_row_rL7kEN",
+        "collapsible_row_63RXfn",
+        "collapsible_row_fAmemF",
+        "collapsible_row_JBbCVr",
+        "collapsible_row_KXBJQF"
+      ],
+      "custom_css": [],
+      "settings": {
+        "caption": "",
+        "heading": "Frequently Asked Questions (FAQ)",
+        "heading_size": "h2",
+        "heading_alignment": "left",
+        "layout": "none",
+        "color_scheme": "background-1",
+        "container_color_scheme": "background-2",
+        "open_first_collapsible_row": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_contaner_colors_background": "#ffffff",
+        "custom_container_gradient_background": "",
+        "custom_contaner_colors_text": "#2e2a39"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "37e8cdd4-ab58-48f7-b736-913308245cdb"
+  ]
+}

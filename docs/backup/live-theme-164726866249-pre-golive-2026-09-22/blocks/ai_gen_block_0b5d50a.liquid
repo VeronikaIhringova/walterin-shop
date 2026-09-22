@@ -1,0 +1,300 @@
+{% doc %}
+  @prompt
+    summary text, a heading walterin prague is: with bullert going from it on the right side
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bullet-heading-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.spacing }}px;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    flex-wrap: wrap;
+  }
+
+  .ai-bullet-heading__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: {{ block.settings.heading_weight }};
+    color: {{ block.settings.heading_color }};
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .ai-bullet-heading__bullets-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.bullet_spacing }}px;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .ai-bullet-heading__bullet-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.bullet_icon_spacing }}px;
+  }
+
+  .ai-bullet-heading__bullet-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.bullet_icon_size }}px;
+    height: {{ block.settings.bullet_icon_size }}px;
+    background-color: {{ block.settings.bullet_color }};
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ai-bullet-heading__bullet-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bullet_text_size }}px;
+    color: {{ block.settings.bullet_text_color }};
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bullet-heading-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: {{ block.settings.spacing | times: 0.7 }}px;
+    }
+
+    .ai-bullet-heading__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-bullet-heading__bullets-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-bullet-heading-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank %}
+    <h2 class="ai-bullet-heading__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="ai-bullet-heading__bullets-{{ ai_gen_id }}">
+    {% if block.settings.bullet_1 != blank %}
+      <div class="ai-bullet-heading__bullet-item-{{ ai_gen_id }}">
+        <div class="ai-bullet-heading__bullet-icon-{{ ai_gen_id }}"></div>
+        <div class="ai-bullet-heading__bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_1 }}</div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.bullet_2 != blank %}
+      <div class="ai-bullet-heading__bullet-item-{{ ai_gen_id }}">
+        <div class="ai-bullet-heading__bullet-icon-{{ ai_gen_id }}"></div>
+        <div class="ai-bullet-heading__bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_2 }}</div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.bullet_3 != blank %}
+      <div class="ai-bullet-heading__bullet-item-{{ ai_gen_id }}">
+        <div class="ai-bullet-heading__bullet-icon-{{ ai_gen_id }}"></div>
+        <div class="ai-bullet-heading__bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_3 }}</div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.bullet_4 != blank %}
+      <div class="ai-bullet-heading__bullet-item-{{ ai_gen_id }}">
+        <div class="ai-bullet-heading__bullet-icon-{{ ai_gen_id }}"></div>
+        <div class="ai-bullet-heading__bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_4 }}</div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.bullet_5 != blank %}
+      <div class="ai-bullet-heading__bullet-item-{{ ai_gen_id }}">
+        <div class="ai-bullet-heading__bullet-icon-{{ ai_gen_id }}"></div>
+        <div class="ai-bullet-heading__bullet-text-{{ ai_gen_id }}">{{ block.settings.bullet_5 }}</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Heading with bullets",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "Walterin Prague is:"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#222222"
+    },
+    {
+      "type": "header",
+      "content": "Bullet points"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1",
+      "label": "Bullet point 1",
+      "default": "Premium quality materials"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2",
+      "label": "Bullet point 2",
+      "default": "Handcrafted with care"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3",
+      "label": "Bullet point 3",
+      "default": "Sustainable production"
+    },
+    {
+      "type": "text",
+      "id": "bullet_4",
+      "label": "Bullet point 4"
+    },
+    {
+      "type": "text",
+      "id": "bullet_5",
+      "label": "Bullet point 5"
+    },
+    {
+      "type": "range",
+      "id": "bullet_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "bullet_text_color",
+      "label": "Text color",
+      "default": "#222222"
+    },
+    {
+      "type": "range",
+      "id": "bullet_icon_size",
+      "min": 6,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Icon color",
+      "default": "#fce206"
+    },
+    {
+      "type": "range",
+      "id": "bullet_spacing",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between bullets",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bullet_icon_spacing",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between icon and text",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Space between heading and bullets",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fffdf7"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heading with bullets"
+    }
+  ]
+}
+{% endschema %}

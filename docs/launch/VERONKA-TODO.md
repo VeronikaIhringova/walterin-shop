@@ -1,20 +1,21 @@
-# Veronka – čo musíš urobiť sama (v tomto poradí)
+# Veronka – čo musíš urobiť sama
 
-1. **Schváliť zoznam zápisov:** prečítaj `docs/launch/APPROVAL-LIST.md` a odpíš „OK all“ alebo čísla položiek.
-2. **Účtovník:** pošli e-mail z `docs/launch/accountant.md` (doplň dátum `[DÁTUM]`). Odpovede posielaj mne, zapracujem ich.
-3. **Stripe naostro:** Shopify admin → Settings → Payments → Stripe → skontroluj, že nie je zapnutý testovací režim, výplaty idú na firemný účet a na výpise sa zobrazuje „WALTERIN“.
-4. **Revolut a PayPal ikonky:** Settings → Payments → skontroluj, prečo sa v pätičke zobrazujú ikonky Revolut a PayPal. Vypni, čo nepoužívaš.
-5. **PayPal:** Settings → Payments → Add payment methods → PayPal → dokonči nastavenie. Potom mi daj vedieť a doplním PayPal do textov.
-6. **Aplikácia na odstúpenie od zmluvy:** Apps → Shopify App Store → nainštaluj „Revoq – EU Withdrawal Button“ (free plan). Ja potom prepojím odkaz v pätičke a doplním aplikáciu do zásad ochrany osobných údajov.
-7. **Walter / tlačiareň:** údaje o bezpečnosti výrobku (varovania, materiál) pre karty, knihu, nálepky a tričko, ďalej rozmery, papier a hmotnosti, a pri tričku veľkosti a zloženie. Tabuľka je v `docs/legal/product-safety-gpsr.md`.
-8. **Prečiarknutá cena pri Prahe:** Products → Walterin Prague → pri variantoch skontroluj „Compare-at price“ (35 €, „SAVE 45%“). Buď ho zmaž, alebo si over, že 35 € bola najnižšia cena za posledných 30 dní.
-9. **Digital Products:** Apps → Digital Products → skontroluj, že každý variant e-knihy (Praha, Paríž; PDF + EPUB) má priložený súbor. Nastav počet stiahnutí a pošli mi, aké je to nastavenie.
-10. **E-maily:** Settings → Notifications → Order confirmation → Edit code → vlož blok z `docs/legal/emails/order-confirmation-legal-block.md` (EN, a SK do slovenského prekladu). Potom „Send test email“.
-11. **E-mail so stiahnutím:** Apps → Digital Products → Email → vlož texty z `docs/legal/emails/digital-download-email.md`.
-12. **Odosielateľ e-mailov:** Settings → Notifications → Sender email → nastav support@walterin.com a over doménu (SPF/DKIM).
-13. **Opustené košíky:** Settings → Checkout → Abandoned checkouts → „Send to: Customers subscribed to marketing“ (kým to nepotvrdí právnik).
-14. **Právnik:** pošli mu `docs/legal/vop.sk.md`, `refund-policy.sk.md`, `withdrawal-instructions-and-form.sk.md`, `privacy-policy.sk.md`, `emails/`, `withdrawal-function-plan.md`. Otázky sú v hranatých zátvorkách [NA POTVRDENIE].
-15. **Pack4you (keď bude aktuálne):** pošli `docs/launch/pack4you.md`.
-16. **Publikovať draft tému:** Online Store → Themes → „Walterin Draft (Claude)“ → Publish. Až po bodoch 6, 7 a 10 a po mojom finálnom teste. Predtým mi napíš, pripravím texty s funkciou odstúpenia a stránku „withdrawal“.
-17. **Publikovať slovenčinu:** Settings → Languages → Slovak → Publish. Spolu s draft témou, keď budú preložené texty sekcií.
-18. **Testovacia objednávka:** Settings → Payments → Stripe test mode (alebo 100 % zľavový kód) → objednaj fyzický tovar, e-knihu aj oboje spolu, v EN aj SK. Skontroluj e-maily, súhlas pri e-knihe a odstúpenie cez pätičku. Potom vypni test mode.
+**Zajtra, pred predajom e-kníh (v tomto poradí):**
+1. **Schváliť zápisy:** prečítaj `docs/launch/APPROVAL-LIST.md` a odpíš „OK all“ alebo čísla položiek.
+2. **DPH vypnúť:** Settings → Taxes and duties → pri trhu Slovakia (a neskôr European Union) vypni „Include sales tax in product price…“. Daj mi vedieť, overím to.
+3. **Účtovník (telefonicky):** 2 otázky sú v `docs/launch/EBOOK-LAUNCH.md` (OSS pri e-knihách a aký doklad dávame zákazníkovi). Odpovede mi pošli.
+4. **Stripe naostro:** Settings → Payments → Stripe → skontroluj, že nie je zapnutý test mode a výplaty idú na firemný účet.
+5. **PayPal:** Settings → Payments → skontroluj, prečo Shopify uvádza PayPal ako zapnutý. Kým ho nenastavíme, vypni ho.
+6. **Digital Products:** Apps → Digital Products → pri Prague EN a CZ (Digital Interactive Edition) prilož PDF + EPUB, nastav limit stiahnutí (návrh 5 stiahnutí, 30 dní) a vlož text e-mailu z `docs/legal/emails/digital-download-email.md`.
+7. **Potvrdenie objednávky:** Settings → Notifications → Order confirmation → Edit code → vlož blok z `docs/legal/emails/order-confirmation-legal-block.md` (EN, a SK do slovenského prekladu) → Send test email.
+8. **Testovacia objednávka:** postup je v `docs/launch/EBOOK-LAUNCH.md` (kúpiš e-knihu vlastnou kartou, skontroluješ e-maily a stiahnutie, potom Refund).
+
+**Priebežne:**
+9. **Odstúpenia od zmluvy:** každú správu „Odstúpenie od zmluvy (online formulár)“ v schránke support@ potvrď zákazníkovi e-mailom v ten istý deň, kým nebude aplikácia. Aplikáciu (Revoq, free plan) rozhodni pred predajom fyzického tovaru.
+10. **Walter / tlačiareň:** bezpečnostné údaje, rozmery, papier a hmotnosti pre karty, knihu a nálepky (tabuľka v `docs/legal/product-safety-gpsr.md`).
+11. **Paríž:** ceny, slovenský súbor e-knihy a či chceš slovenský variant. Potom ho vytvorím.
+12. **Právnik:** pošli mu `docs/legal/` (VOP, reklamácie, poučenie, ochrana údajov, e-maily, plán § 20a). Otázky sú v [NA POTVRDENIE].
+13. **Opustené košíky:** Settings → Checkout → Abandoned checkouts → posielať len zákazníkom so súhlasom s marketingom.
+14. **Stará draft téma:** keď ti napíšem, že je všetko naživo, zmaž tému „Walterin Draft (Claude)“ (Online Store → Themes).
+15. **Pack4you (neskôr):** pošli `docs/launch/pack4you.md`.
+16. **Slovenčina:** Settings → Languages → Slovak → Publish, keď budú preložené texty sekcií.

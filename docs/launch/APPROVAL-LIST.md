@@ -1,81 +1,111 @@
-# Final approval list: writes to the LIVE store
+# Approval list: all LIVE writes (final setup, 22 Sep 2026)
 
-Prepared 22 Sep 2026. **Nothing here has been written.** Answer "OK all" or item numbers.
+**Nothing here has been written.** Answer "OK all" or item numbers. For every item: a backup exists, Claude Code writes once (no retry), reads back through the Admin API and pastes the output, then checks the public page. On any failure: stop and report.
 
-For every item: a backup already exists (path given). Claude Code requests only the scopes that item needs, writes it once (no retry), reads it back through the Admin API and pastes the output, then checks the public URL.
+Backups: live theme text files `docs/backup/live-theme-164726866249-pre-golive-2026-09-22/` (+ GitHub) · policies, markets, tarot SK title `docs/backup/final-setup/policies-markets-tarot-sk-2026-09-22.json` · products `docs/backup/final-setup/products-2026-09-22.json`.
 
-## My recommendation: replace the Terms and the Refund policy now (items 1–2), and get the lawyer's review afterwards
-- **Keeping them is the bigger risk.** The live texts are templates that contradict Slovak law. The Terms are a US template with a "[LINK]" placeholder, a US-style liability disclaimer and no seller identification. The Refund policy has conditions the law doesn't allow for the 14-day withdrawal ("unworn or unused, with tags", "receipt", excluded sale items), a 30-day promise, and `[INSERT RETURN ADDRESS]`.
-- **The new texts are conservative:** the withdrawal parts are the statutory model wording (Annex 2/3 of 108/2024 and Annex I of Dir. 2011/83), and nothing promises more than the law requires.
-- **They're adapted to what is live today:** no Shipping Policy link (delivery is shown at checkout), no § 20a online function, no product-page notice. Those come back in the full version when the draft theme is published (see "Later").
-- **Nobody can buy yet,** so no customer relies on either text today. The lawyer can refine them before the first sale with no contracts affected.
+**Order matters:** 0 → 1 → 2 → 3–5 → 6 → 7–11 → 12 → 13.
 
 ---
 
-## 1. Terms of service (EN) + Slovak translation
-- **Old:** US template "OVERVIEW… SECTION 1–…" with "[LINK]" (22,845 chars). Backup: `docs/backup/policies/terms_of_service-2026-09-22.html`
-- **New:** `docs/legal/publish/terms-now.en.html` (EN) and `terms-now.sk.html` (SK, the binding original), sections 1–12:
-  - seller + SOI;
-  - consumers only;
-  - final prices, no VAT statement;
-  - ordering steps; contract concluded on the confirmation email;
-  - cards, Apple Pay, Google Pay via Stripe;
-  - delivery shown at checkout, maximum 30 days;
-  - eBook delivery and personal use;
-  - 14-day withdrawal with the statutory wording, and the eBook exception (§ 19(1)(m));
-  - claims (24 months, 30 days, we pay shipping for claims and for damaged or wrong items);
-  - ADR/SOI, no ODR;
-  - Slovak law + Rome I;
-  - Slovak version prevails.
-- `[DÁTUM ZVEREJNENIA]` is replaced with the publish date at write time.
-- **Write:** `shopPolicyUpdate(TERMS_OF_SERVICE)` → `translationsRegister(sk)` · scopes `write_legal_policies`, `read/write_translations`
-- **Check:** read-back identical; `/policies/terms-of-service` shows "Walterin s. r. o." and no "[LINK]".
+## 0. Prerequisite (you click, I verify): switch off "Include tax in prices"
+- **Where:** Settings → Taxes and duties → (Slovakia and, after item 12, European Union) → "Include sales tax in product price and shipping rate" → **off**. [TO CONFIRM – the exact label in your admin]
+- **Why:** you're not a VAT payer. The new theme shows "Tax included" only when this setting is on, so VAT can be switched on later without theme changes. Today `taxesIncluded = true`, which would show "Tax included" after item 1.
+- **Check:** I read `shop.taxesIncluded` = false before item 1. **If it's still true, I don't push the theme.**
 
-## 2. Refund policy (EN) + Slovak translation
-- **Old:** clothing template: 30 days, "tags", "unworn", `[INSERT RETURN ADDRESS]`, info@ (2,815 chars). Backup: `docs/backup/policies/refund_policy-2026-09-22.html`
-- **New:** `docs/legal/publish/refund-now.en.html` / `.sk.html`: 14-day withdrawal (email or post), return address = company address, customer pays return shipping, full refund incl. standard delivery within 14 days, eBook rule, claims, damaged/wrong item at our cost, ADR. The **full statutory withdrawal instructions and model form** are appended.
-- **Write:** `shopPolicyUpdate(REFUND_POLICY)` → SK translation · same scopes as item 1
-- **Check:** read-back identical; `/policies/refund-policy` has no "30-day", "tags" or "[INSERT".
+## 1. Theme push to LIVE 164726866249 (26 files, `--only` each, `--nodelete`)
+Just before the push: pull live again and merge any editor changes (workflow rule). The full check found none today.
+Files: `docs/launch/approval/theme-push-files.txt`.
 
-## 3. Privacy policy, section 4: mention the "Cookie preferences" link
-- **Old:** "You can withdraw your consent at any time: delete the cookies… or write to support@walterin.com."
-- **New:** "You can change or withdraw your consent at any time via the "Cookie preferences" link in the footer of every page, by deleting the cookies for walterin.com in your browser, or by writing to support@walterin.com." SK: "…cez odkaz na nastavenia cookies v pätičke každej stránky…"
-- Files: `docs/legal/publish/privacy-v2.en.html` / `.sk.html`. Backup: `docs/backup/policies/privacy_policy-readback-after-publish-2026-09-22.json`
-- **Write:** `shopPolicyUpdate(PRIVACY_POLICY)` → SK translation
+| Area | Old (live now) | New |
+|---|---|---|
+| Tarot page | old Dawn product page | new buy section (edition tiles, notify form, Details accordion incl. **product safety** row, FAQ) |
+| Notify form | email + unticked newsletter box (fixed today) | "One email when it's ready. That's all." + optional box "And the newsletter: what's new, what's next." (SK texts included); the `newsletter` tag only when ticked |
+| Footer | policy links + Cookie preferences | the same + **"Withdraw from contract here" / "Odstúpiť od zmluvy tu"** (always visible) |
+| Footer payment icons | Visa, Mastercard, Apple Pay, Google Pay, **Revolut, PayPal** | Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay |
+| Product-page payment badges | Shopify's list (includes **PayPal**) | the same fixed list as the footer |
+| Cart | – | **eBook consent** box (required) when an eBook is in the cart; express buttons hidden in that case |
+| Book, sticker and T-shirt pages | – | "Product safety" accordion under Details (physical products only), no express checkout on products with an eBook variant |
+| Tax wording | "Tax included" strings | shown only if "Include tax in prices" is on (item 0 → nothing shown) |
+| FAQ page, stickers, T-shirt | "Revolut, and PayPal" | "We accept Visa, Mastercard, Apple Pay and Google Pay." |
+| Tarot FAQ | "Comics Tarot of consciousness" | "the Tarot of Consciousness" |
+| settings_data | Judge.me embed **on**, REZ/Appikon, REZ CSS | removed |
+| Blogs | indexable | `noindex` on blog/article pages |
+| Slovak theme texts | older translations | corrected sk.json (commit 4d3b3dd) + new strings |
+| Header | – | language switcher (commit 7c89c20) |
+| New files | – | `walterin-withdrawal` section + `page.withdrawal` template, `cart-ebook-consent`, `gpsr-row`, `wui-*` snippets, `walterin-ui.css`, `walterin-buy.js` |
+| Policy pages | long URLs overflow on phones | wrap |
 
-## 4–6. Live theme 164726866249: false payment claim in three more templates
-Same fix as the tarot and Prague templates on 22 Sep (one file per write, via `themeFilesUpsert`, with a check that each file is unchanged since backup).
-```diff
-- <p>We accept <strong>Visa, Mastercard, Apple Pay, Google Pay, Revolut, and PayPal.</strong> All payments are processed securely through trusted providers.</p>
-+ <p>We accept Visa, Mastercard, Apple Pay and Google Pay. All payments are processed securely through trusted providers.</p>
-```
-- **4.** `templates/page.faq.json` (public /pages/faq)
-- **5.** `templates/product.json` (default product template, e.g. stickers). Shopify will also drop the dead Judge.me blocks on save, as it did on 22 Sep.
-- **6.** `templates/product.t-shirt.json` (T-shirt, currently a draft product)
-- New files: `docs/launch/approval/live-*.json.new`; backups: `docs/backup/live-theme-164726866249-2026-09-22/templates/`
+**Check:** read back every file (checksum = repo); public pages tarot, Prague, stickers, cart, footer, policies at 1280/390.
+**Rollback:** push the files from `docs/backup/live-theme-164726866249-pre-golive-2026-09-22/`.
 
-## 7. Create the (unpublished) page for the § 20a function
-- **New:** Online Store page "Odstúpenie od zmluvy" / EN title "Withdraw from contract", handle `withdrawal`, template `page.withdrawal`, **unpublished** (`isPublished:false`).
-- Why now: the draft theme's footer link goes to `/pages/withdrawal`. The page must exist before the draft is published, and it must be published together with the draft, once the confirmation email works (app, see `docs/legal/withdrawal-function-plan.md`).
-- **Write:** `pageCreate` · scope `write_content`
+## 2. Upload the EU legal-guarantee notice images to Shopify Files
+- **New:** `docs/legal/assets/eu-legal-guarantee-notice-en.jpg` and `-sk.jpg` (the official colour images, Impl. Reg. (EU) 2025/1960). Their Files URLs go into the Terms (item 3).
+- Scope `write_files`.
 
-## 8. Metafield definition for product safety (GPSR)
-- **New:** product metafield definition `custom.safety_info`, "Safety information", type multi-line text. Empty until Walter or the printer provide the data (`docs/legal/product-safety-gpsr.md`).
-- **Write:** `metafieldDefinitionCreate` · scope `write_products`
+## 3. Terms of service, EN + SK translation
+- **Old:** US template with "[LINK]" (22,845 chars, backup `docs/backup/policies/terms_of_service-2026-09-22.html`).
+- **New:** `docs/legal/publish/terms.en.md` / `terms.sk.md`, 13 articles:
+  - seller + SOI; consumers;
+  - final prices, no VAT wording;
+  - ordering and conclusion; eBook consent in the cart;
+  - payments: cards, Apple Pay, Google Pay via Stripe, **no PayPal**;
+  - delivery shown at checkout, max 30 days;
+  - eBook delivery;
+  - 14-day withdrawal incl. **online function** (`/pages/withdrawal`) and the eBook exception;
+  - claims (24 months; we pay for claims and for damaged or wrong items);
+  - **art. 10 Legal guarantee with the official notice image**;
+  - ADR/SOI; privacy link; Slovak law + Rome I; SK prevails.
+- `[DÁTUM ZVEREJNENIA]` becomes the publish date.
 
-## 9. Product variants: physical vs digital (needed for checkout and the eBook consent)
-You said "don't touch products other than the tarot description", so this is only for your decision:
-- **9a.** Prague + Paris **"Printed Collector's Edition"** variants: `requiresShipping false → true`. Today checkout wouldn't ask for an address, and the eBook consent box would show for printed books.
-- **9b.** Prague + Paris **"Digital Interactive Edition"** variants: inventory tracking **off**. Today they're "tracked, 0 in stock" and can't be sold.
-- Backup: `docs/backup/products/` + `docs/launch/audit-data/products.json` · scope `write_products`, `write_inventory`
+## 4. Refund policy, EN + SK
+- **Old:** clothing template (30 days, "tags", `[INSERT RETURN ADDRESS]`).
+- **New:** `docs/legal/publish/refund.en.md` / `.sk.md`: withdrawal (online link, email, post), return address Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, return shipping paid by the customer, refund incl. standard delivery within 14 days, the eBook rule, claims, damaged or wrong item at our cost, ADR. The **full statutory withdrawal instructions (incl. text 3a) and the model form** are appended.
+
+## 5. Privacy policy, EN + SK
+Fixes found in the review:
+- **(a)** Pack4you was named as a current processor. It's now described as "our fulfilment partner… once physical products are on sale", to be named before then.
+- **(b)** Orders now also cover the eBook consent declaration.
+- **(c)** Customer service now covers the online withdrawal form.
+- **(d)** Section 4 now mentions the "Cookie preferences" footer link.
+- **(e)** The date is updated.
+
+Files: `docs/legal/publish/privacy.en.md` / `.sk.md`.
+
+## 6. Create page "Odstúpenie od zmluvy" (published, template `withdrawal`), right after item 1
+- Handle `withdrawal`, title EN "Withdraw from contract" (SK translation "Odstúpenie od zmluvy"), empty body, **published**, so the footer link works.
+- The form sends to support@ and shows an on-screen confirmation with date and time. **No automatic customer email yet** (needs an app, Revoq undecided). Until then, **reply to every submission by email the same day** (your to-do), because the Terms promise an email confirmation without undue delay.
+
+## 7. Metafield definition `custom.safety_info` (product, multi-line text)
+Empty until Walter or the printer give the data. It feeds the "Product safety" row.
+
+## 8. Remove crossed-out prices
+- **Prague** (4 variants): compare-at €35.00 → **none** (removes "SAVE 45%" and "You save €16,01").
+- **Paris** (4 variants, draft product): compare-at €35.00 → none. Recommended, so the same problem doesn't return when Paris goes live.
+
+## 9. Tarot: new name
+- Title "Comics Tarot of Consciousness" → **"Tarot of Consciousness: A Graphic Journey"**; the SK translation of the title "Comics Tarot of Consciousness" → **"Komiksový tarot vedomia"**. Handle stays `tarot`.
+- Optional 9b (from the product file): SEO title EN "Tarot of Consciousness: A Graphic Journey · 78-card illustrated tarot | Walterin", SK "Komiksový tarot vedomia · 78 ilustrovaných kariet | Walterin".
+
+## 10. Printed editions = physical (old item 9a)
+Prague EN/CZ and Paris EN/FR "Printed Collector's Edition": `requiresShipping false → true`. The variants stay out of stock (not buyable). Effect: the Product safety row appears on the Prague page, and the eBook consent box shows only for real eBooks.
+
+## 11. Paris: English + Slovak only
+- The French variants are already unavailable (tracked, 0 in stock, "stop selling"). **No write needed**; they stay like that. No German variant exists.
+- **A Slovak variant doesn't exist.** Creating it needs the SK file and a price (TBD), so it's not done now (your to-do).
+
+## 12. Market "European Union" (eBooks buyable in the EU)
+- **New:** market "European Union", 26 countries (all EU except SK, which stays in "Slovakia"), EUR, same prices, active. Details and effects: `docs/launch/EBOOK-LAUNCH.md`.
+- Scope `write_markets`. Rollback: set it to draft.
+
+## 13. LAST STEP: inventory tracking off on the eBook variants that have a file
+- Prague EN Digital (`51921130357065`) and Prague CZ Digital (`51921130324297`): tracked → **not tracked**, which makes them buyable.
+- **Only after you confirm the files are attached in Digital Products.** A variant without a file stays tracked at 0.
 
 ---
 
-## Not in this list (and why)
-- **The EU legal-guarantee notice on the live theme:** it's needed only before a consumer can buy, and nothing is buyable on live. The draft has it. **If anything becomes buyable on live before the draft is published, the notice must be added to live first.** Tell me and I'll prepare it.
-- **Shipping policy:** Pack4you is on hold.
-- **The Prague page's "€35,00 · SAVE 45%" crossed-out price:** it may break the 30-day lowest-price rule for price reductions. It's price data, which I'm not allowed to touch. **Your call:** remove the compare-at price or confirm that €35 was the lowest price in the 30 days before the reduction.
-- **Order confirmation / digital download email texts:** Shopify doesn't allow writing them via API. You paste them (`docs/legal/emails/`).
-
-## Later, when the draft theme is published (separate approval)
-Full versions of the Terms and Refund policy (`docs/legal/vop.sk.md`, `terms.en.md`, `refund-policy.*`, with placeholders filled): add the "Odstúpiť od zmluvy tu" function line (Annex 3 text 3a), clause 9.2 on the legal-guarantee notice, the Shipping Policy link once it exists, the withdrawal app in the privacy policy, and publish the `withdrawal` page.
+## Not in this list
+- Order confirmation and download email texts: Shopify doesn't allow writing them via API, so you paste them (`docs/legal/emails/`).
+- Old product "Walterin Prague Tarot Cards" (`prague-tarot`): **DRAFT**, €17.90, not published, no orders, "continue selling when out of stock" set, inventory 0. Nothing changed. If it's ever activated, overselling must be switched off first.
+- Shipping policy and Pack4you: on hold.
+- The old draft theme 188994257225: you delete it after item 1 is live.

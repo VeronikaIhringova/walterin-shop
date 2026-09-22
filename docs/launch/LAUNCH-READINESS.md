@@ -13,6 +13,16 @@ Audit date: 22 September 2026 · read-only (Admin API read scopes, live theme 16
 
 Effort: S = under 1 h · M = half a day · L = 1–3 days.
 
+## Status update: final setup (22 Sep 2026, late)
+
+- **Workflow:** one live theme, preview with `shopify theme dev`, push only changed files after "OK live", GitHub as backup (CLAUDE.md, ground truth).
+- **Not a VAT payer** (decided). The theme shows tax wording only if Shopify's "Include tax in prices" is on, so that setting must be off (approval item 0).
+- **eBooks first:** the plan is in `docs/launch/EBOOK-LAUNCH.md` (EU market, Digital Products check, test order, 2 accountant questions).
+- **§ 20a:** our form (footer link → `/pages/withdrawal`) sends to support@ and shows an on-screen confirmation. **A customer confirmation email (durable medium) still needs an app before physical sales** (Revoq undecided). Until then, support@ replies to every withdrawal submission by email the same day.
+- **Legal-guarantee notice:** moved from product pages to Terms art. 10 (official image). **GPSR:** one "Product safety" row in Details, physical products only; safety notes wait for `custom.safety_info` data from Walter / the printer.
+- **Full check (preview, 1280 + 390, 20 pages):** no "translation missing", no Liquid errors, no false claims except the tarot product title (approval item 9). No regressions vs live. The policy-page overflow on phones is fixed. **Existing issues, on live too:** layout shift ~0.13 on about-us/blog (header font), a JS error `offsetTop` on main-product pages, empty app/custom-liquid sections, and an empty "drop us a note" page. **Not testable:** carts with items (everything is out of stock until item 13), and SK pages (SK unpublished).
+- **Approval list:** `docs/launch/APPROVAL-LIST.md` (items 0–13).
+
 ## Status update: 22 Sep 2026, evening
 
 **Done (live store, each approved and read back):**
@@ -56,7 +66,7 @@ Effort: S = under 1 h · M = half a day · L = 1–3 days.
 | L5 | Withdrawal instructions + model form | None. | Instructions (Annex 3 of 108/2024, incl. text 3a for the online function) + model form (Annex 2), SK + EN. | **YES** | Claude Code → lawyer | S |
 | L6 | Shipping policy | None (`/policies/shipping-policy` 404). | Countries, carriers, times, prices, customs, split delivery. | **on hold – Pack4you** | Claude Code structure; Pack4you data | M |
 | L7 | Contact information / legal notice | Contact policy: "Walterin s.r.o.", address, phone, **info@**. No IČO, register entry or supervisory authority. Footer has no company details. | § 4(1) zákon 22/2004 requires business name, registered office, **register + entry no.**, email, phone, **supervisory authority (SOI)**, easily and permanently accessible. | **YES** | Claude Code (policy update after OK) | S |
-| L8 | § 20a online withdrawal function | None. Applies to online contracts concluded after 18 Jun 2026 (§ 53b). | "Odstúpiť od zmluvy tu" link, continuously available, no login; form (name, contract ID, email); "Potvrdiť odstúpenie od zmluvy" button; confirmation on durable medium with content + date/time. | **YES** | Claude Code (Task 2 plan → build) | M–L |
+| L8 | § 20a online withdrawal function | Built (form → support@, on-screen confirmation). Customer email needs an app before physical sales. Was: none. Applies to online contracts concluded after 18 Jun 2026 (§ 53b). | "Odstúpiť od zmluvy tu" link, continuously available, no login; form (name, contract ID, email); "Potvrdiť odstúpenie od zmluvy" button; confirmation on durable medium with content + date/time. | **YES** | Claude Code (Task 2 plan → build) | M–L |
 | L9 | Digital content (eBooks) | No consent mechanism. Cart page has **dynamic checkout buttons** (Apple/Google Pay) that skip the cart. | Before supply: separate notice + consumer's declaration + express consent (§ 17(10), § 19(1)(m)); confirmation on durable medium (§ 17(12)(b)). Without it the customer can withdraw **and** pays nothing (§ 22(4)(b)). Shopify Basic can't add a checkbox in checkout, so collect it in the cart and switch off express buttons for eBooks. | **YES** (for eBooks) | Claude Code (theme) + lawyer confirms | M |
 | L10 | Order confirmation (durable medium) | Shopify default notifications (not readable via API). | § 17(12): confirmation of contract with VOP / withdrawal info (a link alone is risky: CJEU C-49/11) + the eBook consent confirmation. Needs custom notification Liquid, SK + EN. | **YES** | Claude Code drafts Liquid; Veronka pastes (admin only) | M |
 | L11 | Harmonised legal-guarantee notice | None. | From **27 Sep 2026**, § 5(1)(f) of 108/2024 requires the EU harmonised notice (Impl. Reg. (EU) 2025/1960) for goods. | **YES** | Claude Code + lawyer | S |
