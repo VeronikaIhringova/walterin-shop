@@ -73,7 +73,7 @@ Be concise and direct. Prioritize actionable output over explanation. Challenge 
 - **GitHub is the backup:** commit and `git push` every change, so any state can be restored by pushing an older commit.
 - **Going live only after Veronka writes "OK live":**
   1. `shopify theme pull --theme 164726866249 --store 0ed210-bf.myshopify.com` into a scratch folder, and merge Veronka's editor changes (JSON templates, section groups, settings_data) into the repo. Commit.
-  2. Push **only the changed files** to the live theme: `shopify theme push --theme 164726866249 --store 0ed210-bf.myshopify.com --only <file> --only <file> … --nodelete` (one `--only` per file, with a space, not `--only=`).
+  2. Push **only the changed files** to the live theme: `shopify theme push --theme 164726866249 --store 0ed210-bf.myshopify.com --only <file> --only <file> … --nodelete --allow-live` (one `--only` per file, with a space, not `--only=`; `--allow-live` is required for the published theme in non-interactive mode, never combine with `--publish`).
   3. Read the files back through the Admin API and check the public pages.
 - **Never** publish a theme (`--publish`, `theme publish`). Never push the whole theme without `--only` unless Veronka asks.
 - Store data (policies, products, markets, pages): backup → old vs new → Veronka's OK → write once → read back. On failure: stop and report.
