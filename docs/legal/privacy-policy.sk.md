@@ -47,14 +47,21 @@ Zodpovednú osobu sme nevymenovali. S akoukoľvek otázkou o vašich osobných �
 - **Právny základ:** plnenie zmluvy (čl. 6 ods. 1 písm. b) GDPR).
 - **Doba uchovávania:** počas trvania zmluvy a potom do uplynutia premlčacích lehôt nárokov z nej. Účtovné doklady (napríklad faktúry) uchovávame 10 rokov podľa § 35 zákona č. 431/2002 Z. z. o účtovníctve (čl. 6 ods. 1 písm. c) GDPR).
 
-### 2.5 Odstúpenie od zmluvy, reklamácie a zákaznícky servis
+### 2.5 Zákaznícky účet
+
+- **Údaje:** e-mailová adresa, meno, uložené doručovacie a fakturačné adresy, telefónne číslo, ak ho doplníte, a história objednávok.
+- **Účel:** prihlásenie, prehľad vašich objednávok a opätovné použitie vašich údajov. Založenie účtu je dobrovoľné; objednať môžete aj bez neho.
+- **Právny základ:** plnenie zmluvy alebo opatrenia pred jej uzavretím na vašu žiadosť (čl. 6 ods. 1 písm. b) GDPR).
+- **Doba uchovávania:** kým účet nezrušíte alebo nás nepožiadate o jeho vymazanie. Potom uchovávame len to, čo vyžaduje účtovníctvo a prípadné nároky (pozri časť 2.4).
+
+### 2.6 Odstúpenie od zmluvy, reklamácie a zákaznícky servis
 
 - **Údaje:** vaše kontaktné údaje, údaje o objednávke, obsah vašej správy a naša odpoveď.
 - **Účel:** vybavenie odstúpenia od zmluvy, reklamácií a vašich otázok vrátane otázok zaslaných cez kontaktný formulár alebo online formulár na odstúpenie od zmluvy.
 - **Právny základ:** plnenie našich zákonných povinností podľa predpisov na ochranu spotrebiteľa a Občianskeho zákonníka (čl. 6 ods. 1 písm. c) GDPR). Pri ostatných otázkach: opatrenia pred uzavretím zmluvy na vašu žiadosť alebo plnenie zmluvy (čl. 6 ods. 1 písm. b) GDPR), prípadne náš oprávnený záujem odpovedať vám (čl. 6 ods. 1 písm. f) GDPR).
 - **Doba uchovávania:** po dobu, počas ktorej predpisy na ochranu spotrebiteľa vyžadujú viesť záznamy o odstúpeniach a reklamáciách. Ostatnú komunikáciu uchovávame do vybavenia veci a premlčania súvisiacich nárokov.
 
-### 2.6 Reklama a meranie (Meta)
+### 2.7 Reklama a meranie (Meta)
 
 - **Údaje:** informácie o vašej návšteve a krokoch na stránke (napríklad zobrazené stránky, pridanie do košíka, nákup), IP adresa, údaje o prehliadači a identifikátory cookies. Na účely párovania môžeme odovzdať aj kontaktné údaje, ktoré ste nám poskytli (napríklad e-mail, telefónne číslo alebo meno), v zahašovanej (zašifrovanej) podobe.
 - **Nástroje:** Meta pixel a Meta Conversions API prostredníctvom predajného kanála Facebook & Instagram.
@@ -63,11 +70,11 @@ Zodpovednú osobu sme nevymenovali. S akoukoľvek otázkou o vašich osobných �
 - **Spoloční prevádzkovatelia:** pri získavaní týchto údajov na našej stránke a ich prenose spoločnosti Meta sme spolu so spoločnosťou Meta Platforms Ireland Limited (Merrion Road, Dublin 4, D04 X2K5, Írsko) spoločnými prevádzkovateľmi (čl. 26 GDPR). Podstatné podmienky tohto vzťahu sú uvedené v dodatku Meta pre prevádzkovateľov (Controller Addendum): https://www.facebook.com/legal/controller_addendum. Za ďalšie spracúvanie zodpovedá Meta sama a práva týkajúce sa údajov, ktoré uchováva Meta, si môžete uplatniť priamo u nej. Pri párovaní zahašovaných kontaktných údajov je Meta naším sprostredkovateľom a po spárovaní údaje vymaže. Informácie o spracúvaní spoločnosťou Meta, jeho právnych základoch a vašich právach: https://www.facebook.com/privacy/policy.
 - **Doba uchovávania:** do odvolania vášho súhlasu. Meta uchováva údaje po dobu uvedenú v jej vlastných podmienkach.
 
-### 2.7 Shopify Network Intelligence
+### 2.8 Shopify Network Intelligence
 
 Náš obchod využíva Shopify Network Intelligence. V rámci tohto nastavenia Shopify používa údaje o vašej interakcii s naším obchodom, s inými obchodmi na Shopify a so Shopify na poskytovanie analytických služieb, personalizácie a reklamy. Pri tomto spracúvaní je Shopify **samostatným prevádzkovateľom**, nie naším sprostredkovateľom, a platia jeho zásady ochrany súkromia zákazníkov: https://www.shopify.com/legal/privacy/customers. Na cielenú reklamu Shopify používa vaše údaje len s vaším súhlasom. Ak v lište cookies odmietnete cookies, ktoré nie sú nevyhnutné, údaje z vášho zariadenia sa na tieto účely nepoužijú. Svoje práva voči Shopify vrátane odvolania súhlasu alebo námietky uplatníte cez portál ochrany súkromia Shopify: https://privacy.shopify.com. Ak nás požiadate o vymazanie údajov, vymažú sa aj zo Shopify Network Intelligence.
 
-### 2.8 Právne nároky a bezpečnosť
+### 2.9 Právne nároky a bezpečnosť
 
 Uvedené údaje môžeme spracúvať aj na preukazovanie, uplatňovanie alebo obhajovanie právnych nárokov a na predchádzanie podvodom a zneužitiu obchodu. Právnym základom je náš oprávnený záujem (čl. 6 ods. 1 písm. f) GDPR). Údaje uchovávame len dovtedy, kým je to na tento účel nevyhnutné.
 
@@ -75,9 +82,9 @@ Uvedené údaje môžeme spracúvať aj na preukazovanie, uplatňovanie alebo ob
 
 Využívame týchto poskytovateľov. Ak nie je uvedené inak, sú našimi sprostredkovateľmi: spracúvajú údaje len podľa našich pokynov a na základe zmluvy o spracúvaní osobných údajov.
 
-- **Shopify** (Shopify International Limited, Dublin, Írsko): platforma obchodu vrátane hostingu, pokladne, zákazníckych záznamov, spracovania objednávok, formulárov na upozornenie a kontakt a lišty cookies. Zahŕňa aj tieto aplikácie Shopify: **Shopify Messaging** (newsletter, upozornenia a e-maily k objednávkam), **Shopify Flow** (automatizované procesy obchodu), **Shopify Digital Products** (zasielanie odkazov na stiahnutie e-kníh) a **Translate & Adapt** (preklad obsahu obchodu; zákaznícke údaje nespracúva). Pri Shopify Network Intelligence je Shopify samostatným prevádzkovateľom (pozri časť 2.7).
+- **Shopify** (Shopify International Limited, Dublin, Írsko): platforma obchodu vrátane hostingu, pokladne, zákazníckych záznamov, spracovania objednávok, formulárov na upozornenie a kontakt a lišty cookies. Zahŕňa aj tieto aplikácie Shopify: **Shopify Messaging** (newsletter, upozornenia a e-maily k objednávkam), **Shopify Flow** (automatizované procesy obchodu), **Shopify Digital Products** (zasielanie odkazov na stiahnutie e-kníh) a **Translate & Adapt** (preklad obsahu obchodu; zákaznícke údaje nespracúva). Pri Shopify Network Intelligence je Shopify samostatným prevádzkovateľom (pozri časť 2.8).
 - **Stripe** (Stripe Payments Europe, Limited, Írsko): platby kartou vrátane Apple Pay a Google Pay. Stripe spracúva platobné údaje v našom mene. Na vlastné účely, napríklad predchádzanie podvodom a plnenie finančnej regulácie, je samostatným prevádzkovateľom: https://stripe.com/privacy.
-- **Meta Platforms Ireland Limited**: pozri časť 2.6.
+- **Meta Platforms Ireland Limited**: pozri časť 2.7.
 - **Fulfilment a doručenie (fyzický tovar, keď sa začne predávať):** fyzické objednávky bude skladovať, baliť a odosielať náš fulfilmentový partner na Slovensku a doručovať prepravcovia (napríklad Packeta, DPD alebo DHL, podľa krajiny doručenia). Dostanú len meno, doručovaciu adresu, telefón a e-mail potrebné na doručenie; prepravcovia sú pri doručení samostatnými prevádzkovateľmi. Fulfilmentového partnera tu uvedieme pred začatím predaja fyzického tovaru.
 - **Účtovní a právni poradcovia**, viazaní povinnosťou mlčanlivosti, v nevyhnutnom rozsahu.
 - **Orgány verejnej moci**, ak to vyžaduje zákon.

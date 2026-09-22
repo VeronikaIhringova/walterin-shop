@@ -47,14 +47,21 @@ We have not appointed a data protection officer. For any question about your per
 - **Legal basis:** performance of a contract (Art. 6(1)(b) GDPR).
 - **Retention:** for the duration of the contract and then until the limitation periods for claims arising from it expire. Accounting documents (such as invoices) are kept for 10 years under § 35 of Act No. 431/2002 Coll. on accounting (Art. 6(1)(c) GDPR).
 
-### 2.5 Withdrawals, complaints and customer service
+### 2.5 Customer account
+
+- **Data:** email address, name, saved delivery and billing addresses, phone number if you add it, and your order history.
+- **Purpose:** to let you sign in, see your orders and reuse your details. Creating an account is optional; you can also order without one.
+- **Legal basis:** performance of a contract, or steps taken at your request before entering into one (Art. 6(1)(b) GDPR).
+- **Retention:** until you delete your account or ask us to delete it. After that, we keep only what accounting law and possible claims require (see section 2.4).
+
+### 2.6 Withdrawals, complaints and customer service
 
 - **Data:** your contact details, order details, the content of your message and our reply.
 - **Purpose:** to handle withdrawals from contracts, complaints about defective goods and your questions, including those sent through the contact form or the online withdrawal form.
 - **Legal basis:** compliance with our legal obligations under consumer protection law and the Civil Code (Art. 6(1)(c) GDPR). For other questions: steps taken at your request before entering into a contract or performance of a contract (Art. 6(1)(b) GDPR), or our legitimate interest in answering you (Art. 6(1)(f) GDPR).
 - **Retention:** for as long as consumer protection law requires records of withdrawals and complaints to be kept. Other correspondence is kept until the matter is resolved and any related claims are time-barred.
 
-### 2.6 Advertising and measurement (Meta)
+### 2.7 Advertising and measurement (Meta)
 
 - **Data:** information about your visit and actions on the website (for example pages viewed, adding to cart, purchase), IP address, browser information and cookie identifiers. For matching, we may also share contact details you gave us (such as email, phone number or name) in hashed (encrypted) form.
 - **Tools:** the Meta pixel and the Meta Conversions API, via the Facebook & Instagram sales channel.
@@ -63,11 +70,11 @@ We have not appointed a data protection officer. For any question about your per
 - **Joint controllership:** we and Meta Platforms Ireland Limited (Merrion Road, Dublin 4, D04 X2K5, Ireland) are joint controllers for collecting this data on our website and transmitting it to Meta (Art. 26 GDPR). The essential terms of our arrangement are set out in Meta's Controller Addendum: https://www.facebook.com/legal/controller_addendum. Meta is responsible for its own further processing, and you can exercise your rights for data stored by Meta directly with Meta. For matching hashed contact details, Meta acts as our processor and deletes the data once matching is complete. Information on Meta's processing, its legal bases and your rights: https://www.facebook.com/privacy/policy.
 - **Retention:** until you withdraw your consent. Meta keeps the data for the periods set out in its own terms.
 
-### 2.7 Shopify Network Intelligence
+### 2.8 Shopify Network Intelligence
 
 Our store uses Shopify Network Intelligence. In this setting, Shopify uses data about your interactions with our store, and with other Shopify stores and with Shopify, to provide analytics, personalisation and advertising services. For this processing Shopify is an **independent controller**, not our processor, and its Consumer Privacy Policy applies: https://www.shopify.com/legal/privacy/customers. Shopify uses your data for targeted advertising only with your consent. If you reject non-essential cookies in our cookie banner, data from your device is excluded from non-essential uses. You can exercise your rights towards Shopify, including withdrawing consent or objecting, through the Shopify privacy portal: https://privacy.shopify.com. If you ask us to delete your data, it is also deleted from Shopify Network Intelligence.
 
-### 2.8 Legal claims and security
+### 2.9 Legal claims and security
 
 We may process the data described above to establish, exercise or defend legal claims and to prevent fraud and misuse of the store. Our legal basis is our legitimate interest (Art. 6(1)(f) GDPR). We keep the data only for as long as that is necessary.
 
@@ -75,9 +82,9 @@ We may process the data described above to establish, exercise or defend legal c
 
 We use the following providers. Unless stated otherwise, they act as our processors: they process data only on our instructions and under a data processing agreement.
 
-- **Shopify** (Shopify International Limited, Dublin, Ireland): the store platform, including hosting, checkout, customer records, order processing, the notify-me and contact forms, and the cookie banner. It also covers these Shopify apps: **Shopify Messaging** (newsletter, notify-me and order emails), **Shopify Flow** (automated store workflows), **Shopify Digital Products** (delivery of eBook download links) and **Translate & Adapt** (translation of store content; it does not process customer data). For Shopify Network Intelligence, Shopify is an independent controller (see section 2.7).
+- **Shopify** (Shopify International Limited, Dublin, Ireland): the store platform, including hosting, checkout, customer records, order processing, the notify-me and contact forms, and the cookie banner. It also covers these Shopify apps: **Shopify Messaging** (newsletter, notify-me and order emails), **Shopify Flow** (automated store workflows), **Shopify Digital Products** (delivery of eBook download links) and **Translate & Adapt** (translation of store content; it does not process customer data). For Shopify Network Intelligence, Shopify is an independent controller (see section 2.8).
 - **Stripe** (Stripe Payments Europe, Limited, Ireland): card payments, including Apple Pay and Google Pay. Stripe processes payment data on our behalf. It acts as an independent controller for its own purposes, such as fraud prevention and compliance with financial regulation: https://stripe.com/privacy.
-- **Meta Platforms Ireland Limited**: see section 2.6.
+- **Meta Platforms Ireland Limited**: see section 2.7.
 - **Fulfilment and delivery (physical products, once they are on sale):** our fulfilment partner in Slovakia will store, pack and ship physical orders, and carriers (for example Packeta, DPD or DHL, depending on the destination) will deliver them. They receive only the name, delivery address, phone and email needed for delivery; carriers act as independent controllers for the delivery. We will name the fulfilment partner here before physical products go on sale.
 - **Accounting and legal advisers**, bound by professional confidentiality, to the extent required.
 - **Public authorities**, where the law requires it.

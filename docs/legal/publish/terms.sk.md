@@ -1,6 +1,6 @@
 # Všeobecné obchodné podmienky
 
-Platné a účinné od: [DÁTUM ZVEREJNENIA]
+Posledná aktualizácia: [DÁTUM ZVEREJNENIA] (účinné od toho istého dňa)
 
 ## 1. Predávajúci
 
@@ -36,10 +36,10 @@ Orgán dozoru: Slovenská obchodná inšpekcia (SOI), Inšpektorát SOI pre Brat
 ## 4. Objednávka a uzavretie zmluvy
 
 4.1 Objednávka prebieha takto:
-1. vložíte tovar alebo e-knihu do košíka;
-2. v pokladni zadáte kontaktné a doručovacie údaje a zvolíte spôsob doručenia a platby;
-3. pred odoslaním si skontrolujete súhrn objednávky a môžete opraviť chyby v zadaných údajoch;
-4. objednávku odošlete tlačidlom, ktoré jednoznačne vyjadruje povinnosť platiť (napríklad „Zaplatiť teraz“).
+- vložíte tovar alebo e-knihu do košíka;
+- v pokladni zadáte kontaktné a doručovacie údaje a zvolíte spôsob doručenia a platby;
+- pred odoslaním si skontrolujete súhrn objednávky a môžete opraviť chyby v zadaných údajoch;
+- objednávku odošlete tlačidlom, ktoré jednoznačne vyjadruje povinnosť platiť (napríklad „Zaplatiť teraz“).
 
 4.2 Ak košík obsahuje e-knihu, pred prechodom do pokladne vás požiadame o výslovný súhlas so začatím dodania e-knihy a o potvrdenie, že ste boli poučení o strate práva na odstúpenie od zmluvy (bod 8.6).
 
@@ -79,46 +79,72 @@ Orgán dozoru: Slovenská obchodná inšpekcia (SOI), Inšpektorát SOI pre Brat
 
 ## 8. Odstúpenie od zmluvy
 
-8.1 **Máte právo odstúpiť od zmluvy bez uvedenia dôvodu do 14 dní.**
+### 8.1 Právo na odstúpenie
 
-8.2 Lehota začína plynúť:
+**Máte právo odstúpiť od zmluvy bez uvedenia dôvodu do 14 dní.**
+
+### 8.2 Začiatok lehoty
+
+Lehota začína plynúť:
 - pri tovare dňom, keď vy alebo vami určená tretia osoba okrem prepravcu prevezmete tovar;
 - pri viacerých tovaroch z jednej objednávky, ktoré sú dodané oddelene, dňom prevzatia tovaru, ktorý bol dodaný ako posledný;
 - pri e-knihe dňom uzavretia zmluvy.
 
-8.3 Odstúpiť môžete:
+### 8.3 Ako odstúpiť
+
+Odstúpiť môžete:
 - online cez funkciu **„Odstúpiť od zmluvy tu“** v pätičke každej stránky obchodu (https://walterin.com/sk/pages/withdrawal); potvrdenie o doručení odstúpenia vrátane jeho obsahu, dátumu a času odoslania vám bezodkladne pošleme e-mailom;
 - e-mailom na support@walterin.com;
 - listom na adresu predávajúceho uvedenú v bode 1.
 
 Môžete použiť vzorový formulár na odstúpenie od zmluvy, nie je to však povinné. Stačí akékoľvek jednoznačné vyhlásenie. Lehota je zachovaná, ak oznámenie o odstúpení odošlete pred jej uplynutím.
 
-8.4 **Dôsledky odstúpenia.** Vrátime vám všetky platby, ktoré ste uhradili v súvislosti s uzavretím zmluvy, vrátane nákladov na doručenie tovaru k vám. To sa nevzťahuje na dodatočné náklady, ak ste si zvolili iný druh doručenia, ako je najlacnejší bežný spôsob doručenia, ktorý ponúkame. Platby vrátime najneskôr do 14 dní odo dňa, keď nám bude doručené oznámenie o odstúpení, rovnakým spôsobom, aký ste použili pri platbe, ak ste výslovne nesúhlasili s iným spôsobom, a bez akýchkoľvek ďalších poplatkov. S vrátením platby môžeme čakať do vrátenia tovaru späť na našu adresu alebo do preukázania, že ste tovar odoslali späť, podľa toho, čo nastane skôr.
+### 8.4 Dôsledky odstúpenia
 
-8.5 **Vrátenie tovaru.** Tovar nám zašlite späť alebo ho prineste na adresu **Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava** najneskôr do 14 dní odo dňa odstúpenia od zmluvy. Lehota je zachovaná, ak tovar odošlete pred jej uplynutím. **Priame náklady na vrátenie tovaru znášate vy.** Zodpovedáte len za zníženie hodnoty tovaru v dôsledku zaobchádzania s ním iným spôsobom, aký je potrebný na zistenie povahy, vlastností a funkčnosti tovaru.
+Vrátime vám všetky platby, ktoré ste uhradili v súvislosti s uzavretím zmluvy, vrátane nákladov na doručenie tovaru k vám. To sa nevzťahuje na dodatočné náklady, ak ste si zvolili iný druh doručenia, ako je najlacnejší bežný spôsob doručenia, ktorý ponúkame. Platby vrátime najneskôr do 14 dní odo dňa, keď nám bude doručené oznámenie o odstúpení, rovnakým spôsobom, aký ste použili pri platbe, ak ste výslovne nesúhlasili s iným spôsobom, a bez akýchkoľvek ďalších poplatkov. S vrátením platby môžeme čakať do vrátenia tovaru späť na našu adresu alebo do preukázania, že ste tovar odoslali späť, podľa toho, čo nastane skôr.
 
-8.6 **E-knihy.** Pri e-knihe právo na odstúpenie od zmluvy nemáte, ak sa jej dodávanie začalo a zároveň:
+### 8.5 Vrátenie tovaru
+
+Tovar nám zašlite späť alebo ho prineste na adresu **Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava** najneskôr do 14 dní odo dňa odstúpenia od zmluvy. Lehota je zachovaná, ak tovar odošlete pred jej uplynutím. **Priame náklady na vrátenie tovaru znášate vy.** Zodpovedáte len za zníženie hodnoty tovaru v dôsledku zaobchádzania s ním iným spôsobom, aký je potrebný na zistenie povahy, vlastností a funkčnosti tovaru.
+
+### 8.6 E-knihy
+
+Pri e-knihe právo na odstúpenie od zmluvy nemáte, ak sa jej dodávanie začalo a zároveň:
 - ste pred začatím dodania výslovne súhlasili so začatím dodania pred uplynutím lehoty na odstúpenie od zmluvy;
 - ste vyhlásili, že ste boli riadne poučení o tom, že vyjadrením tohto súhlasu strácate právo na odstúpenie od zmluvy; a
 - sme vám poskytli potvrdenie zmluvy vrátane tohto súhlasu na trvanlivom médiu.
 
 Ak niektorá z týchto podmienok nie je splnená, právo na odstúpenie od zmluvy pri e-knihe máte. (§ 19 ods. 1 písm. m) a § 17 ods. 10 zákona č. 108/2024 Z. z.)
 
-8.7 Ak odstúpite od zmluvy, na ktorej základe sme vám dodali e-knihu, nesmiete ju ďalej používať ani sprístupniť tretím osobám.
+### 8.7 Po odstúpení od kúpy e-knihy
+
+Ak odstúpite od zmluvy, na ktorej základe sme vám dodali e-knihu, nesmiete ju ďalej používať ani sprístupniť tretím osobám.
 
 ## 9. Zodpovednosť za vady (reklamácie)
 
-9.1 **Zodpovedáme za vady** tovaru, ktoré sa prejavia do **24 mesiacov** od jeho prevzatia, a za vady e-knihy do 24 mesiacov od jej dodania. Ak sa vada tovaru prejaví v tejto lehote, predpokladá sa, že existovala už pri jeho prevzatí. (Občiansky zákonník §§ 619 – 626; pri digitálnom obsahu §§ 852h – 852l)
+### 9.1 Zodpovednosť za vady
 
-9.2 Harmonizované oznámenie EÚ o zákonnej záruke súladu nájdete v článku 10.
+**Zodpovedáme za vady** tovaru, ktoré sa prejavia do **24 mesiacov** od jeho prevzatia, a za vady e-knihy do 24 mesiacov od jej dodania. Ak sa vada tovaru prejaví v tejto lehote, predpokladá sa, že existovala už pri jeho prevzatí. (Občiansky zákonník §§ 619 – 626; pri digitálnom obsahu §§ 852h – 852l)
 
-9.3 **Vaše práva.** Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je možné alebo sa to nepodarí v lehote 30 dní, máte právo na primeranú zľavu z ceny alebo na odstúpenie od zmluvy. Pri odstúpení vám peniaze vrátime do 14 dní.
+### 9.2 Harmonizované oznámenie
 
-9.4 **Ako reklamovať.** Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Vadu nám oznámte do dvoch mesiacov od jej zistenia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
+Harmonizované oznámenie EÚ o zákonnej záruke súladu nájdete v článku 10.
 
-9.5 **Poškodený alebo nesprávny tovar.** Ak dostanete poškodený alebo iný ako objednaný tovar, napíšte nám. Poškodený alebo nesprávny tovar vymeníme; ak to nie je možné, vrátime vám peniaze. Všetky náklady znášame my.
+### 9.3 Vaše práva
 
-9.6 Reklamáciu vám bez zbytočného odkladu písomne (e-mailom) potvrdíme a uvedieme lehotu na jej vybavenie, ktorá je najviac 30 dní. O vybavení vás informujeme e-mailom. Ak reklamáciu zamietneme, písomne uvedieme dôvod.
+Pri vade tovaru máte právo na bezplatnú opravu alebo výmenu. Ak to nie je možné alebo sa to nepodarí v lehote 30 dní, máte právo na primeranú zľavu z ceny alebo na odstúpenie od zmluvy. Pri odstúpení vám peniaze vrátime do 14 dní.
+
+### 9.4 Ako reklamovať
+
+Napíšte nám na support@walterin.com. Uveďte číslo objednávky, popis vady a čo požadujete. Pomôže fotografia. Vadu nám oznámte do dvoch mesiacov od jej zistenia. Tovar, ktorý treba posúdiť, nám pošlete na adresu podľa bodu 8.5. **Náklady na zaslanie reklamovaného tovaru a jeho vrátenie znášame my.**
+
+### 9.5 Poškodený alebo nesprávny tovar
+
+Ak dostanete poškodený alebo iný ako objednaný tovar, napíšte nám. Poškodený alebo nesprávny tovar vymeníme; ak to nie je možné, vrátime vám peniaze. Všetky náklady znášame my.
+
+### 9.6 Vybavenie reklamácie
+
+Reklamáciu vám bez zbytočného odkladu písomne (e-mailom) potvrdíme a uvedieme lehotu na jej vybavenie, ktorá je najviac 30 dní. O vybavení vás informujeme e-mailom. Ak reklamáciu zamietneme, písomne uvedieme dôvod.
 
 ## 10. Zákonná záruka: harmonizované oznámenie EÚ
 

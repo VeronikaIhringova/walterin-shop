@@ -43,7 +43,7 @@ Files: `docs/launch/approval/theme-push-files.txt`.
 - **New:** `docs/legal/assets/eu-legal-guarantee-notice-en.jpg` and `-sk.jpg` (the official colour images, Impl. Reg. (EU) 2025/1960). Their Files URLs go into the Terms (item 3).
 - Scope `write_files`.
 
-## 3. Terms of service, EN + SK translation
+## 3. Terms of service, EN + SK translation (same layout as the Privacy policy: numbered h2, h3 in articles 8–9; side-by-side check `docs/launch/screenshots/side-by-side-*.png`)
 - **Old:** US template with "[LINK]" (22,845 chars, backup `docs/backup/policies/terms_of_service-2026-09-22.html`).
 - **New:** `docs/legal/publish/terms.en.md` / `terms.sk.md`, 13 articles:
   - seller + SOI; consumers;
@@ -58,7 +58,7 @@ Files: `docs/launch/approval/theme-push-files.txt`.
   - ADR/SOI; privacy link; Slovak law + Rome I; SK prevails.
 - `[DÁTUM ZVEREJNENIA]` becomes the publish date.
 
-## 4. Refund policy, EN + SK
+## 4. Refund policy, EN + SK (same layout: sections 1–6 with h3 subsections; withdrawal instructions = section 4, model form = section 5)
 - **Old:** clothing template (30 days, "tags", `[INSERT RETURN ADDRESS]`).
 - **New:** `docs/legal/publish/refund.en.md` / `.sk.md`: withdrawal (online link, email, post), return address Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, return shipping paid by the customer, refund incl. standard delivery within 14 days, the eBook rule, claims, damaged or wrong item at our cost, ADR. The **full statutory withdrawal instructions (incl. text 3a) and the model form** are appended.
 
@@ -70,7 +70,13 @@ Fixes found in the review:
 - **(d)** Section 4 now mentions the "Cookie preferences" footer link.
 - **(e)** The date is updated.
 
+- **(f)** New section 2.5 "Customer account": data (email, name, addresses, phone if added, order history); legal basis Art. 6(1)(b); kept until the customer deletes the account or asks us to, then only what accounting and claims require. The later sections are renumbered 2.6–2.9, with cross-references updated.
+- Abandoned-checkout emails are **not** mentioned (they stay off).
+
 Files: `docs/legal/publish/privacy.en.md` / `.sk.md`.
+
+## 5b. Contact information, EN + SK (new layout)
+Same content as today, now in the same structure as the other policies: "Last updated", then 1. Company, 2. Contact, 3. Supervisory authority. Files: `docs/legal/publish/contact.en.md` / `.sk.md`.
 
 ## 6. Create page "Odstúpenie od zmluvy" (published, template `withdrawal`), right after item 1
 - Handle `withdrawal`, title EN "Withdraw from contract" (SK translation "Odstúpenie od zmluvy"), empty body, **published**, so the footer link works.

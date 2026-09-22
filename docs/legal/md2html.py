@@ -5,7 +5,7 @@ def inline(s):
     img = re.fullmatch(r'!\[([^\]]*)\]\(([^)]+)\)', s.strip())
     if img:
         return '<img src="%s" alt="%s" width="1215" height="1569" style="max-width:100%%;height:auto;">' % (img.group(2), html.escape(img.group(1)))
-    s = html.escape(s, quote=False)
+    s = html.escape(s, quote=False).replace('\\*', '&#42;')
     s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
     s = re.sub(r'\*(.+?)\*', r'<em>\1</em>', s)
     s = re.sub(r'(?<![">])(https?://[^\s<)]+?)([.,;]?)(?=[\s)]|$|<)', r'<a href="\1">\1</a>\2', s)

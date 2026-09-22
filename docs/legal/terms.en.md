@@ -40,10 +40,10 @@ Supervisory authority: Slovak Trade Inspection (Slovenská obchodná inšpekcia,
 ## 4. Orders and conclusion of the contract
 
 4.1 Ordering works like this:
-1. you add goods or an eBook to the cart;
-2. at checkout you enter your contact and delivery details and choose delivery and payment;
-3. before sending, you review the order summary and can correct any input errors;
-4. you place the order with a button that clearly states the obligation to pay (for example "Pay now"). [TO CONFIRM – lawyer: whether the Shopify button wording meets § 17(4) of Act No. 108/2024 Coll.]
+- you add goods or an eBook to the cart;
+- at checkout you enter your contact and delivery details and choose delivery and payment;
+- before sending, you review the order summary and can correct any input errors;
+- you place the order with a button that clearly states the obligation to pay (for example "Pay now"). [TO CONFIRM – lawyer: whether the Shopify button wording meets § 17(4) of Act No. 108/2024 Coll.]
 
 4.2 If the cart contains an eBook, before checkout we ask for your express consent to the start of delivery of the eBook and your confirmation that you have been informed that you lose the right of withdrawal (clause 8.6).
 
@@ -85,46 +85,72 @@ Supervisory authority: Slovak Trade Inspection (Slovenská obchodná inšpekcia,
 
 ## 8. Right of withdrawal
 
-8.1 **You have the right to withdraw from the contract within 14 days without giving any reason.**
+### 8.1 Right of withdrawal
 
-8.2 The period starts:
+**You have the right to withdraw from the contract within 14 days without giving any reason.**
+
+### 8.2 When the period starts
+
+The period starts:
 - for goods, on the day on which you, or a third party other than the carrier and indicated by you, acquire physical possession of the goods;
 - for several goods ordered in one order and delivered separately, on the day you receive the last of them;
 - for an eBook, on the day the contract is concluded.
 
-8.3 You can withdraw:
+### 8.3 How to withdraw
+
+You can withdraw:
 - online via the **"Withdraw from contract here"** function in the footer of every page of the store [TO FILL – page address]; we will send you an acknowledgement of receipt by email, including its content and the date and time of its submission, without undue delay;
 - by email to support@walterin.com;
 - by post to the seller's address in clause 1.
 
 You may use the model withdrawal form, but it is not obligatory. Any unequivocal statement is enough. To meet the deadline, it is sufficient to send your communication before the withdrawal period has expired.
 
-8.4 **Effects of withdrawal.** We will reimburse all payments received from you in connection with the contract, including the costs of delivery to you (except supplementary costs resulting from your choice of a type of delivery other than the least expensive standard delivery we offer). We will do so no later than 14 days from the day we receive your withdrawal notice, using the same means of payment you used, unless you have expressly agreed otherwise, and without any fees. We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent them back, whichever is earliest.
+### 8.4 Effects of withdrawal
 
-8.5 **Returning goods.** Send the goods back or bring them to **[TO CONFIRM – return address; for now Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, Slovakia]** no later than 14 days from the day you withdraw. The deadline is met if you send the goods before the 14 days have expired. **You bear the direct cost of returning the goods.** You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish their nature, characteristics and functioning.
+We will reimburse all payments received from you in connection with the contract, including the costs of delivery to you (except supplementary costs resulting from your choice of a type of delivery other than the least expensive standard delivery we offer). We will do so no later than 14 days from the day we receive your withdrawal notice, using the same means of payment you used, unless you have expressly agreed otherwise, and without any fees. We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent them back, whichever is earliest.
 
-8.6 **eBooks.** You have no right of withdrawal for an eBook once its supply has begun, if:
+### 8.5 Returning goods
+
+Send the goods back or bring them to **[TO CONFIRM – return address; for now Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava, Slovakia]** no later than 14 days from the day you withdraw. The deadline is met if you send the goods before the 14 days have expired. **You bear the direct cost of returning the goods.** You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish their nature, characteristics and functioning.
+
+### 8.6 eBooks
+
+You have no right of withdrawal for an eBook once its supply has begun, if:
 - before supply began, you expressly consented to supply starting before the end of the withdrawal period;
 - you acknowledged that you had been informed that by giving this consent you lose the right of withdrawal; and
 - we provided you with confirmation of the contract, including this consent, on a durable medium.
 
 If any of these conditions is not met, you keep the right of withdrawal for the eBook. (§ 19(1)(m) and § 17(10) of Act No. 108/2024 Coll.)
 
-8.7 If you withdraw from a contract under which we supplied an eBook, you may no longer use it or make it available to third parties. [TO CONFIRM – lawyer: § 852m of the Civil Code]
+### 8.7 After withdrawing from an eBook purchase
+
+If you withdraw from a contract under which we supplied an eBook, you may no longer use it or make it available to third parties. [TO CONFIRM – lawyer: § 852m of the Civil Code]
 
 ## 9. Liability for defects (claims)
 
-9.1 **We are liable for defects** in goods that appear within **24 months** of delivery, and for defects in eBooks within 24 months of supply. If a defect in goods appears within this period, it is presumed to have existed at delivery. (Civil Code §§ 619–626; for digital content §§ 852h–852l)
+### 9.1 Liability for defects
 
-9.2 The EU harmonised notice on the legal guarantee of conformity is in clause 10.
+**We are liable for defects** in goods that appear within **24 months** of delivery, and for defects in eBooks within 24 months of supply. If a defect in goods appears within this period, it is presumed to have existed at delivery. (Civil Code §§ 619–626; for digital content §§ 852h–852l)
 
-9.3 **Your rights.** For a defect in goods you are entitled to free repair or replacement. If that is not possible or is not done within 30 days, you are entitled to a reasonable price reduction or to withdraw from the contract. If you withdraw, we refund you within 14 days.
+### 9.2 Harmonised notice
 
-9.4 **How to claim.** Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Tell us about the defect within two months of discovering it. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
+The EU harmonised notice on the legal guarantee of conformity is in clause 10.
 
-9.5 **Damaged or wrong item.** If you receive damaged goods or goods other than those ordered, write to us. We replace damaged or wrong goods; if that is not possible, we refund you. We bear all costs.
+### 9.3 Your rights
 
-9.6 We confirm your claim in writing (by email) without undue delay and state the deadline for handling it, which is at most 30 days. We tell you the outcome by email. If we reject the claim, we give the reason in writing.
+For a defect in goods you are entitled to free repair or replacement. If that is not possible or is not done within 30 days, you are entitled to a reasonable price reduction or to withdraw from the contract. If you withdraw, we refund you within 14 days.
+
+### 9.4 How to claim
+
+Write to support@walterin.com with your order number, a description of the defect and what you ask for. A photo helps. Tell us about the defect within two months of discovering it. Goods that need to be assessed should be sent to the address in clause 8.5. **We pay the cost of sending the claimed goods to us and back.**
+
+### 9.5 Damaged or wrong item
+
+If you receive damaged goods or goods other than those ordered, write to us. We replace damaged or wrong goods; if that is not possible, we refund you. We bear all costs.
+
+### 9.6 Handling of claims
+
+We confirm your claim in writing (by email) without undue delay and state the deadline for handling it, which is at most 30 days. We tell you the outcome by email. If we reject the claim, we give the reason in writing.
 
 ## 10. Legal guarantee: EU harmonised notice
 
