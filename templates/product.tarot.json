@@ -11,6 +11,30 @@
   "sections": {
     "main": {
       "type": "walterin-buy",
+      "blocks": {
+        "edition_en": {
+          "type": "edition",
+          "settings": {
+            "position": 1,
+            "name": "English",
+            "note": "Limited to 100 copies",
+            "code": "en"
+          }
+        },
+        "edition_sk": {
+          "type": "edition",
+          "settings": {
+            "position": 2,
+            "name": "Slovenčina",
+            "note": "Limited to 100 copies",
+            "code": "sk"
+          }
+        }
+      },
+      "block_order": [
+        "edition_en",
+        "edition_sk"
+      ],
       "settings": {}
     },
     "whats_inside_cards": {
