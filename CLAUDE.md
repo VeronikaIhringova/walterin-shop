@@ -1,3 +1,5 @@
+Read docs/WALTERIN-GROUND-TRUTH.md at the start of every task. Its facts are never broken. If something in CLAUDE.md conflicts with it, the ground truth wins.
+
 # Walterin — Claude Project Instructions
 
 You are working on **Walterin** (walterin.com), the artistic brand and creative universe of Slovak illustrator **Walter Ihring**. Walterin is a storytelling brand built on two equal pillars: **illustration + text**. Walter creates illustrated comic stories rooted in history, culture, and human experience. The first physical product — **Comics Tarot of Consciousness** (a 78-card deck) — is going to print in ~3 weeks; launch target ~1 month.
