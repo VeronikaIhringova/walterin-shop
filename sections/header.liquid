@@ -38,6 +38,54 @@
     margin-left: -1.2rem;
   }
 
+  /* Language switcher (EN / SK): plain submit buttons, works without JS */
+  .header-lang__list {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .header-lang__list li + li::before {
+    content: '/' / '';
+    margin-right: 0.4rem;
+    color: rgb(var(--color-foreground));
+  }
+  .header-lang__option {
+    padding: 0.8rem 0.4rem;
+    border: 0;
+    background: none;
+    color: rgb(var(--color-foreground)); /* follows the header's colour scheme, like the icons */
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.06rem;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    text-underline-offset: 0.5rem;
+  }
+  .header-lang__option:hover { text-decoration: underline; text-decoration-thickness: 0.1rem; }
+  .header-lang__option[aria-current='true'] { text-decoration: underline; text-decoration-thickness: 0.2rem; }
+  .header__icons .header-lang { margin-right: 1.2rem; }
+  .menu-drawer__utility-links .header-lang { margin-bottom: 1.6rem; }
+  @media screen and (max-width: 989px) {
+    .header__icons .header-lang { display: none; }
+  }
+  @media screen and (min-width: 990px) {
+    .menu-drawer__utility-links .header-lang { display: none; }
+  }
+  {%- if template.name == 'index' -%}
+    /* Home page: the header sits over the slideshow and layout/theme.liquid turns nav + icons white
+       from 768px up. Match that. */
+    @media screen and (min-width: 768px) {
+      .header__icons .header-lang__option,
+      .header__icons .header-lang__list li + li::before { color: white; }
+      .header__icons .header-lang__option:hover { color: #fed501; }
+    }
+  {%- endif -%}
+
   .header__heading-logo {
     max-width: {{ settings.logo_width }}px;
   }
@@ -154,6 +202,41 @@
     <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
   </symbol>
 </svg>
+{%- comment -%}
+  Language switcher. Shows only when the store has more than one published language
+  (Settings → Languages) and the header setting is on. Desktop: in the icon row.
+  Phones/tablets: in the menu drawer. Names come from Shopify (endonyms), label from the theme locale.
+{%- endcomment -%}
+{%- liquid
+  assign show_language_switcher = false
+  if section.settings.enable_language_switcher and localization.available_languages.size > 1
+    assign show_language_switcher = true
+  endif
+-%}
+{%- capture language_switcher -%}
+  {%- form 'localization', id: 'HeaderLanguageForm', class: 'header-lang' -%}
+    <ul class="header-lang__list" role="list" aria-label="{{ 'localization.language_label' | t | escape }}">
+      {%- for language in localization.available_languages -%}
+        <li>
+          <button
+            type="submit"
+            name="language_code"
+            value="{{ language.iso_code }}"
+            lang="{{ language.iso_code }}"
+            class="header-lang__option link focus-inset"
+            {% if language.iso_code == localization.language.iso_code %}
+              aria-current="true"
+            {% endif %}
+          >
+            {{- language.iso_code | upcase -}}
+            <span class="visually-hidden"> – {{ language.endonym_name | capitalize }}</span>
+          </button>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endform -%}
+{%- endcapture -%}
+
 <{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}">
     {%- if section.settings.menu != blank -%}
@@ -305,6 +388,7 @@
                 {% endif %}
 <!--                 end secondary nav -->
                 <div class="menu-drawer__utility-links">
+                  {%- if show_language_switcher -%}{{ language_switcher | replace: 'id="HeaderLanguageForm"', 'id="HeaderLanguageFormDrawer"' }}{%- endif -%}
                   {%- if shop.customer_accounts_enabled -%}
                     <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="menu-drawer__account link focus-inset h5">
                       {% render 'icon-account' %}
@@ -631,6 +715,7 @@
     {%- endif -%}
 
     <div class="header__icons">
+      {%- if show_language_switcher -%}{{ language_switcher }}{%- endif -%}
       <details-modal class="header__search">
         <details>
           <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
@@ -914,6 +999,13 @@
     {
       "type": "header",
       "content": "Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_switcher",
+      "label": "Show language switcher",
+      "info": "Appears once the store has more than one published language (Settings → Languages). Desktop: next to the icons. Phones: in the menu.",
+      "default": true
     },
     {
       "type": "select",
