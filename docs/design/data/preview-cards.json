@@ -1,0 +1,334 @@
+{
+ "note": "Preview cards only (ground truth §3). Captions transcribed from the artwork 23 Sep 2026, pending Veronka's check. Grid = the nine-frame boundaries measured from each image, in % of the image.",
+ "rows": [
+  "What to understand",
+  "What to accept",
+  "What to transform"
+ ],
+ "cards": [
+  {
+   "file": "wi-major-05.jpg",
+   "name": "The Magician",
+   "captions": [
+    "TO AWAKEN THE WILL",
+    "TO RECOGNISE STRENGTH",
+    "TO TRUST THE SOURCE",
+    "TO LEARN TO FOCUS",
+    "TO BE OPEN TO POSSIBILITY",
+    "TO PREVAIL THROUGH CREATIVITY",
+    "TO PROTECT THE VISION",
+    "TO FLOW WITH AWARENESS",
+    "TO LET IT BECOME"
+   ],
+   "grid": {
+    "rows": [
+     1.67,
+     31.66,
+     62.1,
+     90.33
+    ],
+    "cols": [
+     3.25,
+     33.62,
+     64.25,
+     96.0
+    ]
+   }
+  },
+  {
+   "file": "wi-major-01.jpg",
+   "name": "The Fool",
+   "captions": [
+    "TO AWAKEN COURAGE",
+    "TO RECOGNISE UNITY",
+    "TO TRUST THE PATH",
+    "TO LEARN TO TRUST ONESELF",
+    "TO ACCEPT RISK",
+    "TO PREVAIL WITH EASE",
+    "TO PROTECT JOY",
+    "TO FLOW WITH THE PRESENT",
+    "TO FINISH IN FREEDOM"
+   ],
+   "grid": {
+    "rows": [
+     1.83,
+     31.74,
+     62.1,
+     90.33
+    ],
+    "cols": [
+     4.62,
+     35.88,
+     66.38,
+     96.12
+    ]
+   }
+  },
+  {
+   "file": "wi-major-02.jpg",
+   "name": "Wheel of Fortune",
+   "captions": [
+    "TO AWAKEN ACCEPTANCE",
+    "TO RECOGNISE MOVEMENT",
+    "TO TRUST THE ORDER",
+    "TO LEARN TO FLOW",
+    "TO EMBRACE DESTINY",
+    "TO PREVAIL THROUGH TRUST",
+    "TO PROTECT THE CENTRE",
+    "TO FLOW WITH WISDOM",
+    "TO COME FULL CIRCLE"
+   ],
+   "grid": {
+    "rows": [
+     2.13,
+     32.42,
+     62.33,
+     91.4
+    ],
+    "cols": [
+     3.25,
+     33.88,
+     64.88,
+     96.62
+    ]
+   }
+  },
+  {
+   "file": "wi-major-04.jpg",
+   "name": "The Star",
+   "captions": [
+    "TO AWAKEN HOPE",
+    "TO RECOGNISE THE LIGHT",
+    "TO TRUST THE CLEANSING",
+    "TO LEARN TO HEAL",
+    "TO EMBRACE PURITY",
+    "TO PREVAIL THROUGH HEALING",
+    "TO PROTECT FAITH",
+    "TO FLOW WITH RADIANCE",
+    "TO ACHIEVE REBIRTH"
+   ],
+   "grid": {
+    "rows": [
+     2.13,
+     31.81,
+     62.48,
+     91.7
+    ],
+    "cols": [
+     3.25,
+     34.12,
+     66.0,
+     97.0
+    ]
+   }
+  },
+  {
+   "file": "wi-wands-01.jpg",
+   "name": "Two of Wands",
+   "captions": [
+    "TO FEEL DESIRE AND FEAR",
+    "TO RECOGNISE POSSIBILITIES",
+    "TO CHOOSE A DIRECTION",
+    "TO TRUST INTENTION",
+    "TO MAINTAIN COURAGE",
+    "TO UNITE MIND AND HEART",
+    "TO CROSS THE THRESHOLD",
+    "TO COMMIT TO THE PATH",
+    "TO WALK WITHOUT FEAR"
+   ],
+   "grid": {
+    "rows": [
+     1.67,
+     31.89,
+     62.63,
+     90.79
+    ],
+    "cols": [
+     3.25,
+     35.5,
+     67.0,
+     97.12
+    ]
+   }
+  },
+  {
+   "file": "wi-wands-03.jpg",
+   "name": "Knight of Wands",
+   "captions": [
+    "TO FOLLOW THE ADVENTURE",
+    "TO STEP BEYOND CERTAINTY",
+    "TO MASTER THE FIRE",
+    "TO ACT FROM THE HEART",
+    "TO LEARN PATIENCE",
+    "TO DIRECT ENERGY",
+    "TO WALK TOWARDS THE SUMMIT",
+    "TO MASTER IMPULSIVENESS",
+    "TO AWAKEN INSPIRATION"
+   ],
+   "grid": {
+    "rows": [
+     1.83,
+     32.27,
+     62.63,
+     91.7
+    ],
+    "cols": [
+     3.0,
+     35.62,
+     67.0,
+     97.25
+    ]
+   }
+  },
+  {
+   "file": "wi-cups-01.jpg",
+   "name": "Six of Cups",
+   "captions": [
+    "TO EMBRACE THE PAST",
+    "TO SENSE INNOCENCE",
+    "TO FIND JOY ANEW",
+    "TO HEAL MEMORIES",
+    "TO RECOGNISE PURITY",
+    "TO SHAPE THE SOUL",
+    "TO BRING GOODNESS",
+    "TO RESTORE TRUST",
+    "TO LIVE WITH LOVE"
+   ],
+   "grid": {
+    "rows": [
+     1.75,
+     32.5,
+     63.39,
+     91.48
+    ],
+    "cols": [
+     2.62,
+     36.25,
+     67.12,
+     97.0
+    ]
+   }
+  },
+  {
+   "file": "wi-swords-03.jpg",
+   "name": "Seven of Swords",
+   "captions": [
+    "TO BECOME AWARE OF ESCAPE",
+    "TO RECOGNISE DECEPTION",
+    "TO UNDERSTAND INTENTION",
+    "TO ADMIT THE TRUTH",
+    "TO TRUST INTUITION",
+    "TO FIND HONESTY",
+    "TO UNCOVER SELF-DECEPTION",
+    "TO PURIFY INTENTION",
+    "TO ALIGN WORD AND ACTION"
+   ],
+   "grid": {
+    "rows": [
+     1.67,
+     31.66,
+     62.94,
+     91.4
+    ],
+    "cols": [
+     3.12,
+     35.62,
+     66.88,
+     96.5
+    ]
+   }
+  },
+  {
+   "file": "wi-pentacles-01.jpg",
+   "name": "Two of Pentacles",
+   "captions": [
+    "TO LIVE IN MOTION",
+    "TO MOVE WITH LIFE",
+    "TO SET PRIORITIES",
+    "TO CULTIVATE FLEXIBILITY",
+    "TO EMBRACE CHANGE",
+    "TO SOFTEN CHAOS WITH RHYTHM",
+    "TO UNITE OPPOSITES",
+    "TO ACT WITH EASE",
+    "TO SWIM THROUGH THE SWELL"
+   ],
+   "grid": {
+    "rows": [
+     1.6,
+     32.42,
+     62.86,
+     91.63
+    ],
+    "cols": [
+     3.0,
+     35.88,
+     66.62,
+     97.0
+    ]
+   }
+  },
+  {
+   "file": "wi-pentacles-02.jpg",
+   "name": "Seven of Pentacles",
+   "captions": [
+    "TO LET THINGS RIPEN",
+    "TO FEEL LIFE GROWING",
+    "TO THINK IN CYCLES",
+    "TO CULTIVATE PATIENCE",
+    "TO LEARN THROUGH OBSERVATION",
+    "TO TRUST THE SEED",
+    "TO PRESERVE ONE'S STRENGTH",
+    "TO FOCUS ATTENTION",
+    "TO HARVEST WITH GRATITUDE"
+   ],
+   "grid": {
+    "rows": [
+     1.6,
+     32.34,
+     63.39,
+     91.86
+    ],
+    "cols": [
+     3.0,
+     35.75,
+     66.75,
+     97.12
+    ]
+   }
+  }
+ ],
+ "missing_from_the_preview_set": [
+  "The Hermit",
+  "The Sun"
+ ],
+ "files_outside_the_preview_set": [
+  {
+   "file": "wi-major-03.jpg",
+   "name": "The Tower"
+  },
+  {
+   "file": "wi-wands-02.jpg",
+   "name": "Four of Wands"
+  },
+  {
+   "file": "wi-cups-02.jpg",
+   "name": "Ten of Cups"
+  },
+  {
+   "file": "wi-cups-03.jpg",
+   "name": "Page of Cups"
+  },
+  {
+   "file": "wi-swords-01.jpg",
+   "name": "Ace of Swords"
+  },
+  {
+   "file": "wi-swords-02.jpg",
+   "name": "Three of Swords"
+  },
+  {
+   "file": "wi-pentacles-03.jpg",
+   "name": "Queen of Pentacles"
+  }
+ ]
+}
