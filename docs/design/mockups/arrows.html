@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S2 · The three arrows</title>
+<!--
+  Three arrows for the annotated print, drawn at the size they will really be:
+  one that climbs (top row), one that runs level (middle row), one that falls (bottom row).
+  Each is a filled marker stroke with its own curve, its own weight profile and its own head —
+  not one shape rotated. The dashed rules show where the note ends and where the card begins:
+  the point stops at the card's edge and never crosses into the artwork.
+-->
+<style>
+ :root { --paper:#FFFDF7; --ink:#222; --yellow:#FCF205; }
+ * { box-sizing:border-box; }
+ body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.5 Inter, system-ui, sans-serif; }
+ .wrap { max-width:1100px; margin-inline:auto; padding:30px 20px 60px; }
+ h1 { font-size:24px; margin:0 0 6px; }
+ p.sub { max-width:70ch; margin:0 0 26px; }
+ h2 { font-size:17px; margin:30px 0 10px; }
+ .sheet { display:grid; gap:26px; grid-template-columns:1fr; }
+ @media (min-width:860px) { .sheet { grid-template-columns: 1fr 1fr; } }
+ .col { border:2.5px solid var(--ink); border-radius:10px; padding:18px 18px 8px; background:#fff; }
+ .row { display:grid; grid-template-columns: 120px minmax(0,1fr); gap:14px; align-items:center; padding:10px 0; border-top:1px solid #ddd; }
+ .row:first-of-type { border-top:0; }
+ .lab { font-size:13px; line-height:1.3; }
+ .lab b { display:block; font-size:14px; }
+ .stage { position:relative; height:var(--h); }
+ .stage svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+ .edge { position:absolute; top:0; bottom:0; border-left:1.5px dashed #b9b4a6; }
+ .edge span { position:absolute; top:-2px; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:#8d8878; white-space:nowrap; }
+ .edge.note span { right:6px; }
+ .edge.card span { left:6px; }
+ .ink { fill:var(--ink); }
+ .zoom { margin-top:8px; border-top:1px solid #ddd; padding-top:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>The three arrows, at the size they will be</h1>
+<p class="sub">Drawn, not stroked: each one is a filled marker shape with an uneven edge, a weight that grows along
+the stroke, and a solid head. The three are separate drawings — the climb accelerates upward and thickens as it goes,
+the level one has the slight double waver of a hand holding a line, the fall leaves the note flat, dips, and lands with a
+heavier head. The dashed rules are the note's edge and the card's edge: the point stops at the card and never enters the artwork.</p>
+
+<div class="sheet">
+  <div class="col" id="c1440"><h2 style="margin-top:0">At 1440 — the gutter is 74px</h2></div>
+  <div class="col" id="c390"><h2 style="margin-top:0">At 390 — the gutter is 40px</h2></div>
+</div>
+
+<div class="col zoomwrap" style="margin-top:26px">
+  <h2 style="margin-top:0">The same three at 3 × , to judge the line</h2>
+  <div id="czoom"></div>
+</div>
+</div>
+
+<script>
+(function () {
+  /* ---- three arrows, three drawings ---------------------------------------------------------
+     every one supplies its own bow (how it leaves and how it arrives), its own weight profile,
+     its own edge tremble and its own head. */
+  var ARROWS = {
+    climb: {
+      bow: function (t) { return 9 * Math.sin(Math.PI * Math.pow(t, .85)); },     /* sags, then swings up */
+      w:   function (t) { return 3.2 + 6.8 * Math.pow(t, .62); },                 /* thin start, heavy finish */
+      trL: function (t) { return 1.0 * Math.sin(t * 5.2 + .6); },
+      trR: function (t) { return .8 * Math.sin(t * 3.9 + 2.2); },
+      head: { len: 21, w: 25, back: .34, skew: .16 }
+    },
+    level: {
+      bow: function (t) { return 3.4 * Math.sin(2 * Math.PI * t + .35); },        /* the double waver of a hand */
+      w:   function (t) { return (4.3 + 5.4 * Math.pow(t, .8)) * (1 - .10 * Math.sin(Math.PI * t * 2)); },
+      trL: function (t) { return .9 * Math.sin(t * 4.4 + 1.9); },
+      trR: function (t) { return 1.0 * Math.sin(t * 5.8 + .4); },
+      head: { len: 22, w: 26, back: .26, skew: -.12 }
+    },
+    fall: {
+      bow: function (t) { return -8.5 * Math.sin(Math.PI * Math.pow(t, 1.25)); }, /* leaves flat, then drops */
+      w:   function (t) { return 3.6 + 5.8 * Math.pow(t, .55) + 2.2 * Math.exp(-t * 11); },  /* an ink pool at the start */
+      trL: function (t) { return .8 * Math.sin(t * 4.1 + 2.8); },
+      trR: function (t) { return 1.1 * Math.sin(t * 5.5 + 1.1); },
+      head: { len: 20, w: 24, back: .38, skew: .22 }
+    }
+  };
+
+  function arrowPath(kind, x0, y0, x1, y1, k) {
+    /* k scales the weight with the gutter, so the phone gets a smaller pen, not a squashed arrow */
+    k = k || 1;
+    var A = ARROWS[kind], H = A.head;
+    var dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy) || 1;
+    var ux = dx / L, uy = dy / L, px = -uy, py = ux;
+    var HLEN = H.len * k, HW = H.w * k;
+    var shaft = Math.max(L * .34, L - HLEN);
+    var N = 30, C = [], i, t;
+    for (i = 0; i <= N; i++) {
+      t = i / N;
+      var s = t * shaft, b = A.bow(t) * k;
+      C.push([x0 + ux * s + px * b, y0 + uy * s + py * b]);
+    }
+    var Lp = [], Rp = [];
+    for (i = 0; i <= N; i++) {
+      t = i / N;
+      var a = C[Math.max(0, i - 1)], c = C[Math.min(N, i + 1)];
+      var tx = c[0] - a[0], ty = c[1] - a[1], tl = Math.hypot(tx, ty) || 1;
+      var nx = -ty / tl, ny = tx / tl, w = A.w(t) * k / 2;
+      Lp.push([C[i][0] + nx * (w + A.trL(t) * k), C[i][1] + ny * (w + A.trL(t) * k)]);
+      Rp.push([C[i][0] - nx * (w + A.trR(t) * k), C[i][1] - ny * (w + A.trR(t) * k)]);
+    }
+    var d = 'M ' + Lp[0][0].toFixed(1) + ' ' + Lp[0][1].toFixed(1);
+    for (i = 1; i <= N; i++) d += ' L ' + Lp[i][0].toFixed(1) + ' ' + Lp[i][1].toFixed(1);
+    for (i = N; i >= 0; i--) d += ' L ' + Rp[i][0].toFixed(1) + ' ' + Rp[i][1].toFixed(1);
+    d += ' Z';
+
+    /* the head sits on the last bit of the stroke and carries its own angle */
+    var e = C[N], e0 = C[N - 2];
+    var hx = e[0] - e0[0], hy = e[1] - e0[1], hl = Math.hypot(hx, hy) || 1;
+    var tx2 = hx / hl, ty2 = hy / hl, nx2 = -ty2, ny2 = tx2;
+    var b1 = [e[0] + nx2 * HW / 2 + tx2 * H.skew * 6 * k, e[1] + ny2 * HW / 2 + ty2 * H.skew * 6 * k];
+    var b2 = [e[0] - nx2 * HW / 2, e[1] - ny2 * HW / 2];
+    var notch = [e[0] - tx2 * HLEN * H.back, e[1] - ty2 * HLEN * H.back];
+    var tip = [x1, y1];
+    var hd = 'M ' + b1[0].toFixed(1) + ' ' + b1[1].toFixed(1) +
+      ' Q ' + (b1[0] + (tip[0] - b1[0]) * .55 + nx2 * 1.6 * k).toFixed(1) + ' ' + (b1[1] + (tip[1] - b1[1]) * .55 + ny2 * 1.6 * k).toFixed(1) +
+      ' ' + tip[0].toFixed(1) + ' ' + tip[1].toFixed(1) +
+      ' Q ' + (b2[0] + (tip[0] - b2[0]) * .55 - nx2 * 1.2 * k).toFixed(1) + ' ' + (b2[1] + (tip[1] - b2[1]) * .55 - ny2 * 1.2 * k).toFixed(1) +
+      ' ' + b2[0].toFixed(1) + ' ' + b2[1].toFixed(1) +
+      ' Q ' + notch[0].toFixed(1) + ' ' + notch[1].toFixed(1) + ' ' + b1[0].toFixed(1) + ' ' + b1[1].toFixed(1) + ' Z';
+    return '<path class="ink" d="' + d + '"></path><path class="ink" d="' + hd + '"></path>';
+  }
+
+  var LABELS = {
+    climb: ['Top row', 'What to understand — it climbs'],
+    level: ['Middle row', 'What to accept — it runs level'],
+    fall:  ['Bottom row', 'What to transform — it falls']
+  };
+  function sheet(host, gutter, rise, scale, k) {
+    ['climb','level','fall'].forEach(function (kind) {
+      var h = (rise + 44) * scale, pad = 18 * scale;
+      var x0 = pad, x1 = pad + gutter * scale;
+      var y1 = h / 2 + (kind === 'climb' ? -rise / 2 : kind === 'fall' ? rise / 2 : 0) * scale;
+      var y0 = h / 2 + (kind === 'climb' ? rise / 2 : kind === 'fall' ? -rise / 2 : 0) * scale;
+      var W = x1 + pad;
+      host.insertAdjacentHTML('beforeend',
+        '<div class="row"><span class="lab"><b>' + LABELS[kind][0] + '</b>' + LABELS[kind][1] + '</span>' +
+        '<span class="stage" style="--h:' + h.toFixed(0) + 'px">' +
+          '<span class="edge note" style="left:' + x0.toFixed(0) + 'px"><span>note</span></span>' +
+          '<span class="edge card" style="left:' + x1.toFixed(0) + 'px"><span>card</span></span>' +
+          '<svg viewBox="0 0 ' + W.toFixed(0) + ' ' + h.toFixed(0) + '" preserveAspectRatio="xMinYMid meet">' +
+            arrowPath(kind, x0, y0, x1, y1, (k || 1) * scale) + '</svg></span></div>');
+    });
+  }
+  sheet(document.getElementById('c1440'), 74, 64, 1, 1);
+  sheet(document.getElementById('c390'), 40, 34, 1, .62);
+  sheet(document.getElementById('czoom'), 74, 64, 3, 1);
+})();
+</script>
+</body>
+</html>
