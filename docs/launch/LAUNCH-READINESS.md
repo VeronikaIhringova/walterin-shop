@@ -34,6 +34,26 @@ Approved items 0–12 are **live**, each one read back:
 - (2) The old draft theme 188994257225 can now be deleted (by Veronka).
 - (3) Plain product URLs are served from Shopify's page cache for a few minutes. Fresh renders already show the Product safety row.
 
+## Status update: buy column live + Slovak translations (23 Sep 2026)
+
+Pushed to the live theme 164726866249 (15 files, each read back and identical): the rebuilt buy
+column (Frameless), walterin-ui.css, walterin-buy.js, PhotoSwipe, base.css word-break fix,
+theme.liquid (font preload + metric fallbacks + wui templates), locales, whats-inside, the tarot
+and book templates, settings_data (`disable_inspect` off: text and images can be copied again).
+
+Note on order: `templates/product.tarot.json` was rejected on the first push ("Invalid value for
+type in block 'value_sk2'") because Shopify validated it against the section schema that was still
+live at that moment. Pushing the section first and the template second solved it. **Rule for next
+time: push the .liquid section before the .json template that uses its new block types.**
+
+**Slovak translations:** 30 buy-column keys registered on the live theme (`translationsRegister`),
+read back, none outdated. The same 30 are on the preview theme so the Slovak page can be reviewed.
+Slovak is still an unpublished locale, so `/sk/` returns 404 to customers: nothing is public yet.
+
+**Still English on the Slovak page** (58 keys, copy not written or approved): Meet the cards
+(title, spec labels), the nine-frame path section, Meet Walter, FAQ, About Walterin rich text,
+newsletter and footer blocks.
+
 ## To set up before it can be promised: gift wrapping and a gift message (23 Sep 2026)
 
 The "As a gift" accordion has a line offering **gift wrapping and a short message at checkout**.

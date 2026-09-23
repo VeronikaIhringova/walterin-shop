@@ -43,8 +43,8 @@
           "settings": {
             "heading": "About Walter",
             "show_when": "always",
-            "suggestion": true,
-            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed.</p>"
+            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed.</p>",
+            "secondary": true
           }
         }
       },

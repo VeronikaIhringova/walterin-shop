@@ -96,7 +96,18 @@
         "box_item_2": "1 extra card: the introduction on one side, the nine‑frame path explained on the other",
         "box_item_3": "1 extra card: the two readings",
         "box_item_4": "Tuck box",
-        "box_item_5": ""
+        "box_item_5": "",
+        "gallery_label": "Product images. Swipe or use the arrow keys.",
+        "thumbs_label": "Image",
+        "zoom_label": "Enlarge image",
+        "notify_label": "Email address",
+        "notify_placeholder": "Your email address",
+        "notify_button": "Notify me",
+        "notify_success": "You're on the list for the [edition] edition. One email when it's ready.",
+        "privacy_link": "Privacy policy",
+        "atc_label": "Add to cart",
+        "delivery_heading": "Delivery",
+        "remaining_text": "[n] of 100 left"
       }
     },
     "whats_inside_cards": {
