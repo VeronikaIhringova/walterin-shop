@@ -32,16 +32,78 @@
 </head>
 <body>
 <div class="wrap">
-<h1>S2 · Back to the clean annotated print, with the path card beside it</h1>
-<p class="sub">The section as it was — the dimming, the note, the layout, the typography — with the row colours, the coloured
-header, the coloured dots and everything else from the last two rounds removed. Ink, paper, yellow; the artwork brings the
-colour. One thing was kept from the newer work: the nine-frame path, and it is treated as what it is — another card from the
-box, the same size and shape as the tarot card beside it, always on screen, with one line naming it.</p>
+<h1>S2 · The reworked layout, and the walk</h1>
+<p class="sub">Ink, paper, yellow; the drawn arrow unchanged; the dimming unchanged. Four things are new: the card's name now
+sits under the card, the three objects have a clear order of importance, the note spells out both coordinates of the frame,
+and the walk is built — one button, three stops, one per row.</p>
+
+<section class="dir" style="border-top:0;padding-top:0;margin-top:22px">
+<h2>1 · The order of importance</h2>
+<p class="sub">Nothing competes any more. The explanation is the biggest object on the line, the card is second and carries its
+own name, the path card is reference and sits back.</p>
+<table>
+<tr><th></th><th>before</th><th>now</th><th>why</th></tr>
+<tr><td>the explanation</td><td>300px, frame at 146, caption 21px</td><td><b>340px, frame at 184, caption 24px</b>, deeper shadow</td><td>it is what the section is for</td></tr>
+<tr><td>the card</td><td>250px, name in the picker row</td><td>250px, <b>name directly under it</b></td><td>you read the card and its name in one glance</td></tr>
+<tr><td>the path card</td><td>250px, same frame and shadow</td><td><b>190px — 76%</b>, thin border, no shadow</td><td>reference: present, quieter, never equal to the card</td></tr>
+<tr><td>the gaps</td><td>74 / 30</td><td><b>74 (the arrow) / 52</b></td><td>the wider second gap separates the explanation from the reference</td></tr>
+</table>
+</section>
+
+<section class="dir">
+<h2>2 · The note says where the frame sits</h2>
+<p class="sub">Above the caption, both coordinates, each labelled so neither can be read as the other. The path card still
+highlights the cell — now the words are written down too.</p>
+<table>
+<tr><th>Slot</th><th>Slovensky</th><th>English</th></tr>
+<tr><td>labels</td><td>Riadok · Stĺpec</td><td>Row · Column</td></tr>
+<tr><td>rows</td><td>Čo pochopiť · Čo prijať · Čo premeniť</td><td>What to understand · What to accept · What to transform</td></tr>
+<tr><td>columns, row 1</td><td>Náhoda · Nápad · Hodnota <b>(pending Walter)</b></td><td>Chance · Idea · Value <i>(as printed)</i></td></tr>
+<tr><td>columns, row 2</td><td>Otvorenosť · Zmysel · Dôvera <b>(pending Walter)</b></td><td>Openness · Meaning · Trust <i>(as printed)</i></td></tr>
+<tr><td>columns, row 3</td><td>Skúsiť · Rozvíjať · Tvoriť <b>(pending Walter)</b></td><td>To try · To develop · To create <i>(as printed)</i></td></tr>
+<tr><td>the walk</td><td>Prevedie ma tým · Zastaviť · Riadok 1 z 3</td><td>Walk me through it · Stop · Row 1 of 3</td></tr>
+</table>
+<p class="sub" style="margin-top:10px"><b>The Slovak column words are mine, not Walter's.</b> His are printed on the card in
+English and the card stays English. In use until he signs them off.</p>
+</section>
+
+<section class="dir">
+<h2>3 · The walk — one button, three stops, 47 seconds</h2>
+<p class="sub">Built as the three-row walk only. The nine-frame version was costed at 65s in English and 72s in Slovak and
+dropped: a minute is too long to ask for on a product page, and two walk buttons on a bar that already holds Back, nine dots,
+Next and the deck is one control too many — the nine frames are already there, at your own pace, on Back and Next.
+Every number and every rule is in <code>docs/design/AUTOPLAY-WALK.md</code>.</p>
+<table>
+<tr><th>Per stop</th><th></th></tr>
+<tr><td>words on a stop</td><td>row name 3 + explanation 16–21 + three column words 4 + three captions 13 ≈ <b>41</b></td></tr>
+<tr><td>reading rate used</td><td><b>1 second per 3 words</b> — NN/g's rate for content the reader cannot pace. (Silent reading is 238 wpm, Brysbaert 2019, but that assumes you set the speed.)</td></tr>
+<tr><td>reading</td><td>13.7s</td></tr>
+<tr><td>taking in the three frames</td><td>1.5s — an estimate, not a citation</td></tr>
+<tr><td>per row</td><td><b>15s English · 17s Slovak</b> (+15%: Slovak runs longer per word, no published rate exists)</td></tr>
+<tr><td>beat at each row change</td><td>0.8s</td></tr>
+<tr><td><b>whole run</b></td><td><b>46.6s English · about 52s Slovak</b></td></tr>
+</table>
+<table style="margin-top:16px">
+<tr><th>Behaviour</th><th></th></tr>
+<tr><td>start · stop</td><td>one button, never starts on its own; Esc also stops</td></tr>
+<tr><td>hover</td><td>nothing — hover-pausing is what stalled S3</td></tr>
+<tr><td>click</td><td>any click that moves you stops it and leaves you there</td></tr>
+<tr><td>keyboard</td><td>focus entering the section stops it</td></tr>
+<tr><td>scrolled away</td><td>holds under 50% visible, carries on from where it was</td></tr>
+<tr><td>tab change</td><td>holds; resumes when the tab is back and the section is in view</td></tr>
+<tr><td>at the end</td><td>stops on the last row and stays. No loop.</td></tr>
+<tr><td>reduced motion</td><td>still offered; the highlight jumps instead of travelling</td></tr>
+<tr><td>screen reader</td><td>three announcements, one per row; stepping by hand still announces every frame</td></tr>
+</table>
+<div class="rows" style="margin-top:16px">
+  <div class="shot"><img src="shots-s2d/walk-row1-1440.png" alt="The walk, first stop"><div class="cap">The walk, stop 1 of 3 — the row lit on the card, on the path card, and spelled out in the note</div></div>
+</div>
+</section>
 
 <section class="dir">
 <h2>The section</h2>
 <div class="pair">
-  <div class="shot"><img src="shots-s2d/f4-en-1440.png" alt="The section at 1440"><div class="cap">1440 · middle row, frame 5</div></div>
+  <div class="shot"><img src="shots-s2d/f4-en-1440.png" alt="The section at 1440"><div class="cap">1440 · frame 5</div></div>
   <div class="shot"><img src="shots-s2d/f4-sk-390.png" alt="The section at 390, Slovak"><div class="cap">390 · Slovak</div></div>
 </div>
 <p class="links" style="margin-top:14px"><a href="s2d.html">Open 1440</a><a class="ghost" href="s2d.html?frame=1">Top row</a><a class="ghost" href="s2d.html?frame=7">Bottom row</a><a class="ghost" href="s2d.html?lang=sk">Slovak</a><a class="ghost" href="s2d.html?state=dealt">Readings dealt</a></p>
@@ -78,12 +140,13 @@ Files: <code>nine-frame-path-card.png</code> 82 KB and <code>.webp</code> 85 KB 
 <h2>Measured</h2>
 <table>
 <tr><th></th><th>1440 × 900</th><th>390 × 844</th></tr>
-<tr><td>Two readings start at</td><td>833px — one screen</td><td>1268px</td></tr>
-<tr><td>The note ends at</td><td>592px</td><td>692px — above the fold</td></tr>
-<tr><td>The two cards</td><td colspan="2">250 × 408 each, tops aligned · 140 × 229 on the phone</td></tr>
+<tr><td>Two readings start at</td><td>899px — one screen</td><td>1318px</td></tr>
+<tr><td>The note ends at</td><td>720px</td><td>788px — above the fold</td></tr>
+<tr><td>The cards</td><td colspan="2">tarot 250 × 408, path card 190 (76%) · 140 and 110 on the phone</td></tr>
 <tr><td>Arrow clearance from the card</td><td>18.5 – 28.7px</td><td>12.4 – 18.5px</td></tr>
 <tr><td>Path card cell follows all nine frames</td><td>pass</td><td>pass</td></tr>
-<tr><td>Layout shift over eight steps</td><td>0.0001</td><td>0.0001</td></tr>
+<tr><td>Layout shift stepping by hand</td><td>0.0000</td><td>0.0000</td></tr>
+<tr><td>Layout shift across a whole 47s walk</td><td>0.0006</td><td>0.0000</td></tr>
 <tr><td>Palette — ink, paper, yellow only</td><td>pass</td><td>pass</td></tr>
 <tr><td>Nothing past the content edge · no horizontal scroll</td><td>pass</td><td>pass</td></tr>
 <tr><td>Keyboard, reduced motion, Chromium + WebKit, EN + SK</td><td>pass</td><td>pass</td></tr>
