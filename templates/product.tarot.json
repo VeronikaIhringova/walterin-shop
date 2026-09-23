@@ -587,7 +587,6 @@
         "lead": "Have a look through the cards.",
         "cards": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles",
         "deck_size": 78,
-        "pile_label": "In the box",
         "pile_alt": "The printed card back",
         "hint": "They flip on their own. Pause them, or click one to read it.",
         "pause_label": "Pause the cards",

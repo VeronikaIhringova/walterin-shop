@@ -73,14 +73,13 @@
         {%- endif -%}
       {%- endfor -%}
 
-      <div class="wui-pile">
+      <div class="wui-pile" data-wui-pile>
         <div class="wui-pile__stack">
           <img src="{{ 'card-back.png' | asset_url }}" alt="" width="800" height="1280" loading="lazy">
           <img src="{{ 'card-back.png' | asset_url }}" alt="" width="800" height="1280" loading="lazy">
           <img src="{{ 'card-back.png' | asset_url }}" alt="{{ section.settings.pile_alt | escape }}" width="800" height="1280" loading="lazy">
           <span class="wui-pile__n">+{{ rest }}</span>
         </div>
-        <span class="wui-small">{{ section.settings.pile_label | escape }}</span>
       </div>
     </div>
 
@@ -175,9 +174,9 @@
     display: block;
     /* lift + tilt live here, so the flip underneath stays a clean rotateY */
     transform: perspective(820px) rotateX(var(--wui-ry, 0deg)) rotateY(var(--wui-rx, 0deg)) translateY(var(--wui-lift, 0px));
-    transition: transform 0.16s var(--wui-ease);
+    transition: transform 0.45s var(--wui-ease); /* the gentle way back when the script lets go */
   }
-  .wui .wui-mcard__stage.is-tilting { transition: none; } /* the script drives it frame by frame */
+  .wui .wui-mcard__stage.is-tilting { transition: none; } /* while the pointer drives it */
   .wui .wui-mcard__flip { transform-style: preserve-3d; will-change: transform; pointer-events: none; }
   .wui .wui-mcard__flip img {
     width: 100%;
@@ -216,12 +215,13 @@
     background-position: 0 0, calc((var(--wui-mxn, 0) * 120%) + 50%) 0;
     background-size: auto, 220% 100%;
     opacity: 0;
-    transition: opacity 0.16s var(--wui-ease);
+    transition: opacity 0.28s var(--wui-ease);
   }
   .wui .wui-mcard:hover .wui-mcard__sheen,
   .wui .wui-mcard:focus-within .wui-mcard__sheen { opacity: 1; }
   .wui .wui-mcard:hover .wui-mcard__stage { --wui-lift: -8px; }
   .wui .wui-mcard:hover .wui-mcard__flip img { box-shadow: calc(5px + (var(--wui-rxn, 0) * 6px)) 7px 0 rgb(34 34 34 / 0.22); }
+  .wui .wui-mcard__flip img { transition: box-shadow 0.28s var(--wui-ease); }
   .wui .wui-mcard__cap { display: block; margin-top: 10px; font-size: var(--wui-fs-small); }
   .wui .wui-mcard.is-settling .wui-mcard__stage { animation: wui-settle 0.22s var(--wui-ease); }
   @keyframes wui-settle {
@@ -296,8 +296,21 @@
     background: #fff;
     box-shadow: 3px 3px 0 rgb(34 34 34 / 0.28);
   }
+  /* At rest the three backs sit almost square; pointing at the pile riffles them apart. */
+  .wui .wui-pile__stack img {
+    transition: transform 0.42s var(--wui-ease), box-shadow 0.42s var(--wui-ease);
+  }
   .wui .wui-pile__stack img:nth-child(1) { transform: rotate(-7deg) translate(-7px, 5px); }
   .wui .wui-pile__stack img:nth-child(2) { transform: rotate(4deg) translate(5px, 2px); }
+  .wui .wui-pile:hover .wui-pile__stack img:nth-child(1),
+  .wui .wui-pile.is-riffling .wui-pile__stack img:nth-child(1) { transform: rotate(-15deg) translate(-20px, 2px); transition-delay: 0s; }
+  .wui .wui-pile:hover .wui-pile__stack img:nth-child(2),
+  .wui .wui-pile.is-riffling .wui-pile__stack img:nth-child(2) { transform: rotate(9deg) translate(16px, -2px); transition-delay: 0.05s; }
+  .wui .wui-pile:hover .wui-pile__stack img:nth-child(3),
+  .wui .wui-pile.is-riffling .wui-pile__stack img:nth-child(3) { transform: translateY(-6px); transition-delay: 0.1s; }
+  .wui .wui-pile:hover .wui-pile__n,
+  .wui .wui-pile.is-riffling .wui-pile__n { transform: translate(-50%, -50%) rotate(-4deg) scale(1.06); }
+  .wui .wui-pile__n { transition: transform 0.42s var(--wui-ease); }
   .wui .wui-pile__n {
     position: absolute;
     left: 50%;
@@ -313,7 +326,7 @@
     border-radius: 6px;
   }
 
-  .wui .wui-meet__foot { display: flex; align-items: flex-start; gap: var(--wui-12); margin-top: var(--wui-16); }
+  .wui .wui-meet__foot { display: flex; align-items: center; gap: var(--wui-12); margin-top: var(--wui-12); }
   .wui .wui-meet__pause {
     flex: none;
     width: 32px;
@@ -332,7 +345,16 @@
   .wui .wui-meet__hint.is-gone { opacity: 0; }
 
   /* Spec strip: a star before every label, alternating and each one turned a little. Ink, no grey. */
-  .wui .wui-specs { margin-top: 64px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px clamp(38px, 5vw, 76px); }
+  /* Same left and right edges as the cards above: a grid across the content width, not a
+     centred cluster floating in the middle. */
+  .wui .wui-specs {
+    margin-top: var(--wui-24);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 24px 32px;
+    padding-top: var(--wui-24);
+    border-top: var(--wui-line-thin) solid var(--wui-ink);
+  }
   .wui .wui-spec { text-align: left; }
   .wui .wui-spec__label {
     display: flex;
@@ -387,7 +409,7 @@
     .wui .wui-mcard { scroll-snap-align: start; }
     .wui .wui-pile { width: 160px; }
     .wui .wui-pile__stack { width: 150px; }
-    .wui .wui-specs { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; justify-content: start; gap: 22px 24px; }
+    .wui .wui-specs { margin-top: var(--wui-24); grid-template-columns: 1fr 1fr; gap: 20px 24px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -408,7 +430,6 @@
     { "type": "text", "id": "lead", "label": "Line under the heading", "default": "Have a look through the cards." },
     { "type": "textarea", "id": "cards", "label": "Preview cards", "info": "One per line: file.jpg | Card name. Only these are ever shown, and the pile counts itself from them.", "default": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles" },
     { "type": "number", "id": "deck_size", "label": "Tarot cards in the deck", "info": "The pile shows this minus the preview cards. The two extra cards don't count.", "default": 78 },
-    { "type": "text", "id": "pile_label", "label": "Pile caption", "default": "In the box" },
     { "type": "text", "id": "pile_alt", "label": "Pile alt text", "default": "The printed card back" },
     { "type": "select", "id": "cue", "label": "How a card shows it can be opened", "options": [
       { "value": "marker", "label": "A · yellow marker under the name" },

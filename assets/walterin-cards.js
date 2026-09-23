@@ -155,60 +155,87 @@
     var row = $('[data-wui-row]', root);
     row.addEventListener('pointerleave', function () { resetTilt(); });
     row.addEventListener('pointercancel', function () { resetTilt(); });
+    row.addEventListener('scroll', function () { resetTilt(); }, { passive: true });
     window.addEventListener('blur', function () { resetTilt(); });
 
-    /* ---------- tilt: one card at a time, interpolated, never during a flip ---------- */
-    var tiltEl = null, tiltSlot = -1, target = { x: 0, y: 0 }, cur = { x: 0, y: 0 }, raf = null;
-    function writeTilt(el, x, y, mx, my) {
-      el.style.setProperty('--wui-rx', (x * TILT).toFixed(2) + 'deg');
-      el.style.setProperty('--wui-ry', (-y * TILT).toFixed(2) + 'deg');
-      el.style.setProperty('--wui-rxn', x.toFixed(3));
-      el.style.setProperty('--wui-mxn', x.toFixed(3));
-      if (mx != null) {
-        el.style.setProperty('--wui-mx', (mx * 100).toFixed(1) + '%');
-        el.style.setProperty('--wui-my', (my * 100).toFixed(1) + '%');
-      }
+    /* ---------- tilt ----------
+       Every card keeps its own value and eases towards its own target, so entering a card,
+       sliding to its neighbour and leaving the row are all the same gentle movement. Nothing
+       is ever reset in one step. */
+    var tilt = slots.map(function () { return { tx: 0, ty: 0, cx: 0, cy: 0, el: null, on: false }; });
+    var raf = null;
+    var CATCH = 0.20;   // while the pointer is on the card
+    var LETGO = 0.12;   // easing back to rest
+    var MAX_STEP = 0.035; // never move more than this much of the range in one frame (~0.9°)
+
+    function writeTilt(t) {
+      if (!t.el) return;
+      t.el.style.setProperty('--wui-rx', (t.cx * TILT).toFixed(2) + 'deg');
+      t.el.style.setProperty('--wui-ry', (-t.cy * TILT).toFixed(2) + 'deg');
+      t.el.style.setProperty('--wui-rxn', t.cx.toFixed(3));
+      t.el.style.setProperty('--wui-mxn', t.cx.toFixed(3));
     }
-    function step() {
-      if (!tiltEl) { raf = null; return; }
-      cur.x += (target.x - cur.x) * FOLLOW;           // catches up fast, but never in one jump
-      cur.y += (target.y - cur.y) * FOLLOW;
-      writeTilt(tiltEl, cur.x, cur.y);
-      if (Math.abs(target.x - cur.x) < 0.002 && Math.abs(target.y - cur.y) < 0.002) {
-        writeTilt(tiltEl, target.x, target.y);
-        raf = null;
-        if (target.x === 0 && target.y === 0) { tiltEl.classList.remove('is-tilting'); tiltEl = null; tiltSlot = -1; }
-        return;
-      }
-      raf = requestAnimationFrame(step);
+    function loop() {
+      var busy = false;
+      tilt.forEach(function (t) {
+        if (!t.el) return;
+        var k = t.on ? CATCH : LETGO;
+        var dx = (t.tx - t.cx) * k, dy = (t.ty - t.cy) * k;
+        dx = Math.max(-MAX_STEP, Math.min(MAX_STEP, dx));   // a cap, so entering a card can't snap
+        dy = Math.max(-MAX_STEP, Math.min(MAX_STEP, dy));
+        t.cx += dx;
+        t.cy += dy;
+        var settled = Math.abs(t.tx - t.cx) < 0.0015 && Math.abs(t.ty - t.cy) < 0.0015;
+        if (settled) { t.cx = t.tx; t.cy = t.ty; }
+        writeTilt(t);
+        if (settled && !t.on && t.tx === 0 && t.ty === 0) {
+          t.el.classList.remove('is-tilting');   // hand it back to the CSS transition at rest
+        } else {
+          busy = true;
+        }
+      });
+      raf = busy ? requestAnimationFrame(loop) : null;
     }
-    function resetTilt(onlyEl) {
-      if (!tiltEl) return;
-      if (onlyEl && !onlyEl.contains(tiltEl)) return;
-      target.x = 0; target.y = 0;
-      if (!raf) raf = requestAnimationFrame(step);
-    }
-    function hardReset(el) {
-      el.style.setProperty('--wui-rx', '0deg');
-      el.style.setProperty('--wui-ry', '0deg');
-      el.style.setProperty('--wui-rxn', '0');
-      el.classList.remove('is-tilting');
-    }
+    function nudge() { if (!raf) raf = requestAnimationFrame(loop); }
+
     if (!reduce) slots.forEach(function (el, i) {
-      var t = $('[data-wui-tilt]', el);          // the stage, not the button: tilt survives a flip
+      var stage = $('[data-wui-tilt]', el);
+      tilt[i].el = stage;
+      el.addEventListener('pointerenter', function (e) {
+        if (e.pointerType === 'touch') return;
+        tilt[i].on = true;
+        stage.classList.add('is-tilting');
+      });
       el.addEventListener('pointermove', function (e) {
         if (e.pointerType === 'touch') return;
-        if (tiltEl && tiltEl !== t) { hardReset(tiltEl); }   // only ever one tilted card
-        if (tiltEl !== t) { cur.x = 0; cur.y = 0; tiltEl = t; tiltSlot = i; t.classList.add('is-tilting'); }
-        var r = t.getBoundingClientRect();
+        var r = stage.getBoundingClientRect();
         var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        target.x = Math.max(-0.5, Math.min(0.5, x - 0.5));
-        target.y = Math.max(-0.5, Math.min(0.5, y - 0.5));
-        writeTilt(t, cur.x, cur.y, x, y);
-        if (!raf) raf = requestAnimationFrame(step);
+        tilt[i].on = true;
+        tilt[i].tx = Math.max(-0.5, Math.min(0.5, x - 0.5));
+        tilt[i].ty = Math.max(-0.5, Math.min(0.5, y - 0.5));
+        stage.style.setProperty('--wui-mx', (x * 100).toFixed(1) + '%');
+        stage.style.setProperty('--wui-my', (y * 100).toFixed(1) + '%');
+        stage.classList.add('is-tilting');
+        nudge();
       });
-      el.addEventListener('pointerleave', function () { resetTilt(); });
+      function release() { tilt[i].on = false; tilt[i].tx = 0; tilt[i].ty = 0; nudge(); }
+      el.addEventListener('pointerleave', release);
+      el.addEventListener('pointercancel', release);
     });
+    function resetTilt() { tilt.forEach(function (t) { t.on = false; t.tx = 0; t.ty = 0; }); nudge(); }
+    window.addEventListener('blur', resetTilt);
+
+    /* ---------- the pile riffles on touch too ---------- */
+    var pile = $('[data-wui-pile]', root);
+    if (pile) {
+      var riffle = null;
+      pile.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'touch') return;
+        pile.classList.add('is-riffling');
+        clearTimeout(riffle);
+        riffle = setTimeout(function () { pile.classList.remove('is-riffling'); }, 2600);
+      });
+    }
 
     /* ---------- the hint fades once, then never comes back ---------- */
     var hint = $('[data-wui-hint]', root);
