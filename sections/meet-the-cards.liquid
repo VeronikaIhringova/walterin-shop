@@ -180,6 +180,9 @@
     transform: perspective(900px) rotateX(var(--wui-ry, 0deg)) rotateY(var(--wui-rx, 0deg)) translateY(var(--wui-lift, 0px));
     transition: transform 0.18s var(--wui-ease);
   }
+  /* while the pointer drives the tilt, the script interpolates it: a CSS transition on top of
+     that is what made it jitter and stick */
+  .wui .wui-mcard__tilt.is-tilting { transition: none; }
   .wui .wui-mcard__tilt img {
     width: 100%;
     height: auto;
@@ -338,14 +341,14 @@
   "class": "wui-section",
   "settings": [
     { "type": "text", "id": "title", "label": "Heading", "default": "Meet the cards" },
-    { "type": "text", "id": "lead", "label": "Line under the heading", "default": "Ten of the seventy-eight, drawn the way they are printed." },
+    { "type": "text", "id": "lead", "label": "Line under the heading", "default": "Have a look through the cards." },
     { "type": "textarea", "id": "cards", "label": "Preview cards", "info": "One per line: file.jpg | Card name. Only these are ever shown, and the pile counts itself from them.", "default": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles" },
     { "type": "number", "id": "deck_size", "label": "Tarot cards in the deck", "info": "The pile shows this minus the preview cards. The two extra cards don't count.", "default": 78 },
     { "type": "text", "id": "pile_label", "label": "Pile caption", "default": "In the box" },
     { "type": "text", "id": "pile_alt", "label": "Pile alt text", "default": "The printed card back" },
 
     { "type": "header", "content": "They turn on their own" },
-    { "type": "text", "id": "hint", "label": "Hint (fades away)", "default": "They turn on their own. Tap one to read it." },
+    { "type": "text", "id": "hint", "label": "Hint (fades away)", "default": "They flip on their own. Pause them, or click one to read it." },
     { "type": "text", "id": "pause_label", "label": "Pause button", "default": "Pause the cards" },
     { "type": "text", "id": "play_label", "label": "Play button", "default": "Let them turn again" },
 

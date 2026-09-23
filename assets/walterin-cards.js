@@ -1,14 +1,18 @@
 /*
   Walterin · card behaviour (sections/meet-the-cards.liquid). No dependencies.
 
-  - The flip is the old section's, to the millisecond: rotateY 0→90 in 280ms on power1.in,
-    swap the image at the halfway point, then −90→0 in 280ms on power1.out. Between flips
-    2500–4300ms, re-rolled every time; the four start staggered so they never move in sync.
-  - A slot can never show a card another slot is already showing: the next card is reserved
-    synchronously when the flip starts, not when the image swaps.
-  - Turning stops while someone is using the row (pointer inside, focus inside, an open sheet,
-    a hidden tab), and there is a real pause control as well (WCAG 2.2.2).
-  - Paper feel: the card lifts and its shadow leans with the tilt, and it settles after a flip.
+  The flip is the old section's, to the millisecond: rotateY 0→90 in 280ms on power1.in, swap the
+  image at the halfway point, then −90→0 in 280ms on power1.out. Between flips 2500–4300ms,
+  re-rolled every time; the four start staggered so they never move in sync.
+
+  Rules that keep it from feeling buggy:
+  - A click always opens the card that is on screen. What a slot *shows* is tracked separately
+    from what it has *reserved*, so a click during a flip can never open the next card.
+  - Touching or pointing at a card holds that slot still, so nothing turns under the finger.
+  - Turning stops while the pointer is anywhere over the row, while focus is inside it, while the
+    sheet is open, while the tab is hidden, and whenever the pause control says so (WCAG 2.2.2).
+  - The tilt is interpolated frame by frame, only one card is ever tilted, and the tilt is dropped
+    while a card is flipping. Leaving, cancelling or losing the pointer all reset it.
   - prefers-reduced-motion: no turning, no tilt, no settle. Everything still works.
 */
 (function () {
@@ -20,10 +24,13 @@
   var HALF = 280;                                    // each half of the flip
   var MIN_WAIT = 2500, MAX_WAIT = 4300;              // between flips
   var STAGGER = 650;                                 // between the slots' first flips
+  var HOLD = 2000;                                   // a touched or pointed-at slot holds still
+  var TILT = 8;                                      // degrees, corner to corner
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
   function randInt(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function now() { return Date.now(); }
 
   function init(root) {
     if (!root || root.__wuiCards) return;
@@ -33,18 +40,27 @@
     var cards = [];
     try { cards = JSON.parse(data.textContent); } catch (e) { return; }
     var slots = $$('[data-wui-slot]', root);
-    if (!slots.length || cards.length <= slots.length) return; // nothing to rotate into
+    if (!slots.length) return;
 
-    // What each slot is showing right now, by index into `cards`. Reserved on pick, so two
-    // slots can never land on the same card even if their timers fire in the same tick.
-    var current = slots.map(function (slot) {
-      var name = $('[data-wui-card-name]', slot);
-      var shown = name ? name.textContent.trim() : '';
-      var i = cards.findIndex(function (c) { return c.name === shown; });
+    /* what each slot SHOWS right now (updated with the DOM) */
+    var shown = slots.map(function (slot) {
+      var nm = $('[data-wui-card-name]', slot);
+      var i = cards.findIndex(function (c) { return c.name === (nm ? nm.textContent.trim() : ''); });
       return i < 0 ? 0 : i;
     });
-    // Preload the set: the swap happens at the edge-on midpoint, and a half-loaded image
-    // would leave the old picture under the new name.
+    /* what each slot has RESERVED (set when a flip starts, so two slots can't pick the same card) */
+    var reserved = shown.slice();
+    var animating = slots.map(function () { return false; });
+    var running = slots.map(function () { return null; });   // the flip in flight, so pause can stop it
+    var hold = slots.map(function () { return 0; });
+    var timers = [];
+    var paused = reduce;
+    var sheetOpen = false;
+    var pointerInRow = false;
+    var focusInRow = false;
+
+    // Preload and decode the set: the swap happens edge-on, and a half-loaded image would leave
+    // the old picture standing under the new name.
     var ready = {};
     cards.forEach(function (c) {
       var im = new Image();
@@ -53,19 +69,14 @@
       ready[c.src] = im.decode ? im.decode().catch(function () {}) : Promise.resolve();
     });
 
-    var timers = [];
-    var paused = reduce;
-    var busy = false;   // a sheet is open
-    var hovering = false;
-
     function suitOf(i) { return cards[i] && cards[i].suit; }
+    function canRotate() { return cards.length > slots.length; }
 
-    // Prefer a card whose suit differs from the neighbours'; relax the rule rather than deadlock.
     function pick(slot) {
-      var taken = current.slice();
-      var left = slot > 0 ? suitOf(current[slot - 1]) : null;
-      var right = slot < current.length - 1 ? suitOf(current[slot + 1]) : null;
-      var own = suitOf(current[slot]);
+      var taken = reserved.slice();
+      var left = slot > 0 ? suitOf(reserved[slot - 1]) : null;
+      var right = slot < reserved.length - 1 ? suitOf(reserved[slot + 1]) : null;
+      var own = suitOf(reserved[slot]);
       function pool(avoidOwn, avoidNeighbours) {
         return cards.map(function (c, i) { return i; }).filter(function (i) {
           if (taken.indexOf(i) >= 0) return false;
@@ -78,124 +89,226 @@
       if (!p.length) p = pool(false, true);
       if (!p.length) p = pool(true, false);
       if (!p.length) p = pool(false, false);
-      if (!p.length) return -1;
-      return p[Math.floor(Math.random() * p.length)];
+      return p.length ? p[Math.floor(Math.random() * p.length)] : -1;
     }
 
     function schedule(slot, wait) {
       clearTimeout(timers[slot]);
       timers[slot] = setTimeout(function () { flip(slot); }, wait || randInt(MIN_WAIT, MAX_WAIT));
     }
+    function blocked(slot) {
+      return paused || sheetOpen || pointerInRow || focusInRow || document.hidden ||
+             animating[slot] || now() < hold[slot] || !canRotate();
+    }
 
     function flip(slot) {
-      if (paused || busy || hovering || document.hidden) { schedule(slot); return; }
+      if (blocked(slot)) { schedule(slot); return; }
       var next = pick(slot);
       if (next < 0) { schedule(slot); return; }
-      current[slot] = next;                    // reserved before anything animates
+      reserved[slot] = next;
+      animating[slot] = true;
 
       var el = slots[slot];
       var flipper = $('[data-wui-flip]', el);
       var card = cards[next];
+      resetTilt(el);                                  // a flipping card is never tilted
+
       var away = flipper.animate(
         [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }],
         { duration: HALF, easing: EASE_IN, fill: 'forwards' }
       );
+      running[slot] = away;
       away.onfinish = function () {
+        if (running[slot] !== away) return;            // cancelled by the pause control
         (ready[card.src] || Promise.resolve()).then(function () {
-        var im = $('[data-wui-card-img]', el);
-        var nm = $('[data-wui-card-name]', el);
-        var btn = $('[data-wui-open]', el);
-        im.src = card.src; im.alt = card.name;
-        if (nm) nm.textContent = card.name;
-        if (btn) btn.setAttribute('aria-label', card.name);
-        var back = flipper.animate(
-          [{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }],
-          { duration: HALF, easing: EASE_OUT, fill: 'forwards' }
-        );
-        back.onfinish = function () {
-          flipper.getAnimations().forEach(function (a) { a.cancel(); });
-          flipper.style.transform = '';
-          el.classList.add('is-settling');
-          setTimeout(function () { el.classList.remove('is-settling'); }, 240);
-          schedule(slot);
-        };
+          var im = $('[data-wui-card-img]', el);
+          var nm = $('[data-wui-card-name]', el);
+          var btn = $('[data-wui-open]', el);
+          im.src = card.src;
+          im.alt = card.name;
+          if (nm) nm.textContent = card.name;
+          if (btn) btn.setAttribute('aria-label', card.name);
+          shown[slot] = next;                        // the DOM and the bookkeeping change together
+
+          var back = flipper.animate(
+            [{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }],
+            { duration: HALF, easing: EASE_OUT, fill: 'forwards' }
+          );
+          running[slot] = back;
+          back.onfinish = function () {
+            flipper.getAnimations().forEach(function (a) { a.cancel(); });
+            flipper.style.transform = '';
+            animating[slot] = false;
+            running[slot] = null;
+            el.classList.add('is-settling');
+            setTimeout(function () { el.classList.remove('is-settling'); }, 240);
+            schedule(slot);
+          };
         });
       };
     }
 
-    if (!reduce) slots.forEach(function (_, i) { timers[i] = setTimeout(function () { flip(i); }, i * STAGGER + randInt(0, 600)); });
+    if (!reduce && canRotate()) {
+      slots.forEach(function (_, i) { timers[i] = setTimeout(function () { flip(i); }, i * STAGGER + randInt(0, 600)); });
+    }
 
-    /* ---------- pausing ---------- */
+    /* ---------- the row holds still while anyone is near it ---------- */
     var row = $('[data-wui-row]', root);
     var leaveTimer = null;
-    row.addEventListener('pointerenter', function () { hovering = true; clearTimeout(leaveTimer); });
-    row.addEventListener('pointerleave', function () { leaveTimer = setTimeout(function () { hovering = false; }, 3000); });
-    row.addEventListener('focusin', function () { hovering = true; });
-    row.addEventListener('focusout', function () { leaveTimer = setTimeout(function () { hovering = false; }, 3000); });
+    row.addEventListener('pointerenter', function () { pointerInRow = true; clearTimeout(leaveTimer); });
+    row.addEventListener('pointerleave', function () {
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(function () { pointerInRow = false; }, 1200);
+      resetTilt();
+    });
+    row.addEventListener('pointercancel', function () { resetTilt(); });
+    row.addEventListener('focusin', function () { focusInRow = true; });
+    row.addEventListener('focusout', function () {
+      setTimeout(function () { focusInRow = !!(document.activeElement && row.contains(document.activeElement)); }, 0);
+    });
+    window.addEventListener('blur', function () { resetTilt(); });
 
-    var pause = $('[data-wui-pause]', root);
-    var PLAY_ICON = '<svg class="wui-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 2l10 6-10 6z"></path></svg>';
-    var PAUSE_ICON = '<svg class="wui-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="3" y="2" width="4" height="12" rx="1"></rect><rect x="9" y="2" width="4" height="12" rx="1"></rect></svg>';
-    if (pause) {
-      if (reduce) { pause.setAttribute('aria-pressed', 'true'); pause.innerHTML = PLAY_ICON; pause.setAttribute('aria-label', pause.dataset.labelPlay); }
-      pause.addEventListener('click', function () {
-        paused = !paused;
-        pause.setAttribute('aria-pressed', String(paused));
-        pause.setAttribute('aria-label', paused ? pause.dataset.labelPlay : pause.dataset.labelPause);
-        pause.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
-        if (!paused) slots.forEach(function (_, i) { schedule(i, randInt(400, 1200)); });
-      });
+    /* ---------- tilt: one card at a time, interpolated, never during a flip ---------- */
+    var tiltEl = null, tiltSlot = -1, target = { x: 0, y: 0 }, cur = { x: 0, y: 0 }, raf = null;
+    function writeTilt(el, x, y, mx, my) {
+      el.style.setProperty('--wui-rx', (x * TILT).toFixed(2) + 'deg');
+      el.style.setProperty('--wui-ry', (-y * TILT).toFixed(2) + 'deg');
+      el.style.setProperty('--wui-rxn', x.toFixed(3));
+      if (mx != null) {
+        el.style.setProperty('--wui-mx', (mx * 100).toFixed(1) + '%');
+        el.style.setProperty('--wui-my', (my * 100).toFixed(1) + '%');
+      }
     }
+    function step() {
+      if (!tiltEl) { raf = null; return; }
+      cur.x += (target.x - cur.x) * 0.22;             // a soft follow instead of a snap
+      cur.y += (target.y - cur.y) * 0.22;
+      writeTilt(tiltEl, cur.x, cur.y);
+      if (Math.abs(target.x - cur.x) < 0.002 && Math.abs(target.y - cur.y) < 0.002) {
+        writeTilt(tiltEl, target.x, target.y);
+        raf = null;
+        if (target.x === 0 && target.y === 0) { tiltEl.classList.remove('is-tilting'); tiltEl = null; tiltSlot = -1; }
+        return;
+      }
+      raf = requestAnimationFrame(step);
+    }
+    function resetTilt(onlyEl) {
+      if (!tiltEl) return;
+      if (onlyEl && !onlyEl.contains(tiltEl)) return;
+      target.x = 0; target.y = 0;
+      if (!raf) raf = requestAnimationFrame(step);
+    }
+    function hardReset(el) {
+      el.style.setProperty('--wui-rx', '0deg');
+      el.style.setProperty('--wui-ry', '0deg');
+      el.style.setProperty('--wui-rxn', '0');
+      el.classList.remove('is-tilting');
+    }
+    if (!reduce) slots.forEach(function (el, i) {
+      var t = $('[data-wui-open]', el);
+      t.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch' || animating[i]) return;
+        if (tiltEl && tiltEl !== t) { hardReset(tiltEl); }   // only ever one tilted card
+        if (tiltEl !== t) { cur.x = 0; cur.y = 0; tiltEl = t; tiltSlot = i; t.classList.add('is-tilting'); }
+        var r = t.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        target.x = Math.max(-0.5, Math.min(0.5, x - 0.5));
+        target.y = Math.max(-0.5, Math.min(0.5, y - 0.5));
+        writeTilt(t, cur.x, cur.y, x, y);
+        if (!raf) raf = requestAnimationFrame(step);
+        hold[i] = now() + HOLD;                              // don't turn under the cursor
+      });
+      t.addEventListener('pointerleave', function () { resetTilt(); });
+      t.addEventListener('pointerdown', function () { hold[i] = now() + HOLD; clearTimeout(timers[i]); schedule(i); });
+      t.addEventListener('focus', function () { hold[i] = now() + HOLD; });
+    });
 
     /* ---------- the hint fades once, then never comes back ---------- */
     var hint = $('[data-wui-hint]', root);
     if (hint) {
       var fade = setTimeout(function () { hint.classList.add('is-gone'); }, 6000);
-      ['pointerdown', 'keydown'].forEach(function (ev) {
-        row.addEventListener(ev, function () { clearTimeout(fade); hint.classList.add('is-gone'); }, { once: true });
+      var gone = function () { clearTimeout(fade); hint.classList.add('is-gone'); };
+      ['pointerdown', 'keydown'].forEach(function (ev) { row.addEventListener(ev, gone, { once: true }); });
+      var pauseEl = $('[data-wui-pause]', root);
+      if (pauseEl) pauseEl.addEventListener('click', gone, { once: true });
+    }
+
+    /* ---------- pause control ---------- */
+    var pause = $('[data-wui-pause]', root);
+    var PLAY_ICON = '<svg class="wui-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 2l10 6-10 6z"></path></svg>';
+    var PAUSE_ICON = '<svg class="wui-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="3" y="2" width="4" height="12" rx="1"></rect><rect x="9" y="2" width="4" height="12" rx="1"></rect></svg>';
+    if (pause) {
+      if (reduce || !canRotate()) {
+        pause.setAttribute('aria-pressed', 'true');
+        pause.innerHTML = PLAY_ICON;
+        pause.setAttribute('aria-label', pause.dataset.labelPlay);
+      }
+      pause.addEventListener('click', function () {
+        paused = !paused;
+        if (paused) stopAll();
+        pause.setAttribute('aria-pressed', String(paused));
+        pause.setAttribute('aria-label', paused ? pause.dataset.labelPlay : pause.dataset.labelPause);
+        pause.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
+        if (!paused) slots.forEach(function (_, i) { hold[i] = 0; schedule(i, randInt(400, 1200)); });
       });
     }
 
-    /* ---------- paper feel: tilt, sheen, a shadow that leans ---------- */
-    if (!reduce) slots.forEach(function (el) {
-      var t = $('[data-wui-open]', el);
-      t.addEventListener('pointermove', function (e) {
-        if (e.pointerType === 'touch') return;
-        var r = t.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        t.style.setProperty('--wui-rx', ((x - 0.5) * 8).toFixed(2) + 'deg');
-        t.style.setProperty('--wui-ry', ((0.5 - y) * 8).toFixed(2) + 'deg');
-        t.style.setProperty('--wui-rxn', (x - 0.5).toFixed(3));
-        t.style.setProperty('--wui-mx', (x * 100).toFixed(1) + '%');
-        t.style.setProperty('--wui-my', (y * 100).toFixed(1) + '%');
+    // Stop everything on the spot: cancel a flip in flight and set the card face-up again,
+    // keeping whatever it was showing. WCAG 2.2.2 means stopped, not "stopped after this one".
+    function stopAll() {
+      slots.forEach(function (el, i) {
+        clearTimeout(timers[i]);
+        var flipper = $('[data-wui-flip]', el);
+        if (running[i]) { running[i] = null; }
+        flipper.getAnimations().forEach(function (a) { a.cancel(); });
+        flipper.style.transform = '';
+        animating[i] = false;
+        reserved[i] = shown[i];
       });
-      t.addEventListener('pointerleave', function () {
-        t.style.setProperty('--wui-rx', '0deg');
-        t.style.setProperty('--wui-ry', '0deg');
-        t.style.setProperty('--wui-rxn', '0');
-      });
-    });
+    }
 
-    /* ---------- the card sheet ---------- */
+    /* ---------- the card sheet: always the card you can see ---------- */
     var sheet = $('[data-wui-sheet]', root);
-    if (sheet && typeof sheet.showModal === 'function') {
-      var opener = null;
-      root.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-wui-open]');
-        if (!btn) return;
-        var el = btn.closest('[data-wui-slot]');
-        var i = current[slots.indexOf(el)];
-        var card = cards[i];
-        opener = btn;
-        busy = true;
-        $('[data-wui-sheet-name]', sheet).textContent = card.name;
-        var im = $('[data-wui-sheet-img]', sheet);
-        im.src = card.src; im.alt = card.name;
-        sheet.showModal();
-      });
-      $('[data-wui-sheet-close]', sheet).addEventListener('click', function () { sheet.close(); });
+    var opener = null;
+    // A swipe along the row must not open a card: remember where the pointer went down.
+    var downAt = null;
+    var swiped = false;
+    row.addEventListener('pointerdown', function (e) { downAt = { x: e.clientX, y: e.clientY }; });
+    row.addEventListener('pointerup', function (e) {
+      if (!downAt) return;
+      var moved = Math.abs(e.clientX - downAt.x) + Math.abs(e.clientY - downAt.y);
+      downAt = null;
+      if (moved > 12) { swiped = true; setTimeout(function () { swiped = false; }, 350); }
+    });
+    root.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-wui-open]');
+      if (!btn || swiped) return;
+      var el = btn.closest('[data-wui-slot]');
+      var i = slots.indexOf(el);
+      if (i < 0) return;
+      var card = cards[shown[i]];                    // what is on screen, not what is reserved
+      hold[i] = now() + HOLD;
+      if (!sheet || typeof sheet.showModal !== 'function') return;   // no dialog support: leave the card alone
+      e.preventDefault();
+      opener = btn;
+      sheetOpen = true;
+      $('[data-wui-sheet-name]', sheet).textContent = card.name;
+      var im = $('[data-wui-sheet-img]', sheet);
+      im.src = card.src;
+      im.alt = card.name;
+      sheet.showModal();
+      document.documentElement.style.overflow = 'hidden';   // nothing scrolls behind the sheet
+    });
+    if (sheet) {
+      var closeBtn = $('[data-wui-sheet-close]', sheet);
+      if (closeBtn) closeBtn.addEventListener('click', function () { sheet.close(); });
       sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
-      sheet.addEventListener('close', function () { busy = false; if (opener) opener.focus(); });
+      sheet.addEventListener('close', function () {
+        document.documentElement.style.overflow = '';
+        sheetOpen = false;
+        if (opener) opener.focus();
+        slots.forEach(function (_, i) { schedule(i); });
+      });
     }
 
     document.addEventListener('visibilitychange', function () {

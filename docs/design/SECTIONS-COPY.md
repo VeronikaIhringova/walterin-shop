@@ -7,8 +7,8 @@ Nothing here is live: it is the copy inside `docs/design/mockups/page-sections.h
 | | SK | EN |
 |---|---|---|
 | Heading | Karty zblízka | Meet the cards |
-| Lead | Desať zo sedemdesiatich ôsmich, presne ako sú vytlačené. | Ten of the seventy-eight, drawn the way they are printed. |
-| Hint (fades) | Karty sa otáčajú samy. Ťuknite na niektorú a prečítajte si ju. | They turn on their own. Tap one to read it. |
+| Lead | Prezrite si karty. | Have a look through the cards. |
+| Hint (fades) | Otáčajú sa samy. Pozastavte ich alebo kliknite na niektorú a prečítajte si ju. | They flip on their own. Pause them, or click one to read it. |
 | Pause button | Pozastaviť karty / Nechať ich otáčať | Pause the cards / Let them turn again |
 | Pile | V krabičke | In the box |
 | Card sheet | Prečítať okienko po okienku · Zavrieť | Read it frame by frame · Close |
