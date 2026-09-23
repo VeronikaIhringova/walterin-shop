@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S2 · How a card is read — three directions</title>
+<!--
+  Mock-up only. Three directions for the "how a card is read" section:
+    dir=1  the reading rail      · text leads, the card follows, the walk goes row by row
+    dir=2  the annotated print   · a drawn note in the margin, with an ink arrow
+    dir=3  the storyboard        · the nine frames taken out of the card and laid out
+  URL: ?dir=1|2|3 · lang=en|sk · card=0..9 · frame=0..8 · state=walk|dealt · board=0
+  Frames are cropped from the artwork with CSS using the measured grid in
+  docs/design/data/preview-cards.json — no new images.
+  Budget: at 1440x900 everything up to the two-readings rule fits one screen;
+  at 390x844 the card and its explanation fit above the fold.
+-->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'WalterinBold'; src: url('https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093') format('woff2'); font-display: swap; }
+:root {
+  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205;
+  --line: 2.5px; --thin: 1.5px; --hair: 1px; --radius: 8px;
+  --display: 'WalterinBold', 'Chalkboard SE', sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --fs-heading: 30px; --fs-label: 18px; --fs-body: 15px; --fs-small: 13.5px;
+  --frame-pad: 15px; --ease: cubic-bezier(.2,.75,.2,1);
+}
+@media (min-width: 750px) { :root { --fs-heading: 38px; --fs-label: 21px; --fs-body: 16px; --fs-small: 14px; --frame-pad: 50px; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.5; overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-font-smoothing: antialiased; }
+p, h1, h2, h3, ul, ol, figure, dl { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+[hidden] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.board { font: 13px/1.4 var(--body); background: #fff; border-bottom: 1px dashed #999; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.board a { color: inherit; padding: 2px 6px; border: 1px solid #bbb; border-radius: 4px; text-decoration: none; }
+.board a[aria-current='true'] { background: var(--yellow); border-color: var(--ink); }
+.board .grp { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+body.noboard .board { display: none; }
+
+.wrap { width: 92%; max-width: 1400px; margin-inline: auto; padding-inline: var(--frame-pad); }
+.sec { padding-block: 30px; }
+@media (min-width: 990px) { .sec { padding-block: 42px; } }
+.title { font-family: var(--display); font-size: var(--fs-heading); line-height: 1.05; letter-spacing: .01em; text-transform: uppercase; }
+.label { font-family: var(--display); font-size: var(--fs-label); line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; }
+.small { font-size: var(--fs-small); line-height: 1.4; }
+.lead { font-size: var(--fs-body); line-height: 1.45; max-width: 58ch; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 6px 16px;
+  font-family: var(--display); font-size: var(--fs-body); line-height: 1; letter-spacing: .03em; text-transform: uppercase;
+  background: var(--yellow); border: var(--line) solid var(--ink); border-radius: var(--radius); box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease); margin: 0 3px 3px 0; }
+.btn:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn--ghost { background: var(--paper); }
+.steps { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- shared: the head, the picker, the two-reading band ---------- */
+.s2head { display: grid; gap: 12px; margin-bottom: 18px; }
+@media (min-width: 990px) { .s2head { grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 12px 40px; margin-bottom: 22px; } }
+.s2head__text { display: grid; gap: 8px; }
+.pickerline { display: grid; gap: 6px; justify-items: start; }
+@media (min-width: 990px) { .pickerline { justify-items: end; } }
+.picker { display: flex; gap: 7px; max-width: 100%; overflow-x: auto; padding-bottom: 2px; }
+.picker button { position: relative; flex: none; width: 40px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 4px; overflow: hidden; background: var(--paper); }
+.picker button img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.picker button[aria-pressed='true'] { outline: 3px solid var(--yellow); outline-offset: -3px; }
+.picker button::after { content: attr(data-name); position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  white-space: nowrap; font-size: 12px; background: var(--paper); border: var(--thin) solid var(--ink); border-radius: 4px; padding: 2px 6px;
+  opacity: 0; pointer-events: none; transition: opacity .12s var(--ease); z-index: 3; }
+.picker button:hover::after, .picker button:focus-visible::after { opacity: 1; }
+.pickhint { font-size: var(--fs-small); }
+.now { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .02em; }
+
+.readings { margin-top: 44px; padding-top: 24px; border-top: var(--line) solid var(--ink); }
+.readings__grid { display: grid; gap: 22px; margin-top: 18px; }
+@media (min-width: 750px) { .readings__grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+.reading { display: grid; gap: 10px; align-content: start; }
+.reading h3 { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .03em; }
+.deal { display: flex; gap: 10px; }
+.deal .slot { width: 76px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 6px; overflow: hidden; background:
+  repeating-linear-gradient(45deg, var(--yellow) 0 6px, var(--paper) 6px 12px); }
+.deal .slot img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- the card and its frames ---------- */
+.cardbox { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
+.cardbox img { width: 100%; height: auto; border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
+.ring { position: absolute; border: 3px solid var(--ink); border-radius: 3px; pointer-events: none;
+  transition: left .22s var(--ease), top .22s var(--ease), width .22s var(--ease), height .22s var(--ease);
+  box-shadow: 0 0 0 9999px rgb(255 253 247 / .58); }
+.hot { position: absolute; border: 0; background: transparent; cursor: pointer; }
+.hot::after { content: attr(data-n); position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border: var(--thin) solid var(--ink);
+  border-radius: 50%; background: var(--paper); font: 700 9px/14px var(--body); text-align: center; opacity: .9; }
+/* a single frame cropped out of the artwork with the measured grid */
+.crop { background-repeat: no-repeat; border: var(--line) solid var(--ink); border-radius: 6px; background-color: var(--paper); }
+
+/* ================= 1 · the reading rail ================= */
+.rail { display: grid; gap: 18px; }
+@media (min-width: 990px) { .rail { grid-template-columns: 236px minmax(0,1fr); gap: 40px; align-items: start; } }
+.rail__card { display: grid; gap: 12px; }
+.rail__map { width: 218px; }
+.rail__zoom { display: grid; grid-template-columns: 118px minmax(0,1fr); gap: 12px; align-items: start; }
+/* fixed box: frames differ by a percent or two in height, the block must not move */
+.rail__zoom .cropbox { width: 118px; height: 196px; display: grid; align-items: center; }
+.rail__zoom .crop { width: 118px; }
+.rail__zoomtext { display: grid; gap: 4px; }
+.rail__zoomrow { font-family: var(--display); font-size: 15px; line-height: 1.1; letter-spacing: .03em; text-transform: uppercase; }
+.rail__row { border-top: var(--hair) solid var(--ink); padding: 9px 0 11px; }
+.rail__row:first-child { border-top: var(--line) solid var(--ink); }
+.rail__row[data-live='true'] { background: rgb(252 242 5 / .16); box-shadow: -10px 0 0 rgb(252 242 5 / .16), 10px 0 0 rgb(252 242 5 / .16); }
+.rail__rowhead { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.rail__why { font-size: var(--fs-small); line-height: 1.4; margin-top: 2px; max-width: 66ch; }
+.rail__lines { display: grid; gap: 1px; margin-top: 7px; }
+.rail__line { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; align-items: center; text-align: left; padding: 5px 6px; border-radius: 6px; }
+.rail__line .n { font: 700 11px/1 var(--body); width: 20px; height: 20px; display: grid; place-items: center; border: var(--thin) solid var(--ink); border-radius: 50%; }
+.rail__line .cap { font-family: var(--display); font-size: var(--fs-body); letter-spacing: .02em; text-transform: uppercase; line-height: 1.15; }
+.rail__line:hover { background: rgb(252 242 5 / .3); }
+.rail__line[aria-current='true'] { background: var(--yellow); }
+.rail__line[aria-current='true'] .n { background: var(--paper); }
+@media (max-width: 989px) {
+  .rail__card { position: sticky; top: 0; z-index: 2; background: var(--paper); padding: 6px 0 8px; grid-template-columns: 104px minmax(0,1fr);
+    gap: 12px; align-items: start; border-bottom: var(--hair) solid var(--ink); }
+  .rail__map { width: 104px; }
+  .rail__zoom { grid-template-columns: 88px minmax(0,1fr); gap: 10px; }
+  .rail__zoom .cropbox { width: 88px; height: 146px; }
+  .rail__zoom .crop { width: 88px; }
+}
+
+/* ================= 2 · the annotated print ================= */
+.print { position: relative; display: grid; gap: 14px; justify-items: center; }
+@media (min-width: 990px) { .print { grid-template-columns: minmax(0,340px) 250px minmax(0,340px); justify-content: center; align-items: center; gap: 28px; } }
+.print__card { width: 250px; max-width: 100%; grid-column: 2; grid-row: 1; }
+.note { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); box-shadow: 3px 3px 0 rgb(34 34 34 / .28);
+  padding: 12px; display: grid; gap: 8px; width: 100%; max-width: 320px; transition: opacity .2s var(--ease), transform .2s var(--ease); }
+.note .crop { width: 146px; }
+.note__row { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.note__cap { font-family: var(--display); font-size: var(--fs-label); line-height: 1.12; text-transform: uppercase; letter-spacing: .02em; }
+.note--left { grid-column: 1; grid-row: 1; justify-self: end; display: grid; }
+.note--right { grid-column: 3; grid-row: 1; justify-self: start; display: grid; }
+@media (max-width: 989px) { .note--left, .note--right { grid-column: 2; grid-row: 1; justify-self: stretch; } }
+.arrow { position: absolute; inset: 0; pointer-events: none; width: 100%; height: 100%; }
+.arrow path { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.print__steps { grid-column: 1 / -1; grid-row: 2; justify-content: center; }
+.dots { display: flex; gap: 8px; }
+.dots .g { display: flex; gap: 3px; }
+.dot { width: 9px; height: 9px; border: var(--thin) solid var(--ink); border-radius: 50%; }
+.dot.on { background: var(--yellow); }
+.dot.done { background: var(--ink); }
+@media (max-width: 989px) {
+  .print { grid-template-columns: 150px minmax(0,1fr); align-items: start; gap: 14px; justify-items: stretch; }
+  .print__card { width: 150px; grid-column: 1; grid-row: 1; }
+  .note { max-width: none; grid-column: 2; grid-row: 1; }
+  .note .crop { width: 100%; max-width: 132px; }
+}
+
+/* ================= 3 · the storyboard ================= */
+.story { display: grid; gap: 11px; }
+.story__row { display: grid; gap: 7px; border-top: var(--hair) solid var(--ink); padding-top: 8px; }
+.story__row:first-child { border-top: var(--line) solid var(--ink); }
+.story__rowhead { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.story__why { font-size: var(--fs-small); max-width: 74ch; }
+.story__frames { display: grid; gap: 10px 26px; grid-template-columns: repeat(3, minmax(0,320px)); justify-content: space-between; }
+.story__frame { display: grid; grid-template-columns: 96px minmax(0,1fr); gap: 12px; align-items: start; text-align: left;
+  padding: 5px; border-radius: 8px; transition: background .14s var(--ease); }
+.story__frame .crop { width: 96px; transition: box-shadow .16s var(--ease); }
+.story__frame[aria-current='true'] { background: rgb(252 242 5 / .3); }
+.story__frame[aria-current='true'] .crop { box-shadow: 0 0 0 3px var(--yellow), 3px 3px 0 rgb(34 34 34 / .28); }
+.story__frame:hover { background: rgb(252 242 5 / .18); }
+.story__text { display: grid; gap: 3px; }
+.story__n { font: 700 11px/1 var(--body); }
+.story__cap { font-family: var(--display); font-size: 15px; line-height: 1.15; text-transform: uppercase; letter-spacing: .02em; }
+.story__map { width: 84px; flex: none; }
+.story__map .ring { box-shadow: none; border-width: 2px; }
+.story__mapwrap { display: grid; gap: 6px; justify-items: center; }
+@media (max-width: 989px) {
+  /* the board keeps the card's own 3 x 3 shape; the caption goes under each frame */
+  .story__frames { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+  .story__frame { grid-template-columns: minmax(0,1fr); gap: 5px; padding: 3px; }
+  .story__frame .crop { width: 100%; }
+  .story__cap { font-size: 12px; }
+  .story__map { width: 64px; }
+  body.d3 .s2head { grid-template-columns: minmax(0,1fr) 60px; align-items: start; gap: 10px 12px; }
+  body.d3 .s2head__text { grid-column: 1; grid-row: 1; }
+  body.d3 .story__mapwrap { grid-column: 2; grid-row: 1; }
+  body.d3 .pickerline { grid-column: 1 / -1; grid-row: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="board" id="board"></div>
+<main id="main"></main>
+<p class="sr" id="live" aria-live="polite"></p>
+<script type="application/json" id="carddata">{"cards": [{"file": "wi-major-05.jpg", "name": "The Magician", "captions": ["TO AWAKEN THE WILL", "TO RECOGNISE STRENGTH", "TO TRUST THE SOURCE", "TO LEARN TO FOCUS", "TO BE OPEN TO POSSIBILITY", "TO PREVAIL THROUGH CREATIVITY", "TO PROTECT THE VISION", "TO FLOW WITH AWARENESS", "TO LET IT BECOME"], "grid": {"rows": [1.67, 31.66, 62.1, 90.33], "cols": [3.25, 33.62, 64.25, 96.0]}}, {"file": "wi-major-01.jpg", "name": "The Fool", "captions": ["TO AWAKEN COURAGE", "TO RECOGNISE UNITY", "TO TRUST THE PATH", "TO LEARN TO TRUST ONESELF", "TO ACCEPT RISK", "TO PREVAIL WITH EASE", "TO PROTECT JOY", "TO FLOW WITH THE PRESENT", "TO FINISH IN FREEDOM"], "grid": {"rows": [1.83, 31.74, 62.1, 90.33], "cols": [4.62, 35.88, 66.38, 96.12]}}, {"file": "wi-major-02.jpg", "name": "Wheel of Fortune", "captions": ["TO AWAKEN ACCEPTANCE", "TO RECOGNISE MOVEMENT", "TO TRUST THE ORDER", "TO LEARN TO FLOW", "TO EMBRACE DESTINY", "TO PREVAIL THROUGH TRUST", "TO PROTECT THE CENTRE", "TO FLOW WITH WISDOM", "TO COME FULL CIRCLE"], "grid": {"rows": [2.13, 32.42, 62.33, 91.4], "cols": [3.25, 33.88, 64.88, 96.62]}}, {"file": "wi-major-04.jpg", "name": "The Star", "captions": ["TO AWAKEN HOPE", "TO RECOGNISE THE LIGHT", "TO TRUST THE CLEANSING", "TO LEARN TO HEAL", "TO EMBRACE PURITY", "TO PREVAIL THROUGH HEALING", "TO PROTECT FAITH", "TO FLOW WITH RADIANCE", "TO ACHIEVE REBIRTH"], "grid": {"rows": [2.13, 31.81, 62.48, 91.7], "cols": [3.25, 34.12, 66.0, 97.0]}}, {"file": "wi-wands-01.jpg", "name": "Two of Wands", "captions": ["TO FEEL DESIRE AND FEAR", "TO RECOGNISE POSSIBILITIES", "TO CHOOSE A DIRECTION", "TO TRUST INTENTION", "TO MAINTAIN COURAGE", "TO UNITE MIND AND HEART", "TO CROSS THE THRESHOLD", "TO COMMIT TO THE PATH", "TO WALK WITHOUT FEAR"], "grid": {"rows": [1.67, 31.89, 62.63, 90.79], "cols": [3.25, 35.5, 67.0, 97.12]}}, {"file": "wi-wands-03.jpg", "name": "Knight of Wands", "captions": ["TO FOLLOW THE ADVENTURE", "TO STEP BEYOND CERTAINTY", "TO MASTER THE FIRE", "TO ACT FROM THE HEART", "TO LEARN PATIENCE", "TO DIRECT ENERGY", "TO WALK TOWARDS THE SUMMIT", "TO MASTER IMPULSIVENESS", "TO AWAKEN INSPIRATION"], "grid": {"rows": [1.83, 32.27, 62.63, 91.7], "cols": [3.0, 35.62, 67.0, 97.25]}}, {"file": "wi-cups-01.jpg", "name": "Six of Cups", "captions": ["TO EMBRACE THE PAST", "TO SENSE INNOCENCE", "TO FIND JOY ANEW", "TO HEAL MEMORIES", "TO RECOGNISE PURITY", "TO SHAPE THE SOUL", "TO BRING GOODNESS", "TO RESTORE TRUST", "TO LIVE WITH LOVE"], "grid": {"rows": [1.75, 32.5, 63.39, 91.48], "cols": [2.62, 36.25, 67.12, 97.0]}}, {"file": "wi-swords-03.jpg", "name": "Seven of Swords", "captions": ["TO BECOME AWARE OF ESCAPE", "TO RECOGNISE DECEPTION", "TO UNDERSTAND INTENTION", "TO ADMIT THE TRUTH", "TO TRUST INTUITION", "TO FIND HONESTY", "TO UNCOVER SELF-DECEPTION", "TO PURIFY INTENTION", "TO ALIGN WORD AND ACTION"], "grid": {"rows": [1.67, 31.66, 62.94, 91.4], "cols": [3.12, 35.62, 66.88, 96.5]}}, {"file": "wi-pentacles-01.jpg", "name": "Two of Pentacles", "captions": ["TO LIVE IN MOTION", "TO MOVE WITH LIFE", "TO SET PRIORITIES", "TO CULTIVATE FLEXIBILITY", "TO EMBRACE CHANGE", "TO SOFTEN CHAOS WITH RHYTHM", "TO UNITE OPPOSITES", "TO ACT WITH EASE", "TO SWIM THROUGH THE SWELL"], "grid": {"rows": [1.6, 32.42, 62.86, 91.63], "cols": [3.0, 35.88, 66.62, 97.0]}}, {"file": "wi-pentacles-02.jpg", "name": "Seven of Pentacles", "captions": ["TO LET THINGS RIPEN", "TO FEEL LIFE GROWING", "TO THINK IN CYCLES", "TO CULTIVATE PATIENCE", "TO LEARN THROUGH OBSERVATION", "TO TRUST THE SEED", "TO PRESERVE ONE'S STRENGTH", "TO FOCUS ATTENTION", "TO HARVEST WITH GRATITUDE"], "grid": {"rows": [1.6, 32.34, 63.39, 91.86], "cols": [3.0, 35.75, 66.75, 97.12]}}]}</script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var S = { dir: q.get('dir') || '1', lang: q.get('lang') || 'en', card: +(q.get('card') || 0), frame: +(q.get('frame') || 0), state: q.get('state') || '' };
+  if (q.get('board') === '0') document.body.classList.add('noboard');
+  document.documentElement.lang = S.lang;
+  var CARDS = JSON.parse(document.getElementById('carddata').textContent).cards;
+  var ASSET = '../../../assets/';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var T = {
+    en: {
+      h: 'How a card is read',
+      intro: 'Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.',
+      rows: ['What to understand', 'What to accept', 'What to transform'],
+      why: [
+        'What is going on. The top row names the situation: what is in front of you, and what to notice in it.',
+        'What is yours. The middle row is what to come to terms with, or admit, before anything moves.',
+        'What to do with it. The bottom row says where it leads and what can change.'
+      ],
+      pick: 'Try another card', hint1: 'Click a line, or a frame on the card, to see it up close.', hint2: 'Step through the nine frames, or click one on the card.',
+      back: 'Back', next: 'Next', walk: 'Read it with me', stop: 'Stop', frameOf: 'Frame [n] of 9', rowOf: 'Row [n] of 3',
+      rH: 'The two readings in the box',
+      rIntro: 'You can lay the cards out any way you know. Two readings come with this deck.',
+      r1: 'Card of the day', r1t: 'Draw one card in the morning. Keep it where you will see it, and come back to it in the evening.',
+      r2: 'Reading of consciousness', r2t: 'Three cards in three steps: what to understand, what to accept, what to transform. The same three steps as inside a single card.',
+      draw1: 'Draw a card', draw3: 'Lay three', again: 'Draw again'
+    },
+    sk: {
+      h: 'Ako sa číta karta',
+      intro: 'Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo premeniť.',
+      rows: ['Čo pochopiť', 'Čo prijať', 'Čo premeniť'],
+      why: [
+        'Čo sa deje. Horný riadok pomenuje situáciu: čo máte pred sebou a čoho si v nej treba všimnúť.',
+        'Čo je vaše. Stredný riadok je to, s čím sa treba zmieriť alebo si to priznať, aby sa dalo pohnúť.',
+        'Čo s tým. Spodný riadok hovorí, kam to vedie a čo sa dá zmeniť.'
+      ],
+      pick: 'Skúsiť inú kartu', hint1: 'Kliknite na riadok alebo na obrázok v karte a uvidíte ho zblízka.', hint2: 'Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.',
+      back: 'Späť', next: 'Ďalej', walk: 'Prevedie ma tým', stop: 'Zastaviť', frameOf: 'Obrázok [n] z 9', rowOf: 'Riadok [n] z 3',
+      rH: 'Dve čítania, ktoré sú v balíčku',
+      rIntro: 'Karty môžete vykladať akokoľvek to poznáte. Dve čítania sú priamo v tomto balíčku.',
+      r1: 'Karta dňa', r1t: 'Ráno si vytiahnite jednu kartu. Nechajte si ju na očiach a večer sa k nej vráťte.',
+      r2: 'Čítanie vedomia', r2t: 'Tri karty v troch krokoch: čo pochopiť, čo prijať, čo premeniť. Tie isté tri kroky ako v jednej karte.',
+      draw1: 'Vytiahnuť kartu', draw3: 'Vyložiť tri', again: 'Vytiahnuť znova'
+    }
+  }[S.lang];
+
+  var card = CARDS[S.card] || CARDS[0];
+  function src(c) { return ASSET + c.file; }
+  function el(h) { var d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstElementChild; }
+  function rowOf(i) { return Math.floor(i / 3); }
+
+  /* crop one frame out of the artwork using the measured grid */
+  function cropStyle(c, i) {
+    var g = c.grid, r = rowOf(i), col = i % 3;
+    var fw = (g.cols[col + 1] - g.cols[col]) / 100, fh = (g.rows[r + 1] - g.rows[r]) / 100;
+    var px = (g.cols[col] / 100) / (1 - fw) * 100, py = (g.rows[r] / 100) / (1 - fh) * 100;
+    var ratio = (fw * 800) / (fh * 1314);
+    return 'background-image:url(' + src(c) + ');background-size:' + (100 / fw).toFixed(2) + '% ' + (100 / fh).toFixed(2) + '%;' +
+           'background-position:' + px.toFixed(2) + '% ' + py.toFixed(2) + '%;aspect-ratio:' + ratio.toFixed(3) + ';';
+  }
+  function frameRing(c, i) {
+    var g = c.grid, r = rowOf(i), col = i % 3;
+    return 'left:' + g.cols[col] + '%;width:' + (g.cols[col + 1] - g.cols[col]) + '%;top:' + g.rows[r] + '%;height:' + (g.rows[r + 1] - g.rows[r]) + '%;';
+  }
+  function rowRing(c, r) {
+    var g = c.grid;
+    return 'left:' + g.cols[0] + '%;width:' + (g.cols[3] - g.cols[0]) + '%;top:' + g.rows[r] + '%;height:' + (g.rows[r + 1] - g.rows[r]) + '%;';
+  }
+  function cardBox(c, active, hots) {
+    var h = '<div class="cardbox"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314">';
+    if (hots) for (var i = 0; i < 9; i++) h += '<button class="hot" data-frame="' + i + '" data-n="' + (i + 1) + '" style="' + frameRing(c, i) + '" aria-label="' + T.rows[rowOf(i)] + ': ' + c.captions[i] + '"></button>';
+    h += '<span class="ring" id="ring" style="' + frameRing(c, active) + '"></span></div>';
+    return h;
+  }
+
+  function head(hint) {
+    return '<div class="s2head"><div class="s2head__text"><h2 class="title">' + T.h + '</h2><p class="lead">' + T.intro + '</p>' +
+      (hint ? '<p class="small">' + hint + '</p>' : '') + '</div>' +
+      '<div class="pickerline"><span class="pickhint">' + T.pick + '</span><div class="picker">' +
+      CARDS.map(function (c, i) { return '<button type="button" data-card="' + i + '" data-name="' + c.name + '" aria-pressed="' + (i === S.card) + '" aria-label="' + c.name + '"><img src="' + src(c) + '" alt="" width="800" height="1314"></button>'; }).join('') +
+      '</div><span class="now">' + card.name + '</span></div></div>';
+  }
+  function readings() {
+    return '<section class="readings"><h2 class="title">' + T.rH + '</h2><p class="lead" style="margin-top:10px">' + T.rIntro + '</p>' +
+      '<div class="readings__grid">' +
+      '<div class="reading"><h3>' + T.r1 + '</h3><p class="small">' + T.r1t + '</p>' +
+        '<div class="deal" id="deal1"><span class="slot"></span></div>' +
+        '<div><button class="btn" type="button" id="draw1">' + T.draw1 + '</button></div></div>' +
+      '<div class="reading"><h3>' + T.r2 + '</h3><p class="small">' + T.r2t + '</p>' +
+        '<div class="deal" id="deal3"><span class="slot"></span><span class="slot"></span><span class="slot"></span></div>' +
+        '<div><button class="btn" type="button" id="draw3">' + T.draw3 + '</button></div></div>' +
+      '</div></section>';
+  }
+
+  /* ---------------- 1 · reading rail ---------------- */
+  function dir1() {
+    var rows = [0,1,2].map(function (r) {
+      var lines = [0,1,2].map(function (k) {
+        var i = r * 3 + k;
+        return '<button class="rail__line" type="button" data-frame="' + i + '" aria-current="' + (i === S.frame) + '">' +
+            '<span class="n">' + (i + 1) + '</span><span class="cap">' + card.captions[i] + '</span></button>';
+      }).join('');
+      return '<div class="rail__row" data-row="' + r + '"><div class="rail__rowhead"><span class="label">' + T.rows[r] + '</span>' +
+        '<span class="small">' + T.rowOf.replace('[n]', r + 1) + '</span></div>' +
+        '<p class="rail__why">' + T.why[r] + '</p><div class="rail__lines">' + lines + '</div></div>';
+    }).join('');
+    return '<div class="rail"><div class="rail__card">' +
+      '<div class="rail__map">' + cardBox(card, S.frame, true) + '</div>' +
+      '<div class="rail__zoom"><span class="cropbox"><span class="crop" id="zoomcrop" style="' + cropStyle(card, S.frame) + '"></span></span>' +
+        '<span class="rail__zoomtext"><span class="rail__zoomrow" id="zoomrow">' + T.rows[rowOf(S.frame)] + '</span>' +
+        '<span class="small" id="zoomwhy">' + T.frameOf.replace('[n]', S.frame + 1) + '</span></span></div>' +
+      '</div>' +
+      '<div class="rail__rows">' + rows +
+      '<div class="steps" style="margin-top:12px">' +
+        '<button class="btn btn--ghost" type="button" data-step="-1">' + T.back + '</button>' +
+        '<button class="btn btn--ghost" type="button" data-step="1">' + T.next + '</button>' +
+        '<button class="btn" type="button" id="walk">' + T.walk + '</button>' +
+        '<span class="small" id="walkstate"></span>' +
+      '</div></div></div>';
+  }
+
+  /* ---------------- 2 · annotated print ---------------- */
+  function noteSide() { return S.frame % 2 === 0 ? 'left' : 'right'; }
+  function noteHTML() {
+    var r = rowOf(S.frame);
+    return '<div class="note" id="note">' +
+      '<span class="note__row">' + T.rows[r] + ' · ' + T.frameOf.replace('[n]', S.frame + 1) + '</span>' +
+      '<span class="crop" style="' + cropStyle(card, S.frame) + '"></span>' +
+      '<span class="note__cap">' + card.captions[S.frame] + '</span>' +
+      '<span class="small">' + T.why[r] + '</span></div>';
+  }
+  function dotsHTML() {
+    return [0,1,2].map(function (rr) { return '<span class="g">' + [0,1,2].map(function (cc) { var i = rr*3+cc; return '<span class="dot ' + (i === S.frame ? 'on' : (i < S.frame ? 'done' : '')) + '"></span>'; }).join('') + '</span>'; }).join('');
+  }
+  function dir2() {
+    return '<div class="print" id="print">' +
+      '<span id="noteslot" class="note--' + noteSide() + '">' + noteHTML() + '</span>' +
+      '<div class="print__card">' + cardBox(card, S.frame, true) + '</div>' +
+      '<svg class="arrow" id="arrow" aria-hidden="true"></svg>' +
+      '<div class="steps print__steps">' +
+        '<button class="btn btn--ghost" type="button" data-step="-1">' + T.back + '</button>' +
+        '<span class="dots" id="dots">' + dotsHTML() + '</span>' +
+        '<button class="btn btn--ghost" type="button" data-step="1">' + T.next + '</button>' +
+      '</div></div>';
+  }
+
+  /* ---------------- 3 · storyboard ---------------- */
+  function dir3() {
+    var rows = [0,1,2].map(function (r) {
+      var frames = [0,1,2].map(function (k) {
+        var i = r * 3 + k;
+        return '<button class="story__frame" type="button" data-frame="' + i + '" aria-current="' + (i === S.frame) + '">' +
+          '<span class="crop" style="' + cropStyle(card, i) + '"></span>' +
+          '<span class="story__text"><span class="story__n">' + (i + 1) + '</span><span class="story__cap">' + card.captions[i] + '</span></span></button>';
+      }).join('');
+      return '<div class="story__row"><div class="story__rowhead"><span class="label">' + T.rows[r] + '</span>' +
+        '<span class="small">' + T.rowOf.replace('[n]', r + 1) + '</span>' +
+        '<span class="story__why">' + T.why[r] + '</span></div>' +
+        '<div class="story__frames">' + frames + '</div></div>';
+    }).join('');
+    return '<div class="story">' + rows + '</div>';
+  }
+
+  var main = document.getElementById('main');
+  var hint = { '1': T.hint1, '2': T.hint2, '3': '' }[S.dir];
+  var mapInHead = S.dir === '3';
+  var body = { '1': dir1, '2': dir2, '3': dir3 }[S.dir] || dir1;
+  main.appendChild(el('<section class="sec"><div class="wrap">' + head(hint) + body() + readings() + '</div></section>'));
+
+  /* the storyboard keeps the whole card as a small map beside the picker */
+  if (mapInHead) {
+    document.body.classList.add('d3');
+    var pl = document.querySelector('.pickerline');
+    var wrapMap = el('<div class="story__mapwrap"><div class="story__map">' + cardBox(card, S.frame, false) + '</div></div>');
+    pl.parentNode.insertBefore(wrapMap, pl.nextSibling);
+    document.querySelector('.s2head').style.gridTemplateColumns = 'minmax(0,1fr) auto auto';
+  }
+
+  /* ---- state changes happen in place: no reload, no layout shift ---- */
+  var live = document.getElementById('live');
+  function setFrame(i, announce) {
+    S.frame = (i + 9) % 9;
+    var r = rowOf(S.frame);
+    var ring = document.getElementById('ring');
+    if (ring) ring.setAttribute('style', frameRing(card, S.frame));
+    document.querySelectorAll('[data-frame]').forEach(function (n) {
+      if (n.classList.contains('hot')) return;
+      n.setAttribute('aria-current', String(+n.dataset.frame === S.frame));
+    });
+    var zc = document.getElementById('zoomcrop');
+    if (zc) {
+      zc.setAttribute('style', cropStyle(card, S.frame));
+      document.getElementById('zoomrow').textContent = T.rows[r];
+      document.getElementById('zoomwhy').textContent = T.frameOf.replace('[n]', S.frame + 1);
+    }
+    var slot = document.getElementById('noteslot');
+    if (slot) { slot.className = 'note--' + noteSide(); slot.innerHTML = noteHTML();
+      document.getElementById('dots').innerHTML = dotsHTML(); drawArrow(); }
+    var p = new URLSearchParams(location.search); p.set('frame', S.frame);
+    history.replaceState(null, '', '?' + p);
+    if (announce !== false) live.textContent = T.rows[r] + ' · ' + card.captions[S.frame];
+  }
+
+  document.addEventListener('click', function (e) {
+    var f = e.target.closest('[data-frame]');
+    if (f) { stopWalk(); return setFrame(+f.dataset.frame); }
+    var s = e.target.closest('[data-step]');
+    if (s) { stopWalk(); return setFrame(S.frame + (+s.dataset.step)); }
+    var c = e.target.closest('[data-card]');
+    if (c) { var p = new URLSearchParams(location.search); p.set('card', c.dataset.card); p.set('frame', 0); location.search = p; }
+  });
+
+  /* ---- "read it with me": walks the three rows, not the nine frames ---- */
+  var walkTimer = null, walkRow = -1;
+  var walkBtn = document.getElementById('walk'), walkState = document.getElementById('walkstate');
+  function paintWalk(r) {
+    document.querySelectorAll('.rail__row').forEach(function (n) { n.setAttribute('data-live', String(+n.dataset.row === r)); });
+    var ring = document.getElementById('ring');
+    if (ring) ring.setAttribute('style', r < 0 ? frameRing(card, S.frame) : rowRing(card, r));
+    if (walkState) walkState.textContent = r < 0 ? '' : T.rowOf.replace('[n]', r + 1);
+  }
+  function stepWalk() {
+    walkRow++;
+    if (walkRow > 2) return stopWalk();
+    paintWalk(walkRow);
+    var zc = document.getElementById('zoomcrop');
+    if (zc) {
+      zc.setAttribute('style', cropStyle(card, walkRow * 3));
+      document.getElementById('zoomrow').textContent = T.rows[walkRow];
+      document.getElementById('zoomwhy').textContent = T.rowOf.replace('[n]', walkRow + 1);
+    }
+    live.textContent = T.rows[walkRow] + '. ' + T.why[walkRow];
+    walkTimer = setTimeout(stepWalk, 7000);
+  }
+  function startWalk() { walkRow = -1; walkBtn.textContent = T.stop; stepWalk(); }
+  function stopWalk() {
+    if (walkTimer) clearTimeout(walkTimer);
+    walkTimer = null; walkRow = -1;
+    if (walkBtn) { walkBtn.textContent = T.walk; paintWalk(-1); setFrame(S.frame, false); }
+  }
+  if (walkBtn) walkBtn.addEventListener('click', function () { walkTimer ? stopWalk() : startWalk(); });
+  if (S.state === 'walk' && walkBtn) { walkBtn.textContent = T.stop; walkRow = 0; paintWalk(0);
+    var zc0 = document.getElementById('zoomcrop');
+    if (zc0) { zc0.setAttribute('style', cropStyle(card, 3)); document.getElementById('zoomrow').textContent = T.rows[1];
+      document.getElementById('zoomwhy').textContent = T.rowOf.replace('[n]', 2); }
+    paintWalk(1); }
+
+  /* ---- arrow from the note to the frame (direction 2) ---- */
+  function drawArrow() {
+    var svg = document.getElementById('arrow');
+    if (!svg) return;
+    var wrapEl = document.getElementById('print');
+    var note = document.getElementById('note');
+    var hot = wrapEl.querySelector('.hot[data-frame="' + S.frame + '"]');
+    if (!note || !hot) return;
+    var W = wrapEl.getBoundingClientRect();
+    var n = note.getBoundingClientRect(), h = hot.getBoundingClientRect();
+    var cardEl = wrapEl.querySelector('.print__card').getBoundingClientRect();
+    var noteLeftOfCard = n.left + n.width / 2 < cardEl.left + cardEl.width / 2;
+    var fromX = (noteLeftOfCard ? n.right : n.left) - W.left;
+    var fromY = n.top + Math.min(n.height / 2, 54) - W.top;
+    /* stop at the card's edge: the arrow points at the frame, it never crosses the drawing */
+    var toX = (noteLeftOfCard ? cardEl.left - 7 : cardEl.right + 7) - W.left;
+    var toY = h.top + h.height / 2 - W.top;
+    var midX = (fromX + toX) / 2, lift = Math.min(38, Math.abs(toX - fromX) / 2 + 10);
+    svg.setAttribute('viewBox', '0 0 ' + W.width + ' ' + W.height);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.innerHTML = '<path d="M ' + fromX + ' ' + fromY + ' Q ' + midX + ' ' + (fromY - lift) + ' ' + toX + ' ' + toY + '"></path>' +
+      '<path d="M ' + toX + ' ' + toY + ' l ' + (toX > fromX ? -10 : 10) + ' -6 M ' + toX + ' ' + toY + ' l ' + (toX > fromX ? -10 : 10) + ' 6"></path>';
+    if (!reduce) {
+      var p = svg.querySelector('path'), len = p.getTotalLength();
+      p.style.strokeDasharray = len; p.style.strokeDashoffset = 0;
+      p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 260, easing: 'ease-out' });
+    }
+  }
+  if (S.dir === '2') { drawArrow(); window.addEventListener('resize', drawArrow); }
+
+  /* ---- the two readings deal for real ---- */
+  function dealInto(box, n) {
+    var pool = CARDS.slice(), out = [];
+    while (out.length < n) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    box.innerHTML = out.map(function (c) { return '<span class="slot"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314"></span>'; }).join('');
+    live.textContent = out.map(function (c) { return c.name; }).join(', ');
+  }
+  var d1 = document.getElementById('draw1'), d3 = document.getElementById('draw3');
+  if (d1) d1.addEventListener('click', function () { dealInto(document.getElementById('deal1'), 1); this.textContent = T.again; });
+  if (d3) d3.addEventListener('click', function () { dealInto(document.getElementById('deal3'), 3); this.textContent = T.again; });
+  if (S.state === 'dealt') { dealInto(document.getElementById('deal1'), 1); dealInto(document.getElementById('deal3'), 3); }
+
+  /* ---- keyboard: arrows step, Esc stops the walk ---- */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); stopWalk(); setFrame(S.frame + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); stopWalk(); setFrame(S.frame - 1); }
+    if (e.key === 'Escape') stopWalk();
+  });
+
+  function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === String(v)) + '">' + (label || v) + '</a>'; }
+  document.getElementById('board').innerHTML =
+    '<span class="grp"><b>Direction</b>' + link('dir','1','1 · rail') + link('dir','2','2 · annotated print') + link('dir','3','3 · storyboard') + '</span>' +
+    '<span class="grp"><b>Frame</b>' + [0,1,4,8].map(function (i) { return link('frame', i, 'f' + (i+1)); }).join('') + '</span>' +
+    '<span class="grp"><b>Card</b>' + [0,1,4].map(function (i) { return link('card', i, CARDS[i].name.split(' ')[0]); }).join('') + '</span>' +
+    '<span class="grp"><b>Lang</b>' + link('lang','en','EN') + link('lang','sk','SK') + '</span>' +
+    '<span class="grp"><b>State</b>' + link('state','','plain') + link('state','walk','walk') + link('state','dealt','dealt') + '</span>';
+})();
+</script>
+</body>
+</html>

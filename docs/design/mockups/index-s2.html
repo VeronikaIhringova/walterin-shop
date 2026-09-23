@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S2 · How a card is read — three directions to choose from</title>
+<style>
+ :root { --paper:#FFFDF7; --ink:#222; --yellow:#FCF205; }
+ * { box-sizing: border-box; }
+ body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 Inter, system-ui, sans-serif; }
+ .wrap { max-width:1280px; margin-inline:auto; padding:32px 20px 80px; }
+ h1 { font-size:28px; margin:0 0 6px; letter-spacing:.01em; }
+ h2 { font-size:22px; margin:0 0 4px; }
+ .sub { max-width:70ch; margin:0 0 28px; }
+ .dir { border-top:2.5px solid var(--ink); padding-top:18px; margin-top:40px; }
+ .grid { display:grid; gap:24px; grid-template-columns:1fr; }
+ @media (min-width:900px){ .grid { grid-template-columns: 1fr 300px; align-items:start; } }
+ .shots { display:grid; gap:14px; grid-template-columns: minmax(0,1fr) 220px; align-items:start; }
+ @media (max-width:700px){ .shots { grid-template-columns:1fr; } }
+ .shot { border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; background:#fff; }
+ .shot img { display:block; width:100%; height:auto; }
+ .cap { font-size:13px; padding:4px 8px; border-top:1px solid #ddd; }
+ ul { margin:8px 0 0; padding-left:18px; }
+ li { margin-bottom:6px; }
+ .cost li::marker { content:'– '; }
+ .links a { display:inline-block; margin:0 8px 8px 0; padding:6px 12px; border:1.5px solid var(--ink); border-radius:999px;
+   background:var(--yellow); color:inherit; text-decoration:none; font-size:14px; }
+ .links a.ghost { background:var(--paper); }
+ table { border-collapse:collapse; width:100%; font-size:14px; margin-top:10px; }
+ th, td { border-bottom:1px solid #ddd; padding:6px 8px; text-align:left; vertical-align:top; }
+ th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+ code { background:#f2f2f0; padding:1px 5px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>S2 · How a card is read</h1>
+<p class="sub">Three directions, mocked up with the real artwork and the measured nine-frame grid. Every frame you see enlarged
+is cropped from the card image itself — no new files. The two readings sit below their own rule in all three.
+Open a mock-up and click the frames; arrow keys step, Esc stops the walk.</p>
+
+<section class="dir">
+<h2>1 · The reading rail</h2>
+<p>The text leads. Three row blocks, nine lines, the card small beside them with the active frame ringed and enlarged underneath.
+<b>Read it with me</b> walks the three rows — seven seconds each — with a Stop button.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2/d1-f4-en-1440.png" alt="Direction 1 at 1440"><div class="cap">1440 · frame 5 open</div></div>
+    <div class="shot"><img src="shots-s2/d1-f4-sk-390.png" alt="Direction 1 at 390, Slovak"><div class="cap">390 · Slovak</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>The lesson is the text, so it reads top to bottom like a page — the card stops competing with it.</li>
+      <li>All nine captions are visible at once, so the three rows are obvious before you click anything.</li>
+      <li>Cheapest to build and the most robust: plain buttons and a ring, no drawn geometry.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>The card is a map, not a picture — the artwork is at its smallest here.</li>
+      <li>Nine uppercase lines in one column is a lot of the same shape.</li>
+      <li>The enlarged frame sits under the card, away from the line you clicked.</li>
+    </ul>
+    <p class="links"><a href="s2.html?dir=1">Open 1440</a><a class="ghost" href="s2.html?dir=1&state=walk">Walk state</a><a class="ghost" href="s2.html?dir=1&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>2 · The annotated print</h2>
+<p>The card sits whole and small in the middle of the paper. The chosen frame is enlarged in a note in the margin, with an ink
+arrow drawn from the note to the frame. Notes alternate left and right, as if someone annotated a print. Back / Next, nine dots in three groups.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2/d2-f4-en-1440.png" alt="Direction 2 at 1440"><div class="cap">1440 · frame 5, note on the left</div></div>
+    <div class="shot"><img src="shots-s2/d2-f4-en-390.png" alt="Direction 2 at 390"><div class="cap">390 · card and note side by side</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>It looks like Walterin: hand-drawn arrow, paper, a note in the margin. The most brand-specific of the three.</li>
+      <li>One frame at a time, enlarged, with its own caption — the clearest single-frame explanation.</li>
+      <li>Shortest section of the three: the whole teaching part ends 720px down at 1440.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>You only ever see one frame explained; the nine rows are told, not shown.</li>
+      <li>The arrow is measured geometry — it has to be redrawn on every resize and every step.</li>
+      <li>Nine steps is nine clicks for anyone who wants the whole card.</li>
+    </ul>
+    <p class="links"><a href="s2.html?dir=2">Open 1440</a><a class="ghost" href="s2.html?dir=2&frame=5">Note on the right</a><a class="ghost" href="s2.html?dir=2&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>3 · The storyboard</h2>
+<p>The nine frames are lifted out of the card and laid out as they sit on it: three labelled rows, each frame enlarged with its
+caption beside it. The whole card stays in the corner as a map. Nothing has to be clicked for the section to be understood.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2/d3-f4-en-1440.png" alt="Direction 3 at 1440"><div class="cap">1440 · the whole board</div></div>
+    <div class="shot"><img src="shots-s2/d3-f4-en-390.png" alt="Direction 3 at 390"><div class="cap">390 · the board keeps its 3 × 3 shape</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>The only direction that teaches without interaction — it reads the same to a scroller and to a clicker.</li>
+      <li>The rows are headings with the frames underneath, so the three-row structure is the layout itself.</li>
+      <li>Same shape on the phone, so nothing has to be re-learned between devices.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>The tallest of the three; at 1440 the two readings start at 880px — one screen, but only just.</li>
+      <li>Nine crops on screen at once is a lot of yellow; the card as an object disappears.</li>
+      <li>Each frame is small (96px) — the printed captions inside them are not legible, only the typeset ones.</li>
+    </ul>
+    <p class="links"><a href="s2.html?dir=3">Open 1440</a><a class="ghost" href="s2.html?dir=3&lang=sk">Slovak</a><a class="ghost" href="s2.html?dir=3&state=dealt">Readings dealt</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>The copy (Slovak first)</h2>
+<table>
+<tr><th>Slot</th><th>Slovensky</th><th>English</th></tr>
+<tr><td>Heading</td><td>Ako sa číta karta</td><td>How a card is read</td></tr>
+<tr><td>Intro</td><td>Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo premeniť.</td>
+<td>Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.</td></tr>
+<tr><td>Row 1</td><td><b>Čo pochopiť.</b> Čo sa deje. Horný riadok pomenuje situáciu: čo máte pred sebou a čoho si v nej treba všimnúť.</td>
+<td><b>What to understand.</b> What is going on. The top row names the situation: what is in front of you, and what to notice in it.</td></tr>
+<tr><td>Row 2</td><td><b>Čo prijať.</b> Čo je vaše. Stredný riadok je to, s čím sa treba zmieriť alebo si to priznať, aby sa dalo pohnúť.</td>
+<td><b>What to accept.</b> What is yours. The middle row is what to come to terms with, or admit, before anything moves.</td></tr>
+<tr><td>Row 3</td><td><b>Čo premeniť.</b> Čo s tým. Spodný riadok hovorí, kam to vedie a čo sa dá zmeniť.</td>
+<td><b>What to transform.</b> What to do with it. The bottom row says where it leads and what can change.</td></tr>
+<tr><td>Hint (1)</td><td>Kliknite na riadok alebo na obrázok v karte a uvidíte ho zblízka.</td><td>Click a line, or a frame on the card, to see it up close.</td></tr>
+<tr><td>Hint (2)</td><td>Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.</td><td>Step through the nine frames, or click one on the card.</td></tr>
+<tr><td>Picker</td><td>Skúsiť inú kartu</td><td>Try another card</td></tr>
+<tr><td>Controls</td><td>Späť · Ďalej · Prevedie ma tým · Zastaviť · Riadok 1 z 3 · Obrázok 5 z 9</td>
+<td>Back · Next · Read it with me · Stop · Row 1 of 3 · Frame 5 of 9</td></tr>
+<tr><td>Readings heading</td><td>Dve čítania, ktoré sú v balíčku</td><td>The two readings in the box</td></tr>
+<tr><td>Readings intro</td><td>Karty môžete vykladať akokoľvek to poznáte. Dve čítania sú priamo v tomto balíčku.</td>
+<td>You can lay the cards out any way you know. Two readings come with this deck.</td></tr>
+<tr><td>Reading 1</td><td><b>Karta dňa.</b> Ráno si vytiahnite jednu kartu. Nechajte si ju na očiach a večer sa k nej vráťte.</td>
+<td><b>Card of the day.</b> Draw one card in the morning. Keep it where you will see it, and come back to it in the evening.</td></tr>
+<tr><td>Reading 2</td><td><b>Čítanie vedomia.</b> Tri karty v troch krokoch: čo pochopiť, čo prijať, čo premeniť. Tie isté tri kroky ako v jednej karte.</td>
+<td><b>Reading of consciousness.</b> Three cards in three steps: what to understand, what to accept, what to transform. The same three steps as inside a single card.</td></tr>
+<tr><td>Buttons</td><td>Vytiahnuť kartu · Vyložiť tri · Vytiahnuť znova</td><td>Draw a card · Lay three · Draw again</td></tr>
+</table>
+</section>
+
+<section class="dir">
+<h2>Measured, not guessed</h2>
+<table>
+<tr><th></th><th>1 · rail</th><th>2 · annotated print</th><th>3 · storyboard</th></tr>
+<tr><td>1440 × 900 — two readings start at</td><td>836px</td><td>721px</td><td>880px</td></tr>
+<tr><td>390 × 844 — card + explanation end at</td><td>542px</td><td>797px</td><td>665px</td></tr>
+<tr><td>Layout shift while stepping frames</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>Nothing past the content edge · no horizontal scroll</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Palette (ink / paper / yellow only)</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Keyboard: arrows step, Enter opens, Esc stops</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Reduced motion: ring and arrow appear instantly</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Chromium + WebKit, EN + SK, no console errors</td><td>pass</td><td>pass</td><td>pass</td></tr>
+</table>
+<p class="sub" style="margin-top:14px">Card names show on hover and on focus in the picker, and the current card's name is always
+set below it. The nine captions are the ones printed inside the artwork, transcribed — in both languages, because they are part of
+the picture. If we want Slovak meanings under them, that is new copy from Walter.</p>
+</section>
+</div>
+</body>
+</html>
