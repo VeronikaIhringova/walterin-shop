@@ -11,7 +11,8 @@ button. Choices are text with a dot and a yellow marker; accordions are ruled ro
 ## 2. Order (never rearranged)
 1. **Title** — the product title, one headline. A line break after a colon; never a separate subtitle.
 2. **Price** — price left, shipping line with its icon right.
-3. **Choice** — one group per product option (Language, Format…), then one note under them.
+3. **Choice** — one group per product option (Language, Format…), then up to two short notes under
+   them (edition, and what the choice actually changes), 8px apart.
 4. **Act** — add to cart (+ express checkout + payment icons) or, before launch, the notify form.
 5. **Read** — accordions: About · What's in the box (product safety inside it) · Delivery · extras.
 
@@ -78,7 +79,9 @@ Only transform, opacity, colour and height ever animate. Nothing changes size on
   "Option value" blocks): an English site never shows a Slovak word, and the other way round.
 - No VAT wording while Walterin is not a VAT payer; tax wording appears only if Shopify's
   "include tax in prices" is switched on.
-- Payment icons come from `shop.enabled_payment_types`: a method that isn't active can't appear.
+- Payment icons come from `shop.enabled_payment_types`, minus anything listed in "Hide these
+  payment icons" (currently `paypal`: the store's PayPal is not Walterin's — see LAUNCH-READINESS).
+  Shopify's express-checkout buttons follow the store's payment settings, not the theme.
 - Product safety (GPSR) is two small lines at the end of "What's in the box", physical only.
 - The legal guarantee stays in the Terms, never in the column.
 
@@ -88,6 +91,14 @@ both products, and fails on: a word broken mid-word, a colour outside the palett
 the column edge, horizontal scroll, a console error, or CLS above 0.001. Screenshots land in
 docs/design/proof/. Also: `shopify theme check`, and a keyboard pass (Tab order, arrows inside a
 choice group, Enter/Space on accordions, Esc closes the zoom and returns focus).
+
+## 10b. Fonts
+WalterinBold is preloaded first in `<head>` from the Shopify files CDN and declared
+`font-display: optional`, with a metric-matched `Walterin Fallback` (size-adjust 83.4%). Inter has
+the same treatment (`Inter Fallback`, size-adjust 96%). Result: the brand face shows on every
+measured load and nothing can re-wrap later, so CLS stays at zero. `block` was tested and is worse
+(0.021 on phones). If the font ever misses the paint window, the stand-in has the same metrics, so
+the layout is identical either way.
 
 ## 11. Zoom
 PhotoSwipe 5 (MIT), self-hosted in assets/, imported on the first tap only — nothing on page load.

@@ -53,15 +53,6 @@
             "text": "<p>One picture shows a moment. Nine frames show what happens next.</p><p>Each card carries its theme through nine small scenes, so the meaning isn't handed to you in a single symbol. You follow it, frame by frame, the way you read a comic. It is how Walterin tells every story, in the city books too.</p>"
           }
         },
-        "acc_which": {
-          "type": "accordion",
-          "settings": {
-            "heading": "English or Slovak?",
-            "show_when": "always",
-            "suggestion": true,
-            "text": "<p>The same 78 drawings in both editions. Only the words change: the captions in the frames and the guide cards are in English or in Slovak. Choose the language you want to read in.</p>"
-          }
-        },
         "acc_gift": {
           "type": "accordion",
           "settings": {
@@ -95,7 +86,6 @@
         "acc_when",
         "acc_read",
         "acc_nine",
-        "acc_which",
         "acc_gift",
         "acc_walter"
       ],
@@ -107,7 +97,9 @@
         "waitlist_tag": "tarot-waitlist",
         "digital_note": "",
         "delivery_digital": "",
-        "show_delivery_physical": false
+        "show_delivery_physical": false,
+        "choice_note": "The captions and guide cards are in the language you pick.",
+        "hide_payment_types": "paypal"
       }
     },
     "whats_inside_cards": {

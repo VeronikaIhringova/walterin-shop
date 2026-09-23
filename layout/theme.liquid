@@ -12,6 +12,12 @@
       <meta name="robots" content="noindex">
     {%- endif -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {%- comment -%}
+      WalterinBold first, before anything else in the head: with font-display: optional the browser
+      only uses a font that is ready at the first paint, so the download has to start immediately.
+      That way the brand face shows and nothing can re-wrap later. See docs/design/BUY-SECTION-SPEC.md.
+    {%- endcomment -%}
+    <link rel="preload" as="font" href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093" type="font/woff2" crossorigin>
 
 
     {%- if settings.favicon != blank -%}
@@ -301,7 +307,6 @@ h5,
 
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
-      <link rel="preload" as="font" href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093" type="font/woff2" crossorigin>
     {%- endunless -%}
     {%- unless settings.type_header_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>

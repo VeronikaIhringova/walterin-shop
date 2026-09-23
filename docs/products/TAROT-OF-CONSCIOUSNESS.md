@@ -59,9 +59,15 @@ Preview set (the only cards shown): The Magician, The Fool, The Hermit, Wheel of
 | Thesis | 78 cards. One illustrator. Every card a nine-frame comic. | 78 kariet. Jeden ilustrátor. Každá karta je komiks v deviatich okienkach. |
 | Edition note | Limited to 100 copies | Limitovaná na 100 kusov |
 | Notify note | One email when it's ready. That's all. | Jeden e-mail, keď bude hotový. Nič viac. |
+| Note under the choices 1 | First edition. 100 copies in each language. | Prvé vydanie. 100 kusov v každom jazyku. |
+| Note under the choices 2 | The captions and guide cards are in the language you pick. | Popisky a sprievodné karty sú v jazyku, ktorý si vyberiete. |
 | Newsletter checkbox | And the newsletter: what's new, what's next. | Aj newsletter: čo je nové a čo chystáme. |
 
 Short description (2–3 sentences): TBD, drafted in the house voice, approved by Veronka.
+
+Buy-column accordions (approved 22–23 Sep 2026): About the deck · What's in the box (with the GPSR
+lines) · How to read · Why nine frames · As a gift · About Walter · When can I have it? (before
+launch only). **No "English or Slovak?" accordion**: the one line under the language choice says it.
 
 ## 7. Legal specifics
 

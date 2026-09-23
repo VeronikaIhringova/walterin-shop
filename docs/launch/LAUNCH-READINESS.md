@@ -34,6 +34,22 @@ Approved items 0–12 are **live**, each one read back:
 - (2) The old draft theme 188994257225 can now be deleted (by Veronka).
 - (3) Plain product URLs are served from Shopify's page cache for a few minutes. Fresh renders already show the Product safety row.
 
+## Blocker added 23 Sep 2026: PayPal belongs to someone else
+
+The store's PayPal is **Inactive and connected to `troplain.shop@gmail.com`**, not to Walterin
+(Veronka, 23 Sep 2026). It still surfaced in Shopify's express-checkout block and payment icons on
+the preview.
+
+**Before launch (Veronka, in the admin):**
+1. Disconnect `troplain.shop@gmail.com` from Settings → Payments.
+2. Set up Walterin's own PayPal, or decide to launch without PayPal.
+
+**Done in the theme meanwhile:** the buy column's payment icons hide anything listed in the
+section setting "Hide these payment icons" (`paypal` by default), so PayPal cannot appear in the
+column. Shopify's express-checkout buttons come from the store's payment settings, not from the
+theme, so that one only disappears once the account is disconnected. Clear the setting once
+Walterin's own PayPal is live.
+
 ## Status update: final setup (22 Sep 2026, late)
 
 - **Workflow:** one live theme, preview with `shopify theme dev`, push only changed files after "OK live", GitHub as backup (CLAUDE.md, ground truth).

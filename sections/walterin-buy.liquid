@@ -324,6 +324,9 @@
         {%- if section.settings.edition_note != blank -%}
           <p class="wui-buy__note">{{ section.settings.edition_note | escape }}</p>
         {%- endif -%}
+        {%- if section.settings.choice_note != blank -%}
+          <p class="wui-buy__note wui-buy__note--second">{{ section.settings.choice_note | escape }}</p>
+        {%- endif -%}
         <p class="wui-sr" role="status" aria-live="polite" data-wui-live></p>
         <p class="wui-status wui-buy__switched" data-wui-switched hidden></p>
       {%- endcapture -%}
@@ -371,8 +374,12 @@
                 {%- endif -%}
                 {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
                   <ul class="wui-pay" role="list" aria-label="{{ 'walterin.buy.payment_methods' | t | escape }}">
+                    {%- assign hidden_types = section.settings.hide_payment_types | downcase | remove: ' ' | split: ',' -%}
                     {%- for type in shop.enabled_payment_types -%}
-                      <li>{{ type | payment_type_svg_tag: class: 'wui-pay__icon' }}</li>
+                      {%- assign type_key = type | downcase -%}
+                      {%- unless hidden_types contains type_key -%}
+                        <li>{{ type | payment_type_svg_tag: class: 'wui-pay__icon' }}</li>
+                      {%- endunless -%}
                     {%- endfor -%}
                   </ul>
                 {%- endif -%}
@@ -729,6 +736,7 @@
   .wui .wui-buy__fieldset { display: flex; flex-direction: column; gap: var(--wui-16); border: 0; margin: 0; padding: 0; min-width: 0; }
   .wui .wui-buy__legend { float: left; width: 100%; padding: 0; }
   .wui .wui-buy__note { font-size: var(--wui-fs-body); line-height: 1.45; margin-top: var(--wui-12); }
+  .wui .wui-buy__note--second { margin-top: var(--wui-8); } /* helper ↔ helper */
   .wui .wui-buy__switched { margin-top: var(--wui-12); }
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
@@ -810,6 +818,7 @@
     { "type": "header", "content": "Choices" },
     { "type": "paragraph", "content": "One group per product option, added automatically. Add an 'Option value' block to give a value its short code, so its name follows the site language and the waitlist tag is right." },
     { "type": "text", "id": "edition_note", "label": "Note under the choices", "default": "First edition. 100 copies in each language." },
+    { "type": "text", "id": "choice_note", "label": "Second note under the choices", "default": "The captions and guide cards are in the language you pick." },
     { "type": "checkbox", "id": "show_remaining", "label": "Show copies left when stock is low", "info": "Needs inventory tracking on the variants. Switch on at launch.", "default": false },
     { "type": "range", "id": "remaining_threshold", "label": "Show below", "min": 1, "max": 50, "step": 1, "unit": "pcs", "default": 20 },
     { "type": "text", "id": "remaining_text", "label": "Copies left text", "info": "[n] = copies left.", "default": "[n] of 100 left" },
@@ -826,6 +835,7 @@
     { "type": "text", "id": "atc_label", "label": "Add to cart button", "info": "Followed by the price.", "default": "Add to cart" },
     { "type": "checkbox", "id": "show_express", "label": "Show express checkout (Apple Pay, Google Pay)", "info": "Hidden automatically when a digital variant is selected.", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "info": "Only the methods the shop really accepts.", "default": true },
+    { "type": "text", "id": "hide_payment_types", "label": "Hide these payment icons", "info": "Comma-separated, e.g. paypal. Use while a method is set up but not ours to offer.", "default": "paypal" },
     { "type": "text", "id": "digital_note", "label": "Digital note", "info": "Shown instead of express checkout when a digital variant is selected.", "default": "PDF + EPUB. Download right after payment." },
 
     { "type": "header", "content": "About" },
