@@ -186,6 +186,7 @@
 
       {%- comment -%} ---- 3. Choice: one group per product option ---- {%- endcomment -%}
       {%- capture option_groups -%}
+        <div class="wui-buy__choices">
         {%- for option in product.options_with_values -%}
           {%- liquid
             assign opt_index = forloop.index
@@ -321,14 +322,20 @@
             </fieldset>
           </div>
         {%- endfor -%}
-        {%- if section.settings.edition_note != blank -%}
-          <p class="wui-buy__note">{{ section.settings.edition_note | escape }}</p>
-        {%- endif -%}
-        {%- if section.settings.choice_note != blank -%}
-          <p class="wui-buy__note wui-buy__note--second">{{ section.settings.choice_note | escape }}</p>
+        {%- comment -%} The two helper lines sit with the choice they explain, not as their own group {%- endcomment -%}
+        {%- if section.settings.edition_note != blank or section.settings.choice_note != blank -%}
+          <div class="wui-buy__notes">
+            {%- if section.settings.edition_note != blank -%}
+              <p class="wui-buy__note">{{ section.settings.edition_note | escape }}</p>
+            {%- endif -%}
+            {%- if section.settings.choice_note != blank -%}
+              <p class="wui-buy__note wui-buy__note--second wui-small">{{ section.settings.choice_note | escape }}</p>
+            {%- endif -%}
+          </div>
         {%- endif -%}
         <p class="wui-sr" role="status" aria-live="polite" data-wui-live></p>
         <p class="wui-status wui-buy__switched" data-wui-switched hidden></p>
+        </div>
       {%- endcapture -%}
 
       {%- comment -%} ---- 4. Act ---- {%- endcomment -%}
@@ -724,10 +731,16 @@
   .wui .wui-gallery__thumb[aria-current='true'] { box-shadow: var(--wui-shadow); outline: 3px solid var(--wui-yellow); outline-offset: -5.5px; }
 
   /* Buy column: title → price → choices → button → accordions, one group apart (40 / 32) */
-  .wui .wui-buy__box { display: flex; flex-direction: column; gap: var(--wui-group); }
+  /* Groups, top to bottom: what it is (title + price) · what you choose (legend, pills, the two
+     helper lines) · what you do (button, wallets, icons) · what you can read (accordions).
+     Inside a group nothing is further apart than 16; between groups 32 (24 on phones); the
+     accordions are a different job, so they get 48 (32). */
+  .wui .wui-buy__box { display: flex; flex-direction: column; gap: var(--wui-24); }
+  @media (min-width: 750px) { .wui .wui-buy__box { gap: var(--wui-32, 32px); } }
   .wui .wui-buy__head { display: flex; flex-direction: column; }
   .wui .wui-buy__title { line-height: 1.05; text-wrap: pretty; }
-  .wui .wui-buy__price { display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--wui-8) var(--wui-16); margin-top: var(--wui-24); }
+  .wui .wui-buy__price { display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--wui-8) var(--wui-16); margin-top: var(--wui-16); }
+  @media (min-width: 750px) { .wui .wui-buy__price { margin-top: var(--wui-24); } }
   .wui .wui-buy__amount { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-price); line-height: 1; font-variant-numeric: tabular-nums; }
   .wui .wui-buy__ship { font-size: var(--wui-fs-body); line-height: 1.45; }
   .wui .wui-buy__option + .wui-buy__option { margin-top: var(--wui-24); }
@@ -735,9 +748,13 @@
      grid next to it to zero width */
   .wui .wui-buy__fieldset { display: flex; flex-direction: column; gap: var(--wui-16); border: 0; margin: 0; padding: 0; min-width: 0; }
   .wui .wui-buy__legend { float: left; width: 100%; padding: 0; }
-  .wui .wui-buy__note { font-size: var(--wui-fs-body); line-height: 1.45; margin-top: var(--wui-12); }
-  .wui .wui-buy__note--second { margin-top: var(--wui-8); } /* helper ↔ helper */
+  .wui .wui-buy__choices { display: flex; flex-direction: column; }
+  .wui .wui-buy__notes { margin-top: var(--wui-12); } /* control → helper */
+  .wui .wui-buy__note { font-size: var(--wui-fs-body); line-height: 1.45; }
+  .wui .wui-buy__note--second { margin-top: var(--wui-8); font-size: var(--wui-fs-small); line-height: 1.45; } /* helper ↔ helper, supporting */
   .wui .wui-buy__switched { margin-top: var(--wui-12); }
+  .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-8); } /* 24 + 8 = 32 on phones */
+  @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
   .wui .wui-buy__express { margin-inline: var(--wui-line); } /* the wallet ring is drawn outside the button: inset it so its outer edge meets the column edge */

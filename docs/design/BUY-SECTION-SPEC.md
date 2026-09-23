@@ -19,8 +19,12 @@ button. Choices are text with a dot and a yellow marker; accordions are ruled ro
    The first two are main (solid rule); the rest are secondary (dashed rule + a small ink star).
    Inside every accordion: the first paragraph is the lead at Body size, the rest is Small.
 
-Groups sit 40px apart on desktop, 32px on phones. Inside a group: label → control 16, control ↔
-control 12, control → helper 12, helper ↔ helper 8. Measured optically.
+**Rhythm.** Four groups, 32px apart on desktop and 24px on phones; the accordions get 48 / 32,
+because reading is a different job from deciding. Inside a group nothing is further apart than 16:
+title → price 24 / 16 · label → control 16 · control ↔ control 12 · control → helper 12 ·
+helper ↔ helper 8. The two helper lines under the choices belong to the choices, not to themselves:
+the first is Body size (the edition fact), the second is Small (what the choice changes).
+Measured optically.
 
 ## 3. Three text levels, nothing between
 | Level | Font | Size | Used for |
