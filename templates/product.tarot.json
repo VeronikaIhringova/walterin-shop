@@ -31,7 +31,7 @@
           "settings": {
             "heading": "When can I have it?",
             "show_when": "coming_soon",
-            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.</p><p>Leave your email above and you'll get one message when it's ready.</p>",
+            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak.</p><p>There is no date yet, and we won’t invent one. Leave your email above and you’ll get one message when it’s ready.</p>",
             "secondary": true
           }
         },
@@ -40,7 +40,7 @@
           "settings": {
             "heading": "How to read",
             "show_when": "always",
-            "text": "<p>Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.</p><p>Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.</p>",
+            "text": "<p>You don’t need to know tarot. It works the same whether this is your first deck or you read every day.</p><p>Use any spread you already know. Two come with the deck. Card of the day: draw one in the morning, keep it with you or stand it somewhere you’ll see it, and let it work on you all day. Reading of consciousness: the longer one, in three steps — what to understand, what to accept, what to transform.</p>",
             "secondary": true
           }
         },
@@ -49,7 +49,7 @@
           "settings": {
             "heading": "As a gift",
             "show_when": "always",
-            "text": "<p>For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.</p><p>Sending it straight to them? Enter their address as the delivery address at checkout.</p>",
+            "text": "<p>A present for someone close: a partner, a friend, your mother.</p><p>Original illustrations, a first edition of 100 copies per language, and something they have almost certainly never been given before. Pick the edition in the language they read. Sending it straight to them? Enter their address as the delivery address at checkout.</p>",
             "secondary": true
           }
         },
@@ -58,7 +58,7 @@
           "settings": {
             "heading": "About Walter",
             "show_when": "always",
-            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.</p>",
+            "text": "<p>Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, a city told in comics. The tarot is the first deck.</p>",
             "secondary": true
           }
         },
@@ -88,8 +88,15 @@
         "digital_note": "",
         "delivery_digital": "",
         "show_delivery_physical": false,
-        "choice_note": "The captions and guide cards are in the language you pick.",
-        "hide_payment_types": "paypal"
+        "choice_note": "The captions and the two extra cards are in the language you pick.",
+        "hide_payment_types": "paypal",
+        "about_text": "<p>Walter Ihring drew this deck, inspired by the Rider–⁠Waite tarot. Every card is a nine‑frame comic.</p><p>The cards work like a mirror. They show you what is going on inside you, what you feel, and which way you are heading. Look at the picture first, then read the words, and notice what the card leaves behind.</p>",
+        "box_lead": "80 cards in total.",
+        "box_item_1": "78 tarot cards: 22 Major and 56 Minor Arcana",
+        "box_item_2": "1 extra card: the introduction on one side, the nine‑frame path explained on the other",
+        "box_item_3": "1 extra card: the two readings",
+        "box_item_4": "Tuck box",
+        "box_item_5": ""
       }
     },
     "whats_inside_cards": {
@@ -98,7 +105,7 @@
         "title": "Meet the cards",
         "background": "#fffef7",
         "spec_labels": "Cards|Structure|Size|Print|Material|Finish",
-        "spec_values": "78 · full deck|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte"
+        "spec_values": "80 · in the box|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|Premium cardstock|Matte"
       }
     },
     "how_it_works": {

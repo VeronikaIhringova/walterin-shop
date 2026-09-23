@@ -20,8 +20,10 @@
 
 ## 2. What it is
 
-- 78 cards (22 Major Arcana + 56 Minor Arcana), every card a nine-frame comic.
-- 2 guide cards: "Card of the day" and "Reading of consciousness".
+- **80 cards in the box**: 78 tarot cards (22 Major + 56 Minor Arcana), every card a nine-frame comic, plus 2 extra cards.
+- Extra card 1 (double-sided): the introduction · the nine-frame path explained.
+- Extra card 2 (double-sided): the two readings, Card of the day and Reading of consciousness.
+- "Guide cards" is retired. 80 = the box, 78 = the tarot (SEO keeps 78).
 - Tuck box (Walterin logo top, Magician on the front, red back panel).
 - Illustrated by Walter Ihring. Inspired by Rider–Waite.
 - Specs (size, paper, finish, corners, box material): **TBD from Walter / printer. Never guess.**
@@ -56,56 +58,68 @@ Preview set (the only cards shown): The Magician, The Fool, The Hermit, Wheel of
 
 | Element | EN | SK |
 |---|---|---|
-| Thesis | 78 cards. One illustrator. Every card a nine-frame comic. | 78 kariet. Jeden ilustrátor. Každá karta je komiks v deviatich okienkach. |
+| Thesis (retired: the column has no thesis line) | — | — |
 | Edition note | Limited to 100 copies | Limitovaná na 100 kusov |
 | Notify note | One email when it's ready. That's all. | Jeden e-mail, keď bude hotový. Nič viac. |
 | Note under the choices 1 | First edition. 100 copies in each language. | Prvé vydanie. 100 kusov v každom jazyku. |
-| Note under the choices 2 | The captions and guide cards are in the language you pick. | Popisky a sprievodné karty sú v jazyku, ktorý si vyberiete. |
+| Note under the choices 2 | The captions and the two extra cards are in the language you pick. | Popisky a dve karty navyše sú v jazyku, ktorý si vyberiete. |
 | Newsletter checkbox | And the newsletter: what's new, what's next. | Aj newsletter: čo je nové a čo chystáme. |
 
 Short description (2–3 sentences): TBD, drafted in the house voice, approved by Veronka.
 
-### Buy-column accordions, final set and order (23 Sep 2026)
+### Buy-column accordions: final copy (approved 23 Sep 2026)
 
-Two main (solid rule), four secondary (dashed rule + a small ink star). First paragraph of each is
-the lead (Body size); everything after it is Small.
+Order: About the deck · What's in the box (both main: solid rule + ink star) · How to read · As a
+gift · About Walter · When can I have it? (secondary: dashed rule, no star; the last one only before
+launch, tied to the product state). First paragraph of each is the lead (Body size), the rest Small.
+Written to `docs/design/COPY-GUIDE.md`: spoken register, concrete, nothing repeated, Slovak native.
 
-**1. About the deck / O balíčku** — main
-EN: Inspired by the Rider–Waite tarot, drawn by Walter Ihring. Every card is a nine‑frame comic: one picture becomes a small story, read frame by frame. Look first. Then read the words.
-· Two guide cards show two ways in: Card of the day, and Reading of consciousness: what to understand, what to accept, what to transform.
-SK: Inšpirovaný tarotom Rider–Waite, nakreslil Walter Ihring. Každá karta je komiks v deviatich okienkach: z jedného obrazu je malý príbeh, ktorý sa číta okienko po okienku. Najprv sa pozerajte. Potom čítajte.
-· Dve sprievodné karty ukazujú dve cesty: Karta dňa a Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť.
+**1. About the deck / O balíčku**
+EN: Walter Ihring drew this deck, inspired by the Rider–Waite tarot. Every card is a nine‑frame comic.
+· The cards work like a mirror. They show you what is going on inside you, what you feel, and which way you are heading. Look at the picture first, then read the words, and notice what the card leaves behind.
+SK: Tento balíček nakreslil Walter Ihring, inšpiroval sa tarotom Rider–Waite. Každá karta je deväťobrázkový komiks.
+· Karty fungujú ako zrkadlo. Ukážu vám, čo sa vo vás deje, čo cítite a kam smerujete. Najprv sa pozrite na obrázok, potom si prečítajte text — a všimnite si, čo vo vás karta nechá.
 
-**2. What's in the box / Čo je v krabičke** — main
-EN: 78 cards: 22 Major and 56 Minor Arcana · 2 guide cards: Card of the day and Reading of consciousness · Tuck box
-SK: 78 kariet: 22 veľkých a 56 malých arkán · 2 sprievodné karty: Karta dňa a Čítanie vedomia · Krabička
-Then the two GPSR lines (manufacturer, product), physical products only.
+**2. What's in the box / Čo je v krabičke**
+EN: 80 cards in total.
+- 78 tarot cards: 22 Major and 56 Minor Arcana
+- 1 extra card: the introduction on one side, the nine‑frame path explained on the other
+- 1 extra card: the two readings
+- Tuck box
+SK: Spolu 80 kariet.
+- 78 tarotových kariet: 22 veľkých a 56 malých arkán
+- 1 karta navyše: na jednej strane úvod, na druhej vysvetlená cesta v deviatich krokoch
+- 1 karta navyše: dve čítania
+- Krabička
+Then the two product-safety lines (manufacturer, product), physical products only.
 
-**3. How to read / Ako čítať** — secondary
-EN: Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.
-· Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.
-SK: Najprv sa pozerajte, potom čítajte. Každá karta rozpráva svoj príbeh v deviatich okienkach, ako komiksová strana. Popisky prídu na rad až potom.
-· Balíček má dve cesty. Karta dňa: vytiahnite si jednu a nechajte ju pôsobiť. Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť. Obe vysvetľujú sprievodné karty v krabičke. Skúsenosti s tarotom netreba.
+**3. How to read / Ako čítať**
+EN: You don't need to know tarot. It works the same whether this is your first deck or you read every day.
+· Use any spread you already know. Two come with the deck. Card of the day: draw one in the morning, keep it with you or stand it somewhere you'll see it, and let it work on you all day. Reading of consciousness: the longer one, in three steps — what to understand, what to accept, what to transform.
+SK: Tarot poznať nemusíte. Funguje rovnako, či je to váš prvý balíček, alebo si vykladáte každý deň.
+· Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo premeniť.
 
-**4. As a gift / Ako darček** — secondary
-EN: For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.
-· Sending it straight to them? Enter their address as the delivery address at checkout.
-SK: Pre toho, kto číta komiksy, zbiera balíčky kariet alebo má jednoducho rád dobre nakreslené veci. Vyberte vydanie v jazyku, v ktorom obdarovaný číta.
-· Chcete ho poslať priamo obdarovanému? V pokladni zadajte jeho adresu ako adresu doručenia.
+**4. As a gift / Ako darček**
+EN: A present for someone close: a partner, a friend, your mother.
+· Original illustrations, a first edition of 100 copies per language, and something they have almost certainly never been given before. Pick the edition in the language they read. Sending it straight to them? Enter their address as the delivery address at checkout.
+SK: Darček pre niekoho blízkeho: pre partnera, kamarátku, mamu.
+· Pôvodné ilustrácie, prvé vydanie, 100 kusov v každom jazyku — a niečo, čo ešte takmer určite nedostal. Vyberte vydanie v jazyku, v ktorom obdarovaný číta. Chcete ho poslať priamo jemu? V pokladni zadajte jeho adresu ako adresu doručenia.
+⏸ Held back until it exists (see LAUNCH-READINESS): EN "Gift wrapping and a short message can be added at checkout." · SK "V pokladni sa dá pridať darčekové balenie a krátky odkaz."
 
-**5. About Walter / O Walterovi** — secondary
-EN: Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.
-· In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.
-SK: Walter Ihring je slovenský ilustrátor humoru a karikatúry. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.
-· V roku 2015 vyšiel prvý ilustrovaný sprievodca Walterin Bratislava. Nasledovali Praha a Paríž. Tarot je prvý balíček kariet.
+**5. About Walter / O Walterovi**
+EN: Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.
+· In 2015 came Walterin Bratislava, a city told in comics. The tarot is the first deck.
+SK: Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.
+· V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Tarot je prvý balíček kariet.
+(No Prague or Paris: neither is out yet.)
 
-**6. When can I have it? / Kedy ho dostanem?** — secondary, before launch only
-EN: Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.
-· Leave your email above and you'll get one message when it's ready.
-SK: Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine. Dátum ešte nemáme a hádať ho nebudeme.
-· Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.
+**6. When can I have it? / Kedy ho dostanem?** — before launch only
+EN: Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak.
+· There is no date yet, and we won't invent one. Leave your email above and you'll get one message when it's ready.
+SK: Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine.
+· Dátum ešte nemáme a vymýšľať si ho nebudeme. Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.
 
-Deleted: "Why nine frames", "English or Slovak?" (the line under the language choice says it).
+Retired: "Why nine frames", "English or Slovak?", and the word "guide cards".
 SK accordion text is a store write through Translate & Adapt, after Veronka's OK.
 
 ## 7. Legal specifics
@@ -122,7 +136,7 @@ SK accordion text is a store write through Translate & Adapt, after Veronka's OK
 
 ## 9. Images needed
 
-Box straight-on on flat colour · box open with cards fanned · macro of ink line · three-card spread · cards in hand (scale) · guide cards · EN and SK editions side by side.
+Box straight-on on flat colour · box open with cards fanned · macro of ink line · three-card spread · cards in hand (scale) · the two extra cards (both sides) · EN and SK editions side by side.
 
 ## 10. Open questions
 

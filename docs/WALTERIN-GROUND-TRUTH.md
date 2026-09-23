@@ -48,7 +48,10 @@
 ## 3. Product: Tarot of Consciousness: A Graphic Journey
 
 - Name: EN **Tarot of Consciousness: A Graphic Journey**, SK **Komiksový tarot vedomia** (short: Tarot of Consciousness / Tarot vedomia). Old name "Comics Tarot of Consciousness" retired on the website (tuck box still says COMICS TAROT, TO CONFIRM). Handle `tarot`.
-- 78 cards (22 Major + 56 Minor Arcana), 2 guide cards, tuck box.
+- **80 cards in the box**: 78 tarot cards (22 Major + 56 Minor Arcana) + **2 extra cards**, and a tuck box.
+  Extra card 1 (double-sided): the introduction on one side, the nine-frame path explained on the other.
+  Extra card 2 (double-sided): the two readings.
+  ⚠️ "Guide cards" is retired: say what the cards actually are. **80** = what's in the box, **78** = the tarot itself (SEO titles keep 78).
 - Price: €39, always taken from the product, never hardcoded.
 - Editions = variants of the option "Language/Jazyk": **English** and **Slovak**.
 - **First edition: 100 copies in English + 100 in Slovak.** Never "150".
@@ -57,7 +60,7 @@
 - Before launch: notify-me form. Tags `tarot-waitlist`, `tarot-waitlist-en` / `tarot-waitlist-sk`. **One optional newsletter checkbox** (Veronka, 22 Sep 2026), unticked by default; the tag `newsletter` is added only when it is ticked.
 - Pre-order vs notify-me: undecided (Veronka + Walter).
 - **Never show the full deck.** Only the 12-card preview set: The Magician, The Fool, The Hermit, Wheel of Fortune, The Star, The Sun, Two of Wands, Knight of Wands, Six of Cups, Seven of Swords, Two of Pentacles, Seven of Pentacles.
-- **Naming:** only "nine-frame comic" or "nine-frame path". Never "9-layer system" or "9-frame system".
+- **Naming:** EN only "nine-frame comic" or "nine-frame path"; SK "deväťobrázkový komiks" and "cesta v deviatich krokoch". Never "9-layer system", "9-frame system" or "nine-frame system".
 - **Reading systems:** "Card of the day" and "Reading of consciousness" (what to understand / accept / transform). The nine-frame path is the guide inside every card.
 - Specs (size, paper, finish, corners, box): TBD, from Walter or the printer. Never guess.
 - Reviews: hidden until real, verified reviews exist. Judge.me uninstalled; review tool TBD.
@@ -130,6 +133,11 @@ Measured **optically** (from visible letters to the next border, from a shadow's
 ---
 
 ## 7. Voice
+
+**Standing rule (23 Sep 2026), every language, every surface:** write the way a person speaks; no
+metaphors for their own sake; concrete before abstract; nothing repeats between sections; Slovak is
+written natively, never translated; read it aloud before showing it. Full version:
+`docs/design/COPY-GUIDE.md`.
 
 Dry, warm, short factual sentences, British spelling. Literary, never generic. No mystical, self-help or therapy language. No "elevate", "must-have", "reach your full potential". The audience is intelligent and well-read. Don't simplify. Tease, don't spoil.
 
