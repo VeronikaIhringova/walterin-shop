@@ -16,7 +16,8 @@ button. Choices are text with a dot and a yellow marker; accordions are ruled ro
 4. **Act** — add to cart (+ express checkout + payment icons) or, before launch, the notify form.
 5. **Read** — accordions, in this order: About the deck · What's in the box (product safety inside
    it) · How to read · As a gift · About Walter · When can I have it? (before launch only).
-   The first two are main (solid rule); the rest are secondary (dashed rule + a small ink star).
+   The first two are main: a solid rule and a small ink star. The rest are secondary: a dashed
+   rule and no star.
    Inside every accordion: the first paragraph is the lead at Body size, the rest is Small.
 
 **Rhythm.** Four groups, 32px apart on desktop and 24px on phones; the accordions get 48 / 32,

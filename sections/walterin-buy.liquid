@@ -458,7 +458,10 @@
         {%- if section.settings.about_text != blank -%}
           <details class="wui-accordion" data-wui-acc>
             <summary>
-              <span class="wui-accordion__title"><span class="wui-label">{{ section.settings.about_heading | escape }}</span></span>
+              <span class="wui-accordion__title">
+                <span class="wui-label">{{ section.settings.about_heading | escape }}</span>
+                {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+              </span>
               <span class="wui-accordion__icon" aria-hidden="true"></span>
             </summary>
             <div class="wui-accordion__wrap"><div class="wui-accordion__body wui-rte">{{ section.settings.about_text }}</div></div>
@@ -467,7 +470,10 @@
 
         <details class="wui-accordion" data-wui-acc>
           <summary>
-            <span class="wui-accordion__title"><span class="wui-label">{{ section.settings.box_heading | escape }}</span></span>
+            <span class="wui-accordion__title">
+              <span class="wui-label">{{ section.settings.box_heading | escape }}</span>
+              {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+            </span>
             <span class="wui-accordion__icon" aria-hidden="true"></span>
           </summary>
           <div class="wui-accordion__wrap">
@@ -518,7 +524,10 @@
         {%- if section.settings.delivery_digital != blank or section.settings.show_delivery_physical -%}
           <details class="wui-accordion" data-wui-acc data-wui-delivery {% unless digital or section.settings.show_delivery_physical %}hidden{% endunless %}>
             <summary>
-              <span class="wui-accordion__title"><span class="wui-label">{{ section.settings.delivery_heading | escape }}</span></span>
+              <span class="wui-accordion__title">
+                <span class="wui-label">{{ section.settings.delivery_heading | escape }}</span>
+                {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+              </span>
               <span class="wui-accordion__icon" aria-hidden="true"></span>
             </summary>
             <div class="wui-accordion__wrap">
@@ -560,9 +569,9 @@
                 <summary>
                   <span class="wui-accordion__title">
                     <span class="wui-label">{{ block.settings.heading | escape }}</span>
-                    {%- if block.settings.secondary -%}
+                    {%- unless block.settings.secondary -%}
                       {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
-                    {%- endif -%}
+                    {%- endunless -%}
                   </span>
                   <span class="wui-accordion__icon" aria-hidden="true"></span>
                 </summary>
@@ -916,7 +925,7 @@
           { "value": "digital", "label": "Digital variant selected" },
           { "value": "coming_soon", "label": "Before launch only" }
         ], "default": "always" },
-        { "type": "checkbox", "id": "secondary", "label": "Secondary", "info": "A dashed rule and a small ink star: extra reading, under the two main ones.", "default": false }
+        { "type": "checkbox", "id": "secondary", "label": "Secondary", "info": "A dashed rule and no star: extra reading, under the main ones.", "default": false }
       ]
     }
   ],
