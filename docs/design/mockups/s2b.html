@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S2 · The annotated print — three ways to link the note to the frame</title>
+<!--
+  Mock-up only. Direction 2 (the annotated print), three versions:
+    v=1  the docked note     · no drawn connector; the note touches the card, its tail on the lit frame
+    v=2  the highlighter run · a marker stroke in the row's colour sweeps from the note into the frame
+    v=3  the dotted trail    · ink dots ending in a drawn hand pointing at the frame
+  Each version also puts the card picker somewhere else, to compare.
+  Row colours are sampled from the artwork: blue #69E7FD · yellow #FFFE03 · green #75FEF4.
+  URL: ?v=1|2|3 · lang=en|sk · card=0..9 · frame=0..8 · state=dealt · board=0
+-->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'WalterinBold'; src: url('https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093') format('woff2'); font-display: swap; }
+:root {
+  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205;
+  /* the deck's own three, straight out of the artwork */
+  --row1: #69E7FD; --row2: #FFFE03; --row3: #75FEF4;
+  --line: 2.5px; --thin: 1.5px; --hair: 1px; --radius: 8px;
+  --display: 'WalterinBold', 'Chalkboard SE', sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --fs-heading: 30px; --fs-label: 18px; --fs-body: 15px; --fs-small: 13.5px;
+  --frame-pad: 15px; --ease: cubic-bezier(.2,.75,.2,1);
+}
+@media (min-width: 750px) { :root { --fs-heading: 38px; --fs-label: 21px; --fs-body: 16px; --fs-small: 14px; --frame-pad: 50px; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.5; overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-font-smoothing: antialiased; }
+p, h1, h2, h3 { margin: 0; padding: 0; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+[hidden] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.board { font: 13px/1.4 var(--body); background: #fff; border-bottom: 1px dashed #999; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.board a { color: inherit; padding: 2px 6px; border: 1px solid #bbb; border-radius: 4px; text-decoration: none; }
+.board a[aria-current='true'] { background: var(--yellow); border-color: var(--ink); }
+.board .grp { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+body.noboard .board { display: none; }
+
+.wrap { width: 92%; max-width: 1400px; margin-inline: auto; padding-inline: var(--frame-pad); }
+.sec { padding-block: 30px; }
+@media (min-width: 990px) { .sec { padding-block: 42px; } }
+.title { font-family: var(--display); font-size: var(--fs-heading); line-height: 1.05; letter-spacing: .01em; text-transform: uppercase; }
+.small { font-size: var(--fs-small); line-height: 1.4; }
+.lead { font-size: var(--fs-body); line-height: 1.45; max-width: 58ch; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 6px 16px;
+  font-family: var(--display); font-size: var(--fs-body); line-height: 1; letter-spacing: .03em; text-transform: uppercase;
+  background: var(--yellow); border: var(--line) solid var(--ink); border-radius: var(--radius); box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease); margin: 0 3px 3px 0; }
+.btn:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn--ghost { background: var(--paper); }
+
+/* ---------- head ---------- */
+.s2head { display: grid; grid-template-columns: minmax(0,1fr); gap: 10px; margin-bottom: 20px; }
+.s2head__text { display: grid; gap: 8px; max-width: 62ch; }
+
+/* ---------- the picker, placed differently in each version ---------- */
+.pickerline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; max-width: 100%; }
+.pickerline .picker { flex: 1 1 auto; min-width: 0; }
+.picker { display: flex; gap: 7px; max-width: 100%; overflow-x: auto; padding: 2px 0; }
+.picker button { position: relative; flex: none; width: 38px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 4px; overflow: hidden; background: var(--paper); }
+.picker button img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.picker button[aria-pressed='true'] { outline: 3px solid var(--yellow); outline-offset: -3px; }
+.picker button::after { content: attr(data-name); position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  white-space: nowrap; font-size: 12px; background: var(--paper); border: var(--thin) solid var(--ink); border-radius: 4px; padding: 2px 6px;
+  opacity: 0; pointer-events: none; transition: opacity .12s var(--ease); z-index: 6; }
+.picker button:hover::after, .picker button:focus-visible::after { opacity: 1; }
+.now { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .02em; }
+
+/* ---------- the card, the frames, the dimming (unchanged) ---------- */
+.cardbox { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
+.cardbox img { width: 100%; border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
+.ring { position: absolute; border: 3px solid var(--ink); border-radius: 3px; pointer-events: none;
+  transition: left .22s var(--ease), top .22s var(--ease), width .22s var(--ease), height .22s var(--ease);
+  box-shadow: 0 0 0 9999px rgb(255 253 247 / .58); }
+.hot { position: absolute; border: 0; background: transparent; cursor: pointer; }
+.hot::after { content: attr(data-n); position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border: var(--thin) solid var(--ink);
+  border-radius: 50%; background: var(--paper); font: 700 9px/14px var(--body); text-align: center; opacity: .9; }
+.crop { background-repeat: no-repeat; border: var(--line) solid var(--ink); border-radius: 6px; background-color: var(--paper); }
+
+/* ---------- the print: card in the middle, note in the margin ---------- */
+.print { position: relative; display: grid; gap: 14px; justify-items: center; }
+@media (min-width: 990px) { .print { grid-template-columns: minmax(0,360px) 250px minmax(0,360px); justify-content: center; align-items: center; gap: 0 28px; } }
+.print__card { width: 250px; max-width: 100%; grid-column: 2; grid-row: 1; }
+.noteslot { display: grid; width: 100%; }
+.noteslot--left { grid-column: 1; grid-row: 1; justify-self: end; }
+.noteslot--right { grid-column: 3; grid-row: 1; justify-self: start; }
+.note { position: relative; border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper);
+  box-shadow: 3px 3px 0 rgb(34 34 34 / .28); display: grid; gap: 9px; padding: 0 0 13px; width: 100%; max-width: 330px; }
+.note__band { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 7px 13px;
+  border-bottom: var(--thin) solid var(--ink); border-radius: 5px 5px 0 0; background: var(--rowc); }
+.note__row { font-family: var(--display); font-size: 15px; letter-spacing: .03em; text-transform: uppercase; }
+.note__n { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+.note__body { display: grid; gap: 9px; padding: 0 13px; justify-items: start; }
+.note .crop { width: 150px; box-shadow: 0 0 0 4px var(--rowc); }
+.note__cap { font-family: var(--display); font-size: var(--fs-label); line-height: 1.12; text-transform: uppercase; letter-spacing: .02em; }
+.link { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: visible; }
+.steps { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; grid-column: 1 / -1; grid-row: 2; margin-top: 14px; }
+.dots { display: flex; gap: 9px; }
+.dots .g { display: flex; gap: 3px; padding: 3px 5px; border-radius: 999px; background: var(--g); }
+.dot { width: 9px; height: 9px; border: var(--thin) solid var(--ink); border-radius: 50%; }
+.dot.on { background: var(--ink); }
+@media (max-width: 989px) {
+  .print { grid-template-columns: 150px minmax(0,1fr); align-items: start; gap: 12px; justify-items: stretch; }
+  .print__card { width: 150px; grid-column: 1; grid-row: 1; }
+  .noteslot--left, .noteslot--right { grid-column: 2; grid-row: 1; justify-self: stretch; }
+  .note { max-width: none; }
+  .note .crop { width: 100%; max-width: 128px; }
+  .steps { justify-content: flex-start; }
+}
+
+/* ===== v1 · the docked note: it touches the card, with a tail on the lit frame ===== */
+body.v1 .print { gap: 0 0; }
+@media (min-width: 990px) { body.v1 .print { grid-template-columns: minmax(0,1fr) 250px 330px; justify-content: center; gap: 0; } }
+body.v1 .noteslot--right { justify-self: start; margin-left: 14px; }
+body.v1 .note { border-radius: 0 var(--radius) var(--radius) 0; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
+body.v1 .tail { position: absolute; left: -15px; top: 0; width: 15px; height: 34px; pointer-events: none;
+  transition: transform .22s var(--ease); }
+body.v1 .tail path { fill: var(--rowc); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+@media (max-width: 989px) {
+  body.v1 .noteslot--left, body.v1 .noteslot--right { margin-left: 10px; }
+}
+
+.deckrow { display: grid; grid-template-columns: minmax(0,1fr); justify-items: center; margin-top: 16px; }
+@media (max-width: 989px) { .deckrow { justify-items: start; } }
+
+/* ===== v2 · the highlighter run ===== */
+body.v2 .hl .band { mix-blend-mode: multiply; fill: none; stroke: var(--rowc); stroke-linecap: round; opacity: .9; }
+body.v2 .hl .pen { fill: none; stroke: var(--ink); stroke-linecap: round; opacity: .85; }
+
+/* ===== v3 · the dotted trail with a drawn hand ===== */
+body.v3 .trail circle { fill: var(--rowc); stroke: var(--ink); stroke-width: 1.4; }
+body.v3 .hand path { fill: #fff; stroke: var(--ink); stroke-width: 2.2; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+body.v3 .hand .cuff { fill: var(--rowc); }
+body.v3 .hand .curl { fill: none; stroke-width: 1.5; }
+
+/* ---------- the two readings ---------- */
+.readings { margin-top: 44px; padding-top: 24px; border-top: var(--line) solid var(--ink); }
+.readings__grid { display: grid; gap: 22px; margin-top: 18px; }
+@media (min-width: 750px) { .readings__grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+.reading { display: grid; gap: 10px; align-content: start; }
+.reading h3 { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .03em; }
+.deal { display: flex; gap: 10px; }
+.deal .slot { width: 76px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 6px; overflow: hidden; background:
+  repeating-linear-gradient(45deg, var(--yellow) 0 6px, var(--paper) 6px 12px); }
+.deal .slot img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="board" id="board"></div>
+<main id="main"></main>
+<p class="sr" id="live" aria-live="polite"></p>
+<script type="application/json" id="carddata">{"cards": [{"file": "wi-major-05.jpg", "name": "The Magician", "captions": ["TO AWAKEN THE WILL", "TO RECOGNISE STRENGTH", "TO TRUST THE SOURCE", "TO LEARN TO FOCUS", "TO BE OPEN TO POSSIBILITY", "TO PREVAIL THROUGH CREATIVITY", "TO PROTECT THE VISION", "TO FLOW WITH AWARENESS", "TO LET IT BECOME"], "grid": {"rows": [1.67, 31.66, 62.1, 90.33], "cols": [3.25, 33.62, 64.25, 96.0]}}, {"file": "wi-major-01.jpg", "name": "The Fool", "captions": ["TO AWAKEN COURAGE", "TO RECOGNISE UNITY", "TO TRUST THE PATH", "TO LEARN TO TRUST ONESELF", "TO ACCEPT RISK", "TO PREVAIL WITH EASE", "TO PROTECT JOY", "TO FLOW WITH THE PRESENT", "TO FINISH IN FREEDOM"], "grid": {"rows": [1.83, 31.74, 62.1, 90.33], "cols": [4.62, 35.88, 66.38, 96.12]}}, {"file": "wi-major-02.jpg", "name": "Wheel of Fortune", "captions": ["TO AWAKEN ACCEPTANCE", "TO RECOGNISE MOVEMENT", "TO TRUST THE ORDER", "TO LEARN TO FLOW", "TO EMBRACE DESTINY", "TO PREVAIL THROUGH TRUST", "TO PROTECT THE CENTRE", "TO FLOW WITH WISDOM", "TO COME FULL CIRCLE"], "grid": {"rows": [2.13, 32.42, 62.33, 91.4], "cols": [3.25, 33.88, 64.88, 96.62]}}, {"file": "wi-major-04.jpg", "name": "The Star", "captions": ["TO AWAKEN HOPE", "TO RECOGNISE THE LIGHT", "TO TRUST THE CLEANSING", "TO LEARN TO HEAL", "TO EMBRACE PURITY", "TO PREVAIL THROUGH HEALING", "TO PROTECT FAITH", "TO FLOW WITH RADIANCE", "TO ACHIEVE REBIRTH"], "grid": {"rows": [2.13, 31.81, 62.48, 91.7], "cols": [3.25, 34.12, 66.0, 97.0]}}, {"file": "wi-wands-01.jpg", "name": "Two of Wands", "captions": ["TO FEEL DESIRE AND FEAR", "TO RECOGNISE POSSIBILITIES", "TO CHOOSE A DIRECTION", "TO TRUST INTENTION", "TO MAINTAIN COURAGE", "TO UNITE MIND AND HEART", "TO CROSS THE THRESHOLD", "TO COMMIT TO THE PATH", "TO WALK WITHOUT FEAR"], "grid": {"rows": [1.67, 31.89, 62.63, 90.79], "cols": [3.25, 35.5, 67.0, 97.12]}}, {"file": "wi-wands-03.jpg", "name": "Knight of Wands", "captions": ["TO FOLLOW THE ADVENTURE", "TO STEP BEYOND CERTAINTY", "TO MASTER THE FIRE", "TO ACT FROM THE HEART", "TO LEARN PATIENCE", "TO DIRECT ENERGY", "TO WALK TOWARDS THE SUMMIT", "TO MASTER IMPULSIVENESS", "TO AWAKEN INSPIRATION"], "grid": {"rows": [1.83, 32.27, 62.63, 91.7], "cols": [3.0, 35.62, 67.0, 97.25]}}, {"file": "wi-cups-01.jpg", "name": "Six of Cups", "captions": ["TO EMBRACE THE PAST", "TO SENSE INNOCENCE", "TO FIND JOY ANEW", "TO HEAL MEMORIES", "TO RECOGNISE PURITY", "TO SHAPE THE SOUL", "TO BRING GOODNESS", "TO RESTORE TRUST", "TO LIVE WITH LOVE"], "grid": {"rows": [1.75, 32.5, 63.39, 91.48], "cols": [2.62, 36.25, 67.12, 97.0]}}, {"file": "wi-swords-03.jpg", "name": "Seven of Swords", "captions": ["TO BECOME AWARE OF ESCAPE", "TO RECOGNISE DECEPTION", "TO UNDERSTAND INTENTION", "TO ADMIT THE TRUTH", "TO TRUST INTUITION", "TO FIND HONESTY", "TO UNCOVER SELF-DECEPTION", "TO PURIFY INTENTION", "TO ALIGN WORD AND ACTION"], "grid": {"rows": [1.67, 31.66, 62.94, 91.4], "cols": [3.12, 35.62, 66.88, 96.5]}}, {"file": "wi-pentacles-01.jpg", "name": "Two of Pentacles", "captions": ["TO LIVE IN MOTION", "TO MOVE WITH LIFE", "TO SET PRIORITIES", "TO CULTIVATE FLEXIBILITY", "TO EMBRACE CHANGE", "TO SOFTEN CHAOS WITH RHYTHM", "TO UNITE OPPOSITES", "TO ACT WITH EASE", "TO SWIM THROUGH THE SWELL"], "grid": {"rows": [1.6, 32.42, 62.86, 91.63], "cols": [3.0, 35.88, 66.62, 97.0]}}, {"file": "wi-pentacles-02.jpg", "name": "Seven of Pentacles", "captions": ["TO LET THINGS RIPEN", "TO FEEL LIFE GROWING", "TO THINK IN CYCLES", "TO CULTIVATE PATIENCE", "TO LEARN THROUGH OBSERVATION", "TO TRUST THE SEED", "TO PRESERVE ONE'S STRENGTH", "TO FOCUS ATTENTION", "TO HARVEST WITH GRATITUDE"], "grid": {"rows": [1.6, 32.34, 63.39, 91.86], "cols": [3.0, 35.75, 66.75, 97.12]}}]}</script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var S = { v: q.get('v') || '1', lang: q.get('lang') || 'en', card: +(q.get('card') || 0), frame: +(q.get('frame') || 0), state: q.get('state') || '' };
+  if (q.get('board') === '0') document.body.classList.add('noboard');
+  document.body.classList.add('v' + S.v);
+  document.documentElement.lang = S.lang;
+  var CARDS = JSON.parse(document.getElementById('carddata').textContent).cards;
+  var ASSET = '../../../assets/';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ROWC = ['var(--row1)', 'var(--row2)', 'var(--row3)'];
+
+  var T = {
+    en: {
+      h: 'How a card is read',
+      intro: 'Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.',
+      rows: ['What to understand', 'What to accept', 'What to transform'],
+      why: [
+        'What is going on. The top row names the situation: what is in front of you, and what to notice in it.',
+        'What is yours. The middle row is what to come to terms with, or admit, before anything moves.',
+        'What to do with it. The bottom row says where it leads and what can change.'
+      ],
+      hint: 'Step through the nine frames, or click one on the card.',
+      pick: 'Try another card', back: 'Back', next: 'Next', frameOf: 'Frame [n] of 9',
+      rH: 'The two readings in the box',
+      rIntro: 'You can lay the cards out any way you know. Two readings come with this deck.',
+      r1: 'Card of the day', r1t: 'Draw one card in the morning. Keep it where you will see it, and come back to it in the evening.',
+      r2: 'Reading of consciousness', r2t: 'Three cards in three steps: what to understand, what to accept, what to transform. The same three steps as inside a single card.',
+      draw1: 'Draw a card', draw3: 'Lay three', again: 'Draw again'
+    },
+    sk: {
+      h: 'Ako sa číta karta',
+      intro: 'Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo premeniť.',
+      rows: ['Čo pochopiť', 'Čo prijať', 'Čo premeniť'],
+      why: [
+        'Čo sa deje. Horný riadok pomenuje situáciu: čo máte pred sebou a čoho si v nej treba všimnúť.',
+        'Čo je vaše. Stredný riadok je to, s čím sa treba zmieriť alebo si to priznať, aby sa dalo pohnúť.',
+        'Čo s tým. Spodný riadok hovorí, kam to vedie a čo sa dá zmeniť.'
+      ],
+      hint: 'Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.',
+      pick: 'Skúsiť inú kartu', back: 'Späť', next: 'Ďalej', frameOf: 'Obrázok [n] z 9',
+      rH: 'Dve čítania, ktoré sú v balíčku',
+      rIntro: 'Karty môžete vykladať akokoľvek to poznáte. Dve čítania sú priamo v tomto balíčku.',
+      r1: 'Karta dňa', r1t: 'Ráno si vytiahnite jednu kartu. Nechajte si ju na očiach a večer sa k nej vráťte.',
+      r2: 'Čítanie vedomia', r2t: 'Tri karty v troch krokoch: čo pochopiť, čo prijať, čo premeniť. Tie isté tri kroky ako v jednej karte.',
+      draw1: 'Vytiahnuť kartu', draw3: 'Vyložiť tri', again: 'Vytiahnuť znova'
+    }
+  }[S.lang];
+
+  var card = CARDS[S.card] || CARDS[0];
+  function src(c) { return ASSET + c.file; }
+  function el(h) { var d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstElementChild; }
+  function rowOf(i) { return Math.floor(i / 3); }
+
+  function cropStyle(c, i) {
+    var g = c.grid, r = rowOf(i), col = i % 3;
+    var fw = (g.cols[col + 1] - g.cols[col]) / 100, fh = (g.rows[r + 1] - g.rows[r]) / 100;
+    var px = (g.cols[col] / 100) / (1 - fw) * 100, py = (g.rows[r] / 100) / (1 - fh) * 100;
+    return 'background-image:url(' + src(c) + ');background-size:' + (100 / fw).toFixed(2) + '% ' + (100 / fh).toFixed(2) + '%;' +
+           'background-position:' + px.toFixed(2) + '% ' + py.toFixed(2) + '%;aspect-ratio:' + ((fw * 800) / (fh * 1314)).toFixed(3) + ';';
+  }
+  function frameRing(c, i) {
+    var g = c.grid, r = rowOf(i), col = i % 3;
+    return 'left:' + g.cols[col] + '%;width:' + (g.cols[col + 1] - g.cols[col]) + '%;top:' + g.rows[r] + '%;height:' + (g.rows[r + 1] - g.rows[r]) + '%;';
+  }
+  function cardBox(c, active) {
+    var h = '<div class="cardbox"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314">';
+    for (var i = 0; i < 9; i++) h += '<button class="hot" data-frame="' + i + '" data-n="' + (i + 1) + '" style="' + frameRing(c, i) + '" aria-label="' + T.rows[rowOf(i)] + ': ' + c.captions[i] + '"></button>';
+    h += '<span class="ring" id="ring" style="' + frameRing(c, active) + '"></span></div>';
+    return h;
+  }
+  function pickerHTML(withName) {
+    return '<div class="pickerline"><span class="small">' + T.pick + '</span><div class="picker">' +
+      CARDS.map(function (c, i) { return '<button type="button" data-card="' + i + '" data-name="' + c.name + '" aria-pressed="' + (i === S.card) + '" aria-label="' + c.name + '"><img src="' + src(c) + '" alt="" width="800" height="1314"></button>'; }).join('') +
+      '</div>' + (withName ? '<span class="now">' + card.name + '</span>' : '') + '</div>';
+  }
+
+  /* the note: colour comes from the row it belongs to */
+  function noteSide() { return S.v === '1' ? 'right' : (S.frame % 2 === 0 ? 'left' : 'right'); }
+  function noteHTML() {
+    var r = rowOf(S.frame);
+    return '<div class="note" id="note" style="--rowc:' + ROWC[r] + '">' +
+      (S.v === '1' ? '<svg class="tail" id="tail" viewBox="0 0 15 34" aria-hidden="true"><path d="M15 2 L1.5 17 L15 32"/></svg>' : '') +
+      '<span class="note__band"><span class="note__row">' + T.rows[r] + '</span><span class="note__n">' + T.frameOf.replace('[n]', S.frame + 1) + '</span></span>' +
+      '<span class="note__body"><span class="crop" style="' + cropStyle(card, S.frame) + '"></span>' +
+      '<span class="note__cap">' + card.captions[S.frame] + '</span>' +
+      '<span class="small">' + T.why[r] + '</span></span></div>';
+  }
+  function dotsHTML() {
+    return [0,1,2].map(function (rr) {
+      return '<span class="g" style="--g:' + ROWC[rr] + '">' + [0,1,2].map(function (cc) {
+        var i = rr*3+cc; return '<span class="dot ' + (i === S.frame ? 'on' : '') + '"></span>'; }).join('') + '</span>';
+    }).join('');
+  }
+  function stepsHTML() {
+    var controls = '<button class="btn btn--ghost" type="button" data-step="-1">' + T.back + '</button>' +
+      '<span class="dots" id="dots">' + dotsHTML() + '</span>' +
+      '<button class="btn btn--ghost" type="button" data-step="1">' + T.next + '</button>';
+    /* v2 keeps every control on one bar: stepping and the deck together */
+    if (S.v === '2') return '<div class="steps">' + controls + '<span style="width:20px"></span>' + pickerHTML(true) + '</div>';
+    return '<div class="steps">' + controls + '</div>';
+  }
+
+  function head() {
+    return '<div class="s2head"><div class="s2head__text"><h2 class="title">' + T.h + '</h2>' +
+      '<p class="lead">' + T.intro + '</p><p class="small">' + T.hint + '</p></div>' +
+      /* v3 puts the deck up top, under the intro */
+      (S.v === '3' ? pickerHTML(true) : '') + '</div>';
+  }
+  function printHTML() {
+    return '<div class="print" id="print">' +
+      '<span class="noteslot noteslot--' + noteSide() + '" id="noteslot">' + noteHTML() + '</span>' +
+      '<div class="print__card" id="printcard">' + cardBox(card, S.frame) + '</div>' +
+      '<svg class="link" id="link" aria-hidden="true"></svg>' +
+      stepsHTML() + '</div>' +
+      /* v1 keeps the deck with the card, directly under it */
+      (S.v === '1' ? '<div class="deckrow">' + pickerHTML(true) + '</div>' : '');
+  }
+  function readings() {
+    return '<section class="readings"><h2 class="title">' + T.rH + '</h2><p class="lead" style="margin-top:10px">' + T.rIntro + '</p>' +
+      '<div class="readings__grid">' +
+      '<div class="reading"><h3>' + T.r1 + '</h3><p class="small">' + T.r1t + '</p>' +
+        '<div class="deal" id="deal1"><span class="slot"></span></div>' +
+        '<div><button class="btn" type="button" id="draw1">' + T.draw1 + '</button></div></div>' +
+      '<div class="reading"><h3>' + T.r2 + '</h3><p class="small">' + T.r2t + '</p>' +
+        '<div class="deal" id="deal3"><span class="slot"></span><span class="slot"></span><span class="slot"></span></div>' +
+        '<div><button class="btn" type="button" id="draw3">' + T.draw3 + '</button></div></div>' +
+      '</div></section>';
+  }
+
+  document.getElementById('main').appendChild(el('<section class="sec"><div class="wrap">' + head() + printHTML() + readings() + '</div></section>'));
+
+  /* ---------------- the connector: three ways, all measured off the lit frame ---------------- */
+  function geom() {
+    var pr = document.getElementById('print').getBoundingClientRect();
+    var note = document.getElementById('note').getBoundingClientRect();
+    var hot = document.querySelector('.hot[data-frame="' + S.frame + '"]').getBoundingClientRect();
+    var noteLeft = note.left + note.width / 2 < hot.left + hot.width / 2;
+    return { pr: pr, note: note, hot: hot, noteLeft: noteLeft,
+      fromX: (noteLeft ? note.right : note.left) - pr.left,
+      toX: (noteLeft ? hot.left : hot.right) - pr.left,
+      toY: hot.top + hot.height / 2 - pr.top,
+      noteTop: note.top - pr.top, noteH: note.height };
+  }
+  function drawLink() {
+    var svg = document.getElementById('link');
+    if (!svg || !document.getElementById('note')) return;
+    var g = geom(), r = rowOf(S.frame);
+    svg.setAttribute('viewBox', '0 0 ' + g.pr.width + ' ' + g.pr.height);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.innerHTML = '';
+    svg.style.setProperty('--rowc', ROWC[r]);
+
+    if (S.v === '1') {
+      /* the note is docked: the tail slides to the frame's centre, nothing is drawn across the gap */
+      var tail = document.getElementById('tail');
+      if (tail) {
+        var y = Math.max(6, Math.min(g.noteH - 40, g.toY - g.noteTop - 17));
+        tail.style.transform = 'translateY(' + y.toFixed(1) + 'px)' + (g.noteLeft ? ' scaleX(-1)' : '');
+        tail.style.left = g.noteLeft ? 'auto' : '-15px';
+        tail.style.right = g.noteLeft ? '-15px' : 'auto';
+      }
+      return;
+    }
+
+    if (S.v === '2') {
+      /* a marker stroke: it starts on the note and stops where the frame starts */
+      var dir2 = g.noteLeft ? 1 : -1;
+      var x1 = g.fromX - dir2 * 10, x2 = g.toX - dir2 * 3;
+      var wob = (x2 - x1) * .38;
+      var d = 'M ' + x1.toFixed(1) + ' ' + (g.toY + 6).toFixed(1) +
+              ' C ' + (x1 + wob).toFixed(1) + ' ' + (g.toY - 8).toFixed(1) +
+              ' ' + (x2 - wob).toFixed(1) + ' ' + (g.toY + 7).toFixed(1) +
+              ' ' + x2.toFixed(1) + ' ' + g.toY.toFixed(1);
+      var gEl = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      gEl.setAttribute('class', 'hl');
+      /* the marker band reads on paper; a fine pen line keeps it visible where it crosses the card */
+      gEl.innerHTML = '<path class="band" d="' + d + '" stroke-width="16"></path>' +
+        '<path class="band" d="' + d + '" stroke-width="7" opacity=".55"></path>' +
+        '<path class="pen" d="' + d + '" stroke-width="1.8"></path>';
+      svg.appendChild(gEl);
+      if (!reduce) {
+        var p = gEl.querySelector('path'), len = p.getTotalLength();
+        gEl.querySelectorAll('path').forEach(function (pp) {
+          pp.style.strokeDasharray = len; pp.style.strokeDashoffset = 0;
+          pp.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 300, easing: 'cubic-bezier(.25,.46,.45,.94)' });
+        });
+      }
+      return;
+    }
+
+    /* v3 · ink dots and a drawn hand, the fingertip on the frame's edge */
+    var dir = g.noteLeft ? 1 : -1;      /* 1 = the frame is to the right of the note */
+    var K = 1.35, HW = 63 * K, HH = 46 * K;   /* the hand is drawn 63 x 46, fingertip at (63, 23) */
+    var tipX = g.toX - dir * 5;         /* five pixels short of the frame's edge */
+    var handStart = tipX - dir * HW;
+    var startX = g.fromX + dir * 9;
+    var endX = handStart - dir * 10;
+    var span = endX - startX;
+    /* when the hand already fills the gap, the dots would only crowd it */
+    var n = Math.abs(span) < 34 ? 0 : Math.max(2, Math.min(6, Math.round(Math.abs(span) / 26)));
+    var trail = '<g class="trail">';
+    for (var i = 0; i < n; i++) {
+      var t = n === 1 ? 0 : i / (n - 1);
+      var x = startX + span * t;
+      var y = g.toY - 13 * Math.sin(Math.PI * t);
+      trail += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (3 + t * 2.2).toFixed(1) + '"/>';
+    }
+    trail += '</g>';
+    var tf = dir > 0
+      ? 'translate(' + (tipX - HW).toFixed(1) + ',' + (g.toY - HH / 2).toFixed(1) + ') scale(' + K + ')'
+      : 'translate(' + (tipX + HW).toFixed(1) + ',' + (g.toY - HH / 2).toFixed(1) + ') scale(' + (-K) + ',' + K + ')';
+    /* a manicule: the printer's pointing hand, in the deck's white glove and ink outline */
+    var hand = '<g class="hand" transform="' + tf + '">' +
+      '<path class="cuff" d="M0 13 L13 9.5 L13 37 L0 33.5 Z"/>' +
+      '<path d="M12 10 C20 7.5 30 9.5 33.5 15 L36 18.5 L58 18.5 A4.6 4.6 0 0 1 58 27.7 L41 27.7 C45 29.5 45 34 39.5 34 C43 36 41.5 39.5 37 38.8 C39.5 41 36.5 44 32.5 42.8 C20 41.5 12 36.5 12 28.5 Z"/>' +
+      '<path class="curl" d="M39.5 34 C34 34 31 33 29.5 31"/>' +
+      '<path class="curl" d="M37 38.8 C32 38.8 29.5 37.6 28.5 36"/>' +
+      '</g>';
+    svg.innerHTML = trail + hand;
+    if (!reduce) svg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: 'ease-out' });
+  }
+
+  /* ---------------- stepping happens in place ---------------- */
+  var live = document.getElementById('live');
+  function setFrame(i) {
+    S.frame = (i + 9) % 9;
+    var r = rowOf(S.frame);
+    document.getElementById('ring').setAttribute('style', frameRing(card, S.frame));
+    var slot = document.getElementById('noteslot');
+    slot.className = 'noteslot noteslot--' + noteSide();
+    slot.innerHTML = noteHTML();
+    document.getElementById('dots').innerHTML = dotsHTML();
+    drawLink();
+    var p = new URLSearchParams(location.search); p.set('frame', S.frame);
+    history.replaceState(null, '', '?' + p);
+    live.textContent = T.rows[r] + ' · ' + card.captions[S.frame];
+  }
+  document.addEventListener('click', function (e) {
+    var f = e.target.closest('[data-frame]');
+    if (f) return setFrame(+f.dataset.frame);
+    var s = e.target.closest('[data-step]');
+    if (s) return setFrame(S.frame + (+s.dataset.step));
+    var c = e.target.closest('[data-card]');
+    if (c) { var p = new URLSearchParams(location.search); p.set('card', c.dataset.card); p.set('frame', 0); location.search = p; }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); setFrame(S.frame + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); setFrame(S.frame - 1); }
+  });
+  drawLink();
+  window.addEventListener('resize', drawLink);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawLink);
+
+  /* the two readings deal for real */
+  function dealInto(box, n) {
+    var pool = CARDS.slice(), out = [];
+    while (out.length < n) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    box.innerHTML = out.map(function (c) { return '<span class="slot"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314"></span>'; }).join('');
+    live.textContent = out.map(function (c) { return c.name; }).join(', ');
+  }
+  var d1 = document.getElementById('draw1'), d3 = document.getElementById('draw3');
+  d1.addEventListener('click', function () { dealInto(document.getElementById('deal1'), 1); this.textContent = T.again; });
+  d3.addEventListener('click', function () { dealInto(document.getElementById('deal3'), 3); this.textContent = T.again; });
+  if (S.state === 'dealt') { dealInto(document.getElementById('deal1'), 1); dealInto(document.getElementById('deal3'), 3); }
+
+  function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === String(v)) + '">' + (label || v) + '</a>'; }
+  document.getElementById('board').innerHTML =
+    '<span class="grp"><b>Version</b>' + link('v','1','1 · docked note') + link('v','2','2 · highlighter') + link('v','3','3 · dotted trail') + '</span>' +
+    '<span class="grp"><b>Frame</b>' + [0,1,4,5,8].map(function (i) { return link('frame', i, 'f' + (i+1)); }).join('') + '</span>' +
+    '<span class="grp"><b>Card</b>' + [0,2,3].map(function (i) { return link('card', i, CARDS[i].name.split(' ')[0]); }).join('') + '</span>' +
+    '<span class="grp"><b>Lang</b>' + link('lang','en','EN') + link('lang','sk','SK') + '</span>' +
+    '<span class="grp"><b>Readings</b>' + link('state','','empty') + link('state','dealt','dealt') + '</span>';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S2 · The annotated print — three ways to link the note to the frame</title>
+<style>
+ :root { --paper:#FFFDF7; --ink:#222; --yellow:#FCF205; --row1:#69E7FD; --row2:#FFFE03; --row3:#75FEF4; }
+ * { box-sizing:border-box; }
+ body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 Inter, system-ui, sans-serif; }
+ .wrap { max-width:1280px; margin-inline:auto; padding:32px 20px 80px; }
+ h1 { font-size:28px; margin:0 0 6px; }
+ h2 { font-size:22px; margin:0 0 4px; }
+ .sub { max-width:72ch; margin:0 0 24px; }
+ .dir { border-top:2.5px solid var(--ink); padding-top:18px; margin-top:40px; }
+ .grid { display:grid; gap:24px; grid-template-columns:1fr; }
+ @media (min-width:960px){ .grid { grid-template-columns: minmax(0,1fr) 320px; align-items:start; } }
+ .shots { display:grid; gap:14px; grid-template-columns: minmax(0,1fr) 190px; align-items:start; }
+ @media (max-width:700px){ .shots { grid-template-columns:1fr; } }
+ .shot { border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; background:#fff; }
+ .shot img { display:block; width:100%; height:auto; }
+ .cap { font-size:13px; padding:4px 8px; border-top:1px solid #ddd; }
+ ul { margin:8px 0 14px; padding-left:18px; }
+ li { margin-bottom:6px; }
+ .cost li::marker { content:'– '; }
+ .links a { display:inline-block; margin:0 8px 8px 0; padding:6px 12px; border:1.5px solid var(--ink); border-radius:999px;
+   background:var(--yellow); color:inherit; text-decoration:none; font-size:14px; }
+ .links a.ghost { background:var(--paper); }
+ table { border-collapse:collapse; width:100%; font-size:14px; margin-top:10px; }
+ th, td { border-bottom:1px solid #ddd; padding:6px 8px; text-align:left; vertical-align:top; }
+ th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+ .sw { display:flex; gap:14px; flex-wrap:wrap; margin:12px 0 0; }
+ .sw div { border:1.5px solid var(--ink); border-radius:8px; padding:8px 12px; font-size:13px; }
+ .tag { display:inline-block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; border:1.5px solid var(--ink);
+   border-radius:999px; padding:1px 9px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>S2 · The annotated print — three ways to link the note to the frame</h1>
+<p class="sub">Everything that worked is untouched: the card beside the note, the enlarged frame with its explanation,
+the dimming and its opacity, Back / Next, "try another card". What changes in all three: the connector is redrawn from
+scratch, the three rows carry the deck's own colours, and the card picker sits somewhere different in each one so you can
+compare. Open a version and step through with the buttons or the arrow keys — the connector is measured off the lit frame,
+so it lands on it at any width.</p>
+
+<h2 style="margin-top:26px">The three row colours, sampled from the artwork</h2>
+<p class="sub" style="margin-bottom:0">Taken from the card files themselves, not chosen: these are the three most-used
+background colours in the deck. Note that the deck's "green" is a turquoise — there is no leafy green in the set.</p>
+<div class="sw">
+  <div style="background:var(--row1)"><b>Row 1 · What to understand</b><br>#69E7FD</div>
+  <div style="background:var(--row2)"><b>Row 2 · What to accept</b><br>#FFFE03</div>
+  <div style="background:var(--row3)"><b>Row 3 · What to transform</b><br>#75FEF4</div>
+</div>
+<p class="sub" style="margin-top:12px">The colour appears in three places at once: the note's header band, the ring around
+the enlarged frame in the note, and the nine step dots, grouped three by three. That last one is what makes the structure
+readable at a glance — three coloured clusters, not nine identical dots.</p>
+
+<section class="dir">
+<h2>1 · The docked note <span class="tag">no connector</span></h2>
+<p>The note is pressed against the card like a bookmark pushed into it. A tail on the note's edge slides up and down to sit
+exactly on the lit frame's row — nothing is drawn across a gap, because there is no gap. The note always stays on the right.
+<b>Picker:</b> directly under the card, with the card's name.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2b/v1-print-en-1440.png" alt="Version 1 at 1440"><div class="cap">1440 · the tail on frame 5</div></div>
+    <div class="shot"><img src="shots-s2b/v1-f4-en-390.png" alt="Version 1 at 390"><div class="cap">390</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>Nothing can be badly drawn, because nothing is drawn: the link is the contact itself.</li>
+      <li>The calmest of the three — the eye goes card → frame → note with no line to follow.</li>
+      <li>The tail is one transform, so it stays exact at every width, including the phone.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>The note never changes sides, so the layout is always the same shape.</li>
+      <li>The tail marks the row, not the single frame — the ring does the rest of the work.</li>
+      <li>The picker under the card pushes the section about 60px taller.</li>
+    </ul>
+    <p class="links"><a href="s2b.html?v=1">Open 1440</a><a class="ghost" href="s2b.html?v=1&frame=8">Bottom row</a><a class="ghost" href="s2b.html?v=1&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>2 · The highlighter run <span class="tag">marker stroke</span></h2>
+<p>A marker stroke in the row's colour sweeps out of the note and stops where the frame begins, with a fine pen line through
+it so it stays visible where it crosses the card. It draws itself in 300ms. The note alternates sides.
+<b>Picker:</b> on the control bar, with Back / Next — one row for everything you can do.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2b/v2-print-en-1440.png" alt="Version 2 at 1440"><div class="cap">1440 · the stroke ends on the frame's edge</div></div>
+    <div class="shot"><img src="shots-s2b/v2-f4-en-390.png" alt="Version 2 at 390"><div class="cap">390</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>It looks like someone marked the card by hand — the closest of the three to how the deck is drawn.</li>
+      <li>The colour is doing two jobs: it links the note to the frame and it names the row.</li>
+      <li>Every control sits on one bar, so the section ends 770px down at 1440 — the shortest of the three.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>It is still a line across a gap: it has to be recomputed on every step and every resize.</li>
+      <li>Over a yellow card the yellow row needs the pen line to stay visible — the colour alone isn't enough.</li>
+      <li>The picker on the control bar is busier than it looks in the screenshot once the names appear on hover.</li>
+    </ul>
+    <p class="links"><a href="s2b.html?v=2">Open 1440</a><a class="ghost" href="s2b.html?v=2&frame=5">Note on the right</a><a class="ghost" href="s2b.html?v=2&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>3 · The dotted trail and the hand <span class="tag">manicule</span></h2>
+<p>Ink dots run from the note and end in a pointing hand — the printer's manicule, in the deck's own white glove with an ink
+outline and a cuff in the row's colour. The fingertip sits five pixels off the lit frame. When the gap is too short for dots,
+the hand points on its own. <b>Picker:</b> up in the header, under the intro, before the card.</p>
+<div class="grid">
+  <div class="shots">
+    <div class="shot"><img src="shots-s2b/v3-print-en-1440.png" alt="Version 3 at 1440"><div class="cap">1440 · the hand on frame 5</div></div>
+    <div class="shot"><img src="shots-s2b/v3-f4-en-390.png" alt="Version 3 at 390"><div class="cap">390</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>A manicule is exactly what an annotated print has in the margin — the idea and the form agree.</li>
+      <li>The white glove is already in the artwork, so the hand belongs to the deck rather than to the website.</li>
+      <li>It points at one frame, unmistakably, and it is the most memorable of the three.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>The hand sits on top of the artwork for the middle and right columns — it covers a dimmed frame.</li>
+      <li>Most drawing to maintain: a hand, a trail, and the rule for when the trail is dropped.</li>
+      <li>The picker in the header pushes the card down; on the phone the note ends at 820px, close to the fold.</li>
+    </ul>
+    <p class="links"><a href="s2b.html?v=3">Open 1440</a><a class="ghost" href="s2b.html?v=3&frame=5">Note on the right</a><a class="ghost" href="s2b.html?v=3&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>Measured</h2>
+<table>
+<tr><th></th><th>1 · docked note</th><th>2 · highlighter</th><th>3 · hand</th></tr>
+<tr><td>1440 × 900 — two readings start at</td><td>778px</td><td>772px</td><td>772px</td></tr>
+<tr><td>390 × 844 — note ends at</td><td>673px</td><td>673px</td><td>820px</td></tr>
+<tr><td>Connector lands on the frame (vertical / horizontal error)</td><td>2px · docked</td><td>2.9px · 3px</td><td>4px · 5.5px</td></tr>
+<tr><td>Layout shift over six steps</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+<tr><td>Nothing past the content edge · no horizontal scroll</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Palette: ink, paper, yellow + the three artwork colours</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Keyboard: arrows step, names on focus in the picker</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Reduced motion: the connector appears without drawing</td><td>pass</td><td>pass</td><td>pass</td></tr>
+<tr><td>Chromium + WebKit, EN + SK, no console errors</td><td>pass</td><td>pass</td><td>pass</td></tr>
+</table>
+</section>
+</div>
+</body>
+</html>
