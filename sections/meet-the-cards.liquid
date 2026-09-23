@@ -33,7 +33,7 @@
 
 <script src="{{ 'walterin-cards.js' | asset_url }}" defer="defer"></script>
 
-<div class="wui-scope wui-meet" data-wui-meet>
+<div class="wui-scope wui-meet" data-wui-meet data-cue="{{ section.settings.cue }}">
   <div class="wui-wrap">
     <div class="wui-meet__head">
       <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
@@ -51,21 +51,24 @@
         -%}
         {%- if file != blank -%}
           <div class="wui-mcard" data-wui-slot="{{ forloop.index0 }}">
-            <div class="wui-mcard__flip" data-wui-flip>
-              <button class="wui-mcard__tilt" type="button" data-wui-open aria-label="{{ name | escape }}">
+            <div class="wui-mcard__stage" data-wui-tilt>
+              <div class="wui-mcard__flip" data-wui-flip aria-hidden="true">
                 <img
                   src="{{ file | asset_url }}"
-                  alt="{{ name | escape }}"
+                  alt=""
                   width="800"
                   height="1314"
                   loading="lazy"
                   decoding="async"
                   data-wui-card-img
                 >
-                <span class="wui-mcard__sheen" aria-hidden="true"></span>
-              </button>
+                <span class="wui-mcard__sheen"></span>
+                <span class="wui-mcard__fold"></span>
+              </div>
+              {%- comment -%} The hit area never rotates: a click lands whatever the flip is doing. {%- endcomment -%}
+              <button class="wui-mcard__hit" type="button" data-wui-open aria-label="{{ name | escape }}"></button>
             </div>
-            <span class="wui-mcard__cap" data-wui-card-name>{{ name | escape }}</span>
+            <span class="wui-mcard__cap" data-read="{{ section.settings.read_label | escape }}" data-wui-card-name>{{ name | escape }}</span>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -167,23 +170,16 @@
     padding-bottom: var(--wui-sh);
   }
   .wui .wui-mcard { position: relative; }
-  .wui .wui-mcard__flip { transform-style: preserve-3d; will-change: transform; }
-  .wui .wui-mcard__tilt {
+  .wui .wui-mcard__stage {
     position: relative;
     display: block;
-    width: 100%;
-    padding: 0;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    /* lift + a shadow that leans the way the card is tilted */
-    transform: perspective(900px) rotateX(var(--wui-ry, 0deg)) rotateY(var(--wui-rx, 0deg)) translateY(var(--wui-lift, 0px));
-    transition: transform 0.18s var(--wui-ease);
+    /* lift + tilt live here, so the flip underneath stays a clean rotateY */
+    transform: perspective(820px) rotateX(var(--wui-ry, 0deg)) rotateY(var(--wui-rx, 0deg)) translateY(var(--wui-lift, 0px));
+    transition: transform 0.16s var(--wui-ease);
   }
-  /* while the pointer drives the tilt, the script interpolates it: a CSS transition on top of
-     that is what made it jitter and stick */
-  .wui .wui-mcard__tilt.is-tilting { transition: none; }
-  .wui .wui-mcard__tilt img {
+  .wui .wui-mcard__stage.is-tilting { transition: none; } /* the script drives it frame by frame */
+  .wui .wui-mcard__flip { transform-style: preserve-3d; will-change: transform; pointer-events: none; }
+  .wui .wui-mcard__flip img {
     width: 100%;
     height: auto;
     aspect-ratio: 800 / 1314;
@@ -192,32 +188,100 @@
     border-radius: var(--wui-radius);
     background: var(--wui-paper);
     backface-visibility: hidden;
-    box-shadow: var(--wui-shadow);
-    transition: box-shadow 0.18s var(--wui-ease);
+    /* a lighter, softer hard shadow than the buy column's: the cards should float, not thud */
+    box-shadow: 3px 3px 0 rgb(34 34 34 / 0.28);
+    transition: box-shadow 0.16s var(--wui-ease);
   }
-  .wui .wui-mcard__tilt:hover { --wui-lift: -6px; }
-  .wui .wui-mcard__tilt:hover img {
-    box-shadow: calc(var(--wui-sh) + (var(--wui-rxn, 0) * 4px)) calc(var(--wui-sh) + 3px) 0 var(--wui-ink);
+  .wui .wui-mcard__hit {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: var(--wui-radius);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   .wui .wui-mcard__sheen {
     position: absolute;
     inset: 0;
     border-radius: var(--wui-radius);
     pointer-events: none;
-    background: radial-gradient(240px circle at var(--wui-mx, 50%) var(--wui-my, 0%), rgb(255 255 255 / 0.55), transparent 60%);
+    background:
+      radial-gradient(260px circle at var(--wui-mx, 50%) var(--wui-my, 0%), rgb(255 255 255 / 0.68), transparent 62%),
+      linear-gradient(105deg, transparent 38%, rgb(255 255 255 / 0.30) 50%, transparent 62%);
+    background-position: 0 0, calc((var(--wui-mxn, 0) * 120%) + 50%) 0;
+    background-size: auto, 220% 100%;
     opacity: 0;
-    transition: opacity 0.18s var(--wui-ease);
+    transition: opacity 0.16s var(--wui-ease);
   }
-  .wui .wui-mcard__tilt:hover .wui-mcard__sheen,
-  .wui .wui-mcard__tilt:focus-visible .wui-mcard__sheen { opacity: 1; }
+  .wui .wui-mcard:hover .wui-mcard__sheen,
+  .wui .wui-mcard:focus-within .wui-mcard__sheen { opacity: 1; }
+  .wui .wui-mcard:hover .wui-mcard__stage { --wui-lift: -8px; }
+  .wui .wui-mcard:hover .wui-mcard__flip img { box-shadow: calc(5px + (var(--wui-rxn, 0) * 6px)) 7px 0 rgb(34 34 34 / 0.22); }
   .wui .wui-mcard__cap { display: block; margin-top: 10px; font-size: var(--wui-fs-small); }
-  /* the card settles after a flip, the way a card dropped on a table does */
-  .wui .wui-mcard.is-settling .wui-mcard__tilt { animation: wui-settle 0.22s var(--wui-ease); }
+  .wui .wui-mcard.is-settling .wui-mcard__stage { animation: wui-settle 0.22s var(--wui-ease); }
   @keyframes wui-settle {
     0% { transform: rotateY(-3deg); }
     60% { transform: rotateY(1.4deg); }
     100% { transform: rotateY(0deg); }
   }
+
+  /* ---- Cue A · the name is marked in yellow, and the marker fills on hover ---- */
+  .wui .wui-meet[data-cue='marker'] .wui-mcard__cap {
+    display: inline-block;
+    padding: 0 3px;
+    background-image: linear-gradient(var(--wui-yellow), var(--wui-yellow));
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    background-size: 100% 3px;
+    transition: background-size 0.18s var(--wui-ease);
+  }
+  .wui .wui-meet[data-cue='marker'] .wui-mcard:hover .wui-mcard__cap,
+  .wui .wui-meet[data-cue='marker'] .wui-mcard:focus-within .wui-mcard__cap { background-size: 100% 42%; }
+
+  /* ---- Cue B · a turned-up corner, drawn in ink, that lifts further on hover ---- */
+  .wui .wui-mcard__fold { display: none; }
+  .wui .wui-meet[data-cue='fold'] .wui-mcard__fold {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    border-top-right-radius: var(--wui-radius);
+    /* a corner of paper lifted off the card: paper, then the ink fold line along the diagonal */
+    background: linear-gradient(225deg,
+      var(--wui-paper) 0 58%,
+      var(--wui-ink) 58% 66%,
+      transparent 66%);
+    transform-origin: 100% 0;
+    transform: scale(0.72);
+    transition: transform 0.18s var(--wui-ease);
+  }
+  .wui .wui-meet[data-cue='fold'] .wui-mcard:hover .wui-mcard__fold,
+  .wui .wui-meet[data-cue='fold'] .wui-mcard:focus-within .wui-mcard__fold { transform: scale(1.12); }
+
+  /* ---- Cue C · a small ink tag under the card ---- */
+  .wui .wui-meet[data-cue='tag'] .wui-mcard__cap { display: flex; align-items: center; gap: 8px; }
+  .wui .wui-meet[data-cue='tag'] .wui-mcard__cap::after {
+    content: attr(data-read);
+    content: attr(data-read);
+    font-family: var(--wui-display);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border: 1.5px solid var(--wui-ink);
+    border-radius: 4px;
+    transition: background-color 0.16s var(--wui-ease);
+  }
+  .wui .wui-meet[data-cue='tag'] .wui-mcard:hover .wui-mcard__cap::after,
+  .wui .wui-meet[data-cue='tag'] .wui-mcard:focus-within .wui-mcard__cap::after { background: var(--wui-yellow); }
 
   .wui .wui-pile { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 132px; }
   .wui .wui-pile__stack { position: relative; width: 120px; aspect-ratio: 800 / 1280; }
@@ -230,7 +294,7 @@
     border: var(--wui-line) solid var(--wui-ink);
     border-radius: var(--wui-radius);
     background: #fff;
-    box-shadow: var(--wui-shadow);
+    box-shadow: 3px 3px 0 rgb(34 34 34 / 0.28);
   }
   .wui .wui-pile__stack img:nth-child(1) { transform: rotate(-7deg) translate(-7px, 5px); }
   .wui .wui-pile__stack img:nth-child(2) { transform: rotate(4deg) translate(5px, 2px); }
@@ -346,6 +410,13 @@
     { "type": "number", "id": "deck_size", "label": "Tarot cards in the deck", "info": "The pile shows this minus the preview cards. The two extra cards don't count.", "default": 78 },
     { "type": "text", "id": "pile_label", "label": "Pile caption", "default": "In the box" },
     { "type": "text", "id": "pile_alt", "label": "Pile alt text", "default": "The printed card back" },
+    { "type": "select", "id": "cue", "label": "How a card shows it can be opened", "options": [
+      { "value": "marker", "label": "A · yellow marker under the name" },
+      { "value": "fold", "label": "B · a turned-up corner" },
+      { "value": "tag", "label": "C · a small READ tag" },
+      { "value": "none", "label": "Nothing extra" }
+    ], "default": "marker" },
+    { "type": "text", "id": "read_label", "label": "Tag word (cue C)", "default": "Read" },
 
     { "type": "header", "content": "They turn on their own" },
     { "type": "text", "id": "hint", "label": "Hint (fades away)", "default": "They flip on their own. Pause them, or click one to read it." },

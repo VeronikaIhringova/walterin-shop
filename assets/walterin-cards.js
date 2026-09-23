@@ -8,9 +8,10 @@
   Rules that keep it from feeling buggy:
   - A click always opens the card that is on screen. What a slot *shows* is tracked separately
     from what it has *reserved*, so a click during a flip can never open the next card.
-  - Touching or pointing at a card holds that slot still, so nothing turns under the finger.
-  - Turning stops while the pointer is anywhere over the row, while focus is inside it, while the
-    sheet is open, while the tab is hidden, and whenever the pause control says so (WCAG 2.2.2).
+  - The click target never rotates: it sits over the card, outside the flipping element, so a
+    click lands on the first try whatever the flip is doing, on mouse, touch and keyboard alike.
+  - Turning stops for the pause control, the open sheet and a hidden tab. Hovering does not stop
+    it: the live section doesn't either, and the cards would otherwise look frozen.
   - The tilt is interpolated frame by frame, only one card is ever tilted, and the tilt is dropped
     while a card is flipping. Leaving, cancelling or losing the pointer all reset it.
   - prefers-reduced-motion: no turning, no tilt, no settle. Everything still works.
@@ -24,8 +25,8 @@
   var HALF = 280;                                    // each half of the flip
   var MIN_WAIT = 2500, MAX_WAIT = 4300;              // between flips
   var STAGGER = 650;                                 // between the slots' first flips
-  var HOLD = 2000;                                   // a touched or pointed-at slot holds still
-  var TILT = 8;                                      // degrees, corner to corner
+  var TILT = 13;                                     // degrees, corner to corner
+  var FOLLOW = 0.4;                                  // how fast the tilt catches the pointer
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
@@ -52,12 +53,9 @@
     var reserved = shown.slice();
     var animating = slots.map(function () { return false; });
     var running = slots.map(function () { return null; });   // the flip in flight, so pause can stop it
-    var hold = slots.map(function () { return 0; });
     var timers = [];
     var paused = reduce;
     var sheetOpen = false;
-    var pointerInRow = false;
-    var focusInRow = false;
 
     // Preload and decode the set: the swap happens edge-on, and a half-loaded image would leave
     // the old picture standing under the new name.
@@ -96,9 +94,11 @@
       clearTimeout(timers[slot]);
       timers[slot] = setTimeout(function () { flip(slot); }, wait || randInt(MIN_WAIT, MAX_WAIT));
     }
+    // The live section pauses for nothing but the tab going away; we add the pause control and
+    // the open sheet. Hovering does NOT stop the row: the click target never rotates, so a card
+    // turning under the cursor can't cost anyone a click.
     function blocked(slot) {
-      return paused || sheetOpen || pointerInRow || focusInRow || document.hidden ||
-             animating[slot] || now() < hold[slot] || !canRotate();
+      return paused || sheetOpen || document.hidden || animating[slot] || !canRotate();
     }
 
     function flip(slot) {
@@ -111,7 +111,6 @@
       var el = slots[slot];
       var flipper = $('[data-wui-flip]', el);
       var card = cards[next];
-      resetTilt(el);                                  // a flipping card is never tilted
 
       var away = flipper.animate(
         [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }],
@@ -154,18 +153,8 @@
 
     /* ---------- the row holds still while anyone is near it ---------- */
     var row = $('[data-wui-row]', root);
-    var leaveTimer = null;
-    row.addEventListener('pointerenter', function () { pointerInRow = true; clearTimeout(leaveTimer); });
-    row.addEventListener('pointerleave', function () {
-      clearTimeout(leaveTimer);
-      leaveTimer = setTimeout(function () { pointerInRow = false; }, 1200);
-      resetTilt();
-    });
+    row.addEventListener('pointerleave', function () { resetTilt(); });
     row.addEventListener('pointercancel', function () { resetTilt(); });
-    row.addEventListener('focusin', function () { focusInRow = true; });
-    row.addEventListener('focusout', function () {
-      setTimeout(function () { focusInRow = !!(document.activeElement && row.contains(document.activeElement)); }, 0);
-    });
     window.addEventListener('blur', function () { resetTilt(); });
 
     /* ---------- tilt: one card at a time, interpolated, never during a flip ---------- */
@@ -174,6 +163,7 @@
       el.style.setProperty('--wui-rx', (x * TILT).toFixed(2) + 'deg');
       el.style.setProperty('--wui-ry', (-y * TILT).toFixed(2) + 'deg');
       el.style.setProperty('--wui-rxn', x.toFixed(3));
+      el.style.setProperty('--wui-mxn', x.toFixed(3));
       if (mx != null) {
         el.style.setProperty('--wui-mx', (mx * 100).toFixed(1) + '%');
         el.style.setProperty('--wui-my', (my * 100).toFixed(1) + '%');
@@ -181,8 +171,8 @@
     }
     function step() {
       if (!tiltEl) { raf = null; return; }
-      cur.x += (target.x - cur.x) * 0.22;             // a soft follow instead of a snap
-      cur.y += (target.y - cur.y) * 0.22;
+      cur.x += (target.x - cur.x) * FOLLOW;           // catches up fast, but never in one jump
+      cur.y += (target.y - cur.y) * FOLLOW;
       writeTilt(tiltEl, cur.x, cur.y);
       if (Math.abs(target.x - cur.x) < 0.002 && Math.abs(target.y - cur.y) < 0.002) {
         writeTilt(tiltEl, target.x, target.y);
@@ -205,9 +195,9 @@
       el.classList.remove('is-tilting');
     }
     if (!reduce) slots.forEach(function (el, i) {
-      var t = $('[data-wui-open]', el);
-      t.addEventListener('pointermove', function (e) {
-        if (e.pointerType === 'touch' || animating[i]) return;
+      var t = $('[data-wui-tilt]', el);          // the stage, not the button: tilt survives a flip
+      el.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
         if (tiltEl && tiltEl !== t) { hardReset(tiltEl); }   // only ever one tilted card
         if (tiltEl !== t) { cur.x = 0; cur.y = 0; tiltEl = t; tiltSlot = i; t.classList.add('is-tilting'); }
         var r = t.getBoundingClientRect();
@@ -216,11 +206,8 @@
         target.y = Math.max(-0.5, Math.min(0.5, y - 0.5));
         writeTilt(t, cur.x, cur.y, x, y);
         if (!raf) raf = requestAnimationFrame(step);
-        hold[i] = now() + HOLD;                              // don't turn under the cursor
       });
-      t.addEventListener('pointerleave', function () { resetTilt(); });
-      t.addEventListener('pointerdown', function () { hold[i] = now() + HOLD; clearTimeout(timers[i]); schedule(i); });
-      t.addEventListener('focus', function () { hold[i] = now() + HOLD; });
+      el.addEventListener('pointerleave', function () { resetTilt(); });
     });
 
     /* ---------- the hint fades once, then never comes back ---------- */
@@ -249,7 +236,7 @@
         pause.setAttribute('aria-pressed', String(paused));
         pause.setAttribute('aria-label', paused ? pause.dataset.labelPlay : pause.dataset.labelPause);
         pause.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
-        if (!paused) slots.forEach(function (_, i) { hold[i] = 0; schedule(i, randInt(400, 1200)); });
+        if (!paused) slots.forEach(function (_, i) { schedule(i, randInt(400, 1200)); });
       });
     }
 
@@ -270,24 +257,14 @@
     /* ---------- the card sheet: always the card you can see ---------- */
     var sheet = $('[data-wui-sheet]', root);
     var opener = null;
-    // A swipe along the row must not open a card: remember where the pointer went down.
-    var downAt = null;
-    var swiped = false;
-    row.addEventListener('pointerdown', function (e) { downAt = { x: e.clientX, y: e.clientY }; });
-    row.addEventListener('pointerup', function (e) {
-      if (!downAt) return;
-      var moved = Math.abs(e.clientX - downAt.x) + Math.abs(e.clientY - downAt.y);
-      downAt = null;
-      if (moved > 12) { swiped = true; setTimeout(function () { swiped = false; }, 350); }
-    });
+
     root.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-wui-open]');
-      if (!btn || swiped) return;
+      if (!btn) return;
       var el = btn.closest('[data-wui-slot]');
       var i = slots.indexOf(el);
       if (i < 0) return;
       var card = cards[shown[i]];                    // what is on screen, not what is reserved
-      hold[i] = now() + HOLD;
       if (!sheet || typeof sheet.showModal !== 'function') return;   // no dialog support: leave the card alone
       e.preventDefault();
       opener = btn;
