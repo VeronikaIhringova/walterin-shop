@@ -26,9 +26,10 @@
 - "Guide cards" is retired. 80 = the box, 78 = the tarot (SEO keeps 78).
 - Tuck box (Walterin logo top, Magician on the front, red back panel).
 - Illustrated by Walter Ihring. Inspired by Rider–Waite.
-- Specs: **card stock 270 g/m², finish matte** (confirmed 23 Sep 2026). Size, print, corners and box
-  material stay TBD from Walter or the printer. The old "84 × 138 mm / Full-colour CMYK / Premium
-  cardstock" came from the outdated metafield and is off the site.
+- Specs, confirmed by Walter 23 Sep 2026: **84 × 138 mm · full-colour CMYK · 270 g/m² · matte.**
+  Corners and box material still TBD.
+- Card artwork is English on every site (decided 23 Sep 2026): there is no second image set.
+- Captions for all nine frames of the ten available preview cards: `docs/design/data/preview-cards.json`.
 
 ## 3. Variants (Shopify)
 

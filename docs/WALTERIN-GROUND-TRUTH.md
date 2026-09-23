@@ -59,13 +59,16 @@
 - **No launch date** anywhere until a real date exists.
 - Before launch: notify-me form. Tags `tarot-waitlist`, `tarot-waitlist-en` / `tarot-waitlist-sk`. **One optional newsletter checkbox** (Veronka, 22 Sep 2026), unticked by default; the tag `newsletter` is added only when it is ticked.
 - Pre-order vs notify-me: undecided (Veronka + Walter).
-- **Never show the full deck.** Only the 12-card preview set: The Magician, The Fool, The Hermit, Wheel of Fortune, The Star, The Sun, Two of Wands, Knight of Wands, Six of Cups, Seven of Swords, Two of Pentacles, Seven of Pentacles.
+- **Never show the full deck.** Only the preview set (10 of the 12 named cards exist as artwork;
+  The Hermit and The Sun are still missing). The pile in "Meet the cards" counts itself: 78 minus
+  the preview cards, so it can never go stale. Card artwork stays **English on every site**;
+  the interface and the copy around it are translated. Full list: The Magician, The Fool, The Hermit, Wheel of Fortune, The Star, The Sun, Two of Wands, Knight of Wands, Six of Cups, Seven of Swords, Two of Pentacles, Seven of Pentacles.
 - **Naming:** EN only "nine-frame comic" or "nine-frame path"; SK "deväťobrázkový komiks" and "cesta v deviatich krokoch". Never "9-layer system", "9-frame system" or "nine-frame system".
 - **Reading systems:** "Card of the day" and "Reading of consciousness" (what to understand / accept / transform). The nine-frame path is the guide inside every card.
-- Specs. **Confirmed (Veronka, 23 Sep 2026): card stock 270 g/m², finish matte.**
-  Still TBD from Walter or the printer, and never guessed: size, print process, corners, box material.
-  ⚠️ "84 × 138 mm", "Full-colour CMYK" and "Premium cardstock" came from the outdated admin metafield
-  and were removed from the site on 23 Sep 2026. Don't put them back without the printer.
+- Specs. **Confirmed by Walter (23 Sep 2026): size 84 × 138 mm · print full-colour CMYK ·
+  card stock 270 g/m² · finish matte.** Shown as six items in "Meet the cards" together with
+  Cards (80 · in the box) and Structure (22 Major · 56 Minor).
+  Still TBD and never guessed: corners, box material.
 - Reviews: hidden until real, verified reviews exist. Judge.me uninstalled; review tool TBD.
 - Product description and metafields in admin are outdated (still say "hand-signed", "9-layer"). To be rewritten.
 

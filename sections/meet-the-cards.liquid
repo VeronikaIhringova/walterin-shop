@@ -1,0 +1,363 @@
+{% comment %}
+  Walterin · Meet the cards (tarot product page). Replaces "What's inside?" (whats-inside.liquid).
+  Design system: assets/walterin-ui.css (body.wui). Behaviour: assets/walterin-cards.js.
+
+  Four cards in one row plus the pile of printed backs. The cards turn on their own, with the
+  flip copied from the old section to the millisecond: rotateY 0→90 in 280ms (power1.in), swap,
+  −90→0 in 280ms (power1.out); 2500–4300ms between flips; the four start staggered so they never
+  move in sync. WCAG 2.2.2: a real pause control, not only "pauses while you interact".
+
+  Only the preview set is ever shown (ground truth §3: never the full deck). The set is the
+  "Preview cards" setting, one card per line as `file.jpg | Card name`. The pile counts itself:
+  78 tarot cards minus however many preview cards are listed, so it can never go stale.
+
+  Phones keep the single row as a swipe strip: never 2×2, never one card at a time.
+{% endcomment %}
+{%- liquid
+  assign lines = section.settings.cards | strip | newline_to_br | split: '<br />'
+  assign count = 0
+  for line in lines
+    if line != blank
+      assign count = count | plus: 1
+    endif
+  endfor
+  assign rest = section.settings.deck_size | minus: count
+-%}
+
+{%- style -%}
+  /* Asset URLs built by Liquid. The section stylesheet block below is static CSS, so the star
+     images have to be set from here. */
+  .wui .wui-spec__label::before { background-image: url({{ 'wi-star.png' | asset_url }}); }
+  .wui .wui-spec:nth-child(2n) .wui-spec__label::before { background-image: url({{ 'wi-star2.png' | asset_url }}); }
+{%- endstyle -%}
+
+<script src="{{ 'walterin-cards.js' | asset_url }}" defer="defer"></script>
+
+<div class="wui-scope wui-meet" data-wui-meet>
+  <div class="wui-wrap">
+    <div class="wui-meet__head">
+      <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.lead != blank -%}
+        <p class="wui-meet__lead">{{ section.settings.lead | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="wui-meet__row" data-wui-row>
+      {%- for line in lines limit: 4 -%}
+        {%- liquid
+          assign parts = line | strip | split: '|'
+          assign file = parts[0] | strip
+          assign name = parts[1] | strip
+        -%}
+        {%- if file != blank -%}
+          <div class="wui-mcard" data-wui-slot="{{ forloop.index0 }}">
+            <div class="wui-mcard__flip" data-wui-flip>
+              <button class="wui-mcard__tilt" type="button" data-wui-open aria-label="{{ name | escape }}">
+                <img
+                  src="{{ file | asset_url }}"
+                  alt="{{ name | escape }}"
+                  width="800"
+                  height="1314"
+                  loading="lazy"
+                  decoding="async"
+                  data-wui-card-img
+                >
+                <span class="wui-mcard__sheen" aria-hidden="true"></span>
+              </button>
+            </div>
+            <span class="wui-mcard__cap" data-wui-card-name>{{ name | escape }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="wui-pile">
+        <div class="wui-pile__stack">
+          <img src="{{ 'card-back.png' | asset_url }}" alt="" width="800" height="1280" loading="lazy">
+          <img src="{{ 'card-back.png' | asset_url }}" alt="" width="800" height="1280" loading="lazy">
+          <img src="{{ 'card-back.png' | asset_url }}" alt="{{ section.settings.pile_alt | escape }}" width="800" height="1280" loading="lazy">
+          <span class="wui-pile__n">+{{ rest }}</span>
+        </div>
+        <span class="wui-small">{{ section.settings.pile_label | escape }}</span>
+      </div>
+    </div>
+
+    <div class="wui-meet__foot">
+      <button
+        class="wui-meet__pause"
+        type="button"
+        data-wui-pause
+        aria-pressed="false"
+        aria-label="{{ section.settings.pause_label | escape }}"
+        data-label-play="{{ section.settings.play_label | escape }}"
+        data-label-pause="{{ section.settings.pause_label | escape }}"
+      >
+        <svg class="wui-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <rect x="3" y="2" width="4" height="12" rx="1"></rect><rect x="9" y="2" width="4" height="12" rx="1"></rect>
+        </svg>
+      </button>
+      {%- if section.settings.hint != blank -%}
+        <span class="wui-meet__hint" data-wui-hint>{{ section.settings.hint | escape }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- liquid
+      assign spec_labels = section.settings.spec_labels | split: '|'
+      assign spec_values = section.settings.spec_values | split: '|'
+    -%}
+    {%- if spec_labels.size > 0 -%}
+      <dl class="wui-specs">
+        {%- for label in spec_labels -%}
+          {%- if spec_values[forloop.index0] != blank -%}
+            <div class="wui-spec">
+              <dt class="wui-spec__label">{{ label | strip | escape }}</dt>
+              <dd class="wui-spec__value">{{ spec_values[forloop.index0] | strip | escape }}</dd>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} The whole preview set, for the rotation. Never more than these cards. {%- endcomment -%}
+  <script type="application/json" data-wui-cards>
+    [
+      {%- assign i = 0 -%}
+      {%- for line in lines -%}
+        {%- liquid
+          assign parts = line | strip | split: '|'
+          assign file = parts[0] | strip
+          assign name = parts[1] | strip
+          assign suit = file | remove: 'wi-' | split: '-' | first
+        -%}
+        {%- if file != blank -%}
+          {%- if i > 0 %},{% endif -%}
+          { "src": {{ file | asset_url | json }}, "name": {{ name | json }}, "suit": {{ suit | json }} }
+          {%- assign i = i | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  </script>
+
+  {%- if section.settings.enable_sheet -%}
+    <dialog class="wui-sheet" data-wui-sheet aria-label="{{ section.settings.sheet_label | escape }}">
+      <div class="wui-sheet__body">
+        <h3 class="wui-label" data-wui-sheet-name></h3>
+        <img alt="" width="800" height="1314" data-wui-sheet-img>
+        <button class="wui-btn wui-btn--sm wui-btn--secondary" type="button" data-wui-sheet-close>
+          {{- section.settings.close_label | escape -}}
+        </button>
+      </div>
+    </dialog>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .wui .wui-meet { padding-block: var(--wui-48); }
+  @media (min-width: 990px) { .wui .wui-meet { padding-block: var(--wui-96); } }
+  .wui .wui-meet__head { display: flex; flex-direction: column; gap: var(--wui-12); margin-bottom: var(--wui-48); }
+  .wui .wui-meet__lead { font-size: var(--wui-fs-body); line-height: 1.45; }
+
+  /* One row, always: four cards and the pile. Phones keep the row and scroll it. */
+  .wui .wui-meet__row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    gap: var(--wui-24);
+    align-items: start;
+    perspective: 1600px;
+    padding-bottom: var(--wui-sh);
+  }
+  .wui .wui-mcard { position: relative; }
+  .wui .wui-mcard__flip { transform-style: preserve-3d; will-change: transform; }
+  .wui .wui-mcard__tilt {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    /* lift + a shadow that leans the way the card is tilted */
+    transform: perspective(900px) rotateX(var(--wui-ry, 0deg)) rotateY(var(--wui-rx, 0deg)) translateY(var(--wui-lift, 0px));
+    transition: transform 0.18s var(--wui-ease);
+  }
+  .wui .wui-mcard__tilt img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 800 / 1314;
+    object-fit: cover;
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    background: var(--wui-paper);
+    backface-visibility: hidden;
+    box-shadow: var(--wui-shadow);
+    transition: box-shadow 0.18s var(--wui-ease);
+  }
+  .wui .wui-mcard__tilt:hover { --wui-lift: -6px; }
+  .wui .wui-mcard__tilt:hover img {
+    box-shadow: calc(var(--wui-sh) + (var(--wui-rxn, 0) * 4px)) calc(var(--wui-sh) + 3px) 0 var(--wui-ink);
+  }
+  .wui .wui-mcard__sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--wui-radius);
+    pointer-events: none;
+    background: radial-gradient(240px circle at var(--wui-mx, 50%) var(--wui-my, 0%), rgb(255 255 255 / 0.55), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.18s var(--wui-ease);
+  }
+  .wui .wui-mcard__tilt:hover .wui-mcard__sheen,
+  .wui .wui-mcard__tilt:focus-visible .wui-mcard__sheen { opacity: 1; }
+  .wui .wui-mcard__cap { display: block; margin-top: 10px; font-size: var(--wui-fs-small); }
+  /* the card settles after a flip, the way a card dropped on a table does */
+  .wui .wui-mcard.is-settling .wui-mcard__tilt { animation: wui-settle 0.22s var(--wui-ease); }
+  @keyframes wui-settle {
+    0% { transform: rotateY(-3deg); }
+    60% { transform: rotateY(1.4deg); }
+    100% { transform: rotateY(0deg); }
+  }
+
+  .wui .wui-pile { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 132px; }
+  .wui .wui-pile__stack { position: relative; width: 120px; aspect-ratio: 800 / 1280; }
+  .wui .wui-pile__stack img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    background: #fff;
+    box-shadow: var(--wui-shadow);
+  }
+  .wui .wui-pile__stack img:nth-child(1) { transform: rotate(-7deg) translate(-7px, 5px); }
+  .wui .wui-pile__stack img:nth-child(2) { transform: rotate(4deg) translate(5px, 2px); }
+  .wui .wui-pile__n {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%) rotate(-4deg);
+    padding: 2px 10px;
+    font-family: var(--wui-display);
+    font-size: 26px;
+    line-height: 1.2;
+    background: var(--wui-yellow);
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: 6px;
+  }
+
+  .wui .wui-meet__foot { display: flex; align-items: flex-start; gap: var(--wui-12); margin-top: var(--wui-16); }
+  .wui .wui-meet__pause {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .wui .wui-meet__pause .wui-icon { width: 16px; height: 16px; fill: var(--wui-ink); }
+  .wui .wui-meet__hint { font-size: var(--wui-fs-small); line-height: 1.45; transition: opacity 0.6s var(--wui-ease); }
+  .wui .wui-meet__hint.is-gone { opacity: 0; }
+
+  /* Spec strip: a star before every label, alternating and each one turned a little. Ink, no grey. */
+  .wui .wui-specs { margin-top: 64px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px clamp(38px, 5vw, 76px); }
+  .wui .wui-spec { text-align: left; }
+  .wui .wui-spec__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--wui-body);
+    font-size: 11px;
+    line-height: 1.3;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .wui .wui-spec__label::before {
+    content: '';
+    flex: none;
+    width: 19px;
+    height: 19px;
+    background: center / contain no-repeat; /* the image itself is set in the Liquid style block above */
+  }
+  .wui .wui-spec:nth-child(1) .wui-spec__label::before { transform: rotate(-8deg); }
+  .wui .wui-spec:nth-child(2) .wui-spec__label::before { transform: rotate(11deg); }
+  .wui .wui-spec:nth-child(3) .wui-spec__label::before { transform: rotate(6deg) scaleX(-1); }
+  .wui .wui-spec:nth-child(4) .wui-spec__label::before { transform: rotate(-13deg); }
+  .wui .wui-spec:nth-child(5) .wui-spec__label::before { transform: rotate(15deg); }
+  .wui .wui-spec:nth-child(6) .wui-spec__label::before { transform: rotate(-6deg) scaleX(-1); }
+  .wui .wui-spec__value { margin: 0; font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* The card sheet */
+  .wui .wui-sheet {
+    width: min(460px, calc(100% - 32px));
+    padding: var(--wui-24);
+    background: var(--wui-paper);
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    box-shadow: var(--wui-shadow);
+  }
+  .wui .wui-sheet::backdrop { background: rgb(34 34 34 / 0.55); }
+  .wui .wui-sheet__body { display: grid; gap: var(--wui-16); justify-items: start; }
+  .wui .wui-sheet__body img { width: 100%; border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); }
+
+  @media (max-width: 749px) {
+    .wui .wui-meet__row {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 210px;
+      gap: var(--wui-16);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      padding-bottom: var(--wui-12);
+    }
+    .wui .wui-mcard { scroll-snap-align: start; }
+    .wui .wui-pile { width: 160px; }
+    .wui .wui-pile__stack { width: 150px; }
+    .wui .wui-specs { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; justify-content: start; gap: 22px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wui .wui-mcard__tilt,
+    .wui .wui-mcard__tilt img,
+    .wui .wui-meet__hint { transition: none !important; }
+    .wui .wui-mcard.is-settling .wui-mcard__tilt { animation: none !important; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Walterin · Meet the cards",
+  "tag": "section",
+  "class": "wui-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Meet the cards" },
+    { "type": "text", "id": "lead", "label": "Line under the heading", "default": "Ten of the seventy-eight, drawn the way they are printed." },
+    { "type": "textarea", "id": "cards", "label": "Preview cards", "info": "One per line: file.jpg | Card name. Only these are ever shown, and the pile counts itself from them.", "default": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles" },
+    { "type": "number", "id": "deck_size", "label": "Tarot cards in the deck", "info": "The pile shows this minus the preview cards. The two extra cards don't count.", "default": 78 },
+    { "type": "text", "id": "pile_label", "label": "Pile caption", "default": "In the box" },
+    { "type": "text", "id": "pile_alt", "label": "Pile alt text", "default": "The printed card back" },
+
+    { "type": "header", "content": "They turn on their own" },
+    { "type": "text", "id": "hint", "label": "Hint (fades away)", "default": "They turn on their own. Tap one to read it." },
+    { "type": "text", "id": "pause_label", "label": "Pause button", "default": "Pause the cards" },
+    { "type": "text", "id": "play_label", "label": "Play button", "default": "Let them turn again" },
+
+    { "type": "header", "content": "Card sheet" },
+    { "type": "checkbox", "id": "enable_sheet", "label": "Open a card when it is clicked", "default": true },
+    { "type": "text", "id": "sheet_label", "label": "Sheet label (screen readers)", "default": "The card, larger" },
+    { "type": "text", "id": "close_label", "label": "Close button", "default": "Close" },
+
+    { "type": "header", "content": "Specs" },
+    { "type": "text", "id": "spec_labels", "label": "Labels", "info": "Separated by |", "default": "Cards|Structure|Size|Print|Material|Finish" },
+    { "type": "text", "id": "spec_values", "label": "Values", "info": "Separated by |", "default": "80 · in the box|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|270 g/m²|Matte" }
+  ],
+  "presets": [ { "name": "Walterin · Meet the cards" } ]
+}
+{% endschema %}
