@@ -62,7 +62,10 @@
 - **Never show the full deck.** Only the 12-card preview set: The Magician, The Fool, The Hermit, Wheel of Fortune, The Star, The Sun, Two of Wands, Knight of Wands, Six of Cups, Seven of Swords, Two of Pentacles, Seven of Pentacles.
 - **Naming:** EN only "nine-frame comic" or "nine-frame path"; SK "deväťobrázkový komiks" and "cesta v deviatich krokoch". Never "9-layer system", "9-frame system" or "nine-frame system".
 - **Reading systems:** "Card of the day" and "Reading of consciousness" (what to understand / accept / transform). The nine-frame path is the guide inside every card.
-- Specs (size, paper, finish, corners, box): TBD, from Walter or the printer. Never guess.
+- Specs. **Confirmed (Veronka, 23 Sep 2026): card stock 270 g/m², finish matte.**
+  Still TBD from Walter or the printer, and never guessed: size, print process, corners, box material.
+  ⚠️ "84 × 138 mm", "Full-colour CMYK" and "Premium cardstock" came from the outdated admin metafield
+  and were removed from the site on 23 Sep 2026. Don't put them back without the printer.
 - Reviews: hidden until real, verified reviews exist. Judge.me uninstalled; review tool TBD.
 - Product description and metafields in admin are outdated (still say "hand-signed", "9-layer"). To be rewritten.
 
