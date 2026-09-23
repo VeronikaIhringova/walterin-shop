@@ -13,6 +13,17 @@ You are working on **Walterin** (walterin.com), the artistic brand and creative 
 - Fulfillment: EU via **Packeta**.
 - Veronka (graphic designer + social media manager) is the bridge between Walter's creative vision and execution: design, copy, strategy, content, campaigns.
 
+## Copy: the standing rule (23 Sep 2026)
+Applies to every text for this brand, in every language, on every surface. Full version:
+`docs/design/COPY-GUIDE.md`.
+1. Write the way a person speaks. If nobody would say it out loud, rewrite it.
+2. No metaphors for their own sake, no "look inwards", no self-help or marketing register.
+3. Concrete before abstract. Name the thing, the person, the moment.
+4. Nothing repeats between sections: each one has its own job.
+5. Slovak is written natively, never translated from English.
+6. Before showing Veronka any copy, read it aloud in your head and cut whatever sounds written
+   rather than said.
+
 ## Brand Voice
 **Bold, warm, literary, never generic.** Cinematic when the artwork demands it; intimate when the story does. Every word has to earn its place and match the atmosphere of the illustration it sits next to.
 

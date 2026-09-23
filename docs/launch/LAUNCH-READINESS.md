@@ -34,6 +34,16 @@ Approved items 0–12 are **live**, each one read back:
 - (2) The old draft theme 188994257225 can now be deleted (by Veronka).
 - (3) Plain product URLs are served from Shopify's page cache for a few minutes. Fresh renders already show the Product safety row.
 
+## To set up before it can be promised: gift wrapping and a gift message (23 Sep 2026)
+
+The "As a gift" accordion has a line offering **gift wrapping and a short message at checkout**.
+It stays **hidden** until both exist:
+1. A gift-message field at checkout (Shopify checkout does not have one by default: a cart
+   attribute on the cart/product page, or a checkout app).
+2. Wrapping agreed with Pack4you: who wraps, what it costs, what it looks like.
+
+Until then the accordion says nothing about wrapping. Nothing may promise it in the meantime.
+
 ## Blocker added 23 Sep 2026: PayPal belongs to someone else
 
 The store's PayPal is **Inactive and connected to `troplain.shop@gmail.com`**, not to Walterin
