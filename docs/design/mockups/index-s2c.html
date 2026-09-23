@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S2 · The ink arrow and the nine-frame path</title>
+<style>
+ :root { --paper:#FFFDF7; --ink:#222; --yellow:#FCF205; --row1:#69E7FD; --row2:#FFFE03; --row3:#75FEF4; }
+ * { box-sizing:border-box; }
+ body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 Inter, system-ui, sans-serif; }
+ .wrap { max-width:1280px; margin-inline:auto; padding:32px 20px 80px; }
+ h1 { font-size:28px; margin:0 0 6px; }
+ h2 { font-size:22px; margin:0 0 6px; }
+ h3 { font-size:17px; margin:18px 0 4px; }
+ .sub { max-width:74ch; margin:0 0 22px; }
+ .dir { border-top:2.5px solid var(--ink); padding-top:18px; margin-top:38px; }
+ .rowshots { display:grid; gap:14px; }
+ .shot { border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; background:#fff; }
+ .shot img { display:block; width:100%; height:auto; }
+ .cap { font-size:13px; padding:4px 8px; border-top:1px solid #ddd; }
+ .grid { display:grid; gap:24px; grid-template-columns:1fr; }
+ @media (min-width:960px){ .grid { grid-template-columns: minmax(0,1fr) 330px; align-items:start; } }
+ .pair { display:grid; gap:14px; grid-template-columns: minmax(0,1fr) 200px; align-items:start; }
+ @media (max-width:700px){ .pair { grid-template-columns:1fr; } }
+ ul { margin:6px 0 14px; padding-left:18px; }
+ li { margin-bottom:6px; }
+ .cost li::marker { content:'– '; }
+ .links a { display:inline-block; margin:0 8px 8px 0; padding:6px 12px; border:1.5px solid var(--ink); border-radius:999px;
+   background:var(--yellow); color:inherit; text-decoration:none; font-size:14px; }
+ .links a.ghost { background:var(--paper); }
+ table { border-collapse:collapse; width:100%; font-size:14px; margin-top:10px; }
+ th, td { border-bottom:1px solid #ddd; padding:6px 8px; text-align:left; vertical-align:top; }
+ th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+ .flag { border:2.5px solid var(--ink); border-radius:8px; padding:14px 16px; background:#fff; margin-top:14px; }
+ .sw { display:inline-block; width:15px; height:15px; border:1.5px solid var(--ink); border-radius:3px; vertical-align:-2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>S2 · The ink arrow, and the printed diagram as a map</h1>
+<p class="sub">Two changes since the last round. The connector is now one drawn ink arrow — a tapered stroke
+with a real head — and it always starts from the same side. And the nine-frame path from the box is in the
+section as a map: step through the frames and the matching cell lights up, dimmed exactly like the card.</p>
+
+<section class="dir">
+<h2>1 · The arrow</h2>
+<h3>It is drawn, not stroked</h3>
+<p class="sub" style="margin-bottom:12px">The shaft is a filled shape whose width grows from 3px to 7.5px along the curve, with a
+slight waver in the weight, the way a hand never keeps one pressure. The head is a separate piece with a concave back
+edge, and the shaft is cut back by exactly the head's length so the point lands where it should — 5px off the frame, at
+every width, measured.</p>
+
+<h3>It always comes from the left</h3>
+<p class="sub" style="margin-bottom:12px"><b>The note stays on the left, the card on the right, on desktop and on the phone.</b>
+Two reasons. An arrow pointing right reads as "goes to" — pointing left it reads as "comes back from", and every time the
+note switched sides the arrow reversed its meaning. And the eye moves left to right anyway: you read the enlarged frame and
+its explanation, then the arrow carries you to where it sits on the card. Fixing the side also means the layout never
+reshuffles as you step, which is why layout shift is now zero.</p>
+
+<h3>The arrow says which row you are in</h3>
+<p class="sub" style="margin-bottom:14px">It leaves the note low and climbs for the top row, runs level for the middle row, and leaves
+high and falls for the bottom row. The head turns with it, so the gesture alone tells you the row before you read a word.</p>
+<div class="rowshots">
+  <div class="shot"><img src="shots-s2c/row-a-f1.png" alt="Top row: the arrow rises"><div class="cap">Top row · what to understand — the arrow rises</div></div>
+  <div class="shot"><img src="shots-s2c/row-a-f4.png" alt="Middle row: the arrow runs level"><div class="cap">Middle row · what to accept — level</div></div>
+  <div class="shot"><img src="shots-s2c/row-a-f7.png" alt="Bottom row: the arrow falls"><div class="cap">Bottom row · what to transform — it falls</div></div>
+</div>
+</section>
+
+<section class="dir">
+<h2>2 · The nine-frame path as a map</h2>
+<p class="sub">Cropped out of the print PDF: no title, no wordmark, no empty strip under the bottom row. The lit cell covers its
+label and its colour block together, and everything else is dimmed with the same veil the card uses. Cell positions are
+measured off the grid lines, so the highlight sits exactly on the cell at any size.
+Files: <code>nine-frame-path-grid.png</code> 76 KB and <code>.webp</code> 91 KB at 900 × 1398, plus the full diagram with its
+title and wordmark at 1400 × 2375. Details in <code>docs/design/NINE-FRAME-PATH.md</code>.</p>
+
+<div class="flag">
+  <b>Flagged for you and Walter — the colours don't match, and I left them alone.</b><br>
+  The cards use <span class="sw" style="background:var(--row1)"></span> <code>#69E7FD</code> cyan,
+  <span class="sw" style="background:var(--row2)"></span> <code>#FFFE03</code> yellow and
+  <span class="sw" style="background:var(--row3)"></span> <code>#75FEF4</code> turquoise. The printed diagram uses a softer blue,
+  the same yellow, and a leaf <b>green</b> where the cards are turquoise. So on this one page the third row is turquoise on the
+  card and green in the diagram. Options: recolour the diagram to the card palette, leave both as they are and treat the
+  diagram as a printed object quoted as it is, or change the cards — which is out, they are going to print. Nothing has been
+  recoloured.
+</div>
+</section>
+
+<section class="dir">
+<h2>Arrangement A · note · card · map, all on one line</h2>
+<div class="grid">
+  <div class="pair">
+    <div class="shot"><img src="shots-s2c/a-f4-en-1440.png" alt="Arrangement A at 1440"><div class="cap">1440</div></div>
+    <div class="shot"><img src="shots-s2c/a-f4-en-390.png" alt="Arrangement A at 390"><div class="cap">390 · map under the pair</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>Everything that explains one frame is on one line: the words, the card, the system.</li>
+      <li>It still fits one screen — the two readings start 874px down at 1440.</li>
+      <li>The map is the same height as the card, so the row looks composed rather than assembled.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>Three objects competing across the width; the card is the smallest of the three.</li>
+      <li>The map's own type is small at 292px wide — readable, not comfortable.</li>
+      <li>On the phone the map still has to go underneath, so the arrangement isn't the same on both.</li>
+    </ul>
+    <p class="links"><a href="s2c.html?arr=a">Open 1440</a><a class="ghost" href="s2c.html?arr=a&frame=1">Top row</a><a class="ghost" href="s2c.html?arr=a&frame=7">Bottom row</a><a class="ghost" href="s2c.html?arr=a&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>Arrangement B · note and card on top, the map underneath</h2>
+<div class="grid">
+  <div class="pair">
+    <div class="shot"><img src="shots-s2c/b-f4-en-1440.png" alt="Arrangement B at 1440"><div class="cap">1440</div></div>
+    <div class="shot"><img src="shots-s2c/b-f4-en-390.png" alt="Arrangement B at 390"><div class="cap">390 · map full width</div></div>
+  </div>
+  <div>
+    <b>Why it works</b>
+    <ul>
+      <li>The card and its explanation get the full width — both are bigger than in A.</li>
+      <li>The map reads as a second thought, which is what it is: first the frame, then where it sits.</li>
+      <li>Desktop and phone have the same shape, so nothing is re-learned between them.</li>
+    </ul>
+    <b>What it costs</b>
+    <ul class="cost">
+      <li>It breaks the one-screen rule: the two readings start 1358px down at 1440, against 874 in A.</li>
+      <li>The map is below the fold, so many people will never see it light up.</li>
+      <li>A tall gap opens on both sides of the map at 1440 unless we widen it and make it taller still.</li>
+    </ul>
+    <p class="links"><a href="s2c.html?arr=b">Open 1440</a><a class="ghost" href="s2c.html?arr=b&frame=1">Top row</a><a class="ghost" href="s2c.html?arr=b&lang=sk">Slovak</a></p>
+  </div>
+</div>
+</section>
+
+<section class="dir">
+<h2>Measured</h2>
+<table>
+<tr><th></th><th>A · map beside</th><th>B · map underneath</th></tr>
+<tr><td>1440 × 900 — two readings start at</td><td>874px (one screen)</td><td>1358px</td></tr>
+<tr><td>390 × 844 — the note ends at</td><td>722px (above the fold)</td><td>722px</td></tr>
+<tr><td>390 — the map ends at</td><td>1173px</td><td>1307px</td></tr>
+<tr><td>Arrow point to frame edge</td><td>5px at 1440 and at 390</td><td>5px at 1440 and at 390</td></tr>
+<tr><td>Map cell follows all nine frames</td><td>pass</td><td>pass</td></tr>
+<tr><td>Layout shift over eight steps</td><td>0.0001</td><td>0.0001</td></tr>
+<tr><td>Nothing past the content edge · no horizontal scroll</td><td>pass</td><td>pass</td></tr>
+<tr><td>Keyboard, reduced motion, Chromium + WebKit, EN + SK</td><td>pass</td><td>pass</td></tr>
+</table>
+<p class="sub" style="margin-top:14px">Still open from the last round: where the card picker lives. It is on the control bar here,
+with Back and Next.</p>
+</section>
+</div>
+</body>
+</html>
