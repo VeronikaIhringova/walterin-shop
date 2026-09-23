@@ -546,15 +546,15 @@
             -%}
             {%- if show -%}
               <details
-                class="wui-accordion{% if block.settings.suggestion %} wui-accordion--suggest{% endif %}"
+                class="wui-accordion{% if block.settings.secondary %} wui-accordion--suggest{% endif %}"
                 data-wui-acc
                 {{ block.shopify_attributes }}
               >
                 <summary>
                   <span class="wui-accordion__title">
                     <span class="wui-label">{{ block.settings.heading | escape }}</span>
-                    {%- if block.settings.suggestion -%}
-                      <span class="wui-tag">{{ 'walterin.buy.suggestion' | t }}</span>
+                    {%- if block.settings.secondary -%}
+                      {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
                     {%- endif -%}
                   </span>
                   <span class="wui-accordion__icon" aria-hidden="true"></span>
@@ -899,7 +899,7 @@
           { "value": "digital", "label": "Digital variant selected" },
           { "value": "coming_soon", "label": "Before launch only" }
         ], "default": "always" },
-        { "type": "checkbox", "id": "suggestion", "label": "Mark as a suggestion", "info": "Dashed frame and a small tag, while the copy is being decided.", "default": false }
+        { "type": "checkbox", "id": "secondary", "label": "Secondary", "info": "A dashed rule and a small ink star: extra reading, under the two main ones.", "default": false }
       ]
     }
   ],

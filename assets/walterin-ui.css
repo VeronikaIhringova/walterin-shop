@@ -376,20 +376,19 @@
 .wui .wui-accordion.is-opening .wui-accordion__icon::after { opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
 .wui .wui-accordion.is-closing .wui-accordion__icon::after { opacity: 1; transform: translate(-50%, -50%) rotate(90deg); }
 .wui .wui-accordion__wrap { overflow: hidden; }
+/* Two levels inside every accordion: the first paragraph leads at Body size, everything after it
+   is Small. Same rule in both languages and at every width. */
 .wui .wui-accordion__body { display: grid; gap: var(--wui-16); padding: 0 0 20px; font-size: var(--wui-fs-small); line-height: 1.55; }
+.wui .wui-accordion__body > .wui-rte > p:first-child,
+.wui .wui-accordion__body > p:first-child,
 .wui .wui-accordion__body .wui-lead { font-size: var(--wui-fs-body); line-height: 1.5; }
+.wui .wui-accordion__body > .wui-rte > p + p,
+.wui .wui-accordion__body > .wui-rte > ul,
+.wui .wui-accordion__body > .wui-rte > ol { font-size: var(--wui-fs-small); line-height: 1.55; }
 .wui .wui-accordion__group { display: grid; gap: var(--wui-12); }
-.wui .wui-tag {
-  font-family: var(--wui-body);
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 4px 6px;
-  border: 1.5px dashed var(--wui-ink);
-  border-radius: 4px;
-}
+.wui .wui-accordion__star { flex: none; width: 16px; height: 16px; color: var(--wui-ink); }
+.wui .wui-accordion__star svg,
+.wui svg.wui-accordion__star { width: 16px; height: 16px; fill: var(--wui-ink); stroke: var(--wui-ink); stroke-width: 1.5; }
 
 /* Definition list (specs) */
 .wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: var(--wui-8) var(--wui-12); }

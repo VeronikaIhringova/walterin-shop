@@ -14,7 +14,10 @@ button. Choices are text with a dot and a yellow marker; accordions are ruled ro
 3. **Choice** — one group per product option (Language, Format…), then up to two short notes under
    them (edition, and what the choice actually changes), 8px apart.
 4. **Act** — add to cart (+ express checkout + payment icons) or, before launch, the notify form.
-5. **Read** — accordions: About · What's in the box (product safety inside it) · Delivery · extras.
+5. **Read** — accordions, in this order: About the deck · What's in the box (product safety inside
+   it) · How to read · As a gift · About Walter · When can I have it? (before launch only).
+   The first two are main (solid rule); the rest are secondary (dashed rule + a small ink star).
+   Inside every accordion: the first paragraph is the lead at Body size, the rest is Small.
 
 Groups sit 40px apart on desktop, 32px on phones. Inside a group: label → control 16, control ↔
 control 12, control → helper 12, helper ↔ helper 8. Measured optically.
@@ -47,7 +50,8 @@ strike-through, never a grey fill. Status boxes are an ink frame with an ink gly
 | Picking a choice | yellow marker grows over the name (background-size), name darkens, dot fills | 180ms ease-out |
 | Hover on a choice or the button | dot tint, button presses into its shadow | 120ms ease-out |
 | Accordion open/close | height + opacity, plus becomes minus | 200ms ease-out |
-| Price, name, availability note | cross-fade, never a hard swap | 90ms |
+| Edition name, availability note | cross-fade, never a hard swap | 90ms |
+| Price | changes instantly: a number that fades reads as a glitch | 0 |
 | Mobile sticky bar | slides up once the button scrolls away | 250ms |
 Only transform, opacity, colour and height ever animate. Nothing changes size on selection.
 `prefers-reduced-motion: reduce` makes all of it instant, and the accordion opens with no animation.

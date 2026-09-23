@@ -65,9 +65,48 @@ Preview set (the only cards shown): The Magician, The Fool, The Hermit, Wheel of
 
 Short description (2–3 sentences): TBD, drafted in the house voice, approved by Veronka.
 
-Buy-column accordions (approved 22–23 Sep 2026): About the deck · What's in the box (with the GPSR
-lines) · How to read · Why nine frames · As a gift · About Walter · When can I have it? (before
-launch only). **No "English or Slovak?" accordion**: the one line under the language choice says it.
+### Buy-column accordions, final set and order (23 Sep 2026)
+
+Two main (solid rule), four secondary (dashed rule + a small ink star). First paragraph of each is
+the lead (Body size); everything after it is Small.
+
+**1. About the deck / O balíčku** — main
+EN: Inspired by the Rider–Waite tarot, drawn by Walter Ihring. Every card is a nine‑frame comic: one picture becomes a small story, read frame by frame. Look first. Then read the words.
+· Two guide cards show two ways in: Card of the day, and Reading of consciousness: what to understand, what to accept, what to transform.
+SK: Inšpirovaný tarotom Rider–Waite, nakreslil Walter Ihring. Každá karta je komiks v deviatich okienkach: z jedného obrazu je malý príbeh, ktorý sa číta okienko po okienku. Najprv sa pozerajte. Potom čítajte.
+· Dve sprievodné karty ukazujú dve cesty: Karta dňa a Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť.
+
+**2. What's in the box / Čo je v krabičke** — main
+EN: 78 cards: 22 Major and 56 Minor Arcana · 2 guide cards: Card of the day and Reading of consciousness · Tuck box
+SK: 78 kariet: 22 veľkých a 56 malých arkán · 2 sprievodné karty: Karta dňa a Čítanie vedomia · Krabička
+Then the two GPSR lines (manufacturer, product), physical products only.
+
+**3. How to read / Ako čítať** — secondary
+EN: Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.
+· Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.
+SK: Najprv sa pozerajte, potom čítajte. Každá karta rozpráva svoj príbeh v deviatich okienkach, ako komiksová strana. Popisky prídu na rad až potom.
+· Balíček má dve cesty. Karta dňa: vytiahnite si jednu a nechajte ju pôsobiť. Čítanie vedomia: čo pochopiť, čo prijať, čo premeniť. Obe vysvetľujú sprievodné karty v krabičke. Skúsenosti s tarotom netreba.
+
+**4. As a gift / Ako darček** — secondary
+EN: For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.
+· Sending it straight to them? Enter their address as the delivery address at checkout.
+SK: Pre toho, kto číta komiksy, zbiera balíčky kariet alebo má jednoducho rád dobre nakreslené veci. Vyberte vydanie v jazyku, v ktorom obdarovaný číta.
+· Chcete ho poslať priamo obdarovanému? V pokladni zadajte jeho adresu ako adresu doručenia.
+
+**5. About Walter / O Walterovi** — secondary
+EN: Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.
+· In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.
+SK: Walter Ihring je slovenský ilustrátor humoru a karikatúry. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.
+· V roku 2015 vyšiel prvý ilustrovaný sprievodca Walterin Bratislava. Nasledovali Praha a Paríž. Tarot je prvý balíček kariet.
+
+**6. When can I have it? / Kedy ho dostanem?** — secondary, before launch only
+EN: Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.
+· Leave your email above and you'll get one message when it's ready.
+SK: Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine. Dátum ešte nemáme a hádať ho nebudeme.
+· Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.
+
+Deleted: "Why nine frames", "English or Slovak?" (the line under the language choice says it).
+SK accordion text is a store write through Translate & Adapt, after Veronka's OK.
 
 ## 7. Legal specifics
 

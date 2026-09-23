@@ -6,7 +6,7 @@
   - Options: any number of product options; picks the variant, disables combinations that don't
     exist or are sold out (faded, never struck through), and moves to the nearest available one
     with a spoken message when the visitor's choice forces it
-  - Motion: price, name and notes cross-fade; accordions open and close on a height + opacity
+  - Motion: the name and the availability notes cross-fade (the price changes instantly); accordions open and close on a height + opacity
     animation; everything is instant under prefers-reduced-motion. Only transform, opacity,
     colour and height ever move, so nothing shifts the layout
   - Gallery: thumbs scroll the strip in place, swipe updates thumbs + counter, arrow keys
@@ -141,10 +141,10 @@
         var picked = $('.wui-choice__input:checked', g);
         return picked ? picked.dataset.wuiName : '';
       }).filter(Boolean);
-      var priceNodes = $$('[data-wui-price]', root);
+      // The price changes instantly: a number that fades reads as a glitch. Names and notes fade.
+      $$('[data-wui-price]', root).forEach(function (n) { n.textContent = variant.price; });
       var nameNodes = $$('[data-wui-edname]', root);
-      fadeSwap(priceNodes.concat(nameNodes), function () {
-        priceNodes.forEach(function (n) { n.textContent = variant.price; });
+      fadeSwap(nameNodes, function () {
         nameNodes.forEach(function (n) { n.textContent = names[0] || ''; });
       });
 

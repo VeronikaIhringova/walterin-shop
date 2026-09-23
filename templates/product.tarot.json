@@ -31,8 +31,8 @@
           "settings": {
             "heading": "When can I have it?",
             "show_when": "coming_soon",
-            "suggestion": true,
-            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.</p><p>Leave your email above and you'll get one message when it's ready.</p>"
+            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak. There is no date, and we won't guess one.</p><p>Leave your email above and you'll get one message when it's ready.</p>",
+            "secondary": true
           }
         },
         "acc_read": {
@@ -40,17 +40,8 @@
           "settings": {
             "heading": "How to read",
             "show_when": "always",
-            "suggestion": true,
-            "text": "<p>Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.</p><p>Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.</p>"
-          }
-        },
-        "acc_nine": {
-          "type": "accordion",
-          "settings": {
-            "heading": "Why nine frames",
-            "show_when": "always",
-            "suggestion": true,
-            "text": "<p>One picture shows a moment. Nine frames show what happens next.</p><p>Each card carries its theme through nine small scenes, so the meaning isn't handed to you in a single symbol. You follow it, frame by frame, the way you read a comic. It is how Walterin tells every story, in the city books too.</p>"
+            "text": "<p>Look before you read. Each card tells its story in nine frames, like a page of comics. The captions come second.</p><p>Two ways to use the deck. Card of the day: draw one and live with it. Reading of consciousness: what to understand, what to accept, what to transform. The guide cards in the box walk you through both. No tarot experience needed.</p>",
+            "secondary": true
           }
         },
         "acc_gift": {
@@ -58,8 +49,8 @@
           "settings": {
             "heading": "As a gift",
             "show_when": "always",
-            "suggestion": true,
-            "text": "<p>For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.</p><p>Sending it straight to them? Enter their address as the delivery address at checkout.</p>"
+            "text": "<p>For someone who reads comics, collects decks, or simply likes a well‑drawn thing. Pick the edition in the language they read.</p><p>Sending it straight to them? Enter their address as the delivery address at checkout.</p>",
+            "secondary": true
           }
         },
         "acc_walter": {
@@ -67,8 +58,8 @@
           "settings": {
             "heading": "About Walter",
             "show_when": "always",
-            "suggestion": true,
-            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.</p>"
+            "text": "<p>Walter Ihring is a Slovak illustrator of humour and caricature. The drawings travel to exhibitions abroad and now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, the first illustrated guide. Prague and Paris followed. The tarot is the first deck.</p>",
+            "secondary": true
           }
         },
         "value_sk2": {
@@ -83,11 +74,10 @@
         "value_en",
         "value_sk",
         "value_sk2",
-        "acc_when",
         "acc_read",
-        "acc_nine",
         "acc_gift",
-        "acc_walter"
+        "acc_walter",
+        "acc_when"
       ],
       "settings": {
         "edition_note": "First edition. 100 copies in each language.",
