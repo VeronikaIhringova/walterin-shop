@@ -36,14 +36,10 @@
           <div class="cart-drawer__warnings center{% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
             <div class="cart-drawer__empty-content">
               <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
-              <button
-                class="drawer__close"
-                type="button"
-                onclick="this.closest('cart-drawer').close()"
-                aria-label="{{ 'accessibility.close' | t }}"
-              >
-                {% render 'icon-close' %}
-              </button>
+              {% comment %}
+                No close button here: the drawer header above already renders one with the
+                same label, so an empty drawer offered two identical "Close" targets.
+              {% endcomment %}
               {% if settings.display_continue_shopping %}
                 <a href="{% if settings.continue_shopping_url == blank %}{{ routes.all_products_collection_url }}{% else %}{{ settings.continue_shopping_url }}{% endif %}" class="button">
                   {{ 'general.continue_shopping' | t }}
@@ -291,7 +287,7 @@
                                   <span class="visually-hidden">
                                     {{-
                                       'products.product.quantity.decrease'
-                                      | t: product: item.product.title
+                                      | t: product: item.title
                                       | escape
                                     -}}
                                   </span>
@@ -305,9 +301,11 @@
                                   value="{{ item.quantity }}"
                                   {% # theme-check-disable %}
                                   data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
-                                  min="{{ item.variant.quantity_rule.min }}"
+                                  min="{{ item.variant.quantity_rule.min | default: 1 }}"
                                   {% if item.variant.quantity_rule.max != null %}
                                     max="{{ item.variant.quantity_rule.max }}"
+                                  {% elsif item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny' %}
+                                    max="{{ item.variant.inventory_quantity }}"
                                   {% endif %}
                                   step="{{ item.variant.quantity_rule.increment }}"
                                   {% # theme-check-enable %}
@@ -319,7 +317,7 @@
                                   <span class="visually-hidden">
                                     {{-
                                       'products.product.quantity.increase'
-                                      | t: product: item.product.title
+                                      | t: product: item.title
                                       | escape
                                     -}}
                                   </span>
@@ -331,13 +329,13 @@
                                 id="CartDrawer-Remove-{{ item.index | plus: 1 }}"
                                 data-index="{{ item.index | plus: 1 }}"
                               >
-                                <button
-                                  type="button"
+                                <a
+                                  href="{{ item.url_to_remove }}"
                                   class="button button--tertiary"
                                   aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
                                 >
                                   {% render 'icon-remove' %}
-                                </button>
+                                </a>
                               </cart-remove-button>
                             </div>
 

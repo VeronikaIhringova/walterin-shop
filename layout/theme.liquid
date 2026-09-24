@@ -339,7 +339,7 @@ h5,
     {%- endif -%}
   </head>
 
-  <body class="gradient{% if wui_enabled %} wui{% endif %} t-{{ request.page_type }}">
+  <body class="gradient{% if wui_enabled %} wui{% endif %} t-{{ request.page_type }}{% if cart.item_count == 0 %} cart-empty{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

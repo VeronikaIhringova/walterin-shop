@@ -180,8 +180,16 @@ class CartItems extends HTMLElement {
 
     [...cartItemElements, ...cartDrawerItemElements].forEach((overlay) => overlay.classList.remove('hidden'));
 
-    document.activeElement.blur();
-    this.lineItemStatusElement.setAttribute('aria-hidden', false);
+    // The spinner lives in the totals column, so the control the customer just pressed
+    // showed nothing at all. Mark the whole row busy: assistive tech announces it, and
+    // the row dims where the click happened.
+    const row =
+      document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
+    if (row) row.setAttribute('aria-busy', 'true');
+
+    // Focus stays where the customer put it. Blurring here sent it to <body> on every
+    // quantity change, so a keyboard user lost their place in the cart each time.
+    if (this.lineItemStatusElement) this.lineItemStatusElement.setAttribute('aria-hidden', false);
   }
 
   disableLoading(line) {
@@ -193,6 +201,10 @@ class CartItems extends HTMLElement {
 
     cartItemElements.forEach((overlay) => overlay.classList.add('hidden'));
     cartDrawerItemElements.forEach((overlay) => overlay.classList.add('hidden'));
+
+    const row =
+      document.getElementById(`CartItem-${line}`) || document.getElementById(`CartDrawer-Item-${line}`);
+    if (row) row.removeAttribute('aria-busy');
   }
 }
 

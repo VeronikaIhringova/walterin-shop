@@ -226,6 +226,12 @@
 .wui .shopify-payment-button__button--unbranded::before,
 .wui .shopify-payment-button__button--unbranded::after { content: none; }
 
+/* An empty cart should look empty. The cart template also carries a four-product
+   carousel and a newsletter block, so "Your cart is empty" was followed by a wall
+   of the products the customer had just removed. */
+.wui.t-cart.cart-empty #MainContent > [id$="__featured-collection"],
+.wui.t-cart.cart-empty #MainContent > [id$="__newsletter"] { display: none; }
+
 /* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
    -------------------------------------------------------------------------- */

@@ -30,7 +30,7 @@
   </div>
 
   <div class="cart__warnings">
-    <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
+    <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
     {% if settings.display_continue_shopping %}
       <a href="{% if settings.continue_shopping_url == blank %}{{ routes.all_products_collection_url }}{% else %}{{ settings.continue_shopping_url }}{% endif %}" class="button">
         {{ 'general.continue_shopping' | t }}
@@ -227,7 +227,7 @@
                       <quantity-input class="quantity cart-quantity">
                         <button class="quantity__button no-js-hidden" name="minus" type="button">
                           <span class="visually-hidden">
-                            {{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}
+                            {{- 'products.product.quantity.decrease' | t: product: item.title | escape -}}
                           </span>
                           {% render 'icon-minus' %}
                         </button>
@@ -239,9 +239,11 @@
                           value="{{ item.quantity }}"
                           {% # theme-check-disable %}
                           data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
-                          min="{{ item.variant.quantity_rule.min }}"
+                          min="{{ item.variant.quantity_rule.min | default: 1 }}"
                           {% if item.variant.quantity_rule.max != null %}
                             max="{{ item.variant.quantity_rule.max }}"
+                          {% elsif item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny' %}
+                            max="{{ item.variant.inventory_quantity }}"
                           {% endif %}
                           step="{{ item.variant.quantity_rule.increment }}"
                           {% # theme-check-enable %}
@@ -251,7 +253,7 @@
                         >
                         <button class="quantity__button no-js-hidden" name="plus" type="button">
                           <span class="visually-hidden">
-                            {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
+                            {{- 'products.product.quantity.increase' | t: product: item.title | escape -}}
                           </span>
                           {% render 'icon-plus' %}
                         </button>
