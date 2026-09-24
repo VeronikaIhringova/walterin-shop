@@ -1,3 +1,22 @@
+# RULE ONE — NOTHING GOES LIVE WITHOUT "OK LIVE"
+
+Every push to the live theme, and every write to store data, waits for Veronka's explicit
+**"OK live"** for that specific change. Every single time.
+
+- **No exceptions for urgency.** Something broken and live stays broken until she says otherwise.
+  Report it, say what you would do, and wait.
+- **No exceptions for size or obviousness.** A one-word fix needs the same approval as a redesign.
+- **No exceptions for "she already approved something similar."** Approval is per change.
+- **Telling her afterwards is not permission.** If it went live without an OK, it was wrong.
+- **If you are unsure whether something counts as a push, ask before doing it.**
+
+Approval for one change is not approval for the next. "OK live" on Tuesday does not cover Wednesday.
+Work in preview, show her, wait.
+
+This is her business and her customers. She decides what they see and when.
+
+---
+
 Read docs/WALTERIN-GROUND-TRUTH.md at the start of every task. Its facts are never broken. If something in CLAUDE.md conflicts with it, the ground truth wins.
 
 # Walterin — Claude Project Instructions
