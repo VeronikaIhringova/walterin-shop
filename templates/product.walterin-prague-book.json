@@ -1,156 +1,23 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "walterin-buy",
-      "blocks": {
-        "value_en": {
-          "type": "value",
-          "settings": {
-            "value": "English",
-            "code": "en"
-          }
-        },
-        "value_cs": {
-          "type": "value",
-          "settings": {
-            "value": "Czech",
-            "code": "cs"
-          }
-        },
-        "value_dig": {
-          "type": "value",
-          "settings": {
-            "value": "Digital Interactive Edition",
-            "code": "ebook"
-          }
-        },
-        "value_prn": {
-          "type": "value",
-          "settings": {
-            "value": "Printed Collector’s Edition",
-            "code": "print"
-          }
-        },
-        "acc_screen": {
-          "type": "accordion",
-          "settings": {
-            "heading": "Reading it on a screen",
-            "show_when": "digital",
-            "secondary": true,
-            "text": "<p>You get both files: a high-resolution PDF and a fixed-layout EPUB. The drawings keep their proportions on either one, which is the point — the pages were laid out as pages.</p><p>The contents page is clickable and every chapter has a jump link. It reads on a desktop, a tablet, a phone and on fixed-layout readers.</p>"
-          }
-        },
-        "acc_gift": {
-          "type": "accordion",
-          "settings": {
-            "heading": "As a gift",
-            "show_when": "always",
-            "secondary": true,
-            "text": "<p>For someone who is going to Prague, or who has been and keeps talking about it.</p><p>The printed book is a softcover you can put in a coat pocket. If you need it to arrive by a particular day, write to us before you order and we will tell you whether it is possible.</p>"
-          }
-        },
-        "acc_walter": {
-          "type": "accordion",
-          "settings": {
-            "heading": "About Walter",
-            "show_when": "always",
-            "secondary": true,
-            "text": "<p>Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and every now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, a city told in comics. Prague is the next city, and the tarot is the first deck.</p>"
-          }
-        },
-        "acc_when": {
-          "type": "accordion",
-          "settings": {
-            "heading": "When can I have it?",
-            "show_when": "coming_soon",
-            "secondary": true,
-            "text": "<p>Not yet. Leave your email above and we write once, the day it can be bought — nothing else.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "value_en",
-        "value_cs",
-        "value_dig",
-        "value_prn",
-        "acc_screen",
-        "acc_gift",
-        "acc_walter",
-        "acc_when"
-      ],
       "settings": {
-        "sticky_title": "Walterin Prague",
-        "waitlist_tag": "prague-waitlist",
-        "edition_note": "140 pages of Prague, in English or Czech.",
-        "choice_note": "The eBook arrives the moment you pay. The printed book is a softcover, 129 × 207 mm.",
-        "about_heading": "About the book",
-        "about_text": "<p>Prague across 140 pages, drawn as nine‑frame comics. The city, its history and the things that happened in it, the way Walter Ihring saw them and drew them.</p><p>It is not a guidebook with opening hours. It reads as well at a kitchen table as it does on the way there.</p>",
+        "about_heading": "About this",
         "box_heading": "What you get",
-        "box_lead": "Two editions of the same book.",
-        "box_item_1": "The printed book — softcover, 129 × 207 mm, 140 pages, full colour",
-        "box_item_2": "The eBook — a high‑resolution PDF and a fixed‑layout EPUB, both together",
-        "box_item_3": "In the eBook: a clickable contents page and a jump link on every chapter",
-        "box_item_4": "English or Czech — you choose before you order",
-        "box_item_5": "",
-        "spec_1_label": "Pages",
-        "spec_1_value": "140",
-        "spec_2_label": "Size",
-        "spec_2_value": "129 × 207 mm",
-        "spec_3_label": "Binding",
-        "spec_3_value": "Softcover",
-        "spec_4_label": "Print",
-        "spec_4_value": "Full colour",
-        "spec_5_label": "Languages",
-        "spec_5_value": "English · Czech",
-        "spec_6_label": "eBook",
-        "spec_6_value": "PDF · EPUB",
-        "spec_7_label": "",
-        "spec_7_value": "",
-        "spec_8_label": "",
-        "spec_8_value": "",
         "delivery_heading": "Delivery",
-        "delivery_digital": "<p>The eBook is yours the moment the payment goes through: a download link by email, both files together.</p>",
+        "delivery_digital": "",
         "show_delivery_physical": false,
-        "digital_note": "",
         "gallery_label": "Product images. Swipe or use the arrow keys.",
         "thumbs_label": "Image",
         "zoom_label": "Enlarge image",
         "notify_label": "Email address",
         "notify_placeholder": "Your email address",
         "notify_button": "Notify me",
-        "notify_success": "You're on the list for the [edition] edition. One email when it's ready.",
+        "notify_success": "You're on the list. One email when it's ready.",
         "privacy_link": "Privacy policy",
         "atc_label": "Add to cart",
         "hide_payment_types": "paypal, revolut"
-      }
-    },
-    "pages": {
-      "type": "walterin-pages",
-      "blocks": {
-        "spread_1": {
-          "type": "spread",
-          "settings": {
-            "image": "shopify://shop_images/walterin-prague-look-inside-comic-illustrated-pages.png",
-            "image_mobile": "shopify://shop_images/walterin-prague-look-inside-comic-pages-mobile.png",
-            "caption": ""
-          }
-        }
-      },
-      "block_order": [
-        "spread_1"
-      ],
-      "settings": {
-        "title": "Look inside",
-        "lead": "Nine frames to a story, the same way the tarot works."
       }
     },
     "faq": {
@@ -160,14 +27,14 @@
           "type": "question",
           "settings": {
             "heading": "Where do you send it, and when?",
-            "text": "<p>The eBook goes anywhere: it arrives by email the moment you pay.</p><p>Printed books we send across the European Union. The printed edition is still being prepared — when it is ready we write to everyone on the list, and the delivery time is shown before you pay.</p>"
+            "text": "<p>Anything digital arrives by email the moment you pay.</p><p>Everything printed we send across the European Union. If a product is still being prepared, we write to everyone on its list when it is ready, and the delivery time is shown before you pay.</p>"
           }
         },
         "q_return": {
           "type": "question",
           "settings": {
             "heading": "Can I send it back?",
-            "text": "<p>Yes. You can withdraw within 14 days without giving a reason, using the form in the footer of every page.</p><p>One exception for the eBook: if you agreed that we could send it straight away and confirmed that you were giving up the right to withdraw, it can no longer be returned. Everything else is in the refund policy.</p>"
+            "text": "<p>Yes. You can withdraw within 14 days without giving a reason, using the form in the footer of every page.</p><p>One exception for anything digital: if you agreed that we could send it straight away and confirmed that you were giving up the right to withdraw, it can no longer be returned. Everything else is in the refund policy.</p>"
           }
         },
         "q_pay": {
@@ -181,7 +48,7 @@
           "type": "question",
           "settings": {
             "heading": "Is this original work?",
-            "text": "<p>Yes. Walter Ihring draws it and we publish it. Nothing here is somebody else’s book with a new cover on it.</p>"
+            "text": "<p>Yes. Walter Ihring draws it and we publish it. Nothing here is somebody else’s work with a new cover on it.</p>"
           }
         },
         "q_back": {
@@ -213,10 +80,10 @@
         "foot": "<p>The full rules are in the <a href=\"/policies/refund-policy\">refund policy</a> and the <a href=\"/policies/terms-of-service\">terms</a>.</p>"
       }
     },
-    "featured_collection_UDTNGa": {
+    "related": {
       "type": "featured-collection",
       "custom_css": [
-        "/* Style the YOU MAY ALSO LIKE headline */h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important; /* make the headline smaller */ line-height: 1.2 !important; margin-left: 0 !important;}"
+        "h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important;  line-height: 1.2 !important; margin-left: 0 !important;}"
       ],
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
@@ -249,12 +116,18 @@
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff"
       }
+    },
+    "look_inside": {
+      "type": "walterin-pages",
+      "settings": {
+        "title": "Look inside"
+      }
     }
   },
   "order": [
     "main",
-    "pages",
+    "look_inside",
     "faq",
-    "featured_collection_UDTNGa"
+    "related"
   ]
 }

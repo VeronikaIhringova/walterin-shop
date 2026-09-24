@@ -516,7 +516,7 @@
           # Specs are one "Label: value" per line. Splitting on the FIRST colon only, so a value
           # that contains one ("Size: 129 × 207 mm") survives intact.
           assign spec_raw = wui.specs.value | default: ''
-          assign spec_lines = spec_raw | strip | newline_to_br | split: '<br />'
+          assign spec_lines = spec_raw | strip | newline_to_br | replace: '<br>', '<br />' | split: '<br />'
           assign spec_count = 0
           for line in spec_lines
             assign l = line | strip
@@ -549,7 +549,7 @@
                 from the one rich-text metafield, so the shape of the list is the merchant's choice.
               {%- endcomment -%}
               {%- if wui.included != blank -%}
-                <div class="wui-rte wui-included">{{ wui.included }}</div>
+                <div class="wui-rte wui-included">{{ wui.included | metafield_tag }}</div>
               {%- endif -%}
               {%- if spec_count > 0 -%}
                 <dl class="wui-dl">
@@ -615,10 +615,10 @@
         {%- liquid
           capture notes_html
             if wui.notes != blank
-              echo wui.notes
+              echo wui.notes | metafield_tag
             endif
             if product_state == 'coming_soon' and wui.preorder_note != blank
-              echo wui.preorder_note
+              echo wui.preorder_note | metafield_tag
             endif
           endcapture
           assign note_chunks = notes_html | split: '<h3'
