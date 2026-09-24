@@ -226,7 +226,12 @@
         <li>
           <button
             type="submit"
-            name="language_code"
+            {%- comment -%}
+              locale_code, not language_code. Shopify's /localization endpoint only reads
+              locale_code; with the wrong name the form posts and nothing changes. The theme's
+              own footer switcher has always used locale_code (sections/footer.liquid:419).
+            {%- endcomment -%}
+            name="locale_code"
             value="{{ language.iso_code }}"
             lang="{{ language.iso_code }}"
             class="header-lang__option link focus-inset"

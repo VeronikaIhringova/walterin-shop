@@ -1,0 +1,29 @@
+{
+  "walterin-prague": {
+    "details": "Digital Interactive Edition\n– Formats: PDF (high-resolution), EPUB (fixed-layout)\n– Features: Clickable Contents, guided navigation, section jump links\n– Optimised for: Desktop, tablet, mobile, fixed-layout readers\n– Delivery: Instant download after purchase\n\nPrinted Edition (Pre-order)\n– Format: Softcover\n– Size: 129 × 207 mm\n– Length: 140 pages\n– Print: Full-colour, premium stock\n– Languages: English / Czech",
+    "emoji_benefits": "🎨 Full-colour original illustrations\n📚 140 pages of witty comic-style stories\n⚡ Instant access to download",
+    "product_emoji_benefits": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🎨 \"},{\"type\":\"text\",\"value\":\"Full-colour original illustrations\",\"bold\":true},{\"type\":\"text\",\"value\":\"\\n\\n📚 \"},{\"type\":\"text\",\"value\":\"140 pages\",\"bold\":true},{\"type\":\"text\",\"value\":\" of witty comic-style stories\\n\\n⚡ \"},{\"type\":\"text\",\"value\":\"Instant access\",\"bold\":true},{\"type\":\"text\",\"value\":\" to download\"}]}]}"
+  },
+  "t-shirt": {
+    "details": "– 100% soft premium cotton (comfortable, breathable, unisex fit)\n– High-quality screen print (sieve print) with long-lasting colours\n– Durable fabric with reinforced seams for everyday wear\n– True-to-size fit with a slightly relaxed silhouette",
+    "emoji_benefits": "🎨 Original artwork illustrated by the Walterin cartoonist\n👕 Premium cotton comfort — soft, breathable, everyday wear\n🏛️ Prague-inspired design featuring Café Slavia & Absinthe Drinker",
+    "product_emoji_benefits": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🎨 \"},{\"type\":\"text\",\"value\":\"Original Walterin illustration\",\"bold\":true},{\"type\":\"text\",\"value\":\"\\n\\n👕 \"},{\"type\":\"text\",\"value\":\"Premium soft cotton\",\"bold\":true},{\"type\":\"text\",\"value\":\" for everyday comfort\\n\\n🏛️ \"},{\"type\":\"text\",\"value\":\"Prague-inspired design\",\"bold\":true}]}]}"
+  },
+  "stickers": {
+    "details": "– Two 210 × 210 mm sticker sheets (high-quality matte finish)\n– Walterin original comic stickers from the Prague edition\n– Durable adhesive (long-lasting, won’t peel easily)\n– Crisp, vibrant colours with premium art-print quality\n– Each sheet includes mini Prague stories hidden in the icons\n– Designed for laptops, notebooks, journals, water bottles & gifts",
+    "emoji_benefits": "🎨 Original artwork illustrated by the Walterin cartoonist\n👕 Premium cotton comfort — soft, breathable, everyday wear\n🏛️ Prague-inspired design featuring Café Slavia & Absinthe Drinker",
+    "product_emoji_benefits": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"✨ \"},{\"type\":\"text\",\"value\":\"30 Prague Comic Stickers\",\"bold\":true},{\"type\":\"text\",\"value\":\"\\n\\n📄 \"},{\"type\":\"text\",\"value\":\"Two\",\"bold\":true},{\"type\":\"text\",\"value\":\" \"},{\"type\":\"text\",\"value\":\"square sheets\",\"bold\":true},{\"type\":\"text\",\"value\":\" (210 × 210 mm)\\n\\n📌 Long-lasting hold for \"},{\"type\":\"text\",\"value\":\"journals, laptops, luggage & bottles\",\"bold\":true}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"\"}]}]}"
+  },
+  "prague-tarot": {
+    "details": "Inspired by The Original Rider Waite Tarot Deck"
+  },
+  "tarot": {
+    "product_emoji_benefits": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🎴 \"},{\"type\":\"text\",\"value\":\"78-Card Original Illustrated Deck\",\"bold\":true}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🧠 \"},{\"type\":\"text\",\"value\":\"Intuitive Design:\",\"bold\":true},{\"type\":\"text\",\"value\":\" No guidebook required\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"💎 \"},{\"type\":\"text\",\"value\":\"Limited:\",\"bold\":true},{\"type\":\"text\",\"value\":\" 100 copies per language\"}]}]}",
+    "details": "– Cards: 78\n– Content: Comic-style illustrated cards\n– Structure: 22 Major Arcana & 56 Minor Arcana\n– Size: 84 × 138 mm\n– System: Walterin 9-frame storytelling\n– Print: Full-colour (CMYK)\n– Material: Premium cardstock\n– Finish: Matte\n– Language: English"
+  },
+  "walterin-paris": {
+    "details": "Digital Interactive Edition\n– Formats: PDF (high-resolution), EPUB (fixed-layout)\n– Features: Clickable Contents, guided navigation, section jump links\n– Optimised for: Desktop, tablet, mobile, fixed-layout readers\n– Delivery: Instant download after purchase\n\nPrinted Edition (Pre-order)\n– Format: Softcover\n– Size: 129 × 207 mm\n– Length: 140 pages\n– Print: Full-colour, premium stock\n– Languages: English / Czech",
+    "emoji_benefits": "🎨 Full-colour original illustrations\n📚 140 pages of witty comic-style stories\n⚡ Instant access to download",
+    "product_emoji_benefits": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"🎨 \"},{\"type\":\"text\",\"value\":\"Full-colour original illustrations\",\"bold\":true},{\"type\":\"text\",\"value\":\"\\n\\n📚 \"},{\"type\":\"text\",\"value\":\"140 pages\",\"bold\":true},{\"type\":\"text\",\"value\":\" of witty comic-style stories\\n\\n⚡ \"},{\"type\":\"text\",\"value\":\"Instant access\",\"bold\":true},{\"type\":\"text\",\"value\":\" to download\"}]}]}"
+  }
+}

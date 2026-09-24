@@ -1,12 +1,12 @@
 {%- comment -%}
   Product safety (GPSR, Reg. (EU) 2023/988, Art. 19), physical products only.
-  Manufacturer + product identifier always; safety notes from product metafield custom.safety_info.
+  Manufacturer + product identifier always; safety notes from product metafield walterin.safety.
   Nothing invented: without the metafield no safety line is shown to visitors (theme editor shows a reminder).
   Accepts: product
 {%- endcomment -%}
 {%- liquid
   assign physical = product.variants | where: 'requires_shipping', true
-  assign safety = product.metafields.custom.safety_info.value
+  assign safety = product.metafields.walterin.safety.value
 -%}
 {%- if physical.size > 0 -%}
   <p class="gpsr-row">
@@ -17,6 +17,6 @@
     {%- if safety != blank -%}<br>{{ safety | escape | newline_to_br }}{%- endif -%}
   </p>
   {%- if safety == blank and request.design_mode -%}
-    <p class="gpsr-row" style="background:#fcf205;padding:4px 8px;">Safety notes missing: fill product metafield custom.safety_info (Walter / printer). Not shown to visitors.</p>
+    <p class="gpsr-row" style="background:#fcf205;padding:4px 8px;">Safety notes missing: fill product metafield walterin.safety (Walter / printer). Not shown to visitors.</p>
   {%- endif -%}
 {%- endif -%}
