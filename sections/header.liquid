@@ -73,7 +73,30 @@
   .header-lang__option:hover { text-decoration: underline; text-decoration-thickness: 0.1rem; }
   .header-lang__option[aria-current='true'] { text-decoration: underline; text-decoration-thickness: 0.2rem; }
   .header__icons .header-lang { margin-right: 1.2rem; }
-  .menu-drawer__utility-links .header-lang { margin-bottom: 1.6rem; }
+  /* In the bar: the two-letter code, with the full name left for screen readers. */
+  .header__icons .header-lang__name {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  /* In the menu: the language named in its own words, as two real buttons. */
+  .menu-drawer__utility-links .header-lang { margin-bottom: 1.6rem; width: 100%; }
+  .menu-drawer__utility-links .header-lang__code { display: none; }
+  .menu-drawer__utility-links .header-lang__list { display: flex; gap: 1rem; width: 100%; }
+  .menu-drawer__utility-links .header-lang__list li { flex: 1 1 0; }
+  .menu-drawer__utility-links .header-lang__list li + li::before { content: none; }
+  .menu-drawer__utility-links .header-lang__option {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 4.8rem; padding: 0 1.2rem;
+    font-family: var(--wui-display, inherit); font-size: 1.6rem; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.03em; text-decoration: none;
+    color: var(--wui-ink, #222); background: var(--wui-paper, #FFFDF7);
+    border: var(--wui-line, 2.5px) solid var(--wui-ink, #222);
+    border-radius: var(--wui-radius, 8px); box-shadow: 3px 3px 0 var(--wui-ink, #222);
+  }
+  .menu-drawer__utility-links .header-lang__option[aria-current='true'] {
+    background: var(--wui-yellow, #FCF205); text-decoration: none;
+  }
+  .menu-drawer__utility-links .header-lang__option:hover { text-decoration: none; }
   @media screen and (max-width: 989px) {
     .header__icons .header-lang { display: none; }
   }
@@ -239,8 +262,12 @@
               aria-current="true"
             {% endif %}
           >
-            {{- language.iso_code | upcase -}}
-            <span class="visually-hidden"> – {{ language.endonym_name | capitalize }}</span>
+            {%- comment -%}
+              Both labels are rendered; CSS picks one. The bar has room for two letters, the
+              menu drawer has room to name the language properly.
+            {%- endcomment -%}
+            <span class="header-lang__code" aria-hidden="true">{{- language.iso_code | upcase -}}</span>
+            <span class="header-lang__name">{{ language.endonym_name | capitalize }}</span>
           </button>
         </li>
       {%- endfor -%}
