@@ -177,7 +177,6 @@
 {% stylesheet %}
 /* Walterin · How a card is read. Tokens from assets/walterin-ui.css; ink, paper and yellow only —
    the artwork brings the colour. */
-.wui .wui-read { padding-block: var(--wui-32); }
 .wui .wui-read__grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wui-24); margin-top: var(--wui-24); }
 
 .wui .wui-read__intro { display: grid; gap: var(--wui-12); align-content: start; max-width: 46ch; }
@@ -291,7 +290,6 @@
 /* from 990px the width does the work: intro · note · card, one spacing step apart, and the row
    starts and ends on the page's content edges */
 @media (min-width: 990px) {
-  .wui .wui-read { padding-block: var(--wui-48); }
   .wui .wui-read__grid {
     grid-template-columns: 340px minmax(0, 1fr) 280px; align-items: start;
     gap: 0 var(--wui-48); margin-top: var(--wui-48);

@@ -31,6 +31,12 @@ Applies to every text for this brand, in every language, on every surface. Full 
 
 **Don't:** Generic spiritual language. Buzzwords. Marketing clichés ("elevate", "must-have", "you deserve"). Spoiler-heavy descriptions of cards or stories. Corporate hedging. Hashtag soup.
 
+## Spacing (mandatory, from 24 Sep 2026)
+Every new section, and every change to an existing one, follows `docs/design/SPACING.md`.
+Five steps, each with one job: `--wui-space-section` / `-block` / `-heading` / `-item` / `-control`.
+**A section never sets its own vertical padding** — the page owns the gap between sections. Never
+type a raw pixel value for a gap, and never add a sixth step without writing down why first.
+
 ## Hard Constraints
 - **Comics Tarot of Consciousness is a product, not a therapy tool.** Never frame it through Jungian, psychological, or self-help language. It is illustration, story, and collectible — first.
 - **Walter has strong personal preferences.** When a creative suggestion conflicts with what is provably more market-effective, flag the conflict clearly and explain both sides — don't quietly override either way.

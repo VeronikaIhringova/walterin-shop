@@ -48,6 +48,21 @@
   /* Between groups inside a block (price → edition → button → trust rows): 32 mobile, 40 desktop */
   --wui-group: 32px;
 
+  /* ── Vertical rhythm ─────────────────────────────────────────────────────
+     Five steps, each with one job. Never invent a sixth, and never reach for a
+     raw pixel value where one of these fits. Rules: docs/design/SPACING.md.
+
+     Mobile values here; the desktop overrides are in the 990px block below.
+     Each step is at least twice the one under it — Nathan Curtis, "Space in
+     Design Systems": a linear scale gives "too many choices too close together".
+     Mobile = 0.75 x desktop, which is the ratio Shopify's own Dawn theme uses
+     across every section.                                                     */
+  --wui-space-section: 72px;  /* section → section — the biggest break on the page */
+  --wui-space-block:   24px;  /* group → group inside one section              */
+  --wui-space-heading: 12px;  /* a heading → the content it introduces         */
+  --wui-space-item:     8px;  /* item → item in a list                         */
+  --wui-space-control:  4px;  /* a label → its control, an icon → its text     */
+
   /* Page frame: the same edges as the site header.
      Header = custom CSS `header { width: 92% }` (sections/header-group.json), max 1400px,
      + the theme's .page-width padding (15px, 50px from 750px). Keep these in sync. */
@@ -92,6 +107,62 @@
     --wui-fs-price: 32px;
     --wui-fs-body: 17px;
   }
+}
+@media (min-width: 990px) {
+  .wui {
+    --wui-space-section: 96px;
+    --wui-space-block: 32px;
+    --wui-space-heading: 16px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The vertical rhythm, in one place — docs/design/SPACING.md
+
+   Section spacing is owned by the PAGE, not by each section. Sections carry no
+   vertical padding of their own; the gap between any two of them is exactly one
+   --wui-space-section. That is what makes it impossible for a section to decide
+   it needs "a bit more".
+
+   Scoped to the product template so the home page keeps its own composition
+   until it is converted in its own pass.
+   -------------------------------------------------------------------------- */
+.wui.t-product #MainContent > .shopify-section > * {
+  padding-block: 0;
+  padding-inline: 0;
+}
+/* Dawn writes each section's padding into a generated class on a DESCENDANT
+   (.section-template--123__related-padding), which the rule above cannot reach. */
+.wui.t-product #MainContent [class*="-padding"] { padding-block: 0; }
+/* The footer's own top padding would stack on top of the last section's, so the
+   page ends with a double gap. The page owns this one too. */
+.wui.t-product .footer[class*="-padding"] { padding-block-start: 0; }
+/* Two older sections draw a grey hairline above themselves. Grey is not in the
+   palette, and with a real rhythm the rule is doing a job the space already does. */
+.wui.t-product #MainContent :is(.mw-section, .fwi-section) { border-top: 0; }
+/* faq-with-image sizes itself through an #id selector, which outranks the rules
+   above on its own padding. Named explicitly rather than left 9px out of line. */
+.wui.t-product #MainContent :is(.mw-section, .fwi-section) { padding-block: 0; padding-inline: 0; }
+.wui.t-product #MainContent > .shopify-section + .shopify-section {
+  margin-block-start: var(--wui-space-section);
+}
+/* The page's first section opens against the header, which is a lighter break
+   than a section change, so it takes the group step rather than the section one. */
+.wui.t-product #MainContent > .shopify-section:first-child > * {
+  padding-block-start: var(--wui-space-block);
+}
+.wui.t-product #MainContent > .shopify-section:last-child > * {
+  padding-block-end: var(--wui-space-section);
+}
+
+/* One content frame for every section on the page, whichever generation it came
+   from. Before this, the design-system sections sat at 108px from the viewport
+   edge at 1440 and the older ones at 100, 70 and 330. */
+.wui.t-product #MainContent :is(.wui-wrap, .page-width, .mw-inner, .fwi-inner) {
+  width: var(--wui-frame);
+  max-width: var(--wui-frame-max);
+  margin-inline: auto;
+  padding-inline: var(--wui-frame-pad);
 }
 
 /* --------------------------------------------------------------------------
