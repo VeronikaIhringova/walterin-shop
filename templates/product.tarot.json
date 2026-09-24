@@ -117,7 +117,8 @@
         "background": "#fffef7",
         "spec_labels": "Cards|Structure|Material|Finish",
         "spec_values": "80 · in the box|22 Major · 56 Minor|270 g/m²|Matte"
-      }
+      },
+      "disabled": true
     },
     "how_it_works": {
       "type": "how-it-works",
@@ -617,10 +618,29 @@
         "path_card": "nine-frame-path-card.png",
         "path_card_sk": "nine-frame-path-card-sk.png"
       }
+    },
+    "meet_the_cards": {
+      "type": "meet-the-cards",
+      "settings": {
+        "title": "Meet the cards",
+        "lead": "Look at any card up close: just click.",
+        "cards": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles",
+        "deck_size": 78,
+        "pile_alt": "The printed card back",
+        "hint": "They flip on their own. Pause them, or click one to read it.",
+        "pause_label": "Pause the cards",
+        "play_label": "Let them turn again",
+        "enable_sheet": true,
+        "sheet_label": "The card, larger",
+        "close_label": "Close",
+        "spec_labels": "Cards|Structure|Size|Print|Material|Finish",
+        "spec_values": "80 · in the box|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|270 g/m²|Matte"
+      }
     }
   },
   "order": [
     "main",
+    "meet_the_cards",
     "whats_inside_cards",
     "how_a_card_is_read",
     "how_it_works",

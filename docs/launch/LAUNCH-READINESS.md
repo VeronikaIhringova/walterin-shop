@@ -247,3 +247,18 @@ Walterin's own PayPal is live.
   the template identical to the repo. Checked on walterin.com: the section renders at 825px on
   desktop, the arrow clears the card by 10px, stepping, picking a card, the walk with the filling
   dots and the system dialog all work, no console errors.
+
+## 24 Sep 2026 · S3 "Meet the cards" went live
+- Pushed `assets/walterin-cards.js`, `assets/card-back.png`, `sections/meet-the-cards.liquid`, then
+  `templates/product.tarot.json`. Read back: all three files byte-identical to the repo, template
+  identical.
+- `meet_the_cards` now renders in place of `whats_inside_cards`, which stays in the template,
+  switched off. `wi-star.png` / `wi-star2.png` were already live and unchanged.
+- The discoverability cue is the schema default (**A · yellow marker under the name**) — the version
+  in the preview. Changing it is one setting (`cue`: marker / fold / tag / none).
+- Slovak: 10 settings registered and read back, `outdated: false`. Copy from
+  `docs/design/SECTIONS-COPY.md`. `cards` (the file list) is deliberately not translated.
+- Checked on walterin.com: four cards and the pile reading **+68**, the six-item spec strip, the
+  pause control, and a card opening in its sheet. No console errors.
+- Still open on S3, none of it blocking: The Hermit and The Sun have no artwork in the preview set
+  (ten cards are shown, the pile counts 78 − 10), and `sections/whats-inside.liquid` is now unused.
