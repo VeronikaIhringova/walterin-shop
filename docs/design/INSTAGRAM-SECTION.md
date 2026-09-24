@@ -5,8 +5,9 @@
 
 ## The short version
 
-Build it ourselves: a small scheduled worker outside Shopify refreshes the token and writes the six
-posts into a shop metafield; a Liquid section renders them. **The token never touches Shopify.**
+Build it ourselves: a small scheduled worker outside Shopify refreshes the token, fetches the six
+posts and serves them — and their images — from our own domain. **The token never touches Shopify,
+and a visitor's browser never contacts Meta.**
 
 The two reasons not to use an app are design and privacy, and both matter here more than the build cost.
 
@@ -100,47 +101,53 @@ at all. There is no cron in Shopify other than Flow's scheduled trigger.
 
 ## 5 · The architecture
 
+**Changed from the first draft, for a verified reason.** Shopify no longer lets anyone create an
+admin-created custom app — "You can no longer create new admin-created custom apps. Existing apps are
+unaffected." So the worker cannot simply be handed an Admin API token to write a metafield. Building
+a Dev Dashboard app and running OAuth, just to store six posts, is more machinery than this deserves.
+
+So the worker keeps everything and Shopify holds nothing:
+
 ```
-Cloudflare Worker  (cron: once a day)
-   ├─ token lives here, in the Worker's own secret store
-   ├─ 1. refresh the token, store the new one
-   ├─ 2. GET /media?limit=6
-   ├─ 3. re-host the six images on Shopify Files
-   └─ 4. metafieldsSet → shop metafield  walterin.instagram  (JSON)
-                                   │
-Liquid section reads that metafield. No network call at page render.
+Cloudflare Worker            ← the only thing to set up
+   ├─ the Instagram token lives here, in the Worker's secret store
+   ├─ cron, once a day:  refresh the token → fetch 6 posts → store in Workers KV
+   └─ serves two things to the storefront, from our own domain:
+         GET /feed        the six posts as JSON (no token in it)
+         GET /img/<id>    the image bytes, proxied and cached
+
+Theme section: fetches /feed when it scrolls into view. Renders, or stays hidden.
 ```
 
-**Why re-host the images instead of hot-linking Instagram's CDN:** see §8. It is the whole privacy
-argument, and it costs six image uploads a day.
+**No Shopify app, no Admin API token, no OAuth, no metafield.** One service, one secret store.
 
-**What goes in the metafield** — only things already public:
+**The images still never come from Meta.** The worker fetches them and serves them from its own
+domain, so a visitor's browser contacts Cloudflare — our own processor — and never Instagram. The
+data-protection argument in §8 is preserved exactly; this only removes the Shopify credentials.
+
+**What the storefront receives** — only things already public:
 
 ```json
 { "fetched_at": "2026-09-24T09:00:00Z",
-  "posts": [ { "permalink": "...", "image": "https://cdn.shopify.com/...",
-               "caption": "...", "timestamp": "...", "type": "IMAGE" } ] }
+  "posts": [ { "permalink": "...", "img": "/img/1789…", "caption": "…",
+               "timestamp": "…", "type": "IMAGE" } ] }
 ```
 
-**Where the secrets live:** the Worker's secret store — the Instagram token and the Shopify Admin
-API token. Never in the theme, never in git, never in a metafield. The metafield holds only what a
-visitor could read off the Instagram profile anyway, which is exactly why its always-readable-in-Liquid
-behaviour stops being a problem.
+**Cache: the worker writes once a day; the /feed response carries a one-hour cache header.** The rate
+limit is `4800 × impressions` per 24 hours — tens of thousands, so it is not a constraint. The
+constraint is not calling Instagram per page view, which this avoids entirely: the storefront only
+ever talks to our worker.
 
-**Cache: one hour minimum, one day is fine.** The rate limit is `4800 × impressions` calls per 24
-hours — tens of thousands. Rate limits are not the constraint. The constraint is not calling
-Instagram on every page view, which Shopify's own performance guidance warns against. Walterin posts
-weekly; a daily sync is honest.
+**One trade-off, stated plainly.** The grid is rendered by JavaScript after the page loads, not by
+Liquid. It sits at the very bottom of the page, loads only when scrolled to, and reserves its own
+space so nothing jumps. With JavaScript off, the section does not appear — which is the same
+behaviour as any failure, and the page is complete without it.
 
 ## 6 · What happens when it fails
 
 **The section does not render.** Not an empty grid, not a spinner, not an error.
 
-```liquid
-{%- if feed.posts.size > 0 and feed.fetched_at > <7 days ago> -%}
-```
-
-Two conditions, both required:
+Two conditions, both required, checked before anything is drawn:
 
 - **no posts → no section.** The band disappears and the page closes up, exactly the way Look inside
   does for a product with no spreads.
@@ -148,7 +155,9 @@ Two conditions, both required:
   itself rather than showing posts from a month ago. A dead feed is worse than no feed, because it
   makes the shop look abandoned.
 
-Instagram being down for an hour changes nothing at all — the page reads the metafield, not Instagram.
+Instagram being down for an hour changes nothing at all — the page talks to our worker, and the
+worker is serving yesterday's stored copy. Instagram would have to be unreachable for seven
+consecutive days before a visitor noticed, and what they would notice is a section that is not there.
 
 ## 7 · Build vs app, honestly
 
@@ -212,9 +221,9 @@ app cards, no gradients, no Instagram logo lockup.
 
 ## 10 · What I need from you
 
-1. **Switch @walterincomics to a Business or Creator account.** Nothing works until this is done.
-2. **Create the Meta app and generate the token** — I will send exact click-by-click steps.
+1. ~~Switch @walterincomics to a Business account~~ — already done.
+2. **Create the Meta app and generate the token** — `docs/INSTAGRAM-SETUP.md`.
 3. Decide: **build it** (my recommendation) or **Instafeed** for now.
-4. A Cloudflare account, if we build it. Free tier, one worker.
+4. A Cloudflare account. Free tier, one worker. Step-by-step in `docs/INSTAGRAM-SETUP.md`.
 
 Then: mock-ups at 1440 and 390 before a line of it goes near the live theme.
