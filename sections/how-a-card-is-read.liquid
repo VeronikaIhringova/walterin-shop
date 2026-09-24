@@ -1,0 +1,350 @@
+{% comment %}
+  Walterin · How a card is read (tarot product page). Replaces "How it works" (how-it-works.liquid).
+  Design system: assets/walterin-ui.css (body.wui). Behaviour: assets/walterin-read.js.
+
+  The note and the card, and nothing else. The note holds one frame enlarged, the row and the field
+  it sits in, its caption and the row's explanation; a drawn ink line crosses the gutter and stops
+  10px short of the card, aimed along the line into that frame's centre — it never touches the
+  artwork. The printed path card is one quiet link away, in a dialog, with the field for the frame
+  you are on already lit.
+
+  "Walk me through it" holds every frame the same length and the step dots fill as that time runs
+  out, so the change is never a surprise. It never starts by itself, it carries on from the frame
+  you are looking at, and any click, Escape, or focus entering the section takes it back.
+  Timing and its sources: docs/design/AUTOPLAY-WALK.md.
+
+  The nine-frame grid of each artwork and the captions printed inside the frames are measured data
+  and live in assets/walterin-read.js, keyed by file name (docs/design/data/preview-cards.json).
+  Only the preview set is ever shown (ground truth §3).
+
+  The path card is the print PDF at the card's own size; Slovak gets the Slovak card
+  (docs/design/NINE-FRAME-PATH.md). The tarot artwork stays English in both languages.
+{% endcomment %}
+{%- liquid
+  assign lines = section.settings.cards | strip | newline_to_br | split: '<br />'
+  assign path_asset = section.settings.path_card
+  if request.locale.iso_code == 'sk' and section.settings.path_card_sk != blank
+    assign path_asset = section.settings.path_card_sk
+  endif
+  assign rows = section.settings.rows | split: '|'
+  assign whys = section.settings.why | split: '|'
+  assign fields = section.settings.fields | split: '|'
+-%}
+
+<script src="{{ 'walterin-read.js' | asset_url }}" defer="defer"></script>
+
+<div class="wui-scope wui-read" data-wui-read data-wui-hold="{{ section.settings.hold | default: 7 }}">
+  <div class="wui-wrap">
+    <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
+
+    <div class="wui-read__grid" data-wui-read-grid>
+      <div class="wui-read__intro">
+        {%- if section.settings.intro != blank -%}
+          <p class="wui-read__lead">{{ section.settings.intro | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.hint != blank -%}
+          <p class="wui-read__hint">{{ section.settings.hint | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.show_system -%}
+          <p>
+            <button class="wui-read__quiet" type="button" data-wui-read-system>
+              {{- section.settings.system_label | escape -}}
+            </button>
+          </p>
+        {%- endif -%}
+      </div>
+
+      <div class="wui-read__noteslot" data-wui-read-note></div>
+
+      <div class="wui-read__card">
+        <div data-wui-read-card></div>
+        <span class="wui-read__name" data-wui-read-name></span>
+      </div>
+
+      <svg class="wui-read__link" data-wui-read-link aria-hidden="true" focusable="false"></svg>
+    </div>
+
+    <div class="wui-read__steps">
+      <button class="wui-btn wui-btn--sm wui-btn--secondary" type="button" data-step="-1">
+        {{- section.settings.back_label | escape -}}
+      </button>
+      <span class="wui-read__dots" data-wui-read-dots></span>
+      <button class="wui-btn wui-btn--sm wui-btn--secondary" type="button" data-step="1">
+        {{- section.settings.next_label | escape -}}
+      </button>
+      <button class="wui-btn wui-btn--sm wui-read__walk" type="button" data-wui-read-walk aria-pressed="false">
+        {{- section.settings.walk_label | escape -}}
+      </button>
+
+      <div class="wui-read__picker">
+        <span class="wui-read__pick">{{ section.settings.pick_label | escape }}</span>
+        <div class="wui-read__thumbs">
+          {%- assign i = 0 -%}
+          {%- for line in lines -%}
+            {%- liquid
+              assign parts = line | strip | split: '|'
+              assign file = parts[0] | strip
+              assign name = parts[1] | strip
+            -%}
+            {%- if file != blank -%}
+              <button
+                class="wui-read__thumb"
+                type="button"
+                data-card="{{ i }}"
+                data-name="{{ name | escape }}"
+                aria-pressed="false"
+                aria-label="{{ name | escape }}"
+              >
+                <img src="{{ file | asset_url }}" alt="" width="800" height="1314" loading="lazy">
+              </button>
+              {%- assign i = i | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    <p class="visually-hidden" data-wui-read-live aria-live="polite"></p>
+  </div>
+
+  {%- comment -%} Only the preview set, with their names. The frames and captions are measured data in the JS. {%- endcomment -%}
+  <script type="application/json" data-wui-read-cards>
+    [
+      {%- assign n = 0 -%}
+      {%- for line in lines -%}
+        {%- liquid
+          assign parts = line | strip | split: '|'
+          assign file = parts[0] | strip
+          assign name = parts[1] | strip
+        -%}
+        {%- if file != blank -%}
+          {%- if n > 0 %},{% endif -%}
+          { "src": {{ file | asset_url | json }}, "name": {{ name | json }} }
+          {%- assign n = n | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  </script>
+
+  <script type="application/json" data-wui-read-copy>
+    {
+      "row_word": {{ section.settings.row_word | json }},
+      "field_word": {{ section.settings.field_word | json }},
+      "frame_of": {{ section.settings.frame_of | json }},
+      "walk": {{ section.settings.walk_label | json }},
+      "stop": {{ section.settings.stop_label | json }},
+      "rows": [{% for r in rows %}{% unless forloop.first %},{% endunless %}{{ r | strip | json }}{% endfor %}],
+      "why": [{% for w in whys %}{% unless forloop.first %},{% endunless %}{{ w | strip | json }}{% endfor %}],
+      "fields": [
+        [{% for f in fields limit: 3 %}{% unless forloop.first %},{% endunless %}{{ f | strip | json }}{% endfor %}],
+        [{% for f in fields offset: 3 limit: 3 %}{% unless forloop.first %},{% endunless %}{{ f | strip | json }}{% endfor %}],
+        [{% for f in fields offset: 6 limit: 3 %}{% unless forloop.first %},{% endunless %}{{ f | strip | json }}{% endfor %}]
+      ]
+    }
+  </script>
+
+  {%- if section.settings.show_system -%}
+    <dialog class="wui-read__dlg" data-wui-read-dialog aria-label="{{ section.settings.system_title | escape }}">
+      <div class="wui-read__dlghead">
+        <h3 class="wui-label">{{ section.settings.system_title | escape }}</h3>
+        <button class="wui-read__quiet wui-read__quiet--plain" type="button" data-wui-read-close>
+          {{- section.settings.close_label | escape -}}
+        </button>
+      </div>
+      <div class="wui-read__cardbox">
+        <img
+          src="{{ path_asset | asset_url }}"
+          alt="{{ section.settings.system_title | escape }}"
+          width="800"
+          height="1314"
+          loading="lazy"
+        >
+        <span class="wui-read__ring" data-wui-read-pathring></span>
+      </div>
+      <p class="wui-read__dlgcap">{{ section.settings.system_caption | escape }}</p>
+    </dialog>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+/* Walterin · How a card is read. Tokens from assets/walterin-ui.css; ink, paper and yellow only —
+   the artwork brings the colour. */
+.wui .wui-read { padding-block: var(--wui-32); }
+.wui .wui-read__grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wui-24); margin-top: var(--wui-24); }
+
+.wui .wui-read__intro { display: grid; gap: var(--wui-12); align-content: start; max-width: 46ch; }
+.wui .wui-read__lead { font-size: var(--wui-fs-body); line-height: 1.45; margin: 0; }
+.wui .wui-read__hint { font-size: var(--wui-fs-small); line-height: 1.4; margin: 0; }
+
+/* a quiet link, not a button */
+.wui .wui-read__quiet {
+  display: inline-flex; align-items: center; gap: 7px; font-family: var(--wui-body); font-size: var(--wui-fs-small);
+  color: var(--wui-ink); background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.wui .wui-read__quiet::before {
+  content: ''; width: 15px; height: 15px; flex: none; border: var(--wui-line-thin) solid var(--wui-ink); border-radius: 2px;
+  background: linear-gradient(var(--wui-ink) 0 0) 0 33% / 100% 1.5px no-repeat,
+              linear-gradient(var(--wui-ink) 0 0) 0 67% / 100% 1.5px no-repeat;
+}
+.wui .wui-read__quiet--plain::before { content: none; }
+
+/* a card */
+.wui .wui-read__cardbox { position: relative; border-radius: var(--wui-radius); overflow: hidden; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
+.wui .wui-read__cardbox img { display: block; width: 100%; height: auto; border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper); }
+.wui .wui-read__ring {
+  position: absolute; border: 3px solid var(--wui-ink); border-radius: 3px; pointer-events: none; transform-origin: top left;
+  transition: left .22s var(--wui-ease), top .22s var(--wui-ease), width .22s var(--wui-ease),
+              height .22s var(--wui-ease), transform .22s var(--wui-ease);
+  box-shadow: 0 0 0 9999px rgb(255 253 247 / .58);
+}
+.wui .wui-read__hot { position: absolute; border: 0; background: transparent; padding: 0; cursor: pointer; }
+.wui .wui-read__hot::after {
+  content: attr(data-n); position: absolute; left: 3px; top: 3px; width: 16px; height: 16px;
+  border: var(--wui-line-thin) solid var(--wui-ink); border-radius: 50%; background: var(--wui-paper);
+  font: 700 9px/14px var(--wui-body); text-align: center; opacity: .9;
+}
+.wui .wui-read__name {
+  display: block; margin-top: var(--wui-12); text-align: center; font-family: var(--wui-display);
+  font-size: 17px; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase;
+}
+
+/* the note: the frame on the left, what it is on the right */
+.wui .wui-read__note {
+  border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper);
+  box-shadow: 4px 4px 0 rgb(34 34 34 / .28); padding: var(--wui-16); display: grid; gap: var(--wui-12) var(--wui-16);
+  align-content: start; min-height: 540px;
+}
+.wui .wui-read__n { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.wui .wui-read__crop {
+  background-repeat: no-repeat; border: var(--wui-line) solid var(--wui-ink); border-radius: 6px;
+  background-color: var(--wui-paper); width: 100%; max-width: 230px;
+}
+.wui .wui-read__text { display: grid; gap: var(--wui-8); align-content: start; }
+.wui .wui-read__cap { font-family: var(--wui-display); font-size: 20px; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; }
+.wui .wui-read__why { font-size: var(--wui-fs-small); line-height: 1.4; }
+.wui .wui-read__coord { display: grid; gap: 0; margin: 0; }
+.wui .wui-read__coord dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.wui .wui-read__coord dd { margin: 1px 0 7px; font-family: var(--wui-display); font-size: 16px; line-height: 1.1; letter-spacing: .03em; text-transform: uppercase; }
+.wui .wui-read__coord dd:last-of-type { margin-bottom: 0; }
+
+/* the arrow */
+.wui .wui-read__link { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: visible; }
+.wui .wui-read__shaft { fill: none; stroke: var(--wui-ink); stroke-width: 3; stroke-linecap: round; }
+.wui .wui-read__head { fill: var(--wui-ink); }
+
+/* controls */
+.wui .wui-read__steps { display: flex; align-items: center; gap: var(--wui-12); flex-wrap: wrap; margin-top: var(--wui-24); }
+.wui .wui-read__walk { min-width: 11.5em; }
+.wui .wui-read__dots { display: flex; gap: var(--wui-8); }
+.wui .wui-read__dotgroup { display: flex; gap: 3px; }
+.wui .wui-read__dot {
+  position: relative; width: 11px; height: 11px; border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: 50%; overflow: hidden; background: var(--wui-paper);
+}
+.wui .wui-read__dot i { position: absolute; inset: -1px; background: var(--wui-yellow); transform: scaleY(0); transform-origin: bottom; }
+.wui .wui-read__dot.is-on i { transform: scaleY(1); }
+.wui .wui-read__dot.is-done { background: var(--wui-ink); }
+
+.wui .wui-read__picker { display: flex; align-items: center; gap: var(--wui-12); flex-wrap: wrap; flex: 1 1 100%; min-width: 0; }
+.wui .wui-read__pick { font-size: var(--wui-fs-small); }
+.wui .wui-read__thumbs { display: flex; gap: 7px; max-width: 100%; overflow-x: auto; padding: 2px 0; flex: 1 1 auto; min-width: 0; }
+.wui .wui-read__thumb {
+  position: relative; flex: none; width: 38px; aspect-ratio: 800/1314; padding: 0;
+  border: var(--wui-line-thin) solid var(--wui-ink); border-radius: 4px; overflow: hidden; background: var(--wui-paper); cursor: pointer;
+}
+.wui .wui-read__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.wui .wui-read__thumb[aria-pressed='true'] { outline: 3px solid var(--wui-yellow); outline-offset: -3px; }
+.wui .wui-read__thumb::after {
+  content: attr(data-name); position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  white-space: nowrap; font-size: 12px; background: var(--wui-paper); border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: 4px; padding: 2px 6px; opacity: 0; pointer-events: none; transition: opacity var(--wui-t-hover) var(--wui-ease); z-index: 6;
+}
+.wui .wui-read__thumb:hover::after, .wui .wui-read__thumb:focus-visible::after { opacity: 1; }
+
+/* the whole system, on request */
+.wui .wui-read__dlg {
+  border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper);
+  color: var(--wui-ink); padding: var(--wui-24); max-width: min(92vw, 380px); box-shadow: 6px 6px 0 rgb(34 34 34 / .28);
+}
+.wui .wui-read__dlg::backdrop { background: rgb(34 34 34 / .35); }
+.wui .wui-read__dlghead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--wui-16); margin-bottom: var(--wui-12); }
+.wui .wui-read__dlgcap { font-size: var(--wui-fs-small); line-height: 1.35; margin: var(--wui-12) 0 0; }
+
+/* phone: the note and the card side by side, the gutter between them */
+@media (max-width: 989px) {
+  .wui .wui-read__grid { grid-template-columns: minmax(0, 1fr) 34px 132px; gap: var(--wui-16) 0; }
+  .wui .wui-read__intro { grid-column: 1 / -1; grid-row: 1; }
+  .wui .wui-read__noteslot { grid-column: 1; grid-row: 2; min-width: 0; }
+  .wui .wui-read__card { grid-column: 3; grid-row: 2; width: 132px; }
+  .wui .wui-read__crop { max-width: 128px; }
+}
+
+/* from 990px the width does the work: intro · note · card, one spacing step apart, and the row
+   starts and ends on the page's content edges */
+@media (min-width: 990px) {
+  .wui .wui-read { padding-block: var(--wui-48); }
+  .wui .wui-read__grid {
+    grid-template-columns: 340px minmax(0, 1fr) 280px; align-items: start;
+    gap: 0 var(--wui-48); margin-top: var(--wui-48);
+  }
+  .wui .wui-read__intro { grid-column: 1; }
+  .wui .wui-read__noteslot { grid-column: 2; }
+  .wui .wui-read__card { grid-column: 3; width: 280px; }
+  .wui .wui-read__note { grid-template-columns: 210px minmax(0, 1fr); min-height: 408px; }
+  .wui .wui-read__n { grid-column: 1 / -1; margin-bottom: -6px; }
+  .wui .wui-read__crop { width: 210px; max-width: none; align-self: start; }
+  .wui .wui-read__cap { font-size: 23px; }
+  .wui .wui-read__coord dd { font-size: 17px; }
+  .wui .wui-read__name { font-size: 21px; }
+  .wui .wui-read__steps { justify-content: center; }
+  .wui .wui-read__picker { justify-content: center; }
+  .wui .wui-read__thumbs { flex: 0 1 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wui .wui-read *, .wui .wui-read *::before, .wui .wui-read *::after { transition: none !important; animation: none !important; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Walterin · How to read",
+  "tag": "section",
+  "class": "wui-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "How a card is read" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform." },
+    { "type": "text", "id": "hint", "label": "Hint", "default": "Step through the nine frames, or click one on the card." },
+
+    { "type": "header", "content": "The cards you can step through" },
+    { "type": "textarea", "id": "cards", "label": "Preview cards", "info": "One per line: file.jpg | Card name. Only cards with a measured nine-frame grid are shown.", "default": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles" },
+    { "type": "text", "id": "pick_label", "label": "Picker label", "default": "Try another card" },
+
+    { "type": "header", "content": "What the note says" },
+    { "type": "text", "id": "row_word", "label": "Word for the row", "default": "Row" },
+    { "type": "text", "id": "field_word", "label": "Word for the field", "default": "Field" },
+    { "type": "text", "id": "frame_of", "label": "Frame counter", "info": "[n] is the number", "default": "Frame [n] of 9" },
+    { "type": "text", "id": "rows", "label": "The three rows", "info": "Separated by |", "default": "What to understand|What to accept|What to transform" },
+    { "type": "textarea", "id": "why", "label": "What each row is for", "info": "Three, separated by |. Keep them short: the walk holds every frame the same length.", "default": "What is going on, and what to notice in it.|What is yours, and what to admit before anything moves.|Where it leads, and what you can change." },
+    { "type": "textarea", "id": "fields", "label": "The nine fields", "info": "Nine, separated by |, in reading order. As printed on the path card.", "default": "Chance|Idea|Value|Openness|Meaning|Trust|To try|To develop|To create" },
+
+    { "type": "header", "content": "Stepping and the walk" },
+    { "type": "text", "id": "back_label", "label": "Back button", "default": "Back" },
+    { "type": "text", "id": "next_label", "label": "Next button", "default": "Next" },
+    { "type": "text", "id": "walk_label", "label": "Walk button", "default": "Walk me through it" },
+    { "type": "text", "id": "stop_label", "label": "Stop button", "default": "Stop" },
+    { "type": "range", "id": "hold", "label": "Seconds on each frame", "min": 5, "max": 14, "step": 1, "unit": "s", "default": 7, "info": "7s in English, 8s in Slovak. Worked out in docs/design/AUTOPLAY-WALK.md." },
+
+    { "type": "header", "content": "The whole system" },
+    { "type": "checkbox", "id": "show_system", "label": "Offer the path card", "default": true },
+    { "type": "text", "id": "system_label", "label": "Link", "default": "See the whole system" },
+    { "type": "text", "id": "system_title", "label": "Dialog heading", "default": "The nine-frame path" },
+    { "type": "textarea", "id": "system_caption", "label": "Dialog caption", "default": "The nine-frame path. Its own card, in the box. The lit field is where this frame sits." },
+    { "type": "text", "id": "close_label", "label": "Close button", "default": "Close" },
+    { "type": "text", "id": "path_card", "label": "Path card file", "default": "nine-frame-path-card.png" },
+    { "type": "text", "id": "path_card_sk", "label": "Path card file (Slovak)", "info": "Used when the page is in Slovak.", "default": "nine-frame-path-card-sk.png" }
+  ],
+  "presets": [ { "name": "Walterin · How to read" } ]
+}
+{% endschema %}

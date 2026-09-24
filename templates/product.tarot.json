@@ -110,18 +110,6 @@
         "remaining_text": "[n] of 100 left"
       }
     },
-    "how_it_works": {
-      "type": "how-it-works",
-      "settings": {
-        "title": "Every card is a nine‑frame path",
-        "paragraph_1": "Inspired by the original <strong>Rider–⁠Waite</strong>, then redrawn the <em>Walterin way</em>: instead of one image, each card unfolds across <strong>nine frames</strong>. Look at the picture first. Then read the words.",
-        "paragraph_2": "The cards do not hand you <strong>finished answers</strong>. They help you hear <em>what usually stays quiet</em>.",
-        "card_asset": "hiw-card.jpg",
-        "card_alt": "The Walterin nine‑frame path",
-        "background": "#e9e7df",
-        "background_asset": "hiw-bg.jpg"
-      }
-    },
     "meet_walter": {
       "type": "meet-walter",
       "settings": {
@@ -597,12 +585,40 @@
         "spec_labels": "Cards|Structure|Size|Print|Material|Finish",
         "spec_values": "80 · in the box|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|270 g/m²|Matte"
       }
+    },
+    "how_a_card_is_read": {
+      "type": "how-a-card-is-read",
+      "settings": {
+        "title": "How a card is read",
+        "intro": "Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.",
+        "hint": "Step through the nine frames, or click one on the card.",
+        "cards": "wi-major-05.jpg | The Magician\nwi-major-01.jpg | The Fool\nwi-major-02.jpg | Wheel of Fortune\nwi-major-04.jpg | The Star\nwi-wands-01.jpg | Two of Wands\nwi-wands-03.jpg | Knight of Wands\nwi-cups-01.jpg | Six of Cups\nwi-swords-03.jpg | Seven of Swords\nwi-pentacles-01.jpg | Two of Pentacles\nwi-pentacles-02.jpg | Seven of Pentacles",
+        "pick_label": "Try another card",
+        "row_word": "Row",
+        "field_word": "Field",
+        "frame_of": "Frame [n] of 9",
+        "rows": "What to understand|What to accept|What to transform",
+        "why": "What is going on, and what to notice in it.|What is yours, and what to admit before anything moves.|Where it leads, and what you can change.",
+        "fields": "Chance|Idea|Value|Openness|Meaning|Trust|To try|To develop|To create",
+        "back_label": "Back",
+        "next_label": "Next",
+        "walk_label": "Walk me through it",
+        "stop_label": "Stop",
+        "hold": 7,
+        "show_system": true,
+        "system_label": "See the whole system",
+        "system_title": "The nine-frame path",
+        "system_caption": "The nine-frame path. Its own card, in the box. The lit field is where this frame sits.",
+        "close_label": "Close",
+        "path_card": "nine-frame-path-card.png",
+        "path_card_sk": "nine-frame-path-card-sk.png"
+      }
     }
   },
   "order": [
     "main",
     "meet_the_cards",
-    "how_it_works",
+    "how_a_card_is_read",
     "meet_walter",
     "faq_with_image_gbXEDU",
     "rich_text_wdNwrm",
