@@ -150,10 +150,7 @@
       ],
       "settings": {
         "title": "Look inside",
-        "lead": "Nine frames to a story, the same way the tarot works.",
-        "columns": 1,
-        "zoom_label": "Enlarge the page",
-        "close_label": "Close"
+        "lead": "Nine frames to a story, the same way the tarot works."
       }
     },
     "faq": {
@@ -198,7 +195,7 @@
           "type": "question",
           "settings": {
             "heading": "How do I reach a person?",
-            "text": "<p>support@walterin.com, or +421 905 549 907 on working days between 9:00 and 17:00 (CET).</p><p>We answer within one working day.</p>"
+            "text": "<p>support@walterin.com, or +421 905 549 907 on working days between 9:00 and 17:00 (CET).</p><p>We’ll get back to you as soon as we can.</p>"
           }
         }
       },

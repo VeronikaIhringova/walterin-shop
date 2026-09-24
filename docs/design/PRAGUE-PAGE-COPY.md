@@ -67,8 +67,8 @@ email, both files together.
 
 ## 2 · Look inside
 Heading *Pozrite dovnútra / Look inside*, one line under it: *Deväť obrázkov na príbeh — presne ako
-v tarote. / Nine frames to a story, the same way the tarot works.* The spread opens full size on a
-click; Escape closes it.
+v tarote. / Nine frames to a story, the same way the tarot works.* The spreads run the full width of
+the page: no frame, no shadow, nothing to click.
 
 **One thing to fix, and it is yours:** the image itself has "TAKE A LOOK INSIDE" and
 *"Original 9 frame stories, historical facts, playful illustrations. Everything in one place!"*
@@ -87,7 +87,7 @@ come from the section, in both languages.
 | What can I pay with? | Visa, Mastercard, American Express a Apple Pay alebo Google Pay. Platbu spracúva náš poskytovateľ — číslo vašej karty sa k nám nedostane. | Visa, Mastercard, American Express, and Apple Pay or Google Pay. The payment is handled by our payment provider — your card number never reaches us. |
 | Is this original work? | Áno. Kreslí to Walter Ihring a vydávame to my. Nič tu nie je cudzia kniha s novou obálkou. | Yes. Walter Ihring draws it and we publish it. Nothing here is somebody else's book with a new cover on it. |
 | What if it is sold out? | Nechajte nám e-mail pri produkte a napíšeme raz, keď bude späť. Newsletter len vtedy, ak si ho vypýtate. | Leave your email on the product and we write once, when it is back. No newsletter unless you ask for one. |
-| How do I reach a person? | support@walterin.com alebo +421 905 549 907 v pracovné dni medzi 9:00 a 17:00 (SEČ). Odpovedáme do jedného pracovného dňa. | support@walterin.com, or +421 905 549 907 on working days between 9:00 and 17:00 (CET). We answer within one working day. |
+| How do I reach a person? | support@walterin.com alebo +421 905 549 907 v pracovné dni medzi 9:00 a 17:00 (SEČ). Ozveme sa čo najskôr. | support@walterin.com, or +421 905 549 907 on working days between 9:00 and 17:00 (CET). We’ll get back to you as soon as we can. |
 
 Under the rows: *Celé pravidlá sú v [zásadách vrátenia] a v [obchodných podmienkach]. / The full
 rules are in the [refund policy] and the [terms].*
@@ -97,5 +97,5 @@ rules are in the [refund policy] and the [terms].*
    contracted yet, so the answer says the printed edition is being prepared and the delivery time
    will be shown before payment. Once Packeta is signed, that answer gets the real numbers — and the
    store needs a shipping policy page anyway.
-2. **"Delivery within one working day"** for support is a promise about us, not a carrier, so it
-   stands — but say if you would rather not commit to it.
+2. **No promise about how fast we answer.** "We'll get back to you as soon as we can." /
+   "Ozveme sa čo najskôr." — nothing we can be held to on a slow week.

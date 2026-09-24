@@ -1,34 +1,33 @@
-/* Every product uses this unless it is given its own template. The buy column reads the
-   product: title, price, options as pills, the gallery, and the description under "About this".
-   The questions are the same for everything we sell. */
+/* Walterin Prague sticker set. Set this template on the product in admin:
+   Products → Walterin Prague Sticker Set → Theme template → stickers. */
 {
   "sections": {
     "main": {
       "type": "walterin-buy",
       "settings": {
-        "sticky_title": "",
-        "waitlist_tag": "waitlist",
-        "edition_note": "",
+        "sticky_title": "Prague stickers",
+        "waitlist_tag": "stickers-waitlist",
+        "edition_note": "30 stickers on two sheets.",
         "choice_note": "",
-        "about_heading": "About this",
-        "about_text": "",
-        "box_heading": "",
-        "box_lead": "",
-        "box_item_1": "",
-        "box_item_2": "",
-        "box_item_3": "",
-        "box_item_4": "",
+        "about_heading": "About the stickers",
+        "about_text": "<p>Thirty stickers off the pages of Walterin Prague: the characters, the city’s icons, and a few small jokes that only make sense once you have read the book.</p><p>Matte, and they stay where you put them.</p>",
+        "box_heading": "What you get",
+        "box_lead": "Two sheets, thirty stickers.",
+        "box_item_1": "30 stickers drawn for the Prague edition",
+        "box_item_2": "Two square sheets, 210 × 210 mm",
+        "box_item_3": "Matte finish, adhesive that holds",
+        "box_item_4": "For a laptop, a notebook, a bottle — or a parcel you are sending on",
         "box_item_5": "",
-        "spec_1_label": "",
-        "spec_1_value": "",
-        "spec_2_label": "",
-        "spec_2_value": "",
-        "spec_3_label": "",
-        "spec_3_value": "",
-        "spec_4_label": "",
-        "spec_4_value": "",
-        "spec_5_label": "",
-        "spec_5_value": "",
+        "spec_1_label": "Stickers",
+        "spec_1_value": "30",
+        "spec_2_label": "Sheets",
+        "spec_2_value": "2 · 210 × 210 mm",
+        "spec_3_label": "Finish",
+        "spec_3_value": "Matte",
+        "spec_4_label": "Print",
+        "spec_4_value": "Full colour",
+        "spec_5_label": "Adhesive",
+        "spec_5_value": "Long-lasting",
         "spec_6_label": "",
         "spec_6_value": "",
         "spec_7_label": "",
@@ -48,7 +47,41 @@
         "privacy_link": "Privacy policy",
         "atc_label": "Add to cart",
         "hide_payment_types": "paypal, revolut"
-      }
+      },
+      "blocks": {
+        "acc_gift": {
+          "type": "accordion",
+          "settings": {
+            "heading": "As a gift",
+            "show_when": "always",
+            "secondary": true,
+            "text": "<p>Small enough to go in an envelope, and they cost less than a coffee each.</p><p>They read as a set, so they work next to the book — or as the thing you send when the book is too much.</p>"
+          }
+        },
+        "acc_walter": {
+          "type": "accordion",
+          "settings": {
+            "heading": "About Walter",
+            "show_when": "always",
+            "secondary": true,
+            "text": "<p>Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and every now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, a city told in comics. Prague is the next city, and the tarot is the first deck.</p>"
+          }
+        },
+        "acc_when": {
+          "type": "accordion",
+          "settings": {
+            "heading": "When can I have them?",
+            "show_when": "coming_soon",
+            "secondary": true,
+            "text": "<p>Not yet. Leave your email above and we write once, the day they can be bought — nothing else.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "acc_gift",
+        "acc_walter",
+        "acc_when"
+      ]
     },
     "faq": {
       "type": "walterin-faq",

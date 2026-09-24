@@ -75,6 +75,9 @@
 {%- comment -%} Waitlist code of the selected variant's first option (the edition the visitor picked) {%- endcomment -%}
 {%- liquid
   assign selected_code = selected.option1 | handleize
+  if product.has_only_default_variant
+    assign selected_code = ''
+  endif
   assign pairs = code_map | split: '¬'
   for pair in pairs
     assign parts = pair | strip | split: '|'
@@ -85,7 +88,14 @@
   endfor
 -%}
 
-{%- capture selected_name_html -%}<span data-wui-edname>{{ selected.option1 | escape }}</span>{%- endcapture -%}
+{%- comment -%}
+  The name of the chosen edition, used in the notify message and the sticky bar. A single-variant
+  product has no edition — Shopify calls it "Default Title" — so it stays empty and the [edition]
+  placeholder drops out of the sentence instead of naming a thing that does not exist.
+{%- endcomment -%}
+{%- capture selected_name_html -%}
+  {%- unless product.has_only_default_variant -%}<span data-wui-edname>{{ selected.option1 | escape }}</span>{%- endunless -%}
+{%- endcapture -%}
 {%- capture price_html -%}<span data-wui-price>{{ price }}</span>{%- endcapture -%}
 
 {%- if product_state == 'available' -%}
@@ -184,9 +194,15 @@
         </div>
       </div>
 
-      {%- comment -%} ---- 3. Choice: one group per product option ---- {%- endcomment -%}
+      {%- comment -%}
+        ---- 3. Choice: one group per product option ----
+        A product with a single variant has no real options: Shopify still reports one called
+        "Title" holding "Default Title". Rendering that would put a legend and a pill on the page
+        for a choice nobody has. `has_only_default_variant` is the guard.
+      {%- endcomment -%}
       {%- capture option_groups -%}
         <div class="wui-buy__choices">
+        {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           {%- liquid
             assign opt_index = forloop.index
@@ -322,6 +338,7 @@
             </fieldset>
           </div>
         {%- endfor -%}
+        {%- endunless -%}
         {%- comment -%} The two helper lines sit with the choice they explain, not as their own group {%- endcomment -%}
         {%- if section.settings.edition_note != blank or section.settings.choice_note != blank -%}
           <div class="wui-buy__notes">
@@ -400,14 +417,20 @@
             {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
               {%- if form.posted_successfully? -%}
                 <p class="wui-status wui-status--success" role="status" tabindex="-1" data-wui-notify-done>
-                  {{ section.settings.notify_success | escape | replace: '[edition]', selected_name_html }}
+                  {%- liquid
+                    assign notify_msg = section.settings.notify_success
+                    if product.has_only_default_variant
+                      assign notify_msg = notify_msg | replace: '[edition] ', '' | replace: '[edition]', ''
+                    endif
+                  -%}
+                  {{ notify_msg | escape | replace: '[edition]', selected_name_html }}
                 </p>
               {%- else -%}
                 {%- assign tag_prefix = section.settings.waitlist_tag | default: 'waitlist' | handleize -%}
                 <input
                   type="hidden"
                   name="contact[tags]"
-                  value="{{ tag_prefix }},{{ tag_prefix }}-{{ selected_code }}"
+                  value="{{ tag_prefix }}{% if selected_code != blank %},{{ tag_prefix }}-{{ selected_code }}{% endif %}"
                   data-wui-tag="{{ tag_prefix }},{{ tag_prefix }}-{ed}"
                 >
                 <input type="hidden" name="contact[accepts_marketing]" value="true">
@@ -455,7 +478,12 @@
 
       {%- comment -%} ---- 5. Read: accordions ---- {%- endcomment -%}
       <div class="wui-accordions">
-        {%- if section.settings.about_text != blank -%}
+        {%- comment -%}
+          With nothing written in the section, the product's own description carries this accordion,
+          so a brand-new product has a real page from the moment it is created.
+        {%- endcomment -%}
+        {%- assign about_body = section.settings.about_text | default: product.description -%}
+        {%- if about_body != blank -%}
           <details class="wui-accordion" data-wui-acc>
             <summary>
               <span class="wui-accordion__title">
@@ -464,10 +492,36 @@
               </span>
               <span class="wui-accordion__icon" aria-hidden="true"></span>
             </summary>
-            <div class="wui-accordion__wrap"><div class="wui-accordion__body wui-rte">{{ section.settings.about_text }}</div></div>
+            <div class="wui-accordion__wrap"><div class="wui-accordion__body wui-rte">{{ about_body }}</div></div>
           </details>
         {%- endif -%}
 
+        {%- comment -%}
+          Only when there is something in it: a product with no box list and no specs would
+          otherwise show an accordion with no heading and nothing inside.
+        {%- endcomment -%}
+        {%- liquid
+          assign box_has = false
+          if section.settings.box_heading != blank and section.settings.box_lead != blank
+            assign box_has = true
+          endif
+          for i in (1..5)
+            assign k = 'box_item_' | append: i
+            if section.settings[k] != blank
+              assign box_has = true
+            endif
+          endfor
+          for i in (1..8)
+            assign k = 'spec_' | append: i | append: '_value'
+            if section.settings[k] != blank
+              assign box_has = true
+            endif
+          endfor
+          if section.settings.box_heading == blank
+            assign box_has = false
+          endif
+        -%}
+        {%- if box_has -%}
         <details class="wui-accordion" data-wui-acc>
           <summary>
             <span class="wui-accordion__title">
@@ -519,6 +573,7 @@
             </div>
           </div>
         </details>
+        {%- endif -%}
 
         {%- comment -%}
           Delivery. The physical text stays hidden until Pack4you is signed (show_delivery_physical).
