@@ -1,0 +1,145 @@
+{% comment %}
+  Walterin · Where to find us — the text on the left, a drawn globe on the right.
+
+  The page has to be honest about a shop with no stockists yet: it says where we are, where you can
+  buy today, and invites the shops that might carry us. It never promises a stockist or an event we
+  do not have.
+
+  The globe is ours: an orthographic projection computed in assets/walterin-globe.js over the
+  coastlines in assets/walterin-land.js. No mapping library, nothing fetched at runtime, and no
+  third-party request — which is the same reason the Instagram section re-hosts its images.
+
+  Design system: assets/walterin-ui.css (body.wui). Spacing: docs/design/SPACING.md.
+{% endcomment %}
+
+<script src="{{ 'walterin-land.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'walterin-globe.js' | asset_url }}" defer="defer"></script>
+
+<div class="wui-scope wui-where">
+  <div class="wui-wrap">
+    {%- if section.settings.title != blank -%}
+      <h1 class="wui-display wui-where__title">{{ section.settings.title | escape }}</h1>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="wui-where__lead">{{ section.settings.lead | escape }}</p>
+    {%- endif -%}
+
+    <div class="wui-where__split">
+      <div class="wui-where__col">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'block' and block.settings.heading != blank -%}
+            <div class="wui-where__blk" {{ block.shopify_attributes }}>
+              <h2 class="wui-heading">{{ block.settings.heading | escape }}</h2>
+              {%- if block.settings.rule -%}<hr class="wui-where__rule">{%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="wui-rte wui-where__text">{{ block.settings.text }}</div>
+              {%- endif -%}
+              {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                <p class="wui-where__cta">
+                  {%- liquid
+                    assign btn_variant = ''
+                    if block.settings.button_secondary
+                      assign btn_variant = 'secondary'
+                    endif
+                  -%}
+                  {%- render 'wui-button',
+                    label: block.settings.button_label,
+                    href: block.settings.button_link,
+                    variant: btn_variant -%}
+                </p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="wui-where__globe">
+        <svg
+          data-wui-globe
+          data-lat="{{ section.settings.pin_lat }}"
+          data-lng="{{ section.settings.pin_lng }}"
+          data-label="{{ section.settings.pin_label | escape }}"
+          viewBox="0 0 420 420"
+          tabindex="0"
+          role="img"
+          aria-label="{{ section.settings.globe_alt | escape }}"
+        ></svg>
+        {%- if section.settings.globe_hint != blank -%}
+          <p class="wui-where__hint">{{ section.settings.globe_hint | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.wui .wui-where__title { margin-bottom: var(--wui-space-heading); }
+.wui .wui-where__lead { max-width: 56ch; margin: 0; font-size: var(--wui-fs-body); line-height: 1.5; }
+.wui .wui-where__split {
+  display: grid;
+  gap: var(--wui-space-block);
+  grid-template-columns: 1fr;
+  margin-top: var(--wui-space-section);
+  align-items: start;
+}
+.wui .wui-where__col { display: grid; gap: var(--wui-space-section); align-content: start; }
+.wui .wui-where__blk { display: grid; gap: var(--wui-space-heading); max-width: 56ch; }
+.wui .wui-where__text { font-size: var(--wui-fs-body); line-height: 1.5; }
+.wui .wui-where__cta { margin: 0; }
+.wui .wui-where__rule { border: 0; border-top: var(--wui-line-thin) dashed var(--wui-ink); margin: 0; }
+.wui .wui-where__globe svg {
+  display: block; width: 100%; height: auto; max-width: 560px; margin-inline: auto;
+  touch-action: none; cursor: grab;
+}
+.wui .wui-where__globe svg:active { cursor: grabbing; }
+.wui .wui-where__globe svg:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 4px; }
+.wui .wui-where__hint {
+  margin: var(--wui-space-item) 0 0; text-align: center;
+  font-size: var(--wui-fs-small); opacity: 0.7;
+}
+/* On a phone the globe comes first: it says where we are before the words do. */
+@media (max-width: 989px) {
+  .wui .wui-where__globe { order: -1; }
+  .wui .wui-where__col { gap: var(--wui-space-block); }
+  .wui .wui-where__split { margin-top: var(--wui-space-block); }
+}
+@media (min-width: 990px) {
+  .wui .wui-where__split { grid-template-columns: minmax(0, 1fr) minmax(0, 46%); }
+  .wui .wui-where__globe { position: sticky; top: var(--wui-space-block); }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Walterin · Find us",
+  "tag": "section",
+  "class": "wui-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Where to find us" },
+    { "type": "text", "id": "lead", "label": "Line under the heading" },
+    { "type": "header", "content": "The globe" },
+    { "type": "paragraph", "content": "Drawn in our own line from a world outline that ships with the theme. Nothing is fetched from anyone else." },
+    { "type": "text", "id": "pin_lat", "label": "Pin latitude", "default": "48.148" },
+    { "type": "text", "id": "pin_lng", "label": "Pin longitude", "default": "17.107" },
+    { "type": "text", "id": "pin_label", "label": "Pin label", "default": "Bratislava" },
+    { "type": "text", "id": "globe_hint", "label": "Line under the globe", "default": "Drag the globe" },
+    { "type": "text", "id": "globe_alt", "label": "Globe description (screen readers)", "default": "A drawn globe with a mark on Bratislava. Drag it to turn it." }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Block",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "checkbox", "id": "rule", "label": "Dashed rule under the heading", "default": false },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "text", "id": "button_label", "label": "Button" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "checkbox", "id": "button_secondary", "label": "Secondary button", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Walterin · Find us", "blocks": [ { "type": "block" } ] } ]
+}
+{% endschema %}

@@ -549,19 +549,25 @@
           });
         });
 
-        document.addEventListener('click', (e) => {
-          if (!e.target.closest('[data-feature]')) {
-            this.closeAllFeatures();
-          }
-        });
+        /* Clicking elsewhere on the page no longer shuts everything: several may stay open,
+           and closing them on a stray click was the same "one at a time" behaviour by another
+           route. They close when the section leaves the screen instead. */
+
+        /* Fresh when you come back: once the whole section is out of view, everything folds
+           up again. rootMargin lets it happen just after it leaves rather than at the edge, so
+           it is never seen collapsing. */
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) this.closeAllFeatures();
+            });
+          }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
+          io.observe(this);
+        }
       }
 
       expandFeature(feature) {
-        this.features.forEach((f) => {
-          if (f !== feature) {
-            f.classList.remove('expanded');
-          }
-        });
+        /* Several open at once: opening one no longer closes the others. */
         feature.classList.add('expanded');
       }
 

@@ -127,35 +127,35 @@
    Scoped to the product template so the home page keeps its own composition
    until it is converted in its own pass.
    -------------------------------------------------------------------------- */
-.wui.t-product #MainContent > .shopify-section > * {
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section > * {
   padding-block: 0;
   padding-inline: 0;
 }
 /* Dawn writes each section's padding into a generated class on a DESCENDANT
    (.section-template--123__related-padding), which the rule above cannot reach. */
-.wui.t-product #MainContent [class*="-padding"] { padding-block: 0; }
+.wui:is(.t-product, .t-page) #MainContent [class*="-padding"] { padding-block: 0; }
 /* The footer's own top padding would stack on top of the last section's, so the
    page ends with a double gap. The page owns this one too. */
-.wui.t-product .footer[class*="-padding"] { padding-block-start: 0; }
+.wui:is(.t-product, .t-page) .footer[class*="-padding"] { padding-block-start: 0; }
 /* Meet Walter draws a grey hairline above itself. Grey is not in the palette, and
    with a real rhythm the rule is doing a job the space already does. */
-.wui.t-product #MainContent .mw-section { border-top: 0; padding-block: 0; padding-inline: 0; }
-.wui.t-product #MainContent > .shopify-section + .shopify-section {
+.wui:is(.t-product, .t-page) #MainContent .mw-section { border-top: 0; padding-block: 0; padding-inline: 0; }
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section + .shopify-section {
   margin-block-start: var(--wui-space-section);
 }
 /* The page's first section opens against the header, which is a lighter break
    than a section change, so it takes the group step rather than the section one. */
-.wui.t-product #MainContent > .shopify-section:first-child > * {
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section:first-child > * {
   padding-block-start: var(--wui-space-block);
 }
-.wui.t-product #MainContent > .shopify-section:last-child > * {
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section:last-child > * {
   padding-block-end: var(--wui-space-section);
 }
 
 /* One content frame for every section on the page, whichever generation it came
    from. Before this, the design-system sections sat at 108px from the viewport
    edge at 1440 and the older ones at 100, 70 and 330. */
-.wui.t-product #MainContent :is(.wui-wrap, .page-width, .mw-inner, .fwi-inner) {
+.wui:is(.t-product, .t-page) #MainContent :is(.wui-wrap, .page-width, .mw-inner, .fwi-inner) {
   width: var(--wui-frame);
   max-width: var(--wui-frame-max);
   margin-inline: auto;
@@ -371,6 +371,76 @@
 .wui :is(.card__heading, .card__information, .full-unstyled-link, .card__inner) {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+/* The hero slide is one big link over the image. */
+.wui .slideshow__cover-link {
+  display: block; position: absolute; inset: 0; z-index: 3;
+}
+.wui .slideshow__cover-link:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: -6px; }
+
+/* --------------------------------------------------------------------------
+   Home page: the icon row (blocks/ai_gen_block_e56fc5e)
+
+   The block is generated code, so it is re-skinned from here rather than edited
+   in place: our type, our ink rule, our spacing steps, and the same 200ms
+   height-and-opacity open the accordions use on the tarot page. Its own
+   behaviour — what it says and when it opens — is untouched.
+   -------------------------------------------------------------------------- */
+.wui [class*="ai-feature-item-"] {
+  border-top: var(--wui-line-thin) solid var(--wui-ink);
+  padding-block: var(--wui-space-block);
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  /* the block greys out whatever is not open; our palette has no grey, and with
+     several open at once it would have meant most of the row sitting dimmed */
+  filter: none;
+}
+/* The open item was lifted out of the grid — position:absolute across the whole row.
+   That is what made one close the other, and what made two overlap. It now stays in
+   its own column and grows downward, with its text directly underneath. */
+.wui [class*="ai-feature-item-"].expanded {
+  position: static;
+  box-shadow: none;
+  filter: none;
+}
+.wui [class*="ai-feature-heading-"] {
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--wui-ink);
+}
+.wui [class*="ai-feature-preview-"],
+.wui [class*="ai-feature-full-text-"] {
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-body);
+  line-height: 1.5;
+  color: var(--wui-ink);
+}
+.wui [class*="ai-feature-read-more-"],
+.wui [class*="ai-feature-read-less-"] {
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-small);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: var(--wui-ink);
+}
+.wui [class*="ai-feature-icon-wrapper-"] {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+/* The block already animates its own open with max-height; left alone so the two
+   do not fight. Only the easing is brought into line with the accordions. */
+.wui [class*="ai-feature-expanded-content-"] {
+  transition-timing-function: var(--wui-ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wui [class*="ai-feature-expanded-content-"] { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
