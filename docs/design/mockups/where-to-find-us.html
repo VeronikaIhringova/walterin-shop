@@ -1,0 +1,158 @@
+<!doctype html><html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kde nás nájdete — mock-up</title>
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{--ink:#222;--paper:#FFFDF7;--yellow:#FCF205;--line:2.5px;--thin:1.5px;--radius:8px;
+  --sec:96px;--blk:32px;--head:16px;--item:8px}
+@media(max-width:989px){:root{--sec:72px;--blk:24px;--head:12px}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Inter,system-ui,sans-serif}
+.wrap{width:92%;max-width:1400px;margin-inline:auto;padding-inline:50px}
+@media(max-width:749px){.wrap{padding-inline:15px}}
+h1{font:400 56px/1.05 WalterinBold,sans-serif;margin:0 0 var(--head);text-transform:uppercase}
+h2{font:400 40px/1.1 WalterinBold,sans-serif;margin:0 0 var(--head);text-transform:uppercase}
+@media(max-width:749px){h1{font-size:40px}h2{font-size:32px}}
+.lead{font-size:17px;max-width:62ch;margin:0}
+section{padding:0}
+section+section{margin-top:var(--sec)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 24px;
+  font:400 22px/1 WalterinBold,sans-serif;text-transform:uppercase;letter-spacing:.03em;text-decoration:none;
+  color:var(--ink);background:var(--yellow);border:var(--line) solid var(--ink);border-radius:var(--radius);
+  box-shadow:4px 4px 0 var(--ink)}
+.btn--sec{background:var(--paper)}
+/* globe */
+.globe{display:grid;gap:var(--blk);grid-template-columns:minmax(0,1fr) minmax(0,360px);align-items:center;margin-top:var(--blk)}
+@media(max-width:989px){.globe{grid-template-columns:1fr}}
+.globe__stage{border:var(--line) solid var(--ink);border-radius:var(--radius);background:var(--paper);
+  box-shadow:4px 4px 0 var(--ink);touch-action:none;cursor:grab;aspect-ratio:1/1;max-width:520px;width:100%;margin-inline:auto}
+.globe__stage:active{cursor:grabbing}
+.globe__hint{font-size:14px;opacity:.75;margin:var(--item) 0 0;text-align:center}
+.card{border:var(--line) solid var(--ink);border-radius:var(--radius);background:var(--paper);
+  box-shadow:4px 4px 0 var(--ink);padding:24px}
+.card h3{font:400 22px/1.1 WalterinBold,sans-serif;text-transform:uppercase;margin:0 0 var(--item)}
+.card p{margin:0 0 var(--item);font-size:16px}
+.card a{color:inherit}
+.stack{display:grid;gap:var(--blk);max-width:62ch}
+.rule{border:0;border-top:var(--thin) dashed var(--ink);margin:var(--blk) 0 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.note{font-size:14px;opacity:.75}
+</style></head><body>
+<div class="wrap" style="padding-block:48px 96px">
+
+<section>
+  <h1>Kde nás nájdete</h1>
+  <p class="lead">Walterin kreslí a vydáva Walter Ihring. Sídlime v Bratislave a odtiaľto posielame
+  knihy aj karty po celej Európskej únii.</p>
+
+  <div class="globe">
+    <div>
+      <svg class="globe__stage" id="g" viewBox="0 0 400 400" role="img"
+           aria-label="Glóbus so značkou na Bratislave. Potiahnutím ho otočíte."></svg>
+      <p class="globe__hint">Potiahnite glóbus · kliknite na značku</p>
+    </div>
+    <div class="card" id="pincard">
+      <h3>Walterin s.&nbsp;r.&nbsp;o.</h3>
+      <p>Ľubochnianska 4<br>831 04 Bratislava<br>Slovensko</p>
+      <p><a href="mailto:support@walterin.com">support@walterin.com</a><br>+421 905 549 907</p>
+      <p class="note">Sídlo firmy. Nie je to predajňa — nechodievajte sem nakupovať.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Online</h2>
+  <div class="stack">
+    <p class="lead">Zatiaľ len tu. Všetko, čo Walterin vydal, kúpite v našom obchode — a pošleme to
+    kamkoľvek v Európskej únii.</p>
+    <p><a class="btn" href="/collections/all">Do obchodu</a></p>
+  </div>
+</section>
+
+<section>
+  <h2>Kníhkupectvá a obchody</h2>
+  <div class="stack">
+    <p class="lead">Zatiaľ nikde inde. Keď sa to zmení, nájdete ich tu — s adresou a otváracími hodinami.</p>
+    <hr class="rule">
+    <p class="lead"><strong>Vediete kníhkupectvo alebo obchod?</strong> Napíšte nám. Radi sa
+    porozprávame o tom, ako by Walterin vyzeral u vás na pulte.</p>
+    <p><a class="btn btn--sec" href="mailto:support@walterin.com">Napíšte nám</a></p>
+  </div>
+</section>
+
+<section>
+  <h2>Kontakt</h2>
+  <div class="stack">
+    <div class="card">
+      <h3>Walterin s.&nbsp;r.&nbsp;o.</h3>
+      <p>Ľubochnianska 4, 831 04 Bratislava, Slovensko</p>
+      <p><a href="mailto:support@walterin.com">support@walterin.com</a> · +421 905 549 907</p>
+      <p class="note">V pracovné dni medzi 9:00 a 17:00 (SEČ). Ozveme sa čo najskôr.</p>
+    </div>
+    <p><a class="btn btn--sec" href="/pages/contact">Kontaktný formulár</a></p>
+  </div>
+</section>
+</div>
+
+<script src="land.js"></script>
+<script>
+(function(){
+  var svg=document.getElementById('g'), NS='http://www.w3.org/2000/svg';
+  var R=170, CX=200, CY=200, lam=-17.1, phi=-20;      // start looking at central Europe
+  var BRAT=[17.107,48.148];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rad(d){return d*Math.PI/180;}
+  function project(lon,lat){
+    var l=rad(lon-(-lam)), p=rad(lat), p0=rad(-phi);
+    var cosc=Math.sin(p0)*Math.sin(p)+Math.cos(p0)*Math.cos(p)*Math.cos(l);
+    if(cosc<0) return null;                            // on the far side
+    return [CX+R*Math.cos(p)*Math.sin(l), CY-R*(Math.cos(p0)*Math.sin(p)-Math.sin(p0)*Math.cos(p)*Math.cos(l))];
+  }
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function pathFrom(pts){
+    var d='',pen=false;
+    for(var i=0;i<pts.length;i++){
+      var q=project(pts[i][0],pts[i][1]);
+      if(!q){pen=false;continue;}
+      d+=(pen?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)+' ';
+      pen=true;
+    }
+    return d;
+  }
+  function draw(){
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.appendChild(el('circle',{cx:CX,cy:CY,r:R,fill:'#FFFDF7',stroke:'#222','stroke-width':2.5}));
+    // graticule
+    var g='';
+    for(var lat=-60;lat<=60;lat+=30){var seg=[];for(var lo=-180;lo<=180;lo+=4)seg.push([lo,lat]);g+=pathFrom(seg);}
+    for(var lo2=-180;lo2<180;lo2+=30){var seg2=[];for(var la=-90;la<=90;la+=4)seg2.push([lo2,la]);g+=pathFrom(seg2);}
+    svg.appendChild(el('path',{d:g,fill:'none',stroke:'#222','stroke-width':0.6,opacity:.28}));
+    // land
+    var d='';
+    (window.WALTERIN_LAND||[]).forEach(function(r){d+=pathFrom(r);});
+    svg.appendChild(el('path',{d:d,fill:'none',stroke:'#222','stroke-width':1.6,'stroke-linejoin':'round','stroke-linecap':'round'}));
+    // pin
+    var p=project(BRAT[0],BRAT[1]);
+    if(p){
+      svg.appendChild(el('circle',{cx:p[0],cy:p[1],r:13,fill:'#FCF205',stroke:'#222','stroke-width':2.5}));
+      svg.appendChild(el('circle',{cx:p[0],cy:p[1],r:4,fill:'#222'}));
+      var hit=el('circle',{cx:p[0],cy:p[1],r:22,fill:'transparent',style:'cursor:pointer'});
+      hit.addEventListener('click',function(){document.getElementById('pincard').scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'});});
+      svg.appendChild(hit);
+      var t=el('text',{x:p[0]+20,y:p[1]-16,fill:'#222','font-size':15,'font-family':'WalterinBold, sans-serif'});
+      t.textContent='Bratislava'; svg.appendChild(t);
+    }
+  }
+  var drag=null;
+  svg.addEventListener('pointerdown',function(e){drag={x:e.clientX,y:e.clientY,l:lam,p:phi};svg.setPointerCapture(e.pointerId);});
+  svg.addEventListener('pointermove',function(e){
+    if(!drag)return;
+    lam=drag.l+(e.clientX-drag.x)*0.35;
+    phi=Math.max(-80,Math.min(80,drag.p+(e.clientY-drag.y)*0.35));
+    draw();
+  });
+  ['pointerup','pointercancel'].forEach(function(t){svg.addEventListener(t,function(){drag=null;});});
+  draw();
+})();
+</script>
+</body></html>
