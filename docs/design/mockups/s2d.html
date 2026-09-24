@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>S2 · How a card is read</title>
 <!--
-  Mock-up only. The annotated print as it was, plus one thing: the nine-frame path, shown as what it is —
-  another card from the box, the same size and shape as the tarot card beside it, always on screen.
-  Palette: ink, paper, yellow. The artwork brings the colour.
-  The arrow lives in the gutter between the note and the card. It never crosses into the artwork:
-  it stops at the card's edge and points at the row the frame is in — climbing, level, or falling.
-  URL: ?lang=en|sk · card=0..9 · frame=0..8 · state=dealt · board=0
+  Mock-up only. The annotated print, final direction:
+    · the note and the card only — the path card moved behind "See the whole system" (a dialog)
+    · the note names both coordinates: ROW and FIELD (riadok / pole)
+    · the walk goes one frame at a time and the dots fill as that frame's time runs out
+    · the layout uses the width, not the height: one screen at 1440 x 900 with room to spare
+    · the arrow is one clean line with a small head, aimed along the line into the frame's centre
+      and stopping 10px short of the card. It never touches the artwork.
+  Frame geometry and the path card's fields are measured, not estimated.
+  URL: ?lang=en|sk · card=0..9 · frame=0..8 · board=0
 -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +27,10 @@
   --display: 'WalterinBold', 'Chalkboard SE', sans-serif;
   --body: 'Inter', system-ui, sans-serif;
   --fs-heading: 30px; --fs-label: 18px; --fs-body: 15px; --fs-small: 13.5px;
-  --frame-pad: 15px; --ease: cubic-bezier(.2,.75,.2,1);
+  /* the page frame and the spacing steps the rest of the page uses */
+  --frame: 92%; --frame-max: 1400px; --frame-pad: 15px;
+  --s8: 8px; --s12: 12px; --s16: 16px; --s24: 24px; --s32: 32px; --s48: 48px;
+  --ease: cubic-bezier(.2,.75,.2,1);
 }
 @media (min-width: 750px) { :root { --fs-heading: 38px; --fs-label: 21px; --fs-body: 16px; --fs-small: 14px; --frame-pad: 50px; } }
 * { box-sizing: border-box; }
@@ -42,24 +48,93 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .board .grp { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
 body.noboard .board { display: none; }
 
-.wrap { width: 92%; max-width: 1400px; margin-inline: auto; padding-inline: var(--frame-pad); }
-.sec { padding-block: 30px; }
-@media (min-width: 990px) { .sec { padding-block: 42px; } }
+.wrap { width: var(--frame); max-width: var(--frame-max); margin-inline: auto; padding-inline: var(--frame-pad); }
+.sec { padding-block: var(--s32); }
+@media (min-width: 990px) { .sec { padding-block: var(--s48); } }
 .title { font-family: var(--display); font-size: var(--fs-heading); line-height: 1.05; letter-spacing: .01em; text-transform: uppercase; }
 .small { font-size: var(--fs-small); line-height: 1.4; }
-.lead { font-size: var(--fs-body); line-height: 1.45; max-width: 58ch; }
+.lead { font-size: var(--fs-body); line-height: 1.45; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 6px 16px;
   font-family: var(--display); font-size: var(--fs-body); line-height: 1; letter-spacing: .03em; text-transform: uppercase;
   background: var(--yellow); border: var(--line) solid var(--ink); border-radius: var(--radius); box-shadow: 3px 3px 0 var(--ink);
   transition: transform .12s var(--ease), box-shadow .12s var(--ease); margin: 0 3px 3px 0; }
 .btn:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
 .btn--ghost { background: var(--paper); }
+#walk { min-width: 11.5em; }
 
-.s2head { display: grid; grid-template-columns: minmax(0,1fr); gap: 8px; margin-bottom: 20px; }
-.s2head__text { display: grid; gap: 8px; max-width: 62ch; }
-.pickerline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; max-width: 100%; }
+/* a quiet link, not a button */
+.quiet { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-small); color: inherit;
+  background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-thickness: 1px; cursor: pointer; }
+.quiet--grid::before { content: ''; width: 15px; height: 15px; flex: none; border: var(--thin) solid var(--ink); border-radius: 2px;
+  background: linear-gradient(var(--ink) 0 0) 0 33% / 100% 1.5px no-repeat, linear-gradient(var(--ink) 0 0) 0 67% / 100% 1.5px no-repeat; }
+
+/* ---------- the layout: the width does the work ---------- */
+.s2grid { position: relative; display: grid; gap: var(--s24); margin-top: var(--s24); }
+@media (min-width: 990px) {
+  /* intro · note · the gutter the arrow lives in · card */
+  .s2grid { grid-template-columns: 300px 400px 74px 280px; justify-content: center; align-items: start; gap: 0 var(--s32); margin-top: var(--s32); }
+  .intro { grid-column: 1; }
+  .noteslot { grid-column: 2; }
+  .print__card { grid-column: 4; }
+}
+.intro { display: grid; gap: var(--s12); align-content: start; max-width: 46ch; }
+
+/* a card */
+.cardbox { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
+.cardbox img { width: 100%; border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
+.ring { position: absolute; border: 3px solid var(--ink); border-radius: 3px; pointer-events: none;
+  transform-origin: top left;
+  transition: left .22s var(--ease), top .22s var(--ease), width .22s var(--ease), height .22s var(--ease),
+              transform .22s var(--ease);
+  box-shadow: 0 0 0 9999px rgb(255 253 247 / .58); }
+.hot { position: absolute; border: 0; background: transparent; cursor: pointer; }
+.hot::after { content: attr(data-n); position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border: var(--thin) solid var(--ink);
+  border-radius: 50%; background: var(--paper); font: 700 9px/14px var(--body); text-align: center; opacity: .9; }
+.crop { background-repeat: no-repeat; border: var(--line) solid var(--ink); border-radius: 6px; background-color: var(--paper); }
+.cardname { display: block; margin-top: var(--s12); text-align: center; font-family: var(--display);
+  font-size: 17px; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; }
+@media (min-width: 990px) { .cardname { font-size: 21px; } }
+
+/* the note: the frame on the left, what it is on the right */
+.note { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper);
+  box-shadow: 4px 4px 0 rgb(34 34 34 / .28); padding: var(--s16); display: grid; gap: var(--s12) var(--s16);
+  align-content: start; min-height: 578px; }   /* the tallest of the nine, in either language */
+@media (min-width: 990px) { .note { grid-template-columns: 170px minmax(0,1fr); min-height: 344px; } }
+.note__n { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+@media (min-width: 990px) { .note__n { grid-column: 1 / -1; margin-bottom: -6px; } }
+.note .crop { width: 100%; max-width: 230px; }
+@media (min-width: 990px) { .note .crop { width: 170px; max-width: none; align-self: start; } }
+.note__text { display: grid; gap: var(--s8); align-content: start; }
+.note__cap { font-family: var(--display); font-size: 20px; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; }
+@media (min-width: 990px) { .note__cap { font-size: 23px; } }
+/* both coordinates, each labelled, so neither can be read as the other */
+.coord { display: grid; gap: 0; margin: 0; }
+.coord dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.coord dt + dd { margin: 1px 0 7px; }
+.coord dd:last-of-type { margin-bottom: 0; }
+.coord dd { margin: 0; font-family: var(--display); font-size: 16px; line-height: 1.1; letter-spacing: .03em; text-transform: uppercase; }
+@media (min-width: 990px) { .coord dd { font-size: 17px; } }
+
+.link { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: visible; }
+.link .shaft { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.link .head { fill: var(--ink); }
+
+/* ---------- controls ---------- */
+.steps { display: flex; align-items: center; gap: var(--s12); flex-wrap: wrap; margin-top: var(--s24); }
+@media (min-width: 990px) { .steps { justify-content: center; } }
+.dots { display: flex; gap: var(--s8); }
+.dots .g { display: flex; gap: 3px; }
+.dot { position: relative; width: 11px; height: 11px; border: var(--thin) solid var(--ink); border-radius: 50%;
+  overflow: hidden; background: var(--paper); }
+.dot i { position: absolute; inset: -1px; background: var(--yellow); transform: scaleY(0); transform-origin: bottom; }
+.dot.on i { transform: scaleY(1); }
+.dot.done { background: var(--ink); }
+.pickerline { display: flex; align-items: center; gap: var(--s12); flex-wrap: wrap; max-width: 100%; }
 .pickerline .picker { flex: 1 1 auto; min-width: 0; }
-.steps .pickerline { flex: 1 1 100%; min-width: 0; }
+.steps .pickerline { flex: 1 1 100%; min-width: 0; justify-content: center; }
+@media (min-width: 990px) { .steps .picker { flex: 0 1 auto; } }
+@media (max-width: 989px) { .steps .pickerline { justify-content: flex-start; } }
 .picker { display: flex; gap: 7px; max-width: 100%; overflow-x: auto; padding: 2px 0; }
 .picker button { position: relative; flex: none; width: 38px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 4px; overflow: hidden; background: var(--paper); }
 .picker button img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
@@ -68,93 +143,23 @@ body.noboard .board { display: none; }
   white-space: nowrap; font-size: 12px; background: var(--paper); border: var(--thin) solid var(--ink); border-radius: 4px; padding: 2px 6px;
   opacity: 0; pointer-events: none; transition: opacity .12s var(--ease); z-index: 6; }
 .picker button:hover::after, .picker button:focus-visible::after { opacity: 1; }
-.now { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .02em; }
 
-/* a card — the tarot card and the path card are built the same way */
-.cardbox { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 3px 3px 0 rgb(34 34 34 / .28); }
-.cardbox img { width: 100%; border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); }
-.ring { position: absolute; border: 3px solid var(--ink); border-radius: 3px; pointer-events: none;
-  transition: left .22s var(--ease), top .22s var(--ease), width .22s var(--ease), height .22s var(--ease);
-  box-shadow: 0 0 0 9999px rgb(255 253 247 / .58); }
-.hot { position: absolute; border: 0; background: transparent; cursor: pointer; }
-.hot::after { content: attr(data-n); position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border: var(--thin) solid var(--ink);
-  border-radius: 50%; background: var(--paper); font: 700 9px/14px var(--body); text-align: center; opacity: .9; }
-.crop { background-repeat: no-repeat; border: var(--line) solid var(--ink); border-radius: 6px; background-color: var(--paper); }
+/* ---------- the whole system, on request ---------- */
+.dlg { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper); color: var(--ink);
+  padding: var(--s24); max-width: min(92vw, 380px); box-shadow: 6px 6px 0 rgb(34 34 34 / .28); }
+.dlg::backdrop { background: rgb(34 34 34 / .35); }
+.dlg__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s16); margin-bottom: var(--s12); }
+.dlg h3 { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .03em; }
+.dlg__cap { font-size: var(--fs-small); margin-top: var(--s12); }
 
-/* the note in the margin — always on the left */
-.print { position: relative; display: grid; grid-template-columns: minmax(0,1fr); gap: 14px; }
-/* the explanation is the main object on the line: biggest type, deepest shadow, most room */
-.note { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper);
-  box-shadow: 4px 4px 0 rgb(34 34 34 / .28); padding: 14px; display: grid; gap: 9px; width: 100%;
-  align-content: start; min-height: 566px; }   /* the tallest state in either language, so nothing below ever moves */
-@media (min-width: 990px) { .note { padding: 16px; min-height: 536px; } }
-.note__n { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
-.note .crop { width: 150px; }
-@media (min-width: 990px) { .note .crop { width: 184px; } }
-.note__cap { font-family: var(--display); font-size: 20px; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; }
-@media (min-width: 990px) { .note__cap { font-size: 24px; } }
-/* both coordinates, spelled out, so neither can be mistaken for the other */
-.coord { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 2px 12px; margin: 2px 0 0; }
-.coord dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; align-self: center; }
-.coord dd { margin: 0; font-family: var(--display); font-size: 15px; line-height: 1.15; letter-spacing: .03em; text-transform: uppercase; }
-@media (min-width: 990px) { .coord dd { font-size: 16px; } }
-/* the walk shows a whole row: its three frames, then its three lines */
-.rowstrip { display: flex; gap: 8px; }
-.rowstrip .crop { width: 92px; flex: none; }
-.rowline { display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 3px 10px; font-size: var(--fs-small); }
-.rowline b { font-family: var(--display); font-weight: 400; letter-spacing: .03em; text-transform: uppercase; }
-.link { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: visible; }
-.link path { fill: var(--ink); }
-
-.cardname { display: block; margin-top: 12px; text-align: center; font-family: var(--display);
-  font-size: 17px; line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; }
-@media (min-width: 990px) { .cardname { font-size: 21px; } }
-
-/* the path card is reference: same card, quieter — smaller, thinner, no shadow */
-.path { display: grid; gap: 8px; justify-items: center; }
-.path .cardbox { box-shadow: none; }
-.path .cardbox img { border-width: var(--thin); }
-.path .ring { border-width: 2px; }
-.path__cap { font-size: var(--fs-small); line-height: 1.35; text-align: center; max-width: 30ch; }
-
-.steps { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
-/* the button keeps its width when the label switches to Stop, so the bar never reflows */
-#walk { min-width: 11.5em; }
-.dots { display: flex; gap: 8px; }
-.dots .g { display: flex; gap: 3px; }
-.dot { width: 9px; height: 9px; border: var(--thin) solid var(--ink); border-radius: 50%; }
-.dot.on { background: var(--yellow); }
-.dot.done { background: var(--ink); }
-
-/* 1440: note · gutter · card · path card, on one line */
-@media (min-width: 990px) {
-  /* the middle track is the gutter the arrow lives in; the two cards sit side by side like cards on a table */
-  .print__row { display: grid; grid-template-columns: 340px 74px 250px 52px 190px; justify-content: center; align-items: start; gap: 0; }
-  .noteslot { grid-column: 1; grid-row: 1; }
-  .print__card { grid-column: 3; grid-row: 1; width: 250px; }
-  .path { grid-column: 5; grid-row: 1; width: 190px; }
-}
-/* 390: the same reading order, the path card under the pair */
+/* ---------- phone: the note and the card side by side, the gutter between them ---------- */
 @media (max-width: 989px) {
-  /* the middle track is the gutter, exactly as on the desktop */
-  .print__row { display: grid; grid-template-columns: minmax(0,1fr) 40px 140px; gap: 0; align-items: start; }
-  .noteslot { grid-column: 1; grid-row: 1; min-width: 0; }
-  .print__card { grid-column: 3; grid-row: 1; width: 140px; }
-  .note .crop { width: 100%; max-width: 132px; }
-  .rowstrip .crop { width: 30%; }
-  .path { grid-column: 1 / -1; grid-row: 2; width: 110px; justify-self: center; margin-top: 22px; }
-  .steps { justify-content: flex-start; }
+  .s2grid { grid-template-columns: minmax(0,1fr) 34px 132px; gap: var(--s16) 0; }
+  .intro { grid-column: 1 / -1; grid-row: 1; }
+  .noteslot { grid-column: 1; grid-row: 2; min-width: 0; }
+  .print__card { grid-column: 3; grid-row: 2; width: 132px; }
+  .note .crop { max-width: 128px; }
 }
-
-.readings { margin-top: 30px; padding-top: 24px; border-top: var(--line) solid var(--ink); }
-.readings__grid { display: grid; gap: 22px; margin-top: 18px; }
-@media (min-width: 750px) { .readings__grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-.reading { display: grid; gap: 10px; align-content: start; }
-.reading h3 { font-family: var(--display); font-size: var(--fs-label); text-transform: uppercase; letter-spacing: .03em; }
-.deal { display: flex; gap: 10px; }
-.deal .slot { width: 76px; aspect-ratio: 800/1314; border: var(--thin) solid var(--ink); border-radius: 6px; overflow: hidden; background:
-  repeating-linear-gradient(45deg, var(--yellow) 0 6px, var(--paper) 6px 12px); }
-.deal .slot img { width: 100%; height: 100%; object-fit: cover; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
@@ -167,16 +172,16 @@ body.noboard .board { display: none; }
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
-  var S = { lang: q.get('lang') || 'en', card: +(q.get('card') || 0), frame: +(q.get('frame') || 0), state: q.get('state') || '' };
+  var S = { lang: q.get('lang') || 'en', card: +(q.get('card') || 0), frame: +(q.get('frame') || 0) };
   if (q.get('board') === '0') document.body.classList.add('noboard');
   document.documentElement.lang = S.lang;
   var CARDS = JSON.parse(document.getElementById('carddata').textContent).cards;
   var ASSET = '../../../assets/';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* measured off the printed card: the grid lines as percentages of the whole card */
+  /* the path card's grid lines, measured, as percentages of the whole card */
   var PATH = { cols: [13.54, 39.00, 65.09, 91.97], rows: [10.10, 35.97, 60.93, 85.02] };
-  /* the column names as printed on the path card, row by row */
-  var COLS = {
+  /* the field names, as printed on the path card, row by row */
+  var FIELDS = {
     en: [['Chance', 'Idea', 'Value'], ['Openness', 'Meaning', 'Trust'], ['To try', 'To develop', 'To create']],
     sk: [['Náhoda', 'Nápad', 'Hodnota'], ['Otvorenosť', 'Zmysel', 'Dôvera'], ['Skúsiť', 'Rozvíjať', 'Tvoriť']]
   }[S.lang];
@@ -193,15 +198,11 @@ body.noboard .board { display: none; }
       ],
       hint: 'Step through the nine frames, or click one on the card.',
       pick: 'Try another card', back: 'Back', next: 'Next', frameOf: 'Frame [n] of 9',
-      rowWord: 'Row', colWord: 'Column', rowOf3: 'Row [n] of 3',
+      rowWord: 'Row', fieldWord: 'Field',
       walk: 'Walk me through it', stop: 'Stop',
-      pathAlt: 'The nine-frame path',
-      pathCap: 'The nine-frame path. Its own card, in the box.',
-      rH: 'The two readings in the box',
-      rIntro: 'You can lay the cards out any way you know. Two readings come with this deck.',
-      r1: 'Card of the day', r1t: 'Draw one card in the morning. Keep it where you will see it, and come back to it in the evening.',
-      r2: 'Reading of consciousness', r2t: 'Three cards in three steps: what to understand, what to accept, what to transform. The same three steps as inside a single card.',
-      draw1: 'Draw a card', draw3: 'Lay three', again: 'Draw again'
+      system: 'See the whole system', systemH: 'The nine-frame path',
+      systemCap: 'The nine-frame path. Its own card, in the box. The lit field is where this frame sits.',
+      close: 'Close'
     },
     sk: {
       h: 'Ako sa číta karta',
@@ -214,15 +215,11 @@ body.noboard .board { display: none; }
       ],
       hint: 'Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.',
       pick: 'Skúsiť inú kartu', back: 'Späť', next: 'Ďalej', frameOf: 'Obrázok [n] z 9',
-      rowWord: 'Riadok', colWord: 'Stĺpec', rowOf3: 'Riadok [n] z 3',
+      rowWord: 'Riadok', fieldWord: 'Pole',
       walk: 'Prevedie ma tým', stop: 'Zastaviť',
-      pathAlt: 'Cesta v deviatich krokoch',
-      pathCap: 'Cesta v deviatich krokoch. Vlastná karta, priamo v balíčku.',
-      rH: 'Dve čítania, ktoré sú v balíčku',
-      rIntro: 'Karty môžete vykladať akokoľvek to poznáte. Dve čítania sú priamo v tomto balíčku.',
-      r1: 'Karta dňa', r1t: 'Ráno si vytiahnite jednu kartu. Nechajte si ju na očiach a večer sa k nej vráťte.',
-      r2: 'Čítanie vedomia', r2t: 'Tri karty v troch krokoch: čo pochopiť, čo prijať, čo premeniť. Tie isté tri kroky ako v jednej karte.',
-      draw1: 'Vytiahnuť kartu', draw3: 'Vyložiť tri', again: 'Vytiahnuť znova'
+      system: 'Celý systém', systemH: 'Cesta v deviatich krokoch',
+      systemCap: 'Cesta v deviatich krokoch. Vlastná karta, priamo v balíčku. Zvýraznené pole je miesto tohto obrázka.',
+      close: 'Zavrieť'
     }
   }[S.lang];
 
@@ -243,8 +240,8 @@ body.noboard .board { display: none; }
     return 'left:' + g.cols[col] + '%;width:' + (g.cols[col + 1] - g.cols[col]) + '%;top:' + g.rows[r] + '%;height:' + (g.rows[r + 1] - g.rows[r]) + '%;';
   }
   function pathRing(i) {
-    var r = rowOf(i), col = i % 3;
-    return 'left:' + PATH.cols[col] + '%;width:' + (PATH.cols[col + 1] - PATH.cols[col]) + '%;top:' + PATH.rows[r] + '%;height:' + (PATH.rows[r + 1] - PATH.rows[r]) + '%;';
+    var r = rowOf(i), c = i % 3;
+    return 'left:' + PATH.cols[c] + '%;width:' + (PATH.cols[c + 1] - PATH.cols[c]) + '%;top:' + PATH.rows[r] + '%;height:' + (PATH.rows[r + 1] - PATH.rows[r]) + '%;';
   }
   function cardBox(c, active) {
     var h = '<div class="cardbox"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314">';
@@ -252,46 +249,23 @@ body.noboard .board { display: none; }
     h += '<span class="ring" id="ring" style="' + frameRing(c, active) + '"></span></div>';
     return h;
   }
-  function pathCard() {
-    return '<figure class="path"><div class="cardbox">' +
-      '<picture><source srcset="' + ASSET + 'nine-frame-path-card.webp" type="image/webp">' +
-      '<img src="' + ASSET + 'nine-frame-path-card.png" alt="' + T.pathAlt + '" width="800" height="1314"></picture>' +
-      '<span class="ring" id="pring" style="' + pathRing(S.frame) + '"></span></div>' +
-      '<figcaption class="path__cap">' + T.pathCap + '</figcaption></figure>';
-  }
   function noteHTML() {
-    var r = rowOf(S.frame), c = S.frame % 3;
+    var r = rowOf(S.frame), f = S.frame % 3;
     return '<div class="note" id="note">' +
       '<span class="note__n">' + T.frameOf.replace('[n]', S.frame + 1) + '</span>' +
       '<span class="crop" style="' + cropStyle(card, S.frame) + '"></span>' +
-      '<dl class="coord">' +
-        '<dt>' + T.rowWord + '</dt><dd>' + T.rows[r] + '</dd>' +
-        '<dt>' + T.colWord + '</dt><dd>' + COLS[r][c] + '</dd>' +
-      '</dl>' +
-      '<span class="note__cap">' + card.captions[S.frame] + '</span>' +
-      '<span class="small">' + T.why[r] + '</span></div>';
-  }
-  function rowNoteHTML(r) {
-    return '<div class="note" id="note">' +
-      '<span class="note__n">' + T.rowOf3.replace('[n]', r + 1) + '</span>' +
-      '<span class="rowstrip">' + [0,1,2].map(function (c) {
-        return '<span class="crop" style="' + cropStyle(card, r * 3 + c) + '"></span>'; }).join('') + '</span>' +
-      '<dl class="coord"><dt>' + T.rowWord + '</dt><dd>' + T.rows[r] + '</dd></dl>' +
-      '<span class="small">' + T.why[r] + '</span>' +
-      '<span class="rowline">' + [0,1,2].map(function (c) {
-        return '<b>' + COLS[r][c] + '</b><span>' + card.captions[r * 3 + c] + '</span>'; }).join('') + '</span></div>';
-  }
-  function ringRow(c, r) {
-    var g = c.grid;
-    return 'left:' + g.cols[0] + '%;width:' + (g.cols[3] - g.cols[0]) + '%;top:' + g.rows[r] + '%;height:' + (g.rows[r + 1] - g.rows[r]) + '%;';
-  }
-  function pathRingRow(r) {
-    return 'left:' + PATH.cols[0] + '%;width:' + (PATH.cols[3] - PATH.cols[0]) + '%;top:' + PATH.rows[r] + '%;height:' + (PATH.rows[r + 1] - PATH.rows[r]) + '%;';
+      '<span class="note__text">' +
+        '<dl class="coord"><dt>' + T.rowWord + '</dt><dd>' + T.rows[r] + '</dd>' +
+        '<dt>' + T.fieldWord + '</dt><dd>' + FIELDS[r][f] + '</dd></dl>' +
+        '<span class="note__cap">' + card.captions[S.frame] + '</span>' +
+        '<span class="small">' + T.why[r] + '</span>' +
+      '</span></div>';
   }
   function dotsHTML() {
     return [0,1,2].map(function (rr) {
       return '<span class="g">' + [0,1,2].map(function (cc) {
-        var i = rr*3+cc; return '<span class="dot ' + (i === S.frame ? 'on' : (i < S.frame ? 'done' : '')) + '"></span>'; }).join('') + '</span>';
+        var i = rr * 3 + cc;
+        return '<span class="dot ' + (i === S.frame ? 'on' : (i < S.frame ? 'done' : '')) + '" data-dot="' + i + '"><i></i></span>'; }).join('') + '</span>';
     }).join('');
   }
   function pickerHTML() {
@@ -299,254 +273,199 @@ body.noboard .board { display: none; }
       CARDS.map(function (c, i) { return '<button type="button" data-card="' + i + '" data-name="' + c.name + '" aria-pressed="' + (i === S.card) + '" aria-label="' + c.name + '"><img src="' + src(c) + '" alt="" width="800" height="1314"></button>'; }).join('') +
       '</div></div>';
   }
-  function printHTML() {
-    return '<div class="print" id="print">' +
-      '<div class="print__row">' +
-        '<span class="noteslot" id="noteslot">' + noteHTML() + '</span>' +
-        '<div class="print__card" id="printcard">' + cardBox(card, S.frame) +
-          '<span class="cardname">' + card.name + '</span></div>' +
-        pathCard() +
-      '</div>' +
-      '<svg class="link" id="link" aria-hidden="true"></svg>' +
-      '<div class="steps"><button class="btn btn--ghost" type="button" data-step="-1">' + T.back + '</button>' +
-      '<span class="dots" id="dots">' + dotsHTML() + '</span>' +
-      '<button class="btn btn--ghost" type="button" data-step="1">' + T.next + '</button>' +
-      '<button class="btn" type="button" id="walk" aria-pressed="false">' + T.walk + '</button>' +
-      '<span style="width:18px"></span>' + pickerHTML() + '</div></div>';
-  }
-  function readings() {
-    return '<section class="readings"><h2 class="title">' + T.rH + '</h2><p class="lead" style="margin-top:10px">' + T.rIntro + '</p>' +
-      '<div class="readings__grid">' +
-      '<div class="reading"><h3>' + T.r1 + '</h3><p class="small">' + T.r1t + '</p>' +
-        '<div class="deal" id="deal1"><span class="slot"></span></div>' +
-        '<div><button class="btn" type="button" id="draw1">' + T.draw1 + '</button></div></div>' +
-      '<div class="reading"><h3>' + T.r2 + '</h3><p class="small">' + T.r2t + '</p>' +
-        '<div class="deal" id="deal3"><span class="slot"></span><span class="slot"></span><span class="slot"></span></div>' +
-        '<div><button class="btn" type="button" id="draw3">' + T.draw3 + '</button></div></div>' +
-      '</div></section>';
-  }
-  document.getElementById('main').appendChild(el('<section class="sec"><div class="wrap">' +
-    '<div class="s2head"><div class="s2head__text"><h2 class="title">' + T.h + '</h2>' +
-    '<p class="lead">' + T.intro + '</p><p class="small">' + T.hint + '</p></div></div>' +
-    printHTML() + readings() + '</div></section>'));
 
-  /* ---------------- the three arrows ----------------
-     one drawing per row: a climb, a level run, a fall. Each has its own bow, its own weight
-     profile, its own tremble and its own head — the tip stops at the card and never enters it. */
-  var ARROWS = {
-    climb: {
-      bow: function (t) { return 9 * Math.sin(Math.PI * Math.pow(t, .85)); },
-      w:   function (t) { return 3.2 + 6.8 * Math.pow(t, .62); },
-      trL: function (t) { return 1.0 * Math.sin(t * 5.2 + .6); },
-      trR: function (t) { return .8 * Math.sin(t * 3.9 + 2.2); },
-      head: { len: 21, w: 25, back: .34, skew: .16 }
-    },
-    level: {
-      bow: function (t) { return 3.4 * Math.sin(2 * Math.PI * t + .35); },
-      w:   function (t) { return (4.3 + 5.4 * Math.pow(t, .8)) * (1 - .10 * Math.sin(Math.PI * t * 2)); },
-      trL: function (t) { return .9 * Math.sin(t * 4.4 + 1.9); },
-      trR: function (t) { return 1.0 * Math.sin(t * 5.8 + .4); },
-      head: { len: 22, w: 26, back: .26, skew: -.12 }
-    },
-    fall: {
-      bow: function (t) { return -8.5 * Math.sin(Math.PI * Math.pow(t, 1.25)); },
-      w:   function (t) { return 3.6 + 5.8 * Math.pow(t, .55) + 2.2 * Math.exp(-t * 11); },
-      trL: function (t) { return .8 * Math.sin(t * 4.1 + 2.8); },
-      trR: function (t) { return 1.1 * Math.sin(t * 5.5 + 1.1); },
-      head: { len: 20, w: 24, back: .38, skew: .22 }
-    }
-  };
-  function arrowPath(kind, x0, y0, x1, y1, k) {
-    var A = ARROWS[kind], H = A.head;
-    var dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy) || 1;
-    var ux = dx / L, uy = dy / L, px = -uy, py = ux;
-    var HLEN = H.len * k, HW = H.w * k;
-    var shaft = Math.max(L * .34, L - HLEN);
-    var N = 30, C = [], i, t;
-    for (i = 0; i <= N; i++) { t = i / N; var s = t * shaft, b = A.bow(t) * k;
-      C.push([x0 + ux * s + px * b, y0 + uy * s + py * b]); }
-    var Lp = [], Rp = [];
-    for (i = 0; i <= N; i++) {
-      t = i / N;
-      var a = C[Math.max(0, i - 1)], c = C[Math.min(N, i + 1)];
-      var tx = c[0] - a[0], ty = c[1] - a[1], tl = Math.hypot(tx, ty) || 1;
-      var nx = -ty / tl, ny = tx / tl, w = A.w(t) * k / 2;
-      Lp.push([C[i][0] + nx * (w + A.trL(t) * k), C[i][1] + ny * (w + A.trL(t) * k)]);
-      Rp.push([C[i][0] - nx * (w + A.trR(t) * k), C[i][1] - ny * (w + A.trR(t) * k)]);
-    }
-    var d = 'M ' + Lp[0][0].toFixed(1) + ' ' + Lp[0][1].toFixed(1);
-    for (i = 1; i <= N; i++) d += ' L ' + Lp[i][0].toFixed(1) + ' ' + Lp[i][1].toFixed(1);
-    for (i = N; i >= 0; i--) d += ' L ' + Rp[i][0].toFixed(1) + ' ' + Rp[i][1].toFixed(1);
-    d += ' Z';
-    var e = C[N], e0 = C[N - 2];
-    var hx = e[0] - e0[0], hy = e[1] - e0[1], hl = Math.hypot(hx, hy) || 1;
-    var tx2 = hx / hl, ty2 = hy / hl, nx2 = -ty2, ny2 = tx2;
-    var b1 = [e[0] + nx2 * HW / 2 + tx2 * H.skew * 6 * k, e[1] + ny2 * HW / 2 + ty2 * H.skew * 6 * k];
-    var b2 = [e[0] - nx2 * HW / 2, e[1] - ny2 * HW / 2];
-    var notch = [e[0] - tx2 * HLEN * H.back, e[1] - ty2 * HLEN * H.back];
-    var hd = 'M ' + b1[0].toFixed(1) + ' ' + b1[1].toFixed(1) +
-      ' Q ' + (b1[0] + (x1 - b1[0]) * .55 + nx2 * 1.6 * k).toFixed(1) + ' ' + (b1[1] + (y1 - b1[1]) * .55 + ny2 * 1.6 * k).toFixed(1) +
-      ' ' + x1.toFixed(1) + ' ' + y1.toFixed(1) +
-      ' Q ' + (b2[0] + (x1 - b2[0]) * .55 - nx2 * 1.2 * k).toFixed(1) + ' ' + (b2[1] + (y1 - b2[1]) * .55 - ny2 * 1.2 * k).toFixed(1) +
-      ' ' + b2[0].toFixed(1) + ' ' + b2[1].toFixed(1) +
-      ' Q ' + notch[0].toFixed(1) + ' ' + notch[1].toFixed(1) + ' ' + b1[0].toFixed(1) + ' ' + b1[1].toFixed(1) + ' Z';
-    return '<path d="' + d + '"></path><path d="' + hd + '"></path>';
-  }
+  document.getElementById('main').appendChild(el(
+    '<section class="sec"><div class="wrap">' +
+      '<h2 class="title">' + T.h + '</h2>' +
+      '<div class="s2grid" id="grid">' +
+        '<div class="intro"><p class="lead">' + T.intro + '</p><p class="small">' + T.hint + '</p>' +
+          '<p><button class="quiet quiet--grid" type="button" id="sysbtn">' + T.system + '</button></p></div>' +
+        '<span class="noteslot" id="noteslot">' + noteHTML() + '</span>' +
+        '<div class="print__card" id="printcard">' + cardBox(card, S.frame) + '<span class="cardname">' + card.name + '</span></div>' +
+        '<svg class="link" id="link" aria-hidden="true"></svg>' +
+      '</div>' +
+      '<div class="steps">' +
+        '<button class="btn btn--ghost" type="button" data-step="-1">' + T.back + '</button>' +
+        '<span class="dots" id="dots">' + dotsHTML() + '</span>' +
+        '<button class="btn btn--ghost" type="button" data-step="1">' + T.next + '</button>' +
+        '<button class="btn" type="button" id="walk" aria-pressed="false">' + T.walk + '</button>' +
+        pickerHTML() +
+      '</div>' +
+    '</div></section>'));
+
+  /* the whole system, on request */
+  var dlg = el('<dialog class="dlg" id="sysdlg" aria-label="' + T.systemH + '">' +
+    '<div class="dlg__head"><h3>' + T.systemH + '</h3><button class="quiet" type="button" id="sysclose">' + T.close + '</button></div>' +
+    '<div class="cardbox"><picture><source srcset="' + ASSET + 'nine-frame-path-card.webp" type="image/webp">' +
+    '<img src="' + ASSET + 'nine-frame-path-card.png" alt="' + T.systemH + '" width="800" height="1314"></picture>' +
+    '<span class="ring" id="pring" style="' + pathRing(S.frame) + '"></span></div>' +
+    '<p class="dlg__cap">' + T.systemCap + '</p></dialog>');
+  document.body.appendChild(dlg);
+  document.getElementById('sysbtn').addEventListener('click', function () {
+    document.getElementById('pring').setAttribute('style', pathRing(S.frame));
+    walkPause('dialog'); dlg.showModal();
+  });
+  document.getElementById('sysclose').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('close', function () { walkResume('dialog'); });
+
+  /* ---------------- the arrow: one line, aimed along the line into the frame's centre ---------------- */
   function drawLink() {
     var svg = document.getElementById('link'), note = document.getElementById('note');
     if (!svg || !note) return;
-    var pr = document.getElementById('print').getBoundingClientRect();
+    var gr = document.getElementById('grid').getBoundingClientRect();
     var n = note.getBoundingClientRect();
-    var cb = document.getElementById('printcard').getBoundingClientRect();
-    var g = card.grid, r = W.on && W.row >= 0 ? W.row : rowOf(S.frame);
-    svg.setAttribute('viewBox', '0 0 ' + pr.width + ' ' + pr.height);
+    var cb = document.querySelector('#printcard .cardbox').getBoundingClientRect();
+    var g = card.grid, r = rowOf(S.frame), c = S.frame % 3;
+    svg.setAttribute('viewBox', '0 0 ' + gr.width + ' ' + gr.height);
     svg.setAttribute('preserveAspectRatio', 'none');
-    /* the point stops at the card's edge, on the middle of the row the frame is in */
-    var rowMid = (g.rows[r] + g.rows[r + 1]) / 200;
-    var gap0 = cb.left - n.right;                      /* the gutter we have to draw in */
-    var k = Math.max(.55, Math.min(1, gap0 / 78));
-    /* the point stops clear of the card: the head's own bulge is counted in */
-    var x1 = cb.left - pr.left - (5 + 5 * k), y1 = cb.top - pr.top + cb.height * rowMid;
-    var gutter = x1 - (n.right - pr.left);
-    var rise = gutter > 55 ? 64 : 34;
-    var kind = r === 0 ? 'climb' : r === 1 ? 'level' : 'fall';
-    var x0 = n.right - pr.left + 2;
-    var y0 = y1 + (r === 0 ? rise : r === 2 ? -rise : 0);
-    svg.innerHTML = arrowPath(kind, x0, y0, x1, y1, k);
-    if (!reduce) svg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease-out' });
+    svg.innerHTML = '';
+
+    /* where the frame actually is */
+    var fx = cb.left - gr.left + cb.width * (g.cols[c] + g.cols[c + 1]) / 200;
+    var fy = cb.top - gr.top + cb.height * (g.rows[r] + g.rows[r + 1]) / 200;
+    /* it leaves the note beside the row it points at, and stops short of the card */
+    var x0 = n.right - gr.left + 2;
+    var y0 = fy + [46, 0, -46][r];
+    var stopX = cb.left - gr.left - 10;
+    var dx = fx - x0, dy = fy - y0, len = Math.hypot(dx, dy) || 1;
+    var ux = dx / len, uy = dy / len;
+    if (ux < .05 || stopX <= x0 + 16) return;     /* no room: draw nothing rather than something wrong */
+    var t = (stopX - x0) / ux;                    /* the point on the aim line at the card's edge */
+    var tipX = x0 + ux * t, tipY = y0 + uy * t;
+    var HEAD = 11, HALF = 4.6, bow = 7;
+    /* the shaft stops where the head starts, and the second control sits on the aim line,
+       so the head points exactly along the line that runs into the frame's centre */
+    var ex = tipX - ux * HEAD, ey = tipY - uy * HEAD;
+    var c1x = x0 + ux * t * .34 - uy * bow, c1y = y0 + uy * t * .34 + ux * bow;
+    var c2x = ex - ux * t * .28, c2y = ey - uy * t * .28;
+    var d = 'M ' + x0.toFixed(1) + ' ' + y0.toFixed(1) +
+            ' C ' + c1x.toFixed(1) + ' ' + c1y.toFixed(1) + ' ' + c2x.toFixed(1) + ' ' + c2y.toFixed(1) +
+            ' ' + ex.toFixed(1) + ' ' + ey.toFixed(1);
+    var hd = 'M ' + tipX.toFixed(1) + ' ' + tipY.toFixed(1) +
+             ' L ' + (ex - uy * HALF).toFixed(1) + ' ' + (ey + ux * HALF).toFixed(1) +
+             ' L ' + (ex + uy * HALF).toFixed(1) + ' ' + (ey - ux * HALF).toFixed(1) + ' Z';
+    svg.innerHTML = '<path class="shaft" d="' + d + '"></path><path class="head" d="' + hd + '"></path>';
   }
 
+  /* ---------------- the walk: one frame at a time, and you can see the change coming ----------------
+     Timing from docs/design/AUTOPLAY-WALK.md. The frame that opens a row carries the row's
+     explanation as well, so it is held longer than the two that follow it. */
   var live = document.getElementById('live');
-
-  /* ---------------- the walk: three stops, one per row ----------------
-     Timing from evidence, see docs/design/AUTOPLAY-WALK.md: about 41 words per stop at the rate
-     NN/g recommends for content the reader cannot pace (1 second per 3 words), plus 1.5s to take
-     in the three frames. English 15s a row, Slovak 17s (Slovak runs longer per word), and a 0.8s
-     beat where the row changes. Never starts on its own; one press stops it. */
-  var W = { on: false, row: -1, timer: null, endAt: 0, left: 0, pauses: {} };
-  var DUR = S.lang === 'sk' ? 17000 : 15000, BEAT = 800;
+  var W = { on: false, i: -1, timer: null, endAt: 0, left: 0, fill: null, pauses: {} };
+  var LONG = S.lang === 'sk' ? 12500 : 11000, SHORT = S.lang === 'sk' ? 5500 : 5000, BEAT = 800;
+  function hold(i) { return i % 3 === 0 ? LONG : SHORT; }
   var walkBtn;
 
-  /* the walk moves the highlight with a transform, so travelling between rows costs no layout shift */
-  function slideRing(node, rows, r) {
-    if (r === 0) { node.style.transform = ''; return; }
-    var h0 = rows[1] - rows[0], hr = rows[r + 1] - rows[r], dy = rows[r] - rows[0];
-    node.style.transformOrigin = 'top';
-    node.style.transform = 'translateY(' + (dy / h0 * 100).toFixed(2) + '%) scaleY(' + (hr / h0).toFixed(4) + ')';
-  }
-  function paintRow(r) {
-    var ring = document.getElementById('ring'), pring = document.getElementById('pring');
-    if (r === 0) {
-      ring.setAttribute('style', ringRow(card, 0));
-      pring.setAttribute('style', pathRingRow(0));
-    }
-    slideRing(ring, card.grid.rows, r);
-    slideRing(pring, PATH.rows, r);
-    document.getElementById('noteslot').innerHTML = rowNoteHTML(r);
-    document.getElementById('dots').innerHTML = [0,1,2].map(function (rr) {
-      return '<span class="g">' + [0,1,2].map(function () {
-        return '<span class="dot ' + (rr === r ? 'on' : (rr < r ? 'done' : '')) + '"></span>'; }).join('') + '</span>';
-    }).join('');
-    drawLink();
-    live.textContent = T.rows[r] + '. ' + T.why[r];
+  function fillDot(i, ms) {
+    var dot = document.querySelector('[data-dot="' + i + '"] i');
+    if (!dot) return;
+    if (reduce) { dot.style.transform = 'scaleY(1)'; return; }
+    W.fill = dot.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }],
+      { duration: ms, easing: 'linear', fill: 'forwards' });
   }
   function schedule(ms) { W.endAt = Date.now() + ms; W.timer = setTimeout(walkNext, ms); }
   function walkNext() {
-    W.row++;
-    if (W.row > 2) return walkEnd(true);
-    paintRow(W.row);
-    schedule(DUR + (W.row < 2 ? BEAT : 0));
+    W.i++;
+    if (W.i > 8) return walkEnd();
+    var beat = W.i > 0 && W.i % 3 === 0 ? BEAT : 0;   /* a beat where the row changes */
+    setFrame(W.i, true);
+    fillDot(W.i, hold(W.i));
+    schedule(hold(W.i) + beat);
   }
   function walkStart() {
-    W.on = true; W.row = -1; W.pauses = {};
+    W.on = true; W.pauses = {};
+    W.i = S.frame >= 8 ? -1 : S.frame - 1;            /* it carries on from where you are */
     walkBtn.textContent = T.stop; walkBtn.setAttribute('aria-pressed', 'true');
     walkNext();
   }
-  function walkEnd(finished) {
+  function walkEnd() {
     if (!W.on) return;
     clearTimeout(W.timer);
-    W.on = false; W.row = -1; W.pauses = {};
+    if (W.fill) { W.fill.cancel(); W.fill = null; }
+    W.on = false; W.i = -1; W.pauses = {};
     walkBtn.textContent = T.walk; walkBtn.setAttribute('aria-pressed', 'false');
-    /* it ends on the last row, where it left you — nothing jumps. Stopping it by hand puts the
-       single frame back, and that move is yours, so it costs nothing either. */
-    if (!finished) setFrame(S.frame);
   }
   function walkPause(why) {
     if (!W.on) return;
     var was = Object.keys(W.pauses).length;
     W.pauses[why] = 1;
-    if (!was) { clearTimeout(W.timer); W.left = Math.max(400, W.endAt - Date.now()); }
+    if (!was) { clearTimeout(W.timer); W.left = Math.max(400, W.endAt - Date.now()); if (W.fill) W.fill.pause(); }
   }
   function walkResume(why) {
     if (!W.on || !W.pauses[why]) return;
     delete W.pauses[why];
-    if (!Object.keys(W.pauses).length) schedule(W.left);
+    if (!Object.keys(W.pauses).length) { schedule(W.left); if (W.fill) W.fill.play(); }
   }
 
-  function setFrame(i) {
+  /* during the walk the highlight moves by transform: nine moves, no layout shift.
+     A move you make yourself is a move you asked for, so that one sets the geometry directly. */
+  function slideRing(node, i) {
+    var g = card.grid, r = rowOf(i), c = i % 3;
+    var bw = g.cols[1] - g.cols[0], bh = g.rows[1] - g.rows[0];
+    var w = g.cols[c + 1] - g.cols[c], h = g.rows[r + 1] - g.rows[r];
+    node.style.transform = 'translate(' + ((g.cols[c] - g.cols[0]) / bw * 100).toFixed(2) + '%,' +
+      ((g.rows[r] - g.rows[0]) / bh * 100).toFixed(2) + '%) scale(' + (w / bw).toFixed(4) + ',' + (h / bh).toFixed(4) + ')';
+  }
+  function setFrame(i, fromWalk) {
+    if (!fromWalk && W.fill) { W.fill.cancel(); W.fill = null; }
     S.frame = (i + 9) % 9;
-    var ring = document.getElementById('ring'), pring = document.getElementById('pring');
-    ring.style.transform = ''; pring.style.transform = '';
-    ring.setAttribute('style', frameRing(card, S.frame));
-    pring.setAttribute('style', pathRing(S.frame));
+    var ring = document.getElementById('ring');
+    if (fromWalk) {
+      if (!ring.dataset.based) { ring.setAttribute('style', frameRing(card, 0)); ring.dataset.based = '1'; }
+      slideRing(ring, S.frame);
+    } else {
+      ring.style.transform = ''; delete ring.dataset.based;
+      ring.setAttribute('style', frameRing(card, S.frame));
+    }
     document.getElementById('noteslot').innerHTML = noteHTML();
     document.getElementById('dots').innerHTML = dotsHTML();
+    var pr = document.getElementById('pring');
+    if (pr) pr.setAttribute('style', pathRing(S.frame));
     drawLink();
     var p = new URLSearchParams(location.search); p.set('frame', S.frame);
     history.replaceState(null, '', '?' + p);
-    live.textContent = T.rows[rowOf(S.frame)] + ' · ' + card.captions[S.frame];
+    live.textContent = T.rows[rowOf(S.frame)] + ' · ' + FIELDS[rowOf(S.frame)][S.frame % 3] + ' · ' + card.captions[S.frame];
   }
+
   walkBtn = document.getElementById('walk');
-  walkBtn.addEventListener('click', function () { W.on ? walkEnd(false) : walkStart(); });
+  walkBtn.addEventListener('click', function () { W.on ? walkEnd() : walkStart(); });
   document.addEventListener('click', function (e) {
-    if (e.target.closest('#walk')) return;
+    if (e.target.closest('#walk') || e.target.closest('.dlg') || e.target.closest('#sysbtn')) return;
     var f = e.target.closest('[data-frame]');
-    if (f) { walkEnd(false); return setFrame(+f.dataset.frame); }
+    if (f) { walkEnd(); return setFrame(+f.dataset.frame); }
     var s = e.target.closest('[data-step]');
-    if (s) { walkEnd(false); return setFrame(S.frame + (+s.dataset.step)); }
+    if (s) { walkEnd(); return setFrame(S.frame + (+s.dataset.step)); }
     var c = e.target.closest('[data-card]');
     if (c) { var p = new URLSearchParams(location.search); p.set('card', c.dataset.card); p.set('frame', 0); location.search = p; }
   });
+  /* capture, so Escape is read before the dialog closes itself: closing the dialog must not stop the walk */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') { e.preventDefault(); walkEnd(false); setFrame(S.frame + 1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); walkEnd(false); setFrame(S.frame - 1); }
-    if (e.key === 'Escape') walkEnd(false);
-  });
-  /* a keyboard user is never left fighting the timer */
+    if (dlg.open) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); walkEnd(); setFrame(S.frame + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); walkEnd(); setFrame(S.frame - 1); }
+    if (e.key === 'Escape') walkEnd();
+  }, true);
   document.addEventListener('focusin', function (e) {
-    if (W.on && !e.target.closest('#walk') && document.getElementById('print').contains(e.target)) walkEnd(false);
+    if (W.on && !e.target.closest('#walk') && !e.target.closest('#sysbtn') && !e.target.closest('.dlg') &&
+        document.getElementById('grid').contains(e.target)) walkEnd();
   });
-  /* scrolled away: hold. back in view: carry on from where it was, never from the start */
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) {
       es.forEach(function (en) { en.intersectionRatio < .5 ? walkPause('view') : walkResume('view'); });
-    }, { threshold: [0, .5, 1] }).observe(document.getElementById('print'));
+    }, { threshold: [0, .5, 1] }).observe(document.getElementById('grid'));
   }
-  document.addEventListener('visibilitychange', function () {
-    document.hidden ? walkPause('tab') : walkResume('tab');
-  });
+  document.addEventListener('visibilitychange', function () { document.hidden ? walkPause('tab') : walkResume('tab'); });
+
   drawLink();
   window.addEventListener('resize', drawLink);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawLink);
-  document.querySelectorAll('.path img, .print__card img').forEach(function (im) { if (!im.complete) im.addEventListener('load', drawLink); });
-
-  function dealInto(box, n) {
-    var pool = CARDS.slice(), out = [];
-    while (out.length < n) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
-    box.innerHTML = out.map(function (c) { return '<span class="slot"><img src="' + src(c) + '" alt="' + c.name + '" width="800" height="1314"></span>'; }).join('');
-    live.textContent = out.map(function (c) { return c.name; }).join(', ');
-  }
-  var d1 = document.getElementById('draw1'), d3 = document.getElementById('draw3');
-  d1.addEventListener('click', function () { dealInto(document.getElementById('deal1'), 1); this.textContent = T.again; });
-  d3.addEventListener('click', function () { dealInto(document.getElementById('deal3'), 3); this.textContent = T.again; });
-  if (S.state === 'dealt') { dealInto(document.getElementById('deal1'), 1); dealInto(document.getElementById('deal3'), 3); }
+  document.querySelectorAll('#printcard img').forEach(function (im) { if (!im.complete) im.addEventListener('load', drawLink); });
 
   function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === String(v)) + '">' + (label || v) + '</a>'; }
   document.getElementById('board').innerHTML =
     '<span class="grp"><b>Frame</b>' + [0,1,2,3,4,5,6,7,8].map(function (i) { return link('frame', i, 'f' + (i+1)); }).join('') + '</span>' +
     '<span class="grp"><b>Card</b>' + [0,2,3].map(function (i) { return link('card', i, CARDS[i].name.split(' ')[0]); }).join('') + '</span>' +
-    '<span class="grp"><b>Lang</b>' + link('lang','en','EN') + link('lang','sk','SK') + '</span>' +
-    '<span class="grp"><b>Readings</b>' + link('state','','empty') + link('state','dealt','dealt') + '</span>';
+    '<span class="grp"><b>Lang</b>' + link('lang','en','EN') + link('lang','sk','SK') + '</span>';
 })();
 </script>
 </body>
