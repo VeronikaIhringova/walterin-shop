@@ -3,21 +3,21 @@
     "main": {
       "type": "walterin-where",
       "settings": {
-        "title": "Kde nás nájdete",
-        "lead": "Walterin kreslí a vydáva Walter Ihring. Sídlime v Bratislave a odtiaľto posielame knihy aj karty po celej Európskej únii.",
+        "title": "Where to find us",
+        "lead": "Walterin is drawn and published by Walter Ihring. We are based in Bratislava, and we send books and cards from here across the European Union.",
         "pin_lat": "48.148",
         "pin_lng": "17.107",
         "pin_label": "Bratislava",
-        "globe_hint": "Potiahnite glóbus",
-        "globe_alt": "Kreslený glóbus so značkou na Bratislave. Potiahnutím ho otočíte."
+        "globe_hint": "Drag the globe",
+        "globe_alt": "A drawn globe with a mark on Bratislava. Drag it to turn it."
       },
       "blocks": {
         "online": {
           "type": "block",
           "settings": {
             "heading": "Online",
-            "text": "<p>Sme tu. Náš obchod je miesto, kde Walterin kúpite — a pošleme to kamkoľvek v Európskej únii.</p>",
-            "button_label": "Do obchodu",
+            "text": "<p>We are here. Our shop is where you buy Walterin — and we send it anywhere in the European Union.</p>",
+            "button_label": "To the shop",
             "button_link": "shopify://collections/all",
             "button_secondary": false
           }
@@ -25,9 +25,9 @@
         "shops": {
           "type": "block",
           "settings": {
-            "heading": "Kníhkupectvá a obchody",
-            "text": "<p><strong>Vediete kníhkupectvo alebo obchod?</strong> Napíšte nám. Radi sa porozprávame o tom, ako by Walterin vyzeral u vás na pulte.</p>",
-            "button_label": "Napíšte nám",
+            "heading": "Bookshops and stores",
+            "text": "<p><strong>Do you run a bookshop or a store?</strong> Write to us. We would like to talk about how Walterin would look on your counter.</p>",
+            "button_label": "Write to us",
             "button_link": "shopify://pages/contact",
             "button_secondary": true
           }
@@ -35,10 +35,10 @@
         "contact": {
           "type": "block",
           "settings": {
-            "heading": "Kontakt",
+            "heading": "Contact",
             "rule": true,
-            "text": "<p>support@walterin.com<br>+421 905 549 907<br>V pracovné dni medzi 9:00 a 17:00 (SEČ). Ozveme sa čo najskôr.</p>",
-            "button_label": "Kontaktný formulár",
+            "text": "<p>support@walterin.com<br>+421 905 549 907<br>On working days between 9:00 and 17:00 (CET). We’ll get back to you as soon as we can.</p>",
+            "button_label": "Contact form",
             "button_link": "shopify://pages/contact",
             "button_secondary": true
           }

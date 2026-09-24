@@ -35,7 +35,8 @@ from playwright.async_api import async_playwright
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "https://walterin.com"
 PAGES = [("/products/tarot", "tarot"), ("/products/walterin-prague", "prague"),
-         ("/products/stickers", "stickers"), ("/cart", "cart"), ("/", "home")]
+         ("/products/stickers", "stickers"), ("/cart", "cart"), ("/", "home"),
+         ("/pages/where-to-find-us", "where")]
 LOCALES = [("", "en"), ("/sk", "sk")]
 WIDTHS = [320, 360, 390, 412]
 SCALES = [100, 175]
