@@ -382,66 +382,15 @@
 /* --------------------------------------------------------------------------
    Home page: the icon row (blocks/ai_gen_block_e56fc5e)
 
-   The block is generated code, so it is re-skinned from here rather than edited
-   in place: our type, our ink rule, our spacing steps, and the same 200ms
-   height-and-opacity open the accordions use on the tarot page. Its own
-   behaviour — what it says and when it opens — is untouched.
+   Behaviour only. The look — the black-and-white icons that turn colour on hover,
+   the type, the spacing — is the block's own and is deliberately left alone.
+
+   The one change: .expanded used to set position:absolute across the whole row,
+   which lifted the open item out of the grid and laid it over its neighbours.
+   That is why only one could be open, and why two overlapped. In flow, each one
+   stays in its own column and grows downward with its text underneath.
    -------------------------------------------------------------------------- */
-.wui [class*="ai-feature-item-"] {
-  border-top: var(--wui-line-thin) solid var(--wui-ink);
-  padding-block: var(--wui-space-block);
-  background: none;
-  box-shadow: none;
-  border-radius: 0;
-  /* the block greys out whatever is not open; our palette has no grey, and with
-     several open at once it would have meant most of the row sitting dimmed */
-  filter: none;
-}
-/* The open item was lifted out of the grid — position:absolute across the whole row.
-   That is what made one close the other, and what made two overlap. It now stays in
-   its own column and grows downward, with its text directly underneath. */
-.wui [class*="ai-feature-item-"].expanded {
-  position: static;
-  box-shadow: none;
-  filter: none;
-}
-.wui [class*="ai-feature-heading-"] {
-  font-family: var(--wui-display);
-  font-size: var(--wui-fs-label);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--wui-ink);
-}
-.wui [class*="ai-feature-preview-"],
-.wui [class*="ai-feature-full-text-"] {
-  font-family: var(--wui-body);
-  font-size: var(--wui-fs-body);
-  line-height: 1.5;
-  color: var(--wui-ink);
-}
-.wui [class*="ai-feature-read-more-"],
-.wui [class*="ai-feature-read-less-"] {
-  font-family: var(--wui-body);
-  font-size: var(--wui-fs-small);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-  color: var(--wui-ink);
-}
-.wui [class*="ai-feature-icon-wrapper-"] {
-  background: none;
-  border: 0;
-  border-radius: 0;
-}
-/* The block already animates its own open with max-height; left alone so the two
-   do not fight. Only the easing is brought into line with the accordions. */
-.wui [class*="ai-feature-expanded-content-"] {
-  transition-timing-function: var(--wui-ease);
-}
-@media (prefers-reduced-motion: reduce) {
-  .wui [class*="ai-feature-expanded-content-"] { transition: none; }
-}
+.wui [class*="ai-feature-item-"].expanded { position: static; }
 
 /* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
