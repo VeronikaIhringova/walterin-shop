@@ -119,8 +119,22 @@
     },
     "look_inside": {
       "type": "walterin-pages",
+      "blocks": {
+        "spread_1": {
+          "type": "spread",
+          "settings": {
+            "image": "shopify://shop_images/walterin-prague-look-inside-comic-illustrated-pages.png",
+            "image_mobile": "shopify://shop_images/walterin-prague-look-inside-comic-pages-mobile.png",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "spread_1"
+      ],
       "settings": {
-        "title": "Look inside"
+        "title": "Look inside",
+        "lead": "Nine frames to a story, the same way the tarot works."
       }
     }
   },

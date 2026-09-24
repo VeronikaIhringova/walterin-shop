@@ -116,17 +116,10 @@
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff"
       }
-    },
-    "look_inside": {
-      "type": "walterin-pages",
-      "settings": {
-        "title": "Look inside"
-      }
     }
   },
   "order": [
     "main",
-    "look_inside",
     "faq",
     "related"
   ]

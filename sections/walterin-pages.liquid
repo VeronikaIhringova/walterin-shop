@@ -10,50 +10,52 @@
 {% endcomment %}
 
 <div class="wui-scope wui-pages">
-  {%- liquid
-    # The spreads and their line belong to the product, not to the page layout, so both come from
-    # the product's metafields. No images, no section: a sticker set simply has nothing to look
-    # inside, and the page closes up around it.
-    assign wui = product.metafields.walterin
-    assign spreads = wui.look_inside.value
-    assign lead = wui.look_inside_note
-  -%}
-  {%- if spreads != blank and spreads.size > 0 -%}
-    {%- if section.settings.title != blank or lead != blank -%}
-      <div class="wui-wrap">
-        <div class="wui-pages__head">
-          {%- if section.settings.title != blank -%}
-            <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
-          {%- endif -%}
-          {%- if lead != blank -%}
-            <p class="wui-pages__lead">{{ lead | escape }}</p>
-          {%- endif -%}
-        </div>
+  {%- if section.settings.title != blank or section.settings.lead != blank -%}
+    <div class="wui-wrap">
+      <div class="wui-pages__head">
+        {%- if section.settings.title != blank -%}
+          <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lead != blank -%}
+          <p class="wui-pages__lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
       </div>
-    {%- endif -%}
+    </div>
+  {%- endif -%}
 
-    {%- for file in spreads -%}
-      {%- assign img = file.preview_image | default: file -%}
-      {%- if img != blank -%}
-        <figure class="wui-pages__item">
+  {%- for block in section.blocks -%}
+    {%- if block.settings.image != blank -%}
+      <figure class="wui-pages__item" {{ block.shopify_attributes }}>
+        <picture>
+          {%- if block.settings.image_mobile != blank -%}
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ block.settings.image_mobile | image_url: width: 1100 }}"
+              width="{{ block.settings.image_mobile.width }}"
+              height="{{ block.settings.image_mobile.height }}"
+            >
+          {%- endif -%}
           <img
-            src="{{ img | image_url: width: 2200 }}"
+            src="{{ block.settings.image | image_url: width: 2200 }}"
             srcset="
-              {{ img | image_url: width: 750 }} 750w,
-              {{ img | image_url: width: 1100 }} 1100w,
-              {{ img | image_url: width: 1500 }} 1500w,
-              {{ img | image_url: width: 2200 }} 2200w
+              {{ block.settings.image | image_url: width: 750 }} 750w,
+              {{ block.settings.image | image_url: width: 1100 }} 1100w,
+              {{ block.settings.image | image_url: width: 1500 }} 1500w,
+              {{ block.settings.image | image_url: width: 2200 }} 2200w
             "
             sizes="100vw"
-            alt="{{ img.alt | default: section.settings.title | escape }}"
-            width="{{ img.width }}"
-            height="{{ img.height }}"
+            alt="{{ block.settings.image.alt | default: section.settings.title | escape }}"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
             loading="lazy"
           >
-        </figure>
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
+        </picture>
+        {%- if block.settings.caption != blank -%}
+          <figcaption class="wui-wrap wui-pages__cap">{{ block.settings.caption | escape }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+  {%- endfor -%}
 </div>
 
 {% stylesheet %}
@@ -75,11 +77,22 @@
   "name": "Walterin · Look inside",
   "tag": "section",
   "class": "wui-section",
-  "enabled_on": { "templates": ["product"] },
   "settings": [
     { "type": "text", "id": "title", "label": "Heading", "default": "Look inside" },
-    { "type": "paragraph", "content": "The images and the line under the heading come from the product: walterin.look_inside and walterin.look_inside_note. With no images the whole section disappears." }
+    { "type": "text", "id": "lead", "label": "Line under the heading" }
   ],
-  "presets": [ { "name": "Walterin · Look inside" } ]
+  "blocks": [
+    {
+      "type": "spread",
+      "name": "Page",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Image for phones", "info": "Optional. Used below 750px." },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Walterin · Look inside", "blocks": [ { "type": "spread" } ] } ]
 }
 {% endschema %}
