@@ -126,3 +126,14 @@ At 1440 that puts every heading at **108px** from the viewport edge; at 390, **3
 
 You are not. Pick the nearest step. If nothing fits, the layout is wrong, not the scale — and if you
 genuinely believe a sixth step is needed, add it here first, with the reason, before using it.
+
+---
+
+## Checking it
+
+`docs/design/responsive-check.py` walks every page at **320, 360, 390 and 412**, in both languages,
+at normal and 175% text scaling, and fails on any horizontal scroll, overflow or clipped text.
+
+360 and 412 are there because they are Android, and 390-only testing is what let the tarot page ship
+with a 99px text column. The text-scaling pass is there because Android Chrome scales text without
+scaling fixed-px columns, which is the same bug wearing a different hat.

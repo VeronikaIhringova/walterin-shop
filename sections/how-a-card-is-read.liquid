@@ -278,13 +278,24 @@
 .wui .wui-read__dlghead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--wui-16); margin-bottom: var(--wui-12); }
 .wui .wui-read__dlgcap { font-size: var(--wui-fs-small); line-height: 1.35; margin: var(--wui-12) 0 0; }
 
-/* phone: the note and the card side by side, the gutter between them */
+/* phone: the note and the card side by side, the gutter between them.
+
+   The card and the gutter are FLUID, not fixed. With `34px 132px` every pixel lost on a narrower
+   screen came out of the note: 162px of note on a 390 iPhone, 132px on a 360 Android, and a text
+   column of 99px — three words to a line, and clipping as soon as the reader has text scaling on.
+   Now the note keeps the room and the card gives way, which is the right priority: the note is
+   what you read, the card is what it points at. */
 @media (max-width: 989px) {
-  .wui .wui-read__grid { grid-template-columns: minmax(0, 1fr) 34px 132px; gap: var(--wui-16) 0; }
+  .wui .wui-read__grid {
+    grid-template-columns: minmax(0, 1fr) clamp(12px, 5vw, 34px) clamp(88px, 26vw, 132px);
+    gap: var(--wui-16) 0;
+  }
   .wui .wui-read__intro { grid-column: 1 / -1; grid-row: 1; }
   .wui .wui-read__noteslot { grid-column: 1; grid-row: 2; min-width: 0; }
-  .wui .wui-read__card { grid-column: 3; grid-row: 2; width: 132px; }
-  .wui .wui-read__crop { max-width: 128px; }
+  .wui .wui-read__card { grid-column: 3; grid-row: 2; width: 100%; }
+  .wui .wui-read__crop { max-width: 100%; }
+  /* A long Slovak word in a narrow column must wrap rather than run past the frame. */
+  .wui .wui-read__note :is(.wui-read__cap, .wui-read__why, .wui-read__n) { overflow-wrap: break-word; }
 }
 
 /* from 990px the width does the work: intro · note · card, one spacing step apart, and the row

@@ -869,6 +869,9 @@
       z-index: 20;
       display: flex;
       align-items: center;
+      /* wraps rather than truncating the call to action when text scaling is turned up */
+      flex-wrap: wrap;
+      row-gap: var(--wui-8);
       gap: var(--wui-12);
       padding: var(--wui-12) var(--wui-edge) calc(var(--wui-12) + env(safe-area-inset-bottom, 0px));
       background: var(--wui-paper);
@@ -880,9 +883,17 @@
   }
   .wui .wui-sticky__thumb { flex: none; width: 40px; height: 40px; overflow: hidden; border: var(--wui-line) solid var(--wui-ink); border-radius: 6px; }
   .wui .wui-sticky__thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .wui .wui-sticky__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .wui .wui-sticky__text { flex: 1 1 8em; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .wui .wui-sticky__text .wui-label { font-size: var(--wui-fs-body); }
-  .wui .wui-sticky .wui-btn { flex: none; white-space: nowrap; margin-right: 3px; }
+  /* flex:none + nowrap meant the button could not give way: with Android text scaling on, its
+     label grew and pushed the whole bar past the right edge of the screen. It may now shrink, and
+     the label truncates rather than dragging the page sideways. */
+  .wui .wui-sticky .wui-btn {
+    flex: 0 0 auto; min-width: 0; max-width: 100%;
+    white-space: nowrap; margin-right: 3px;
+  }
+  .wui .wui-sticky__text .wui-label,
+  .wui .wui-sticky__text .wui-small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* Price and availability cross-fade instead of swapping (walterin-buy.js) */
   .wui [data-wui-price],

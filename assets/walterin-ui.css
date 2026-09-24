@@ -359,6 +359,21 @@
 .wui .header__icon--cart .icon-cart { width: 22px; height: 22px; }
 
 /* --------------------------------------------------------------------------
+   Safety net for the pages not yet on the design system
+
+   Two things on the home page push a 320px screen sideways: a generated gallery
+   block whose image wrapper is sized in fixed px, and Dawn's product card, whose
+   heading will not break a long product name. Neither page is converted yet, so
+   these are held here rather than edited into generated code.
+   -------------------------------------------------------------------------- */
+.wui [class*="ai-four-image-gallery__image-wrapper"],
+.wui [class*="ai-four-image-gallery__image-wrapper"] img { max-width: 100%; }
+.wui :is(.card__heading, .card__information, .full-unstyled-link, .card__inner) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
    -------------------------------------------------------------------------- */
 .wui .wui-scope {
@@ -380,12 +395,20 @@
 :where(.wui-scope) a { color: inherit; }
 :where(.wui-scope) :is(button, input) { font: inherit; color: inherit; }
 /* No hyphenation and no mid-word breaks anywhere in the scope, including headings:
-   base.css and theme.liquid set `word-break: break-word` on h1–h6. */
+   base.css and theme.liquid set `word-break: break-word` on h1–h6.
+
+   One exception, below: a word that is wider than its whole line has nowhere to go, and with
+   `overflow-wrap: normal` it pushes the page sideways instead. That is what happened on Android
+   with text scaling turned up — "CONSCIOUSNESS:" in the product title stopped fitting on a 360px
+   screen and took the whole document with it. `anywhere` only ever acts as a last resort, so the
+   rule against mid-word breaks still holds for every word that fits. */
 .wui .wui-scope,
 .wui .wui-scope :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, span, a, button, summary, legend, label) {
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
+  /* last resort only: break a word that cannot fit its line at all */
+  overflow-wrap: anywhere;
   -webkit-hyphens: none;
 }
 .wui .wui-nb { white-space: nowrap; } /* keeps hyphenated words whole: "e-kniha" */
