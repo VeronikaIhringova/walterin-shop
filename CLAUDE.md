@@ -60,6 +60,11 @@ Use these based on the task. They are the source of truth — read the relevant 
 - **walterin.md** — Lightweight project overview and tech/store reference. Use when you need a quick orientation.
 - **SHOPIFY-THEME-TECHNICAL.md** — For any storefront/theme work. Theme architecture, design tokens, deployment rules. Sections marked TBD will be filled in as the store is built.
 - **PRODUCT-PAGE-IMPROVEMENT-PLAN.md** — Live backlog of product page work for the Tarot deck launch, prioritized in tiers.
+- **docs/CONTENT-MODEL.md** — what lives where: templates decide structure, product metafields decide words.
+- **docs/ADD-A-PRODUCT.md** — the numbered list for adding a product, and what breaks if a step is skipped.
+- **docs/WHEN-A-NEW-TEMPLATE.md** — the one test for whether a product needs its own template (usually not).
+- **docs/design/SPACING.md** — the five spacing steps and the section-to-section rule.
+- **docs/design/BUTTONS.md** — one button component; never white text on yellow.
 
 ## What Veronka Needs From You
 
