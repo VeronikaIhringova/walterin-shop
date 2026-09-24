@@ -393,7 +393,16 @@
                   <span class="loading-overlay__spinner hidden wui-spinner" aria-hidden="true"></span>
                 </button>
                 {%- if section.settings.show_express -%}
+                  {%- comment -%}
+                    What this button says is Shopify's decision, not ours: a wallet button when the
+                    visitor's browser has Apple Pay, Google Pay or Shop Pay set up, and an unbranded
+                    "Buy it now" when it does not. So the caption does the explaining — the same
+                    words Shopify's own checkout uses above the same button.
+                  {%- endcomment -%}
                   <div class="wui-buy__express" data-wui-express {% if digital %}hidden{% endif %}>
+                    {%- if section.settings.express_label != blank -%}
+                      <span class="wui-buy__express-label">{{ section.settings.express_label | escape }}</span>
+                    {%- endif -%}
                     {{ form | payment_button }}
                   </div>
                 {%- endif -%}
@@ -827,7 +836,8 @@
   @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
-  .wui .wui-buy__express { margin-inline: var(--wui-line); } /* the wallet ring is drawn outside the button: inset it so its outer edge meets the column edge */
+  /* Inset lives on .shopify-payment-button alone (assets/walterin-ui.css): applying it here as
+     well double-inset the wallet button, leaving its ink ring 3px right of Add to cart. */
   .wui .wui-notify { display: flex; flex-direction: column; }
   .wui .wui-notify__row { display: flex; gap: var(--wui-12); }
   .wui .wui-notify__row .wui-input { flex: 1; }
@@ -1031,6 +1041,13 @@
       "label": "Show express checkout (Apple Pay, Google Pay)",
       "info": "Hidden automatically when a digital variant is selected.",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "express_label",
+      "label": "Express checkout caption",
+      "info": "Shown above the wallet button. Shopify decides whether it shows Apple Pay, Google Pay or a plain “Buy it now”, so keep this wording neutral.",
+      "default": "Express checkout"
     },
     {
       "type": "checkbox",

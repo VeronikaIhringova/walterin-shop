@@ -165,6 +165,67 @@
   padding-inline: var(--wui-frame-pad);
 }
 
+
+/* --------------------------------------------------------------------------
+   Cart: which edition is this?
+
+   The cart already prints the variant, but the product title is set in the
+   display face at full size and the line that tells the two decks apart was the
+   smallest text in the block. Two lines of "Tarot of Consciousness" read as a
+   duplicate. The value now carries the brand face; the option name stays small.
+   -------------------------------------------------------------------------- */
+.wui .product-option {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wui-space-control);
+  align-items: baseline;
+  margin-top: var(--wui-space-control);
+}
+.wui .product-option dt { font-size: var(--wui-fs-small); opacity: 0.75; }
+.wui .product-option dd {
+  margin: 0;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-body);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   Express checkout
+
+   Shopify decides what this button says: a wallet button (Apple Pay, Google
+   Pay, Shop Pay) when the visitor's browser has one, otherwise an unbranded
+   "Buy it now" that goes to the normal checkout. The wording is not ours to
+   set — so the caption above it does the explaining, the same way Shopify's own
+   checkout labels it "Express checkout".
+
+   All we own is the shape: same width and height as Add to cart, sitting
+   directly under it, clearly the second option.
+   -------------------------------------------------------------------------- */
+.wui .wui-buy__express { display: grid; gap: var(--wui-space-control); }
+.wui .wui-buy__express-label {
+  font-size: var(--wui-fs-small);
+  text-align: center;
+  opacity: 0.75;
+}
+.wui .shopify-payment-button__button--unbranded,
+.wui button.shopify-payment-button__button--unbranded {
+  width: 100%;
+  min-width: 0;          /* Dawn forces 12rem, which stops it matching Add to cart */
+  min-height: 52px;
+  font-weight: 400;
+}
+/* The 2.5px inset below is right for a WALLET button, whose ink ring is a
+   box-shadow drawn outside the element. The unbranded "Buy it now" draws a real
+   border inside its own box, so the same inset leaves it 5px narrower than Add
+   to cart — which is the misalignment you see when no wallet is available. */
+.wui .wui-buy__express:has(.shopify-payment-button__button--unbranded) { margin-inline: 0; }
+.wui .shopify-payment-button:has(.shopify-payment-button__button--unbranded) { padding: 0; }
+/* Dawn draws two pseudo-element rings inside this button; with our ink border
+   they stack into a double outline. */
+.wui .shopify-payment-button__button--unbranded::before,
+.wui .shopify-payment-button__button--unbranded::after { content: none; }
+
 /* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
    -------------------------------------------------------------------------- */
@@ -312,7 +373,7 @@
   transform: none;
   cursor: not-allowed;
 }
-.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-body); letter-spacing: 0; text-transform: none; }
+.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: inherit; letter-spacing: 0; text-transform: none; }
 
 /* Loading state used by the theme's <product-form> (adds .loading, toggles .hidden on the spinner) */
 .wui .wui-btn.loading > :not(.wui-spinner) { visibility: hidden; }
