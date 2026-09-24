@@ -68,6 +68,7 @@
     margin: 0 0 1.8rem;
   }
   .mw-body p:last-child { margin-bottom: 0; }
+  .mw-cta { margin: 0; padding-top: var(--wui-space-block); }
   .mw-body strong { font-weight: var(--font-body-weight-bold, 700); }
   .mw-body em { font-style: italic; }
 
@@ -100,6 +101,14 @@
         <p>{{ section.settings.paragraph_1 }}</p>
         <p>{{ section.settings.paragraph_2 }}</p>
       </div>
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <p class="mw-cta">
+          {%- render 'wui-button',
+            label: section.settings.button_label,
+            href: section.settings.button_link,
+            variant: 'secondary' -%}
+        </p>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -159,10 +168,28 @@
       "id": "background",
       "label": "Background",
       "default": "#FFFEF7"
+    },
+    {
+      "type": "header",
+      "content": "Read more"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link",
+      "info": "The About page. Leave either field empty and no button appears."
     }
   ],
   "presets": [
-    { "name": "Meet Walter" }
+    {
+      "name": "Meet Walter"
+    }
   ]
 }
 {% endschema %}

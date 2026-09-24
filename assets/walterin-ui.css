@@ -338,6 +338,25 @@
 }
 
 /* --------------------------------------------------------------------------
+   Header: one row, one icon family
+
+   .header__icons is a flex row with no align-items, so the icon links (which
+   centre themselves) looked right while the language switcher, which does not,
+   sat at the top of the stretched row. Hence the switcher riding high.
+
+   The cart is the only header icon drawn stroked on a 54-unit grid; search,
+   account, hamburger and close are filled on an 18-unit grid. It was also sized
+   24px against everyone else's 20px, which is what made it read as bolder.
+   -------------------------------------------------------------------------- */
+.wui .header__icons { align-items: center; }
+.wui .header__icons .header-lang,
+.wui .header__icons .header-lang__list { display: flex; align-items: center; }
+.wui .header-lang__option { padding-block: 0; line-height: 1; }
+
+.wui .header__icon .icon,
+.wui .header__icon--cart .icon-cart { width: 22px; height: 22px; }
+
+/* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
    -------------------------------------------------------------------------- */
 .wui .wui-scope {
