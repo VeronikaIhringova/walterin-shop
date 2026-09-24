@@ -329,16 +329,10 @@ h5,
     </script>
     {% include 'bucks-cc' %}
     {%- liquid
-      # Walterin UI design system (assets/walterin-ui.css). On for the tarot product page only for now;
-      # to roll it out, widen this condition.
-      assign wui_enabled = false
-      assign wui_product_templates = 'tarot,book,qa' | split: ','
-      if template.name == 'product' and wui_product_templates contains template.suffix
-        assign wui_enabled = true
-      endif
-      if template.name == 'page' and template.suffix == 'withdrawal'
-        assign wui_enabled = true
-      endif
+      # Walterin UI design system (assets/walterin-ui.css). Available everywhere: every rule in the
+      # file is written `.wui .wui-*`, so a page that has not been converted is untouched by it.
+      # A section opts in by wrapping itself in `.wui-scope`. Wave 0, docs/design/DESIGN-SYSTEM-ROLLOUT.md.
+      assign wui_enabled = true
     -%}
     {%- if wui_enabled -%}
       {{ 'walterin-ui.css' | asset_url | stylesheet_tag }}

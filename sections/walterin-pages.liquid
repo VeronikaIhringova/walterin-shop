@@ -1,0 +1,163 @@
+{% comment %}
+  Walterin · Look inside — the page spreads, as a gallery rather than a banner.
+
+  One to six images, each in a frame, each openable at full size. A pair of images can be given for
+  one spread (a wide one for the desktop, a tall one for the phone) and only the right one loads.
+
+  Design system: assets/walterin-ui.css (body.wui). No new dependencies — the enlarge uses a plain
+  <dialog>, Escape closes it, and focus returns to the image that opened it.
+{% endcomment %}
+
+<div class="wui-scope wui-pages" data-wui-pages>
+  <div class="wui-wrap">
+    {%- if section.settings.title != blank or section.settings.lead != blank -%}
+      <div class="wui-pages__head">
+        {%- if section.settings.title != blank -%}
+          <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lead != blank -%}
+          <p class="wui-pages__lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="wui-pages__grid" style="--wui-pages-cols: {{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image != blank -%}
+          <figure class="wui-pages__item" {{ block.shopify_attributes }}>
+            <button
+              class="wui-pages__btn"
+              type="button"
+              data-wui-pages-open
+              data-full="{{ block.settings.image | image_url: width: 2000 }}"
+              data-alt="{{ block.settings.image.alt | default: block.settings.caption | escape }}"
+              aria-label="{{ section.settings.zoom_label | escape }}"
+            >
+              <picture>
+                {%- if block.settings.image_mobile != blank -%}
+                  <source
+                    media="(max-width: 749px)"
+                    srcset="{{ block.settings.image_mobile | image_url: width: 900 }}"
+                    width="{{ block.settings.image_mobile.width }}"
+                    height="{{ block.settings.image_mobile.height }}"
+                  >
+                {%- endif -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 1400 }}"
+                  alt="{{ block.settings.image.alt | default: block.settings.caption | escape }}"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy"
+                >
+              </picture>
+            </button>
+            {%- if block.settings.caption != blank -%}
+              <figcaption class="wui-pages__cap">{{ block.settings.caption | escape }}</figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <dialog class="wui-pages__dlg" data-wui-pages-dialog aria-label="{{ section.settings.zoom_label | escape }}">
+    <button class="wui-pages__close" type="button" data-wui-pages-close>
+      {{- section.settings.close_label | escape -}}
+    </button>
+    <img alt="" data-wui-pages-img>
+  </dialog>
+</div>
+
+{% stylesheet %}
+.wui .wui-pages { padding-block: var(--wui-32); }
+.wui .wui-pages__head { display: grid; gap: var(--wui-12); margin-bottom: var(--wui-24); max-width: 62ch; }
+.wui .wui-pages__lead { font-size: var(--wui-fs-body); line-height: 1.45; margin: 0; }
+.wui .wui-pages__grid { display: grid; gap: var(--wui-16); grid-template-columns: 1fr; }
+.wui .wui-pages__item { margin: 0; display: grid; gap: var(--wui-8); }
+.wui .wui-pages__btn {
+  display: block; width: 100%; padding: 0; cursor: zoom-in; background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); overflow: hidden;
+  box-shadow: 3px 3px 0 rgb(34 34 34 / .28);
+  transition: transform var(--wui-t-hover) var(--wui-ease), box-shadow var(--wui-t-hover) var(--wui-ease);
+}
+.wui .wui-pages__btn:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgb(34 34 34 / .28); }
+.wui .wui-pages__btn img { display: block; width: 100%; height: auto; }
+.wui .wui-pages__cap { font-size: var(--wui-fs-small); line-height: 1.4; }
+.wui .wui-pages__dlg {
+  border: var(--wui-line) solid var(--wui-ink); border-radius: var(--wui-radius); background: var(--wui-paper);
+  padding: var(--wui-16); max-width: min(96vw, 1200px); max-height: 92vh;
+}
+.wui .wui-pages__dlg::backdrop { background: rgb(34 34 34 / .55); }
+.wui .wui-pages__dlg img { display: block; max-width: 100%; max-height: 80vh; height: auto; margin-inline: auto; }
+.wui .wui-pages__close {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; margin-bottom: var(--wui-8);
+  font-family: var(--wui-body); font-size: var(--wui-fs-small); color: var(--wui-ink); background: none; border: 0;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+@media (min-width: 750px) {
+  .wui .wui-pages__grid { grid-template-columns: repeat(var(--wui-pages-cols, 1), minmax(0, 1fr)); gap: var(--wui-24); }
+}
+@media (min-width: 990px) {
+  .wui .wui-pages { padding-block: var(--wui-48); }
+  .wui .wui-pages__head { margin-bottom: var(--wui-32); }
+}
+@media (prefers-reduced-motion: reduce) { .wui .wui-pages__btn { transition: none; } }
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  function init(root) {
+    (root || document).querySelectorAll('[data-wui-pages]').forEach(function (scope) {
+      if (scope.dataset.wuiPagesReady) return;
+      scope.dataset.wuiPagesReady = '1';
+      var dlg = scope.querySelector('[data-wui-pages-dialog]');
+      var img = scope.querySelector('[data-wui-pages-img]');
+      var closeBtn = scope.querySelector('[data-wui-pages-close]');
+      if (!dlg || !img) return;
+      var opener = null;
+      scope.querySelectorAll('[data-wui-pages-open]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          opener = btn;
+          img.src = btn.dataset.full;
+          img.alt = btn.dataset.alt || '';
+          if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+        });
+      });
+      if (closeBtn) closeBtn.addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('close', function () { if (opener) opener.focus(); img.removeAttribute('src'); });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { init(); });
+  else init();
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Walterin · Look inside",
+  "tag": "section",
+  "class": "wui-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Look inside" },
+    { "type": "text", "id": "lead", "label": "Line under the heading" },
+    { "type": "range", "id": "columns", "label": "Columns on a desktop", "min": 1, "max": 3, "step": 1, "default": 1 },
+    { "type": "text", "id": "zoom_label", "label": "Enlarge (screen readers)", "default": "Enlarge the page" },
+    { "type": "text", "id": "close_label", "label": "Close button", "default": "Close" }
+  ],
+  "blocks": [
+    {
+      "type": "spread",
+      "name": "Page",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Image for phones", "info": "Optional. Used below 750px." },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Walterin · Look inside", "blocks": [ { "type": "spread" } ] } ]
+}
+{% endschema %}

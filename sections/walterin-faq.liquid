@@ -1,0 +1,134 @@
+{% comment %}
+  Walterin · Questions — the general ones, in their own section.
+
+  Not the product's accordions. Those live in the buy column and answer "what is this thing";
+  these answer "how does buying from you work": shipping, returns, payment, who made it, what
+  happens when something is sold out, and how to reach a person.
+
+  Design system: assets/walterin-ui.css (body.wui). The rows are the same accordion component the
+  buy column uses, with the same 200ms height-and-opacity open, so the two never feel different.
+
+  Nothing here may promise anything that is not contracted. Delivery windows, carriers and prices
+  belong in the policies, and the answers link there instead of repeating them.
+{% endcomment %}
+
+<div class="wui-scope wui-faq">
+  <div class="wui-wrap">
+    <div class="wui-faq__head">
+      <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.lead != blank -%}
+        <p class="wui-faq__lead">{{ section.settings.lead | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="wui-accordions">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.heading != blank -%}
+          <details class="wui-accordion" data-wui-acc {{ block.shopify_attributes }}>
+            <summary>
+              <span class="wui-accordion__title">
+                <span class="wui-label">{{ block.settings.heading | escape }}</span>
+              </span>
+              <span class="wui-accordion__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="wui-accordion__wrap">
+              <div class="wui-accordion__body wui-rte">{{ block.settings.text }}</div>
+            </div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.foot != blank -%}
+      <p class="wui-faq__foot wui-rte">{{ section.settings.foot }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.wui .wui-faq { padding-block: var(--wui-32); }
+.wui .wui-faq__head { display: grid; gap: var(--wui-12); margin-bottom: var(--wui-24); max-width: 62ch; }
+.wui .wui-faq__lead { font-size: var(--wui-fs-body); line-height: 1.45; margin: 0; }
+.wui .wui-faq__foot { font-size: var(--wui-fs-small); line-height: 1.5; margin: var(--wui-24) 0 0; max-width: 62ch; }
+.wui .wui-faq .wui-accordions { max-width: 74ch; }
+@media (min-width: 990px) {
+  .wui .wui-faq { padding-block: var(--wui-48); }
+  .wui .wui-faq__head { margin-bottom: var(--wui-32); }
+}
+{% endstylesheet %}
+
+{% javascript %}
+/* The same open as the buy column's accordions: height and opacity, never a jump. */
+(function () {
+  var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function init(root) {
+    (root || document).querySelectorAll('.wui-faq [data-wui-acc]').forEach(function (details) {
+      if (details.dataset.wuiFaqReady) return;
+      details.dataset.wuiFaqReady = '1';
+      var wrap = details.querySelector('.wui-accordion__wrap');
+      var summary = details.querySelector('summary');
+      if (!wrap || !summary) return;
+      var animation = null;
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
+        var open = !details.open;
+        if (animation) { animation.cancel(); animation = null; }
+        var start = wrap.offsetHeight;
+        if (open) details.open = true;
+        var end = open ? wrap.scrollHeight : 0;
+        if (REDUCE.matches) {
+          wrap.style.height = '';
+          details.open = open;
+          details.classList.remove('is-opening', 'is-closing');
+          return;
+        }
+        details.classList.toggle('is-opening', open);
+        details.classList.toggle('is-closing', !open);
+        wrap.style.height = start + 'px';
+        animation = wrap.animate(
+          { height: [start + 'px', end + 'px'], opacity: [open ? 0 : 1, open ? 1 : 0] },
+          { duration: 200, easing: 'cubic-bezier(0.2, 0.75, 0.2, 1)' }
+        );
+        animation.onfinish = function () {
+          animation = null;
+          wrap.style.height = '';
+          details.open = open;
+          details.classList.remove('is-opening', 'is-closing');
+        };
+        animation.oncancel = function () { wrap.style.height = ''; };
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { init(); });
+  else init();
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Walterin · Questions",
+  "tag": "section",
+  "class": "wui-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Questions" },
+    { "type": "text", "id": "lead", "label": "Line under the heading", "default": "How buying from us works." },
+    { "type": "richtext", "id": "foot", "label": "Note under the questions", "info": "For the link to the policies." }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Question" },
+        { "type": "richtext", "id": "text", "label": "Answer" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    { "name": "Walterin · Questions",
+      "blocks": [ { "type": "question" }, { "type": "question" }, { "type": "question" } ] }
+  ]
+}
+{% endschema %}
