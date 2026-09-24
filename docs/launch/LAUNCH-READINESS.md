@@ -228,3 +228,22 @@ Walterin's own PayPal is live.
 13. Theme backlog TH1–TH4 + § 20a function + eBook consent in cart + GPSR block + SK translation.
 14. Test orders: physical, eBook, mixed, SK + EN, then a withdrawal through the function (C1).
 15. Lawyer sign-off on all legal texts, then publish them. Launch.
+
+## 24 Sep 2026 · S2 "How a card is read" went live
+- Pushed to the live theme 164726866249: `sections/how-a-card-is-read.liquid`, `assets/walterin-read.js`,
+  `assets/nine-frame-path-card{,-sk}.{png,webp}`, then `templates/product.tarot.json` (section first,
+  template second — the template is validated against the live section schema).
+- The template swaps `how_it_works` for `how_a_card_is_read`. The old section stays in the template,
+  switched off (a hidden section must stay in `order`, which is how the editor hides one).
+- **S3 "Meet the cards" was not touched.** The live page still renders `whats_inside_cards`; it was
+  never given an OK live. Its configuration is in git (commit 61cf801) and goes back in when approved.
+- Slovak: 18 settings registered with `translationsRegister` against the live theme's digests, read
+  back with `outdated: false`. **The Slovak locale is still unpublished** (`shopLocales`: sk,
+  published false), so `/sk/` 404s on walterin.com and the Slovak text cannot be seen yet. It appears
+  the moment Slovak is published — nothing more to do on the theme side.
+- A frame is held one second longer in Slovak (8s vs 7s); a range setting cannot be translated, so
+  the section adds the second when `request.locale.iso_code == 'sk'`.
+- Read back from the live theme: section file, JS and both path cards byte-identical to the repo;
+  the template identical to the repo. Checked on walterin.com: the section renders at 825px on
+  desktop, the arrow clears the card by 10px, stepping, picking a card, the walk with the filling
+  dots and the system dialog all work, no console errors.

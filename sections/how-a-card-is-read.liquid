@@ -26,6 +26,14 @@
   if request.locale.iso_code == 'sk' and section.settings.path_card_sk != blank
     assign path_asset = section.settings.path_card_sk
   endif
+  assign hold = section.settings.hold | default: 7
+  comment
+    Slovak runs longer per word, so a frame is held a second longer — the same +15% the timing in
+    docs/design/AUTOPLAY-WALK.md is built on. A range setting cannot be translated, so it is done here.
+  endcomment
+  if request.locale.iso_code == 'sk'
+    assign hold = hold | plus: 1
+  endif
   assign rows = section.settings.rows | split: '|'
   assign whys = section.settings.why | split: '|'
   assign fields = section.settings.fields | split: '|'
@@ -33,7 +41,7 @@
 
 <script src="{{ 'walterin-read.js' | asset_url }}" defer="defer"></script>
 
-<div class="wui-scope wui-read" data-wui-read data-wui-hold="{{ section.settings.hold | default: 7 }}">
+<div class="wui-scope wui-read" data-wui-read data-wui-hold="{{ hold }}">
   <div class="wui-wrap">
     <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
 
