@@ -66,8 +66,6 @@
         while (svg.firstChild) svg.removeChild(svg.firstChild);
         svg.appendChild(el('path', { d: blob(CX, CY, R, 1.6, 3), fill: 'var(--wui-paper)', stroke: 'var(--wui-ink)', 'stroke-width': 3.6, 'stroke-linecap': 'round' }));
         svg.appendChild(el('path', { d: blob(CX, CY, R, 2.2, 91), fill: 'none', stroke: 'var(--wui-ink)', 'stroke-width': 1.6, opacity: 0.45, 'stroke-linecap': 'round' }));
-        var eq = []; for (var lo = -180; lo <= 180; lo += 4) eq.push([lo, 0]);
-        svg.appendChild(el('path', { d: inked(eq, 1.2, 5), fill: 'none', stroke: 'var(--wui-ink)', 'stroke-width': 1, opacity: 0.2, 'stroke-linecap': 'round' }));
         var a = '', b = '';
         land.forEach(function (r, i) { a += inked(r, 1.5, i * 13 + 1); b += inked(r, 2.6, i * 29 + 57); });
         svg.appendChild(el('path', { d: b, fill: 'none', stroke: 'var(--wui-ink)', 'stroke-width': 1.5, opacity: 0.35, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));

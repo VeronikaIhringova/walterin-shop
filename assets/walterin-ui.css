@@ -134,9 +134,10 @@
 /* Dawn writes each section's padding into a generated class on a DESCENDANT
    (.section-template--123__related-padding), which the rule above cannot reach. */
 .wui:is(.t-product, .t-page) #MainContent [class*="-padding"] { padding-block: 0; }
-/* The footer's own top padding would stack on top of the last section's, so the
-   page ends with a double gap. The page owns this one too. */
-.wui:is(.t-product, .t-page) .footer[class*="-padding"] { padding-block-start: 0; }
+/* The footer keeps its own top padding. An earlier version zeroed it to avoid what
+   looked like a double gap — but the space ABOVE the footer's rule and the space
+   BELOW it are two different gaps, and removing the second left the footer's
+   content sitting on its own rule. */
 /* Meet Walter draws a grey hairline above itself. Grey is not in the palette, and
    with a real rhythm the rule is doing a job the space already does. */
 .wui:is(.t-product, .t-page) #MainContent .mw-section { border-top: 0; padding-block: 0; padding-inline: 0; }
