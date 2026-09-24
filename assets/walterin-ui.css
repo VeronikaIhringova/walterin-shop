@@ -137,12 +137,9 @@
 /* The footer's own top padding would stack on top of the last section's, so the
    page ends with a double gap. The page owns this one too. */
 .wui.t-product .footer[class*="-padding"] { padding-block-start: 0; }
-/* Two older sections draw a grey hairline above themselves. Grey is not in the
-   palette, and with a real rhythm the rule is doing a job the space already does. */
-.wui.t-product #MainContent :is(.mw-section, .fwi-section) { border-top: 0; }
-/* faq-with-image sizes itself through an #id selector, which outranks the rules
-   above on its own padding. Named explicitly rather than left 9px out of line. */
-.wui.t-product #MainContent :is(.mw-section, .fwi-section) { padding-block: 0; padding-inline: 0; }
+/* Meet Walter draws a grey hairline above itself. Grey is not in the palette, and
+   with a real rhythm the rule is doing a job the space already does. */
+.wui.t-product #MainContent .mw-section { border-top: 0; padding-block: 0; padding-inline: 0; }
 .wui.t-product #MainContent > .shopify-section + .shopify-section {
   margin-block-start: var(--wui-space-section);
 }
@@ -349,9 +346,14 @@
    24px against everyone else's 20px, which is what made it read as bolder.
    -------------------------------------------------------------------------- */
 .wui .header__icons { align-items: center; }
-.wui .header__icons .header-lang,
-.wui .header__icons .header-lang__list { display: flex; align-items: center; }
-.wui .header-lang__option { padding-block: 0; line-height: 1; }
+/* Only from 990px up. Below that the switcher belongs in the menu drawer, and an
+   unscoped display:flex here outranked the theme's own display:none — which is how
+   "EN / SK" ended up wrapping into two lines against the logo on a phone. */
+@media (min-width: 990px) {
+  .wui .header__icons .header-lang,
+  .wui .header__icons .header-lang__list { display: flex; align-items: center; }
+  .wui .header-lang__option { padding-block: 0; line-height: 1; }
+}
 
 .wui .header__icon .icon,
 .wui .header__icon--cart .icon-cart { width: 22px; height: 22px; }

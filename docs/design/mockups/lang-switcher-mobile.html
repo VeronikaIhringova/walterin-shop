@@ -1,0 +1,105 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Language switcher — mobile</title>
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{--ink:#222;--paper:#FFFDF7;--yellow:#FCF205;--line:2.5px}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e7e1;font:16px/1.5 Inter,system-ui,sans-serif;color:var(--ink);padding:28px}
+h1{font:400 26px/1.2 WalterinBold,sans-serif;margin:0 0 4px}
+h2{font:400 19px/1.2 WalterinBold,sans-serif;margin:30px 0 4px}
+.note{max-width:74ch;margin:0 0 14px;font-size:14px}
+.row{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.phone{background:var(--paper);border:var(--line) solid var(--ink);border-radius:12px;overflow:hidden}
+.cap{font-size:12px;padding:5px 8px;border-top:1px solid #ddd;background:#fff}
+/* header mock */
+.bar{display:flex;align-items:center;gap:8px;padding:10px 14px;min-height:64px}
+.ic{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex:0 0 44px}
+.ic svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logo{font:400 30px/1 WalterinBold,sans-serif;flex:1 1 auto;text-align:center;white-space:nowrap}
+.spacer{flex:0 0 44px}
+/* option B: one target-language button */
+.langbtn{width:44px;height:44px;flex:0 0 44px;display:flex;align-items:center;justify-content:center;
+  font:400 15px/1 WalterinBold,sans-serif;letter-spacing:.04em;background:var(--yellow);
+  border:var(--line) solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);cursor:pointer}
+/* drawer mock */
+.drawer{border-top:1px solid #ddd;padding:16px 14px 22px}
+.dlink{font:400 20px/1 WalterinBold,sans-serif;padding:14px 0;border-bottom:1px solid #eee}
+.dlangs{display:flex;gap:10px;margin-top:18px}
+.dlang{flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;
+  font:400 16px/1 WalterinBold,sans-serif;background:var(--paper);border:var(--line) solid var(--ink);
+  border-radius:8px;box-shadow:3px 3px 0 var(--ink)}
+.dlang.on{background:var(--yellow)}
+.dhead{font-size:13px;opacity:.7;margin-top:20px}
+</style></head><body>
+<h1>Language switcher — two options for phones</h1>
+<p class="note">The bar is 390px wide and already holds a menu button, the logo and two icons. Both
+options keep the logo centred, never wrap, and give the control a 44&times;44 tap target.</p>
+
+<h2>Option A &middot; It lives in the menu</h2>
+<p class="note">Nothing new in the bar at all. The two languages sit at the bottom of the hamburger
+menu as full-width buttons, where there is room to name them properly. This is what the theme was
+always built to do &mdash; it just never worked.</p>
+<div class="row">
+  <div>
+    <div class="phone" style="width:390px">
+      <div class="bar">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
+        <span class="logo">Walterin</span>
+        <span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg></span>
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 12h10L20 7H6"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span>
+      </div>
+      <div class="drawer">
+        <div class="dlink">Walterin</div><div class="dlink">Shop</div><div class="dlink">About</div>
+        <div class="dhead">Language</div>
+        <div class="dlangs">
+          <span class="dlang on">English</span><span class="dlang">Sloven&#269;ina</span>
+        </div>
+      </div>
+    </div><div class="cap">390 &middot; menu open</div>
+  </div>
+  <div>
+    <div class="phone" style="width:320px">
+      <div class="bar">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
+        <span class="logo" style="font-size:26px">Walterin</span>
+        <span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg></span>
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 12h10L20 7H6"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span>
+      </div>
+      <div class="drawer">
+        <div class="dlink">Walterin</div><div class="dlink">Shop</div>
+        <div class="dhead">Language</div>
+        <div class="dlangs"><span class="dlang on">English</span><span class="dlang">Sloven&#269;ina</span></div>
+      </div>
+    </div><div class="cap">320 &middot; menu open</div>
+  </div>
+</div>
+
+<h2>Option B &middot; One button, the language you would switch to</h2>
+<p class="note">A single 44&times;44 button in the icon row reading <b>SK</b> when you are on English,
+<b>EN</b> when you are on Slovak. Two characters, so it can never wrap. One tap, no menu, works
+without JavaScript. It says what will happen, not where you are.</p>
+<div class="row">
+  <div>
+    <div class="phone" style="width:390px">
+      <div class="bar">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
+        <span class="logo">Walterin</span>
+        <span class="langbtn">SK</span>
+        <span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg></span>
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 12h10L20 7H6"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span>
+      </div>
+    </div><div class="cap">390 &middot; on the English site</div>
+  </div>
+  <div>
+    <div class="phone" style="width:320px">
+      <div class="bar">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
+        <span class="logo" style="font-size:24px">Walterin</span>
+        <span class="langbtn">EN</span>
+        <span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg></span>
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 12h10L20 7H6"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span>
+      </div>
+    </div><div class="cap">320 &middot; on the Slovak site</div>
+  </div>
+</div>
+</body></html>
