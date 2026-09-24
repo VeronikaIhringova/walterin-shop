@@ -1,10 +1,10 @@
 # The walk — how the timing was worked out
 
 > "Walk me through it" in S2 · How a card is read. Written 23 Sep 2026, revised 24 Sep.
-> Decision: **one button, one frame at a time, with the time left shown in the dots.**
-> The three-row version was built first and replaced on Veronka's call: a whole row puts three
-> pictures in front of you and you settle on none of them. What the row version is still good for
-> is at the bottom.
+> Decision: **one button, one frame at a time, every frame held the same length, with the time
+> left shown in the dots.** The three-row version was built first and replaced on Veronka's call:
+> a whole row puts three pictures in front of you and you settle on none of them. What the row
+> version is still good for is at the bottom.
 
 ## What the numbers are based on
 
@@ -19,20 +19,34 @@
 
 ## The timing that was built
 
-A stop is one frame. The frames are not equal: the first frame of a row brings the row's
-explanation with it, the two that follow bring only a field name and a caption.
+**Every frame is held the same length.** Getting there meant a choice: set the single duration by
+the longest frame — the one that opens a row and brings the row's explanation with it — or shorten
+the explanations until they fit the same beat as the rest. Setting it by the longest would have put
+every frame at 11s and the run at 82s, a fifth longer than the version it replaced. **So the
+explanations were shortened** to about nine words each, and they are better for it:
 
-| | what is new on the stop | read | picture | change-over | held |
-| --- | --- | --- | --- | --- | --- |
-| frames 1, 4, 7 | row + field + caption + explanation ≈ 26–30 words | 9.0s | 1.5s | 0.4s | **11s** |
-| the other six | field + caption ≈ 7 words | 2.3s | 1.5s | 0.4s | **5s** — NN/g's floor for any stop |
+| | before (16–21 words) | now (8–10 words) |
+| --- | --- | --- |
+| What to understand | What is going on. The top row names the situation: what is in front of you, and what to notice in it. | **What is going on, and what to notice in it.** |
+| What to accept | What is yours. The middle row is what to come to terms with, or admit, before anything moves. | **What is yours, and what to admit before anything moves.** |
+| What to change | What to do with it. The bottom row says where it leads and what can change. | **Where it leads, and what you can change.** |
 
-Slovak: **12.5s** and **5.5s** (+15%). A **0.8s beat** at each row change, where the meaning turns.
+The frame that opens a row is now the worst case at about 17 new words — row, field, caption and
+the explanation:
 
-**Total: 3 × 11 + 6 × 5 + 2 × 0.8 = 64.6s in English, about 72s in Slovak.**
+```
+17 words ÷ 3 words per second   = 5.6s
+taking in the picture           = 1.5s
+change-over                     = 0.4s
+                                  ------
+every frame                      ≈ 7s   (English)
+Slovak, +15% on the reading part   8s
+beat where the row turns           0.8s
+```
 
-That is a long run for a product page, and it is why two things matter more than the total:
-it never starts on its own, and **you can see the change coming**.
+**Total: 9 × 7 + 2 × 0.8 = 64.6s in English, 73.6s in Slovak.** Measured on the build: 64.8s and
+73.8s. Same length as the variable version it replaces, with every frame equal — and 7s sits at the
+top of NN/g's 5–7s floor, so even the two frames that carry least still get a comfortable beat.
 
 ## Seeing the change coming
 

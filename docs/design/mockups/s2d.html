@@ -72,11 +72,12 @@ body.noboard .board { display: none; }
 /* ---------- the layout: the width does the work ---------- */
 .s2grid { position: relative; display: grid; gap: var(--s24); margin-top: var(--s24); }
 @media (min-width: 990px) {
-  /* intro · note · the gutter the arrow lives in · card */
-  .s2grid { grid-template-columns: 300px 400px 74px 280px; justify-content: center; align-items: start; gap: 0 var(--s32); margin-top: var(--s32); }
+  /* intro · note · card, one spacing step between them; the row spans the content edges, so the
+     intro starts exactly under the headline and the card ends on the right content edge */
+  .s2grid { grid-template-columns: 340px minmax(0,1fr) 280px; align-items: start; gap: 0 var(--s48); margin-top: var(--s48); }
   .intro { grid-column: 1; }
   .noteslot { grid-column: 2; }
-  .print__card { grid-column: 4; }
+  .print__card { grid-column: 3; width: 280px; }
 }
 .intro { display: grid; gap: var(--s12); align-content: start; max-width: 46ch; }
 
@@ -99,12 +100,12 @@ body.noboard .board { display: none; }
 /* the note: the frame on the left, what it is on the right */
 .note { border: var(--line) solid var(--ink); border-radius: var(--radius); background: var(--paper);
   box-shadow: 4px 4px 0 rgb(34 34 34 / .28); padding: var(--s16); display: grid; gap: var(--s12) var(--s16);
-  align-content: start; min-height: 578px; }   /* the tallest of the nine, in either language */
-@media (min-width: 990px) { .note { grid-template-columns: 170px minmax(0,1fr); min-height: 344px; } }
+  align-content: start; min-height: 540px; }   /* the tallest of the nine, in either language */
+@media (min-width: 990px) { .note { grid-template-columns: 210px minmax(0,1fr); min-height: 408px; } }   /* the tallest of the nine in either language */
 .note__n { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 @media (min-width: 990px) { .note__n { grid-column: 1 / -1; margin-bottom: -6px; } }
 .note .crop { width: 100%; max-width: 230px; }
-@media (min-width: 990px) { .note .crop { width: 170px; max-width: none; align-self: start; } }
+@media (min-width: 990px) { .note .crop { width: 210px; max-width: none; align-self: start; } }
 .note__text { display: grid; gap: var(--s8); align-content: start; }
 .note__cap { font-family: var(--display); font-size: 20px; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; }
 @media (min-width: 990px) { .note__cap { font-size: 23px; } }
@@ -180,10 +181,12 @@ body.noboard .board { display: none; }
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* the path card's grid lines, measured, as percentages of the whole card */
   var PATH = { cols: [13.54, 39.00, 65.09, 91.97], rows: [10.10, 35.97, 60.93, 85.02] };
+  /* the printed path card, in the reader's language. Both are the same artwork, so the same grid. */
+  var PATHCARD = ASSET + 'nine-frame-path-card' + (S.lang === 'sk' ? '-sk' : '');
   /* the field names, as printed on the path card, row by row */
   var FIELDS = {
     en: [['Chance', 'Idea', 'Value'], ['Openness', 'Meaning', 'Trust'], ['To try', 'To develop', 'To create']],
-    sk: [['Náhoda', 'Nápad', 'Hodnota'], ['Otvorenosť', 'Zmysel', 'Dôvera'], ['Skúsiť', 'Rozvíjať', 'Tvoriť']]
+    sk: [['Šanca', 'Idea', 'Hodnota'], ['Otvorenosť', 'Zmysel', 'Dôvera'], ['Skúšať', 'Rozvíjať', 'Tvoriť']]
   }[S.lang];
 
   var T = {
@@ -192,9 +195,9 @@ body.noboard .board { display: none; }
       intro: 'Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.',
       rows: ['What to understand', 'What to accept', 'What to transform'],
       why: [
-        'What is going on. The top row names the situation: what is in front of you, and what to notice in it.',
-        'What is yours. The middle row is what to come to terms with, or admit, before anything moves.',
-        'What to do with it. The bottom row says where it leads and what can change.'
+        'What is going on, and what to notice in it.',
+        'What is yours, and what to admit before anything moves.',
+        'Where it leads, and what you can change.'
       ],
       hint: 'Step through the nine frames, or click one on the card.',
       pick: 'Try another card', back: 'Back', next: 'Next', frameOf: 'Frame [n] of 9',
@@ -206,19 +209,19 @@ body.noboard .board { display: none; }
     },
     sk: {
       h: 'Ako sa číta karta',
-      intro: 'Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo premeniť.',
-      rows: ['Čo pochopiť', 'Čo prijať', 'Čo premeniť'],
+      intro: 'Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo zmeniť.',
+      rows: ['Čo pochopiť', 'Čo prijať', 'Čo zmeniť'],
       why: [
-        'Čo sa deje. Horný riadok pomenuje situáciu: čo máte pred sebou a čoho si v nej treba všimnúť.',
-        'Čo je vaše. Stredný riadok je to, s čím sa treba zmieriť alebo si to priznať, aby sa dalo pohnúť.',
-        'Čo s tým. Spodný riadok hovorí, kam to vedie a čo sa dá zmeniť.'
+        'Čo sa deje a čoho si v tom treba všimnúť.',
+        'Čo je vaše a čo si priznať, aby sa pohlo.',
+        'Kam to vedie a čo sa dá zmeniť.'
       ],
       hint: 'Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.',
       pick: 'Skúsiť inú kartu', back: 'Späť', next: 'Ďalej', frameOf: 'Obrázok [n] z 9',
       rowWord: 'Riadok', fieldWord: 'Pole',
       walk: 'Prevedie ma tým', stop: 'Zastaviť',
-      system: 'Celý systém', systemH: 'Cesta v deviatich krokoch',
-      systemCap: 'Cesta v deviatich krokoch. Vlastná karta, priamo v balíčku. Zvýraznené pole je miesto tohto obrázka.',
+      system: 'Celý systém', systemH: 'Cesta v 9 krokoch',
+      systemCap: 'Cesta v 9 krokoch. Vlastná karta, priamo v balíčku. Zvýraznené pole je miesto tohto obrázka.',
       close: 'Zavrieť'
     }
   }[S.lang];
@@ -296,8 +299,8 @@ body.noboard .board { display: none; }
   /* the whole system, on request */
   var dlg = el('<dialog class="dlg" id="sysdlg" aria-label="' + T.systemH + '">' +
     '<div class="dlg__head"><h3>' + T.systemH + '</h3><button class="quiet" type="button" id="sysclose">' + T.close + '</button></div>' +
-    '<div class="cardbox"><picture><source srcset="' + ASSET + 'nine-frame-path-card.webp" type="image/webp">' +
-    '<img src="' + ASSET + 'nine-frame-path-card.png" alt="' + T.systemH + '" width="800" height="1314"></picture>' +
+    '<div class="cardbox"><picture><source srcset="' + PATHCARD + '.webp" type="image/webp">' +
+    '<img src="' + PATHCARD + '.png" alt="' + T.systemH + '" width="800" height="1314"></picture>' +
     '<span class="ring" id="pring" style="' + pathRing(S.frame) + '"></span></div>' +
     '<p class="dlg__cap">' + T.systemCap + '</p></dialog>');
   document.body.appendChild(dlg);
@@ -352,8 +355,10 @@ body.noboard .board { display: none; }
      explanation as well, so it is held longer than the two that follow it. */
   var live = document.getElementById('live');
   var W = { on: false, i: -1, timer: null, endAt: 0, left: 0, fill: null, pauses: {} };
-  var LONG = S.lang === 'sk' ? 12500 : 11000, SHORT = S.lang === 'sk' ? 5500 : 5000, BEAT = 800;
-  function hold(i) { return i % 3 === 0 ? LONG : SHORT; }
+  /* one duration for every frame. The row explanations were shortened to about nine words so the
+     frame that opens a row fits the same beat as the two that follow. See AUTOPLAY-WALK.md. */
+  var HOLD = S.lang === 'sk' ? 8000 : 7000, BEAT = 800;
+  function hold() { return HOLD; }
   var walkBtn;
 
   function fillDot(i, ms) {
@@ -369,8 +374,8 @@ body.noboard .board { display: none; }
     if (W.i > 8) return walkEnd();
     var beat = W.i > 0 && W.i % 3 === 0 ? BEAT : 0;   /* a beat where the row changes */
     setFrame(W.i, true);
-    fillDot(W.i, hold(W.i));
-    schedule(hold(W.i) + beat);
+    fillDot(W.i, HOLD);
+    schedule(HOLD + beat);
   }
   function walkStart() {
     W.on = true; W.pauses = {};
