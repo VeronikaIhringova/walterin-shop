@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wave 0 · The product card</title>
+<style>
+ :root { --paper:#FFFDF7; --ink:#222; --yellow:#FCF205; }
+ * { box-sizing:border-box; }
+ body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 Inter, system-ui, sans-serif; }
+ .wrap { max-width:1280px; margin-inline:auto; padding:32px 20px 80px; }
+ h1 { font-size:28px; margin:0 0 6px; }
+ h2 { font-size:22px; margin:0 0 6px; }
+ .sub { max-width:76ch; margin:0 0 20px; }
+ .dir { border-top:2.5px solid var(--ink); padding-top:18px; margin-top:36px; }
+ .shot { border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; background:#fff; }
+ .shot img { display:block; width:100%; height:auto; }
+ .cap { font-size:13px; padding:4px 8px; border-top:1px solid #ddd; }
+ .rows { display:grid; gap:14px; }
+ .pair { display:grid; gap:16px; grid-template-columns: minmax(0,1fr) 250px; align-items:start; }
+ @media (max-width:760px){ .pair { grid-template-columns:1fr; } }
+ .links a { display:inline-block; margin:0 8px 8px 0; padding:6px 12px; border:1.5px solid var(--ink); border-radius:999px;
+   background:var(--yellow); color:inherit; text-decoration:none; font-size:14px; }
+ .links a.ghost { background:var(--paper); }
+ table { border-collapse:collapse; width:100%; font-size:14px; margin-top:10px; }
+ th, td { border-bottom:1px solid #ddd; padding:6px 8px; text-align:left; vertical-align:top; }
+ th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+ code { background:#f2f2f0; padding:1px 5px; border-radius:4px; font-size:13px; }
+ .ask { border:2.5px solid var(--ink); border-radius:8px; padding:14px 16px; background:#fff; margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Wave 0 · The product card</h1>
+<p class="sub">The card is the one component the design system was missing, and it is on six surfaces: the shop grid, the
+featured rows, search, related products, the collage section and the footer. Built here against the real catalogue — the
+names, prices, options and states are what the store actually holds today, not placeholders.</p>
+
+<section class="dir" style="border-top:0;padding-top:0;margin-top:20px">
+<h2>Every product we sell</h2>
+<div class="pair">
+  <div class="shot"><img src="shots-cards/cards-grid-1440.png" alt="The cards at 1440"><div class="cap">1440 · the whole catalogue, in the state it is in today</div></div>
+  <div class="shot"><img src="shots-cards/cards-grid-390.png" alt="The cards at 390"><div class="cap">390 · two across</div></div>
+</div>
+<p class="links" style="margin-top:14px"><a href="cards.html">Open it</a><a class="ghost" href="cards.html?lang=sk">Slovak</a><a class="ghost" href="cards.html?hover=1">Show every action bar</a><a class="ghost" href="cards.html?state=available">As if everything were buyable</a></p>
+</section>
+
+<section class="dir">
+<h2>How the price decides itself</h2>
+<p class="sub">Three rules, and the line under the name only appears when it explains something.</p>
+<table>
+<tr><th>Case</th><th>Product</th><th>Card shows</th><th>Why</th></tr>
+<tr><td>One price across the variants</td><td>Tarot of Consciousness — English and Slovak, both €39</td><td><b>€39</b>, and <i>English or Slovak</i> under the name</td><td>The price needs no qualifier. The line tells you there is a choice to make on the page.</td></tr>
+<tr><td>Prices differ</td><td>Walterin Prague — printed or eBook, EN / CZ, €18,99–€27,99</td><td><b>From €18,99</b>, and <i>Printed or eBook · EN / CZ</i></td><td>"From" without saying from <i>what</i> is a tease. The line is what makes it honest.</td></tr>
+<tr><td>Nothing to choose</td><td>Sticker set — one version</td><td><b>€12,50</b>, no line at all</td><td>A descriptor here would be clutter for its own sake.</td></tr>
+</table>
+<p class="sub" style="margin-top:12px"><b>No new code for the "From".</b> Shopify already produces it: <code>price.liquid</code> switches to
+<code>from_price_html</code> whenever the variants' prices differ, and the Slovak <i>"Od {{ price }}"</i> is already in the
+locale file. The card reuses it rather than inventing a second price path.</p>
+<p class="sub"><b>One inconsistency to fix while we are here:</b> the shop page writes <code>€39,00</code> and the product page
+writes <code>€39</code>. The card follows the product page — round numbers lose the trailing zeros, everything else keeps its
+cents: €39 · €12,50 · From €18,99.</p>
+</section>
+
+<section class="dir">
+<h2>Every state</h2>
+<div class="rows">
+  <div class="shot"><img src="shots-cards/cards-states-1440.png" alt="The states"><div class="cap">Coming soon at full strength · coming soon faded · buyable · sold out · the empty placeholder</div></div>
+  <div class="shot"><img src="shots-cards/cards-actions-1440.png" alt="The action bars"><div class="cap">The action bar: on hover with a mouse, always visible on a phone. Notify me now, Add to cart when the deck lands.</div></div>
+</div>
+
+<div class="ask">
+  <b>One thing for you to decide — how "coming soon" looks.</b><br>
+  The rule says unavailable is faded to 40%. That was written for the option pills in the buy column, where one edition you
+  cannot pick sits next to one you can. On a card it means something bigger: <b>every product in the shop is coming soon
+  today</b>, so fading them all greys out the entire shop page — the first thing a visitor sees.<br><br>
+  <b>What I would do:</b> keep the picture at full strength for <i>coming soon</i>, and let the badge and the yellow
+  <i>Notify me</i> bar carry the message. Reserve the 40% fade for <i>sold out</i> — something that was here and is gone.
+  The mock-up shows both next to each other so you can see the difference; say the word and I will use the faded one instead.
+</div>
+</section>
+
+<section class="dir">
+<h2>What else is in wave 0</h2>
+<table>
+<tr><td><b>The gate</b></td><td>One line in <code>theme.liquid</code> so the design system loads on every page instead of three. Every rule is scoped <code>.wui-scope</code>, so <b>nothing changes visually</b> — it only makes the system available, which is what lets each page be converted on its own.</td></tr>
+<tr><td><b>The card snippet</b></td><td>Replaces <code>card-product.liquid</code>, keeping all eight callers working — including the placeholder for an empty row, the footer's colour override and the horizontal card the product page uses.</td></tr>
+<tr><td><b>Payment icons</b></td><td>Nothing is wrong on the live store: the footer shows Visa, Mastercard, Amex, JCB, Discover, Diners, Apple&nbsp;Pay, Google&nbsp;Pay — no PayPal, no Revolut. I am adding <code>revolut</code> to the buy column's hide list as a guard so neither can appear if a method is ever switched on, and correcting the stale note in the backlog.</td></tr>
+</table>
+</section>
+
+<section class="dir">
+<h2>Checked</h2>
+<table>
+<tr><th></th><th>1440</th><th>390</th></tr>
+<tr><td>Nothing overflows a card, no horizontal scroll</td><td>pass</td><td>pass</td></tr>
+<tr><td>Long names step down a size rather than break mid-word</td><td>n/a</td><td>pass — "Tarot of Consciousness: a Graphic Journey"</td></tr>
+<tr><td>Palette: ink, paper, yellow only</td><td>pass</td><td>pass</td></tr>
+<tr><td>Chromium + WebKit, English + Slovak, no console errors</td><td>pass</td><td>pass</td></tr>
+</table>
+<p class="sub" style="margin-top:14px">Slovak, for the record:</p>
+<div class="pair">
+  <div class="shot"><img src="shots-cards/cards-sk-1440.png" alt="Slovak at 1440"><div class="cap">1440 · Slovak</div></div>
+  <div class="shot"><img src="shots-cards/cards-sk-390.png" alt="Slovak at 390"><div class="cap">390 · Slovak</div></div>
+</div>
+</section>
+</div>
+</body>
+</html>

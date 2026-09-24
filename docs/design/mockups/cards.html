@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wave 0 · The product card</title>
+<!--
+  Mock-up only. The product card for every product we sell, with the real names, prices, options
+  and states read out of the store on 24 Sep 2026.
+
+  The three rules the card follows:
+    · one price across the variants  → the plain price
+    · prices differ                  → "From €18,99" (Shopify's own price_varies, SK "Od …")
+    · no real options                → no descriptor line at all
+  State comes from the same snippet the buy column uses: available · coming soon · sold out.
+  Sold out is faded to 40%, never struck through.
+
+  URL: ?lang=en|sk · state=real|available|soldout · hover=1 (show the action bar on every card)
+-->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'WalterinBold'; src: url('https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093') format('woff2'); font-display: swap; }
+:root {
+  --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205;
+  --line: 2.5px; --thin: 1.5px; --radius: 8px; --faded: .4;
+  --display: 'WalterinBold', 'Chalkboard SE', sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --fs-heading: 32px; --fs-label: 20px; --fs-price: 28px; --fs-body: 16px; --fs-small: 14px;
+  --frame: 92%; --frame-max: 1400px; --frame-pad: 15px;
+  --s8: 8px; --s12: 12px; --s16: 16px; --s24: 24px; --s32: 32px; --s48: 48px;
+  --ease: cubic-bezier(.2,.75,.2,1);
+}
+@media (min-width: 750px) { :root { --fs-heading: 40px; --fs-label: 22px; --fs-price: 32px; --fs-body: 17px; --frame-pad: 50px; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font-family: var(--body); font-size: var(--fs-body); line-height: 1.5; overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-font-smoothing: antialiased; }
+p, h1, h2, h3 { margin: 0; padding: 0; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.board { font: 13px/1.4 var(--body); background: #fff; border-bottom: 1px dashed #999; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.board a { color: inherit; padding: 2px 6px; border: 1px solid #bbb; border-radius: 4px; text-decoration: none; }
+.board a[aria-current='true'] { background: var(--yellow); border-color: var(--ink); }
+.board .grp { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+body.noboard .board { display: none; }
+
+.wrap { width: var(--frame); max-width: var(--frame-max); margin-inline: auto; padding-inline: var(--frame-pad); }
+.sec { padding-block: var(--s32); }
+.title { font-family: var(--display); font-size: var(--fs-heading); line-height: 1.05; text-transform: uppercase; letter-spacing: .01em; }
+.lead { max-width: 64ch; margin-top: var(--s12); }
+.small { font-size: var(--fs-small); line-height: 1.4; }
+.rule { border: 0; border-top: var(--line) solid var(--ink); margin: var(--s32) 0 var(--s24); }
+.note { font-size: var(--fs-small); margin-top: var(--s8); }
+
+/* ---------- the card ---------- */
+.grid { display: grid; gap: var(--s24); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); margin-top: var(--s24); }
+/* two across on a phone, the way a shop page should read */
+@media (max-width: 749px) {
+  .grid, .row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s12); }
+  .card__name { font-size: 15px; }
+  /* a name whose longest word will not fit steps down one size, it never breaks mid-word */
+  .card__name.is-long { font-size: 13px; }
+  .card__price { font-size: 22px; }
+  .card__body { padding: var(--s8) var(--s8) var(--s12); }
+}
+.card { position: relative; display: flex; flex-direction: column; background: var(--paper);
+  border: var(--line) solid var(--ink); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink);
+  transition: transform var(--ease) .12s, box-shadow var(--ease) .12s; }
+.card:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+.card__media { position: relative; border-bottom: var(--line) solid var(--ink); border-radius: 5px 5px 0 0; overflow: hidden; background: #fff; }
+.card__media img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.card__badge { position: absolute; top: var(--s8); right: var(--s8); z-index: 2;
+  font-family: var(--display); font-size: 13px; line-height: 1; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--paper); color: var(--ink); border: var(--thin) solid var(--ink); border-radius: 999px; padding: 6px 10px 5px; }
+.card__body { display: grid; gap: 6px; padding: var(--s12) var(--s12) var(--s16); }
+.card__name { font-family: var(--display); font-size: var(--fs-label); line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; }
+.card__desc { font-size: var(--fs-small); line-height: 1.35; }
+.card__price { font-weight: 700; font-size: var(--fs-price); line-height: 1.1; margin-top: 2px; }
+.card__price .from { font-weight: 400; font-size: var(--fs-small); display: block; letter-spacing: .04em; text-transform: uppercase; }
+
+/* the action: a bar over the foot of the image on a mouse, always visible on touch */
+.card__cta { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 12px;
+  font-family: var(--display); font-size: var(--fs-body); line-height: 1; letter-spacing: .03em; text-transform: uppercase;
+  background: var(--yellow); color: var(--ink); border-top: var(--line) solid var(--ink);
+  transform: translateY(101%); transition: transform .14s var(--ease); }
+.card:hover .card__cta, .card:focus-within .card__cta, body.hover .card__cta { transform: none; }
+@media (hover: none) { .card__cta { transform: none; } }
+
+/* sold out and coming soon: faded to 40%, never struck through */
+.card--faded .card__media img, .card--faded .card__name, .card--faded .card__desc, .card--faded .card__price { opacity: var(--faded); }
+.card--faded .card__cta { background: var(--paper); }
+
+/* a card that is only a placeholder (the onboarding case the theme still needs) */
+.card--empty .card__media { display: grid; place-items: center; aspect-ratio: 1/1;
+  background: repeating-linear-gradient(45deg, var(--paper) 0 8px, #fff 8px 16px); }
+.card--empty .card__name { opacity: var(--faded); }
+
+/* the compare strip */
+.row { display: grid; gap: var(--s24); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.tag { display: inline-block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+  border: var(--thin) solid var(--ink); border-radius: 999px; padding: 2px 8px; margin-bottom: 6px; }
+.stack { display: grid; gap: var(--s8); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="board" id="board"></div>
+<main id="main"></main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var S = { lang: q.get('lang') || 'en', state: q.get('state') || 'real' };
+  if (q.get('board') === '0') document.body.classList.add('noboard');
+  if (q.get('hover') === '1') document.body.classList.add('hover');
+  document.documentElement.lang = S.lang;
+
+  var CDN = 'https://cdn.shopify.com/s/files/1/0897/8864/5705/files/';
+  /* read out of the store on 24 Sep 2026 */
+  var PRODUCTS = [
+    { name: 'Tarot of Consciousness: A Graphic Journey', sk: 'Tarot vedomia: grafická cesta',
+      img: '129d37be-02fa-4a89-8673-a0c2de8850d9.png', min: 39, max: 39, live: true,
+      opts: { en: 'English or Slovak', sk: 'Po anglicky alebo po slovensky' } },
+    { name: 'Walterin Prague – Comic Book', sk: 'Walterin Praha – komiksová kniha',
+      img: 'walterin-prague-illustrated-comic-guide-book-cover.jpg', min: 18.99, max: 27.99, live: true,
+      opts: { en: 'Printed or eBook · EN / CZ', sk: 'Tlačená alebo e-kniha · EN / CZ' } },
+    { name: 'Walterin Prague Sticker Set', sk: 'Walterin Praha – sada nálepiek',
+      img: 'STICKERS_1.jpg', min: 12.5, max: 12.5, live: true, opts: null },
+    { name: 'Walterin Paris', sk: 'Walterin Paríž',
+      img: 'versialless.png', min: 24.99, max: 24.99, live: false,
+      opts: { en: 'Printed or eBook', sk: 'Tlačená alebo e-kniha' } },
+    { name: 'Walterin Prague Tarot Cards', sk: 'Walterin Praha – tarotové karty',
+      img: 'TAROT.jpg', min: 17.9, max: 17.9, live: false, opts: null }
+  ];
+
+  var T = {
+    en: { soon: 'Coming soon', out: 'Sold out', notify: 'Notify me', add: 'Add to cart',
+          from: 'From', draft: 'not published yet', empty: 'Example product' },
+    sk: { soon: 'Už čoskoro', out: 'Vypredané', notify: 'Dajte mi vedieť', add: 'Do košíka',
+          from: 'Od', draft: 'zatiaľ nepublikované', empty: 'Ukážkový produkt' }
+  }[S.lang];
+
+  function money(n) {
+    var s = n.toFixed(2).replace('.', S.lang === 'sk' ? ',' : ',');
+    return '€' + s.replace(/,00$/, '');
+  }
+  function longest(t) { return t.split(/\s+/).reduce(function (m, w) { return Math.max(m, w.length); }, 0); }
+  function card(p, state) {
+    var varies = p.max > p.min;
+    /* faded is for sold out. Coming soon keeps its picture — it is the reason to leave an address. */
+    var faded = state === 'soldout' || state === 'soon-faded';
+    if (state === 'soon-faded') state = 'soon';
+    var badge = state === 'soldout' ? T.out : (state === 'available' ? '' : T.soon);
+    var cta = state === 'available' ? T.add : (state === 'soldout' ? T.out : T.notify);
+    return '<div class="card' + (faded ? ' card--faded' : '') + '">' +
+      '<div class="card__media">' +
+        (badge ? '<span class="card__badge">' + badge + '</span>' : '') +
+        '<img src="' + CDN + p.img + '?width=600" alt="" width="600" height="600" loading="lazy">' +
+        '<span class="card__cta">' + cta + '</span>' +
+      '</div>' +
+      '<div class="card__body">' +
+        '<span class="card__name' + (longest(S.lang === 'sk' ? p.sk : p.name) > 12 ? ' is-long' : '') + '">' +
+          (S.lang === 'sk' ? p.sk : p.name) + '</span>' +
+        (p.opts ? '<span class="card__desc">' + p.opts[S.lang] + '</span>' : '') +
+        '<span class="card__price">' + (varies ? '<span class="from">' + T.from + '</span>' : '') + money(p.min) + '</span>' +
+      '</div></div>';
+  }
+
+  function section(title, lead, inner, note) {
+    return '<section class="sec"><div class="wrap"><h2 class="title">' + title + '</h2>' +
+      (lead ? '<p class="lead">' + lead + '</p>' : '') + inner +
+      (note ? '<p class="note">' + note + '</p>' : '') + '</div></section>';
+  }
+
+  var everything = '<div class="grid">' + PRODUCTS.map(function (p) {
+    return card(p, S.state === 'real' ? 'soon' : S.state);
+  }).join('') + '</div>';
+
+  var rules =
+    '<div class="row" style="margin-top:var(--s24)">' +
+      '<div class="stack"><span class="tag">one price</span>' + card(PRODUCTS[0], 'soon') +
+        '<p class="small">Every edition costs the same, so the price stands on its own.</p></div>' +
+      '<div class="stack"><span class="tag">prices differ</span>' + card(PRODUCTS[1], 'soon') +
+        '<p class="small">Printed and eBook are not the same money, so the card says <b>From</b> and the line above tells you what the choice is.</p></div>' +
+      '<div class="stack"><span class="tag">nothing to choose</span>' + card(PRODUCTS[2], 'soon') +
+        '<p class="small">One version only. No line, because there is nothing to say.</p></div>' +
+    '</div>';
+
+  var states =
+    '<div class="row" style="margin-top:var(--s24)">' +
+      '<div class="stack"><span class="tag">coming soon · full strength</span>' + card(PRODUCTS[0], 'soon') +
+        '<p class="small"><b>What I would do.</b> Every live product is here today, so this is what the whole shop looks like. The picture is the reason someone leaves an address; the badge and the action say it cannot be bought yet.</p></div>' +
+      '<div class="stack"><span class="tag">coming soon · faded 40%</span>' + card(PRODUCTS[0], 'soon-faded') +
+        '<p class="small">The other reading of the rule. Consistent with the sold-out pills in the buy column, but with every product unreleased it greys out the entire shop page.</p></div>' +
+      '<div class="stack"><span class="tag">on sale, can be bought</span>' + card(PRODUCTS[0], 'available') +
+        '<p class="small">Full strength, no badge, and the action buys it.</p></div>' +
+      '<div class="stack"><span class="tag">sold out</span>' + card(PRODUCTS[1], 'soldout') +
+        '<p class="small">Faded to 40%, said plainly. Never a strike-through, never grey.</p></div>' +
+      '<div class="stack"><span class="tag">no product</span>' +
+        '<div class="card card--empty"><div class="card__media"><span class="small">' + T.empty + '</span></div>' +
+        '<div class="card__body"><span class="card__name">' + T.empty + '</span>' +
+        '<span class="card__price">€0</span></div></div>' +
+        '<p class="small">The placeholder the theme still needs when a row has no products yet.</p></div>' +
+    '</div>';
+
+  document.getElementById('main').innerHTML =
+    section('The card', 'Every product we sell, in the state it is in today. Three rules decide the price line, and one snippet decides the state — the same one the buy column uses, so a card and a page can never disagree.', everything,
+      'Walterin Paris and the Prague tarot cards are not published yet; they are here so the rules can be seen. ' +
+      'Prices are written the way the buy column writes them — €39, not €39,00 — which the collection page does not do today.') +
+    '<div class="wrap"><hr class="rule"></div>' +
+    section('Why the price reads the way it does', '', rules) +
+    '<div class="wrap"><hr class="rule"></div>' +
+    section('Every state', '', states);
+
+  function link(k, v, label) { var p = new URLSearchParams(location.search); p.set(k, v); return '<a href="?' + p + '" aria-current="' + (String(S[k]) === String(v)) + '">' + (label || v) + '</a>'; }
+  document.getElementById('board').innerHTML =
+    '<span class="grp"><b>Lang</b>' + link('lang','en','EN') + link('lang','sk','SK') + '</span>' +
+    '<span class="grp"><b>State</b>' + link('state','real','as it is today') + link('state','available','all buyable') + link('state','soldout','all sold out') + '</span>' +
+    '<span class="grp"><b>Action bar</b><a href="?' + (function(){var p=new URLSearchParams(location.search);p.set('hover','1');return p;})() + '">show on every card</a>' +
+    '<a href="?' + (function(){var p=new URLSearchParams(location.search);p.delete('hover');return p;})() + '">on hover only</a></span>';
+})();
+</script>
+</body>
+</html>
