@@ -232,6 +232,111 @@
 .wui.t-cart.cart-empty #MainContent > [id$="__featured-collection"],
 .wui.t-cart.cart-empty #MainContent > [id$="__newsletter"] { display: none; }
 
+/* ==========================================================================
+   One button, everywhere — docs/design/BUTTONS.md
+
+   Dawn paints every button in the theme through one family of selectors
+   (.button, .customer button, .shopify-challenge__button) plus two ring
+   pseudo-elements. Rather than add a class to a hundred Liquid files, those
+   selectors are pointed at the Walterin button here. Anything that is already
+   .wui-btn is untouched.
+
+   Two treatments, and only two:
+     PRIMARY   ink on yellow, ink frame, hard shadow  — the thing you want done
+     SECONDARY paper fill, ink frame, same shadow     — everything else
+   Small square controls (quantity, close, arrows, pagination) take the
+   secondary treatment at control size: a frame, never a yellow fill.
+
+   Not convertible, and why — see docs/design/BUTTONS.md:
+     wallet buttons (Shopify's shadow DOM), the checkout itself, and the gift
+     card template, which is a separate document that never loads this file.
+   ========================================================================== */
+
+/* --- the primary CTA family ------------------------------------------------ */
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wui-space-item);
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 24px;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--wui-ink);
+  background: var(--wui-yellow);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: var(--wui-shadow);
+  transition: box-shadow var(--wui-t-hover) var(--wui-ease),
+              transform var(--wui-t-hover) var(--wui-ease);
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):hover {
+  box-shadow: var(--wui-shadow-hover);
+  transform: translate(2px, 2px);
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):focus-visible {
+  outline: var(--wui-line) solid var(--wui-ink);
+  outline-offset: 3px;
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):is(:disabled, [aria-disabled='true'], .disabled) {
+  opacity: var(--wui-faded);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+/* Dawn draws its own shadow and border as ::before/::after rings. With a real
+   border on the element they stack into a double outline. */
+.wui :is(.button, .customer button, .shopify-challenge__button, .quantity__button, .pagination__item)::before,
+.wui :is(.button, .customer button, .shopify-challenge__button, .quantity__button, .pagination__item)::after {
+  content: none;
+}
+
+/* --- secondary: same shape, paper fill ------------------------------------ */
+.wui :is(.button--secondary, .button--tertiary, .newsletter-form__button, .search__button,
+         .reset__button, .facets__button, .quick-view__close, .mobile-facets__close-button,
+         .menu-drawer__close-button, .modal__close-button, .drawer__close):not(.wui-btn) {
+  background: var(--wui-paper);
+  color: var(--wui-ink);
+}
+
+/* --- small square controls: a frame, never a yellow fill ------------------- */
+.wui :is(.quantity__button, .pagination__item, .slider-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+  text-decoration: none;
+  font-family: var(--wui-body);
+}
+.wui :is(.quantity__button, .pagination__item, .slider-button):hover { background: var(--wui-yellow); }
+.wui :is(.quantity__button, .pagination__item, .slider-button):focus-visible {
+  outline: var(--wui-line) solid var(--wui-ink);
+  outline-offset: 2px;
+}
+.wui .pagination__item--current { background: var(--wui-yellow); font-weight: 700; }
+/* The cart's remove control is an icon, not a call to action. */
+.wui .cart-item cart-remove-button > *,
+.wui .cart-drawer cart-remove-button > * {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
 /* --------------------------------------------------------------------------
    Scope + resets (zero specificity)
    -------------------------------------------------------------------------- */

@@ -37,6 +37,12 @@ Five steps, each with one job: `--wui-space-section` / `-block` / `-heading` / `
 **A section never sets its own vertical padding** — the page owns the gap between sections. Never
 type a raw pixel value for a gap, and never add a sixth step without writing down why first.
 
+## Buttons (mandatory, from 24 Sep 2026)
+One button component for the whole site: `docs/design/BUTTONS.md`. Primary = ink on yellow, ink
+frame, hard shadow, WalterinBold. Secondary = paper fill, same frame. Small controls get a frame,
+never a yellow fill. **Never white text on yellow.** Render buttons with
+`{% render 'wui-button' %}`; never write a new button class or set a colour on a button.
+
 ## Hard Constraints
 - **Comics Tarot of Consciousness is a product, not a therapy tool.** Never frame it through Jungian, psychological, or self-help language. It is illustration, story, and collectible — first.
 - **Walter has strong personal preferences.** When a creative suggestion conflicts with what is provably more market-effective, flag the conflict clearly and explain both sides — don't quietly override either way.
