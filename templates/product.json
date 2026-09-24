@@ -1,40 +1,10 @@
-/* Every product uses this unless it is given its own template. The buy column reads the
-   product: title, price, options as pills, the gallery, and the description under "About this".
-   The questions are the same for everything we sell. */
 {
   "sections": {
     "main": {
       "type": "walterin-buy",
       "settings": {
-        "sticky_title": "",
-        "waitlist_tag": "waitlist",
-        "edition_note": "",
-        "choice_note": "",
         "about_heading": "About this",
-        "about_text": "",
-        "box_heading": "",
-        "box_lead": "",
-        "box_item_1": "",
-        "box_item_2": "",
-        "box_item_3": "",
-        "box_item_4": "",
-        "box_item_5": "",
-        "spec_1_label": "",
-        "spec_1_value": "",
-        "spec_2_label": "",
-        "spec_2_value": "",
-        "spec_3_label": "",
-        "spec_3_value": "",
-        "spec_4_label": "",
-        "spec_4_value": "",
-        "spec_5_label": "",
-        "spec_5_value": "",
-        "spec_6_label": "",
-        "spec_6_value": "",
-        "spec_7_label": "",
-        "spec_7_value": "",
-        "spec_8_label": "",
-        "spec_8_value": "",
+        "box_heading": "What you get",
         "delivery_heading": "Delivery",
         "delivery_digital": "",
         "show_delivery_physical": false,
@@ -146,10 +116,17 @@
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff"
       }
+    },
+    "look_inside": {
+      "type": "walterin-pages",
+      "settings": {
+        "title": "Look inside"
+      }
     }
   },
   "order": [
     "main",
+    "look_inside",
     "faq",
     "related"
   ]

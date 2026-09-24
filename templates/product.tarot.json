@@ -1,102 +1,14 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "walterin-buy",
-      "blocks": {
-        "value_en": {
-          "type": "value",
-          "settings": {
-            "value": "English",
-            "code": "en"
-          }
-        },
-        "value_sk": {
-          "type": "value",
-          "settings": {
-            "value": "Slovak",
-            "code": "sk"
-          }
-        },
-        "acc_when": {
-          "type": "accordion",
-          "settings": {
-            "heading": "When can I have it?",
-            "show_when": "coming_soon",
-            "text": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak.</p><p>There’s no date yet, and we won’t make one up. Leave your email above and you’ll get one message when it’s ready.</p>",
-            "secondary": true
-          }
-        },
-        "acc_read": {
-          "type": "accordion",
-          "settings": {
-            "heading": "How to read",
-            "show_when": "always",
-            "text": "<p>You don’t need to know tarot. It works the same whether this is your first deck or you read every day.</p><p>Use any spread you already know. Two come with the deck. Card of the day: draw one in the morning, keep it with you or stand it somewhere you’ll see it, and let it work on you all day. Reading of consciousness: the longer one, in three steps — what to understand, what to accept, what to transform.</p>",
-            "secondary": true
-          }
-        },
-        "acc_gift": {
-          "type": "accordion",
-          "settings": {
-            "heading": "As a gift",
-            "show_when": "always",
-            "text": "<p>A present for someone close: your partner, a friend, your mum.</p><p>Original illustrations, a first edition of 100 copies per language, and something they’ve almost certainly never been given before. Pick the edition in the language they read. Want it sent straight to them? Put their address in as the delivery address at checkout.</p>",
-            "secondary": true
-          }
-        },
-        "acc_walter": {
-          "type": "accordion",
-          "settings": {
-            "heading": "About Walter",
-            "show_when": "always",
-            "text": "<p>Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and every now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, a city told in comics. The tarot is the first deck.</p>",
-            "secondary": true
-          }
-        },
-        "value_sk2": {
-          "type": "value",
-          "settings": {
-            "value": "Slovenčina",
-            "code": "sk"
-          }
-        }
-      },
-      "block_order": [
-        "value_en",
-        "value_sk",
-        "value_sk2",
-        "acc_read",
-        "acc_gift",
-        "acc_walter",
-        "acc_when"
-      ],
       "settings": {
-        "edition_note": "First edition. 100 copies in each language.",
         "about_heading": "About the deck",
         "box_heading": "What's in the box",
-        "sticky_title": "Tarot of Consciousness",
-        "waitlist_tag": "tarot-waitlist",
         "digital_note": "",
         "delivery_digital": "",
         "show_delivery_physical": false,
-        "choice_note": "The captions and the two extra cards are in the language you pick.",
         "hide_payment_types": "paypal",
-        "about_text": "<p>Walter Ihring drew this deck, inspired by the Rider–⁠Waite tarot. Every card is a nine‑frame comic.</p><p>The cards work like a mirror. They show you what’s going on inside you, what you’re feeling and which way you’re heading. Look at the picture first, then read the words — and notice what the card leaves behind.</p>",
-        "box_lead": "80 cards in total.",
-        "box_item_1": "78 tarot cards: 22 Major and 56 Minor Arcana",
-        "box_item_2": "1 extra card: the introduction on one side, the nine‑frame path explained on the other",
-        "box_item_3": "1 extra card: the two readings",
-        "box_item_4": "Tuck box",
-        "box_item_5": "",
         "gallery_label": "Product images. Swipe or use the arrow keys.",
         "thumbs_label": "Image",
         "zoom_label": "Enlarge image",
@@ -421,7 +333,7 @@
       "type": "featured-collection",
       "disabled": true,
       "custom_css": [
-        "/* Style the YOU MAY ALSO LIKE headline */h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important; /* make the headline smaller */ line-height: 1.2 !important; margin-left: 0 !important;}"
+        "h2,.related-products__title,.recommendations__heading {text-align: left !important; font-size: 39px !important;  line-height: 1.2 !important; margin-left: 0 !important;}"
       ],
       "name": "t:sections.featured-collection.presets.name",
       "settings": {

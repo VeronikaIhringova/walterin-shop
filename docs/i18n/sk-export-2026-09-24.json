@@ -1,0 +1,833 @@
+{
+  "exported": "2026-09-24T15:05:06",
+  "store": "0ed210-bf.myshopify.com",
+  "theme": 164726866249,
+  "locale": "sk",
+  "resources": [
+    {
+      "resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164726866249",
+      "count": 58,
+      "translations": [
+        {
+          "key": "section.product.tarot.json.main.gallery_label:1ningqomj98j1",
+          "sk": "Fotky produktu. Potiahnite prstom alebo použite šípky.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.intro:2droq9zqbwp5g",
+          "sk": "Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo zmeniť.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_4:3mw3xa9ebih9k",
+          "sk": "Krabička",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.lead:rar3qcb9qq58",
+          "sk": "Prezrite si karty zblízka — stačí kliknúť.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.fields:rdvih2rj01bf",
+          "sk": "Šanca|Idea|Hodnota|Otvorenosť|Zmysel|Dôvera|Skúšať|Rozvíjať|Tvoriť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_1:3mw3xa9ebibfx",
+          "sk": "78 tarotových kariet: 22 veľkých a 56 malých arkán",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.thumbs_label:3nh3p0qmy29io",
+          "sk": "Fotka",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_label:2uhrthap13t6u",
+          "sk": "E-mailová adresa",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.close_label:9o5wk0tqu4tb",
+          "sk": "Zavrieť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.stop_label:1ve1r8uqt88yj",
+          "sk": "Zastaviť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_walter.text:33s1fy7i343bx",
+          "sk": "<p>Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.</p><p>V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Tarot je prvý balíček kariet.</p>",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_gift.heading:2uhjeuo0b6d2l",
+          "sk": "Ako darček",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_caption:3studwrmmwv8u",
+          "sk": "Cesta v 9 krokoch. Vlastná karta, priamo v balíčku. Zvýraznené pole je miesto tohto obrázka.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.frame_of:32znswb9vs5u9",
+          "sk": "Obrázok [n] z 9",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.spec_values:1yh5qqt1xnxn6",
+          "sk": "80 · v krabičke|22 veľkých · 56 malých|84 × 138 mm|Plnofarebná CMYK|270 g/m²|Matný",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.back_label:1p4klqjsvoo6g",
+          "sk": "Späť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_when.text:3e0xmm5fet74",
+          "sk": "<p>Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine.</p><p>Dátum ešte nemáme a vymýšľať si ho nebudeme. Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.</p>",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.pick_label:1t3tx4dzckugi",
+          "sk": "Skúsiť inú kartu",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.field_word:1nonb2936psdl",
+          "sk": "Pole",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.next_label:1qpme0vb5f478",
+          "sk": "Ďalej",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.zoom_label:3vx4qcf3p69bm",
+          "sk": "Zväčšiť fotku",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_read.text:16lqhpb297lme",
+          "sk": "<p>Tarot poznať nemusíte. Funguje rovnako, či je to váš prvý balíček, alebo si vykladáte každý deň.</p><p>Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo premeniť.</p>",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.hint:rar3qcdxf54b",
+          "sk": "Otáčajú sa samy. Pozastavte ich alebo kliknite na niektorú a prečítajte si ju.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.choice_note:3hlw3guuvn5h4",
+          "sk": "Popisky a dve karty navyše sú v jazyku, ktorý si vyberiete.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_2:3mw3xa9ebicby",
+          "sk": "1 karta navyše: na jednej strane úvod, na druhej vysvetlená cesta v deviatich krokoch",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.close_label:1w287jdur1lpx",
+          "sk": "Zavrieť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_button:ip5ccl3mxzzq",
+          "sk": "Dajte mi vedieť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_label:2jhzjybpdj0h2",
+          "sk": "Celý systém",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_when.heading:maus7jkslz0l",
+          "sk": "Kedy ho dostanem?",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_read.heading:1kdi03im5qw6b",
+          "sk": "Ako čítať",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.delivery_heading:1knvksgn90w1j",
+          "sk": "Doprava",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_gift.text:3ngow1cezxfso",
+          "sk": "<p>Darček pre niekoho blízkeho: pre partnera, pre kamarátku, pre mamu.</p><p>Pôvodné ilustrácie, prvé vydanie, 100 kusov v každom jazyku — a niečo, čo ešte takmer určite nedostal. Vyberte vydanie v jazyku, v ktorom číta. Chcete mu balíček poslať rovno? V pokladni zadajte jeho adresu ako adresu doručenia.</p>",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.edition_note:3vghrb0h2i0g7",
+          "sk": "Prvé vydanie. 100 kusov v každom jazyku.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.sticky_title:21d6zu4w6brrw",
+          "sk": "Tarot vedomia",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.title:1nyi8zbbrbgsw",
+          "sk": "Karty zblízka",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.sheet_label:21jstnyv61zpi",
+          "sk": "Karta zväčšená",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_lead:2ezmuiptqocyi",
+          "sk": "Spolu 80 kariet.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_placeholder:274sp7tiv8if7",
+          "sk": "Váš e-mail",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_success:1kgc0h3pvl6w3",
+          "sk": "Ste na zozname pre vydanie [edition]. Keď bude hotové, pošleme vám jeden e-mail.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.remaining_text:2pxpv2jvp2qaq",
+          "sk": "Zostáva [n] zo 100",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.pause_label:3vevrtll3jqd7",
+          "sk": "Pozastaviť karty",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.why:165ubfv4wxivw",
+          "sk": "Čo sa deje a čoho si v tom treba všimnúť.|Čo je vaše a čo si priznať, aby sa pohlo.|Kam to vedie a čo sa dá zmeniť.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_3:3mw3xa9ebi9v3",
+          "sk": "1 karta navyše: dve čítania",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_walter.heading:qxfv86kht3jc",
+          "sk": "O Walterovi",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.spec_labels:1yh5r0nnp0hrz",
+          "sk": "Karty|Štruktúra|Rozmer|Tlač|Materiál|Povrch",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.row_word:32zws9qvzxush",
+          "sk": "Riadok",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.box_heading:36xwmts5v1hni",
+          "sk": "Čo je v krabičke",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.privacy_link:1hc2p2bp3aret",
+          "sk": "Ochrana osobných údajov",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.atc_label:1vr46qi9rttw3",
+          "sk": "Do košíka",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.about_text:3pbcocgupwwmr",
+          "sk": "<p>Tento balíček nakreslil Walter Ihring, inšpiroval sa tarotom Rider–⁠Waite. Každá karta je deväťobrázkový komiks.</p><p>Karty fungujú ako zrkadlo. Ukážu vám, čo sa vo vás deje, čo cítite a kam smerujete. Najprv sa pozrite na obrázok, potom si prečítajte text — a všimnite si, čo vo vás karta nechá.</p>",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_title:2jhzjy6tu5xds",
+          "sk": "Cesta v 9 krokoch",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.pile_alt:1vulg2m81384m",
+          "sk": "Potlačená zadná strana karty",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.title:2droqa1xt3q4a",
+          "sk": "Ako sa číta karta",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.rows:3m0a8a00t07hf",
+          "sk": "Čo pochopiť|Čo prijať|Čo zmeniť",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.main.about_heading:23g6hluae9ekm",
+          "sk": "O balíčku",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.walk_label:1u2t9kvc42jg2",
+          "sk": "Prevedie ma tým",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.play_label:tk6joab2m66l",
+          "sk": "Nechať ich otáčať",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.hint:3m0a89zrpl935",
+          "sk": "Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.",
+          "outdated": false,
+          "en": null,
+          "digest": null
+        }
+      ]
+    },
+    {
+      "resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.tarot?theme_id=164726866249",
+      "count": 58,
+      "translations": [
+        {
+          "key": "section.product.tarot.json.main.gallery_label:1ningqomj98j1",
+          "sk": "Fotky produktu. Potiahnite prstom alebo použite šípky.",
+          "outdated": false,
+          "en": "Product images. Swipe or use the arrow keys.",
+          "digest": "03a54e505629ca5c9de472966eb2aa694177292e692c98c4e9491cb96718ed43"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.intro:2droq9zqbwp5g",
+          "sk": "Každá karta je deväťobrázkový komiks. Číta sa v troch riadkoch: hore to, čo máte pochopiť, v strede to, čo prijať, dole to, čo zmeniť.",
+          "outdated": false,
+          "en": "Every card is a nine-frame comic. Read it in three rows: the top row is what to understand, the middle what to accept, the bottom what to transform.",
+          "digest": "5f93856aa0776a6efc0e54aafa6c1e7a43a5f2b410b4ac9c284a60142d884c5c"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_4:3mw3xa9ebih9k",
+          "sk": "Krabička",
+          "outdated": false,
+          "en": "Tuck box",
+          "digest": "b871721549e6312573d9bbf93d3bbd6a193a3226b295c8edbcf84318aed99382"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.lead:rar3qcb9qq58",
+          "sk": "Prezrite si karty zblízka — stačí kliknúť.",
+          "outdated": false,
+          "en": "Look at any card up close: just click.",
+          "digest": "e073f8a2320766df496f1b517b406ab76347fcac932a8b2eba4d02621bec6170"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.fields:rdvih2rj01bf",
+          "sk": "Šanca|Idea|Hodnota|Otvorenosť|Zmysel|Dôvera|Skúšať|Rozvíjať|Tvoriť",
+          "outdated": false,
+          "en": "Chance|Idea|Value|Openness|Meaning|Trust|To try|To develop|To create",
+          "digest": "eedf5e22613e245f778e9b09e6ea06cc3bee53a4e9908fb669a03b1b01d8534c"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_1:3mw3xa9ebibfx",
+          "sk": "78 tarotových kariet: 22 veľkých a 56 malých arkán",
+          "outdated": false,
+          "en": "78 tarot cards: 22 Major and 56 Minor Arcana",
+          "digest": "219ce5ba2b0a8bd879ce25d065ccf7b45535b1cdbd39de65b8fee58f2b8116f5"
+        },
+        {
+          "key": "section.product.tarot.json.main.thumbs_label:3nh3p0qmy29io",
+          "sk": "Fotka",
+          "outdated": false,
+          "en": "Image",
+          "digest": "1aa4cb0bcca76e92e30677e809bb3d4b5c066715ef4d558184e319496bcc5125"
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_label:2uhrthap13t6u",
+          "sk": "E-mailová adresa",
+          "outdated": false,
+          "en": "Email address",
+          "digest": "f2488fd4ef4adbc6ac61300083f2c33980e48bb4bbf3c540ad760d61fc36f420"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.close_label:9o5wk0tqu4tb",
+          "sk": "Zavrieť",
+          "outdated": false,
+          "en": "Close",
+          "digest": "7d9eb7acb13e24625c404401d8e88b2350e32162455885f18276cf802f7701ed"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.stop_label:1ve1r8uqt88yj",
+          "sk": "Zastaviť",
+          "outdated": false,
+          "en": "Stop",
+          "digest": "cae7d57bc067a514b8e34c9589631a95c7dc051638ddd2a190773269279a99df"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_walter.text:33s1fy7i343bx",
+          "sk": "<p>Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.</p><p>V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Tarot je prvý balíček kariet.</p>",
+          "outdated": false,
+          "en": "<p>Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and every now and then come home with an award.</p><p>In 2015 came Walterin Bratislava, a city told in comics. The tarot is the first deck.</p>",
+          "digest": "3b5033986154a6e600198048a13fffbc4468c45cbaeabdb4a3b93c5e137836f2"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_gift.heading:2uhjeuo0b6d2l",
+          "sk": "Ako darček",
+          "outdated": false,
+          "en": "As a gift",
+          "digest": "e52d1ea111440f933ecd3917909e29d0e4e1254869866f5b0a6d5775e8b5ce04"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_caption:3studwrmmwv8u",
+          "sk": "Cesta v 9 krokoch. Vlastná karta, priamo v balíčku. Zvýraznené pole je miesto tohto obrázka.",
+          "outdated": false,
+          "en": "The nine-frame path. Its own card, in the box. The lit field is where this frame sits.",
+          "digest": "54d977ede67a30c6365cee79c61e08321d81b1847c139e598e4cec42a907d915"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.frame_of:32znswb9vs5u9",
+          "sk": "Obrázok [n] z 9",
+          "outdated": false,
+          "en": "Frame [n] of 9",
+          "digest": "36d28dd86ecd87484a1ded0de67a2c5c73191763eb4a948a1fdea2d58e8e51d4"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.spec_values:1yh5qqt1xnxn6",
+          "sk": "80 · v krabičke|22 veľkých · 56 malých|84 × 138 mm|Plnofarebná CMYK|270 g/m²|Matný",
+          "outdated": false,
+          "en": "80 · in the box|22 Major · 56 Minor|84 × 138 mm|Full-colour CMYK|270 g/m²|Matte",
+          "digest": "56558936f59dd32ac4afcc34d329f5c8c8be52007eec5b06335768d1e18e3280"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.back_label:1p4klqjsvoo6g",
+          "sk": "Späť",
+          "outdated": false,
+          "en": "Back",
+          "digest": "76900f1bfd16c8d4dd3d25e6f46638d7165aee23883ccea6bfe071c514421769"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_when.text:3e0xmm5fet74",
+          "sk": "<p>Zatiaľ nie. Pripravujeme prvé vydanie: 100 kusov v angličtine a 100 v slovenčine.</p><p>Dátum ešte nemáme a vymýšľať si ho nebudeme. Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.</p>",
+          "outdated": false,
+          "en": "<p>Not yet. The first edition is being prepared: 100 copies in English, 100 in Slovak.</p><p>There’s no date yet, and we won’t make one up. Leave your email above and you’ll get one message when it’s ready.</p>",
+          "digest": "4a965ba52907e26eeb2d1130827c9f0c1a86716b40e70deebdb53491db441c70"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.pick_label:1t3tx4dzckugi",
+          "sk": "Skúsiť inú kartu",
+          "outdated": false,
+          "en": "Try another card",
+          "digest": "1bb998512e7851059a2ce3e109e8455cc8e7ae6ecc884be2d67a3d4daac95929"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.field_word:1nonb2936psdl",
+          "sk": "Pole",
+          "outdated": false,
+          "en": "Field",
+          "digest": "f45fc1dfdc96db2761a434542f105c04d1e15cf96f410656460051efd33ea5b6"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.next_label:1qpme0vb5f478",
+          "sk": "Ďalej",
+          "outdated": false,
+          "en": "Next",
+          "digest": "1ff57a29d7c9d11bdf61c1b80f2b289b44c1ea844824d4b94a0d52b6ba5fc858"
+        },
+        {
+          "key": "section.product.tarot.json.main.zoom_label:3vx4qcf3p69bm",
+          "sk": "Zväčšiť fotku",
+          "outdated": false,
+          "en": "Enlarge image",
+          "digest": "47d1074714b271c98f0b753f425080e8d58166b1bcdc8d64d70d089bdcb7b972"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_read.text:16lqhpb297lme",
+          "sk": "<p>Tarot poznať nemusíte. Funguje rovnako, či je to váš prvý balíček, alebo si vykladáte každý deň.</p><p>Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo premeniť.</p>",
+          "outdated": false,
+          "en": "<p>You don’t need to know tarot. It works the same whether this is your first deck or you read every day.</p><p>Use any spread you already know. Two come with the deck. Card of the day: draw one in the morning, keep it with you or stand it somewhere you’ll see it, and let it work on you all day. Reading of consciousness: the longer one, in three steps — what to understand, what to accept, what to transform.</p>",
+          "digest": "5b20ae9f071ea1a34363bc67161095f8a23f2444c7cc3fe1df2a3f3c1e9db625"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.hint:rar3qcdxf54b",
+          "sk": "Otáčajú sa samy. Pozastavte ich alebo kliknite na niektorú a prečítajte si ju.",
+          "outdated": false,
+          "en": "They flip on their own. Pause them, or click one to read it.",
+          "digest": "aac782ff722fd838325eca00f05513245f417683fb658349599c9ac412ac2963"
+        },
+        {
+          "key": "section.product.tarot.json.main.choice_note:3hlw3guuvn5h4",
+          "sk": "Popisky a dve karty navyše sú v jazyku, ktorý si vyberiete.",
+          "outdated": false,
+          "en": "The captions and the two extra cards are in the language you pick.",
+          "digest": "7201c030c235b5fed3db8580aabd3eec641669f7997cd20d42cc6a8d0f31d9a6"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_2:3mw3xa9ebicby",
+          "sk": "1 karta navyše: na jednej strane úvod, na druhej vysvetlená cesta v deviatich krokoch",
+          "outdated": false,
+          "en": "1 extra card: the introduction on one side, the nine‑frame path explained on the other",
+          "digest": "e718a5e98ea5c03b100594bc78dc783fedb6f155e3d908ec10a52258172d6b55"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.close_label:1w287jdur1lpx",
+          "sk": "Zavrieť",
+          "outdated": false,
+          "en": "Close",
+          "digest": "7d9eb7acb13e24625c404401d8e88b2350e32162455885f18276cf802f7701ed"
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_button:ip5ccl3mxzzq",
+          "sk": "Dajte mi vedieť",
+          "outdated": false,
+          "en": "Notify me",
+          "digest": "a5b3a74811e60623f753002629d9abfc8455155b316003299a39b9eb2871e8b8"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_label:2jhzjybpdj0h2",
+          "sk": "Celý systém",
+          "outdated": false,
+          "en": "See the whole system",
+          "digest": "9f3bd8893dc95bcedbad653aec9ac30c796417bd1a34a4d2679a7e2164c6ab06"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_when.heading:maus7jkslz0l",
+          "sk": "Kedy ho dostanem?",
+          "outdated": false,
+          "en": "When can I have it?",
+          "digest": "083cc3abfc3abfc1d34b3685b9ecbb3e886fc7dd684638ac962dfd794256192d"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_read.heading:1kdi03im5qw6b",
+          "sk": "Ako čítať",
+          "outdated": false,
+          "en": "How to read",
+          "digest": "96b291fee964f6cb482307b5209aa7aafcdc939a4b3406598f7ba7f9c906bc03"
+        },
+        {
+          "key": "section.product.tarot.json.main.delivery_heading:1knvksgn90w1j",
+          "sk": "Doprava",
+          "outdated": false,
+          "en": "Delivery",
+          "digest": "52bfe584a5fc450539e2aa651b990fa2415060492a243816ab2994292089c6fd"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_gift.text:3ngow1cezxfso",
+          "sk": "<p>Darček pre niekoho blízkeho: pre partnera, pre kamarátku, pre mamu.</p><p>Pôvodné ilustrácie, prvé vydanie, 100 kusov v každom jazyku — a niečo, čo ešte takmer určite nedostal. Vyberte vydanie v jazyku, v ktorom číta. Chcete mu balíček poslať rovno? V pokladni zadajte jeho adresu ako adresu doručenia.</p>",
+          "outdated": false,
+          "en": "<p>A present for someone close: your partner, a friend, your mum.</p><p>Original illustrations, a first edition of 100 copies per language, and something they’ve almost certainly never been given before. Pick the edition in the language they read. Want it sent straight to them? Put their address in as the delivery address at checkout.</p>",
+          "digest": "1d07b664ee6ac1a0e68acbd77fa2714232dc4333f7c87dbc48453c1b6a9ca471"
+        },
+        {
+          "key": "section.product.tarot.json.main.edition_note:3vghrb0h2i0g7",
+          "sk": "Prvé vydanie. 100 kusov v každom jazyku.",
+          "outdated": false,
+          "en": "First edition. 100 copies in each language.",
+          "digest": "ad87ee80f3201e51928d7759ce7cc44f4a92d4654441af20067976041453de65"
+        },
+        {
+          "key": "section.product.tarot.json.main.sticky_title:21d6zu4w6brrw",
+          "sk": "Tarot vedomia",
+          "outdated": false,
+          "en": "Tarot of Consciousness",
+          "digest": "4168a1b87949aeb23fcb5a633d3403e2988e42f93da3989f3f316723bb59abdc"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.title:1nyi8zbbrbgsw",
+          "sk": "Karty zblízka",
+          "outdated": false,
+          "en": "Meet the cards",
+          "digest": "c04a657c08c206a416d1d4d2ac29ca8f7743bec5dff097fc7a69649eb58bd5f3"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.sheet_label:21jstnyv61zpi",
+          "sk": "Karta zväčšená",
+          "outdated": false,
+          "en": "The card, larger",
+          "digest": "4264411af5a8b1a1126ef427284f55b3401ff853f9ff632aaf73ce19b752b487"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_lead:2ezmuiptqocyi",
+          "sk": "Spolu 80 kariet.",
+          "outdated": false,
+          "en": "80 cards in total.",
+          "digest": "17d0f6462aca27f63a864af3c8decb41b9d058148ddae855a6cb7e310cadb05f"
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_placeholder:274sp7tiv8if7",
+          "sk": "Váš e-mail",
+          "outdated": false,
+          "en": "Your email address",
+          "digest": "3fa7c5ef191f6fdd6bc02a51bd68a10b44f6775da45df613eca42831cd41e46b"
+        },
+        {
+          "key": "section.product.tarot.json.main.notify_success:1kgc0h3pvl6w3",
+          "sk": "Ste na zozname pre vydanie [edition]. Keď bude hotové, pošleme vám jeden e-mail.",
+          "outdated": false,
+          "en": "You're on the list for the [edition] edition. One email when it's ready.",
+          "digest": "57fd486f44638e0903835e1517778f0b31e30d05764df9559109fd6230fdb1f1"
+        },
+        {
+          "key": "section.product.tarot.json.main.remaining_text:2pxpv2jvp2qaq",
+          "sk": "Zostáva [n] zo 100",
+          "outdated": false,
+          "en": "[n] of 100 left",
+          "digest": "ec04683cad58451b65839c459614addfa512ea0889de5acb8246cf6556c798e7"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.pause_label:3vevrtll3jqd7",
+          "sk": "Pozastaviť karty",
+          "outdated": false,
+          "en": "Pause the cards",
+          "digest": "0bc862cd81afc697e4b242dff21d33f862a4b9a46d1ac4ac747f834adaf5417c"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.why:165ubfv4wxivw",
+          "sk": "Čo sa deje a čoho si v tom treba všimnúť.|Čo je vaše a čo si priznať, aby sa pohlo.|Kam to vedie a čo sa dá zmeniť.",
+          "outdated": false,
+          "en": "What is going on, and what to notice in it.|What is yours, and what to admit before anything moves.|Where it leads, and what you can change.",
+          "digest": "9c9226d099540bfcef52766f7ab82baa9888794827135690fcd7c257f70f8f60"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_item_3:3mw3xa9ebi9v3",
+          "sk": "1 karta navyše: dve čítania",
+          "outdated": false,
+          "en": "1 extra card: the two readings",
+          "digest": "37e0618ee0a2ebb552f62d845b81edfd61d88be58f66feacb24c882eb56c3f26"
+        },
+        {
+          "key": "section.product.tarot.json.main.acc_walter.heading:qxfv86kht3jc",
+          "sk": "O Walterovi",
+          "outdated": false,
+          "en": "About Walter",
+          "digest": "b8f3eda09c512178181790e8a0d37e0c448b6c716e4eb41b41f139be8d65bcfa"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.spec_labels:1yh5r0nnp0hrz",
+          "sk": "Karty|Štruktúra|Rozmer|Tlač|Materiál|Povrch",
+          "outdated": false,
+          "en": "Cards|Structure|Size|Print|Material|Finish",
+          "digest": "b4726d80e8cc5f7309894525fad01f49da3d4983dcbf53e2dadba92018f61664"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.row_word:32zws9qvzxush",
+          "sk": "Riadok",
+          "outdated": false,
+          "en": "Row",
+          "digest": "95110d74c4c009126c967cac38ab0454d73e337c4fdafc280c04f67e66e5fe95"
+        },
+        {
+          "key": "section.product.tarot.json.main.box_heading:36xwmts5v1hni",
+          "sk": "Čo je v krabičke",
+          "outdated": false,
+          "en": "What's in the box",
+          "digest": "b7c7a30f6ec368fbda72e6279154ef301ad0f5420e11aa0b9294bea71f3f3e13"
+        },
+        {
+          "key": "section.product.tarot.json.main.privacy_link:1hc2p2bp3aret",
+          "sk": "Ochrana osobných údajov",
+          "outdated": false,
+          "en": "Privacy policy",
+          "digest": "ba445cff3898a3f24f415f90fbef1c8169ea21949a40680c5e1c5975843d1b5e"
+        },
+        {
+          "key": "section.product.tarot.json.main.atc_label:1vr46qi9rttw3",
+          "sk": "Do košíka",
+          "outdated": false,
+          "en": "Add to cart",
+          "digest": "0e9408353c729c32f0526ff76154d8ba7111e88d81d11ca46458feb04e83350f"
+        },
+        {
+          "key": "section.product.tarot.json.main.about_text:3pbcocgupwwmr",
+          "sk": "<p>Tento balíček nakreslil Walter Ihring, inšpiroval sa tarotom Rider–⁠Waite. Každá karta je deväťobrázkový komiks.</p><p>Karty fungujú ako zrkadlo. Ukážu vám, čo sa vo vás deje, čo cítite a kam smerujete. Najprv sa pozrite na obrázok, potom si prečítajte text — a všimnite si, čo vo vás karta nechá.</p>",
+          "outdated": false,
+          "en": "<p>Walter Ihring drew this deck, inspired by the Rider–⁠Waite tarot. Every card is a nine‑frame comic.</p><p>The cards work like a mirror. They show you what’s going on inside you, what you’re feeling and which way you’re heading. Look at the picture first, then read the words — and notice what the card leaves behind.</p>",
+          "digest": "8df9f277d9c4d977dc6e20a7261e3b57818a7b342237fa845ccba449604d4cef"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.system_title:2jhzjy6tu5xds",
+          "sk": "Cesta v 9 krokoch",
+          "outdated": false,
+          "en": "The nine-frame path",
+          "digest": "ed2a3083210824c651b57db2a42674dc14f0d94fb85e18b24cdb2c4953d1bbea"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.pile_alt:1vulg2m81384m",
+          "sk": "Potlačená zadná strana karty",
+          "outdated": false,
+          "en": "The printed card back",
+          "digest": "5433db0116913cef60a4bf0c6e75f8ca028765982105c816be1286b339d7de55"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.title:2droqa1xt3q4a",
+          "sk": "Ako sa číta karta",
+          "outdated": false,
+          "en": "How a card is read",
+          "digest": "fc95fb7f90b4dedcddea43fc0a241b55f4134557ecc5a932dd48437bc577695c"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.rows:3m0a8a00t07hf",
+          "sk": "Čo pochopiť|Čo prijať|Čo zmeniť",
+          "outdated": false,
+          "en": "What to understand|What to accept|What to transform",
+          "digest": "b71780fd76d1c11c83f128be5135ef6e29fa152f1ab6f559c41ce4e897a361a6"
+        },
+        {
+          "key": "section.product.tarot.json.main.about_heading:23g6hluae9ekm",
+          "sk": "O balíčku",
+          "outdated": false,
+          "en": "About the deck",
+          "digest": "5182ca266bfdf79858ea9a2bc4c4099973773f12f45d156783ebd0b9ebe794cc"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.walk_label:1u2t9kvc42jg2",
+          "sk": "Prevedie ma tým",
+          "outdated": false,
+          "en": "Walk me through it",
+          "digest": "83a76e6892919b343df3fefcfef65efcac4dac23bc91b8df9b421f0d0c128ae8"
+        },
+        {
+          "key": "section.product.tarot.json.meet_the_cards.play_label:tk6joab2m66l",
+          "sk": "Nechať ich otáčať",
+          "outdated": false,
+          "en": "Let them turn again",
+          "digest": "587625226d86605f1bba2e7a44d85ac101faa03221d7e8f41019452c7bd6b75f"
+        },
+        {
+          "key": "section.product.tarot.json.how_a_card_is_read.hint:3m0a89zrpl935",
+          "sk": "Prechádzajte deviatimi obrázkami alebo kliknite na niektorý v karte.",
+          "outdated": false,
+          "en": "Step through the nine frames, or click one on the card.",
+          "digest": "b8b309503ffb7db5c1c5aa1979e12258813cc23dafb90da6ee47a69c7e087b5c"
+        }
+      ]
+    }
+  ],
+  "total": 116
+}
