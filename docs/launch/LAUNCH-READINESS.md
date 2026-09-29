@@ -262,3 +262,23 @@ Walterin's own PayPal is live.
   pause control, and a card opening in its sheet. No console errors.
 - Still open on S3, none of it blocking: The Hermit and The Sun have no artwork in the preview set
   (ten cards are shown, the pile counts 78 − 10), and `sections/whats-inside.liquid` is now unused.
+
+## 29 Sep 2026 · FAQ page went live (EN + SK)
+
+- Pushed `templates/page.faq.json` to the live theme 164726866249 (one file, `--only`, `--nodelete`).
+  Pulled live first: no editor changes to merge — the only differences were Shopify's
+  auto-generated header comment. Backup of the previous live file:
+  `docs/backup/live-theme-changes/page.faq.json.live-pre-2026-09-29`.
+- Read back from live: byte-identical to the repo. Checked `https://walterin.com/pages/faq`.
+- **Three questions cut** (shipping, delivery time, tracking): they cannot be answered honestly
+  until Pack4you is signed, and they stay out until then.
+- **Four problems removed from a live page:** returns "provided they are unused and in their
+  original condition" (restricted the statutory 14-day withdrawal and contradicted Terms 8.5);
+  `walterinwittyguide@gmail.com` ×3; "3–7 business days" and "across Europe"; a tracking-link
+  promise (Track123 is uninstalled).
+- **Slovak:** 15 settings registered with `translationsRegister` against the live theme,
+  `userErrors: []`, all `outdated: false`. Checked `https://walterin.com/sk/pages/faq` — seven
+  Slovak headings, the withdrawal link resolves to `/sk/pages/withdrawal`.
+- Copy of record, both languages: `docs/legal/faq-copy.md`.
+- Noticed during the pull, not touched: `assets/judgeme-walterin.css` still exists on the live
+  theme although Judge.me was uninstalled. Unreferenced leftover; needs its own OK to delete.
