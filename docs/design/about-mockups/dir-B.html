@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>About — Lead with the work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{
+  --ink:#222;--paper:#fff;--yellow:#FCE206;--yellow-press:#E6CE00;
+  --navy:#153055;--grass:#8BC53F;--amber:#F5A800;
+  --rule:#222;
+  --frame:92%;--frame-max:1400px;--pad:50px;
+  --s-section:96px;--s-block:32px;--s-head:16px;--s-item:8px;
+  --display:WalterinBold,'Inter',system-ui,sans-serif;
+  --lit:'Cormorant Garamond',Georgia,serif;
+  --ui:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--ui);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.wrap{width:var(--frame);max-width:var(--frame-max);margin-inline:auto;padding-inline:var(--pad)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;margin:0;line-height:1.08}
+h1{font-size:clamp(34px,4.4vw,60px);text-transform:uppercase}
+h2{font-size:clamp(26px,2.9vw,38px);text-transform:uppercase}
+h3{font-size:clamp(17px,1.5vw,21px);text-transform:uppercase}
+p{margin:0 0 1em}
+.lead{font-size:clamp(18px,1.55vw,22px);line-height:1.5}
+.kicker{font:600 12px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.rule{height:2px;background:var(--rule);border:0;margin:0}
+.sec{margin-block-start:var(--s-section)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--ink);
+ font:700 14px/1 var(--ui);letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+ padding:17px 30px;border:2px solid var(--ink);border-radius:42px;box-shadow:4px 4px 0 var(--ink)}
+.btn.ghost{background:transparent;box-shadow:none}
+.frame{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);background:#fff}
+/* --- site chrome, abbreviated --- */
+.ann{background:#F2F2F0;font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.hdr nav{display:flex;gap:30px;font:600 13px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase}
+.logo{font-family:var(--display);font-size:30px}
+.hdr .right{font:600 12px/1 var(--ui);letter-spacing:.1em;opacity:.7}
+.foot{margin-top:var(--s-section);border-top:2px solid var(--ink);padding:26px 0;font:500 12px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center}
+.note{background:#FFFBE0;border-left:3px solid var(--yellow-press);padding:12px 16px;font:400 13px/1.5 var(--ui);margin:18px 0}
+@media(max-width:749px){
+ :root{--pad:16px;--s-section:72px;--s-block:24px;--s-head:12px}
+ body{font-size:16px}
+ .hdr nav,.hdr .right{display:none}
+ .hdr{justify-content:center}
+}
+
+.b-hero{position:relative;border-block:2px solid var(--ink);background:#153055;overflow:hidden}
+.b-hero img{width:100%;height:clamp(320px,44vw,560px);object-fit:cover;opacity:.92}
+.b-hero .cap{position:absolute;inset:auto 0 0 0;padding:44px 0;background:linear-gradient(transparent,rgba(21,48,85,.92) 48%)}
+.b-hero h1{color:#fff;max-width:18ch}
+.b-hero p{color:#fff;opacity:.92;max-width:44ch;margin-top:var(--s-head)}
+.b-three{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-block)}
+.b-three img{border:2px solid var(--ink);margin-bottom:14px}
+.b-who{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:center}
+.b-who .grid{border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.b-prod{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-block)}
+.b-prod a{text-decoration:none;color:inherit;display:block}
+.b-prod .frame img{width:100%;aspect-ratio:1;object-fit:cover}
+.b-prod .meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;gap:12px}
+@media(max-width:749px){.b-three,.b-who,.b-prod{grid-template-columns:1fr;gap:28px}}
+
+</style></head><body>
+<div class="ann">Welcome, curious traveller!</div>
+<header class="wrap hdr"><nav><a>Walterin</a><a>Shop</a><a>About</a></nav>
+<div class="logo">Walterin</div><div class="right">EN / SK &nbsp; ⌕ &nbsp; ♡ &nbsp; ⌂</div></header>
+<main>
+
+<section class="b-hero">
+  <img src="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-witty-illustrated-comic-guide-book-outdoor.jpg?v=1764241307" alt="">
+  <div class="cap"><div class="wrap"><h1>History you recognise,<br>not history you read.</h1>
+  <p class="lead">Nine frames. One city. One joke that lands. Walter Ihring has been drawing them for thirty-five years.</p></div></div>
+</section>
+
+<section class="wrap sec b-three">
+  <div><img src="p-egypt.png" alt=""><h3>Nine frames</h3>
+  <p style="margin-top:10px">A story fits in nine. Enter anywhere, leave anywhere, come back to it on the tram.</p></div>
+  <div><img src="p-india.png" alt=""><h3>A real place</h3>
+  <p style="margin-top:10px">Bratislava, Prague, Paris next. Streets Walter has walked, drawn on the spot, checked twice.</p></div>
+  <div><img src="p-coffee.png" alt=""><h3>A joke that lands</h3>
+  <p style="margin-top:10px">Not a punchline. The kind that makes you look at the next person who walks past.</p></div>
+</section>
+
+<section class="wrap sec b-who">
+  <img class="grid" src="grid.png" alt="Walter's illustrated biography">
+  <div><span class="kicker">The man drawing it</span>
+  <h2 style="margin-top:var(--s-head)">Walter Ihring</h2>
+  <p style="margin-top:var(--s-head)">Born in Bratislava in 1969. Thirty-five years of ink, most of it
+  in Slovak newspapers and magazines, some of it on walls. A Golden Gander for caricature in 2016 —
+  and a seat on that jury the year after, which is how that prize works.</p>
+  <p>He draws in cafés. He will tell you the coffee is research.</p>
+  <a class="btn ghost" href="#">The whole story →</a></div>
+</section>
+
+<section class="wrap sec">
+  <h2>What he has made</h2><hr class="rule" style="margin:var(--s-head) 0 var(--s-block)">
+  <div class="b-prod">
+    <a href="#"><div class="frame"><img src="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1_fb72874e-9084-4d31-b052-f7bdac64b1f2.jpg?v=1790166567" alt=""></div>
+    <div class="meta"><h3>Comics Tarot of Consciousness</h3><b>€39,00</b></div>
+    <p style="opacity:.7">78 cards. One unbroken story.</p></a>
+    <a href="#"><div class="frame"><img src="https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-illustrated-comic-guide-book-cover.jpg?v=1764241286" alt=""></div>
+    <div class="meta"><h3>Walterin Prague</h3><b>€18,99</b></div>
+    <p style="opacity:.7">A city in nine-frame stories.</p></a>
+  </div>
+</section>
+
+</main>
+<div class="foot">Direction B — Lead with the work</div>
+</body></html>

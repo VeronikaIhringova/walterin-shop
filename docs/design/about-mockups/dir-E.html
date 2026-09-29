@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>About — Two pillars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{
+  --ink:#222;--paper:#fff;--yellow:#FCE206;--yellow-press:#E6CE00;
+  --navy:#153055;--grass:#8BC53F;--amber:#F5A800;
+  --rule:#222;
+  --frame:92%;--frame-max:1400px;--pad:50px;
+  --s-section:96px;--s-block:32px;--s-head:16px;--s-item:8px;
+  --display:WalterinBold,'Inter',system-ui,sans-serif;
+  --lit:'Cormorant Garamond',Georgia,serif;
+  --ui:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--ui);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.wrap{width:var(--frame);max-width:var(--frame-max);margin-inline:auto;padding-inline:var(--pad)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;margin:0;line-height:1.08}
+h1{font-size:clamp(34px,4.4vw,60px);text-transform:uppercase}
+h2{font-size:clamp(26px,2.9vw,38px);text-transform:uppercase}
+h3{font-size:clamp(17px,1.5vw,21px);text-transform:uppercase}
+p{margin:0 0 1em}
+.lead{font-size:clamp(18px,1.55vw,22px);line-height:1.5}
+.kicker{font:600 12px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.rule{height:2px;background:var(--rule);border:0;margin:0}
+.sec{margin-block-start:var(--s-section)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--ink);
+ font:700 14px/1 var(--ui);letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+ padding:17px 30px;border:2px solid var(--ink);border-radius:42px;box-shadow:4px 4px 0 var(--ink)}
+.btn.ghost{background:transparent;box-shadow:none}
+.frame{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);background:#fff}
+/* --- site chrome, abbreviated --- */
+.ann{background:#F2F2F0;font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.hdr nav{display:flex;gap:30px;font:600 13px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase}
+.logo{font-family:var(--display);font-size:30px}
+.hdr .right{font:600 12px/1 var(--ui);letter-spacing:.1em;opacity:.7}
+.foot{margin-top:var(--s-section);border-top:2px solid var(--ink);padding:26px 0;font:500 12px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center}
+.note{background:#FFFBE0;border-left:3px solid var(--yellow-press);padding:12px 16px;font:400 13px/1.5 var(--ui);margin:18px 0}
+@media(max-width:749px){
+ :root{--pad:16px;--s-section:72px;--s-block:24px;--s-head:12px}
+ body{font-size:16px}
+ .hdr nav,.hdr .right{display:none}
+ .hdr{justify-content:center}
+}
+
+.e-hero{border-bottom:2px solid var(--ink);padding-bottom:var(--s-section)}
+.pair{display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:center;padding-block:64px;
+ border-bottom:2px solid var(--ink)}
+.pair.flip{grid-template-columns:1fr 300px}
+.pair.flip>img{order:2}
+.pair img{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);width:300px}
+.pair h3{font-size:clamp(20px,2vw,27px)}
+.pair p{font:400 21px/1.6 var(--lit);max-width:46ch}
+.e-who{display:grid;grid-template-columns:150px 1fr;gap:34px;align-items:start;padding-top:var(--s-section)}
+.e-who img{border:2px solid var(--ink)}
+@media(max-width:749px){.pair,.e-who{grid-template-columns:1fr;gap:24px}.pair.flip>img{order:0}
+ .e-who img{width:120px}}
+
+</style></head><body>
+<div class="ann">Welcome, curious traveller!</div>
+<header class="wrap hdr"><nav><a>Walterin</a><a>Shop</a><a>About</a></nav>
+<div class="logo">Walterin</div><div class="right">EN / SK &nbsp; ⌕ &nbsp; ♡ &nbsp; ⌂</div></header>
+<main>
+
+<section class="wrap sec e-hero">
+  <h1 style="max-width:16ch">Illustration and text.<br>Neither one is the decoration.</h1>
+  <p class="lead" style="max-width:54ch;margin-top:var(--s-block)">Most illustrated books pick a side. The
+  picture explains the sentence, or the sentence explains the picture. Walterin books are built the other
+  way, and that is the whole brand in one line.</p>
+</section>
+
+<section class="wrap"><div class="pair"><img src="p-football.png" alt=""><div><h3>The drawing is not the illustration of the text</h3><p style="margin-top:var(--s-head)">There is no caption telling you the goalkeeper lost. The panel already told you. The words in a Walterin book do a different job — they say the thing the picture cannot: a date, a name, the sentence somebody actually said in 1968.</p></div></div><div class="pair flip"><img src="p-homeland.png" alt=""><div><h3>The text is not the caption of the drawing</h3><p style="margin-top:var(--s-head)">Walter writes his books before he finishes drawing them. The research is real — streets, archives, the awkward bits other guidebooks leave out. Then the drawing decides what gets cut, which is usually half of it.</p></div></div><div class="pair"><img src="p-india.png" alt=""><div><h3>Nine frames, because that is how long a thought is</h3><p style="margin-top:var(--s-head)">Short enough for a tram ride, long enough for a turn. It is the unit the whole universe is built from: the city books, the deck, whatever comes next.</p></div></div></section>
+
+<section class="wrap e-who">
+  <img src="p-coffee.png" alt="">
+  <div><span class="kicker">Who makes them</span>
+  <h2 style="margin-top:var(--s-head)">Walter Ihring</h2>
+  <p style="margin-top:var(--s-head)">Born in Bratislava, 1969. Thirty-five years of ink, a Golden Gander
+  for caricature in 2016, three books about cities and a deck of 78 cards going to print in three weeks.
+  Usually in a café, drawing whoever sits down opposite.</p>
+  <a class="btn" href="#">See the deck</a>
+  <a class="btn ghost" href="#">His illustrated biography</a></div>
+</section>
+
+</main>
+<div class="foot">Direction E — Two pillars</div>
+</body></html>

@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>About — The strip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{
+  --ink:#222;--paper:#fff;--yellow:#FCE206;--yellow-press:#E6CE00;
+  --navy:#153055;--grass:#8BC53F;--amber:#F5A800;
+  --rule:#222;
+  --frame:92%;--frame-max:1400px;--pad:50px;
+  --s-section:96px;--s-block:32px;--s-head:16px;--s-item:8px;
+  --display:WalterinBold,'Inter',system-ui,sans-serif;
+  --lit:'Cormorant Garamond',Georgia,serif;
+  --ui:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--ui);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.wrap{width:var(--frame);max-width:var(--frame-max);margin-inline:auto;padding-inline:var(--pad)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;margin:0;line-height:1.08}
+h1{font-size:clamp(34px,4.4vw,60px);text-transform:uppercase}
+h2{font-size:clamp(26px,2.9vw,38px);text-transform:uppercase}
+h3{font-size:clamp(17px,1.5vw,21px);text-transform:uppercase}
+p{margin:0 0 1em}
+.lead{font-size:clamp(18px,1.55vw,22px);line-height:1.5}
+.kicker{font:600 12px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.rule{height:2px;background:var(--rule);border:0;margin:0}
+.sec{margin-block-start:var(--s-section)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--ink);
+ font:700 14px/1 var(--ui);letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+ padding:17px 30px;border:2px solid var(--ink);border-radius:42px;box-shadow:4px 4px 0 var(--ink)}
+.btn.ghost{background:transparent;box-shadow:none}
+.frame{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);background:#fff}
+/* --- site chrome, abbreviated --- */
+.ann{background:#F2F2F0;font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.hdr nav{display:flex;gap:30px;font:600 13px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase}
+.logo{font-family:var(--display);font-size:30px}
+.hdr .right{font:600 12px/1 var(--ui);letter-spacing:.1em;opacity:.7}
+.foot{margin-top:var(--s-section);border-top:2px solid var(--ink);padding:26px 0;font:500 12px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center}
+.note{background:#FFFBE0;border-left:3px solid var(--yellow-press);padding:12px 16px;font:400 13px/1.5 var(--ui);margin:18px 0}
+@media(max-width:749px){
+ :root{--pad:16px;--s-section:72px;--s-block:24px;--s-head:12px}
+ body{font-size:16px}
+ .hdr nav,.hdr .right{display:none}
+ .hdr{justify-content:center}
+}
+
+.d-strip{display:grid;grid-template-columns:repeat(6,1fr);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.d-strip figure{margin:0;border-right:2px solid var(--ink);display:flex;flex-direction:column}
+.d-strip figure:last-child{border-right:0}
+.d-strip img{width:100%}
+.d-strip figcaption{border-top:2px solid var(--ink);padding:16px 14px;display:grid;gap:6px;flex:1}
+.d-strip b{font-family:var(--display);font-size:20px}
+.d-strip span{font-size:14px;line-height:1.4;opacity:.78}
+.d-rest{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.d-rest img{border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+@media(max-width:749px){
+ .d-strip{grid-template-columns:1fr 1fr}
+ .d-strip figure{border-bottom:2px solid var(--ink)}
+ .d-strip figure:nth-child(2n){border-right:0}
+ .d-rest{grid-template-columns:1fr;gap:26px}}
+
+</style></head><body>
+<div class="ann">Welcome, curious traveller!</div>
+<header class="wrap hdr"><nav><a>Walterin</a><a>Shop</a><a>About</a></nav>
+<div class="logo">Walterin</div><div class="right">EN / SK &nbsp; ⌕ &nbsp; ♡ &nbsp; ⌂</div></header>
+<main>
+
+<section class="wrap sec">
+  <span class="kicker">Walter Ihring</span>
+  <h1 style="margin-top:var(--s-head)">Fifty-seven years,<br>six panels.</h1>
+  <p class="lead" style="max-width:50ch;margin-top:var(--s-head)">He tells everything else in nine frames.
+  It seemed only fair to do the same to him.</p>
+</section>
+
+<section class="wrap sec"><div class="d-strip"><figure><img src="p-1969.png" alt=""><figcaption><b>1969</b><span>Born in Bratislava.</span></figcaption></figure><figure><img src="p-school.png" alt=""><figcaption><b>1980s</b><span>Drawing in the margins of everything.</span></figcaption></figure><figure><img src="p-xdraw.png" alt=""><figcaption><b>1990s</b><span>First drawings in print. First ones crossed out.</span></figcaption></figure><figure><img src="p-egypt.png" alt=""><figcaption><b>2015</b><span>Walterin Bratislava — a city in nine-frame stories.</span></figcaption></figure><figure><img src="p-dreaming.png" alt=""><figcaption><b>2016</b><span>Golden Gander for caricature. Jury the year after.</span></figcaption></figure><figure><img src="p-coffee.png" alt=""><figcaption><b>Now</b><span>78 cards, going to print.</span></figcaption></figure></div></section>
+
+<section class="wrap sec d-rest">
+  <img src="grid.png" alt="">
+  <div><h2>And ten more</h2>
+  <p style="margin-top:var(--s-head)">Walter drew his own biography as sixteen panels — his mother dancing,
+  his father's violin, a red X across his first published drawing, a skateboard in front of the pyramids.
+  It hangs in his studio. This is it.</p>
+  <p>Every book since has used the same grammar: a grid, a few words, and the thing you only notice
+  the second time.</p>
+  <a class="btn" href="#">See what it turned into</a></div>
+</section>
+
+</main>
+<div class="foot">Direction D — The strip</div>
+</body></html>

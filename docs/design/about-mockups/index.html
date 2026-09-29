@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>About page — five directions</title>
+<style>
+:root{--ink:#222;--yellow:#FCE206}
+*{box-sizing:border-box}
+body{margin:0;background:#F2F2F0;color:var(--ink);font:400 15px/1.5 -apple-system,Inter,system-ui,sans-serif}
+header{background:#fff;border-bottom:2px solid var(--ink);padding:18px 26px;position:sticky;top:0;z-index:9;
+ display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+h1{font-size:17px;margin:0;letter-spacing:.04em;text-transform:uppercase}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+button{font:600 13px/1 inherit;padding:11px 16px;border:2px solid var(--ink);background:#fff;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--yellow)}
+.stage{padding:26px;display:flex;gap:26px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.device{background:#fff;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);overflow:hidden}
+.device .lab{font:600 11px/1 inherit;letter-spacing:.14em;text-transform:uppercase;padding:10px;border-bottom:2px solid var(--ink);text-align:center}
+.holder{overflow:hidden}
+iframe{border:0;display:block;transform-origin:0 0}
+#d .holder{width:882px;height:1000px}            /* 1440 * .6125 */
+#d iframe{width:1440px;height:1633px;transform:scale(.6125)}
+#m .holder{width:390px;height:1000px}
+#m iframe{width:390px;height:1000px}
+.desc{max-width:920px;margin:0 auto 10px;padding:0 26px;font-size:14px;opacity:.75}
+</style></head><body>
+<header>
+  <h1>About page — five directions</h1>
+  <div class="tabs" id="tabs"></div>
+  <div class="tabs"><button id="tD" aria-pressed="true">1440</button><button id="tM" aria-pressed="true">390</button></div>
+</header>
+<p class="desc" id="cap"></p>
+<div class="stage">
+  <div class="device" id="d"><div class="lab">Desktop 1440 (shown at 61%)</div><div class="holder"><iframe id="fd"></iframe></div></div>
+  <div class="device" id="m"><div class="lab">Phone 390</div><div class="holder"><iframe id="fm"></iframe></div></div>
+</div>
+<script>
+const DIRS={
+ A:["Sixteen panels","The illustrated biography becomes the page. Sixteen real panels, each one a door into a caption Walter writes. The biography stops being a picture of the story and becomes the story."],
+ B:["Lead with the work","Opens on a book, not a man. Says what a Walterin book is in three beats, puts Walter third, and ends on the two things you can actually buy."],
+ C:["Walter speaks","First person, one column, Cormorant. Four short paragraphs and a signature. The most literary and the least work — but only Walter can write it."],
+ D:["The strip","His own medium turned on him: fifty-seven years as a six-panel strip, captions under each frame, then the full sixteen underneath."],
+ E:["Two pillars","Not a biography at all — the brand's thesis. Illustration and text, alternating, demonstrated rather than claimed. Walter compressed to a card at the end."]};
+let cur="A";
+const tabs=document.getElementById('tabs');
+Object.entries(DIRS).forEach(([k,v])=>{
+ const b=document.createElement('button');b.textContent=k+" · "+v[0];b.dataset.k=k;
+ b.setAttribute('aria-pressed',k===cur);b.onclick=()=>set(k);tabs.append(b)});
+function set(k){cur=k;
+ [...tabs.children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+ document.getElementById('cap').textContent=DIRS[k][1];
+ fd.src=fm.src="dir-"+k+".html";}
+tD.onclick=()=>{const on=tD.getAttribute('aria-pressed')==='true';tD.setAttribute('aria-pressed',!on);d.hidden=on};
+tM.onclick=()=>{const on=tM.getAttribute('aria-pressed')==='true';tM.setAttribute('aria-pressed',!on);m.hidden=on};
+set("A");
+</script></body></html>

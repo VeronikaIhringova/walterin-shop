@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>About — Sixteen panels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:WalterinBold;src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2');font-display:swap}
+:root{
+  --ink:#222;--paper:#fff;--yellow:#FCE206;--yellow-press:#E6CE00;
+  --navy:#153055;--grass:#8BC53F;--amber:#F5A800;
+  --rule:#222;
+  --frame:92%;--frame-max:1400px;--pad:50px;
+  --s-section:96px;--s-block:32px;--s-head:16px;--s-item:8px;
+  --display:WalterinBold,'Inter',system-ui,sans-serif;
+  --lit:'Cormorant Garamond',Georgia,serif;
+  --ui:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--ui);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.wrap{width:var(--frame);max-width:var(--frame-max);margin-inline:auto;padding-inline:var(--pad)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;margin:0;line-height:1.08}
+h1{font-size:clamp(34px,4.4vw,60px);text-transform:uppercase}
+h2{font-size:clamp(26px,2.9vw,38px);text-transform:uppercase}
+h3{font-size:clamp(17px,1.5vw,21px);text-transform:uppercase}
+p{margin:0 0 1em}
+.lead{font-size:clamp(18px,1.55vw,22px);line-height:1.5}
+.kicker{font:600 12px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.rule{height:2px;background:var(--rule);border:0;margin:0}
+.sec{margin-block-start:var(--s-section)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--ink);
+ font:700 14px/1 var(--ui);letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+ padding:17px 30px;border:2px solid var(--ink);border-radius:42px;box-shadow:4px 4px 0 var(--ink)}
+.btn.ghost{background:transparent;box-shadow:none}
+.frame{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);background:#fff}
+/* --- site chrome, abbreviated --- */
+.ann{background:#F2F2F0;font:600 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.hdr nav{display:flex;gap:30px;font:600 13px/1 var(--ui);letter-spacing:.11em;text-transform:uppercase}
+.logo{font-family:var(--display);font-size:30px}
+.hdr .right{font:600 12px/1 var(--ui);letter-spacing:.1em;opacity:.7}
+.foot{margin-top:var(--s-section);border-top:2px solid var(--ink);padding:26px 0;font:500 12px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;opacity:.5;text-align:center}
+.note{background:#FFFBE0;border-left:3px solid var(--yellow-press);padding:12px 16px;font:400 13px/1.5 var(--ui);margin:18px 0}
+@media(max-width:749px){
+ :root{--pad:16px;--s-section:72px;--s-block:24px;--s-head:12px}
+ body{font-size:16px}
+ .hdr nav,.hdr .right{display:none}
+ .hdr{justify-content:center}
+}
+
+.a-grid{display:grid;grid-template-columns:4fr 3fr;gap:56px;align-items:start}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.tile{padding:0;border:0;background:none;cursor:pointer;display:block;position:relative;filter:saturate(.12) opacity(.72)}
+.tile.on{filter:none}
+.tile.on::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 4px var(--yellow)}
+.a-read{position:sticky;top:34px}
+.a-read .big{font-family:var(--display);font-size:clamp(30px,3.4vw,46px);text-transform:uppercase;line-height:1}
+.a-read img{border:2px solid var(--ink);margin:var(--s-block) 0;width:62%}
+.a-read .body{font:400 20px/1.55 var(--lit);max-width:34ch}
+.a-count{font:600 12px/1 var(--ui);letter-spacing:.16em;opacity:.5;margin-bottom:12px}
+.a-more{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s-block);margin-top:var(--s-block)}
+.a-more div{border-top:2px solid var(--ink);padding-top:14px}
+@media(max-width:749px){.a-grid{grid-template-columns:1fr;gap:28px}.a-read{position:static}.a-read img{width:48%}.a-more{grid-template-columns:1fr}}
+
+</style></head><body>
+<div class="ann">Welcome, curious traveller!</div>
+<header class="wrap hdr"><nav><a>Walterin</a><a>Shop</a><a>About</a></nav>
+<div class="logo">Walterin</div><div class="right">EN / SK &nbsp; ⌕ &nbsp; ♡ &nbsp; ⌂</div></header>
+<main>
+
+<section class="wrap" style="margin-block-start:var(--s-block)">
+  <h1>Sixteen panels.<br>One life.</h1>
+  <p class="lead" style="max-width:52ch;margin-top:var(--s-head)">Walter drew his own biography before he drew
+  anybody else's. Every panel is a year, a person or a habit. Tap one.</p>
+</section>
+
+<section class="wrap sec a-grid">
+  <div class="tiles"><button class="tile"><img src="p-sun.png" alt=""></button><button class="tile on"><img src="p-1969.png" alt=""></button><button class="tile"><img src="p-mama.png" alt=""></button><button class="tile"><img src="p-tata.png" alt=""></button><button class="tile"><img src="p-xdraw.png" alt=""></button><button class="tile"><img src="p-egypt.png" alt=""></button><button class="tile"><img src="p-school.png" alt=""></button><button class="tile"><img src="p-football.png" alt=""></button><button class="tile"><img src="p-beatrix.png" alt=""></button><button class="tile"><img src="p-homeland.png" alt=""></button><button class="tile"><img src="p-dreaming.png" alt=""></button><button class="tile"><img src="p-india.png" alt=""></button><button class="tile"><img src="p-veronika.png" alt=""></button><button class="tile"><img src="p-walto.png" alt=""></button><button class="tile"><img src="p-nepal.png" alt=""></button><button class="tile"><img src="p-coffee.png" alt=""></button></div>
+  <div class="a-read">
+    <div class="a-count">Panel 02 of 16</div>
+    <div class="big">1969</div>
+    <img src="p-1969.png" alt="">
+    <p class="body">Born in Bratislava. Everything after this is drawing.</p>
+    <p class="body" style="opacity:.75">My mother kept the first ones in a drawer. I found them again
+    at forty and most of the jokes still worked, which worried me.</p>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <hr class="rule"><div class="a-more">
+    <div><h3>The short version</h3><p style="margin-top:10px">Thirty-five years of ink. A Golden Gander for
+    caricature in 2016, and a seat on that jury in 2017. Books about cities: Bratislava, Prague, Paris next.</p></div>
+    <div><h3>What he is drawing now</h3><p style="margin-top:10px">A deck of 78 cards — one unbroken story,
+    told in panels. It goes to print in three weeks.</p>
+    <a class="btn" href="#" style="margin-top:10px">See the deck</a></div>
+  </div>
+</section>
+<div class="wrap note"><b>Copy note:</b> the sixteen captions are Walter's to write — these are drafts in his voice,
+so you can see the shape. Two sentences each, maximum.</div>
+
+</main>
+<div class="foot">Direction A — Sixteen panels</div>
+</body></html>
