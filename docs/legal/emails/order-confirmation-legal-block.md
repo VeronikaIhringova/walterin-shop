@@ -1,8 +1,39 @@
 # Order confirmation: legal block (EN + SK)
 
-> DRAFT for legal review. **Where:** Shopify admin → Settings → Notifications → Customer notifications → **Order confirmation** → Edit code. Paste the EN block at the end of the email body, just above the footer. **SK:** paste the SK block into the Slovak translation of the same notification (Translate & Adapt → Notifications, or the language switcher in the notification editor). [TO CONFIRM: how the SK translation of notifications is set up in this store]
+> **Ready to paste (29 Sep 2026).** No placeholders left. Still for legal review.
+>
+> **Where:** Shopify admin → Settings → Notifications → Customer notifications → **Order confirmation**
+> → Edit code. Paste the EN block at the end of the email body, just above the footer.
+> **SK:** the same notification has a Slovak translation already (template
+> `gid://shopify/EmailTemplate/89691980105`, SK title "Objednávka {{name}} je potvrdená", checked
+> 29 Sep 2026 — it exists and is not outdated). Switch the language in the notification editor, or
+> use Translate & Adapt → Notifications, and paste the SK block in the same position.
+> Editing the EN body makes the SK translation go **outdated**, so paste both in one sitting.
+>
 > Shopify notifications can't be written by API, so Veronka pastes these by hand.
-> **Why:** § 17(12) of 108/2024: confirmation of the contract on a durable medium, incl. withdrawal info and, for eBooks, the consent confirmation (§ 17(12)(b), a condition for § 19(1)(m)). A link alone is risky (CJEU C-49/11), so the withdrawal instructions and form are included as full text.
+>
+> **Why:** § 17(12) of 108/2024: confirmation of the contract on a durable medium, incl. withdrawal
+> info and, for eBooks, the consent confirmation (§ 17(12)(b), a condition for § 19(1)(m)). A link
+> alone is risky (CJEU C-49/11), so the withdrawal instructions and form are included as full text.
+>
+> **Until this is pasted, the eBook consent box in the cart has no legal effect.** The waiver needs
+> all three of: express consent, acknowledgement, and confirmation on a durable medium (Terms 8.6).
+> The cart collects the first two. This block is the third. Checked 29 Sep 2026: the store has
+> **zero orders**, so nothing has been sold without it.
+>
+> **Return address** filled from the live Terms 8.5 / Refund 1.2 (the registered office). If the
+> return address ever moves to Pack4you, it changes in four places: this file and those three
+> published policies.
+>
+> **The harmonised EU guarantee notice is deliberately not in this block** (Veronka, 29 Sep 2026).
+> Some guidance says it belongs in the order confirmation; that could not be verified in
+> Implementing Regulation (EU) 2025/1960 itself, so it is a question for the lawyer —
+> `docs/legal/LAWYER-QUESTIONS.md`.
+>
+> **One thing the test order must prove:** that `attributes['eBook consent']` actually resolves in a
+> Shopify notification. The key contains a space, which is valid Liquid, but it has never been run
+> against a real order here. If it comes out empty, the block still sends — the consent paragraph
+> just won't appear, which is exactly the case where it is needed.
 
 ## EN block
 
@@ -23,7 +54,7 @@ You have the right to withdraw from this contract within 14 days without giving 
 To withdraw, inform us (Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia, +421 905 549 907, support@walterin.com) of your decision by an unequivocal statement (e.g. a letter sent by post or email). You may use the model withdrawal form below, but it is not obligatory. You can also withdraw online at <a href="{{ shop.url }}/pages/withdrawal">{{ shop.url }}/pages/withdrawal</a> ("Withdraw from contract here" in the footer of the store). If you use this online feature, we will send you an acknowledgement of receipt on a durable medium (e.g. by email), including its content and the date and time of its submission, without undue delay. To meet the deadline, it is sufficient to send your communication before the withdrawal period has expired.</p>
 
 <p><strong>Effects of withdrawal</strong><br>
-If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery (with the exception of the supplementary costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us), without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw. We will use the same means of payment as you used for the initial transaction, unless you have expressly agreed otherwise; you will not incur any fees. We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent back the goods, whichever is the earliest. You shall send back the goods to [TO CONFIRM – return address] without undue delay and in any event not later than 14 days from the day on which you communicate your withdrawal to us. The deadline is met if you send back the goods before the 14 days have expired. You will have to bear the direct cost of returning the goods. You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish the nature, characteristics and functioning of the goods.</p>
+If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery (with the exception of the supplementary costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us), without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw. We will use the same means of payment as you used for the initial transaction, unless you have expressly agreed otherwise; you will not incur any fees. We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent back the goods, whichever is the earliest. You shall send back the goods to Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia without undue delay and in any event not later than 14 days from the day on which you communicate your withdrawal to us. The deadline is met if you send back the goods before the 14 days have expired. You will have to bear the direct cost of returning the goods. You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish the nature, characteristics and functioning of the goods.</p>
 
 <p><strong>Model withdrawal form</strong> (complete and return only if you wish to withdraw)<br>
 — To: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia, support@walterin.com<br>
@@ -60,7 +91,7 @@ Máte právo odstúpiť od tejto zmluvy bez uvedenia dôvodu v lehote 14 dní. P
 Pri uplatnení práva na odstúpenie od zmluvy nás informujte o svojom rozhodnutí odstúpiť od tejto zmluvy jednoznačným vyhlásením (napríklad listom zaslaným poštou alebo e-mailom) na adrese: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, telefón +421 905 549 907, e-mail support@walterin.com. Na tento účel môžete použiť vzorový formulár nižšie, jeho použitie však nie je povinné. Právo na odstúpenie od zmluvy môžete uplatniť aj online na adrese <a href="{{ shop.url }}/sk/pages/withdrawal">{{ shop.url }}/sk/pages/withdrawal</a> (odkaz „Odstúpiť od zmluvy tu“ v pätičke obchodu). Ak využijete túto možnosť, potvrdenie o doručení odstúpenia od zmluvy vrátane jeho obsahu, dátumu a času jeho odoslania Vám bezodkladne poskytneme na trvanlivom médiu (napríklad e-mailom). Lehota na odstúpenie od zmluvy je zachovaná, ak zašlete oznámenie o uplatnení práva na odstúpenie od zmluvy pred tým, ako uplynie lehota na odstúpenie od zmluvy.</p>
 
 <p><strong>Dôsledky odstúpenia od zmluvy</strong><br>
-Po odstúpení od zmluvy Vám vrátime všetky platby, ktoré ste uhradili v súvislosti s uzavretím zmluvy, vrátane nákladov na doručenie tovaru k Vám. To sa nevzťahuje na dodatočné náklady, ak ste si zvolili iný druh doručenia, ako je najlacnejší bežný spôsob doručenia, ktorý ponúkame. Platby Vám budú vrátené najneskôr do 14 dní odo dňa, keď nám bude doručené Vaše oznámenie o odstúpení od tejto zmluvy. Úhrada bude uskutočnená rovnakým spôsobom, aký ste použili pri Vašej platbe, ak ste výslovne nesúhlasili s iným spôsobom úhrady, a to bez účtovania akýchkoľvek ďalších poplatkov. S vrátením platby môžeme čakať do vrátenia tovaru späť na našu adresu alebo do preukázania, že ste tovar odoslali späť, podľa toho, čo nastane skôr. Zašlite nám tovar späť alebo ho prineste na našu adresu [NA POTVRDENIE – adresa na vrátenie] najneskôr do 14 dní odo dňa uplatnenia práva na odstúpenie od zmluvy. Lehota sa považuje za zachovanú, ak tovar odošlete späť pred uplynutím 14-dňovej lehoty. Priame náklady na vrátenie tovaru znášate Vy. Zodpovedáte len za akékoľvek zníženie hodnoty tovaru v dôsledku zaobchádzania s ním iným spôsobom, aký je potrebný na zistenie povahy, vlastností a funkčnosti tovaru.</p>
+Po odstúpení od zmluvy Vám vrátime všetky platby, ktoré ste uhradili v súvislosti s uzavretím zmluvy, vrátane nákladov na doručenie tovaru k Vám. To sa nevzťahuje na dodatočné náklady, ak ste si zvolili iný druh doručenia, ako je najlacnejší bežný spôsob doručenia, ktorý ponúkame. Platby Vám budú vrátené najneskôr do 14 dní odo dňa, keď nám bude doručené Vaše oznámenie o odstúpení od tejto zmluvy. Úhrada bude uskutočnená rovnakým spôsobom, aký ste použili pri Vašej platbe, ak ste výslovne nesúhlasili s iným spôsobom úhrady, a to bez účtovania akýchkoľvek ďalších poplatkov. S vrátením platby môžeme čakať do vrátenia tovaru späť na našu adresu alebo do preukázania, že ste tovar odoslali späť, podľa toho, čo nastane skôr. Zašlite nám tovar späť alebo ho prineste na našu adresu Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto najneskôr do 14 dní odo dňa uplatnenia práva na odstúpenie od zmluvy. Lehota sa považuje za zachovanú, ak tovar odošlete späť pred uplynutím 14-dňovej lehoty. Priame náklady na vrátenie tovaru znášate Vy. Zodpovedáte len za akékoľvek zníženie hodnoty tovaru v dôsledku zaobchádzania s ním iným spôsobom, aký je potrebný na zistenie povahy, vlastností a funkčnosti tovaru.</p>
 
 <p><strong>Vzorový formulár na odstúpenie od zmluvy</strong> (vyplňte a zašlite, len ak si želáte odstúpiť od zmluvy)<br>
 – Komu: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, support@walterin.com<br>
