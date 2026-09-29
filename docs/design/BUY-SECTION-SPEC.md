@@ -92,7 +92,10 @@ Only transform, opacity, colour and height ever animate. Nothing changes size on
   payment icons" (currently `paypal`: the store's PayPal is not Walterin's — see LAUNCH-READINESS).
   Shopify's express-checkout buttons follow the store's payment settings, not the theme.
 - Product safety (GPSR) is two small lines at the end of "What's in the box", physical only.
-- The legal guarantee stays in the Terms, never in the column.
+- The legal guarantee stays out of the buy column. Since 29 Sep 2026 it has its own row in the
+**Details accordion** (the official EU notice, physical products only), because Impl. Reg. (EU)
+2025/1960 requires it one tap from the words "Legal guarantee" — the Terms alone are no longer
+enough. The column itself is unchanged: no notice, no image, no extra line.
 
 ## 10. Proof before any push
 `node proof.mjs` (scratchpad) runs Chromium and WebKit at 1440 / 1280 / 390 over every state and

@@ -567,6 +567,13 @@
       "identifier": "Výrobok",
       "physical_only": "tlačené alebo fyzické vydanie"
     },
+    "legal_guarantee": {
+      "title": "Zákonná záruka",
+      "goods": "Za vady zodpovedáme 24 mesiacov odo dňa, keď tovar prevezmete. Nižšie je oficiálne oznámenie EÚ — nesmieme v ňom nič meniť.",
+      "alt": "Zákonná záruka: harmonizované oznámenie EÚ o zákonnej záruke súladu",
+      "more": "Viac o vašich právach vo vašej krajine",
+      "digital": "Pri e-knihách zodpovedáme za vady 24 mesiacov odo dňa dodania súboru. Napíšte nám na support@walterin.com."
+    },
     "buy": {
       "shipping": "Doprava sa vypočíta v pokladni",
       "sold_out": "Vypredané",

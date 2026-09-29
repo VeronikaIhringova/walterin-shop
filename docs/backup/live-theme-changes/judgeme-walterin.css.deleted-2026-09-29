@@ -1,0 +1,50 @@
+/*
+  Walterin × Judge.me — minimal tweaks only. Everything else keeps Judge.me's
+  original/default styling (no background band, no recoloured stars, no card or
+  typography overrides).
+
+  Two changes only:
+  1) "Write a review" button → Walterin pill, matching the site's other buttons
+     (notify-me / add-to-cart). Judge.me injects the widget via JS and sets the
+     button colour via its own hooks, so these need !important to win.
+  2) Reviews widget aligned to the page's standard content width / left+right
+     margins: the apps section already wraps the widget in .page-width (1400 →
+     ~1240 content, same as the other sections), but Judge.me's own max_width
+     (1200) makes it narrower and centred, so it doesn't line up. Force it to fill
+     the .page-width wrapper. Scoped to the tarot reviews section only.
+*/
+
+/* 1) Write-a-review → Walterin pill */
+.jdgm-write-rev-link,
+a.jdgm-write-rev-link,
+.jdgm-write-review-bg-color {
+  border-radius: 999px !important;
+  background: #fce206 !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-family: "Inter", "Helvetica Neue", helvetica, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.3px;
+  padding: 14px 32px !important;
+  box-shadow: 0 6px 20px rgba(252, 226, 6, 0.35);
+  transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  text-decoration: none !important;
+}
+.jdgm-write-review-text-color { color: #ffffff !important; }
+.jdgm-write-rev-link:hover,
+a.jdgm-write-rev-link:hover {
+  background: #e6ce00 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(230, 206, 0, 0.45);
+}
+.jdgm-write-rev-link:active { transform: translateY(0) scale(0.99); }
+
+/* 2) Align reviews to the page's content width / margins */
+section[id*="1764756238d73d5e0e"] .jdgm-rev-widg,
+section[id*="1764756238d73d5e0e"] .jdgm-widget,
+section[id*="1764756238d73d5e0e"] .jdgm-all-reviews-widget {
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

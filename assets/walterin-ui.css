@@ -698,6 +698,27 @@
 .wui .wui-accordion__star svg,
 .wui svg.wui-accordion__star { width: 16px; height: 16px; fill: var(--wui-ink); stroke: var(--wui-ink); stroke-width: 1.5; }
 
+/* Legal guarantee (Impl. Reg. (EU) 2025/1960)
+
+   The notice is the Commission's own artwork and may not be edited: not its text, not its colours,
+   not its layout, not the QR code. So this is the one place in the interface where blue and white
+   appear, and that is deliberate, not a palette slip — do not "fix" it to ink and paper.
+   Scaling is allowed; recolouring, cropping and rebuilding it as HTML are not.
+   The frame sits AROUND the notice, the way every other image on the site is framed, and touches
+   nothing inside it. */
+.wui .wui-guarantee__lead { margin: 0; }
+.wui .wui-guarantee__notice { margin: 0; }
+.wui .wui-guarantee__notice img {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+}
+.wui .wui-guarantee__more,
+.wui .wui-guarantee__digital { margin: 0; }
+
 /* Definition list (specs) */
 .wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: var(--wui-8) var(--wui-12); }
 .wui .wui-dl dt { font-weight: 700; }

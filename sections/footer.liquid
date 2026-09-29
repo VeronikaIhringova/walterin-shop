@@ -467,6 +467,18 @@
                 ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
               >
             </li>
+            {%- comment -%}
+              Legal guarantee (Impl. Reg. (EU) 2025/1960). The notice itself is on every physical
+              product page, one tap inside Details; this is the every-page route to it, and lands
+              on Terms clause 10 where the same official image sits.
+            {%- endcomment -%}
+            {%- if shop.terms_of_service.url != blank -%}
+              <li>
+                <small class="copyright__content"
+                  ><a href="{{ shop.terms_of_service.url }}">{{ 'walterin.legal_guarantee.title' | t }}</a></small
+                >
+              </li>
+            {%- endif -%}
           </ul>
         {%- else -%}
           <ul class="policies list-unstyled">
@@ -475,6 +487,13 @@
                 ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
               >
             </li>
+            {%- if shop.terms_of_service.url != blank -%}
+              <li>
+                <small class="copyright__content"
+                  ><a href="{{ shop.terms_of_service.url }}">{{ 'walterin.legal_guarantee.title' | t }}</a></small
+                >
+              </li>
+            {%- endif -%}
           </ul>
         {%- endif -%}
       </div>

@@ -17,107 +17,77 @@
         "padding_bottom": 36
       }
     },
-    "37e8cdd4-ab58-48f7-b736-913308245cdb": {
-      "type": "collapsible-content",
+    "faq": {
+      "type": "walterin-faq",
       "blocks": {
-        "collapsible_row_DzzEYy": {
-          "type": "collapsible_row",
+        "q_who": {
+          "type": "question",
           "settings": {
             "heading": "Who makes what you sell here?",
-            "icon": "check_mark",
-            "row_content": "<p>Walter Ihring. He writes and illustrates everything in this shop. We don’t resell other people’s work.</p>",
-            "page": ""
+            "text": "<p>Walter Ihring. He writes and illustrates everything in this shop. We don’t resell other people’s work.</p>"
           }
         },
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1": {
-          "type": "collapsible_row",
+        "q_restock": {
+          "type": "question",
           "settings": {
             "heading": "Will sold-out items come back?",
-            "icon": "check_mark",
-            "row_content": "<p>Sometimes, but we don’t promise it. The first edition of the tarot is 100 decks in English and 100 in Slovak. If something you want is gone, leave your email on its page and we’ll write to you if it returns.</p>",
-            "page": ""
+            "text": "<p>Sometimes, but we don’t promise it. The first edition of the tarot is 100 decks in English and 100 in Slovak. If something you want is gone, leave your email on its page and we’ll write to you if it returns.</p>"
           }
         },
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2": {
-          "type": "collapsible_row",
+        "q_change": {
+          "type": "question",
           "settings": {
             "heading": "Can I change or cancel my order?",
-            "icon": "check_mark",
-            "row_content": "<p>Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> as soon as you can. If the order hasn’t gone out yet, we’ll change it or cancel it. If it has, you can still withdraw from the purchase within 14 days.</p>",
-            "page": ""
+            "text": "<p>Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> as soon as you can. If the order hasn’t gone out yet, we’ll change it or cancel it. If it has, you can still withdraw from the purchase within 14 days.</p>"
           }
         },
-        "collapsible_row_63RXfn": {
-          "type": "collapsible_row",
+        "q_pay": {
+          "type": "question",
           "settings": {
             "heading": "What can I pay with?",
-            "icon": "check_mark",
-            "row_content": "<p>Visa, Mastercard, American Express, JCB, Discover and Diners Club, plus Apple Pay and Google Pay. Payments go through Stripe. We don’t offer cash on delivery.</p>",
-            "page": ""
+            "text": "<p>Visa, Mastercard, American Express, JCB, Discover and Diners Club, plus Apple Pay and Google Pay. Payments go through Stripe. We don’t offer cash on delivery.</p>"
           }
         },
-        "collapsible_row_fAmemF": {
-          "type": "collapsible_row",
+        "q_safe": {
+          "type": "question",
           "settings": {
             "heading": "Is paying here safe?",
-            "icon": "check_mark",
-            "row_content": "<p>We never see or store your card details. Stripe takes the payment and tells us only whether it went through.</p>",
-            "page": ""
+            "text": "<p>We never see or store your card details. Stripe takes the payment and tells us only whether it went through.</p>"
           }
         },
-        "collapsible_row_JBbCVr": {
-          "type": "collapsible_row",
+        "q_return": {
+          "type": "question",
           "settings": {
             "heading": "Can I send something back?",
-            "icon": "check_mark",
-            "row_content": "<p>Yes. You have 14 days from the day the parcel arrives, and you don’t have to give a reason. Use the <a href=\"/pages/withdrawal\">withdrawal form</a> in the footer, or write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Send the item back within 14 days of telling us. You pay the return postage. We refund everything you paid, including the cheapest standard delivery we offer, within 14 days.</p><p>eBooks work differently. Once the download starts, the right to withdraw is gone — you agree to that in the cart, before you pay.</p>",
-            "page": ""
+            "text": "<p>Yes. You have 14 days from the day the parcel arrives, and you don’t have to give a reason. Use the <a href=\"/pages/withdrawal\">withdrawal form</a> in the footer, or write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Send the item back within 14 days of telling us. You pay the return postage. We refund everything you paid, including the cheapest standard delivery we offer, within 14 days.</p><p>eBooks work differently. Once the download starts, the right to withdraw is gone — you agree to that in the cart, before you pay.</p>"
           }
         },
-        "collapsible_row_KXBJQF": {
-          "type": "collapsible_row",
+        "q_contact": {
+          "type": "question",
           "settings": {
             "heading": "How do I reach you?",
-            "icon": "check_mark",
-            "row_content": "<p><a href=\"mailto:support@walterin.com\">support@walterin.com</a>. We read it on weekdays, 9:00–17:00 CET.</p>",
-            "page": ""
+            "text": "<p><a href=\"mailto:support@walterin.com\">support@walterin.com</a>. We read it on weekdays, 9:00–17:00 CET.</p>"
           }
         }
       },
       "block_order": [
-        "collapsible_row_DzzEYy",
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-1",
-        "template--18327068148007__37e8cdd4-ab58-48f7-b736-913308245cdb-167980065688e3e5f3-2",
-        "collapsible_row_63RXfn",
-        "collapsible_row_fAmemF",
-        "collapsible_row_JBbCVr",
-        "collapsible_row_KXBJQF"
+        "q_who",
+        "q_restock",
+        "q_change",
+        "q_pay",
+        "q_safe",
+        "q_return",
+        "q_contact"
       ],
-      "custom_css": [],
       "settings": {
-        "caption": "",
-        "heading": "Frequently Asked Questions (FAQ)",
-        "heading_size": "h2",
-        "heading_alignment": "left",
-        "layout": "none",
-        "color_scheme": "background-1",
-        "container_color_scheme": "background-2",
-        "open_first_collapsible_row": true,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "custom_colors_background": "#ffffff",
-        "custom_gradient_background": "",
-        "custom_colors_text": "#2e2a39",
-        "custom_contaner_colors_background": "#ffffff",
-        "custom_container_gradient_background": "",
-        "custom_contaner_colors_text": "#2e2a39"
+        "title": "Frequently asked questions",
+        "lead": "",
+        "foot": ""
       }
     }
   },
   "order": [
     "main",
-    "37e8cdd4-ab58-48f7-b736-913308245cdb"
+    "faq"
   ]
 }

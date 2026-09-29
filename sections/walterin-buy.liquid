@@ -613,6 +613,26 @@
         {%- endif -%}
 
         {%- comment -%}
+          Legal guarantee. Goods get the official EU harmonised notice (Impl. Reg. (EU) 2025/1960,
+          applying from 27 Sep 2026); digital content gets a plain reminder, because no harmonised
+          template exists for it. One tap from the words "Legal guarantee" is what the guidance
+          asks for. The snippet decides what to show from the variants.
+        {%- endcomment -%}
+        <details class="wui-accordion" data-wui-acc>
+          <summary>
+            <span class="wui-accordion__title">
+              <span class="wui-label">{{ 'walterin.legal_guarantee.title' | t }}</span>
+            </span>
+            <span class="wui-accordion__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="wui-accordion__wrap">
+            <div class="wui-accordion__body">
+              {%- render 'legal-guarantee', product: product -%}
+            </div>
+          </div>
+        </details>
+
+        {%- comment -%}
           The extra accordions, from the product's own metafields. One rich-text field holds them
           all: every Heading 3 starts a new accordion and everything under it is that accordion's
           text. They are all secondary — a dashed rule and no star — because they sit under About,
