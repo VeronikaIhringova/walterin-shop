@@ -30,7 +30,14 @@ Claude Code can't read the app's data (files and limits aren't in the Admin API)
 | Walterin Paris · English · Digital (draft product) | later | – |
 | Walterin Paris · French · Digital (not sold) | none | – |
 
-Also: download limit (suggestion: 5 downloads, link valid 30 days), delivery "after payment", and the email text from `docs/legal/emails/digital-download-email.md`.
+Also: download limit and delivery "after payment", and the email text from
+`docs/legal/emails/digital-download-email.md`.
+
+> **Corrected 29 Sep 2026.** This line used to say "5 downloads, link valid 30 days". Both numbers
+> were wrong. Shopify's own Digital Products app has **no expiry setting at all** — "days available
+> to download" belongs to Filemonk, a third-party app with a similar name. And 5 is too low: each
+> variant has two files, so 5 is two and a half sets. Recommendation is now **10 downloads, no
+> expiry stated**, with the reasoning and the Terms wording in `docs/legal/ebook-download-limits.md`.
 **If a variant has no file, it must stay tracked with stock 0 (not buyable).** Tracking is switched off only for variants with a file (item 13).
 
 ## Order of steps tomorrow
