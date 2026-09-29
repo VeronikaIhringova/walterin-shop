@@ -42,11 +42,16 @@ number without the thing that makes it safe.
 
 ## 3. Recommendation
 
-**Download limit: 10. No expiry stated.**
+> **Decided by Veronka, 29 Sep 2026: 5, no expiry stated.** My recommendation below was 10;
+> the reasoning is kept because it is the argument to revisit if the test order shows the limit
+> counts **per file**. The prepared clause is `docs/legal/prepared-terms-7-update.md`.
+
+**Recommended: 10. No expiry stated.**
 
 Why 10, arithmetically — the number has to survive a real customer's life, not a theoretical one:
 
-- Each variant carries **two files** (PDF + EPUB), and each file downloaded counts once. So a
+- Each variant carries **two files** (PDF + EPUB) — confirmed by Veronka, 29 Sep 2026 — and each
+  file downloaded counts once. So a
   "full set" is 2.
 - A normal reader takes the set on a phone and a laptop, sometimes a tablet: 4–6.
 - Add one failed download on bad wifi, and one re-download after a new phone: 8.
@@ -103,8 +108,7 @@ Notes on the drafting:
 - **The updates sentence is new.** § 852i covers updates to digital content. For a book supplied as
   a single act the honest answer is that there are none, and saying so closes the question. **This
   one needs the lawyer's eye** — it is question 4 in `docs/legal/LAWYER-QUESTIONS.md`.
-- **"PDF and EPUB", not "or".** The live Terms say "or"; `EBOOK-LAUNCH.md` says both files are
-  attached per variant. Veronka should confirm which is true before this goes live — if only one
-  format ships, the wording changes.
+- **"PDF and EPUB", not "or".** Confirmed 29 Sep 2026: every eBook ships both files. The live
+  Terms say "or", which is why 7.2 is being rewritten.
 - 7.3 (personal use, no sharing) is unchanged and does not conflict: keeping your own copies on your
   own devices is not sharing.
