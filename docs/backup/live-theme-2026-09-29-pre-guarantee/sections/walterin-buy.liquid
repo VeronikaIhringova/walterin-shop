@@ -1,0 +1,1157 @@
+{% comment %}
+  Walterin · Buy section (product page). Used by product templates; main-product is untouched.
+  Design system: assets/walterin-ui.css (body.wui). Behaviour: assets/walterin-buy.js.
+  Rules: docs/design/BUY-SECTION-SPEC.md.
+
+  Direction "Frameless": type and space carry the column. The only framed things are the
+  email field and the one yellow button; everything else is text, a dot, a marker and a rule.
+
+  Order (one vertical rhythm, groups 40 desktop / 32 mobile apart):
+    1. Title            product title, one headline
+    2. Price            price + shipping line with its icon
+    3. Choice           one group per product option (Language, Format, …)
+    4. Act              add to cart (+ express checkout + payment icons) or notify me
+    5. Read             accordions: About, What's in the box (+ product safety), Delivery, extras
+
+  Options are generic: one group per product option, so the same section serves the tarot
+  (Language) and the books (Format × Language). "Option value" blocks give a value its short
+  code; the name shown always comes from the site language (locales walterin.buy.value.*),
+  so an English site never shows a Slovak word and the other way round.
+
+  States (snippets/product-state.liquid): coming_soon → notify form · available → add to cart
+  · sold_out → faded, disabled button. Unavailable combinations stay visible, faded, unclickable.
+
+  Every visible word is a setting or a locale string, so Translate & Adapt can translate it.
+{% endcomment %}
+{%- liquid
+  # Everything this page says about THIS product comes from one place: the walterin metafields.
+  # The section's own settings hold only what is identical on every product — button labels,
+  # screen-reader text, the payment blocklist. See docs/CONTENT-MODEL.md.
+  assign wui = product.metafields.walterin
+
+  assign preview = 'real'
+  # The preview states are for review only: the theme editor, and preview/development themes.
+  # On the published theme (theme.role == 'main') visitors always see the real product state.
+  if request.design_mode or theme.role != 'main'
+    assign preview = section.settings.editor_state
+  endif
+
+  capture product_state
+    render 'product-state', product: product
+  endcapture
+  assign product_state = product_state | strip
+  if preview == 'buyable' or preview == 'first_sold_out' or preview == 'low_stock'
+    assign product_state = 'available'
+  elsif preview == 'sold_out'
+    assign product_state = 'sold_out'
+  endif
+
+  assign selected = product.selected_or_first_available_variant
+  if preview == 'first_sold_out' and product.variants.size > 1
+    assign selected = product.variants[1]
+  endif
+  assign selected_available = selected.available
+  if preview == 'buyable' or preview == 'first_sold_out' or preview == 'low_stock'
+    assign selected_available = true
+  endif
+  assign price = selected.price | money_without_trailing_zeros
+
+  assign form_id = 'WuiBuyForm-' | append: section.id
+  assign notify_id = 'WuiNotify-' | append: section.id
+  assign buy_id = 'WuiBuy-' | append: section.id
+
+  assign digital = true
+  if selected.requires_shipping
+    assign digital = false
+  endif
+
+  assign gpsr_physical = product.variants | where: 'requires_shipping', true
+-%}
+
+{%- comment -%}
+  The waitlist tag. The product's own handle names the list; the chosen variant's SKU names the
+  edition. It has to be the SKU: an option value is translated, so on /sk/ "English" becomes
+  "Angličtina" and the same campaign would split into two tags. A SKU never changes language.
+
+  No SKU set yet? Fall back to the variant's position so the tag is still stable, and say so in the
+  theme editor — the same way gpsr-row warns about missing safety information.
+{%- endcomment -%}
+{%- liquid
+  assign waitlist_tag = product.handle | append: '-waitlist'
+  assign selected_code = ''
+  assign missing_sku = false
+  unless product.has_only_default_variant
+    if selected.sku != blank
+      assign selected_code = selected.sku | handleize
+    else
+      assign missing_sku = true
+      for v in product.variants
+        if v.id == selected.id
+          assign selected_code = 'v' | append: forloop.index
+        endif
+      endfor
+    endif
+  endunless
+-%}
+
+{%- comment -%}
+  The name of the chosen edition, used in the notify message and the sticky bar. A single-variant
+  product has no edition — Shopify calls it "Default Title" — so it stays empty and the [edition]
+  placeholder drops out of the sentence instead of naming a thing that does not exist.
+{%- endcomment -%}
+{%- capture selected_name_html -%}
+  {%- unless product.has_only_default_variant -%}<span data-wui-edname>{{ selected.option1 | escape }}</span>{%- endunless -%}
+{%- endcapture -%}
+{%- capture price_html -%}<span data-wui-price>{{ price }}</span>{%- endcapture -%}
+
+{%- if product_state == 'available' -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+<script src="{{ 'walterin-buy.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="wui-scope wui-buy"
+  id="{{ buy_id }}"
+  data-wui-buy
+  data-state="{{ product_state }}"
+  data-pswp-core="{{ 'photoswipe.esm.min.js' | asset_url }}"
+  data-pswp-lightbox="{{ 'photoswipe-lightbox.esm.min.js' | asset_url }}"
+  data-pswp-css="{{ 'photoswipe.css' | asset_url }}"
+  data-sold-out="{{ 'walterin.buy.sold_out' | t | escape }}"
+  data-unavailable="{{ 'walterin.buy.unavailable' | t | escape }}"
+  data-switched="{{ 'walterin.buy.switched' | t | escape }}"
+>
+  <div class="wui-wrap wui-buy__grid">
+    {%- comment -%} ================= Gallery ================= {%- endcomment -%}
+    <div class="wui-buy__gallery">
+      <div class="wui-frame wui-gallery__main">
+        <div
+          class="wui-gallery__track"
+          data-wui-track
+          tabindex="0"
+          aria-label="{{ section.settings.gallery_label | escape }}"
+        >
+          {%- for media in product.media -%}
+            {%- if media.media_type == 'image' -%}
+              <div class="wui-gallery__slide" id="WuiSlide-{{ section.id }}-{{ forloop.index }}" data-wui-slide>
+                <a
+                  class="wui-gallery__zoom"
+                  href="{{ media | image_url: width: 2400 }}"
+                  data-wui-zoom
+                  data-pswp-width="{{ media.width }}"
+                  data-pswp-height="{{ media.height }}"
+                  aria-label="{{ section.settings.zoom_label | escape }}{% if media.alt != blank %}: {{ media.alt | escape }}{% endif %}"
+                >
+                  {{
+                    media
+                    | image_url: width: 1600
+                    | image_tag:
+                      widths: '400, 600, 800, 1000, 1300, 1600',
+                      sizes: '(min-width: 990px) 46vw, 92vw',
+                      alt: media.alt,
+                      loading: 'eager'
+                  }}
+                </a>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <span class="wui-gallery__count" aria-hidden="true" data-wui-count>1 / {{ product.media.size }}</span>
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <nav class="wui-gallery__thumbs" aria-label="{{ section.settings.thumbs_label | escape }}">
+          {%- for media in product.media -%}
+            {%- if media.media_type == 'image' -%}
+              <a
+                class="wui-gallery__thumb"
+                href="#WuiSlide-{{ section.id }}-{{ forloop.index }}"
+                data-wui-thumb
+                aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-label="{{ section.settings.thumbs_label | escape }} {{ forloop.index }}"
+              >
+                {{- media | image_url: width: 200 | image_tag: alt: '', loading: 'lazy', sizes: '80px', widths: '100, 200' -}}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ================= Buy column ================= {%- endcomment -%}
+    <div class="wui-buy__box">
+      {%- comment -%} ---- 1 + 2. Title and price ---- {%- endcomment -%}
+      <div class="wui-buy__head">
+        <h1 class="wui-heading wui-buy__title">{{ product.title | escape | replace: ': ', ':<br>' }}</h1>
+        <div class="wui-buy__price">
+          <p class="wui-buy__amount">{{ price_html }}</p>
+          {%- comment -%}
+            Tax wording only when Shopify's "Include tax in prices" is on (cart.taxes_included).
+            Walterin is not a VAT payer: that setting stays off → no VAT wording, no theme change later.
+          {%- endcomment -%}
+          <p class="wui-buy__ship wui-iconline" data-wui-ship {% if digital %}hidden{% endif %}>
+            {%- render 'wui-icon', icon: 'shipping' -%}
+            <span>
+              {%- if cart.taxes_included -%}{{ 'products.product.include_taxes' | t }} {% endif -%}
+              {{- 'walterin.buy.shipping' | t -}}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {%- comment -%}
+        ---- 3. Choice: one group per product option ----
+        A product with a single variant has no real options: Shopify still reports one called
+        "Title" holding "Default Title". Rendering that would put a legend and a pill on the page
+        for a choice nobody has. `has_only_default_variant` is the guard.
+      {%- endcomment -%}
+      {%- capture option_groups -%}
+        <div class="wui-buy__choices">
+        {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          {%- liquid
+            assign opt_index = forloop.index
+            assign values_count = option.values.size
+            assign longest = 0
+            for value in option.values
+              assign words = value | split: ' '
+              for w in words
+                assign wl = w | size
+                if wl > longest
+                  assign longest = wl
+                endif
+              endfor
+            endfor
+          -%}
+          {%- liquid
+            assign opt_slug = option.name | handleize
+            assign opt_key = 'walterin.buy.option.' | append: opt_slug
+            assign opt_name = opt_key | t
+            assign opt_check = opt_name | downcase
+            if opt_check contains 'translation missing'
+              assign opt_name = option.name
+            endif
+          -%}
+          <div class="wui-cq wui-buy__option">
+            <fieldset class="wui-buy__fieldset">
+              <legend class="wui-label wui-buy__legend">{{ opt_name | escape }}</legend>
+              <div
+                class="wui-choices{% if longest >= 11 %} wui-choices--long{% endif %}"
+                data-n="{{ values_count }}"
+                data-option="{{ opt_index }}"
+                style="--wui-n: {{ values_count }};"
+              >
+                {%- for value in option.values -%}
+                  {%- liquid
+                    assign key = value | downcase | strip
+                    assign v_code = value | handleize
+                    for pair in pairs
+                      assign parts = pair | strip | split: '|'
+                      if parts[0] == key and parts[1] != blank
+                        assign v_code = parts[1]
+                      endif
+                    endfor
+
+                    assign name_key = 'walterin.buy.value.' | append: v_code
+                    assign v_name = name_key | t
+                    assign v_name_check = v_name | downcase
+                    if v_name_check contains 'translation missing'
+                      assign v_name = value
+                    endif
+
+                    # Availability of this value, rendered server-side so the first paint is already
+                    # right: walterin-buy.js recalculates the same text and nothing moves.
+                    assign v_any_available = false
+                    assign v_left = 0
+                    for variant in product.variants
+                      assign v_match = false
+                      if opt_index == 1 and variant.option1 == value
+                        assign v_match = true
+                      elsif opt_index == 2 and variant.option2 == value
+                        assign v_match = true
+                      elsif opt_index == 3 and variant.option3 == value
+                        assign v_match = true
+                      endif
+                      if v_match
+                        if preview == 'buyable' or preview == 'low_stock'
+                          assign v_any_available = true
+                        elsif preview == 'sold_out'
+                          assign v_any_available = v_any_available
+                        elsif preview == 'first_sold_out'
+                          unless forloop.first
+                            assign v_any_available = true
+                          endunless
+                        elsif variant.available
+                          assign v_any_available = true
+                        endif
+                        if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold
+                          assign v_left = variant.inventory_quantity
+                        endif
+                        if preview == 'low_stock' and forloop.first
+                          assign v_left = 12
+                        endif
+                      endif
+                    endfor
+
+                    assign v_note = ''
+                    assign v_disabled = false
+                    if product_state == 'available' and v_any_available == false
+                      assign v_note = 'walterin.buy.sold_out' | t
+                      assign v_disabled = true
+                    elsif product_state == 'sold_out'
+                      assign v_note = 'walterin.buy.sold_out' | t
+                    elsif v_left > 0 and section.settings.remaining_text != blank
+                      assign v_note = section.settings.remaining_text | replace: '[n]', v_left
+                    endif
+
+                    assign is_selected = false
+                    if selected.options[forloop.index0] == value
+                      assign is_selected = true
+                    endif
+                    if opt_index == 1 and selected.option1 == value
+                      assign is_selected = true
+                    elsif opt_index == 2 and selected.option2 == value
+                      assign is_selected = true
+                    elsif opt_index == 3 and selected.option3 == value
+                      assign is_selected = true
+                    endif
+                  -%}
+                  <label class="wui-choice">
+                    <input
+                      type="radio"
+                      class="wui-choice__input"
+                      name="wui-option-{{ opt_index }}-{{ section.id }}"
+                      value="{{ value | escape }}"
+                      data-wui-option="{{ opt_index }}"
+                      data-wui-code="{{ v_code }}"
+                      data-wui-name="{{ v_name | escape }}"
+                      {% if is_selected %}
+                        checked
+                      {% endif %}
+                      {% if v_disabled and is_selected == false %}
+                        disabled
+                      {% endif %}
+                    >
+                    <span class="wui-choice__dot" aria-hidden="true"></span>
+                    <span class="wui-choice__text">
+                      <span class="wui-choice__name">{{ v_name | escape | replace: '-', '&#8209;' }}</span>
+                      <span class="wui-choice__note wui-small" data-wui-note {% if v_note == blank %}hidden{% endif %}>{{ v_note | escape }}</span>
+                    </span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          </div>
+        {%- endfor -%}
+        {%- endunless -%}
+        {%- comment -%} The two helper lines sit with the choice they explain, not as their own group {%- endcomment -%}
+        {%- if wui.price_note != blank or wui.choice_note != blank -%}
+          <div class="wui-buy__notes">
+            {%- if wui.price_note != blank -%}
+              <p class="wui-buy__note">{{ wui.price_note | escape }}</p>
+            {%- endif -%}
+            {%- if wui.choice_note != blank -%}
+              <p class="wui-buy__note wui-buy__note--second wui-small">{{ wui.choice_note | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <p class="wui-sr" role="status" aria-live="polite" data-wui-live></p>
+        <p class="wui-status wui-buy__switched" data-wui-switched hidden></p>
+        </div>
+      {%- endcapture -%}
+
+      {%- comment -%} ---- 4. Act ---- {%- endcomment -%}
+      {%- case product_state -%}
+        {%- when 'available' -%}
+          <product-form class="wui-buy__form" data-section="{{ section.id }}">
+            <div class="product-form__error-message-wrapper wui-status wui-status--error" role="alert" hidden>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input type="hidden" name="id" value="{{ selected.id }}" data-wui-variant-id>
+              {{ option_groups }}
+              <div class="wui-buy__cta">
+                <button
+                  type="submit"
+                  name="add"
+                  id="WuiSubmit-{{ section.id }}"
+                  class="wui-btn wui-btn--block"
+                  data-wui-submit
+                  {% unless selected_available %}
+                    disabled
+                  {% endunless %}
+                >
+                  <span data-wui-submit-label>
+                    {%- if selected_available -%}
+                      {{ section.settings.atc_label | escape }}
+                      <span class="wui-num">· {{ price_html }}</span>
+                    {%- else -%}
+                      {{ 'walterin.buy.sold_out' | t }}
+                    {%- endif -%}
+                  </span>
+                  <span class="loading-overlay__spinner hidden wui-spinner" aria-hidden="true"></span>
+                </button>
+                {%- if section.settings.show_express -%}
+                  {%- comment -%}
+                    What this button says is Shopify's decision, not ours: a wallet button when the
+                    visitor's browser has Apple Pay, Google Pay or Shop Pay set up, and an unbranded
+                    "Buy it now" when it does not. So the caption does the explaining — the same
+                    words Shopify's own checkout uses above the same button.
+                  {%- endcomment -%}
+                  <div class="wui-buy__express" data-wui-express {% if digital %}hidden{% endif %}>
+                    {%- if section.settings.express_label != blank -%}
+                      <span class="wui-buy__express-label">{{ section.settings.express_label | escape }}</span>
+                    {%- endif -%}
+                    {{ form | payment_button }}
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.digital_note != blank -%}
+                  <p class="wui-small wui-buy__digital" data-wui-digital {% unless digital %}hidden{% endunless %}>
+                    {{- section.settings.digital_note | escape -}}
+                  </p>
+                {%- endif -%}
+                {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+                  <ul class="wui-pay" role="list" aria-label="{{ 'walterin.buy.payment_methods' | t | escape }}">
+                    {%- assign hidden_types = section.settings.hide_payment_types | downcase | remove: ' ' | split: ',' -%}
+                    {%- for type in shop.enabled_payment_types -%}
+                      {%- assign type_key = type | downcase -%}
+                      {%- unless hidden_types contains type_key -%}
+                        <li>{{ type | payment_type_svg_tag: class: 'wui-pay__icon' }}</li>
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            {%- endform -%}
+          </product-form>
+
+        {%- when 'coming_soon' -%}
+          {{ option_groups }}
+          <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
+            {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
+              {%- if form.posted_successfully? -%}
+                <p class="wui-status wui-status--success" role="status" tabindex="-1" data-wui-notify-done>
+                  {%- liquid
+                    assign notify_msg = section.settings.notify_success
+                    if product.has_only_default_variant
+                      assign notify_msg = notify_msg | replace: '[edition] ', '' | replace: '[edition]', ''
+                    endif
+                  -%}
+                  {{ notify_msg | escape | replace: '[edition]', selected_name_html }}
+                </p>
+              {%- else -%}
+                {%- assign tag_prefix = waitlist_tag -%}
+                {%- if request.design_mode and missing_sku -%}
+                  <p class="wui-status">Theme editor only: this product's variants have no SKU, so
+                    waitlist signups are tagged <code>{{ tag_prefix }}-v1</code>, <code>-v2</code> and so
+                    on instead of by edition. Set a SKU on each variant in the product admin.</p>
+                {%- endif -%}
+                <input
+                  type="hidden"
+                  name="contact[tags]"
+                  value="{{ tag_prefix }}{% if selected_code != blank %},{{ tag_prefix }}-{{ selected_code }}{% endif %}"
+                  data-wui-tag="{{ tag_prefix }},{{ tag_prefix }}-{ed}"
+                >
+                <input type="hidden" name="contact[accepts_marketing]" value="true">
+                <label class="wui-sr" for="{{ notify_id }}-email">{{ section.settings.notify_label | escape }}</label>
+                <div class="wui-notify__row">
+                  <input
+                    type="email"
+                    id="{{ notify_id }}-email"
+                    name="contact[email]"
+                    class="wui-input"
+                    placeholder="{{ section.settings.notify_placeholder | escape }}"
+                    autocomplete="email"
+                    required
+                    data-wui-email
+                    {% if form.errors %}
+                      aria-invalid="true" aria-describedby="{{ notify_id }}-error"
+                    {% endif %}
+                  >
+                  {%- render 'wui-button', label: section.settings.notify_button, type: 'submit' -%}
+                </div>
+                {%- if form.errors -%}
+                  <p class="wui-status wui-status--error" id="{{ notify_id }}-error" role="alert" data-wui-notify-error>
+                    {{ form.errors | default_errors }}
+                  </p>
+                {%- endif -%}
+                <label class="wui-check wui-small" for="{{ notify_id }}-newsletter">
+                  <input type="checkbox" id="{{ notify_id }}-newsletter" class="wui-check__box" data-wui-newsletter>
+                  <span>{{ 'walterin.notify.newsletter' | t }}</span>
+                </label>
+                <p class="wui-small wui-notify__note">
+                  {{ 'walterin.notify.note' | t }}
+                  <a class="wui-link" href="{{ shop.privacy_policy.url }}">{{ section.settings.privacy_link | escape }}</a>
+                </p>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+
+        {%- else -%}
+          {{ option_groups }}
+          <div class="wui-buy__cta">
+            {%- assign sold_out_label = 'walterin.buy.sold_out' | t -%}
+            {%- render 'wui-button', label: sold_out_label, block: true, attrs: 'disabled' -%}
+          </div>
+      {%- endcase -%}
+
+      {%- comment -%} ---- 5. Read: accordions ---- {%- endcomment -%}
+      <div class="wui-accordions">
+        {%- comment -%}
+          With nothing written in the section, the product's own description carries this accordion,
+          so a brand-new product has a real page from the moment it is created.
+        {%- endcomment -%}
+        {%- assign about_body = product.description -%}
+        {%- assign about_heading = wui.about_heading | default: section.settings.about_heading -%}
+        {%- if about_body != blank -%}
+          <details class="wui-accordion" data-wui-acc>
+            <summary>
+              <span class="wui-accordion__title">
+                <span class="wui-label">{{ about_heading | escape }}</span>
+                {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+              </span>
+              <span class="wui-accordion__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="wui-accordion__wrap"><div class="wui-accordion__body wui-rte">{{ about_body }}</div></div>
+          </details>
+        {%- endif -%}
+
+        {%- comment -%}
+          Only when there is something in it: a product with no box list and no specs would
+          otherwise show an accordion with no heading and nothing inside.
+        {%- endcomment -%}
+        {%- liquid
+          # Specs are one "Label: value" per line. Splitting on the FIRST colon only, so a value
+          # that contains one ("Size: 129 × 207 mm") survives intact.
+          assign spec_raw = wui.specs.value | default: ''
+          assign spec_lines = spec_raw | strip | newline_to_br | replace: '<br>', '<br />' | split: '<br />'
+          assign spec_count = 0
+          for line in spec_lines
+            assign l = line | strip
+            if l != blank and l contains ':'
+              assign spec_count = spec_count | plus: 1
+            endif
+          endfor
+
+          assign box_has = false
+          if wui.included != blank or spec_count > 0
+            assign box_has = true
+          endif
+          if section.settings.box_heading == blank
+            assign box_has = false
+          endif
+        -%}
+        {%- if box_has -%}
+        <details class="wui-accordion" data-wui-acc>
+          <summary>
+            <span class="wui-accordion__title">
+              <span class="wui-label">{{ section.settings.box_heading | escape }}</span>
+              {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+            </span>
+            <span class="wui-accordion__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="wui-accordion__wrap">
+            <div class="wui-accordion__body">
+              {%- comment -%}
+                The first line of "What you get" is the summary and the bullets follow it. Both come
+                from the one rich-text metafield, so the shape of the list is the merchant's choice.
+              {%- endcomment -%}
+              {%- if wui.included != blank -%}
+                <div class="wui-rte wui-included">{{ wui.included | metafield_tag }}</div>
+              {%- endif -%}
+              {%- if spec_count > 0 -%}
+                <dl class="wui-dl">
+                  {%- for line in spec_lines -%}
+                    {%- assign l = line | strip -%}
+                    {%- if l != blank and l contains ':' -%}
+                      {%- assign label = l | split: ':' | first | strip -%}
+                      {%- assign value = l | remove_first: label | remove_first: ':' | strip -%}
+                      <dt>{{ label | escape }}</dt>
+                      <dd>{{ value | escape }}</dd>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </dl>
+              {%- endif -%}
+              {%- comment -%} GPSR (Reg. (EU) 2023/988, Art. 19): two small lines, physical products only {%- endcomment -%}
+              {%- if gpsr_physical.size > 0 -%}
+                {%- render 'gpsr-row', product: product -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </details>
+        {%- endif -%}
+
+        {%- comment -%}
+          Delivery. The physical text stays hidden until Pack4you is signed (show_delivery_physical).
+          The eBook text shows whenever a digital variant is selected.
+        {%- endcomment -%}
+        {%- if section.settings.delivery_digital != blank or section.settings.show_delivery_physical -%}
+          <details class="wui-accordion" data-wui-acc data-wui-delivery {% unless digital or section.settings.show_delivery_physical %}hidden{% endunless %}>
+            <summary>
+              <span class="wui-accordion__title">
+                <span class="wui-label">{{ section.settings.delivery_heading | escape }}</span>
+                {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
+              </span>
+              <span class="wui-accordion__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="wui-accordion__wrap">
+              <div class="wui-accordion__body">
+                {%- if section.settings.delivery_digital != blank -%}
+                  <div class="wui-rte" data-wui-delivery-digital {% unless digital %}hidden{% endunless %}>
+                    {{ section.settings.delivery_digital }}
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.show_delivery_physical and section.settings.delivery_physical != blank -%}
+                  <div class="wui-rte" data-wui-delivery-physical {% if digital %}hidden{% endif %}>
+                    {{ section.settings.delivery_physical }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- comment -%}
+          The extra accordions, from the product's own metafields. One rich-text field holds them
+          all: every Heading 3 starts a new accordion and everything under it is that accordion's
+          text. They are all secondary — a dashed rule and no star — because they sit under About,
+          What you get and Delivery, which are the ones that answer "what is this thing".
+
+          The before-launch accordion is appended only while the product cannot be bought, so it
+          takes itself off the page on launch day with nobody having to remember it.
+        {%- endcomment -%}
+        {%- liquid
+          capture notes_html
+            if wui.notes != blank
+              echo wui.notes | metafield_tag
+            endif
+            if product_state == 'coming_soon' and wui.preorder_note != blank
+              echo wui.preorder_note | metafield_tag
+            endif
+          endcapture
+          assign note_chunks = notes_html | split: '<h3'
+        -%}
+        {%- for chunk in note_chunks -%}
+          {%- if chunk contains '</h3>' -%}
+            {%- liquid
+              assign head_raw = chunk | split: '</h3>' | first
+              assign note_heading = head_raw | split: '>' | last | strip
+              assign note_body = chunk | split: '</h3>' | last
+            -%}
+            {%- if note_heading != blank -%}
+              <details class="wui-accordion wui-accordion--suggest" data-wui-acc>
+                <summary>
+                  <span class="wui-accordion__title">
+                    <span class="wui-label">{{ note_heading | escape }}</span>
+                  </span>
+                  <span class="wui-accordion__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="wui-accordion__wrap"><div class="wui-accordion__body wui-rte">{{ note_body }}</div></div>
+              </details>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ================= Mobile sticky bar ================= {%- endcomment -%}
+  {%- if section.settings.show_sticky -%}
+    <div class="wui-sticky" data-wui-sticky inert>
+      {%- if product.featured_media -%}
+        <span class="wui-sticky__thumb">
+          {{- product.featured_media | image_url: width: 120 | image_tag: alt: '', loading: 'lazy', width: 40, height: 40 -}}
+        </span>
+      {%- endif -%}
+      <p class="wui-sticky__text">
+        <span class="wui-label">{{ wui.short_title | default: product.title | escape }}</span>
+        <span class="wui-small">{{ price_html }} · {{ selected_name_html }}</span>
+      </p>
+      {%- if product_state == 'available' -%}
+        <button
+          type="submit"
+          name="add"
+          form="{{ form_id }}"
+          class="wui-btn wui-btn--sm"
+          data-wui-sticky-submit
+          {% unless selected_available %}
+            disabled
+          {% endunless %}
+        >
+          {{- section.settings.atc_label | escape -}}
+        </button>
+      {%- elsif product_state == 'coming_soon' -%}
+        {%- capture notify_href -%}#{{ notify_id }}-wrap{%- endcapture -%}
+        {%- render 'wui-button',
+          label: section.settings.notify_button,
+          href: notify_href,
+          size: 'sm',
+          attrs: 'data-wui-focus-notify'
+        -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Variant data for walterin-buy.js (availability matrix, prices, shipping) {%- endcomment -%}
+  <script type="application/json" data-wui-variants>
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "options": {{ variant.options | json }},
+          "available": {% if preview == 'buyable' or preview == 'low_stock' %}true{% elsif preview == 'first_sold_out' %}{% if forloop.first %}false{% else %}true{% endif %}{% elsif preview == 'sold_out' %}false{% else %}{{ variant.available }}{% endif %},
+          "price": {{ variant.price | money_without_trailing_zeros | json }},
+          "shipping": {{ variant.requires_shipping }},
+          "left": {% if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold %}{{ variant.inventory_quantity }}{% elsif preview == 'low_stock' and forloop.first %}12{% else %}0{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+  {%- if section.settings.remaining_text != blank -%}
+    <span hidden data-wui-remaining-template>{{ section.settings.remaining_text | escape }}</span>
+  {%- endif -%}
+</div>
+
+{%- liquid
+  if selected.featured_media
+    assign seo_media = selected.featured_media
+  else
+    assign seo_media = product.featured_media
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {% if seo_media -%}
+      "image": [{{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}],
+    {%- endif %}
+    "description": {{ product.description | strip_html | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type": "Offer",
+          {%- if variant.sku != blank -%}"sku": {{ variant.sku | json }},{%- endif -%}
+          "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price": {{ variant.price | divided_by: 100.00 | json }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "url": {{ request.origin | append: variant.url | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% stylesheet %}
+  /* Section rhythm: 48 above (24 on phones), 96 below (48 on phones) */
+
+  .wui .wui-buy__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wui-24); }
+  .wui .wui-buy__grid > * { min-width: 0; }
+  @media (min-width: 990px) {
+    .wui .wui-buy__grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--wui-48); align-items: start; }
+  }
+
+  /* Gallery: scroll-snap strip (swipes on touch, works without JS: thumbs are anchors) */
+  @media (min-width: 990px) { .wui .wui-buy__gallery { position: sticky; top: var(--wui-24); } }
+  .wui .wui-gallery__main { position: relative; aspect-ratio: 1; }
+  .wui .wui-gallery__track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .wui .wui-gallery__track::-webkit-scrollbar { display: none; }
+  .wui .wui-gallery__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
+  .wui .wui-gallery__zoom { display: block; height: 100%; cursor: zoom-in; }
+  .wui .wui-gallery__slide img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-gallery__count {
+    position: absolute;
+    right: var(--wui-12);
+    bottom: var(--wui-12);
+    padding: 4px var(--wui-8);
+    font-family: var(--wui-body);
+    font-size: var(--wui-fs-small);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    background: var(--wui-paper);
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    pointer-events: none;
+  }
+  /* Phones: the swipe strip and the counter are the navigation; thumbs would push the title down */
+  .wui .wui-gallery__thumbs { display: none; }
+  @media (min-width: 750px) {
+    .wui .wui-gallery__thumbs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: var(--wui-12);
+      margin-top: var(--wui-12);
+      padding: 0 var(--wui-sh) var(--wui-sh) 0; /* room for the selected thumb's shadow */
+    }
+  }
+  .wui .wui-gallery__thumb {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: var(--wui-line) solid var(--wui-ink);
+    border-radius: var(--wui-radius);
+    background: var(--wui-paper);
+    transition: box-shadow var(--wui-t-hover) var(--wui-ease);
+  }
+  .wui .wui-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-gallery__thumb:hover { box-shadow: var(--wui-shadow-hover); }
+  .wui .wui-gallery__thumb[aria-current='true'] { box-shadow: var(--wui-shadow); outline: 3px solid var(--wui-yellow); outline-offset: -5.5px; }
+
+  /* Buy column: title → price → choices → button → accordions, one group apart (40 / 32) */
+  /* Groups, top to bottom: what it is (title + price) · what you choose (legend, pills, the two
+     helper lines) · what you do (button, wallets, icons) · what you can read (accordions).
+     Inside a group nothing is further apart than 16; between groups 32 (24 on phones); the
+     accordions are a different job, so they get 48 (32). */
+  .wui .wui-buy__box { display: flex; flex-direction: column; gap: var(--wui-24); }
+  @media (min-width: 750px) { .wui .wui-buy__box { gap: var(--wui-32, 32px); } }
+  .wui .wui-buy__head { display: flex; flex-direction: column; }
+  .wui .wui-buy__title { line-height: 1.05; text-wrap: pretty; }
+  .wui .wui-buy__price { display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--wui-8) var(--wui-16); margin-top: var(--wui-16); }
+  @media (min-width: 750px) { .wui .wui-buy__price { margin-top: var(--wui-24); } }
+  .wui .wui-buy__amount { font-family: var(--wui-body); font-weight: 700; font-size: var(--wui-fs-price); line-height: 1; font-variant-numeric: tabular-nums; }
+  .wui .wui-buy__ship { font-size: var(--wui-fs-body); line-height: 1.45; }
+  .wui .wui-buy__option + .wui-buy__option { margin-top: var(--wui-24); }
+  /* flex, so the legend is a normal item: a floated legend in a block fieldset shrinks the
+     grid next to it to zero width */
+  .wui .wui-buy__fieldset { display: flex; flex-direction: column; gap: var(--wui-16); border: 0; margin: 0; padding: 0; min-width: 0; }
+  .wui .wui-buy__legend { float: left; width: 100%; padding: 0; }
+  .wui .wui-buy__choices { display: flex; flex-direction: column; }
+  .wui .wui-buy__notes { margin-top: var(--wui-12); } /* control → helper */
+  .wui .wui-buy__note { font-size: var(--wui-fs-body); line-height: 1.45; }
+  .wui .wui-buy__note--second { margin-top: var(--wui-8); font-size: var(--wui-fs-small); line-height: 1.45; } /* helper ↔ helper, supporting */
+  .wui .wui-buy__switched { margin-top: var(--wui-12); }
+  .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-8); } /* 24 + 8 = 32 on phones */
+  @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
+  .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
+  .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
+  /* Inset lives on .shopify-payment-button alone (assets/walterin-ui.css): applying it here as
+     well double-inset the wallet button, leaving its ink ring 3px right of Add to cart. */
+  .wui .wui-notify { display: flex; flex-direction: column; }
+  .wui .wui-notify__row { display: flex; gap: var(--wui-12); }
+  .wui .wui-notify__row .wui-input { flex: 1; }
+  .wui .wui-notify__row .wui-btn { flex: none; }
+  .wui .wui-check { display: flex; align-items: flex-start; gap: var(--wui-8); margin-top: var(--wui-16); cursor: pointer; }
+  .wui .wui-check__box { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--wui-ink, #222); }
+  .wui .wui-notify__note { margin-top: var(--wui-8); }
+  @media (max-width: 479px) {
+    .wui .wui-notify__row { flex-direction: column; }
+    .wui .wui-notify__row .wui-btn { width: calc(100% - var(--wui-sh)); }
+  }
+  /* Everything with a hard shadow keeps the shadow inside the column edge */
+  .wui .wui-buy__cta .wui-btn--block { width: calc(100% - var(--wui-sh)); }
+  .wui .wui-buy__cta .wui-btn { margin-right: var(--wui-sh); margin-bottom: var(--wui-sh); }
+  .wui .wui-buy__cta .wui-btn--block { margin-right: var(--wui-sh); }
+
+  /* Payment icons: only the methods the shop really has */
+  .wui .wui-pay { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .wui .wui-pay__icon { display: block; width: 38px; height: 24px; }
+
+  /* Mobile sticky bar: content aligns with the page edges */
+  .wui .wui-sticky { display: none; }
+  @media (max-width: 749px) {
+    .wui .wui-sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      /* wraps rather than truncating the call to action when text scaling is turned up */
+      flex-wrap: wrap;
+      row-gap: var(--wui-8);
+      gap: var(--wui-12);
+      padding: var(--wui-12) var(--wui-edge) calc(var(--wui-12) + env(safe-area-inset-bottom, 0px));
+      background: var(--wui-paper);
+      border-top: var(--wui-line) solid var(--wui-ink);
+      transform: translateY(110%);
+      transition: transform 0.25s var(--wui-ease);
+    }
+    .wui .wui-sticky.is-shown { transform: none; }
+  }
+  .wui .wui-sticky__thumb { flex: none; width: 40px; height: 40px; overflow: hidden; border: var(--wui-line) solid var(--wui-ink); border-radius: 6px; }
+  .wui .wui-sticky__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .wui .wui-sticky__text { flex: 1 1 8em; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .wui .wui-sticky__text .wui-label { font-size: var(--wui-fs-body); }
+  /* flex:none + nowrap meant the button could not give way: with Android text scaling on, its
+     label grew and pushed the whole bar past the right edge of the screen. It may now shrink, and
+     the label truncates rather than dragging the page sideways. */
+  .wui .wui-sticky .wui-btn {
+    flex: 0 0 auto; min-width: 0; max-width: 100%;
+    white-space: nowrap; margin-right: 3px;
+  }
+  .wui .wui-sticky__text .wui-label,
+  .wui .wui-sticky__text .wui-small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Price and availability cross-fade instead of swapping (walterin-buy.js) */
+  .wui [data-wui-price],
+  .wui [data-wui-edname],
+  .wui [data-wui-note] { transition: opacity 90ms var(--wui-ease); }
+  .wui .is-fading { opacity: 0; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Walterin · Buy",
+  "tag": "section",
+  "class": "wui-section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "editor_state",
+      "label": "Preview state (theme editor only)",
+      "info": "Review the other states here. Visitors always see the real product state.",
+      "options": [
+        {
+          "value": "real",
+          "label": "Real product state"
+        },
+        {
+          "value": "buyable",
+          "label": "Launch day: everything buyable"
+        },
+        {
+          "value": "low_stock",
+          "label": "Launch day: low stock"
+        },
+        {
+          "value": "first_sold_out",
+          "label": "Launch day: first option sold out"
+        },
+        {
+          "value": "sold_out",
+          "label": "Sold out"
+        }
+      ],
+      "default": "real"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "paragraph",
+      "content": "Uses the product's images. Set alt text and focal points in the product admin. Tapping an image opens full-screen zoom (pinch, double-tap, swipe)."
+    },
+    {
+      "type": "text",
+      "id": "gallery_label",
+      "label": "Gallery label (screen readers)",
+      "default": "Product images. Swipe or use the arrow keys."
+    },
+    {
+      "type": "text",
+      "id": "thumbs_label",
+      "label": "Thumbnail label (screen readers)",
+      "default": "Image"
+    },
+    {
+      "type": "text",
+      "id": "zoom_label",
+      "label": "Enlarge label (screen readers)",
+      "default": "Enlarge image"
+    },
+    {
+      "type": "header",
+      "content": "Choices"
+    },
+    {
+      "type": "paragraph",
+      "content": "One group per product option, added automatically. The name of each value follows the site language via Translate & Adapt, and the waitlist tag uses the variant SKU."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_remaining",
+      "label": "Show copies left when stock is low",
+      "info": "Needs inventory tracking on the variants. Switch on at launch.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "remaining_threshold",
+      "label": "Show below",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "pcs",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "remaining_text",
+      "label": "Copies left text",
+      "info": "[n] = copies left.",
+      "default": "[n] of 100 left"
+    },
+    {
+      "type": "header",
+      "content": "Before launch: notify me"
+    },
+    {
+      "type": "text",
+      "id": "notify_label",
+      "label": "Email label (screen readers)",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "notify_placeholder",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "notify_button",
+      "label": "Button",
+      "default": "Notify me"
+    },
+    {
+      "type": "text",
+      "id": "notify_success",
+      "label": "Success message",
+      "info": "[edition] = the chosen option.",
+      "default": "You're on the list for the [edition] edition. One email when it's ready."
+    },
+    {
+      "type": "text",
+      "id": "privacy_link",
+      "label": "Privacy link text",
+      "default": "Privacy policy"
+    },
+    {
+      "type": "header",
+      "content": "Launch day: buy"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Add to cart button",
+      "info": "Followed by the price.",
+      "default": "Add to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_express",
+      "label": "Show express checkout (Apple Pay, Google Pay)",
+      "info": "Hidden automatically when a digital variant is selected.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "express_label",
+      "label": "Express checkout caption",
+      "info": "Shown above the wallet button. Shopify decides whether it shows Apple Pay, Google Pay or a plain “Buy it now”, so keep this wording neutral.",
+      "default": "Express checkout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "info": "Only the methods the shop really accepts.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hide_payment_types",
+      "label": "Hide these payment icons",
+      "info": "Comma-separated, e.g. paypal. Use while a method is set up but not ours to offer.",
+      "default": "paypal"
+    },
+    {
+      "type": "text",
+      "id": "digital_note",
+      "label": "Digital note",
+      "info": "Shown instead of express checkout when a digital variant is selected.",
+      "default": "PDF + EPUB. Download right after payment."
+    },
+    {
+      "type": "header",
+      "content": "About"
+    },
+    {
+      "type": "text",
+      "id": "about_heading",
+      "label": "Fallback heading",
+      "default": "About this",
+      "info": "Used when the product has no \"About heading\" of its own. The text itself is the product description."
+    },
+    {
+      "type": "header",
+      "content": "What's in the box"
+    },
+    {
+      "type": "text",
+      "id": "box_heading",
+      "label": "Heading",
+      "default": "What you get",
+      "info": "The list and the specs come from the product’s metafields."
+    },
+    {
+      "type": "paragraph",
+      "content": "\"What you get\" and the specs come from the product’s own metafields (walterin.included, walterin.specs). Product safety is added automatically for physical products."
+    },
+    {
+      "type": "header",
+      "content": "Delivery"
+    },
+    {
+      "type": "text",
+      "id": "delivery_heading",
+      "label": "Heading",
+      "default": "Delivery"
+    },
+    {
+      "type": "richtext",
+      "id": "delivery_digital",
+      "label": "Digital text",
+      "default": "<p>PDF + EPUB. The download link arrives by email right after payment.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery_physical",
+      "label": "Show the physical delivery text",
+      "info": "Switch on once Pack4you is signed and delivery times are known.",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "delivery_physical",
+      "label": "Physical text",
+      "default": "<p>Packed and sent from Slovakia to every EU country. You'll see the shipping cost at checkout, before you pay.</p><p>Changed your mind? You have 14 days to withdraw.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Mobile sticky bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky",
+      "label": "Show on phones once the button scrolls away",
+      "default": true
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Walterin · Buy"
+    }
+  ]
+}
+{% endschema %}

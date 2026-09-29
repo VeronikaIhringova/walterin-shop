@@ -1,0 +1,785 @@
+/* ==========================================================================
+   Walterin UI: the site works like the cards.
+   Ink outlines, flat deck colours, frames in a grid, short hand-lettered captions.
+
+   Scoped under body.wui (switched on per template in layout/theme.liquid).
+   Every component rule is written `.wui .wui-x` so it outranks the theme's
+   single-class rules; resets use :where() so they never fight section styles.
+   Px on purpose: the theme sets html { font-size: 62.5% }.
+
+   Colour roles (UI): ink = every line and letter · paper = every background
+                      yellow = action, selected, marker. Nothing else carries meaning.
+   Sky, red and green belong to Walter's artwork, never to the interface.
+   Unavailable = faded (40%), never a strike-through, never a grey fill.
+   No grey, no gradients, no soft shadows. Secondary text is smaller, never greyer.
+   ========================================================================== */
+
+.wui {
+  /* Colour */
+  --wui-paper: #FFFDF7;
+  --wui-ink: #222222;
+  --wui-yellow: #FCF205;
+  /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
+  --wui-sky: #6FE9FA;
+  --wui-red: #F60403;
+  --wui-green: #9FDA29;
+
+  /* Frames */
+  --wui-line: 2.5px;
+  --wui-line-thin: 1.5px;
+  --wui-radius: 8px;
+  --wui-shadow: 4px 4px 0 var(--wui-ink);
+  --wui-shadow-hover: 2px 2px 0 var(--wui-ink);
+  /* Room a hard shadow needs, so its outer edge lands on the column edge (never past it) */
+  --wui-sh: 4px;
+  /* Faded, the only way something is shown as unavailable. Never a strike-through, never grey fill. */
+  --wui-faded: 0.4;
+
+  /* Spacing: the only allowed steps.
+     8/12 = a label and its control · 16 = inside a component · 24 = between related items
+     48 = between groups · 96 = between sections */
+  --wui-8: 8px;
+  --wui-12: 12px;
+  --wui-16: 16px;
+  --wui-24: 24px;
+  --wui-32: 32px;
+  --wui-48: 48px;
+  --wui-96: 96px;
+  /* Between groups inside a block (price → edition → button → trust rows): 32 mobile, 40 desktop */
+  --wui-group: 32px;
+
+  /* ── Vertical rhythm ─────────────────────────────────────────────────────
+     Five steps, each with one job. Never invent a sixth, and never reach for a
+     raw pixel value where one of these fits. Rules: docs/design/SPACING.md.
+
+     Mobile values here; the desktop overrides are in the 990px block below.
+     Each step is at least twice the one under it — Nathan Curtis, "Space in
+     Design Systems": a linear scale gives "too many choices too close together".
+     Mobile = 0.75 x desktop, which is the ratio Shopify's own Dawn theme uses
+     across every section.                                                     */
+  --wui-space-section: 72px;  /* section → section — the biggest break on the page */
+  --wui-space-block:   24px;  /* group → group inside one section              */
+  --wui-space-heading: 12px;  /* a heading → the content it introduces         */
+  --wui-space-item:     8px;  /* item → item in a list                         */
+  --wui-space-control:  4px;  /* a label → its control, an icon → its text     */
+
+  /* Page frame: the same edges as the site header.
+     Header = custom CSS `header { width: 92% }` (sections/header-group.json), max 1400px,
+     + the theme's .page-width padding (15px, 50px from 750px). Keep these in sync. */
+  --wui-frame: 92%;
+  --wui-frame-max: 1400px;
+  --wui-frame-pad: 15px;
+  /* Distance from the screen edge to the content edge, for fixed bars (valid below 1400px). */
+  --wui-edge: calc(4vw + var(--wui-frame-pad));
+
+  /* Type scale */
+  --wui-display: 'WalterinBold', 'Walterin Fallback', 'Chalkboard SE', 'Comic Sans MS', sans-serif;
+  --wui-body: 'Inter', 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Six sizes, nothing else (mobile values here, desktop below):
+     display  WalterinBold  page title
+     heading  WalterinBold  section headings
+     label    WalterinBold  labels, edition names, buttons, accordion titles
+     price    Inter 700     price
+     body     Inter 400     reading text
+     small    Inter 400     VAT line, notes, privacy, trust rows, reference lists */
+  --wui-fs-display: 40px;
+  --wui-fs-heading: 32px;
+  --wui-fs-label: 20px;
+  --wui-fs-price: 28px;
+  --wui-fs-body: 16px;
+  --wui-fs-small: 14px;
+
+  /* Motion: short, eased out, never bouncing. Only transform, opacity, colour and height move. */
+  --wui-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+  --wui-t-hover: 120ms;
+  --wui-t-pick: 180ms;
+  --wui-t-open: 200ms;
+
+  background-color: var(--wui-paper);
+}
+@media (min-width: 750px) {
+  .wui {
+    --wui-frame-pad: 50px;
+    --wui-group: 40px;
+    --wui-fs-display: 56px;
+    --wui-fs-heading: 40px;
+    --wui-fs-label: 22px;
+    --wui-fs-price: 32px;
+    --wui-fs-body: 17px;
+  }
+}
+@media (min-width: 990px) {
+  .wui {
+    --wui-space-section: 96px;
+    --wui-space-block: 32px;
+    --wui-space-heading: 16px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The vertical rhythm, in one place — docs/design/SPACING.md
+
+   Section spacing is owned by the PAGE, not by each section. Sections carry no
+   vertical padding of their own; the gap between any two of them is exactly one
+   --wui-space-section. That is what makes it impossible for a section to decide
+   it needs "a bit more".
+
+   Scoped to the product template so the home page keeps its own composition
+   until it is converted in its own pass.
+   -------------------------------------------------------------------------- */
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section > * {
+  padding-block: 0;
+  padding-inline: 0;
+}
+/* Dawn writes each section's padding into a generated class on a DESCENDANT
+   (.section-template--123__related-padding), which the rule above cannot reach. */
+.wui:is(.t-product, .t-page) #MainContent [class*="-padding"] { padding-block: 0; }
+/* The footer keeps its own top padding. An earlier version zeroed it to avoid what
+   looked like a double gap — but the space ABOVE the footer's rule and the space
+   BELOW it are two different gaps, and removing the second left the footer's
+   content sitting on its own rule. */
+/* Meet Walter draws a grey hairline above itself. Grey is not in the palette, and
+   with a real rhythm the rule is doing a job the space already does. */
+.wui:is(.t-product, .t-page) #MainContent .mw-section { border-top: 0; padding-block: 0; padding-inline: 0; }
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section + .shopify-section {
+  margin-block-start: var(--wui-space-section);
+}
+/* The page's first section opens against the header, which is a lighter break
+   than a section change, so it takes the group step rather than the section one. */
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section:first-child > * {
+  padding-block-start: var(--wui-space-block);
+}
+.wui:is(.t-product, .t-page) #MainContent > .shopify-section:last-child > * {
+  padding-block-end: var(--wui-space-section);
+}
+
+/* One content frame for every section on the page, whichever generation it came
+   from. Before this, the design-system sections sat at 108px from the viewport
+   edge at 1440 and the older ones at 100, 70 and 330. */
+.wui:is(.t-product, .t-page) #MainContent :is(.wui-wrap, .page-width, .mw-inner, .fwi-inner) {
+  width: var(--wui-frame);
+  max-width: var(--wui-frame-max);
+  margin-inline: auto;
+  padding-inline: var(--wui-frame-pad);
+}
+
+
+/* --------------------------------------------------------------------------
+   Cart: which edition is this?
+
+   The cart already prints the variant, but the product title is set in the
+   display face at full size and the line that tells the two decks apart was the
+   smallest text in the block. Two lines of "Tarot of Consciousness" read as a
+   duplicate. The value now carries the brand face; the option name stays small.
+   -------------------------------------------------------------------------- */
+.wui .product-option {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wui-space-control);
+  align-items: baseline;
+  margin-top: var(--wui-space-control);
+}
+.wui .product-option dt { font-size: var(--wui-fs-small); opacity: 0.75; }
+.wui .product-option dd {
+  margin: 0;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-body);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   Express checkout
+
+   Shopify decides what this button says: a wallet button (Apple Pay, Google
+   Pay, Shop Pay) when the visitor's browser has one, otherwise an unbranded
+   "Buy it now" that goes to the normal checkout. The wording is not ours to
+   set — so the caption above it does the explaining, the same way Shopify's own
+   checkout labels it "Express checkout".
+
+   All we own is the shape: same width and height as Add to cart, sitting
+   directly under it, clearly the second option.
+   -------------------------------------------------------------------------- */
+.wui .wui-buy__express { display: grid; gap: var(--wui-space-control); }
+.wui .wui-buy__express-label {
+  font-size: var(--wui-fs-small);
+  text-align: center;
+  opacity: 0.75;
+}
+.wui .shopify-payment-button__button--unbranded,
+.wui button.shopify-payment-button__button--unbranded {
+  width: 100%;
+  min-width: 0;          /* Dawn forces 12rem, which stops it matching Add to cart */
+  min-height: 52px;
+  font-weight: 400;
+}
+/* The 2.5px inset below is right for a WALLET button, whose ink ring is a
+   box-shadow drawn outside the element. The unbranded "Buy it now" draws a real
+   border inside its own box, so the same inset leaves it 5px narrower than Add
+   to cart — which is the misalignment you see when no wallet is available. */
+.wui .wui-buy__express:has(.shopify-payment-button__button--unbranded) { margin-inline: 0; }
+.wui .shopify-payment-button:has(.shopify-payment-button__button--unbranded) { padding: 0; }
+/* Dawn draws two pseudo-element rings inside this button; with our ink border
+   they stack into a double outline. */
+.wui .shopify-payment-button__button--unbranded::before,
+.wui .shopify-payment-button__button--unbranded::after { content: none; }
+
+/* An empty cart should look empty. The cart template also carries a four-product
+   carousel and a newsletter block, so "Your cart is empty" was followed by a wall
+   of the products the customer had just removed. */
+.wui.t-cart.cart-empty #MainContent > [id$="__featured-collection"],
+.wui.t-cart.cart-empty #MainContent > [id$="__newsletter"] { display: none; }
+
+/* ==========================================================================
+   One button, everywhere — docs/design/BUTTONS.md
+
+   Dawn paints every button in the theme through one family of selectors
+   (.button, .customer button, .shopify-challenge__button) plus two ring
+   pseudo-elements. Rather than add a class to a hundred Liquid files, those
+   selectors are pointed at the Walterin button here. Anything that is already
+   .wui-btn is untouched.
+
+   Two treatments, and only two:
+     PRIMARY   ink on yellow, ink frame, hard shadow  — the thing you want done
+     SECONDARY paper fill, ink frame, same shadow     — everything else
+   Small square controls (quantity, close, arrows, pagination) take the
+   secondary treatment at control size: a frame, never a yellow fill.
+
+   Not convertible, and why — see docs/design/BUTTONS.md:
+     wallet buttons (Shopify's shadow DOM), the checkout itself, and the gift
+     card template, which is a separate document that never loads this file.
+   ========================================================================== */
+
+/* --- the primary CTA family ------------------------------------------------ */
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wui-space-item);
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 24px;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--wui-ink);
+  background: var(--wui-yellow);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: var(--wui-shadow);
+  transition: box-shadow var(--wui-t-hover) var(--wui-ease),
+              transform var(--wui-t-hover) var(--wui-ease);
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):hover {
+  box-shadow: var(--wui-shadow-hover);
+  transform: translate(2px, 2px);
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):focus-visible {
+  outline: var(--wui-line) solid var(--wui-ink);
+  outline-offset: 3px;
+}
+.wui :is(.button, .customer button, .shopify-challenge__button):not(.wui-btn):is(:disabled, [aria-disabled='true'], .disabled) {
+  opacity: var(--wui-faded);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+/* Dawn draws its own shadow and border as ::before/::after rings. With a real
+   border on the element they stack into a double outline. */
+.wui :is(.button, .customer button, .shopify-challenge__button, .quantity__button, .pagination__item)::before,
+.wui :is(.button, .customer button, .shopify-challenge__button, .quantity__button, .pagination__item)::after {
+  content: none;
+}
+
+/* --- secondary: same shape, paper fill ------------------------------------ */
+.wui :is(.button--secondary, .button--tertiary, .newsletter-form__button, .search__button,
+         .reset__button, .facets__button, .quick-view__close, .mobile-facets__close-button,
+         .menu-drawer__close-button, .modal__close-button, .drawer__close):not(.wui-btn) {
+  background: var(--wui-paper);
+  color: var(--wui-ink);
+}
+
+/* --- small square controls: a frame, never a yellow fill ------------------- */
+.wui :is(.quantity__button, .pagination__item, .slider-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+  text-decoration: none;
+  font-family: var(--wui-body);
+}
+.wui :is(.quantity__button, .pagination__item, .slider-button):hover { background: var(--wui-yellow); }
+.wui :is(.quantity__button, .pagination__item, .slider-button):focus-visible {
+  outline: var(--wui-line) solid var(--wui-ink);
+  outline-offset: 2px;
+}
+.wui .pagination__item--current { background: var(--wui-yellow); font-weight: 700; }
+/* The cart's remove control is an icon, not a call to action. */
+.wui .cart-item cart-remove-button > *,
+.wui .cart-drawer cart-remove-button > * {
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Header: one row, one icon family
+
+   .header__icons is a flex row with no align-items, so the icon links (which
+   centre themselves) looked right while the language switcher, which does not,
+   sat at the top of the stretched row. Hence the switcher riding high.
+
+   The cart is the only header icon drawn stroked on a 54-unit grid; search,
+   account, hamburger and close are filled on an 18-unit grid. It was also sized
+   24px against everyone else's 20px, which is what made it read as bolder.
+   -------------------------------------------------------------------------- */
+.wui .header__icons { align-items: center; }
+/* Only from 990px up. Below that the switcher belongs in the menu drawer, and an
+   unscoped display:flex here outranked the theme's own display:none — which is how
+   "EN / SK" ended up wrapping into two lines against the logo on a phone. */
+@media (min-width: 990px) {
+  .wui .header__icons .header-lang,
+  .wui .header__icons .header-lang__list { display: flex; align-items: center; }
+  .wui .header-lang__option { padding-block: 0; line-height: 1; }
+}
+
+.wui .header__icon .icon,
+.wui .header__icon--cart .icon-cart { width: 22px; height: 22px; }
+
+/* --------------------------------------------------------------------------
+   Safety net for the pages not yet on the design system
+
+   Two things on the home page push a 320px screen sideways: a generated gallery
+   block whose image wrapper is sized in fixed px, and Dawn's product card, whose
+   heading will not break a long product name. Neither page is converted yet, so
+   these are held here rather than edited into generated code.
+   -------------------------------------------------------------------------- */
+.wui [class*="ai-four-image-gallery__image-wrapper"],
+.wui [class*="ai-four-image-gallery__image-wrapper"] img { max-width: 100%; }
+.wui :is(.card__heading, .card__information, .full-unstyled-link, .card__inner) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* The hero slide is one big link over the image. */
+.wui .slideshow__cover-link {
+  display: block; position: absolute; inset: 0; z-index: 3;
+}
+.wui .slideshow__cover-link:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: -6px; }
+
+/* --------------------------------------------------------------------------
+   Home page: the icon row (blocks/ai_gen_block_e56fc5e)
+
+   Behaviour only. The look — the black-and-white icons that turn colour on hover,
+   the type, the spacing — is the block's own and is deliberately left alone.
+
+   The one change: .expanded used to set position:absolute across the whole row,
+   which lifted the open item out of the grid and laid it over its neighbours.
+   That is why only one could be open, and why two overlapped. In flow, each one
+   stays in its own column and grows downward with its text underneath.
+   -------------------------------------------------------------------------- */
+.wui [class*="ai-feature-item-"].expanded { position: static; }
+
+/* --------------------------------------------------------------------------
+   Scope + resets (zero specificity)
+   -------------------------------------------------------------------------- */
+.wui .wui-scope {
+  color: var(--wui-ink);
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-body);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.55;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+:where(.wui-scope) *,
+:where(.wui-scope) *::before,
+:where(.wui-scope) *::after { box-sizing: border-box; }
+:where(.wui-scope) :is(p, ul, ol, dl, dd, figure, fieldset, legend, table) { margin: 0; padding: 0; }
+:where(.wui-scope) :is(ul, ol) { list-style: none; }
+:where(.wui-scope) img { display: block; max-width: 100%; height: auto; }
+:where(.wui-scope) a { color: inherit; }
+:where(.wui-scope) :is(button, input) { font: inherit; color: inherit; }
+/* No hyphenation and no mid-word breaks anywhere in the scope, including headings:
+   base.css and theme.liquid set `word-break: break-word` on h1–h6.
+
+   One exception, below: a word that is wider than its whole line has nowhere to go, and with
+   `overflow-wrap: normal` it pushes the page sideways instead. That is what happened on Android
+   with text scaling turned up — "CONSCIOUSNESS:" in the product title stopped fitting on a 360px
+   screen and took the whole document with it. `anywhere` only ever acts as a last resort, so the
+   rule against mid-word breaks still holds for every word that fits. */
+.wui .wui-scope,
+.wui .wui-scope :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, span, a, button, summary, legend, label) {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  /* last resort only: break a word that cannot fit its line at all */
+  overflow-wrap: anywhere;
+  -webkit-hyphens: none;
+}
+.wui .wui-nb { white-space: nowrap; } /* keeps hyphenated words whole: "e-kniha" */
+.wui .wui-scope [hidden] { display: none !important; } /* components set display, which beats [hidden] */
+/* Container-query wrapper. Needs an explicit width: as a flex item (and inside a <fieldset>)
+   an inline-size container does not stretch, and would collapse to zero. */
+.wui .wui-cq { container-type: inline-size; width: 100%; align-self: stretch; min-width: 0; }
+.wui .wui-scope :focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; box-shadow: none; }
+
+/* The page frame (same left/right edges as the header) */
+.wui .wui-wrap {
+  width: var(--wui-frame);
+  max-width: var(--wui-frame-max);
+  margin-inline: auto;
+  padding-inline: var(--wui-frame-pad);
+}
+
+/* --------------------------------------------------------------------------
+   Type: WalterinBold for headings and short captions only; Inter for reading.
+   -------------------------------------------------------------------------- */
+.wui .wui-title,
+.wui .wui-heading,
+.wui .wui-label {
+  font-family: var(--wui-display) !important; /* theme forces WalterinBold !important on h1–h5 anyway */
+  font-weight: 400;
+  font-style: normal;
+  color: var(--wui-ink);
+  text-transform: uppercase;
+  margin: 0;
+}
+.wui .wui-title { font-size: var(--wui-fs-display); line-height: 1; letter-spacing: 0.01em; text-wrap: balance; }
+.wui .wui-heading { font-size: var(--wui-fs-heading); line-height: 1.05; letter-spacing: 0.01em; text-wrap: balance; }
+.wui .wui-label { font-size: var(--wui-fs-label); line-height: 1.1; letter-spacing: 0.04em; }
+.wui .wui-small { font-size: var(--wui-fs-small); line-height: 1.45; }
+.wui .wui-sr {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.wui .wui-rte > * + * { margin-top: var(--wui-12); }
+.wui .wui-rte :is(strong, b) { font-weight: 700; }
+.wui .wui-rte :is(em, i) { font-style: normal; }
+.wui .wui-rte a,
+.wui .wui-link {
+  color: var(--wui-ink);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.wui .wui-rte a:hover,
+.wui .wui-link:hover { text-decoration-color: var(--wui-yellow); text-decoration-thickness: 4px; }
+
+/* --------------------------------------------------------------------------
+   Frame: the basic unit (images, boxes, fields, buttons)
+   -------------------------------------------------------------------------- */
+.wui .wui-frame {
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  background-color: var(--wui-paper);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   The one button: ink text on yellow, ink border, hard shadow that presses in
+   -------------------------------------------------------------------------- */
+.wui .wui-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wui-8);
+  min-height: 52px;
+  margin: 0;
+  padding: 12px 24px;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  color: var(--wui-ink);
+  background: var(--wui-yellow);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: var(--wui-shadow);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--wui-t-hover) var(--wui-ease), box-shadow var(--wui-t-hover) var(--wui-ease), color var(--wui-t-hover) var(--wui-ease), border-color var(--wui-t-hover) var(--wui-ease);
+}
+.wui .wui-btn:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: var(--wui-shadow-hover); }
+.wui .wui-btn:active:not(:disabled) { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--wui-ink); }
+.wui .wui-btn::before,
+.wui .wui-btn::after { content: none; } /* the theme draws button borders with pseudo-elements */
+.wui .wui-btn--secondary { background: var(--wui-paper); }
+.wui .wui-btn--block { width: 100%; }
+.wui .wui-btn--sm { min-height: 44px; padding: 8px 16px; font-size: var(--wui-fs-label); box-shadow: 3px 3px 0 var(--wui-ink); }
+.wui .wui-btn:disabled,
+.wui .wui-btn[aria-disabled='true'] {
+  color: rgb(34 34 34 / var(--wui-faded));
+  background: var(--wui-paper);
+  border-color: rgb(34 34 34 / var(--wui-faded));
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+.wui .wui-btn .wui-num { font-family: var(--wui-body); font-weight: 700; font-size: inherit; letter-spacing: 0; text-transform: none; }
+
+/* Loading state used by the theme's <product-form> (adds .loading, toggles .hidden on the spinner) */
+.wui .wui-btn.loading > :not(.wui-spinner) { visibility: hidden; }
+.wui .wui-spinner { position: absolute; width: 22px; height: 22px; border: 3px solid var(--wui-ink); border-right-color: transparent; border-radius: 50%; animation: wui-spin 0.7s linear infinite; }
+.wui .wui-spinner.hidden { display: none; }
+@keyframes wui-spin { to { transform: rotate(360deg); } }
+
+/* --------------------------------------------------------------------------
+   Field
+   -------------------------------------------------------------------------- */
+.wui .wui-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  margin: 0;
+  padding: 0 16px;
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-body);
+  font-weight: 400;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.wui .wui-input::placeholder { color: var(--wui-ink); opacity: 0.55; }
+.wui .wui-input:focus-visible { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
+.wui .wui-input[aria-invalid='true'] { border-color: var(--wui-ink); box-shadow: 0 0 0 1.5px var(--wui-ink); }
+
+/* --------------------------------------------------------------------------
+   Choices (real radios, frameless): a dot, the name, an optional note.
+   Picked = the name gets a yellow marker stroke and the dot fills; the marker eases in.
+   Unavailable = faded, never struck through, never a grey fill.
+   Side by side while every label fits whole; otherwise stacked. The decision is made from the
+   space the group really has (container query), so it holds inside any layout.
+   -------------------------------------------------------------------------- */
+.wui .wui-choices { display: grid; gap: var(--wui-8) var(--wui-24); grid-template-columns: repeat(var(--wui-n, 2), minmax(0, 1fr)); border: 0; min-width: 0; }
+@container (max-width: 319px) { .wui .wui-choices[data-n='2'] { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 439px) { .wui .wui-choices[data-n='3'], .wui .wui-choices[data-priced] { grid-template-columns: minmax(0, 1fr); } }
+.wui .wui-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--wui-12);
+  min-height: 44px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.wui .wui-choice__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.wui .wui-choice__dot {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: 50%;
+  background: var(--wui-paper);
+  transition: background-color var(--wui-t-hover) var(--wui-ease);
+}
+.wui .wui-choice:hover .wui-choice__dot { background-color: color-mix(in srgb, var(--wui-yellow) 50%, var(--wui-paper)); }
+.wui .wui-choice__input:checked ~ .wui-choice__dot { background: radial-gradient(circle, var(--wui-ink) 0 4px, var(--wui-yellow) 4.5px); }
+.wui .wui-choice__text { display: flex; flex-direction: column; min-width: 0; }
+.wui .wui-choice__name {
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgb(34 34 34 / 0.78);
+  padding: 0 2px;
+  /* the marker grows from the left instead of appearing: background-size never moves layout */
+  background-image: linear-gradient(var(--wui-yellow), var(--wui-yellow));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 0% 38%;
+  transition: background-size var(--wui-t-pick) var(--wui-ease), color var(--wui-t-pick) var(--wui-ease);
+}
+.wui .wui-choice__input:checked ~ .wui-choice__text .wui-choice__name { color: var(--wui-ink); background-size: 100% 38%; }
+.wui .wui-choice:hover .wui-choice__name { color: var(--wui-ink); }
+.wui .wui-choice__note { font-size: var(--wui-fs-small); line-height: 1.35; font-variant-numeric: tabular-nums; }
+.wui .wui-choice:has(input:focus-visible) .wui-choice__dot { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
+.wui .wui-choice:has(input:disabled) { cursor: not-allowed; }
+.wui .wui-choice:has(input:disabled) > * { opacity: var(--wui-faded); }
+.wui .wui-choice:has(input:disabled):hover .wui-choice__dot { background-color: var(--wui-paper); }
+/* A long name (11+ letters) or three options step down to the body size instead of breaking */
+.wui .wui-choices--long .wui-choice__name,
+.wui .wui-choices[data-n='3'] .wui-choice__name { font-size: var(--wui-fs-body); letter-spacing: 0.03em; }
+
+/* --------------------------------------------------------------------------
+   Icon + one line (shipping note, small facts)
+   -------------------------------------------------------------------------- */
+.wui .wui-iconline { display: inline-flex; align-items: center; gap: var(--wui-8); }
+.wui .wui-icon { width: 20px; height: 20px; flex: none; color: var(--wui-ink); }
+.wui .wui-iconline .wui-icon { width: 22px; height: 22px; }
+
+/* --------------------------------------------------------------------------
+   Accordion: ruled rows, no boxes. Opens and closes with a smooth height +
+   opacity move (walterin-buy.js animates it; without JS it just opens).
+   The icon never rotates here: it sits on the column edge, and a rotated square
+   would reach past it. Plus becomes minus instead.
+   -------------------------------------------------------------------------- */
+.wui .wui-accordions { display: grid; gap: 0; border-top: var(--wui-line) solid var(--wui-ink); }
+.wui .wui-accordion { border-bottom: 1px solid var(--wui-ink); background: var(--wui-paper); }
+.wui .wui-accordion--suggest { border-bottom-style: dashed; }
+.wui .wui-accordion > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wui-12);
+  padding: 18px 0;
+  list-style: none;
+  cursor: pointer;
+}
+.wui .wui-accordion > summary::-webkit-details-marker { display: none; }
+.wui .wui-accordion > summary::before,
+.wui .wui-accordion > summary::after { content: none; }
+.wui .wui-accordion__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.wui .wui-accordion > summary .wui-label { transition: text-decoration-color var(--wui-t-hover) var(--wui-ease); text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 4px; text-underline-offset: 4px; }
+.wui .wui-accordion > summary:hover .wui-label { text-decoration-color: var(--wui-yellow); }
+.wui .wui-accordion__icon {
+  position: relative;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+.wui .wui-accordion__icon::before,
+.wui .wui-accordion__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 14px; height: 2.5px; background: var(--wui-ink); transform: translate(-50%, -50%); }
+.wui .wui-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: opacity var(--wui-t-open) var(--wui-ease), transform var(--wui-t-open) var(--wui-ease); }
+.wui .wui-accordion[open] .wui-accordion__icon::after,
+.wui .wui-accordion.is-opening .wui-accordion__icon::after { opacity: 0; transform: translate(-50%, -50%) rotate(0deg); }
+.wui .wui-accordion.is-closing .wui-accordion__icon::after { opacity: 1; transform: translate(-50%, -50%) rotate(90deg); }
+.wui .wui-accordion__wrap { overflow: hidden; }
+/* Two levels inside every accordion: the first paragraph leads at Body size, everything after it
+   is Small. Same rule in both languages and at every width. */
+.wui .wui-accordion__body { display: grid; gap: var(--wui-16); padding: 0 0 20px; font-size: var(--wui-fs-small); line-height: 1.55; }
+.wui .wui-accordion__body > .wui-rte > p:first-child,
+.wui .wui-accordion__body > p:first-child,
+.wui .wui-accordion__body .wui-lead { font-size: var(--wui-fs-body); line-height: 1.5; }
+.wui .wui-accordion__body > .wui-rte > p + p,
+.wui .wui-accordion__body > .wui-rte > ul,
+.wui .wui-accordion__body > .wui-rte > ol { font-size: var(--wui-fs-small); line-height: 1.55; }
+.wui .wui-accordion__group { display: grid; gap: var(--wui-12); }
+.wui .wui-accordion__star { flex: none; width: 16px; height: 16px; color: var(--wui-ink); }
+.wui .wui-accordion__star svg,
+.wui svg.wui-accordion__star { width: 16px; height: 16px; fill: var(--wui-ink); stroke: var(--wui-ink); stroke-width: 1.5; }
+
+/* Definition list (specs) */
+.wui .wui-dl { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: var(--wui-8) var(--wui-12); }
+.wui .wui-dl dt { font-weight: 700; }
+.wui .wui-dl dd { margin: 0; }
+.wui .wui-list { display: grid; gap: var(--wui-8); }
+.wui .wui-list > li { position: relative; padding-left: var(--wui-16); }
+.wui .wui-list > li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; background: var(--wui-ink); border-radius: 1px; }
+
+/* Table (delivery zones) */
+.wui .wui-table-wrap { overflow-x: auto; }
+.wui .wui-table { width: 100%; border-collapse: collapse; font-size: var(--wui-fs-small); }
+.wui .wui-table :is(th, td) { padding: var(--wui-8) var(--wui-12); text-align: left; vertical-align: top; border-bottom: var(--wui-line-thin) solid var(--wui-ink); }
+.wui .wui-table th { font-weight: 700; }
+.wui .wui-table tr.is-current td { font-weight: 700; box-shadow: inset 3px 0 0 var(--wui-yellow); }
+
+/* Status boxes */
+.wui .wui-status {
+  display: flex;
+  gap: var(--wui-8);
+  align-items: flex-start;
+  padding: var(--wui-12) var(--wui-16);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  font-size: var(--wui-fs-small);
+}
+.wui .wui-status::before {
+  content: 'i';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--wui-ink);
+  border-radius: 50%;
+  font-family: var(--wui-body);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+.wui .wui-status--success::before { content: '✓'; background: var(--wui-yellow); }
+.wui .wui-status--error::before { content: '!'; }
+
+/* --------------------------------------------------------------------------
+   Shopify accelerated checkout (Apple Pay, Google Pay, PayPal…)
+   Only these custom properties are supported; colours, fonts and border width are Shopify's.
+   Ink ring instead of a border, no offset shadow: framed, but secondary to the yellow button.
+   -------------------------------------------------------------------------- */
+.wui shopify-accelerated-checkout {
+  --shopify-accelerated-checkout-button-block-size: 52px;
+  --shopify-accelerated-checkout-button-border-radius: 8px;
+  --shopify-accelerated-checkout-button-box-shadow: 0 0 0 2.5px #222222;
+  --shopify-accelerated-checkout-skeleton-background-color: #FFFDF7;
+}
+.wui .shopify-payment-button { padding: var(--wui-line); } /* the ink ring is drawn outside the button: inset it so its outer edge meets the column edge */
+.wui .shopify-payment-button__button--unbranded {
+  min-height: 52px;
+  font-family: var(--wui-display);
+  font-size: var(--wui-fs-label);
+  text-transform: uppercase;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  box-shadow: none;
+}
+.wui .shopify-payment-button__button--unbranded:hover:not([disabled]) { background: var(--wui-paper); text-decoration: underline; }
+.wui .shopify-payment-button__more-options {
+  margin-top: var(--wui-8);
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-small);
+  color: var(--wui-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .wui .wui-scope *,
+  .wui .wui-scope *::before,
+  .wui .wui-scope *::after { transition: none !important; animation: none !important; }
+  .wui .wui-scope .wui-spinner { animation: wui-spin 1.4s linear infinite !important; }
+}

@@ -282,3 +282,47 @@ Walterin's own PayPal is live.
 - Copy of record, both languages: `docs/legal/faq-copy.md`.
 - Noticed during the pull, not touched: `assets/judgeme-walterin.css` still exists on the live
   theme although Judge.me was uninstalled. Unreferenced leftover; needs its own OK to delete.
+
+## 29 Sep 2026 · FAQ on the product design + the EU guarantee notice went live
+
+**Theme push** to 164726866249, nine files, `--only` each, `--nodelete`. Pulled live first: the only
+differences were my own additions, nothing on live that was not in the repo. Backup of the six
+changed files: `docs/backup/live-theme-2026-09-29-pre-guarantee/`. All nine read back identical.
+Pushed in two steps — sections, snippet, assets and locales first, the template second (the rule
+from 23 Sep).
+
+- `/pages/faq` rebuilt on `walterin-faq`, the product pages' accordion component. Copy unchanged;
+  EN heading now "Frequently asked questions". **Changing the section type orphaned the Slovak
+  translations registered the same morning**, so 15 settings were re-registered against the new
+  keys (`userErrors: []`, none outdated) in the same sitting. Checked EN and SK live: seven
+  questions each, Slovak reads Slovak, `/sk/pages/withdrawal` resolves.
+- **Legal guarantee** (Impl. Reg. (EU) 2025/1960, applying since 27 Sep):
+  `snippets/legal-guarantee.liquid` reads the variants and shows the official notice for goods, a
+  plain-text reminder for digital content (Dir. 2019/770 has no harmonised template), or both.
+  Its own row in the Details accordion of `walterin-buy.liquid`, so the notice is one tap from the
+  words. Footer link in both branches of `show_policy`.
+  Checked live: tarot → EN notice; `/sk/` tarot → SK notice and SK label; Prague → notice plus the
+  digital reminder. No "translation missing", no Liquid errors.
+  The EN and SK artwork are **different shapes** (1186×1675 vs 1215×1569); intrinsic size is set
+  per language or the accordion jumps while the image loads.
+
+**Store write:** `id="legal-guarantee"` added to Terms clause 10, EN and SK, so the footer link can
+land on the notice instead of the top of a 13-clause page. Backup of all four policies before the
+write: `docs/backup/policies-2026-09-29/`. EN via `shopPolicyUpdate` (+21 chars), which marked the
+Slovak translation outdated as expected; Slovak re-registered with the new digest (+21 chars,
+`outdated: false`). Both read back identical to intent; the other three policies untouched. Anchor
+confirmed on both public policy pages.
+
+**Deleted from the live theme:** `assets/judgeme-walterin.css` (Judge.me was uninstalled in Sep;
+zero references anywhere). Backup: `docs/backup/live-theme-changes/judgeme-walterin.css.deleted-2026-09-29`.
+Verified gone.
+
+**Corrected two false records:** `docs/legal/legal-guarantee-notice.md` claimed the notice was
+already on product pages (the section had been deleted in `13c519e`), and
+`docs/design/BUY-SECTION-SPEC.md:95` said the guarantee must never leave the Terms.
+
+**Audit gap closed:** the footer *does* render a "Cookie preferences" link
+(`#shopifyReshowConsentBanner`, added by Shopify), so the promise in Privacy §4 is kept.
+
+**In the repo, not pushed, waiting for an OK:** `sections/footer.liquid` — the "Legal guarantee"
+link now points at `#legal-guarantee` rather than the top of the Terms.
