@@ -1,0 +1,54 @@
+{%- comment -%}
+  Launch dates — one source for the card badge and the product page label.
+
+  Accepts:
+  - product  {Object}  required
+  - variant  {Object}  optional. With it, the date for that edition. Without it, the EARLIEST
+                       upcoming date for the product — which is what a card should say.
+
+  Echoes the translated line ("Available from November 10th") while the date is in the future, and
+  nothing at all once it passes — so a label takes itself down on launch day and nobody has to
+  remember. Never guess a date: a product with no confirmed date simply has no row here, and the
+  caller falls back to "Coming soon".
+
+  Rows: handle | option value or * | YYYYMMDD | locale key
+  The words live in locales (walterin.launch.*) so they translate; the date lives here so the
+  expiry is one comparison. **When a metafield definition is next created in admin, this table
+  should move to a product metafield** — content does not belong in code. Until then this is the
+  single place it lives, which is the important part.
+{%- endcomment -%}
+{%- liquid
+  assign rows = 'tarot|*|20261110|walterin.launch.nov10,walterin-prague|Digital Interactive Edition|20261023|walterin.launch.oct23,walterin-prague|Printed Collector’s Edition|20261110|walterin.launch.nov10' | split: ','
+  assign today = 'now' | date: '%Y%m%d' | plus: 0
+  assign best_date = 0
+  assign best_key = ''
+
+  for row in rows
+    assign f = row | split: '|'
+    assign r_handle = f[0]
+    assign r_value = f[1]
+    assign r_date = f[2] | plus: 0
+    assign r_key = f[3]
+
+    if r_handle != product.handle
+      continue
+    endif
+    if r_date <= today
+      continue
+    endif
+    if variant != blank and r_value != '*'
+      unless variant.options contains r_value
+        continue
+      endunless
+    endif
+
+    if best_date == 0 or r_date < best_date
+      assign best_date = r_date
+      assign best_key = r_key
+    endif
+  endfor
+
+  if best_key != blank
+    echo best_key | t
+  endif
+-%}

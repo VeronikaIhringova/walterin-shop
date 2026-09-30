@@ -60,13 +60,14 @@
   assign notify_id = 'WuiNotify-' | append: section.id
 
   comment
-    Coming-soon dates, one line per option value:  Option value | YYYY-MM-DD | Text
-    The date is compared as a plain number (20261023), so a line takes itself down on its own
-    launch day with nobody having to remember. An edition with no line, or with a date already
-    past, simply has no note.
+    Launch dates live in snippets/launch-date.liquid so the cards and this page read one source.
+    launch_any is "does this product have any upcoming date at all", used to decide whether an
+    edition stays selectable rather than being marked sold out.
   endcomment
-  assign today_num = 'now' | date: '%Y%m%d' | plus: 0
-  assign soon_lines = section.settings.coming_soon_dates | strip | newline_to_br | split: '<br />'
+  capture launch_any
+    render 'launch-date', product: product
+  endcapture
+  assign launch_any = launch_any | strip
   assign buy_id = 'WuiBuy-' | append: section.id
 
   assign digital = true
@@ -310,21 +311,10 @@
                       that was never on sale. A dated edition therefore stays selectable, so the
                       customer can pick it and read its date.
                     endcomment
-                    assign v_soon_here = false
-                    for line in soon_lines
-                      assign parts = line | split: '|'
-                      if parts.size >= 3
-                        assign p_val = parts[0] | strip
-                        assign p_date = parts[1] | strip | remove: '-' | plus: 0
-                        if p_val == value and p_date > today_num
-                          assign v_soon_here = true
-                        endif
-                      endif
-                    endfor
 
                     assign v_note = ''
                     assign v_disabled = false
-                    if v_soon_here
+                    if launch_any != blank
                       comment
                         No label under a dated edition: the launch line above the form already
                         says when it arrives, and saying it twice made the option list noisy.
@@ -395,21 +385,12 @@
       {%- endcapture -%}
 
       {%- comment -%} ---- 4. Act ---- {%- endcomment -%}
-      {%- liquid
-        assign selected_soon = ''
-        for line in soon_lines
-          assign parts = line | split: '|'
-          if parts.size >= 3
-            assign p_val = parts[0] | strip
-            assign p_date = parts[1] | strip | remove: '-' | plus: 0
-            if selected.options contains p_val and p_date > today_num
-              assign selected_soon = parts[2] | strip
-            endif
-          endif
-        endfor
-      -%}
-      <p class="wui-buy__soon" data-wui-soon {% if selected_soon == blank %}hidden{% endif %}>{{ selected_soon }}</p>
-
+      {%- comment -%}
+        The launch line comes from snippets/launch-date.liquid — the same source the product cards
+        read, so a card and the page it opens can never disagree about a date.
+      {%- endcomment -%}
+      {%- capture selected_soon -%}{%- render 'launch-date', product: product, variant: selected -%}{%- endcapture -%}
+      {%- assign selected_soon = selected_soon | strip -%}
       {%- comment -%}
         The notify form is captured once and used twice: on a product that has not launched, and
         on a product that HAS launched but whose selected edition has not. Prague is the second
@@ -418,6 +399,11 @@
         checkout still sitting under it.
       {%- endcomment -%}
       {%- capture notify_html -%}
+        {%- comment -%}
+          The launch line belongs to the form, directly above the email field: it is the reason to
+          sign up. Anywhere higher and it reads as a status note about the product instead.
+        {%- endcomment -%}
+        <p class="wui-buy__soon" data-wui-soon {% if selected_soon == blank %}hidden{% endif %}>{{ selected_soon }}</p>
           {%- comment -%}
             When the product goes on sale, said once and plainly, above the notify form. It is a
             section setting rather than a metafield so it can be translated with Translate & Adapt
@@ -488,16 +474,12 @@
       {%- liquid
         assign has_dated = false
         for v in product.variants
-          for line in soon_lines
-            assign parts = line | split: '|'
-            if parts.size >= 3
-              assign p_val = parts[0] | strip
-              assign p_date = parts[1] | strip | remove: '-' | plus: 0
-              if v.options contains p_val and p_date > today_num
-                assign has_dated = true
-              endif
-            endif
-          endfor
+          capture v_line
+            render 'launch-date', product: product, variant: v
+          endcapture
+          if v_line != blank
+            assign has_dated = true
+          endif
         endfor
       -%}
 
@@ -853,7 +835,7 @@
           "available": {% if preview == 'buyable' or preview == 'low_stock' %}true{% elsif preview == 'first_sold_out' %}{% if forloop.first %}false{% else %}true{% endif %}{% elsif preview == 'sold_out' %}false{% else %}{{ variant.available }}{% endif %},
           "price": {{ variant.price | money_without_trailing_zeros | json }},
           "shipping": {{ variant.requires_shipping }},
-          "soon": {%- capture v_soon -%}{%- for line in soon_lines -%}{%- assign parts = line | split: '|' -%}{%- if parts.size >= 3 -%}{%- assign p_val = parts[0] | strip -%}{%- assign p_date = parts[1] | strip | remove: '-' | plus: 0 -%}{%- if variant.options contains p_val and p_date > today_num -%}{{ parts[2] | strip }}{%- endif -%}{%- endif -%}{%- endfor -%}{%- endcapture -%}{{ v_soon | strip | json }},
+          "soon": {%- capture v_soon -%}{%- render 'launch-date', product: product, variant: variant -%}{%- endcapture -%}{{ v_soon | strip | json }},
           "left": {% if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold %}{{ variant.inventory_quantity }}{% elsif preview == 'low_stock' and forloop.first %}12{% else %}0{% endif %}
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
@@ -1044,23 +1026,27 @@
   .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-8); } /* 24 + 8 = 32 on phones */
   @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
-  /* The launch date. This is the answer to "can I have it?", so it is a statement, not a footnote:
-     the display face, on yellow, in the same frame the buttons use. It replaces the price as the
-     thing the eye lands on while an edition is unreleased. */
+  /* The launch line. Same shape and fill as the card bar it opens from (Quiet: paper, thin ink
+     frame, 8px) so a card and its product page are recognisably the same thing.
+     Rules: docs/design/PRODUCT-CARD-SYSTEM.md. */
   .wui .wui-buy__soon {
-    margin: 0 0 var(--wui-space-block);
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 520px;
+    min-height: 48px;
+    margin: 0 0 var(--wui-space-heading);
+    padding: 12px 16px;
     font-family: var(--wui-display);
     font-size: var(--wui-fs-label);
-    line-height: 1.2;
-    letter-spacing: 0.02em;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
+    text-align: center;
     color: var(--wui-ink);
-    background: var(--wui-yellow);
-    border: var(--wui-line) solid var(--wui-ink);
+    background: var(--wui-paper);
+    border: var(--wui-line-thin) solid var(--wui-ink);
     border-radius: var(--wui-radius);
-    box-shadow: var(--wui-shadow);
-    padding: var(--wui-12) var(--wui-16);
   }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
   /* Inset lives on .shopify-payment-button alone (assets/walterin-ui.css): applying it here as
@@ -1231,12 +1217,6 @@
     {
       "type": "header",
       "content": "Before launch: notify me"
-    },
-    {
-      "type": "textarea",
-      "id": "coming_soon_dates",
-      "label": "When each edition goes on sale",
-      "info": "One line per edition: Option value | YYYY-MM-DD | Text. The line disappears by itself on its date. Leave empty if there is no confirmed date — never guess one."
     },
     {
       "type": "text",

@@ -6,7 +6,8 @@ this.
 
 Mock-ups: `docs/design/product-card-system/` (`open docs/design/product-card-system/index.html`).
 Reference the direction came from: `docs/design/bugs/reference-myway-card-*.png`.
-Status: **proposed, 30 Sep 2026.** Nothing is in the theme yet.
+Status: **decided 30 Sep 2026 — variation "Quiet". Built in the theme, in preview, awaiting
+"OK live".**
 
 ---
 
@@ -39,8 +40,8 @@ never over the image.
 
 | Slot | What goes there | Style | Rule |
 |---|---|---|---|
-| **Top-left** | Category — the universe the product belongs to: Prague, Paris, Tarot | Plain ink text, Inter 12px, `letter-spacing:.16em`, uppercase. **No chip, no fill** | Optional. It is context, not a claim |
-| **Top-right** | Status — `New`, `Sold out`, `eBook` | Pill, 12px, uppercase. Fill depends on the variation | **At most one, ever.** Priority: Sold out > New > eBook |
+| **Top-left** | *(not in use)* — reserved for a category word | Plain ink text, Inter 12px, `letter-spacing:.16em`, uppercase. **No chip, no fill** | **Deferred (Veronka, 30 Sep 2026).** Kept as a future option; see §11 |
+| **Top-right** | Status — `Sold out`, `New` | Pill, 12px, uppercase. Fill depends on the variation | **At most one, ever.** Sold out beats New |
 | **Bottom bar** | `Available from [date]` · `Coming soon` · `Sold out` | WalterinBold 15px, uppercase, full width minus 10px, min-height 46px | Only when there is something true to say |
 
 **The crowding rule: one category + one status + one bar. Never more.** If a product qualifies for
@@ -61,9 +62,9 @@ when an unverifiable claim sits in the data.
 | Hover / keyboard focus | yes | — | bar if it has one | Focus shows **exactly** what hover shows |
 | Available from [date] | yes | — | `Available from October 23rd` | Date comes from the product, never hardcoded |
 | Coming soon (no date) | yes | — | `Coming soon` | **Never "Sold out" for something that never launched** |
-| New | yes | `New` | — | Merchant-set; must expire |
+| New | — | `New` | — | **Automatic: three months from `published_at`, then it disappears by itself.** Nobody sets it and nobody has to remove it |
 | Sold out | yes | `Sold out` | `Sold out` | Image and text fade to 40%. Never a strike-through, never a grey fill |
-| Digital only | yes | `eBook` | — | |
+| Digital only | — | — | — | No pill: the format is a variant, and the page says it |
 | Digital + printed | yes | — | — | Price reads `from €18,99` |
 
 ## 5. Mobile and touch
@@ -116,24 +117,37 @@ of the column.
 Slovak is written natively, not translated. Dates take the natural form in each language —
 "October 23rd", "23. októbra" — never an ISO date in front of a customer.
 
-## 9. The three variations
+## 9. The variation in use: Quiet
 
-They differ **only** in how labels are filled and shaped. Structure, copy, states and rules are
-identical, so the choice is cosmetic and reversible.
+**Paper fill, thin ink frame on both the bar and the pill. Nothing coloured.** Yellow stays for
+actions, so a grid of cards never competes with the buttons on the page.
 
-1. **Quiet** — paper fill, thin ink frame on the bar and pill. Nothing filled. Calmest in a grid.
-2. **Marker** — yellow fill, no borders, fully rounded like the reference. Media keeps its hard
-   shadow. Warmest and most obviously Walterin.
-3. **Ink** — ink fill, paper text. Highest contrast, and it keeps yellow for actions only, so a grid
-   of cards never competes with the buttons on the page.
+Chosen 30 Sep 2026 over *Marker* (yellow fill, fully rounded) and *Ink* (ink fill, paper text),
+which are kept in the mock-ups should the decision ever be revisited. The three differed only in
+fill and shape — structure, copy, states and rules were identical — so swapping is a CSS change.
+
+## 9a. Where it lives in the theme
+
+| | |
+|---|---|
+| `snippets/launch-date.liquid` | **The one source for every launch date.** Cards and product pages both read it, so they cannot disagree. Rows are `handle \| option value \| YYYYMMDD \| locale key`; the words are locale strings, the date is a number, and a row expires by comparison |
+| `snippets/wui-card-labels.liquid` | The status pill and the bar. Decides which, and never renders more than one pill |
+| `snippets/card-product.liquid` | Renders the labels into the card; the stock Dawn badge is hidden in CSS, not deleted |
+| `assets/walterin-ui.css` | `.wui-cl__*`, the card frame, the hover/focus reveal, the touch rule |
+| `sections/walterin-buy.liquid` | The matching product-page line, same shape and fill as the card bar |
+
+**The date table should move to a product metafield** the next time a definition is created in
+admin — content does not belong in code. It is in one place, which is the part that matters.
 
 ## 10. Open questions
 
-- **Which variation.** Veronka decides.
-- **Category source.** Product tags are currently inconsistent — the sticker set is tagged `PARIS`
-  and Paris is tagged `PRAGUE` (backend audit S1). The category label is only as good as those tags,
-  so they get fixed before this ships.
-- **"New" needs an expiry.** A `New` pill that nobody removes becomes a lie. Either a metafield with
-  a date, or a rule ("30 days from publication"), decided before it is used.
-- **Does the tarot show `Coming soon` or nothing?** It has no date and no notify deadline. Showing
-  the bar is honest; showing nothing is calmer.
+- ~~Which variation.~~ **Decided: Quiet.**
+- **The category label is deferred, not dropped.** It stays specified above so it can be switched on
+  later without another design pass. Before it is, the tags have to be fixed: the sticker set is
+  tagged `PARIS` and Paris is tagged `PRAGUE` (backend audit S1). Tags are being left as they are
+  for now (Veronka, 30 Sep 2026).
+- ~~"New" needs an expiry.~~ **Decided: three months from `published_at`, computed in Liquid.**
+  Nothing to set and nothing to remove, so it cannot become a lie.
+- ~~Does the tarot show `Coming soon`?~~ **It has a date: 10 November 2026**, so it shows
+  "Available from November 10th". `Coming soon` is now only for products with no confirmed date —
+  the sticker set today.

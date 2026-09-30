@@ -574,6 +574,17 @@
       "more": "Viac o vašich právach vo vašej krajine",
       "digital": "Pri e-knihách zodpovedáme za vady 24 mesiacov odo dňa dodania súboru. Napíšte nám na support@walterin.com."
     },
+    "launch": {
+      "oct23": "Dostupné od 23. októbra",
+      "nov10": "Dostupné od 10. novembra",
+      "soon": "Už čoskoro"
+    },
+    "card": {
+      "new": "Novinka",
+      "new_sr": "Nový produkt",
+      "sold_out": "Vypredané",
+      "sold_out_sr": "Vypredané"
+    },
     "buy": {
       "shipping": "Doprava sa vypočíta v pokladni",
       "coming_soon": "Čoskoro",

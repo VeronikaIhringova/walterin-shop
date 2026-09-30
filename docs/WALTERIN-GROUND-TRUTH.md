@@ -56,7 +56,9 @@
 - Editions = variants of the option "Language/Jazyk": **English** and **Slovak**.
 - **First edition: 100 copies in English + 100 in Slovak.** Never "150".
 - **Not signed, not numbered.** No "signed" wording anywhere, no certificate.
-- **No launch date** anywhere until a real date exists.
+- **Launch date: 10 November 2026** (Veronka, 30 Sep 2026). Shown as "Available from November
+  10th" / "Dostupné od 10. novembra" on the product card and directly above the notify-me email
+  field. It removes itself on launch day. Source: `snippets/launch-date.liquid` (see §4).
 - Before launch: notify-me form. Tags `tarot-waitlist`, `tarot-waitlist-en` / `tarot-waitlist-sk`. **One optional newsletter checkbox** (Veronka, 22 Sep 2026), unticked by default; the tag `newsletter` is added only when it is ticked.
 - Pre-order vs notify-me: undecided (Veronka + Walter).
 - **Never show the full deck.** Only the preview set (10 of the 12 named cards exist as artwork;
@@ -80,11 +82,13 @@
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
 - eBooks (Prague, Paris) are digital (no shipping) and go on sale first. Printed books and the tarot are physical and stay unbuyable until Pack4you is signed.
-- **Walterin Prague goes on sale 23 October 2026** (Veronka, 30 Sep 2026), both the printed and the
-  eBook edition. Until then both are unavailable and the page shows the notify-me form with the
-  date. This is the first real date the site has ever carried — if it moves, it moves in
-  `templates/product.walterin-prague-book.json` (`coming_soon_note`) and its Slovak translation,
-  and here.
+- **Launch dates** (Veronka, 30 Sep 2026). Walterin Prague: the **eBook 23 October 2026**, the
+  **printed edition 10 November 2026**. The tarot: **10 November 2026**. Until its date an edition
+  is unavailable and its page shows the notify-me form with the line directly above the email
+  field. Every date removes itself on its own launch day.
+  They all live in one place — `snippets/launch-date.liquid` — which the product cards and the
+  product pages both read, so a card and the page it opens can never disagree. If a date moves, it
+  moves there and here, and nowhere else.
 - Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
 - Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Facebook & Instagram channel (Meta pixel + Conversions API, "Maximum" data sharing). **Uninstalled (Sep 2026): Judge.me, REZ Preorder Notify me, Track123, Socialwidget.**
 - Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.
