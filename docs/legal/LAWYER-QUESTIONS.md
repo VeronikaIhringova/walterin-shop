@@ -1,6 +1,6 @@
 # Questions for the lawyer
 
-Send with the whole `docs/legal/` folder. Updated 29 Sep 2026.
+Send with the whole `docs/legal/` folder. Updated 30 Sep 2026.
 
 Facts the answers should assume: Walterin s. r. o., Bratislava, **not a VAT payer**, sells to
 consumers in Slovakia and the EU. Shopify **Basic** (no checkout customisation). Two kinds of
@@ -115,3 +115,60 @@ Shopify Basic has no terms checkbox in checkout; policy links appear in the chec
 - **Packaging EPR**: obligations in Slovakia (79/2015) and Germany (LUCID) before we ship anything
   physical.
 - **Accessibility (EAA)**: we believe Walterin is an exempt microenterprise. Please confirm.
+
+---
+
+## 11. Privacy policy: retention periods
+
+Full review in `docs/legal/privacy-review-2026-09-30.md`. Four retention statements are circular
+("for as long as needed for the purpose", "as long as we may need to prove it"). We would like to
+replace them with real periods. Please confirm or correct:
+
+- server and access logs — **12 months**?
+- evidence of newsletter and cookie consent — **withdrawal + 4 years**?
+- orders — **contract + 3 years** (§ 101 Občiansky zákonník), accounting documents 10 years
+  (§ 35 zákona 431/2002) — is 3 years right, or 4 for a commercial relationship?
+- withdrawals and complaints — what record-keeping period does consumer protection law actually
+  impose?
+
+## 12. Cookie policy as a separate page
+
+Our privacy policy describes cookies by category but names no individual cookie — no names,
+purposes or durations. We plan a separate Cookie policy page with a full table plus a "Manage
+cookie preferences" button.
+
+- Is a category-level description sufficient under § 109 of Act 452/2021, or is the per-cookie
+  table required?
+- Shopify sets most of the cookies and publishes its own list. Is linking to Shopify's list enough,
+  or must we reproduce it ourselves?
+
+## 13. Two factual claims in the privacy policy
+
+- § 5 says "Our store's customer data is stored in the European Union", while the same section says
+  Shopify may process in Canada, the USA and Singapore. Can we substantiate the first sentence, or
+  should it be softened?
+- § 5 relies on the **EU–U.S. Data Privacy Framework** for US transfers. Should we add a fallback
+  sentence that transfers continue on standard contractual clauses if the adequacy decision ceases
+  to apply, so the policy survives a change without a rewrite?
+
+## 14. A new processor for eBook delivery
+
+We may replace Shopify's Digital Products app so customers can re-download from their account
+(`docs/legal/digital-download-app-research.md`). The likely choice is US-based and transfers EU
+personal data under standard contractual clauses; it would hold customer email addresses and order
+references.
+
+- Anything beyond adding it to privacy sections 3 and 5 before it goes live?
+- Is a DPA with the app vendor plus SCCs sufficient, or would you want a transfer impact assessment
+  for something this small?
+
+## 15. eBook download limit and what the Terms may promise
+
+The prepared Terms 7.1 says "Each file can be downloaded up to 8 times". Shopify's current app
+counts **per variant**, so the PDF and EPUB share one counter and that sentence would be untrue
+today (`docs/legal/prepared-terms-7-update.md`).
+
+- If we keep the current app and set the limit to 16 shared, is "each file up to 8 times" an
+  acceptable description, or must the Terms describe the shared counter exactly?
+- Is any download limit at all a problem, given the consumer has bought the file outright and there
+  is no DRM?

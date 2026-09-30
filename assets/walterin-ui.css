@@ -698,6 +698,15 @@
 .wui .wui-accordion__star svg,
 .wui svg.wui-accordion__star { width: 16px; height: 16px; fill: var(--wui-ink); stroke: var(--wui-ink); stroke-width: 1.5; }
 
+/* Footer: a menu item that points nowhere is a line of text, not a link.
+   It keeps the list's size and rhythm so the column still lines up, but loses the link's
+   underline, hover and pointer — see sections/footer.liquid. */
+.wui .footer-block__note {
+  display: block;
+  cursor: default;
+  text-decoration: none;
+}
+
 /* Legal guarantee (Impl. Reg. (EU) 2025/1960)
 
    The notice is the Commission's own artwork and may not be edited: not its text, not its colours,

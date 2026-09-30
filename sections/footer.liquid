@@ -91,13 +91,41 @@
                     {%- if block.settings.menu != blank -%}
                       <ul class="footer-block__details-content list-unstyled">
                         {%- for link in block.settings.menu.links -%}
+                          {%- comment -%}
+                            A menu is the only way to get a line of text into this column, so the
+                            opening hours live there as an item pointing nowhere. An item that goes
+                            nowhere is not a link: it renders as text, with no underline, no hover
+                            and no keyboard focus, so nobody clicks it expecting something.
+                            Navigation is an admin job, so the rule is on the URL, not on the words.
+
+                            Ranges are kept whole so "Po–Pi" and "9:00–17:00" never split across two
+                            lines in a narrow column. Two invisible characters do it, and neither
+                            changes a glyph the way U+2011 would:
+                              · U+00A0 before an en dash, so a typed space is not a break point —
+                                "9:00 – 17:00" survives as well as "9:00–17:00";
+                              · U+2060 after it, so the dash itself is not one.
+                            Written this way the fix holds whichever spacing someone types in admin.
+                          {%- endcomment -%}
+                          {%- liquid
+                            assign is_link = true
+                            assign href = link.url | strip
+                            if href == blank or href == '#' or href contains 'javascript'
+                              assign is_link = false
+                            endif
+                          -%}
                           <li>
-                            <a
-                              href="{{ link.url }}"
-                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                            >
-                              {{ link.title }}
-                            </a>
+                            {%- if is_link -%}
+                              <a
+                                href="{{ link.url }}"
+                                class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                              >
+                                {{ link.title }}
+                              </a>
+                            {%- else -%}
+                              <span class="list-menu__item footer-block__note">
+                                {{- link.title | replace: ' –', ' –' | replace: '–', '–⁠' -}}
+                              </span>
+                            {%- endif -%}
                           </li>
                         {%- endfor -%}
                       </ul>
