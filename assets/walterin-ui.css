@@ -969,3 +969,26 @@
 .wui [class*='ai-feature-expanded'] p {
   text-wrap: balance;
 }
+
+/* ------------------------------------------------------------------------- *
+   Home icon row — align the outer two columns
+
+   The three icons are set by width alone and their aspect ratios differ, so
+   each one renders a different height and pushes its heading to a different
+   line: 71px, 46px and 89px, which put the headings at 1093, 1068 and 1111.
+
+   Veronka wants the OUTER two aligned with each other and the middle one left
+   exactly where it is, sitting a little higher. So only columns 1 and 3 get a
+   common icon box, sized to the taller of the two. The icon is not resized —
+   object-fit keeps its own pixels and sits it on the bottom of the box, so the
+   two icons share a baseline and the headings and texts line up.
+
+   The 89px is the height of the tallest of those two icons. If either icon is
+   replaced, re-measure it.
+ * ------------------------------------------------------------------------- */
+.wui [class*='ai-feature-item']:nth-child(1) [class*='ai-feature-icon'],
+.wui [class*='ai-feature-item']:nth-child(3) [class*='ai-feature-icon'] {
+  height: 89px;
+  object-fit: contain;
+  object-position: bottom center;
+}

@@ -5,8 +5,9 @@ Flag bad line breaks on the rendered page.
 Implements the checks in docs/design/LINE-BREAKS.md:
 
   orphan     the last line of a block holds a single word
-  dangling   a line ends on a word that cannot end a phrase ("move where" / "a")
+  stranded   a line ends on the lone first word of the next sentence ("form. Five")
   unbalanced one line is under 40% of the width of the line above it
+  stacked    a paragraph set one clause per line — a poem, not prose
 
 It measures the REAL line boxes, using a Range over the text nodes, so it sees
 what the browser actually drew — not what the HTML says. A <br> and a natural
@@ -26,8 +27,9 @@ import sys
 
 from playwright.async_api import async_playwright
 
-# Words that cannot end a phrase. A line ending on one of these has been cut
-# mid-thought. Slovak prepositions and conjunctions carry the same weight.
+# Kept for reference and for future heading checks. NOT used against body
+# prose: a paragraph wraps mid-phrase, and that is correct. See rule 2 in
+# docs/design/LINE-BREAKS.md — body text is a paragraph, not a poem.
 DANGLING = {
     "en": ["the", "a", "an", "and", "or", "but", "of", "in", "on", "at", "to",
            "for", "with", "from", "by", "as", "is", "are", "was", "were", "be",
@@ -127,19 +129,23 @@ JS = r"""
 
     lines.forEach((l, i) => {
       if (i === lines.length - 1) return;
-      // A line that ends on punctuation has ended a phrase, whatever the last
-      // word is: "but stay with you." and "Ideas travel lightly," are both
-      // correct breaks. Only an unpunctuated line can dangle. This must not
-      // skip the balance check below, so it is a flag and not an early return.
-      const endsPhrase = /[.,;:!?\u2026\u2014\u2013)\]"'\u2019\u201d]$/.test(l.text.trim());
-      const words = l.text.replace(/[^\p{L}\p{N}\s'’-]/gu, "").split(/\s+/).filter(Boolean);
-      const tail = (words[words.length - 1] || "").toLowerCase();
-      // Narrow cards get the same exception as orphans: with ~170px there is
-      // often no break that satisfies the rule, and the title is two words.
-      if (tail && !endsPhrase && dangling.includes(tail) && !narrowCard) {
-        findings.push({ kind: "dangling", text: full, line: l.text,
-                        detail: `line ends on "${tail}", which cannot end a phrase` });
+      const txt = l.text.trim();
+
+      // Rule 5, precisely: a line that ends a sentence and then carries one
+      // lone word of the NEXT sentence — "...sharpest form. Five". Two or more
+      // words are fine, as long as the lines stay balanced. Inside a paragraph
+      // an ordinary mid-phrase wrap is NOT a fault: prose wraps, that is what
+      // prose does.
+      const strand = txt.match(/[.!?][\u201d\u2019"']?\s+(\S+)$/);
+      if (strand) {
+        const word = strand[1].replace(/[^\p{L}\p{N}'\u2019-]/gu, "");
+        if (word && !/[.,;:!?]$/.test(strand[1])) {
+          findings.push({ kind: "stranded", text: full, line: txt,
+                          detail: `line ends on "${strand[1]}", the first word of the ` +
+                                  `next sentence` });
+        }
       }
+
       const next = lines[i + 1];
       if (next && l.w > 0 && next.w > 0 && next.w < l.w * 0.4 &&
           next.text.split(/\s+/).filter(Boolean).length <= 2 &&
@@ -148,6 +154,24 @@ JS = r"""
                         detail: `line is ${Math.round(100 * next.w / l.w)}% of the one above` });
       }
     });
+
+    // Stacking: body copy given one clause per line. Three or more lines that
+    // each end on a sentence or clause boundary while leaving a quarter of the
+    // column empty is a poem, not a paragraph. The last line is exempt — an
+    // ending on its own line is deliberate emphasis — and so is a block of two
+    // lines, which is a lead, not body copy.
+    if (lines.length >= 4 && !narrowCard) {
+      const width = Math.max(...lines.map((l) => l.w));
+      let short = 0;
+      lines.slice(0, -1).forEach((l) => {
+        if (/[.,;:!?]$/.test(l.text.trim()) && l.w < width * 0.75) short++;
+      });
+      if (short >= 3) {
+        findings.push({ kind: "stacked", text: full, line: `${short} of ${lines.length} lines`,
+                        detail: `${short} lines end on a clause boundary and stop short of the ` +
+                                `column — set as a poem, not a paragraph` });
+      }
+    }
   });
 
   // De-duplicate: the same sentence and the same complaint only once.

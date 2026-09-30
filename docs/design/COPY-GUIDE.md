@@ -23,17 +23,25 @@
 - Check the facts against the ground truth before the phrasing: a beautiful sentence with the
   wrong number is still wrong.
 
-## 7. Break the lines by meaning
+## 7. Break the lines by meaning — but write paragraphs, not poems
 
-Writing the words is only half of it. Where the lines break changes how the sentence sounds, and a
-break in the wrong place makes good copy read badly.
+Where the lines break changes how a sentence sounds. A break in the wrong place makes good copy
+read badly, and too many breaks turn prose into verse.
 
-The full rule is [LINE-BREAKS.md](LINE-BREAKS.md). In short: break after a full stop, a comma or a
-complete thought, never inside a phrase; never strand a single word on a line; keep pairs like
-`From €18,99` and `9:00–17:00` together with a no-break space; and check the phone as well as the
-desktop, because the same sentence breaks differently at 390px.
+The full rule is [LINE-BREAKS.md](LINE-BREAKS.md). In short:
 
-This is rule 6 continued. Where you breathe when you read it aloud is where the line ends.
+- A short **lead statement stays on one line**. It is the sentence that has to land.
+- **Body text is a paragraph.** Lines of a similar, fairly long length that fill the column. Do not
+  give every clause its own line. A paragraph wrapping mid-phrase is correct.
+- **Related short sentences share a line.** `Cities become symbols. Facts become scenes.`
+- **The ending may have its own line**, for emphasis. Once per paragraph, at most.
+- **Never strand a single word from the next sentence** at a line end — `…sharpest form. Five`.
+  A short group of words carried over is fine.
+- Keep pairs together with a no-break space: `From €18,99`, `9:00–17:00`.
+- **Check the phone as well as the desktop.** The same paragraph breaks differently at 390px.
+
+This is rule 6 continued. Where you breathe when you read it aloud is where the line ends — and you
+do not breathe after every clause.
 
 ## What this rules out
 

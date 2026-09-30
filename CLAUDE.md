@@ -63,12 +63,15 @@ never a yellow fill. **Never white text on yellow.** Render buttons with
 `{% render 'wui-button' %}`; never write a new button class or set a colour on a button.
 
 ## Line breaks (mandatory, from 30 Sep 2026)
-Every text on the site breaks by meaning: `docs/design/LINE-BREAKS.md`. Break at phrase boundaries,
-never inside a phrase. Never leave a single word alone on a line — except one long word on a narrow
-phone card, where nothing else fits. Keep pairs together with a no-break space (`9:00–17:00`,
-`From €18,99`). Lines roughly balanced. **A break that is right at 1440 is often wrong at 390, so
-check both, in both languages.** Use `text-wrap: balance`; never `text-wrap: pretty`, which WebKit
-and Chromium disagree about. Run `python3 tools/check-line-breaks.py` before showing any text.
+Every text on the site: `docs/design/LINE-BREAKS.md`. **Body text is a paragraph, not a poem** —
+lines of a similar, fairly long length; never one clause per line. A short lead statement stays on
+one line. Related short sentences share a line. The ending may have its own line, once. Never strand
+a single word from the next sentence at a line end (`…sharpest form. Five`); a short group is fine.
+Keep pairs together with a no-break space (`9:00–17:00`, `From €18,99`). **Check 1440 and 390, both
+languages** — on a phone the lines are shorter but still paragraphs. Use `text-wrap: balance`; never
+`text-wrap: pretty`, which WebKit and Chromium disagree about. Shopify `richtext` settings strip
+`<span>`, so use `<br>` and no-break spaces there. Run `python3 tools/check-line-breaks.py` before
+showing any text.
 
 ## Hard Constraints
 - **Comics Tarot of Consciousness is a product, not a therapy tool.** Never frame it through Jungian, psychological, or self-help language. It is illustration, story, and collectible — first.
