@@ -19,11 +19,11 @@
 {%- if has_ebook -%}
   <div class="cart-ebook-consent" data-ebook-consent>
     <p class="cart-ebook-consent__notice">{{ 'walterin.ebook_consent.notice' | t }}</p>
-    <label class="cart-ebook-consent__label" for="EbookConsent-{{ form_id }}">
+    <label class="wui-check cart-ebook-consent__label" for="EbookConsent-{{ form_id }}">
       <input
         type="checkbox"
         id="EbookConsent-{{ form_id }}"
-        class="cart-ebook-consent__box"
+        class="wui-check__box cart-ebook-consent__box"
         name="attributes[eBook consent]"
         value="{{ 'walterin.ebook_consent.declaration' | t | escape }}"
         form="{{ form_id }}"
@@ -32,10 +32,5 @@
       <span>{{ 'walterin.ebook_consent.declaration' | t }}</span>
     </label>
   </div>
-  <style>
-    .cart-ebook-consent { display: grid; gap: 0.8rem; margin: 1.2rem 0; padding: 1.2rem 1.4rem; border: 2px solid rgb(var(--color-foreground)); border-radius: 8px; font-size: 1.4rem; line-height: 1.45; text-align: left; }
-    .cart-ebook-consent__notice { margin: 0; }
-    .cart-ebook-consent__label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; }
-    .cart-ebook-consent__box { flex: none; width: 2rem; height: 2rem; margin: 0.1rem 0 0; accent-color: rgb(var(--color-foreground)); }
-  </style>
+
 {%- endif -%}

@@ -546,6 +546,7 @@
     },
     "buy": {
       "shipping": "Shipping calculated at checkout",
+      "coming_soon": "Coming soon",
       "sold_out": "Sold out",
       "unavailable": "Not available",
       "switched": "That combination isn’t available. Switched to [value].",

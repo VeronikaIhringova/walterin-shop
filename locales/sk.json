@@ -576,6 +576,7 @@
     },
     "buy": {
       "shipping": "Doprava sa vypočíta v pokladni",
+      "coming_soon": "Čoskoro",
       "sold_out": "Vypredané",
       "unavailable": "Nie je k dispozícii",
       "switched": "Táto kombinácia nie je k dispozícii. Prepnuté na [value].",

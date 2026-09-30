@@ -58,6 +58,15 @@
 
   assign form_id = 'WuiBuyForm-' | append: section.id
   assign notify_id = 'WuiNotify-' | append: section.id
+
+  comment
+    Coming-soon dates, one line per option value:  Option value | YYYY-MM-DD | Text
+    The date is compared as a plain number (20261023), so a line takes itself down on its own
+    launch day with nobody having to remember. An edition with no line, or with a date already
+    past, simply has no note.
+  endcomment
+  assign today_num = 'now' | date: '%Y%m%d' | plus: 0
+  assign soon_lines = section.settings.coming_soon_dates | strip | newline_to_br | split: '<br />'
   assign buy_id = 'WuiBuy-' | append: section.id
 
   assign digital = true
@@ -118,6 +127,7 @@
   data-pswp-lightbox="{{ 'photoswipe-lightbox.esm.min.js' | asset_url }}"
   data-pswp-css="{{ 'photoswipe.css' | asset_url }}"
   data-sold-out="{{ 'walterin.buy.sold_out' | t | escape }}"
+  data-coming-soon="{{ 'walterin.buy.coming_soon' | t | escape }}"
   data-unavailable="{{ 'walterin.buy.unavailable' | t | escape }}"
   data-switched="{{ 'walterin.buy.switched' | t | escape }}"
 >
@@ -294,9 +304,29 @@
                       endif
                     endfor
 
+                    comment
+                      An edition that has not launched yet is "coming soon", never "sold out" —
+                      sold out is a thing that happened, and nothing has happened to a product
+                      that was never on sale. A dated edition therefore stays selectable, so the
+                      customer can pick it and read its date.
+                    endcomment
+                    assign v_soon_here = false
+                    for line in soon_lines
+                      assign parts = line | split: '|'
+                      if parts.size >= 3
+                        assign p_val = parts[0] | strip
+                        assign p_date = parts[1] | strip | remove: '-' | plus: 0
+                        if p_val == value and p_date > today_num
+                          assign v_soon_here = true
+                        endif
+                      endif
+                    endfor
+
                     assign v_note = ''
                     assign v_disabled = false
-                    if product_state == 'available' and v_any_available == false
+                    if v_soon_here
+                      assign v_note = 'walterin.buy.coming_soon' | t
+                    elsif product_state == 'available' and v_any_available == false
                       assign v_note = 'walterin.buy.sold_out' | t
                       assign v_disabled = true
                     elsif product_state == 'sold_out'
@@ -362,6 +392,21 @@
       {%- endcapture -%}
 
       {%- comment -%} ---- 4. Act ---- {%- endcomment -%}
+      {%- liquid
+        assign selected_soon = ''
+        for line in soon_lines
+          assign parts = line | split: '|'
+          if parts.size >= 3
+            assign p_val = parts[0] | strip
+            assign p_date = parts[1] | strip | remove: '-' | plus: 0
+            if selected.options contains p_val and p_date > today_num
+              assign selected_soon = parts[2] | strip
+            endif
+          endif
+        endfor
+      -%}
+      <p class="wui-buy__soon" data-wui-soon {% if selected_soon == blank %}hidden{% endif %}>{{ selected_soon }}</p>
+
       {%- case product_state -%}
         {%- when 'available' -%}
           <product-form class="wui-buy__form" data-section="{{ section.id }}">
@@ -434,9 +479,6 @@
             and so it disappears the moment the product becomes buyable — nobody has to remember to
             take it down. Leave it empty and nothing renders: no date is better than a wrong one.
           {%- endcomment -%}
-          {%- if section.settings.coming_soon_note != blank -%}
-            <p class="wui-buy__soon">{{ section.settings.coming_soon_note | escape }}</p>
-          {%- endif -%}
           <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
             {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
               {%- if form.posted_successfully? -%}
@@ -651,12 +693,21 @@
           takes itself off the page on launch day with nobody having to remember it.
         {%- endcomment -%}
         {%- liquid
+          comment
+            Plain output, NOT metafield_tag. metafield_tag wraps rich text in
+            <div class="metafield-rich_text_field">…</div>; splitting this capture on '<h3' throws
+            the opening <div> away with the discarded first chunk but keeps its '</div>'. Each
+            wrapper therefore left one unmatched closing tag, the browser closed .wui-buy that many
+            elements early, and the variants <script> ended up OUTSIDE the root — so
+            walterin-buy.js bailed at `if (!data) return` and variant switching was dead on every
+            product page. Without the wrapper the markup balances and the engine runs.
+          endcomment
           capture notes_html
             if wui.notes != blank
-              echo wui.notes | metafield_tag
+              echo wui.notes
             endif
             if product_state == 'coming_soon' and wui.preorder_note != blank
-              echo wui.preorder_note | metafield_tag
+              echo wui.preorder_note
             endif
           endcapture
           assign note_chunks = notes_html | split: '<h3'
@@ -732,11 +783,50 @@
           "available": {% if preview == 'buyable' or preview == 'low_stock' %}true{% elsif preview == 'first_sold_out' %}{% if forloop.first %}false{% else %}true{% endif %}{% elsif preview == 'sold_out' %}false{% else %}{{ variant.available }}{% endif %},
           "price": {{ variant.price | money_without_trailing_zeros | json }},
           "shipping": {{ variant.requires_shipping }},
+          "soon": {%- capture v_soon -%}{%- for line in soon_lines -%}{%- assign parts = line | split: '|' -%}{%- if parts.size >= 3 -%}{%- assign p_val = parts[0] | strip -%}{%- assign p_date = parts[1] | strip | remove: '-' | plus: 0 -%}{%- if variant.options contains p_val and p_date > today_num -%}{{ parts[2] | strip }}{%- endif -%}{%- endif -%}{%- endfor -%}{%- endcapture -%}{{ v_soon | strip | json }},
           "left": {% if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold %}{{ variant.inventory_quantity }}{% elsif preview == 'low_stock' and forloop.first %}12{% else %}0{% endif %}
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
   </script>
+  {%- comment -%}
+    The coming-soon date follows the chosen edition — digital and printed launch on different days.
+
+    Deliberately its own listener rather than a line inside walterin-buy.js's paint(): that function
+    is the variant engine for price, availability, express checkout and the sticky bar, and a date
+    that fails to update is a wrong promise on a legal-ish line. This reads the same variant blob,
+    depends on nothing else, and keeps working if the engine changes.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      var root = document.getElementById({{ buy_id | json }});
+      if (!root) return;
+      var blob = root.querySelector('[data-wui-variants]');
+      var soonEl = root.querySelector('[data-wui-soon]');
+      if (!blob || !soonEl) return;
+      var variants;
+      try { variants = JSON.parse(blob.textContent); } catch (e) { return; }
+      var groups = root.querySelectorAll('.wui-choices');
+      function apply() {
+        var combo = [];
+        groups.forEach(function (g) {
+          var picked = g.querySelector('.wui-choice__input:checked');
+          combo.push(picked ? picked.value : null);
+        });
+        var hit = variants.filter(function (v) {
+          return combo.every(function (c, i) { return c === null || v.options[i] === c; });
+        })[0];
+        var text = (hit && hit.soon) || '';
+        soonEl.textContent = text;
+        soonEl.hidden = !text;
+      }
+      root.addEventListener('change', function (e) {
+        if (e.target && e.target.classList.contains('wui-choice__input')) apply();
+      });
+      apply();
+    })();
+  </script>
+
   {%- if section.settings.remaining_text != blank -%}
     <span hidden data-wui-remaining-template>{{ section.settings.remaining_text | escape }}</span>
   {%- endif -%}
@@ -879,8 +969,9 @@
   .wui .wui-notify__row { display: flex; gap: var(--wui-12); }
   .wui .wui-notify__row .wui-input { flex: 1; }
   .wui .wui-notify__row .wui-btn { flex: none; }
-  .wui .wui-check { display: flex; align-items: flex-start; gap: var(--wui-8); margin-top: var(--wui-16); cursor: pointer; }
-  .wui .wui-check__box { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--wui-ink, #222); }
+  /* .wui-check now lives in walterin-ui.css — the cart's consent box needs the same control.
+     Only the spacing that is specific to this form stays here. */
+  .wui .wui-buy .wui-check { margin-top: var(--wui-16); }
   .wui .wui-notify__note { margin-top: var(--wui-8); }
   @media (max-width: 479px) {
     .wui .wui-notify__row { flex-direction: column; }
@@ -1042,10 +1133,10 @@
       "content": "Before launch: notify me"
     },
     {
-      "type": "text",
-      "id": "coming_soon_note",
-      "label": "When it goes on sale",
-      "info": "Shown above the notify form while the product cannot be bought, and only then. Leave empty if there is no confirmed date — never guess one."
+      "type": "textarea",
+      "id": "coming_soon_dates",
+      "label": "When each edition goes on sale",
+      "info": "One line per edition: Option value | YYYY-MM-DD | Text. The line disappears by itself on its date. Leave empty if there is no confirmed date — never guess one."
     },
     {
       "type": "text",

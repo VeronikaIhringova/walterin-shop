@@ -173,22 +173,29 @@
    duplicate. The value now carries the brand face; the option name stays small.
    -------------------------------------------------------------------------- */
 .wui .product-option {
-  /* Label above value, not beside it. The cart's details column is ~154px, and a value like
-     "DIGITAL INTERACTIVE EDITION" has a single word wider than the space left next to its label —
-     so side by side it dropped whole and stranded "Format:" alone on a line. Stacking is the one
-     arrangement that is right at every width instead of right until the value gets long. */
-  display: grid;
-  gap: var(--wui-space-control);
-  margin-top: var(--wui-space-item);
-}
-.wui .product-option dt { font-size: var(--wui-fs-small); opacity: 0.75; }
-.wui .product-option dd {
+  /* One compact line, no labels: "English · Digital Interactive Edition".
+     The labels were never carrying information — nobody needs to be told that English is a
+     Language — and in a ~154px column a label plus a value like "DIGITAL INTERACTIVE EDITION"
+     could not share a line, which left "Format:" stranded on its own. Dropping the labels
+     removes the problem instead of arranging around it. */
+  display: inline;
   margin: 0;
-  min-width: 0;
+}
+.wui .product-option dt { display: none; }
+.wui .product-option dd {
+  display: inline;
+  margin: 0;
   font-family: var(--wui-display);
   font-size: var(--wui-fs-body);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+/* The separator between values, drawn by CSS so no Liquid has to guess which one is last. */
+.wui .product-option + .product-option dd::before { content: ' · '; }
+.wui :is(.cart-item, .cart-drawer, cart-drawer) dl {
+  display: block;
+  margin: var(--wui-space-item) 0 0;
+  line-height: 1.35;
 }
 
 /* --------------------------------------------------------------------------
@@ -400,14 +407,6 @@
   font-size: var(--wui-fs-body);
 }
 
-/* Variant options sit side by side and wrap together, instead of each taking its own line —
-   "Language: ENGLISH   Format: DIGITAL INTERACTIVE EDITION". */
-.wui :is(.cart-item, .cart-drawer, cart-drawer) dl {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--wui-16);
-  margin: 0;
-}
 
 /* --------------------------------------------------------------------------
    Header: one row, one icon family
@@ -708,7 +707,11 @@
 .wui .wui-choice__note { font-size: var(--wui-fs-small); line-height: 1.35; font-variant-numeric: tabular-nums; }
 .wui .wui-choice:has(input:focus-visible) .wui-choice__dot { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
 .wui .wui-choice:has(input:disabled) { cursor: not-allowed; }
-.wui .wui-choice:has(input:disabled) > * { opacity: var(--wui-faded); }
+/* Fade the visible parts only — never the input itself. The native radio is stretched over the
+   whole label at opacity 0; :has(input:disabled) scores higher than the input's own rule, so it
+   was overriding that 0 with 0.4 and Safari painted a full-size ghost radio behind the dot.
+   That is the "faint circle" on sold-out options. */
+.wui .wui-choice:has(input:disabled) > *:not(.wui-choice__input) { opacity: var(--wui-faded); }
 .wui .wui-choice:has(input:disabled):hover .wui-choice__dot { background-color: var(--wui-paper); }
 /* A long name (11+ letters) or three options step down to the body size instead of breaking */
 .wui .wui-choices--long .wui-choice__name,
@@ -887,3 +890,64 @@
   .wui .wui-scope *::after { transition: none !important; animation: none !important; }
   .wui .wui-scope .wui-spinner { animation: wui-spin 1.4s linear infinite !important; }
 }
+
+/* --------------------------------------------------------------------------
+   Checkbox: one component, big enough to tap.
+
+   Promoted out of walterin-buy.liquid, where .wui-check was defined locally, because the cart's
+   eBook consent box needs the same control — and that one is a legal declaration rendered in a
+   20px default grey square, which is both off the design system and hard to hit on a phone.
+   22px box, ink frame, yellow when checked, 44px hit area via the label's padding.
+   -------------------------------------------------------------------------- */
+.wui .wui-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wui-12);
+  cursor: pointer;
+  min-height: 44px;
+  padding: var(--wui-space-control) 0;
+}
+.wui .wui-check__box {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color var(--wui-t-hover) var(--wui-ease);
+}
+.wui .wui-check__box:hover { background: color-mix(in srgb, var(--wui-yellow) 50%, var(--wui-paper)); }
+.wui .wui-check__box:checked { background: var(--wui-yellow); }
+/* The tick is drawn, not a font glyph, so it never depends on a face being loaded. */
+.wui .wui-check__box:checked::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--wui-ink);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+.wui .wui-check__box:focus-visible { outline: var(--wui-line) solid var(--wui-ink); outline-offset: 2px; }
+
+/* The eBook consent block: a framed notice, because it is a declaration the buyer is making. */
+.wui .cart-ebook-consent {
+  display: grid;
+  gap: var(--wui-space-item);
+  margin: var(--wui-space-block) 0;
+  padding: var(--wui-16);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  background: var(--wui-paper);
+  font-size: var(--wui-fs-small);
+  line-height: 1.45;
+  text-align: left;
+}
+.wui .cart-ebook-consent__notice { margin: 0; }

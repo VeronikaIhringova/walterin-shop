@@ -96,6 +96,7 @@
     }
 
     var comingSoon = root.dataset.state === 'coming_soon';
+    var comingSoonText = root.dataset.comingSoon || '';
 
     function paint() {
       var combo = chosen();
@@ -115,7 +116,14 @@
           var exists = anyWithValue.length > 0;
           var text = '';
           var disabled = false;
-          if (!exists || (exact && !exact.available && !anyWithValue.some(function (v) { return v.available; }))) {
+          // An edition with a launch date is not sold out, and must stay selectable: the whole
+          // point is that picking it shows its date and the notify form. Disabling it here also
+          // moved the browser's selection, which fired a second paint and snapped the customer
+          // straight back to the other edition.
+          var soonForValue = anyWithValue.some(function (v) { return v.soon; });
+          if (soonForValue) {
+            text = comingSoonText;
+          } else if (!exists || (exact && !exact.available && !anyWithValue.some(function (v) { return v.available; }))) {
             text = soldOutText; disabled = true;
           } else if (!exact) {
             text = unavailableText; disabled = true;
@@ -198,6 +206,12 @@
         var gi = groups.indexOf(input.closest('.wui-choices'));
         var combo = chosen();
         var exact = find(combo);
+        if (exact && exact.soon) {
+          // a dated edition is a legitimate choice — leave the other groups alone
+          say('');
+          paint();
+          return;
+        }
         if (!exact || !exact.available) {
           var best = nearest(combo, gi);
           if (best) {
