@@ -1,0 +1,97 @@
+/* Walterin launch-label mock-ups — the design system, standalone.
+   paper #FFFDF7 · ink #222222 · yellow #FCF205 · 2.5px frames · 8px radius · hard shadow 4px 4px 0
+   No grey, no gradients, no soft shadows. WalterinBold for display, Inter for reading. */
+@font-face{font-family:'WalterinBold';font-display:swap;
+  src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2')}
+
+:root{
+  --paper:#FFFDF7; --ink:#222222; --yellow:#FCF205;
+  --line:2.5px; --thin:1.5px; --radius:8px; --shadow:4px 4px 0 var(--ink);
+  --display:'WalterinBold','Chalkboard SE','Comic Sans MS',sans-serif;
+  --body:Inter,-apple-system,system-ui,'Segoe UI',sans-serif;
+  --s-block:32px; --s-heading:16px; --s-item:8px; --s-control:4px;
+}
+*{box-sizing:border-box}
+.buy{font-family:var(--body);color:var(--ink);background:var(--paper)}
+.buy__title{font-family:var(--display);font-size:40px;line-height:1.05;margin:0 0 var(--s-heading);text-transform:uppercase}
+.buy__price{font:700 32px/1 var(--body);margin:0 0 var(--s-block)}
+.opt__name{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.02em;margin:0 0 var(--s-item)}
+.opt__row{display:flex;gap:28px;flex-wrap:wrap;margin:0 0 var(--s-block)}
+.opt{display:flex;align-items:center;gap:12px;cursor:pointer;min-height:44px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt__dot{width:18px;height:18px;flex:none;border:var(--line) solid var(--ink);border-radius:50%;background:var(--paper)}
+.opt input:checked + .opt__dot{background:radial-gradient(circle,var(--ink) 0 4px,var(--yellow) 4.5px)}
+.opt__txt{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em}
+.opt input:checked ~ .opt__txt{background:linear-gradient(var(--yellow),var(--yellow)) 0 84%/100% 38% no-repeat}
+
+/* the notify form the label sits on top of */
+.notify{display:grid;gap:var(--s-item);max-width:520px}
+.notify__row{display:flex;gap:12px}
+.notify__input{flex:1;min-height:52px;padding:0 16px;font:400 17px/1 var(--body);color:var(--ink);
+  background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--radius)}
+.notify__input::placeholder{color:var(--ink);opacity:.55}
+.notify__btn{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;
+  padding:0 22px;min-height:52px;background:var(--yellow);color:var(--ink);
+  border:var(--line) solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);cursor:pointer}
+.notify__btn:active{box-shadow:2px 2px 0 var(--ink);transform:translate(2px,2px)}
+.notify__note{font-size:14px;margin:var(--s-item) 0 0}
+
+/* ─────────── DIRECTION 1 · STAMPED ───────────
+   A date stamp, not a button. Nothing is filled: two ink rules, letter-spaced label above,
+   the date large in the display face, the whole thing rotated a degree and a half like it was
+   pressed by hand. The yellow appears only as a marker under the date. */
+.lab1{display:inline-block;transform:rotate(-1.5deg);padding:10px 0;
+  border-top:var(--line) solid var(--ink);border-bottom:var(--line) solid var(--ink)}
+.lab1 .k{display:block;font:400 12px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px}
+.lab1 .v{font-family:var(--display);font-size:26px;line-height:1.1;text-transform:uppercase;letter-spacing:.02em;
+  background:linear-gradient(var(--yellow),var(--yellow)) 0 88%/100% 34% no-repeat}
+
+/* ─────────── DIRECTION 2 · MARQUEE ───────────
+   A banner across the whole column, the way a comic announces a chapter. Solid yellow,
+   ink rules top and bottom, a star at each end. Loud on purpose: it replaces the price as
+   the thing the eye lands on. */
+.lab2{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;
+  background:var(--yellow);border-top:var(--line) solid var(--ink);border-bottom:var(--line) solid var(--ink);
+  padding:14px 16px;text-align:center}
+.lab2 .v{font-family:var(--display);font-size:24px;line-height:1.1;text-transform:uppercase;letter-spacing:.03em}
+.lab2 .st{flex:none;width:14px;height:14px}
+
+/* ─────────── DIRECTION 3 · BALLOON ───────────
+   A speech balloon with its tail pointing at the email field — the house medium, saying the
+   one thing it has to say. Paper fill, ink outline, hard shadow, the date in the display face. */
+.lab3{position:relative;display:inline-block;max-width:100%;background:var(--paper);
+  border:var(--line) solid var(--ink);border-radius:18px;box-shadow:var(--shadow);padding:14px 18px}
+.lab3 .v{font-family:var(--display);font-size:24px;line-height:1.15;text-transform:uppercase;letter-spacing:.02em}
+.lab3::after,.lab3::before{content:'';position:absolute;left:34px;width:0;height:0;border-style:solid}
+.lab3::before{bottom:-18px;border-width:18px 14px 0 0;border-color:var(--ink) transparent transparent transparent}
+.lab3::after{bottom:-13px;border-width:14px 10px 0 0;border-color:var(--paper) transparent transparent transparent}
+
+/* ─────────── product cards ─────────── */
+.cards{display:flex;gap:22px;flex-wrap:wrap}
+.card{width:230px}
+.card__media{position:relative;border:var(--line) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;background:var(--paper);aspect-ratio:3/4}
+.card__media img{width:100%;height:100%;object-fit:cover;display:block}
+.card__title{font-family:var(--display);font-size:20px;text-transform:uppercase;margin:14px 0 2px;line-height:1.15}
+.card__price{font:700 18px/1 var(--body);margin:0}
+
+/* card badge, one per direction, matching its label */
+.bdg1{position:absolute;top:12px;left:-6px;transform:rotate(-3deg);background:var(--paper);
+  border-top:var(--thin) solid var(--ink);border-bottom:var(--thin) solid var(--ink);padding:5px 10px}
+.bdg1 .v{font-family:var(--display);font-size:13px;text-transform:uppercase;letter-spacing:.02em;
+  background:linear-gradient(var(--yellow),var(--yellow)) 0 88%/100% 34% no-repeat}
+
+.bdg2{position:absolute;left:0;right:0;bottom:0;background:var(--yellow);
+  border-top:var(--line) solid var(--ink);padding:8px 10px;text-align:center}
+.bdg2 .v{font-family:var(--display);font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+
+.bdg3{position:absolute;top:10px;right:10px;background:var(--paper);border:var(--line) solid var(--ink);
+  border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:7px 11px;max-width:80%}
+.bdg3 .v{font-family:var(--display);font-size:13px;line-height:1.15;text-transform:uppercase}
+
+@media (max-width:480px){
+  .buy__title{font-size:32px}
+  .lab1 .v{font-size:22px} .lab2 .v{font-size:19px} .lab3 .v{font-size:20px}
+  .notify__row{flex-direction:column}
+  .card{width:100%}
+}

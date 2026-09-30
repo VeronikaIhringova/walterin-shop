@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Launch label — three directions</title>
+<link rel="stylesheet" href="label.css">
+<style>
+  body{margin:0;background:#F2F2F0;color:var(--ink);font:400 15px/1.5 var(--body)}
+  header{background:#fff;border-bottom:var(--line) solid var(--ink);padding:16px 26px;position:sticky;top:0;z-index:9;
+    display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  h1{font:400 17px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;margin:0}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  button{font:600 13px/1 var(--body);padding:11px 16px;border:var(--line) solid var(--ink);background:#fff;
+    border-radius:999px;cursor:pointer;color:var(--ink)}
+  button[aria-pressed="true"]{background:var(--yellow)}
+  .wrap{max-width:1500px;margin:0 auto;padding:30px 26px 70px}
+  .lede{max-width:70ch;font-size:15px;margin:0 0 30px}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+  @media (max-width:1100px){.grid{grid-template-columns:minmax(0,1fr)}}
+  .col{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:24px;display:grid;gap:22px;align-content:start}
+  .col h2{font-family:var(--display);font-size:26px;text-transform:uppercase;margin:0}
+  .col p.why{font-size:14px;margin:0}
+  .mini{border-top:var(--thin) solid var(--ink);padding-top:16px}
+  .mini .sec{font:400 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin:0 0 12px}
+  .fakeform{display:grid;gap:8px;margin-top:14px}
+  .fakerow{display:flex;gap:10px}
+  .fakerow .notify__input{min-height:46px;font-size:15px}
+  .fakerow .notify__btn{min-height:46px;font-size:17px;padding:0 16px}
+  .bleed{margin-left:-24px;margin-right:-24px}
+  .open{justify-self:start}
+  .stage{display:none;padding:0}
+  .stage.on{display:block}
+  .devices{display:flex;gap:26px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:26px}
+  .device{background:#fff;border:var(--line) solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+  .device .lab{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;padding:10px;
+    border-bottom:var(--line) solid var(--ink);text-align:center}
+  .holder{overflow:hidden}
+  iframe{border:0;display:block;transform-origin:0 0}
+  #d .holder{width:882px;height:1080px}
+  #d iframe{width:1440px;height:1763px;transform:scale(.6125)}
+  #m .holder{width:390px;height:1080px}
+  #m iframe{width:390px;height:1080px}
+  .back{margin:0 0 6px}
+</style></head><body>
+
+<header>
+  <h1>Launch label — three directions</h1>
+  <div class="tabs" id="tabs"></div>
+  <div class="tabs" id="viewTabs" hidden>
+    <button id="tD" aria-pressed="true">1440</button>
+    <button id="tM" aria-pressed="true">390</button>
+    <button id="tEN" aria-pressed="true">EN</button>
+    <button id="tSK" aria-pressed="false">SK</button>
+  </div>
+</header>
+
+<!-- ── static overview: all three side by side ── -->
+<div class="wrap" id="overview">
+  <p class="lede">The label that tells someone when an edition arrives. It sits directly above the email
+  field of the notify-me form, because it is the reason to sign up. Below each direction, the same
+  wording as it appears on a product card. <strong>Pick a direction at the top to open the interactive
+  version</strong> — switch Digital ↔ Printed, type in the field, and toggle 1440 / 390 and EN / SK.</p>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- ── interactive ── -->
+<div class="stage" id="stage">
+  <div class="wrap" style="padding-bottom:0">
+    <p class="back"><button id="backBtn">← All three</button></p>
+    <p class="lede" id="cap"></p>
+  </div>
+  <div class="devices">
+    <div class="device" id="d"><div class="lab">Desktop 1440 (at 61%)</div><div class="holder"><iframe id="fd"></iframe></div></div>
+    <div class="device" id="m"><div class="lab">Phone 390</div><div class="holder"><iframe id="fm"></iframe></div></div>
+  </div>
+</div>
+
+<script src="labels.js"></script>
+<script>
+let lang='en', cur=null;
+
+/* the overview renders every direction twice — Digital and Printed — plus its card badges */
+function overview(){
+  const T=COPY[lang];
+  document.documentElement.lang=lang;
+  grid.innerHTML=Object.entries(DIRS).map(([k,[name,why]])=>{
+    const d=+k;
+    return `<div class="col">
+      <h2>${k} · ${name}</h2>
+      <p class="why">${why}</p>
+
+      <div class="mini">
+        <p class="sec">Product page · Digital</p>
+        <div class="${d===2?'bleed':''}">${label(d,T.digital,'digital')}</div>
+        <div class="fakeform">
+          <div class="fakerow">
+            <input class="notify__input" placeholder="${T.email}" aria-label="${T.email}">
+            <button class="notify__btn" type="button">${T.btn}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini">
+        <p class="sec">Product page · Printed</p>
+        <div class="${d===2?'bleed':''}">${label(d,T.printed,'printed')}</div>
+      </div>
+
+      <div class="mini">
+        <p class="sec">No date yet (Tarot, stickers)</p>
+        <div class="${d===2?'bleed':''}">${label(d,T.nodate,'nodate')}</div>
+      </div>
+
+      <div class="mini">
+        <p class="sec">Product cards</p>
+        <div class="cards">
+          ${CARDS.map(c=>`<div class="card" style="width:170px">
+            <div class="card__media"><img src="${c.img}" alt="">${badge(d,T[c.state])}</div>
+            <p class="card__title" style="font-size:16px">${T[c.titleKey]}</p>
+            <p class="card__price" style="font-size:15px">${c.price}</p>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <button class="open" data-open="${k}">Open ${name} →</button>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>show(+b.dataset.open));
+}
+
+/* top tabs */
+Object.entries(DIRS).forEach(([k,v])=>{
+  const b=document.createElement('button');
+  b.textContent=k+' · '+v[0]; b.dataset.k=k; b.setAttribute('aria-pressed','false');
+  b.onclick=()=>show(+k); tabs.append(b);
+});
+
+function show(k){
+  cur=k;
+  [...tabs.children].forEach(b=>b.setAttribute('aria-pressed', +b.dataset.k===k));
+  overviewEl.hidden=true; stage.classList.add('on'); viewTabs.hidden=false;
+  cap.textContent=DIRS[k][0]+' — '+DIRS[k][1];
+  frames();
+}
+function frames(){
+  const src='frame.html?dir='+cur+'&lang='+lang;
+  fd.src=src; fm.src=src;
+}
+function all(){
+  cur=null;
+  [...tabs.children].forEach(b=>b.setAttribute('aria-pressed','false'));
+  overviewEl.hidden=false; stage.classList.remove('on'); viewTabs.hidden=true;
+  overview();
+}
+const overviewEl=document.getElementById('overview');
+backBtn.onclick=all;
+tD.onclick=()=>{const on=tD.getAttribute('aria-pressed')==='true';tD.setAttribute('aria-pressed',!on);d.hidden=on};
+tM.onclick=()=>{const on=tM.getAttribute('aria-pressed')==='true';tM.setAttribute('aria-pressed',!on);m.hidden=on};
+function setLang(l){lang=l;tEN.setAttribute('aria-pressed',l==='en');tSK.setAttribute('aria-pressed',l==='sk');
+  if(cur){frames()}else{overview()}}
+tEN.onclick=()=>setLang('en'); tSK.onclick=()=>setLang('sk');
+overview();
+</script>
+</body></html>

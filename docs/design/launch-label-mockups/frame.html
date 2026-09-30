@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Launch label — interactive</title>
+<link rel="stylesheet" href="label.css">
+<style>
+  body{margin:0;background:var(--paper)}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 24px 64px}
+  .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+  @media (max-width:900px){.cols{grid-template-columns:minmax(0,1fr);gap:40px}}
+  .sec{font:400 12px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;opacity:.6;margin:0 0 14px}
+  .gallery{border:var(--line) solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);
+    overflow:hidden;aspect-ratio:4/5;background:var(--paper)}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block}
+  .cardsec{margin-top:64px;padding-top:40px;border-top:var(--line) solid var(--ink)}
+  /* the label slot: full-bleed only for the marquee, which is meant to span the column */
+  .slot{margin:0 0 var(--s-heading)}
+  .slot--bleed{margin-left:calc(-1 * var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px))}
+</style></head><body class="buy">
+<div class="wrap">
+  <div class="cols">
+    <div class="gallery"><img id="hero" alt=""></div>
+    <div>
+      <h1 class="buy__title" id="ptitle">Walterin Prague — Comic Book</h1>
+      <p class="buy__price" id="pprice">€18,99</p>
+
+      <p class="opt__name" id="lblLang">Language</p>
+      <div class="opt__row">
+        <label class="opt"><input type="radio" name="lang" checked><span class="opt__dot"></span><span class="opt__txt" id="langA">English</span></label>
+        <label class="opt"><input type="radio" name="lang"><span class="opt__dot"></span><span class="opt__txt" id="langB">Czech</span></label>
+      </div>
+
+      <p class="opt__name" id="lblFmt">Format</p>
+      <div class="opt__row">
+        <label class="opt"><input type="radio" name="fmt" value="digital" checked><span class="opt__dot"></span><span class="opt__txt" id="fmtA">Digital Interactive Edition</span></label>
+        <label class="opt"><input type="radio" name="fmt" value="printed"><span class="opt__dot"></span><span class="opt__txt" id="fmtB">Printed Collector’s Edition</span></label>
+      </div>
+
+      <!-- the label sits directly above the email field: it is the reason to sign up -->
+      <div class="slot" id="slot"></div>
+
+      <form class="notify" onsubmit="return false">
+        <div class="notify__row">
+          <input class="notify__input" id="email" type="email" placeholder="Your email address" autocomplete="email">
+          <button class="notify__btn" id="btn" type="submit">Notify me</button>
+        </div>
+        <p class="notify__note" id="note">One email when it’s ready. That’s all.</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="cardsec">
+    <p class="sec" id="secCards">Product cards — collection, home, “You may also like”</p>
+    <div class="cards" id="cards"></div>
+  </div>
+</div>
+
+<script src="labels.js"></script>
+<script>
+  const P=new URLSearchParams(location.search);
+  const DIR=+(P.get('dir')||1), LANG=(P.get('lang')||'en');
+  document.documentElement.lang=LANG;
+  const T=COPY[LANG];
+
+  document.getElementById('hero').src=IMG.prague;
+  document.getElementById('hero').alt=T.pragueAlt;
+  ['lblLang','lblFmt','langA','langB','fmtA','fmtB','btn','note','secCards','ptitle'].forEach(id=>{
+    if(T[id]) document.getElementById(id).textContent=T[id];
+  });
+  document.getElementById('email').placeholder=T.email;
+
+  function render(){
+    const fmt=document.querySelector('input[name=fmt]:checked').value;
+    document.getElementById('pprice').textContent = fmt==='digital' ? '€18,99' : '€27,99';
+    const slot=document.getElementById('slot');
+    slot.className='slot'+(DIR===2?' slot--bleed':'');
+    slot.innerHTML=label(DIR, T[fmt], fmt);
+    document.getElementById('cards').innerHTML=CARDS.map(c=>`
+      <div class="card">
+        <div class="card__media"><img src="${c.img}" alt="">${badge(DIR, T[c.state])}</div>
+        <p class="card__title">${T[c.titleKey]}</p>
+        <p class="card__price">${c.price}</p>
+      </div>`).join('');
+  }
+  document.querySelectorAll('input[name=fmt]').forEach(r=>r.addEventListener('change',render));
+  render();
+</script>
+</body></html>
