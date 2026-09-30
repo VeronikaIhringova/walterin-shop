@@ -80,6 +80,11 @@
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
 - eBooks (Prague, Paris) are digital (no shipping) and go on sale first. Printed books and the tarot are physical and stay unbuyable until Pack4you is signed.
+- **Walterin Prague goes on sale 23 October 2026** (Veronka, 30 Sep 2026), both the printed and the
+  eBook edition. Until then both are unavailable and the page shows the notify-me form with the
+  date. This is the first real date the site has ever carried — if it moves, it moves in
+  `templates/product.walterin-prague-book.json` (`coming_soon_note`) and its Slovak translation,
+  and here.
 - Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
 - Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Facebook & Instagram channel (Meta pixel + Conversions API, "Maximum" data sharing). **Uninstalled (Sep 2026): Judge.me, REZ Preorder Notify me, Track123, Socialwidget.**
 - Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.
@@ -90,9 +95,11 @@
 ## 5. Languages
 
 - English: default, published.
-- Slovak: added, **not published**. 168 store rows imported (products, pages, menus, cookies, SEO).
+- Slovak: **published** (confirmed 30 Sep 2026, `shopLocales`). It was published earlier than the
+  original plan, and it is **not complete**: 44 of 67 metafield values, the header/footer section
+  groups and several templates have no Slovak. See `docs/launch/BACKEND-AUDIT-2026-09-30.md` §T1–T4.
 - German, Czech: unpublished until translated.
-- Plan: publish Slovak together with the new design, after theme texts are translated on the draft.
+- Original plan was to publish Slovak together with the new design. That is superseded: it is live now, so the remaining gaps are a live problem, not a pre-launch one.
 - Theme strings: `locales/sk.json` (Claude Code). Section texts: translated at the end, when sections are final.
 
 ---

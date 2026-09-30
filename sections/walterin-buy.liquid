@@ -428,6 +428,15 @@
 
         {%- when 'coming_soon' -%}
           {{ option_groups }}
+          {%- comment -%}
+            When the product goes on sale, said once and plainly, above the notify form. It is a
+            section setting rather than a metafield so it can be translated with Translate & Adapt
+            and so it disappears the moment the product becomes buyable — nobody has to remember to
+            take it down. Leave it empty and nothing renders: no date is better than a wrong one.
+          {%- endcomment -%}
+          {%- if section.settings.coming_soon_note != blank -%}
+            <p class="wui-buy__soon">{{ section.settings.coming_soon_note | escape }}</p>
+          {%- endif -%}
           <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
             {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
               {%- if form.posted_successfully? -%}
@@ -855,6 +864,14 @@
   .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-8); } /* 24 + 8 = 32 on phones */
   @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
+  /* The on-sale date, above the notify form. Body size, ink, sitting on the label→control step so
+     it reads as part of the form rather than a floating aside. */
+  .wui .wui-buy__soon {
+    margin: 0 0 var(--wui-space-heading);
+    font-size: var(--wui-fs-body);
+    line-height: 1.45;
+    font-weight: 700;
+  }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
   /* Inset lives on .shopify-payment-button alone (assets/walterin-ui.css): applying it here as
      well double-inset the wallet button, leaving its ink ring 3px right of Add to cart. */
@@ -1023,6 +1040,12 @@
     {
       "type": "header",
       "content": "Before launch: notify me"
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_note",
+      "label": "When it goes on sale",
+      "info": "Shown above the notify form while the product cannot be bought, and only then. Leave empty if there is no confirmed date — never guess one."
     },
     {
       "type": "text",

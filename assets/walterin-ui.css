@@ -173,15 +173,18 @@
    duplicate. The value now carries the brand face; the option name stays small.
    -------------------------------------------------------------------------- */
 .wui .product-option {
-  display: flex;
-  flex-wrap: wrap;
+  /* Label above value, not beside it. The cart's details column is ~154px, and a value like
+     "DIGITAL INTERACTIVE EDITION" has a single word wider than the space left next to its label —
+     so side by side it dropped whole and stranded "Format:" alone on a line. Stacking is the one
+     arrangement that is right at every width instead of right until the value gets long. */
+  display: grid;
   gap: var(--wui-space-control);
-  align-items: baseline;
-  margin-top: var(--wui-space-control);
+  margin-top: var(--wui-space-item);
 }
 .wui .product-option dt { font-size: var(--wui-fs-small); opacity: 0.75; }
 .wui .product-option dd {
   margin: 0;
+  min-width: 0;
   font-family: var(--wui-display);
   font-size: var(--wui-fs-body);
   text-transform: uppercase;
@@ -324,15 +327,86 @@
   outline-offset: 2px;
 }
 .wui .pagination__item--current { background: var(--wui-yellow); font-weight: 700; }
-/* The cart's remove control is an icon, not a call to action. */
-.wui .cart-item cart-remove-button > *,
-.wui .cart-drawer cart-remove-button > * {
+
+/* The cart's remove control is an icon, not a call to action.
+
+   It was rendering as a blank yellow button: the old selector required a .cart-item or .cart-drawer
+   ancestor and did not match, so the generic .button rule won; and icon-remove.liquid carries no
+   width or height, so the bin measured 0px wide inside it. Hence "an empty yellow button".
+   The selector has to outrank `.wui :is(.button, .customer button, …):not(.wui-btn)`, which scores
+   (0,3,1) because :is() takes its heaviest argument and :not() counts too. Hence the class chain —
+   it is (0,4,1), not decoration. Losing that contest also left `padding: 0 3rem` on a 53px box,
+   which is what squeezed the bin icon to zero width. Do not "simplify" this selector. */
+.wui cart-remove-button > .button.button--tertiary:not(.wui-btn),
+.wui cart-remove-button > .button:not(.wui-btn),
+.wui cart-remove-button > a,
+.wui cart-remove-button > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 40px;
   min-width: 40px;
   padding: 0;
   background: none;
   border: 0;
   box-shadow: none;
+  color: var(--wui-ink);
+}
+.wui cart-remove-button > .button.button--tertiary:not(.wui-btn):hover,
+.wui cart-remove-button > .button:not(.wui-btn):hover,
+.wui cart-remove-button > a:hover,
+.wui cart-remove-button > button:hover { background: var(--wui-yellow); border-radius: var(--wui-radius); }
+.wui cart-remove-button > * svg { width: 18px; height: 18px; }
+
+/* The quantity stepper is one control, so it takes one frame.
+   Each of the three parts used to carry its own border and radius, which put two rounded boxes
+   side by side with the number squeezed to 20px between them — the "double border, cramped" look.
+   Now: one ink frame around the group, hairline dividers inside it, and room for two digits. */
+.wui .quantity {
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  overflow: hidden;
+}
+.wui .quantity .quantity__button {
+  border: 0;
+  border-radius: 0;
+  min-width: 40px;
+  min-height: 40px;
+  box-shadow: none;
+}
+.wui .quantity .quantity__button[name='minus'] { border-right: var(--wui-line-thin) solid var(--wui-ink); }
+.wui .quantity .quantity__button[name='plus'] { border-left: var(--wui-line-thin) solid var(--wui-ink); }
+.wui .quantity .quantity__input {
+  min-width: 48px;
+  width: 48px;
+  text-align: center;
+  border: 0;
+  background: transparent;
+  color: var(--wui-ink);
+  font-family: var(--wui-body);
+}
+
+/* A download has no quantity: the line shows a fixed 1, sized to match the stepper it replaces. */
+.wui .cart-quantity-fixed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-body);
+}
+
+/* Variant options sit side by side and wrap together, instead of each taking its own line —
+   "Language: ENGLISH   Format: DIGITAL INTERACTIVE EDITION". */
+.wui :is(.cart-item, .cart-drawer, cart-drawer) dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--wui-16);
+  margin: 0;
 }
 
 /* --------------------------------------------------------------------------

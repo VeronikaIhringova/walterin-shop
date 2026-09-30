@@ -18,7 +18,8 @@
         "privacy_link": "Privacy policy",
         "atc_label": "Add to cart",
         "hide_payment_types": "paypal, revolut",
-        "express_label": "Express checkout"
+        "express_label": "Express checkout",
+        "coming_soon_note": "Available from 23 October 2026."
       }
     },
     "faq": {

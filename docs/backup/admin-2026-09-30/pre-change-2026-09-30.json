@@ -1,0 +1,284 @@
+{
+  "prague": {
+    "id": "gid://shopify/Product/9279897338185",
+    "title": "Walterin Prague – Comic Book",
+    "metafields": {
+      "nodes": [
+        {
+          "id": "gid://shopify/Metafield/156496795500873",
+          "namespace": "judgeme",
+          "key": "badge",
+          "type": "string",
+          "value": "<div style='display:none' class='jdgm-prev-badge' data-average-rating='5.00' data-number-of-reviews='1' data-number-of-questions='0'> <span class='jdgm-prev-badge__stars' data-score='5.00' tabindex='0' aria-label='5.00 stars' role='button'> <span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span> </span> <span class='jdgm-prev-badge__text'> 1 review </span> </div>"
+        },
+        {
+          "id": "gid://shopify/Metafield/156496795533641",
+          "namespace": "judgeme",
+          "key": "widget",
+          "type": "string",
+          "value": "<div class='jdgm-rev-widg' data-updated-at='2025-12-05T12:27:38Z' data-average-rating='5.00' data-number-of-reviews='1' data-number-of-questions='0' data-image-url='https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-illustrated-comic-guide-book-cover.jpg?v=1764241286'> <style class='jdgm-temp-hiding-style'>.jdgm-rev-widg{ display: none }</style> <div class='jdgm-rev-widg__header'> <h2 class='jdgm-rev-widg__title'>Customer Reviews</h2>  <div class='jdgm-rev-widg__summary'> <div class='jdgm-rev-widg__summary-stars' aria-label='Average rating is 5.00 stars' role='img'> <span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span> </div> <div class='jdgm-rev-widg__summary-text'>Based on 1 review</div> </div> <a style='display: none' href='#' class='jdgm-write-rev-link' role='button'>Write a review</a> <div class='jdgm-histogram jdgm-temp-hidden'>  <div class='jdgm-histogram__row' data-rating='5' data-frequency='1' data-percentage='100'>  <div class='jdgm-histogram__star' role='button' aria-label=\"100% (1) reviews with 5 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 100%;'> </div> </div> <div class='jdgm-histogram__percentage'>100%</div> <div class='jdgm-histogram__frequency'>(1)</div> </div>  <div class='jdgm-histogram__row' data-rating='4' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 4 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='3' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 3 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='2' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 2 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='1' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 1 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row jdgm-histogram__clear-filter' data-rating=null tabindex='0'></div> </div>     <div class='jdgm-rev-widg__sort-wrapper'></div> </div> <div class='jdgm-rev-widg__body'>  <div class='jdgm-rev-widg__reviews'><div class='jdgm-rev jdgm-divider-top' data-verified-buyer='false' data-review-id='acb0b63d-e5fc-4a0e-9f48-9e5fe636a6d5' data-review-language='' data-product-title='Walterin Prague' data-product-url='/products/walterin-prague' data-thumb-up-count='0' data-thumb-down-count='0'> <div class='jdgm-rev__header'>  <div class='jdgm-rev__icon' > E </div>  <span class='jdgm-rev__rating' data-score='5' tabindex='0' aria-label='5 star review' role='img'> <span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span> </span> <span class='jdgm-rev__timestamp jdgm-spinner' data-content='2025-12-05 11:10:05 UTC'></span>    <div class='jdgm-rev__br'></div> <span class='jdgm-rev__buyer-badge-wrapper'>  </span> <span class='jdgm-rev__author-wrapper'> <span class='jdgm-rev__author'>Erika Litvakova</span> <span class='jdgm-rev__location' >  </span>  </span> </div> <div class='jdgm-rev__content'>  <div class='jdgm-rev__custom-form'>  </div> <b class='jdgm-rev__title'></b> <div class='jdgm-rev__body'><p>Rocker Lou Reed po návšteve Prahy kedysi povedal, že je to najúžasnejšie mesto a nevidel nikdy nič fantastickejšie ako je Praha. Pri listovaní v komiksovom bedekri od Waltera Ihringa si ho dovolím parafrázovať: Neexistuje vtipnejšia a nápaditejšia kniha o Prahe ako je táto! Svieža, poučná i zábavná, plná špičkového kresleného humoru - nevidela som fantastickejší bedeker o Prahe ako je tento!</p></div> <div class='jdgm-rev__pics'>  </div> <div class='jdgm-rev__vids'>   </div> <div class='jdgm-rev__transparency-badge-wrapper'>  </div> </div> <div class='jdgm-rev__actions'> <div class='jdgm-rev__social'></div> <div class='jdgm-rev__votes'></div> </div> <div class='jdgm-rev__reply'>  </div> </div></div> <div class='jdgm-paginate' data-per-page='5' data-url='https://api.judge.me/reviews/reviews_for_widget' style=\"display: none;\"></div>  </div> <div class='jdgm-rev-widg__paginate-spinner-wrapper'> <div class='jdgm-spinner'></div> </div> </div>"
+        },
+        {
+          "id": "gid://shopify/Metafield/156496859529545",
+          "namespace": "reviews",
+          "key": "rating",
+          "type": "rating",
+          "value": "{\"scale_min\":\"1.0\",\"scale_max\":\"5.0\",\"value\":\"5.0\"}"
+        },
+        {
+          "id": "gid://shopify/Metafield/156496859562313",
+          "namespace": "reviews",
+          "key": "rating_count",
+          "type": "number_integer",
+          "value": "1"
+        },
+        {
+          "id": "gid://shopify/Metafield/156739950149961",
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "Discover Prague through 140+ illustrated pages, comic storytelling, and visual humour in this witty, design-driven book. Available as eBook or premium print."
+        },
+        {
+          "id": "gid://shopify/Metafield/156740092625225",
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Walterin Prague | Illustrated Book of Stories & Pocket History"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015721046345",
+          "namespace": "shopify",
+          "key": "genre",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844288841\",\"gid://shopify/Metaobject/267844321609\",\"gid://shopify/Metaobject/267844354377\",\"gid://shopify/Metaobject/267844387145\",\"gid://shopify/Metaobject/267844419913\",\"gid://shopify/Metaobject/267844452681\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015721079113",
+          "namespace": "shopify",
+          "key": "language-version",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844190537\",\"gid://shopify/Metaobject/267844223305\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015721111881",
+          "namespace": "shopify",
+          "key": "target-audience",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844157769\",\"gid://shopify/Metaobject/267844256073\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015721144649",
+          "namespace": "shopify",
+          "key": "book-cover-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844125001\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104383817",
+          "namespace": "walterin",
+          "key": "price_note",
+          "type": "single_line_text_field",
+          "value": "140 pages of Prague, in English or Czech."
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104416585",
+          "namespace": "walterin",
+          "key": "choice_note",
+          "type": "single_line_text_field",
+          "value": "The eBook arrives the moment you pay. The printed book is a softcover, 129 × 207 mm."
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104449353",
+          "namespace": "walterin",
+          "key": "about_heading",
+          "type": "single_line_text_field",
+          "value": "About the book"
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104482121",
+          "namespace": "walterin",
+          "key": "short_title",
+          "type": "single_line_text_field",
+          "value": "Walterin Prague"
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104514889",
+          "namespace": "walterin",
+          "key": "included",
+          "type": "rich_text_field",
+          "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Two editions of the same book.\"}]},{\"type\":\"list\",\"listType\":\"unordered\",\"children\":[{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"The printed book — softcover, 129 × 207 mm, 140 pages, full colour\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"The eBook — a high‑resolution PDF and a fixed‑layout EPUB, both together\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"In the eBook: a clickable contents page and a jump link on every chapter\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"English or Czech — you choose before you order\"}]}]}]}"
+        },
+        {
+          "id": "gid://shopify/Metafield/164358104547657",
+          "namespace": "walterin",
+          "key": "specs",
+          "type": "multi_line_text_field",
+          "value": "Pages: 140\nSize: 129 × 207 mm\nBinding: Softcover\nPrint: Full colour\nLanguages: English · Czech\neBook: PDF · EPUB"
+        },
+        {
+          "id": "gid://shopify/Metafield/164359269613897",
+          "namespace": "walterin",
+          "key": "notes",
+          "type": "rich_text_field",
+          "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Reading it on a screen\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"You get both files: a high-resolution PDF and a fixed-layout EPUB. The drawings keep their proportions on either one, which is the point — the pages were laid out as pages.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"The contents page is clickable and every chapter has a jump link. It reads on a desktop, a tablet, a phone and on fixed-layout readers.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"As a gift\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"For someone who is going to Prague, or who has been and keeps talking about it.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"The printed book is a softcover you can put in a coat pocket. If you need it to arrive by a particular day, write to us before you order and we will tell you whether it is possible.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"About Walter\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Walter Ihring draws humour and caricature. The drawings travel to exhibitions abroad and every now and then come home with an award.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"In 2015 came Walterin Bratislava, a city told in comics. Prague is the next city, and the tarot is the first deck.\"}]}]}"
+        },
+        {
+          "id": "gid://shopify/Metafield/164359269646665",
+          "namespace": "walterin",
+          "key": "preorder_note",
+          "type": "rich_text_field",
+          "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"When can I have it?\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Not yet. Leave your email above and we write once, the day it can be bought — nothing else.\"}]}]}"
+        }
+      ]
+    }
+  },
+  "paris": {
+    "id": "gid://shopify/Product/10024621801801",
+    "title": "Walterin Paris",
+    "metafields": {
+      "nodes": [
+        {
+          "id": "gid://shopify/Metafield/158015736840521",
+          "namespace": "global",
+          "key": "description_tag",
+          "type": "string",
+          "value": "Discover Paris through 140+ illustrated pages, comic storytelling, and visual humour in this witty, design-driven book. Available as eBook or premium print."
+        },
+        {
+          "id": "gid://shopify/Metafield/158015736873289",
+          "namespace": "global",
+          "key": "title_tag",
+          "type": "string",
+          "value": "Walterin Paris | Illustrated Book of Stories & Pocket History"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015736906057",
+          "namespace": "judgeme",
+          "key": "badge",
+          "type": "string",
+          "value": "<div style='display:none' class='jdgm-prev-badge' data-average-rating='0.00' data-number-of-reviews='0' data-number-of-questions='0'> <span class='jdgm-prev-badge__stars' data-score='0.00' tabindex='0' aria-label='0.00 stars' role='button'> <span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span> </span> <span class='jdgm-prev-badge__text'> No reviews </span> </div>"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015736938825",
+          "namespace": "judgeme",
+          "key": "widget",
+          "type": "string",
+          "value": "<div class='jdgm-rev-widg' data-updated-at='2026-01-19T14:52:41Z' data-average-rating='0.00' data-number-of-reviews='0' data-number-of-questions='0' data-image-url='https://cdn.shopify.com/s/files/1/0897/8864/5705/files/versialless.png?v=1768834186'> <style class='jdgm-temp-hiding-style'>.jdgm-rev-widg{ display: none }</style> <div class='jdgm-rev-widg__header'> <h2 class='jdgm-rev-widg__title'>Customer Reviews</h2>  <div class='jdgm-rev-widg__summary'> <div class='jdgm-rev-widg__summary-stars' aria-label='Average rating is 0.00 stars' role='img'> <span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span> </div> <div class='jdgm-rev-widg__summary-text'>Be the first to write a review</div> </div> <a style='display: none' href='#' class='jdgm-write-rev-link' role='button'>Write a review</a> <div class='jdgm-histogram jdgm-temp-hidden'>  <div class='jdgm-histogram__row' data-rating='5' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 5 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='4' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 4 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='3' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 3 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='2' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 2 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row' data-rating='1' data-frequency='0' data-percentage='0'>  <div class='jdgm-histogram__star' role='button' aria-label=\"0% (0) reviews with 1 star rating\"  tabindex='0' ><span class='jdgm-star jdgm--on'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span><span class='jdgm-star jdgm--off'></span></div> <div class='jdgm-histogram__bar'> <div class='jdgm-histogram__bar-content' style='width: 0%;'> </div> </div> <div class='jdgm-histogram__percentage'>0%</div> <div class='jdgm-histogram__frequency'>(0)</div> </div>  <div class='jdgm-histogram__row jdgm-histogram__clear-filter' data-rating=null tabindex='0'></div> </div>     <div class='jdgm-rev-widg__sort-wrapper'></div> </div> <div class='jdgm-rev-widg__body'>  <div class='jdgm-rev-widg__reviews'></div> <div class='jdgm-paginate' data-per-page='5' data-url='https://api.judge.me/reviews/reviews_for_widget' style=\"display: none;\"></div>  </div> <div class='jdgm-rev-widg__paginate-spinner-wrapper'> <div class='jdgm-spinner'></div> </div> </div>"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015737037129",
+          "namespace": "shopify",
+          "key": "book-cover-type",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844125001\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015737069897",
+          "namespace": "shopify",
+          "key": "genre",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844288841\",\"gid://shopify/Metaobject/267844321609\",\"gid://shopify/Metaobject/267844354377\",\"gid://shopify/Metaobject/267844387145\",\"gid://shopify/Metaobject/267844419913\",\"gid://shopify/Metaobject/267844452681\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015737102665",
+          "namespace": "shopify",
+          "key": "language-version",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844190537\",\"gid://shopify/Metaobject/267844223305\"]"
+        },
+        {
+          "id": "gid://shopify/Metafield/158015737135433",
+          "namespace": "shopify",
+          "key": "target-audience",
+          "type": "list.metaobject_reference",
+          "value": "[\"gid://shopify/Metaobject/267844157769\",\"gid://shopify/Metaobject/267844256073\",\"gid://shopify/Metaobject/267845501257\"]"
+        }
+      ]
+    },
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/53676764102985",
+          "title": "English / Digital Interactive Edition",
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/54161966825801",
+            "tracked": true,
+            "requiresShipping": false
+          },
+          "inventoryQuantity": 0,
+          "inventoryPolicy": "DENY"
+        },
+        {
+          "id": "gid://shopify/ProductVariant/53676764135753",
+          "title": "English / Printed Collector’s Edition",
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/54161966858569",
+            "tracked": true,
+            "requiresShipping": true
+          },
+          "inventoryQuantity": 0,
+          "inventoryPolicy": "DENY"
+        },
+        {
+          "id": "gid://shopify/ProductVariant/53676764168521",
+          "title": "French / Digital Interactive Edition",
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/54161966891337",
+            "tracked": true,
+            "requiresShipping": false
+          },
+          "inventoryQuantity": 0,
+          "inventoryPolicy": "DENY"
+        },
+        {
+          "id": "gid://shopify/ProductVariant/53676764201289",
+          "title": "French / Printed Collector’s Edition",
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/54161966924105",
+            "tracked": true,
+            "requiresShipping": true
+          },
+          "inventoryQuantity": 0,
+          "inventoryPolicy": "DENY"
+        }
+      ]
+    }
+  },
+  "tshirt": {
+    "id": "gid://shopify/Product/9579076911433",
+    "title": "Walterin Prague T-shirt (The Absinth Drinker & Green Fairy)",
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/53416754381129",
+          "title": "White",
+          "inventoryPolicy": "CONTINUE",
+          "inventoryQuantity": 0,
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/53898977902921",
+            "tracked": true
+          }
+        }
+      ]
+    }
+  },
+  "ptarot": {
+    "id": "gid://shopify/Product/9869964673353",
+    "title": "Walterin Prague Tarot Cards",
+    "variants": {
+      "nodes": [
+        {
+          "id": "gid://shopify/ProductVariant/53132099649865",
+          "title": "Default Title",
+          "inventoryPolicy": "CONTINUE",
+          "inventoryQuantity": 0,
+          "inventoryItem": {
+            "id": "gid://shopify/InventoryItem/53610631954761",
+            "tracked": true
+          }
+        }
+      ]
+    }
+  }
+}
