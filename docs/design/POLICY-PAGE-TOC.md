@@ -89,10 +89,19 @@ official insertion point exists.
 
 **Option A**, and split it into two pieces that can ship separately:
 
-1. **Make policy pages look like the site.** Extend the `walterin-ui.css` frame rules from
-   `:is(.t-product, .t-page)` to include `.t-policy`, and style `.shopify-policy__title h1` as
-   `wui-title` and the body as `wui-rte`. This is worth doing on its own and is a small, safe
-   change — the pages currently ignore the design system entirely.
+1. **Make policy pages look like the site.**
+
+   > **Corrected 30 Sep 2026.** Adding `.t-policy` to the existing gate would change **nothing**.
+   > Six of those seven rules match `.shopify-section` descendants, and a policy page has no
+   > sections at all; the seventh matches `.page-width` / `.wui-wrap` / `.mw-inner` / `.fwi-inner`,
+   > none of which exist in Shopify's policy markup. See `docs/design/UI-AUDIT-2026-09-30.md`.
+
+   What actually has to happen: add `.shopify-policy__container` to the frame selector at
+   `assets/walterin-ui.css:159` so the text takes `--wui-frame` / `--wui-frame-max` /
+   `--wui-frame-pad`, and write new rules styling `.shopify-policy__title h1` as `wui-title` and
+   `.shopify-policy__body .rte` as `wui-rte`. Today the only policy rule in the whole theme is
+   `assets/base.css:664` (`padding-bottom: 3rem`) — there is no max-width and no horizontal padding
+   at all, so the legal text runs to whatever width `<main>` gives it.
 2. **Add the ToC.** New `snippets/policy-toc.liquid` plus a small script, rendered from
    `layout/theme.liquid` behind `{% if request.page_type == 'policy' %}`. Sticky two-column on
    desktop, `<details>` on mobile, `--wui-*` spacing, ink/paper/yellow only, current section marked
