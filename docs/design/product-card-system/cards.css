@@ -1,0 +1,135 @@
+/* Walterin product card system — mock-up stylesheet.
+   Design system: paper #FFFDF7 · ink #222222 · yellow #FCF205 · 2.5px frames · 8px radius.
+   Calm by default. The card says what it is and what it costs; everything else is a small label. */
+@font-face{font-family:'WalterinBold';font-display:swap;
+  src:url(https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WalterinBold.woff2?v=1725196093) format('woff2')}
+
+:root{
+  --paper:#FFFDF7; --ink:#222222; --yellow:#FCF205;
+  --line:2.5px; --thin:1.5px; --radius:8px; --pill:999px;
+  --shadow:4px 4px 0 var(--ink);
+  --display:'WalterinBold','Chalkboard SE','Comic Sans MS',sans-serif;
+  --body:Inter,-apple-system,system-ui,'Segoe UI',sans-serif;
+  --faded:.4;
+  --t:180ms cubic-bezier(.2,.75,.2,1);
+}
+*{box-sizing:border-box}
+
+/* ── the card ─────────────────────────────────────────────────────────────── */
+.pc{display:block;text-decoration:none;color:var(--ink);font-family:var(--body);max-width:100%}
+.pc__media{
+  position:relative;overflow:hidden;background:var(--paper);aspect-ratio:3/4;
+  border:var(--line) solid var(--ink);border-radius:var(--radius);
+}
+.pc__media img{width:100%;height:100%;object-fit:cover;display:block}
+.pc__foot{padding:14px 2px 0}
+.pc__title{font-family:var(--display);font-size:20px;line-height:1.15;text-transform:uppercase;margin:0 0 4px}
+.pc__price{font:700 17px/1 var(--body);margin:0}
+.pc__price .from{font:400 14px/1 var(--body)}
+
+/* ── top-left: the category. Plain text, never a chip — it is context, not a claim. ── */
+.pc__cat{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font:400 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+}
+
+/* ── top-right: the status. At most one, ever. ── */
+.pc__status{
+  position:absolute;top:10px;right:10px;z-index:2;
+  font:400 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 12px;border-radius:var(--pill);white-space:nowrap;
+}
+
+/* ── bottom bar: the date, or what the card most needs to say ──
+   Hidden until hover or keyboard focus on a mouse device; always shown on touch. */
+.pc__bar{
+  position:absolute;left:10px;right:10px;bottom:10px;z-index:2;
+  display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 14px;
+  font-family:var(--display);font-size:15px;line-height:1.15;letter-spacing:.03em;text-transform:uppercase;
+  text-align:center;
+  opacity:0;transform:translateY(8px);transition:opacity var(--t),transform var(--t);
+}
+/* The bar exists only when the card has something true to say — a date, "coming soon",
+   "sold out". A buyable card has nothing to add, so hovering it underlines the title instead
+   of showing a bar that says "View". Nothing invents a reason to appear. */
+.pc:hover .pc__bar,
+.pc:focus-visible .pc__bar{opacity:1;transform:none}
+.pc:hover .pc__title,
+.pc:focus-visible .pc__title{text-decoration:underline;text-underline-offset:3px}
+.pc:focus-visible{outline:var(--line) solid var(--ink);outline-offset:3px;border-radius:var(--radius)}
+
+/* Sold out: faded, never a strike-through and never a grey fill (ground truth §6). */
+.pc[data-sold] .pc__media img{opacity:var(--faded)}
+.pc[data-sold] .pc__title,.pc[data-sold] .pc__price{opacity:var(--faded)}
+
+/* Touch: there is no hover, so the bar is part of the card from the start. */
+@media (hover:none),(pointer:coarse){
+  .pc__bar{opacity:1;transform:none}
+}
+.is-touch .pc__bar{opacity:1;transform:none}
+
+/* ══ VARIATION 1 · QUIET ═══════════════════════════════════════════════════
+   Paper on paper. The bar is a framed strip, the pill is outlined, nothing is filled.
+   The calmest of the three and the closest to the reference's restraint. */
+.pc--v1 .pc__status{background:var(--paper);border:var(--thin) solid var(--ink);color:var(--ink)}
+.pc--v1 .pc__bar{background:var(--paper);border:var(--thin) solid var(--ink);border-radius:var(--radius);color:var(--ink)}
+
+/* ══ VARIATION 2 · MARKER ══════════════════════════════════════════════════
+   The house yellow does the work. No borders on the labels — the yellow is the label.
+   Fully rounded, like the reference bar. */
+.pc--v2 .pc__status{background:var(--yellow);border:0;color:var(--ink)}
+.pc--v2 .pc__bar{background:var(--yellow);border:0;border-radius:var(--pill);color:var(--ink)}
+.pc--v2 .pc__media{box-shadow:var(--shadow)}
+
+/* ══ VARIATION 3 · INK ═════════════════════════════════════════════════════
+   Ink fill, paper text. The highest contrast and the quietest colour — yellow is kept
+   for actions only, so a card never competes with a button. */
+.pc--v3 .pc__status{background:var(--ink);border:0;color:var(--paper)}
+.pc--v3 .pc__bar{background:var(--ink);border:0;border-radius:var(--radius);color:var(--paper)}
+
+/* ── grids ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px}
+.grid--tight{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+
+/* ── product page (the matching states) ── */
+.pp{font-family:var(--body);color:var(--ink)}
+.pp__title{font-family:var(--display);font-size:32px;line-height:1.1;text-transform:uppercase;margin:0 0 12px}
+.pp__price{font:700 28px/1 var(--body);margin:0 0 24px}
+.pp__price .from{font:400 16px/1 var(--body)}
+.opt__name{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.02em;margin:0 0 8px}
+.opt__row{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 24px}
+.opt{display:flex;align-items:center;gap:10px;cursor:pointer;min-height:44px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt__dot{width:18px;height:18px;flex:none;border:var(--line) solid var(--ink);border-radius:50%;background:var(--paper)}
+.opt input:checked + .opt__dot{background:radial-gradient(circle,var(--ink) 0 4px,var(--yellow) 4.5px)}
+.opt__txt{font-family:var(--display);font-size:17px;text-transform:uppercase;letter-spacing:.02em}
+.opt input:checked ~ .opt__txt{background:linear-gradient(var(--yellow),var(--yellow)) 0 84%/100% 38% no-repeat}
+
+/* the launch label on the product page — the same shape as that variation's card bar,
+   so a card and the page it opens are recognisably the same thing */
+.pp__label{display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px 16px;
+  font-family:var(--display);font-size:17px;letter-spacing:.03em;text-transform:uppercase;text-align:center;
+  margin:0 0 12px;max-width:520px}
+.v1 .pp__label{background:var(--paper);border:var(--thin) solid var(--ink);border-radius:var(--radius)}
+.v2 .pp__label{background:var(--yellow);border:0;border-radius:var(--pill)}
+.v3 .pp__label{background:var(--ink);border:0;border-radius:var(--radius);color:var(--paper)}
+
+.notify{display:grid;gap:8px;max-width:520px}
+.notify__row{display:flex;gap:10px}
+.notify__input{flex:1;min-height:50px;padding:0 15px;font:400 16px/1 var(--body);color:var(--ink);
+  background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--radius)}
+.notify__input::placeholder{color:var(--ink);opacity:.55}
+.btn{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.02em;padding:0 20px;
+  min-height:50px;background:var(--yellow);color:var(--ink);border:var(--line) solid var(--ink);
+  border-radius:var(--radius);box-shadow:var(--shadow);cursor:pointer}
+.btn:active{box-shadow:2px 2px 0 var(--ink);transform:translate(2px,2px)}
+.btn[disabled]{opacity:var(--faded);box-shadow:none;cursor:not-allowed}
+.note{font-size:14px;margin:8px 0 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:480px){
+  .pc__title{font-size:18px}
+  .pc__bar{font-size:13px;min-height:42px}
+  .pp__title{font-size:26px}
+  .notify__row{flex-direction:column}
+}

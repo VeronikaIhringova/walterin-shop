@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Product card system — three variations</title>
+<link rel="stylesheet" href="cards.css">
+<style>
+  body{margin:0;background:#F2F2F0;color:var(--ink);font:400 15px/1.5 var(--body)}
+  header{background:#fff;border-bottom:var(--line) solid var(--ink);padding:16px 26px;position:sticky;top:0;z-index:9;
+    display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+  h1{font:400 17px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;margin:0}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  button.t{font:600 13px/1 var(--body);padding:11px 16px;border:var(--line) solid var(--ink);background:#fff;
+    border-radius:999px;cursor:pointer;color:var(--ink)}
+  button.t[aria-pressed="true"]{background:var(--yellow)}
+  .wrap{max-width:1560px;margin:0 auto;padding:28px 26px 70px}
+  .lede{max-width:78ch;margin:0 0 28px}
+  .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  @media (max-width:1200px){.cols{grid-template-columns:minmax(0,1fr)}}
+  .col{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:22px;display:grid;gap:18px;align-content:start}
+  .col h2{font-family:var(--display);font-size:24px;text-transform:uppercase;margin:0}
+  .col .why{font-size:14px;margin:0}
+  .sec{font:400 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin:12px 0 10px}
+  .state{margin:0 0 6px;font-size:12px;opacity:.7}
+  .stategrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .ppmini{border-top:var(--thin) solid var(--ink);padding-top:16px}
+  .stage{display:none}.stage.on{display:block}
+  .devices{display:flex;gap:26px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:24px}
+  .device{background:#fff;border:var(--line) solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+  .device .lab{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;padding:10px;
+    border-bottom:var(--line) solid var(--ink);text-align:center}
+  .holder{overflow:hidden}
+  iframe{border:0;display:block;transform-origin:0 0}
+  #d .holder{width:882px;height:1120px}
+  #d iframe{width:1440px;height:1829px;transform:scale(.6125)}
+  #m .holder{width:390px;height:1120px}
+  #m iframe{width:390px;height:1120px}
+</style></head><body>
+
+<header>
+  <h1>Product card system — three variations</h1>
+  <div class="tabs" id="tabs"></div>
+  <div class="tabs">
+    <button class="t" id="tEN" aria-pressed="true">EN</button>
+    <button class="t" id="tSK" aria-pressed="false">SK</button>
+  </div>
+  <div class="tabs" id="viewTabs" hidden>
+    <button class="t" id="tD" aria-pressed="true">1440</button>
+    <button class="t" id="tM" aria-pressed="true">390</button>
+  </div>
+</header>
+
+<div class="wrap" id="overview">
+  <p class="lede">One calm card. A category top-left, at most one status pill top-right, and a wide flat
+  bar along the bottom of the image that carries the date. The three variations differ only in how the
+  labels are filled and shaped — the structure, the copy and the rules are identical.
+  <strong>Pick a variation to open the interactive version</strong>: hover the cards, tab through them,
+  switch Digital ↔ Printed and toggle 1440 / 390.
+  Full rules: <code>docs/design/PRODUCT-CARD-SYSTEM.md</code>.</p>
+  <div class="cols" id="cols"></div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="wrap" style="padding-bottom:0">
+    <p><button class="t" id="back">← All three</button></p>
+    <p class="lede" id="cap"></p>
+  </div>
+  <div class="devices">
+    <div class="device" id="d"><div class="lab">Desktop 1440 (at 61%)</div><div class="holder"><iframe id="fd"></iframe></div></div>
+    <div class="device" id="m"><div class="lab">Phone 390 — bar always visible</div><div class="holder"><iframe id="fm"></iframe></div></div>
+  </div>
+</div>
+
+<script src="cards.js"></script>
+<script>
+let lang='en', cur=null;
+const overviewEl=document.getElementById('overview');
+
+function ppMini(v,which){
+  const T=COPY[lang];
+  const txt = which==='digital' ? T.availableFrom+' '+T.oct
+            : which==='printed' ? T.availableFrom+' '+T.nov
+            : T.comingSoon;
+  return `<div class="v${v}">
+    <p class="pp__label">${txt}</p>
+    <div class="notify"><div class="notify__row">
+      <input class="notify__input" placeholder="${T.email}" aria-label="${T.email}">
+      <button class="btn" type="button">${T.notify}</button>
+    </div></div>
+  </div>`;
+}
+
+function overview(){
+  document.documentElement.lang=lang;
+  const T=COPY[lang];
+  cols.innerHTML=Object.entries(VARIATIONS).map(([k,[name,why]])=>{
+    const v=+k;
+    return `<div class="col">
+      <h2>${k} · ${name}</h2>
+      <p class="why">${why}</p>
+
+      <p class="sec">Card states</p>
+      <div class="stategrid">
+        ${STATES.map(s=>`<div><p class="state">${s.label}</p>${card(v,s,lang)}</div>`).join('')}
+      </div>
+
+      <p class="sec">Product page · dated (digital)</p>
+      <div class="ppmini">${ppMini(v,'digital')}</div>
+
+      <p class="sec">Product page · dated (printed)</p>
+      <div class="ppmini">${ppMini(v,'printed')}</div>
+
+      <p class="sec">Product page · no date</p>
+      <div class="ppmini">${ppMini(v,'soon')}</div>
+
+      <button class="t" data-open="${k}">Open ${name} →</button>
+    </div>`;
+  }).join('');
+  cols.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>show(+b.dataset.open));
+  /* the "hover" sample is shown in its hovered state so it can be judged without a mouse */
+  cols.querySelectorAll('.pc.is-forced .pc__bar').forEach(b=>{b.style.opacity=1;b.style.transform='none'});
+}
+
+Object.entries(VARIATIONS).forEach(([k,v])=>{
+  const b=document.createElement('button');b.className='t';
+  b.textContent=k+' · '+v[0];b.dataset.k=k;b.setAttribute('aria-pressed','false');
+  b.onclick=()=>show(+k);tabs.append(b);
+});
+function frames(){const src='frame.html?v='+cur+'&lang='+lang;fd.src=src;fm.src=src}
+function show(k){cur=k;
+  [...tabs.children].forEach(b=>b.setAttribute('aria-pressed',+b.dataset.k===k));
+  overviewEl.hidden=true;stage.classList.add('on');viewTabs.hidden=false;
+  cap.textContent=VARIATIONS[k][0]+' — '+VARIATIONS[k][1];frames()}
+function all(){cur=null;[...tabs.children].forEach(b=>b.setAttribute('aria-pressed','false'));
+  overviewEl.hidden=false;stage.classList.remove('on');viewTabs.hidden=true;overview()}
+back.onclick=all;
+tD.onclick=()=>{const on=tD.getAttribute('aria-pressed')==='true';tD.setAttribute('aria-pressed',!on);d.hidden=on};
+tM.onclick=()=>{const on=tM.getAttribute('aria-pressed')==='true';tM.setAttribute('aria-pressed',!on);m.hidden=on};
+function setLang(l){lang=l;tEN.setAttribute('aria-pressed',l==='en');tSK.setAttribute('aria-pressed',l==='sk');
+  if(cur)frames();else overview()}
+tEN.onclick=()=>setLang('en');tSK.onclick=()=>setLang('sk');
+overview();
+</script>
+</body></html>
