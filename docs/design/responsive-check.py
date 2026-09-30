@@ -29,6 +29,16 @@ WHAT COUNTS AS A FAILURE
   2. an element sticks out past the right edge, unless it is inside a horizontal
      scroller (the gallery track and the card carousel legitimately are)
   3. a leaf element's own text is clipped by its box
+  4. a single token breaks across two lines
+
+WHY (4) IS IN HERE
+  The design system says text never breaks inside a word (ground truth §6). A
+  token with no space in it — a price, "+68", "78", a short label — must render
+  on one line at every width. The tarot pile's "+68" badge broke into "+6" and
+  "8" on phones because it is positioned at left:50%, so its available width was
+  only half the stack. Nothing in the old checks caught it: the page did not
+  scroll sideways and nothing was clipped, it just wrapped. Anything absolutely
+  positioned with a percentage offset has the same latent bug.
 """
 import asyncio, sys
 from playwright.async_api import async_playwright
@@ -38,7 +48,7 @@ PAGES = [("/products/tarot", "tarot"), ("/products/walterin-prague", "prague"),
          ("/products/stickers", "stickers"), ("/cart", "cart"), ("/", "home"),
          ("/pages/where-to-find-us", "where")]
 LOCALES = [("", "en"), ("/sk", "sk")]
-WIDTHS = [320, 360, 390, 412]
+WIDTHS = [320, 360, 375, 390, 412]
 SCALES = [100, 175]
 HIDE = "#shopify-pc__banner,.shopify-pc__banner__dialog{display:none!important}"
 UA = ("Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -71,8 +81,30 @@ SCAN = r"""() => {
       clipped.push({ sel: e.tagName.toLowerCase() + '.' + (e.className || '').toString().split(' ')[0],
                      text: (e.innerText || '').trim().slice(0, 30) });
   });
+  // (4) a single token — no whitespace in it — that renders on more than one line.
+  // Measured with a Range over the text node: more than one client rect means it wrapped.
+  const wrapped = [];
+  document.querySelectorAll('body *').forEach(e => {
+    if (e.children.length !== 0) return;
+    const cs = getComputedStyle(e);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return;
+    if (e.closest('[hidden],[aria-hidden="true"]')) return;
+    if (e.closest('details:not([open])')) return;
+    if (e.closest('.visually-hidden, .skip-to-content-link, .wui-sr')) return;
+    const t = (e.textContent || '').trim();
+    // one token only: no spaces, and long enough to be worth checking.
+    // zero-width joiners are deliberate glue, not a break opportunity.
+    if (t.length < 2 || t.length > 24) return;
+    if (/[\s\u00a0]/.test(t.replace(/[\u2060\u200b]/g, ''))) return;
+    const r = document.createRange();
+    r.selectNodeContents(e);
+    if (r.getClientRects().length > 1)
+      wrapped.push({ sel: e.tagName.toLowerCase() + '.' + (e.className || '').toString().split(' ')[0],
+                     text: t.slice(0, 24) });
+  });
   const uniq = a => { const s = new Set(); return a.filter(x => !s.has(x.sel) && s.add(x.sel)).slice(0, 5); };
-  return { vw, doc: document.documentElement.scrollWidth, bad: uniq(bad), clipped: uniq(clipped) };
+  return { vw, doc: document.documentElement.scrollWidth, bad: uniq(bad), clipped: uniq(clipped),
+           wrapped: uniq(wrapped) };
 }"""
 
 async def main():
@@ -98,12 +130,13 @@ async def main():
                                                                f"-webkit-text-size-adjust:{scale}%}}")
                             await pg.wait_for_timeout(2600)
                             r = await pg.evaluate(SCAN)
-                            bad = r['doc'] > r['vw'] + 1 or r['bad'] or r['clipped']
+                            bad = r['doc'] > r['vw'] + 1 or r['bad'] or r['clipped'] or r['wrapped']
                             if bad:
                                 fails += 1
                                 print(f"FAIL {tag:26} doc={r['doc']} vw={r['vw']}")
                                 for x in r['bad']:     print(f"       → {x['sel'][:44]:46} right={x['right']} {x['text']!r}")
                                 for x in r['clipped']: print(f"       ✂ {x['sel'][:44]:46} {x['text']!r}")
+                                for x in r['wrapped']: print(f"       ↵ {x['sel'][:44]:46} broke across lines: {x['text']!r}")
                             else:
                                 print(f"ok   {tag}")
                         except Exception as e:

@@ -315,6 +315,11 @@
     top: 50%;
     z-index: 2;
     transform: translate(-50%, -50%) rotate(-4deg);
+    /* It is centred by the transform, but laid out from left:50%, so its available width is only
+       half the stack — 60px on desktop. "+68" needs about 75px and was wrapping to two lines.
+       The count is a single token and must never break, at any width. */
+    white-space: nowrap;
+    width: max-content;
     padding: 2px 10px;
     font-family: var(--wui-display);
     font-size: 26px;
