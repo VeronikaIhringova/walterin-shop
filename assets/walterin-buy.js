@@ -122,7 +122,8 @@
           // straight back to the other edition.
           var soonForValue = anyWithValue.some(function (v) { return v.soon; });
           if (soonForValue) {
-            text = comingSoonText;
+            // No label under a dated edition: the launch line above says it once, prominently.
+            text = '';
           } else if (!exists || (exact && !exact.available && !anyWithValue.some(function (v) { return v.available; }))) {
             text = soldOutText; disabled = true;
           } else if (!exact) {

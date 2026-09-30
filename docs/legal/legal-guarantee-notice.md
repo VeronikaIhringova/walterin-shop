@@ -43,3 +43,20 @@ been updated to say so, so nobody removes this again by following the old rule.
 
 **Worth doing with the next policy write:** give the Terms clause 10 heading an `id`, so the footer
 link can land on the notice instead of the top of a 13-clause page.
+
+---
+
+## Moved out of the accordions, 30 Sep 2026
+
+Rendered as its own "Legal guarantee" row in the Details accordion between 29 and 30 Sep. Veronka
+removed it: it sat among the accordions that say what the book *is*, and a consumer-law notice does
+not belong between the interesting things.
+
+**Where it lives now:** a small text link at the bottom of the buy column, beside the payment icons,
+opening the official notice in a dialog (`sections/walterin-buy.liquid`, `.wui-buy__legal-link` +
+`.wui-dialog`). Without JavaScript the link goes to Terms clause 10, which carries the same official
+image. Physical products only, unchanged logic. The plain-text reminder for digital content is
+inside the same dialog, from `snippets/legal-guarantee.liquid`.
+
+Requirement is unchanged — one interaction from the words "Legal guarantee" — and a link that opens
+the notice meets it. **Do not put it back in the accordion.**

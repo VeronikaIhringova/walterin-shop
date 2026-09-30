@@ -951,3 +951,45 @@
   text-align: left;
 }
 .wui .cart-ebook-consent__notice { margin: 0; }
+
+/* --------------------------------------------------------------------------
+   Legal guarantee: a quiet link, and the notice in a dialog.
+   It is consumer-law information, not a selling point — it sits with the payment icons at the
+   bottom of the buy column, never in the accordions between the reasons someone buys.
+   -------------------------------------------------------------------------- */
+.wui .wui-buy__legal { margin: var(--wui-space-item) 0 0; }
+.wui .wui-buy__legal-link {
+  font-size: var(--wui-fs-small);
+  color: var(--wui-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.wui .wui-buy__legal-link:hover { background: var(--wui-yellow); }
+
+.wui .wui-dialog {
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  background: var(--wui-paper);
+  color: var(--wui-ink);
+  padding: 0;
+  max-width: min(520px, 92vw);
+  box-shadow: var(--wui-shadow);
+}
+.wui .wui-dialog::backdrop { background: rgb(34 34 34 / 0.45); }
+.wui .wui-dialog__inner { position: relative; padding: var(--wui-24); display: grid; gap: var(--wui-16); }
+.wui .wui-dialog__title { font-family: var(--wui-display); font-size: var(--wui-fs-label); margin: 0; }
+.wui .wui-dialog__close {
+  position: absolute;
+  top: var(--wui-8);
+  right: var(--wui-8);
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  line-height: 1;
+  background: var(--wui-paper);
+  color: var(--wui-ink);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  cursor: pointer;
+}
+.wui .wui-dialog__close:hover { background: var(--wui-yellow); }
