@@ -941,3 +941,31 @@
     text-align: left;
   }
 }
+
+/* ------------------------------------------------------------------------- *
+   Line breaks — see docs/design/LINE-BREAKS.md
+
+   Where a break carries meaning it is placed in the copy itself, with <br> for
+   the cut and a no-break space inside the phrases that must not split. This is
+   only the finish: text-wrap: balance evens out whatever still has to wrap on
+   a narrow screen, so a line never ends as a stub.
+
+   balance is used and pretty is not, on purpose. Measured 30 Sep 2026: both
+   engines report support for pretty, but WebKit re-balances and Chromium does
+   nothing — a property that looks right in Safari and is wrong in Chrome.
+   balance behaves the same in both.
+ * ------------------------------------------------------------------------- */
+.wui .wui-line {
+  display: block;
+  text-wrap: balance;
+}
+
+.wui :is(h1, h2, h3, .wui-title, .wui-heading, .card__heading) {
+  text-wrap: balance;
+}
+
+/* The home-page icon texts carry hand-placed breaks; balance tidies the rest. */
+.wui [class*='ai-feature-text'] p,
+.wui [class*='ai-feature-expanded'] p {
+  text-wrap: balance;
+}

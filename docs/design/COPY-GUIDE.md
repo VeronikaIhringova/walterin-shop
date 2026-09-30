@@ -23,6 +23,18 @@
 - Check the facts against the ground truth before the phrasing: a beautiful sentence with the
   wrong number is still wrong.
 
+## 7. Break the lines by meaning
+
+Writing the words is only half of it. Where the lines break changes how the sentence sounds, and a
+break in the wrong place makes good copy read badly.
+
+The full rule is [LINE-BREAKS.md](LINE-BREAKS.md). In short: break after a full stop, a comma or a
+complete thought, never inside a phrase; never strand a single word on a line; keep pairs like
+`From €18,99` and `9:00–17:00` together with a no-break space; and check the phone as well as the
+desktop, because the same sentence breaks differently at 390px.
+
+This is rule 6 continued. Where you breathe when you read it aloud is where the line ends.
+
 ## What this rules out
 
 Marketing register ("elevate", "must-have", "unlock", "discover the power of"), therapy register

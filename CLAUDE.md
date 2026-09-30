@@ -62,6 +62,14 @@ frame, hard shadow, WalterinBold. Secondary = paper fill, same frame. Small cont
 never a yellow fill. **Never white text on yellow.** Render buttons with
 `{% render 'wui-button' %}`; never write a new button class or set a colour on a button.
 
+## Line breaks (mandatory, from 30 Sep 2026)
+Every text on the site breaks by meaning: `docs/design/LINE-BREAKS.md`. Break at phrase boundaries,
+never inside a phrase. Never leave a single word alone on a line — except one long word on a narrow
+phone card, where nothing else fits. Keep pairs together with a no-break space (`9:00–17:00`,
+`From €18,99`). Lines roughly balanced. **A break that is right at 1440 is often wrong at 390, so
+check both, in both languages.** Use `text-wrap: balance`; never `text-wrap: pretty`, which WebKit
+and Chromium disagree about. Run `python3 tools/check-line-breaks.py` before showing any text.
+
 ## Hard Constraints
 - **Comics Tarot of Consciousness is a product, not a therapy tool.** Never frame it through Jungian, psychological, or self-help language. It is illustration, story, and collectible — first.
 - **Walter has strong personal preferences.** When a creative suggestion conflicts with what is provably more market-effective, flag the conflict clearly and explain both sides — don't quietly override either way.
@@ -84,6 +92,7 @@ Use these based on the task. They are the source of truth — read the relevant 
 - **docs/WHEN-A-NEW-TEMPLATE.md** — the one test for whether a product needs its own template (usually not).
 - **docs/design/SPACING.md** — the five spacing steps and the section-to-section rule.
 - **docs/design/BUTTONS.md** — one button component; never white text on yellow.
+- **docs/design/LINE-BREAKS.md** — where a line is allowed to break, and the check that proves it.
 
 ## What Veronka Needs From You
 
