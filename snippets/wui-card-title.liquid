@@ -38,24 +38,38 @@
 
   if explicit != blank
     assign line_2 = explicit
-    comment
-      Take line two off the end of the title when it is genuinely there, so the
-      name is never printed twice. If it is not (a metafield that rephrases
-      rather than splits) the title stays whole and line two is added under it.
-    endcomment
-    assign cut = t | split: line_2 | first | strip
-    if cut != t and cut != blank
-      assign line_1 = cut
+    assign head = t | split: line_2 | first | strip
+    assign rest = t | split: line_2 | last | strip
+    if head != blank and head != t
+      comment
+        The usual shape: the title ends with line two. "Walterin Prague Sticker
+        Set" minus "Sticker Set" leaves the name.
+      endcomment
+      assign line_1 = head
+    elsif head == blank and rest != blank and rest != t
+      comment
+        Slovak puts the type first: "Sada nálepiek Walterin Praha". Line two is
+        at the FRONT, so the name is whatever follows it, and the card still
+        reads name over type.
+      endcomment
+      assign line_1 = rest
     endif
+  elsif t contains ': '
+    comment
+      A colon belongs to the first line — it is part of the title, not a joint
+      between two halves, so it stays put: "Tarot of Consciousness:".
+    endcomment
+    assign parts = t | split: ': '
+    assign line_1 = parts | first | strip | append: ':'
+    assign line_2 = parts | last | strip
   else
     comment
-      No metafield: split on the title's own punctuation. Colon first, because
-      "Tarot of Consciousness: A Graphic Journey" is the shape most likely to
-      carry a real subtitle. Then the dashes, en and em before the hyphen.
+      A dash is only a connector, so it goes: on two lines the break already
+      does its job and a dash left hanging reads like a mistake.
     endcomment
-    assign seps = ': | – | — | - '
-    assign sep_list = seps | split: '|'
-    for sep in sep_list
+    assign dashes = ' – | — | - '
+    assign dash_list = dashes | split: '|'
+    for sep in dash_list
       if line_2 == blank and t contains sep
         assign parts = t | split: sep
         assign line_1 = parts | first | strip
@@ -65,16 +79,13 @@
   endif
 
   comment
-    Whatever produced line one, drop a separator left dangling at its end.
+    A dash left dangling at the end of line one goes, whichever branch produced
+    it. A colon never does.
   endcomment
-  assign trail = ': | – | — | - |:|–|—|-'
-  assign trail_list = trail | split: '|'
-  for ch in trail_list
-    assign tail = line_1 | slice: -1, 1
-    if tail == ':' or tail == '–' or tail == '—' or tail == '-'
-      assign line_1 = line_1 | slice: 0, line_1.size | replace_last: tail, '' | strip
-    endif
-  endfor
+  assign last_ch = line_1 | slice: -1, 1
+  if last_ch == '–' or last_ch == '—' or last_ch == '-'
+    assign line_1 = line_1 | replace_last: last_ch, '' | strip
+  endif
 
   if line_1 == blank
     assign line_1 = t
