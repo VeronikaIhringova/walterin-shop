@@ -1,0 +1,69 @@
+{%- comment -%}
+  The one place every launch date lives.
+
+  Echoes the launch date of a variant as `YYYYMMDD`, or nothing when that
+  variant has no launch date and is governed by stock alone.
+
+  Walterin Prague sells two editions that launch a fortnight apart, so a date
+  belongs to a VARIANT, not a product: the eBook on 23 October 2026, the
+  printed book on 10 November. The tarot launches whole on 10 November.
+
+  The table is `handle|match|YYYYMMDD`, where `match` is one of:
+    - `*`         the whole product
+    - `digital`   every variant that does not ship (the eBook)
+    - `physical`  every variant that does ship (the printed book)
+    - `sku:ABC`   one variant, by SKU
+
+  **Never match on an option value or a variant title.** Those are translated:
+  on /sk/ "Digital Interactive Edition" is Slovak, so a title match finds
+  nothing and the whole gate silently disappears in one language. A SKU and
+  requires_shipping are the same in every language. (This is the same reason
+  the waitlist tag is built from the SKU.)
+
+  A specific row always beats a `*` row, whatever order they appear in.
+
+  Nothing else in the theme should hard-code a date. Cards, the buy column and
+  the mobile bar all read it from here, so a change lands everywhere at once.
+
+  Accepts: product (required), variant (optional — omit for a product-wide date)
+
+  Usage:
+    {%- capture launch_ts -%}
+      {%- render 'launch-date', product: product, variant: variant -%}
+    {%- endcapture -%}
+    {%- assign launch_ts = launch_ts | strip -%}
+{%- endcomment -%}
+{%- liquid
+  assign rows = 'tarot|*|20261110,walterin-prague|digital|20261023,walterin-prague|physical|20261110' | split: ','
+  assign result = ''
+
+  for row in rows
+    assign parts = row | split: '|'
+    if parts[0] == product.handle
+      if parts[1] == '*'
+        comment
+          A product-wide date is the fallback, so it never overwrites a date
+          set for one edition.
+        endcomment
+        if result == blank
+          assign result = parts[2]
+        endif
+      elsif parts[1] == 'digital'
+        unless variant.requires_shipping
+          assign result = parts[2]
+        endunless
+      elsif parts[1] == 'physical'
+        if variant.requires_shipping
+          assign result = parts[2]
+        endif
+      else
+        assign want_sku = parts[1] | remove_first: 'sku:'
+        if variant.sku != blank and variant.sku == want_sku
+          assign result = parts[2]
+        endif
+      endif
+    endif
+  endfor
+
+  echo result
+-%}

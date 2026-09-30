@@ -72,6 +72,12 @@
     var atcHTML = submitLabel ? submitLabel.innerHTML : '';
     var soldOutText = root.dataset.soldOut || '';
     var unavailableText = root.dataset.unavailable || '';
+    // The two calls to action. Both are in the page when a product holds
+    // editions in different states; only one is ever shown.
+    // Two of each: the one in the column and the one in the mobile bar.
+    var ctaBuy = $$('[data-wui-cta-buy]', root);
+    var ctaNotify = $$('[data-wui-cta-notify]', root);
+    var launchLine = $('[data-wui-launch-line]', root);
 
     function chosen() {
       return groups.map(function (g) {
@@ -95,7 +101,12 @@
       return best || find(partial);
     }
 
-    var comingSoon = root.dataset.state === 'coming_soon';
+    // Launch is a property of the EDITION, not the product: the Prague eBook
+    // opens on 23 October and the printed book on 10 November, so between those
+    // dates one of them sells and the other does not. A variant with no date
+    // is governed by stock alone.
+    function launched(v) { return !v || v.launched !== false; }
+    function buyable(v) { return !!v && launched(v) && v.available; }
 
     function paint() {
       var combo = chosen();
@@ -103,8 +114,21 @@
       if (!variant) return;
 
       // Per value: does a variant exist with this value and the rest of the choice, and is it available?
-      // Before launch nothing is buyable yet, so nothing is marked sold out either.
-      if (!comingSoon) groups.forEach(function (g, gi) {
+      groups.forEach(function (g, gi) {
+        // Does this group distinguish launch dates? On Walterin Prague the
+        // Format group does; the Language group does not, because both
+        // languages wait for the same two dates. A date beside every value in
+        // a group that does not vary says nothing and repeats the line above
+        // the email field, so that group stays quiet. Mirrors the same test in
+        // walterin-buy.liquid, so the page and the script agree.
+        var groupDates = $$('.wui-choice', g).map(function (label) {
+          var v = $('.wui-choice__input', label).value;
+          var withValue = variants.filter(function (x) { return x.options[gi] === v; });
+          var pending = withValue.filter(function (x) { return !launched(x); })[0];
+          return pending ? (pending.date || '') : '';
+        });
+        var groupVaries = groupDates.some(function (d) { return d !== groupDates[0]; });
+
         $$('.wui-choice', g).forEach(function (label) {
           var input = $('.wui-choice__input', label);
           var note = $('[data-wui-note]', label);
@@ -115,12 +139,24 @@
           var exists = anyWithValue.length > 0;
           var text = '';
           var disabled = false;
-          if (!exists || (exact && !exact.available && !anyWithValue.some(function (v) { return v.available; }))) {
+          // An edition whose date has not arrived shows the date and stays
+          // clickable: it is not sold out, it has not opened yet, and the
+          // visitor should be able to read about it and leave an email.
+          var waiting = anyWithValue.filter(function (v) { return !launched(v); });
+          if (waiting.length && waiting.length === anyWithValue.length) {
+            text = groupVaries ? (waiting[0].date || '') : '';
+          } else if (!exists) {
+            // No such edition at all.
             text = soldOutText; disabled = true;
           } else if (!exact) {
+            // This combination does not exist — the only case that is unclickable.
             text = unavailableText; disabled = true;
+          } else if (!launched(exact)) {
+            text = groupVaries ? (exact.date || '') : '';
           } else if (!exact.available) {
-            text = soldOutText; disabled = true;
+            // Sold out, but selectable: choosing it shows the notify form for
+            // that edition, which is the whole point of saying "sold out".
+            text = soldOutText;
           } else if (exact.left && remainingTpl) {
             text = remainingTpl.textContent.replace('[n]', exact.left);
           }
@@ -149,11 +185,24 @@
       });
 
       if (idField) idField.value = variant.id;
+
+      // Swap the call to action for the edition just chosen.
+      var canBuy = buyable(variant);
+      ctaBuy.forEach(function (n) { n.hidden = !canBuy; });
+      ctaNotify.forEach(function (n) { n.hidden = canBuy; });
+      if (launchLine) {
+        var dateText = launched(variant) ? '' : (variant.date || '');
+        if (launchLine.textContent.trim() !== dateText) {
+          launchLine.textContent = dateText;
+        }
+        launchLine.hidden = !dateText;
+      }
+
       if (submit) {
-        submit.disabled = !variant.available;
-        if (stickySubmit) stickySubmit.disabled = !variant.available;
+        submit.disabled = !canBuy;
+        if (stickySubmit) stickySubmit.disabled = !canBuy;
         if (submitLabel) {
-          if (variant.available) {
+          if (canBuy) {
             if (submitLabel.querySelector('[data-wui-price]') === null) submitLabel.innerHTML = atcHTML;
             $$('[data-wui-price]', submitLabel).forEach(function (n) { n.textContent = variant.price; });
           } else {
@@ -198,7 +247,11 @@
         var gi = groups.indexOf(input.closest('.wui-choices'));
         var combo = chosen();
         var exact = find(combo);
-        if (!exact || !exact.available) {
+        // Do not bounce the visitor off an edition that has not opened yet, or
+        // one that is sold out — both are deliberate choices that lead to the
+        // notify form. Only a combination that does not exist moves the
+        // selection, because there is nothing there to choose.
+        if (!exact) {
           var best = nearest(combo, gi);
           if (best) {
             // move the other groups to the nearest variant, and say so

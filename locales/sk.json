@@ -595,6 +595,11 @@
         "language": "Jazyk",
         "language-jazyk": "Jazyk"
       }
+    },
+    "launch": {
+      "from": "Dostupné od [date]",
+      "date_20261023": "23. októbra",
+      "date_20261110": "10. novembra"
     }
   }
 }
