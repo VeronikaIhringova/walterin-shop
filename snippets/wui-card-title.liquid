@@ -1,0 +1,94 @@
+{%- comment -%}
+  Card title on two lines: the name, then the product type.
+
+    WALTERIN PRAGUE          TAROT OF CONSCIOUSNESS      WALTERIN PRAGUE
+    COMIC BOOK               A GRAPHIC JOURNEY           STICKER SET
+
+  The product title in Shopify is never changed — this only decides where the
+  card breaks it. Order of preference:
+
+  1. `walterin.card_line_2` on the product. It holds the SECOND line only, and
+     it is a translated metafield, so Slovak can say something different from
+     English — or say nothing, and the card falls back to one line. This is the
+     field to fill in for a new product, and the only one that handles a title
+     whose two halves are not separated by punctuation
+     ("Walterin Prague Sticker Set"), or whose word order changes between
+     languages ("Sada nálepiek Walterin Praha").
+
+  2. Failing that, the title is split on its own punctuation — a colon or a
+     dash. "Walterin Vienna – Comic Book" therefore works on the day it is
+     created, with no metafield at all.
+
+  3. Failing that, one line. Never a guess.
+
+  Line one is the title with line two taken off the end, then any leftover
+  separator. The separator is dropped rather than shown: on two lines the line
+  break already does the work a dash or colon was doing, and "WALTERIN PRAGUE –"
+  hanging at the end of a line reads like something went wrong.
+
+  Accepts: card_product (required), link_class, link_attrs
+{%- endcomment -%}
+
+{%- liquid
+  assign t = card_product.title | strip
+  assign line_1 = t
+  assign line_2 = ''
+
+  assign explicit = card_product.metafields.walterin.card_line_2.value | default: '' | strip
+
+  if explicit != blank
+    assign line_2 = explicit
+    comment
+      Take line two off the end of the title when it is genuinely there, so the
+      name is never printed twice. If it is not (a metafield that rephrases
+      rather than splits) the title stays whole and line two is added under it.
+    endcomment
+    assign cut = t | split: line_2 | first | strip
+    if cut != t and cut != blank
+      assign line_1 = cut
+    endif
+  else
+    comment
+      No metafield: split on the title's own punctuation. Colon first, because
+      "Tarot of Consciousness: A Graphic Journey" is the shape most likely to
+      carry a real subtitle. Then the dashes, en and em before the hyphen.
+    endcomment
+    assign seps = ': | – | — | - '
+    assign sep_list = seps | split: '|'
+    for sep in sep_list
+      if line_2 == blank and t contains sep
+        assign parts = t | split: sep
+        assign line_1 = parts | first | strip
+        assign line_2 = parts | last | strip
+      endif
+    endfor
+  endif
+
+  comment
+    Whatever produced line one, drop a separator left dangling at its end.
+  endcomment
+  assign trail = ': | – | — | - |:|–|—|-'
+  assign trail_list = trail | split: '|'
+  for ch in trail_list
+    assign tail = line_1 | slice: -1, 1
+    if tail == ':' or tail == '–' or tail == '—' or tail == '-'
+      assign line_1 = line_1 | slice: 0, line_1.size | replace_last: tail, '' | strip
+    endif
+  endfor
+
+  if line_1 == blank
+    assign line_1 = t
+    assign line_2 = ''
+  endif
+-%}
+
+<a
+  href="{{ card_product.url }}"
+  class="{{ link_class | default: 'full-unstyled-link' }}"
+  {{ link_attrs }}
+>
+  <span class="wui-card-title__name">{{ line_1 | escape }}</span>
+  {%- if line_2 != blank -%}
+    <span class="wui-card-title__type">{{ line_2 | escape }}</span>
+  {%- endif -%}
+</a>

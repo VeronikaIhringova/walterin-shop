@@ -876,10 +876,29 @@
   grid-column: 1;
   margin: 0;
   text-align: left;
-  /* Up to three lines, then an ellipsis rather than a card that grows forever. */
+}
+
+/* The title is two lines by design: the name, then the product type. Each is
+   its own block so the break never depends on how wide the card happens to be,
+   and neither half is ever left with one word stranded on a line of its own. */
+.wui .card__heading .wui-card-title__name,
+.wui .card__heading .wui-card-title__type {
+  display: block;
+}
+
+/* A name that is too long for the card still wraps rather than overflows, but
+   it is capped so one long product can't make a whole row tall. */
+.wui .card__heading .wui-card-title__name {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wui .card__heading .wui-card-title__type {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 }
 
