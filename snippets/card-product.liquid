@@ -128,12 +128,6 @@
         {%- if card_badge_label != blank -%}
           <span class="card__marketing-badge">{{ card_badge_label | escape }}</span>
         {%- endif -%}
-        {%- comment -%}
-          Walterin card labels (docs/design/PRODUCT-CARD-SYSTEM.md). The stock .card__badge below
-          still renders for themes that use it; walterin-ui.css hides it inside .wui so the two
-          never show at once.
-        {%- endcomment -%}
-        {%- render 'wui-card-labels', product: card_product -%}
         <div class="card__content">
           <div class="card__information">
             <h3

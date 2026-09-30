@@ -544,20 +544,8 @@
       "more": "More about your rights in your country",
       "digital": "For eBooks we are liable for defects for 24 months from the day the file is supplied. Write to support@walterin.com."
     },
-    "launch": {
-      "oct23": "Available from October 23rd",
-      "nov10": "Available from November 10th",
-      "soon": "Coming soon"
-    },
-    "card": {
-      "new": "New",
-      "new_sr": "New product",
-      "sold_out": "Sold out",
-      "sold_out_sr": "Sold out"
-    },
     "buy": {
       "shipping": "Shipping calculated at checkout",
-      "coming_soon": "Coming soon",
       "sold_out": "Sold out",
       "unavailable": "Not available",
       "switched": "That combination isn’t available. Switched to [value].",

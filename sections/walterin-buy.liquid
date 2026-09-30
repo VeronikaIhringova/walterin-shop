@@ -58,16 +58,6 @@
 
   assign form_id = 'WuiBuyForm-' | append: section.id
   assign notify_id = 'WuiNotify-' | append: section.id
-
-  comment
-    Launch dates live in snippets/launch-date.liquid so the cards and this page read one source.
-    launch_any is "does this product have any upcoming date at all", used to decide whether an
-    edition stays selectable rather than being marked sold out.
-  endcomment
-  capture launch_any
-    render 'launch-date', product: product
-  endcapture
-  assign launch_any = launch_any | strip
   assign buy_id = 'WuiBuy-' | append: section.id
 
   assign digital = true
@@ -128,7 +118,6 @@
   data-pswp-lightbox="{{ 'photoswipe-lightbox.esm.min.js' | asset_url }}"
   data-pswp-css="{{ 'photoswipe.css' | asset_url }}"
   data-sold-out="{{ 'walterin.buy.sold_out' | t | escape }}"
-  data-coming-soon="{{ 'walterin.buy.coming_soon' | t | escape }}"
   data-unavailable="{{ 'walterin.buy.unavailable' | t | escape }}"
   data-switched="{{ 'walterin.buy.switched' | t | escape }}"
 >
@@ -305,21 +294,9 @@
                       endif
                     endfor
 
-                    comment
-                      An edition that has not launched yet is "coming soon", never "sold out" —
-                      sold out is a thing that happened, and nothing has happened to a product
-                      that was never on sale. A dated edition therefore stays selectable, so the
-                      customer can pick it and read its date.
-                    endcomment
-
                     assign v_note = ''
                     assign v_disabled = false
-                    if launch_any != blank
-                      comment
-                        No label under a dated edition: the launch line above the form already
-                        says when it arrives, and saying it twice made the option list noisy.
-                      endcomment
-                    elsif product_state == 'available' and v_any_available == false
+                    if product_state == 'available' and v_any_available == false
                       assign v_note = 'walterin.buy.sold_out' | t
                       assign v_disabled = true
                     elsif product_state == 'sold_out'
@@ -385,31 +362,72 @@
       {%- endcapture -%}
 
       {%- comment -%} ---- 4. Act ---- {%- endcomment -%}
-      {%- comment -%}
-        The launch line comes from snippets/launch-date.liquid — the same source the product cards
-        read, so a card and the page it opens can never disagree about a date.
-      {%- endcomment -%}
-      {%- capture selected_soon -%}{%- render 'launch-date', product: product, variant: selected -%}{%- endcapture -%}
-      {%- assign selected_soon = selected_soon | strip -%}
-      {%- comment -%}
-        The notify form is captured once and used twice: on a product that has not launched, and
-        on a product that HAS launched but whose selected edition has not. Prague is the second
-        case — digital goes on sale 23 October, printed 10 November — so choosing Printed must
-        give the same notify form the tarot shows, not a disabled "Sold out" button with express
-        checkout still sitting under it.
-      {%- endcomment -%}
-      {%- capture notify_html -%}
-        {%- comment -%}
-          The launch line belongs to the form, directly above the email field: it is the reason to
-          sign up. Anywhere higher and it reads as a status note about the product instead.
-        {%- endcomment -%}
-        <p class="wui-buy__soon" data-wui-soon {% if selected_soon == blank %}hidden{% endif %}>{{ selected_soon }}</p>
-          {%- comment -%}
-            When the product goes on sale, said once and plainly, above the notify form. It is a
-            section setting rather than a metafield so it can be translated with Translate & Adapt
-            and so it disappears the moment the product becomes buyable — nobody has to remember to
-            take it down. Leave it empty and nothing renders: no date is better than a wrong one.
-          {%- endcomment -%}
+      {%- case product_state -%}
+        {%- when 'available' -%}
+          <product-form class="wui-buy__form" data-section="{{ section.id }}">
+            <div class="product-form__error-message-wrapper wui-status wui-status--error" role="alert" hidden>
+              <span class="product-form__error-message"></span>
+            </div>
+            {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input type="hidden" name="id" value="{{ selected.id }}" data-wui-variant-id>
+              {{ option_groups }}
+              <div class="wui-buy__cta">
+                <button
+                  type="submit"
+                  name="add"
+                  id="WuiSubmit-{{ section.id }}"
+                  class="wui-btn wui-btn--block"
+                  data-wui-submit
+                  {% unless selected_available %}
+                    disabled
+                  {% endunless %}
+                >
+                  <span data-wui-submit-label>
+                    {%- if selected_available -%}
+                      {{ section.settings.atc_label | escape }}
+                      <span class="wui-num">· {{ price_html }}</span>
+                    {%- else -%}
+                      {{ 'walterin.buy.sold_out' | t }}
+                    {%- endif -%}
+                  </span>
+                  <span class="loading-overlay__spinner hidden wui-spinner" aria-hidden="true"></span>
+                </button>
+                {%- if section.settings.show_express -%}
+                  {%- comment -%}
+                    What this button says is Shopify's decision, not ours: a wallet button when the
+                    visitor's browser has Apple Pay, Google Pay or Shop Pay set up, and an unbranded
+                    "Buy it now" when it does not. So the caption does the explaining — the same
+                    words Shopify's own checkout uses above the same button.
+                  {%- endcomment -%}
+                  <div class="wui-buy__express" data-wui-express {% if digital %}hidden{% endif %}>
+                    {%- if section.settings.express_label != blank -%}
+                      <span class="wui-buy__express-label">{{ section.settings.express_label | escape }}</span>
+                    {%- endif -%}
+                    {{ form | payment_button }}
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.digital_note != blank -%}
+                  <p class="wui-small wui-buy__digital" data-wui-digital {% unless digital %}hidden{% endunless %}>
+                    {{- section.settings.digital_note | escape -}}
+                  </p>
+                {%- endif -%}
+                {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+                  <ul class="wui-pay" role="list" aria-label="{{ 'walterin.buy.payment_methods' | t | escape }}">
+                    {%- assign hidden_types = section.settings.hide_payment_types | downcase | remove: ' ' | split: ',' -%}
+                    {%- for type in shop.enabled_payment_types -%}
+                      {%- assign type_key = type | downcase -%}
+                      {%- unless hidden_types contains type_key -%}
+                        <li>{{ type | payment_type_svg_tag: class: 'wui-pay__icon' }}</li>
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            {%- endform -%}
+          </product-form>
+
+        {%- when 'coming_soon' -%}
+          {{ option_groups }}
           <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
             {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
               {%- if form.posted_successfully? -%}
@@ -469,106 +487,7 @@
               {%- endif -%}
             {%- endform -%}
           </div>
-      {%- endcapture -%}
 
-      {%- liquid
-        assign has_dated = false
-        for v in product.variants
-          capture v_line
-            render 'launch-date', product: product, variant: v
-          endcapture
-          if v_line != blank
-            assign has_dated = true
-          endif
-        endfor
-      -%}
-
-      {%- case product_state -%}
-        {%- when 'available' -%}
-          {%- comment -%}
-            The edition picker sits OUTSIDE the act area. It used to live inside the product form,
-            which meant hiding the buy block for a dated edition hid the radios too — leaving the
-            customer on the notify form with no way back to the one they can actually buy.
-            The radios never needed to be in the form: the variant is submitted by the hidden
-            id field, which walterin-buy.js keeps in step.
-          {%- endcomment -%}
-          {{ option_groups }}
-          <div data-wui-act-buy>
-          <product-form class="wui-buy__form" data-section="{{ section.id }}">
-            <div class="product-form__error-message-wrapper wui-status wui-status--error" role="alert" hidden>
-              <span class="product-form__error-message"></span>
-            </div>
-            {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-              <input type="hidden" name="id" value="{{ selected.id }}" data-wui-variant-id>
-              <div class="wui-buy__cta">
-                <button
-                  type="submit"
-                  name="add"
-                  id="WuiSubmit-{{ section.id }}"
-                  class="wui-btn wui-btn--block"
-                  data-wui-submit
-                  {% unless selected_available %}
-                    disabled
-                  {% endunless %}
-                >
-                  <span data-wui-submit-label>
-                    {%- if selected_available -%}
-                      {{ section.settings.atc_label | escape }}
-                      <span class="wui-num">· {{ price_html }}</span>
-                    {%- else -%}
-                      {{ 'walterin.buy.sold_out' | t }}
-                    {%- endif -%}
-                  </span>
-                  <span class="loading-overlay__spinner hidden wui-spinner" aria-hidden="true"></span>
-                </button>
-                {%- if section.settings.show_express -%}
-                  {%- comment -%}
-                    What this button says is Shopify's decision, not ours: a wallet button when the
-                    visitor's browser has Apple Pay, Google Pay or Shop Pay set up, and an unbranded
-                    "Buy it now" when it does not. So the caption does the explaining — the same
-                    words Shopify's own checkout uses above the same button.
-                  {%- endcomment -%}
-                  <div class="wui-buy__express" data-wui-express {% if digital %}hidden{% endif %}>
-                    {%- if section.settings.express_label != blank -%}
-                      <span class="wui-buy__express-label">{{ section.settings.express_label | escape }}</span>
-                    {%- endif -%}
-                    {{ form | payment_button }}
-                  </div>
-                {%- endif -%}
-                {%- if section.settings.digital_note != blank -%}
-                  <p class="wui-small wui-buy__digital" data-wui-digital {% unless digital %}hidden{% endunless %}>
-                    {{- section.settings.digital_note | escape -}}
-                  </p>
-                {%- endif -%}
-                {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-                  <ul class="wui-pay" role="list" aria-label="{{ 'walterin.buy.payment_methods' | t | escape }}">
-                    {%- assign hidden_types = section.settings.hide_payment_types | downcase | remove: ' ' | split: ',' -%}
-                    {%- for type in shop.enabled_payment_types -%}
-                      {%- assign type_key = type | downcase -%}
-                      {%- unless hidden_types contains type_key -%}
-                        <li>{{ type | payment_type_svg_tag: class: 'wui-pay__icon' }}</li>
-                      {%- endunless -%}
-                    {%- endfor -%}
-                  </ul>
-                {%- endif -%}
-              </div>
-            {%- endform -%}
-          </product-form>
-          </div>
-          {%- comment -%}
-            A dated edition gets the real notify form, not a dead button. Rendered beside the buy
-            block and swapped in by JS when the chosen edition has not launched — which also takes
-            express checkout, "Buy it now" and the payment icons with it, since they live inside
-            [data-wui-act-buy].
-          {%- endcomment -%}
-          {%- if has_dated -%}
-            <div data-wui-act-notify hidden>
-              {{ notify_html }}
-            </div>
-          {%- endif -%}
-        {%- when 'coming_soon' -%}
-          {{ option_groups }}
-          {{ notify_html }}
         {%- else -%}
           {{ option_groups }}
           <div class="wui-buy__cta">
@@ -576,31 +495,6 @@
             {%- render 'wui-button', label: sold_out_label, block: true, attrs: 'disabled' -%}
           </div>
       {%- endcase -%}
-
-      {%- comment -%}
-        Legal guarantee, physical products only.
-
-        Deliberately NOT an accordion. It used to sit between "About the book" and "What you get"
-        — the reasons someone buys — where a consumer-law notice reads as an interruption. It
-        belongs at the quiet, legal end of the buy column, next to the payment icons, as a small
-        text link that opens the official notice. Please keep it there.
-
-        Works without JavaScript: the link points at Terms clause 10, which carries the same
-        official image. With JavaScript it opens in a dialog so nobody loses their place.
-        See docs/design/BUY-SECTION-SPEC.md.
-      {%- endcomment -%}
-      {%- if gpsr_physical.size > 0 -%}
-        <p class="wui-buy__legal">
-          <a class="wui-buy__legal-link" href="{{ shop.terms_of_service.url }}#legal-guarantee" data-wui-guarantee-open>{{ 'walterin.legal_guarantee.title' | t }}</a>
-        </p>
-        <dialog class="wui-dialog" data-wui-guarantee-dialog aria-label="{{ 'walterin.legal_guarantee.title' | t | escape }}">
-          <div class="wui-dialog__inner">
-            <button type="button" class="wui-dialog__close" data-wui-guarantee-close aria-label="{{ 'accessibility.close' | t | escape }}">&times;</button>
-            <h2 class="wui-dialog__title">{{ 'walterin.legal_guarantee.title' | t }}</h2>
-            {%- render 'legal-guarantee', product: product -%}
-          </div>
-        </dialog>
-      {%- endif -%}
 
       {%- comment -%} ---- 5. Read: accordions ---- {%- endcomment -%}
       <div class="wui-accordions">
@@ -719,6 +613,26 @@
         {%- endif -%}
 
         {%- comment -%}
+          Legal guarantee. Goods get the official EU harmonised notice (Impl. Reg. (EU) 2025/1960,
+          applying from 27 Sep 2026); digital content gets a plain reminder, because no harmonised
+          template exists for it. One tap from the words "Legal guarantee" is what the guidance
+          asks for. The snippet decides what to show from the variants.
+        {%- endcomment -%}
+        <details class="wui-accordion" data-wui-acc>
+          <summary>
+            <span class="wui-accordion__title">
+              <span class="wui-label">{{ 'walterin.legal_guarantee.title' | t }}</span>
+            </span>
+            <span class="wui-accordion__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="wui-accordion__wrap">
+            <div class="wui-accordion__body">
+              {%- render 'legal-guarantee', product: product -%}
+            </div>
+          </div>
+        </details>
+
+        {%- comment -%}
           The extra accordions, from the product's own metafields. One rich-text field holds them
           all: every Heading 3 starts a new accordion and everything under it is that accordion's
           text. They are all secondary — a dashed rule and no star — because they sit under About,
@@ -728,38 +642,12 @@
           takes itself off the page on launch day with nobody having to remember it.
         {%- endcomment -%}
         {%- liquid
-          comment
-            Plain output, NOT metafield_tag. metafield_tag wraps rich text in
-            <div class="metafield-rich_text_field">…</div>; splitting this capture on '<h3' throws
-            the opening <div> away with the discarded first chunk but keeps its '</div>'. Each
-            wrapper therefore left one unmatched closing tag, the browser closed .wui-buy that many
-            elements early, and the variants <script> ended up OUTSIDE the root — so
-            walterin-buy.js bailed at `if (!data) return` and variant switching was dead on every
-            product page. Without the wrapper the markup balances and the engine runs.
-          endcomment
-          comment
-            metafield_tag renders the rich text exactly as it must appear — that output is never
-            touched. Only the <div class="metafield-rich_text_field"> wrapper it adds is removed.
-
-            Why: this capture is split on '<h3' to turn one rich-text field into several
-            accordions. The split discards the opening <div> with the first chunk but keeps its
-            '</div>', so each field left one unmatched closing tag. The browser closed .wui-buy
-            that many elements early, the variants <script> ended up OUTSIDE the root, and
-            walterin-buy.js bailed at `if (!data) return` — variant switching was dead on every
-            product page.
-          endcomment
           capture notes_html
             if wui.notes != blank
-              capture notes_raw
-                echo wui.notes | metafield_tag
-              endcapture
-              echo notes_raw | remove_first: '<div class="metafield-rich_text_field">' | replace_last: '</div>', ''
+              echo wui.notes | metafield_tag
             endif
             if product_state == 'coming_soon' and wui.preorder_note != blank
-              capture preorder_raw
-                echo wui.preorder_note | metafield_tag
-              endcapture
-              echo preorder_raw | remove_first: '<div class="metafield-rich_text_field">' | replace_last: '</div>', ''
+              echo wui.preorder_note | metafield_tag
             endif
           endcapture
           assign note_chunks = notes_html | split: '<h3'
@@ -835,70 +723,11 @@
           "available": {% if preview == 'buyable' or preview == 'low_stock' %}true{% elsif preview == 'first_sold_out' %}{% if forloop.first %}false{% else %}true{% endif %}{% elsif preview == 'sold_out' %}false{% else %}{{ variant.available }}{% endif %},
           "price": {{ variant.price | money_without_trailing_zeros | json }},
           "shipping": {{ variant.requires_shipping }},
-          "soon": {%- capture v_soon -%}{%- render 'launch-date', product: product, variant: variant -%}{%- endcapture -%}{{ v_soon | strip | json }},
           "left": {% if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold %}{{ variant.inventory_quantity }}{% elsif preview == 'low_stock' and forloop.first %}12{% else %}0{% endif %}
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
   </script>
-  {%- comment -%}
-    The coming-soon date follows the chosen edition — digital and printed launch on different days.
-
-    Deliberately its own listener rather than a line inside walterin-buy.js's paint(): that function
-    is the variant engine for price, availability, express checkout and the sticky bar, and a date
-    that fails to update is a wrong promise on a legal-ish line. This reads the same variant blob,
-    depends on nothing else, and keeps working if the engine changes.
-  {%- endcomment -%}
-  <script>
-    (function () {
-      var root = document.getElementById({{ buy_id | json }});
-      if (!root) return;
-      var blob = root.querySelector('[data-wui-variants]');
-      var soonEl = root.querySelector('[data-wui-soon]');
-      if (!blob || !soonEl) return;
-      var variants;
-      try { variants = JSON.parse(blob.textContent); } catch (e) { return; }
-      var groups = root.querySelectorAll('.wui-choices');
-      var actBuy = root.querySelector('[data-wui-act-buy]');
-      var actNotify = root.querySelector('[data-wui-act-notify]');
-      function apply() {
-        var combo = [];
-        groups.forEach(function (g) {
-          var picked = g.querySelector('.wui-choice__input:checked');
-          combo.push(picked ? picked.value : null);
-        });
-        var hit = variants.filter(function (v) {
-          return combo.every(function (c, i) { return c === null || v.options[i] === c; });
-        })[0];
-        var text = (hit && hit.soon) || '';
-        soonEl.textContent = text;
-        soonEl.hidden = !text;
-        // A dated edition swaps the whole act area for the notify form. Hiding [data-wui-act-buy]
-        // takes the add-to-cart button, express checkout, "Buy it now" and the payment icons with
-        // it, so there is no way left to try to buy something that has not launched.
-        if (actBuy && actNotify) {
-          actBuy.hidden = !!text;
-          actNotify.hidden = !text;
-        }
-      }
-      root.addEventListener('change', function (e) {
-        if (e.target && e.target.classList.contains('wui-choice__input')) apply();
-      });
-      apply();
-
-      // The guarantee notice opens in a dialog; without JS or <dialog> the link just goes to
-      // Terms clause 10, which carries the same official image.
-      var gLink = root.querySelector('[data-wui-guarantee-open]');
-      var gDialog = root.querySelector('[data-wui-guarantee-dialog]');
-      if (gLink && gDialog && typeof gDialog.showModal === 'function') {
-        gLink.addEventListener('click', function (e) { e.preventDefault(); gDialog.showModal(); });
-        var gClose = gDialog.querySelector('[data-wui-guarantee-close]');
-        if (gClose) gClose.addEventListener('click', function () { gDialog.close(); });
-        gDialog.addEventListener('click', function (e) { if (e.target === gDialog) gDialog.close(); });
-      }
-    })();
-  </script>
-
   {%- if section.settings.remaining_text != blank -%}
     <span hidden data-wui-remaining-template>{{ section.settings.remaining_text | escape }}</span>
   {%- endif -%}
@@ -1026,28 +855,6 @@
   .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-8); } /* 24 + 8 = 32 on phones */
   @media (min-width: 750px) { .wui .wui-buy__box > .wui-accordions { margin-top: var(--wui-16); } } /* 32 + 16 = 48 */
   .wui .wui-buy__form form { display: flex; flex-direction: column; gap: var(--wui-group); }
-  /* The launch line. Same shape and fill as the card bar it opens from (Quiet: paper, thin ink
-     frame, 8px) so a card and its product page are recognisably the same thing.
-     Rules: docs/design/PRODUCT-CARD-SYSTEM.md. */
-  .wui .wui-buy__soon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 520px;
-    min-height: 48px;
-    margin: 0 0 var(--wui-space-heading);
-    padding: 12px 16px;
-    font-family: var(--wui-display);
-    font-size: var(--wui-fs-label);
-    line-height: 1.15;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--wui-ink);
-    background: var(--wui-paper);
-    border: var(--wui-line-thin) solid var(--wui-ink);
-    border-radius: var(--wui-radius);
-  }
   .wui .wui-buy__cta { display: flex; flex-direction: column; gap: var(--wui-12); }
   /* Inset lives on .shopify-payment-button alone (assets/walterin-ui.css): applying it here as
      well double-inset the wallet button, leaving its ink ring 3px right of Add to cart. */
@@ -1055,9 +862,8 @@
   .wui .wui-notify__row { display: flex; gap: var(--wui-12); }
   .wui .wui-notify__row .wui-input { flex: 1; }
   .wui .wui-notify__row .wui-btn { flex: none; }
-  /* .wui-check now lives in walterin-ui.css — the cart's consent box needs the same control.
-     Only the spacing that is specific to this form stays here. */
-  .wui .wui-buy .wui-check { margin-top: var(--wui-16); }
+  .wui .wui-check { display: flex; align-items: flex-start; gap: var(--wui-8); margin-top: var(--wui-16); cursor: pointer; }
+  .wui .wui-check__box { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--wui-ink, #222); }
   .wui .wui-notify__note { margin-top: var(--wui-8); }
   @media (max-width: 479px) {
     .wui .wui-notify__row { flex-direction: column; }

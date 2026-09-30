@@ -224,14 +224,6 @@
                       <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
                         {{ 'products.product.quantity.label' | t }}
                       </label>
-                      {%- if item.requires_shipping == false -%}
-                        {%- comment -%}
-                          A download has no quantity. Buying "2" of the same file is meaningless, and a stepper on it
-                          invites a support email. Digital lines show a fixed 1 and keep only the remove control.
-                          Gated on requires_shipping, the same flag the whole digital/physical split uses.
-                        {%- endcomment -%}
-                        <span class="cart-quantity-fixed" aria-label="{{ 'products.product.quantity.label' | t }}">1</span>
-                      {%- else -%}
                       <quantity-input class="quantity cart-quantity">
                         <button class="quantity__button no-js-hidden" name="minus" type="button">
                           <span class="visually-hidden">
@@ -266,7 +258,6 @@
                           {% render 'icon-plus' %}
                         </button>
                       </quantity-input>
-                      {%- endif -%}
 
                       <cart-remove-button
                         id="Remove-{{ item.index | plus: 1 }}"

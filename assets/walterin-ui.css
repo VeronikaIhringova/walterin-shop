@@ -173,29 +173,19 @@
    duplicate. The value now carries the brand face; the option name stays small.
    -------------------------------------------------------------------------- */
 .wui .product-option {
-  /* One compact line, no labels: "English · Digital Interactive Edition".
-     The labels were never carrying information — nobody needs to be told that English is a
-     Language — and in a ~154px column a label plus a value like "DIGITAL INTERACTIVE EDITION"
-     could not share a line, which left "Format:" stranded on its own. Dropping the labels
-     removes the problem instead of arranging around it. */
-  display: inline;
-  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wui-space-control);
+  align-items: baseline;
+  margin-top: var(--wui-space-control);
 }
-.wui .product-option dt { display: none; }
+.wui .product-option dt { font-size: var(--wui-fs-small); opacity: 0.75; }
 .wui .product-option dd {
-  display: inline;
   margin: 0;
   font-family: var(--wui-display);
   font-size: var(--wui-fs-body);
   text-transform: uppercase;
   letter-spacing: 0.02em;
-}
-/* The separator between values, drawn by CSS so no Liquid has to guess which one is last. */
-.wui .product-option + .product-option dd::before { content: ' · '; }
-.wui :is(.cart-item, .cart-drawer, cart-drawer) dl {
-  display: block;
-  margin: var(--wui-space-item) 0 0;
-  line-height: 1.35;
 }
 
 /* --------------------------------------------------------------------------
@@ -334,79 +324,16 @@
   outline-offset: 2px;
 }
 .wui .pagination__item--current { background: var(--wui-yellow); font-weight: 700; }
-
-/* The cart's remove control is an icon, not a call to action.
-
-   It was rendering as a blank yellow button: the old selector required a .cart-item or .cart-drawer
-   ancestor and did not match, so the generic .button rule won; and icon-remove.liquid carries no
-   width or height, so the bin measured 0px wide inside it. Hence "an empty yellow button".
-   The selector has to outrank `.wui :is(.button, .customer button, …):not(.wui-btn)`, which scores
-   (0,3,1) because :is() takes its heaviest argument and :not() counts too. Hence the class chain —
-   it is (0,4,1), not decoration. Losing that contest also left `padding: 0 3rem` on a 53px box,
-   which is what squeezed the bin icon to zero width. Do not "simplify" this selector. */
-.wui cart-remove-button > .button.button--tertiary:not(.wui-btn),
-.wui cart-remove-button > .button:not(.wui-btn),
-.wui cart-remove-button > a,
-.wui cart-remove-button > button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* The cart's remove control is an icon, not a call to action. */
+.wui .cart-item cart-remove-button > *,
+.wui .cart-drawer cart-remove-button > * {
   min-height: 40px;
   min-width: 40px;
   padding: 0;
   background: none;
   border: 0;
   box-shadow: none;
-  color: var(--wui-ink);
 }
-.wui cart-remove-button > .button.button--tertiary:not(.wui-btn):hover,
-.wui cart-remove-button > .button:not(.wui-btn):hover,
-.wui cart-remove-button > a:hover,
-.wui cart-remove-button > button:hover { background: var(--wui-yellow); border-radius: var(--wui-radius); }
-.wui cart-remove-button > * svg { width: 18px; height: 18px; }
-
-/* The quantity stepper is one control, so it takes one frame.
-   Each of the three parts used to carry its own border and radius, which put two rounded boxes
-   side by side with the number squeezed to 20px between them — the "double border, cramped" look.
-   Now: one ink frame around the group, hairline dividers inside it, and room for two digits. */
-.wui .quantity {
-  display: inline-flex;
-  align-items: stretch;
-  background: var(--wui-paper);
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  overflow: hidden;
-}
-.wui .quantity .quantity__button {
-  border: 0;
-  border-radius: 0;
-  min-width: 40px;
-  min-height: 40px;
-  box-shadow: none;
-}
-.wui .quantity .quantity__button[name='minus'] { border-right: var(--wui-line-thin) solid var(--wui-ink); }
-.wui .quantity .quantity__button[name='plus'] { border-left: var(--wui-line-thin) solid var(--wui-ink); }
-.wui .quantity .quantity__input {
-  min-width: 48px;
-  width: 48px;
-  text-align: center;
-  border: 0;
-  background: transparent;
-  color: var(--wui-ink);
-  font-family: var(--wui-body);
-}
-
-/* A download has no quantity: the line shows a fixed 1, sized to match the stepper it replaces. */
-.wui .cart-quantity-fixed {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  min-height: 40px;
-  font-family: var(--wui-body);
-  font-size: var(--wui-fs-body);
-}
-
 
 /* --------------------------------------------------------------------------
    Header: one row, one icon family
@@ -707,11 +634,7 @@
 .wui .wui-choice__note { font-size: var(--wui-fs-small); line-height: 1.35; font-variant-numeric: tabular-nums; }
 .wui .wui-choice:has(input:focus-visible) .wui-choice__dot { outline: 3px solid var(--wui-ink); outline-offset: 3px; }
 .wui .wui-choice:has(input:disabled) { cursor: not-allowed; }
-/* Fade the visible parts only — never the input itself. The native radio is stretched over the
-   whole label at opacity 0; :has(input:disabled) scores higher than the input's own rule, so it
-   was overriding that 0 with 0.4 and Safari painted a full-size ghost radio behind the dot.
-   That is the "faint circle" on sold-out options. */
-.wui .wui-choice:has(input:disabled) > *:not(.wui-choice__input) { opacity: var(--wui-faded); }
+.wui .wui-choice:has(input:disabled) > * { opacity: var(--wui-faded); }
 .wui .wui-choice:has(input:disabled):hover .wui-choice__dot { background-color: var(--wui-paper); }
 /* A long name (11+ letters) or three options step down to the body size instead of breaking */
 .wui .wui-choices--long .wui-choice__name,
@@ -889,219 +812,4 @@
   .wui .wui-scope *::before,
   .wui .wui-scope *::after { transition: none !important; animation: none !important; }
   .wui .wui-scope .wui-spinner { animation: wui-spin 1.4s linear infinite !important; }
-}
-
-/* --------------------------------------------------------------------------
-   Checkbox: one component, big enough to tap.
-
-   Promoted out of walterin-buy.liquid, where .wui-check was defined locally, because the cart's
-   eBook consent box needs the same control — and that one is a legal declaration rendered in a
-   20px default grey square, which is both off the design system and hard to hit on a phone.
-   22px box, ink frame, yellow when checked, 44px hit area via the label's padding.
-   -------------------------------------------------------------------------- */
-.wui .wui-check {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--wui-12);
-  cursor: pointer;
-  min-height: 44px;
-  padding: var(--wui-space-control) 0;
-}
-.wui .wui-check__box {
-  appearance: none;
-  -webkit-appearance: none;
-  flex: none;
-  width: 22px;
-  height: 22px;
-  margin: 0;
-  background: var(--wui-paper);
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: 4px;
-  cursor: pointer;
-  position: relative;
-  transition: background-color var(--wui-t-hover) var(--wui-ease);
-}
-.wui .wui-check__box:hover { background: color-mix(in srgb, var(--wui-yellow) 50%, var(--wui-paper)); }
-.wui .wui-check__box:checked { background: var(--wui-yellow); }
-/* The tick is drawn, not a font glyph, so it never depends on a face being loaded. */
-.wui .wui-check__box:checked::after {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 11px;
-  border: solid var(--wui-ink);
-  border-width: 0 2.5px 2.5px 0;
-  transform: rotate(45deg);
-}
-.wui .wui-check__box:focus-visible { outline: var(--wui-line) solid var(--wui-ink); outline-offset: 2px; }
-
-/* The eBook consent block: a framed notice, because it is a declaration the buyer is making. */
-.wui .cart-ebook-consent {
-  display: grid;
-  gap: var(--wui-space-item);
-  margin: var(--wui-space-block) 0;
-  padding: var(--wui-16);
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  background: var(--wui-paper);
-  font-size: var(--wui-fs-small);
-  line-height: 1.45;
-  text-align: left;
-}
-.wui .cart-ebook-consent__notice { margin: 0; }
-
-/* --------------------------------------------------------------------------
-   Legal guarantee: a quiet link, and the notice in a dialog.
-   It is consumer-law information, not a selling point — it sits with the payment icons at the
-   bottom of the buy column, never in the accordions between the reasons someone buys.
-   -------------------------------------------------------------------------- */
-.wui .wui-buy__legal { margin: var(--wui-space-item) 0 0; }
-.wui .wui-buy__legal-link {
-  font-size: var(--wui-fs-small);
-  color: var(--wui-ink);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.wui .wui-buy__legal-link:hover { background: var(--wui-yellow); }
-
-.wui .wui-dialog {
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  background: var(--wui-paper);
-  color: var(--wui-ink);
-  padding: 0;
-  max-width: min(520px, 92vw);
-  box-shadow: var(--wui-shadow);
-}
-.wui .wui-dialog::backdrop { background: rgb(34 34 34 / 0.45); }
-.wui .wui-dialog__inner { position: relative; padding: var(--wui-24); display: grid; gap: var(--wui-16); }
-.wui .wui-dialog__title { font-family: var(--wui-display); font-size: var(--wui-fs-label); margin: 0; }
-.wui .wui-dialog__close {
-  position: absolute;
-  top: var(--wui-8);
-  right: var(--wui-8);
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
-  line-height: 1;
-  background: var(--wui-paper);
-  color: var(--wui-ink);
-  border: var(--wui-line-thin) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  cursor: pointer;
-}
-.wui .wui-dialog__close:hover { background: var(--wui-yellow); }
-
-/* ==========================================================================
-   Product cards — the "Quiet" variation. Rules: docs/design/PRODUCT-CARD-SYSTEM.md
-
-   Calm by default: the card says what it is and what it costs, and only adds a label when there
-   is something true to say. Paper fill, thin ink frame, nothing coloured — yellow is kept for
-   actions, so a grid of cards never competes with the buttons on the page.
-   ========================================================================== */
-
-/* The card is a comic frame, like everything else: ink outline, 8px radius, no soft shadow.
-   component-card.css draws a 35px blurred shadow from the theme settings; blur is not in the
-   design system, so it goes here rather than waiting for a settings change. */
-.wui .card-wrapper .card__inner {
-  border: var(--wui-line) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  overflow: hidden;
-  background: var(--wui-paper);
-}
-.wui .card,
-.wui .card--card,
-.wui .card--standard .card__inner { box-shadow: none; }
-
-/* The price was drawn in --accent-color, which resolves to the theme's yellow: yellow text on
-   paper. It fails contrast and breaks the one palette rule that has no exceptions — yellow is for
-   action and marking, never for letters. All text is ink. */
-.wui .price .price-item,
-.wui .price__regular .price-item--regular,
-.wui .card-information > .price { color: var(--wui-ink); }
-
-/* The stock Dawn/Shrine badges are replaced, not restyled: the soft chip, its colour scheme and
-   the sale badge all go. Hidden rather than deleted so the snippet stays close to upstream. */
-.wui .card__badge,
-.wui .card__marketing-badge { display: none !important; }
-
-/* The card media is the positioning context for both labels. */
-.wui .card__inner { position: relative; }
-
-/* Top right: the status pill. At most one is ever rendered (wui-card-labels.liquid). */
-.wui .wui-cl__status {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  font-family: var(--wui-body);
-  font-size: 12px;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--wui-ink);
-  background: var(--wui-paper);
-  border: var(--wui-line-thin) solid var(--wui-ink);
-  border-radius: 999px;
-  padding: 7px 12px;
-  white-space: nowrap;
-}
-
-/* Bottom: one wide flat bar carrying the date. */
-.wui .wui-cl__bar {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 10px 14px;
-  font-family: var(--wui-display);
-  font-size: 15px;
-  line-height: 1.15;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--wui-ink);
-  background: var(--wui-paper);
-  border: var(--wui-line-thin) solid var(--wui-ink);
-  border-radius: var(--wui-radius);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity var(--wui-t-open) var(--wui-ease), transform var(--wui-t-open) var(--wui-ease);
-}
-
-/* Revealed on hover, and on keyboard focus — focus must show exactly what hover shows. */
-.wui .card-wrapper:hover .wui-cl__bar,
-.wui .card:hover .wui-cl__bar,
-.wui .card-wrapper:focus-within .wui-cl__bar,
-.wui .card:focus-within .wui-cl__bar { opacity: 1; transform: none; }
-
-.wui .card-wrapper:hover .card__heading a,
-.wui .card-wrapper:focus-within .card__heading a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* No hover on a phone, so nothing may depend on it: the bar is part of the card from the start
-   and the date is never hidden behind an interaction that cannot happen. */
-@media (hover: none), (pointer: coarse) {
-  .wui .wui-cl__bar { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wui .wui-cl__bar { transition: none; }
-}
-
-/* Sold out fades, and says so. Opacity is never the only signal — the pill and the bar both
-   carry the word. Never a strike-through, never a grey fill (ground truth §6). */
-.wui .card-wrapper:has(.wui-cl__status) .card__media img { }
-.wui .wui-cl--sold .card__media img { opacity: var(--wui-faded); }
-
-@media (max-width: 480px) {
-  .wui .wui-cl__bar { font-size: 13px; min-height: 42px; }
 }
