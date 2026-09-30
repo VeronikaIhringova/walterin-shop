@@ -813,3 +813,29 @@
   .wui .wui-scope *::after { transition: none !important; animation: none !important; }
   .wui .wui-scope .wui-spinner { animation: wui-spin 1.4s linear infinite !important; }
 }
+
+/* ------------------------------------------------------------------------- *
+   Card prices — legibility (A2)
+
+   component-price.css:29 paints .price .price-item with --accent-color, which
+   on this store resolves to #FCE206. Measured against the two grounds it
+   actually sits on: 1.29:1 on paper (#FFFDF7 — Shop, product pages, cart) and
+   1.18:1 on the home page's grey band (#F3F3F3). AA needs 4.5:1, so the price
+   on every product card was very nearly invisible.
+
+   Ink instead: 15.64:1 on paper, 14.34:1 on grey. Yellow stays the brand's
+   accent everywhere it works — buttons, highlights — but it is a background
+   colour here, never a text colour on a light ground.
+
+   Scoped to .wui so it is (0,3,0) and beats component-price.css whatever the
+   stylesheet order happens to be. Only the price text changes colour.
+ * ------------------------------------------------------------------------- */
+.wui .price .price-item {
+  color: var(--wui-ink);
+}
+
+/* The struck-through "was" price: same failure, same ground. Kept a shade
+   lighter than the live price so the two still read as different things. */
+.wui .price--on-sale .main-comapre-price {
+  color: rgba(34, 34, 34, 0.7);
+}
