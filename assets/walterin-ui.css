@@ -839,3 +839,86 @@
 .wui .price--on-sale .main-comapre-price {
   color: rgba(34, 34, 34, 0.7);
 }
+
+/* ------------------------------------------------------------------------- *
+   Product card — title left, price right
+
+   Markup (snippets/card-product.liquid):
+     .card__content > .card__information
+        h3.card__heading            the title, may run to three lines
+        .card-information           an always-empty caption span, then .price
+
+   Two columns: the title takes the space that is left, the price takes exactly
+   what it needs and never wraps. align-items: baseline sits the price on the
+   first line of the title, which is what "top-aligned" means once the two have
+   different sizes and fonts — matching box tops would leave the price floating
+   a couple of pixels high.
+
+   The card is its own container, so the stacked layout below keys off the
+   CARD's width, not the window's. Home, Shop and "You may also like" all use
+   this snippet at different column counts, and each one switches on its own.
+ * ------------------------------------------------------------------------- */
+.wui .card-wrapper {
+  container-type: inline-size;
+  container-name: wui-card;
+}
+
+.wui .card__content .card__information {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  /* The minimum gap: a long title runs out of room before it can reach the price. */
+  column-gap: var(--wui-24);
+  align-items: baseline;
+  text-align: left;
+}
+
+.wui .card__content .card__heading {
+  grid-column: 1;
+  margin: 0;
+  text-align: left;
+  /* Up to three lines, then an ellipsis rather than a card that grows forever. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.wui .card__content .card-information {
+  grid-column: 2;
+  text-align: right;
+}
+
+/* The price is one unbreakable token: "From €18,99" never splits. */
+.wui .card__content .card-information .price,
+.wui .card__content .card-information .price .price-item,
+.wui .card__content .card-information .price__regular,
+.wui .card__content .card-information .price__sale {
+  white-space: nowrap;
+}
+
+/* The empty caption span would otherwise set the column's first baseline. */
+.wui .card__content .card-information > .caption-large:empty {
+  display: none;
+}
+
+/* Every card in a row ends at the same height, whatever its title does. */
+.wui .card-wrapper,
+.wui .card-wrapper > .card,
+.wui .card-wrapper > .card > .card__content {
+  height: 100%;
+}
+
+/* A narrow card has no room for two columns: "From €18,99" alone is ~86px, so
+   side by side would leave the title about 70px and break it to five lines.
+   Under 260px the price drops below the title, both left-aligned. */
+@container wui-card (max-width: 259px) {
+  .wui .card__content .card__information {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--wui-space-control);
+  }
+  .wui .card__content .card__heading,
+  .wui .card__content .card-information {
+    grid-column: 1;
+    text-align: left;
+  }
+}
