@@ -1351,6 +1351,128 @@
 
 /* 7 · The cart page line on a phone.
 
+   Dawn lays the mobile cart line out as four equal columns, exactly as it does
+   the drawer, so the words get roughly a quarter of a 390px screen — 173px,
+   against the 176px an English edition name needs and the 198px Slovak needs.
+   That is why "DIGITAL" ended up alone on a line.
+
+   Two columns instead: a small image, and everything else getting the width
+   that is left. The quantity and the line total share the row underneath. */
+@media (max-width: 749px) {
+  .wui .cart-items .cart-item {
+    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: var(--wui-12);
+    align-items: start;
+  }
+  .wui .cart-items .cart-item__media { grid-column: 1; grid-row: 1 / 3; }
+  .wui .cart-items .cart-item__media,
+  .wui .cart-items .cart-item__image {
+    width: 56px;
+    max-width: 56px;
+  }
+  .wui .cart-items .cart-item__image { height: auto; }
+  .wui .cart-items .cart-item__details { grid-column: 2; grid-row: 1; width: auto; }
+  .wui .cart-items .cart-item__quantity { grid-column: 2; grid-row: 2; padding-top: 0; }
+  .wui .cart-items .cart-item__totals {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    align-self: center;
+  }
+}
+
+/* ------------------------------------------------------------------------- *
+   Checkbox (B2) and the eBook consent
+
+   One checkbox for the whole site: the eBook consent, the newsletter opt-in,
+   anything that follows. Ink frame, yellow when ticked, and a 44px hit area
+   around a 22px box so a thumb can reach it.
+ * ------------------------------------------------------------------------- */
+.wui .wui-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wui-12);
+  cursor: pointer;
+  text-align: left;
+}
+.wui .wui-check__box {
+  flex: none;
+  position: relative;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--wui-paper);
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* The target is 44px without the box being 44px: an invisible pad reaching
+   beyond the border on every side, which takes no space in the layout. */
+.wui .wui-check__box::before {
+  content: '';
+  position: absolute;
+  inset: -11px;
+}
+.wui .wui-check__box:checked { background-color: var(--wui-yellow); }
+/* Centred on the box itself rather than at fixed offsets. The earlier version
+   positioned the tick for a 44px control while box-sizing: border-box made the
+   control 22px, so the tick landed outside it. Percentages cannot drift that
+   way. The -55% lifts it by the optical amount a checkmark needs to look
+   centred rather than measured-centred. */
+.wui .wui-check__box:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid var(--wui-ink);
+  border-width: 0 2.5px 2.5px 0;
+  transform: translate(-50%, -55%) rotate(45deg);
+}
+.wui .wui-check__box:focus-visible {
+  outline: 3px solid var(--wui-ink);
+  outline-offset: 2px;
+}
+.wui .wui-check__text,
+.wui .wui-check > span {
+  font-size: var(--wui-fs-small);
+  line-height: 1.45;
+}
+
+/* The consent reads as a confirmation, not a wall. One sentence with the box;
+   the explanation is one tap away and closed by default. */
+.wui .wui-consent {
+  display: grid;
+  gap: var(--wui-space-item);
+  margin-block: var(--wui-16);
+}
+.wui .wui-consent__more { font-size: var(--wui-fs-small); }
+.wui .wui-consent__more > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 12px;
+  /* The 22px box plus its gap, so the link lines up under the sentence. */
+  margin-inline-start: calc(22px + var(--wui-12));
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.wui .wui-consent__more > summary::-webkit-details-marker { display: none; }
+.wui .wui-consent__more > p {
+  margin: 0 0 0 calc(22px + var(--wui-12));
+  line-height: 1.5;
+}
+
+/* 7 · The cart page line on a phone.
+
    Same fault as the drawer, same cause: the product cell holds a large image
    beside the words, so the text column is too narrow for an edition name and
    "EDITION" ends up alone on a line. A smaller image gives the words the room
