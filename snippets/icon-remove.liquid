@@ -1,6 +1,13 @@
+{%- comment -%}
+  width and height are not decoration: without an intrinsic size this icon
+  collapsed to 0 x 15px inside the cart's flex row on a phone, which is what
+  made the remove control look like a blank yellow button.
+{%- endcomment -%}
 <svg
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 16 16"
+  width="18"
+  height="18"
   aria-hidden="true"
   focusable="false"
   class="icon icon-remove"

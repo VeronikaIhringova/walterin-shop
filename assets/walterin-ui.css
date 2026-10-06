@@ -992,3 +992,157 @@
   object-fit: contain;
   object-position: bottom center;
 }
+
+/* ------------------------------------------------------------------------- *
+   Cart (B1 · B3)
+
+   Four faults, measured on the live cart on 6 Oct 2026.
+ * ------------------------------------------------------------------------- */
+
+/* 1 · The remove control is an icon, not a call to action.
+
+   There was already a rule saying so, but it lost: the generic button rule is
+   `.wui :is(.button, …):not(.wui-btn)`, which scores (0,3,1) because :is() takes
+   its heaviest argument and :not() adds another class. The old cart rule was
+   (0,2,1), so the yellow fill won and the bin — with no intrinsic size — left a
+   blank yellow block. Matching that weight is the fix, not !important. */
+.wui .cart-item cart-remove-button > .button:not(.wui-btn),
+.wui .cart-drawer cart-remove-button > .button:not(.wui-btn),
+.wui .cart-item cart-remove-button > a,
+.wui .cart-item cart-remove-button > button,
+.wui .cart-drawer cart-remove-button > a,
+.wui .cart-drawer cart-remove-button > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  color: var(--wui-ink);
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+.wui :is(.cart-item, .cart-drawer) cart-remove-button :is(svg, .icon) {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.wui :is(.cart-item, .cart-drawer) cart-remove-button > *:hover {
+  background: none;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* 2 · One frame around − and +, never two.
+
+   base.css draws its own ring with `.quantity::after { box-shadow: 0 0 0 … }`
+   inside whatever border we add, so the stepper showed a faint second outline.
+   The frame belongs to the group; the two buttons sit inside it without one. */
+.wui .quantity {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 132px;
+  min-width: 0;
+  overflow: hidden;
+  border: var(--wui-line) solid var(--wui-ink);
+  border-radius: var(--wui-radius);
+  background: var(--wui-paper);
+}
+.wui .quantity::after,
+.wui .quantity::before {
+  content: none;
+  box-shadow: none;
+  border: 0;
+}
+.wui .quantity .quantity__button {
+  flex: 0 0 40px;
+  min-width: 40px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.wui .quantity .quantity__button:hover { background: var(--wui-yellow); }
+.wui .quantity .quantity__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  text-align: center;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* 3 · The chosen edition reads as one line.
+
+   Each option was its own flex row, so "Language: English" and
+   "Format: Digital Interactive Edition" stacked. They describe one thing, so
+   they sit on one line separated by a middot. The labels stay for screen
+   readers — hidden visually, not removed, or the values lose their meaning. */
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--wui-8);
+  row-gap: 0;
+  margin: var(--wui-space-control) 0 0;
+}
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  margin-top: 0;
+}
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option dt {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option dd {
+  /* An edition name is a phrase, not a word that may be split letter by letter. */
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option + .product-option::before {
+  content: '·';
+  margin-inline: 0.5em 0.4em;
+  opacity: 0.55;
+  font-family: var(--wui-body);
+}
+
+/* 4 · No circle behind an option that cannot be chosen.
+
+   `:has(input:disabled)` scores (0,3,1) and so beat the input's own
+   `opacity: 0`, which left Safari painting the full-size native radio at 40%
+   behind our dot. Everything in the row still fades — except the input, which
+   stays invisible. */
+.wui .wui-choice:has(input:disabled) > *:not(.wui-choice__input) {
+  opacity: var(--wui-faded);
+}
+.wui .wui-choice:has(input:disabled) > .wui-choice__input {
+  opacity: 0;
+}
+
+/* On a phone the cart column is about 180px wide and
+   "CZECH · DIGITAL INTERACTIVE EDITION" cannot fit on one line. Left to wrap,
+   the middot ends up alone at the start of the second line, which reads like a
+   typo. So below the tablet breakpoint the two options stack cleanly and the
+   separator is removed — one line where there is room for one line, two tidy
+   lines where there is not. */
+@media (max-width: 749px) {
+  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option {
+    flex: 1 0 100%;
+  }
+  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option + .product-option::before {
+    content: none;
+  }
+}
