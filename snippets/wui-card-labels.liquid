@@ -1,0 +1,166 @@
+{%- comment -%}
+  Product card labels — the New pill and the bar.
+  Spec: docs/design/PRODUCT-CARD-SYSTEM.md (variation B · Paper, Veronka 6 Oct 2026).
+
+  The card itself is untouched: image, title left, price right beneath. This adds
+  a pill at the top right of the image and a wide rounded bar inset from the
+  bottom of it, clear of the title.
+
+  One bar state at a time, decided in this order:
+
+    buyable   any edition is launched AND in stock   -> the per-product wording
+    sold_out  an edition has launched but none is in stock
+    dated     no edition is on sale yet, but a date is CONFIRMED
+    waiting   no edition is on sale yet and no date is confirmed
+
+  "Never sold out before launch" falls out of that order: a product can only
+  reach sold_out once something has actually launched.
+
+  Dates come from snippets/launch-date.liquid and nowhere else, so a card and
+  the page it opens can never disagree.
+
+  Accepts: card_product (required)
+{%- endcomment -%}
+{%- liquid
+  assign today = 'now' | date: '%Y%m%d' | plus: 0
+
+  assign any_buyable = false
+  assign any_launched = false
+  assign soonest = ''
+  assign cta_variant = null
+
+  for v in card_product.variants
+    capture v_when
+      render 'launch-date', product: card_product, variant: v
+    endcapture
+    assign v_when = v_when | strip
+
+    assign v_launched = true
+    if v_when == 'soon'
+      assign v_launched = false
+    elsif v_when != blank
+      assign v_when_n = v_when | plus: 0
+      if v_when_n > today
+        assign v_launched = false
+      endif
+    endif
+
+    if v_launched
+      assign any_launched = true
+      if v.available
+        assign any_buyable = true
+        comment
+          A product with two editions on one card follows the cheaper buyable
+          one: the e-book while only that is on sale, the printed book once both
+          are. The visitor has not chosen an edition yet, so the card offers the
+          one they are most likely to mean.
+        endcomment
+        if cta_variant == null or v.price < cta_variant.price
+          assign cta_variant = v
+        endif
+      endif
+    else
+      comment
+        Collect the soonest CONFIRMED date. 'soon' is not a date and never wins.
+      endcomment
+      if v_when != blank and v_when != 'soon'
+        if soonest == blank
+          assign soonest = v_when
+        else
+          assign soonest_n = soonest | plus: 0
+          assign v_when_n2 = v_when | plus: 0
+          if v_when_n2 < soonest_n
+            assign soonest = v_when
+          endif
+        endif
+      endif
+    endif
+  endfor
+
+  assign card_state = 'waiting'
+  if any_buyable
+    assign card_state = 'buyable'
+  elsif any_launched
+    assign card_state = 'sold_out'
+  elsif soonest != blank
+    assign card_state = 'dated'
+  endif
+
+  comment
+    New: one month from publication, computed here so nobody has to remember to
+    take it off. Sold out beats New — at most one pill, ever.
+  endcomment
+  assign month = 2592000
+  assign new_until = card_product.published_at | date: '%s' | plus: month
+  assign now_s = 'now' | date: '%s' | plus: 0
+  assign is_new = false
+  if new_until > now_s and card_state != 'sold_out'
+    assign is_new = true
+  endif
+
+  comment
+    The wording. Written per product in the locale files, never assembled from a
+    template: "Buy the deck" is right for a tarot and wrong for stickers. A
+    product with no line of its own falls back to a plain "Buy", which is correct
+    but flat — so adding a product means adding its sentence.
+  endcomment
+  assign bar_label = ''
+  case card_state
+    when 'waiting'
+      assign bar_label = 'walterin.card.coming_soon' | t
+    when 'dated'
+      assign date_key = 'walterin.launch.date_' | append: soonest
+      assign date_name = date_key | t
+      assign bar_label = 'walterin.launch.from' | t | replace: '[date]', date_name
+    when 'sold_out'
+      assign bar_label = 'walterin.card.sold_out' | t
+    when 'buyable'
+      assign cta_kind = 'physical'
+      unless cta_variant.requires_shipping
+        assign cta_kind = 'digital'
+      endunless
+      assign cta_key = 'walterin.card.cta.' | append: card_product.handle | append: '_' | append: cta_kind
+      assign bar_label = cta_key | t
+      if bar_label contains 'Translation missing'
+        assign cta_key = 'walterin.card.cta.' | append: card_product.handle
+        assign bar_label = cta_key | t
+      endif
+      if bar_label contains 'Translation missing'
+        assign bar_label = 'walterin.card.cta.default' | t
+      endif
+  endcase
+
+  assign hover_label = ''
+  if card_state == 'sold_out'
+    assign hover_label = 'walterin.card.notify' | t
+  endif
+-%}
+
+{%- if is_new -%}
+  <span class="wui-cl__pill">
+    {{- 'walterin.card.new' | t -}}
+    <span class="wui-sr"> {{ 'walterin.card.new_sr' | t }}</span>
+  </span>
+{%- endif -%}
+
+{%- if bar_label != blank -%}
+  {%- comment -%}
+    A real link, reachable by keyboard: the buyable bar is revealed by
+    :focus-within as well as :hover, so tabbing to it shows it. It carries the
+    product title in its accessible name, because "Buy the e-book" on its own
+    tells a screen-reader user nothing about which book.
+  {%- endcomment -%}
+  <a
+    class="wui-cl__bar"
+    href="{{ card_product.url }}"
+    data-wui-card-state="{{ card_state }}"
+    aria-label="{{ bar_label | escape }} — {{ card_product.title | escape }}"
+  >
+    <span class="wui-cl__label" aria-hidden="true">{{ bar_label | escape }}</span>
+    {%- if hover_label != blank -%}
+      <span class="wui-cl__label wui-cl__label--hover" aria-hidden="true">
+        {{- hover_label | escape -}}
+      </span>
+    {%- endif -%}
+  </a>
+{%- endif -%}

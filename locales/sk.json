@@ -597,6 +597,20 @@
         "language-jazyk": "Jazyk"
       }
     },
+    "card": {
+      "new": "Nové",
+      "new_sr": "produkt",
+      "coming_soon": "Už čoskoro",
+      "sold_out": "Vypredané",
+      "notify": "Dajte mi vedieť",
+      "cta": {
+        "default": "Kúpiť",
+        "tarot_physical": "Kúpiť tarot",
+        "stickers_physical": "Kúpiť nálepky",
+        "walterin-prague_digital": "Kúpiť e-knihu",
+        "walterin-prague_physical": "Kúpiť komiks"
+      }
+    },
     "launch": {
       "soon": "Už čoskoro",
       "from": "Dostupné od [date]",

@@ -567,6 +567,20 @@
         "language-jazyk": "Language"
       }
     },
+    "card": {
+      "new": "New",
+      "new_sr": "product",
+      "coming_soon": "Coming soon",
+      "sold_out": "Sold out",
+      "notify": "Tell me when it is back",
+      "cta": {
+        "default": "Buy",
+        "tarot_physical": "Buy the deck",
+        "stickers_physical": "Buy the stickers",
+        "walterin-prague_digital": "Buy the e-book",
+        "walterin-prague_physical": "Buy the comic book"
+      }
+    },
     "launch": {
       "soon": "Coming soon",
       "from": "Available from [date]",

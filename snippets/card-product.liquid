@@ -128,6 +128,8 @@
         {%- if card_badge_label != blank -%}
           <span class="card__marketing-badge">{{ card_badge_label | escape }}</span>
         {%- endif -%}
+        {%- comment -%} New pill + state bar — docs/design/PRODUCT-CARD-SYSTEM.md {%- endcomment -%}
+        {%- render 'wui-card-labels', card_product: card_product -%}
         <div class="card__content">
           <div class="card__information">
             <h3

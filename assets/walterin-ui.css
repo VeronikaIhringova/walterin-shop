@@ -1485,3 +1485,120 @@
   }
   .wui .cart-items .cart-item__image { height: auto; }
 }
+
+/* ------------------------------------------------------------------------- *
+   Product card labels — variation B · Paper
+   Spec: docs/design/PRODUCT-CARD-SYSTEM.md (Veronka, 6 Oct 2026)
+
+   The card is unchanged. Two things are added: a New pill at the top right of
+   the image, and a wide rounded bar inset from its bottom, clear of the title.
+ * ------------------------------------------------------------------------- */
+
+/* The old stock chip is replaced by the bar, so it goes. */
+.wui .card__badge { display: none !important; }
+
+.wui .card__inner { position: relative; }
+
+/* ---- New pill ---- */
+.wui .wui-cl__pill {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  padding: 4px 10px;
+  font-family: var(--wui-display);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wui-ink);
+  background: var(--wui-yellow);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: 999px;
+}
+
+/* ---- the bar ---- */
+.wui .wui-cl__bar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-family: var(--wui-body);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  color: var(--wui-ink);
+  background: var(--wui-paper);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  transition: opacity 0.18s var(--wui-ease), transform 0.18s var(--wui-ease),
+    background-color 0.18s var(--wui-ease);
+}
+.wui .wui-cl__label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Only the buyable bar waits for a hover. A date, or "Coming soon", is
+   information, and information does not wait to be hovered. */
+.wui .wui-cl__bar[data-wui-card-state='buyable'] {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+.wui .card-wrapper:hover .wui-cl__bar[data-wui-card-state='buyable'],
+.wui .card-wrapper:focus-within .wui-cl__bar[data-wui-card-state='buyable'] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.wui .wui-cl__bar[data-wui-card-state='buyable']:hover { background: var(--wui-yellow); }
+
+/* A hover that never happens is a feature nobody can reach. */
+@media (hover: none) {
+  .wui .wui-cl__bar[data-wui-card-state='buyable'] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* Sold out says the plain thing, then offers the bell. */
+.wui .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover { display: none; }
+.wui .card-wrapper:hover .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label,
+.wui .card-wrapper:focus-within .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label {
+  display: none;
+}
+.wui .card-wrapper:hover .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover,
+.wui .card-wrapper:focus-within .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover {
+  display: block;
+}
+@media (hover: none) {
+  .wui .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label { display: none; }
+  .wui .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover { display: block; }
+}
+
+/* A narrow card gets a smaller bar, keyed to the card's own width rather than
+   the window's: Home, Shop and "You may also like" run at different column
+   counts and each one decides for itself. */
+@container wui-card (max-width: 430px) {
+  .wui .wui-cl__bar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    min-height: 36px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  .wui .wui-cl__pill { top: 8px; right: 8px; }
+}
