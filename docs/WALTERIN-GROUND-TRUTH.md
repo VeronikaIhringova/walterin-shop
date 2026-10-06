@@ -82,13 +82,40 @@
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
 - eBooks (Prague, Paris) are digital (no shipping) and go on sale first. Printed books and the tarot are physical and stay unbuyable until Pack4you is signed.
-- **Launch dates** (Veronka, 30 Sep 2026). Walterin Prague: the **eBook 23 October 2026**, the
-  **printed edition 10 November 2026**. The tarot: **10 November 2026**. Until its date an edition
-  is unavailable and its page shows the notify-me form with the line directly above the email
-  field. Every date removes itself on its own launch day.
-  They all live in one place — `snippets/launch-date.liquid` — which the product cards and the
+- **Only a confirmed date is ever shown** (Veronka, 6 Oct 2026). This rule is absolute:
+  - **Date confirmed** → "Available from [date]" / "Dostupné od [dátum]".
+  - **Date not confirmed** → "Coming soon" / "Už čoskoro", and nothing more. Never a guess, never
+    a provisional date, never "around" or "early November".
+
+  A date on the page is a promise to a customer. A promise we are not sure of is worse than no
+  promise, so an unconfirmed launch says only that it is coming.
+
+  Both behave identically otherwise: not buyable, notify-me instead of a buy button, and **never
+  "Sold out"** — a thing that has not been for sale yet cannot be sold out. When a date is
+  confirmed it replaces `soon` in the table and the whole site follows.
+
+- **Launch dates.** Confirmed: **Walterin Prague eBook — 23 October 2026** (Veronka, 30 Sep 2026).
+  Not yet confirmed, so all showing "Coming soon" (Veronka, 6 Oct 2026): the Prague **printed
+  edition**, the **tarot**, the **stickers**. The earlier 10 November date for the printed edition
+  and the tarot is **not confirmed** and must not be shown until Veronka says so.
+
+  Every date lives in one place — `snippets/launch-date.liquid` — which the product cards and the
   product pages both read, so a card and the page it opens can never disagree. If a date moves, it
   moves there and here, and nowhere else.
+
+  A date is matched to a variant by `digital` / `physical` / `sku:`, **never by option value or
+  variant title**: those are translated, and a title match silently finds nothing on `/sk/`, which
+  removes the whole gate in one language without any error.
+
+  The line is said **once**, directly above the email field — not beside the options, where
+  repeating it made the choice harder to read.
+
+  **How the unlock works.** The theme compares the date with today in the store's timezone, so an
+  edition opens by itself at local midnight: no app, no scheduled job, nothing to remember. For
+  this to hold, the **eBook must stay untracked** (`tracked = false`), so Shopify never blocks it
+  and it can never read "Sold out" once it has launched. Physical editions are tracked, so after
+  their launch date their stock decides, and "Sold out" is then correct and expected. A sold-out
+  edition stays **selectable** and offers notify-me.
 - Payments: **Stripe Card Payments** (third-party provider, not Shopify Payments): Visa, Mastercard, Amex, JCB, Discover, Diners, Apple Pay, Google Pay. **PayPal pending** (set up before launch). **No Revolut Pay.**
 - Apps: Shopify Email (Messaging), Flow, Translate & Adapt, Digital Products (Prague + Paris eBooks), Facebook & Instagram channel (Meta pixel + Conversions API, "Maximum" data sharing). **Uninstalled (Sep 2026): Judge.me, REZ Preorder Notify me, Track123, Socialwidget.**
 - Emails: **support@walterin.com** for everything customers do (orders, returns, withdrawal, privacy). info@walterin.com only for general contact.

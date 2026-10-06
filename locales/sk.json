@@ -597,6 +597,7 @@
       }
     },
     "launch": {
+      "soon": "Už čoskoro",
       "from": "Dostupné od [date]",
       "date_20261023": "23. októbra",
       "date_20261110": "10. novembra"

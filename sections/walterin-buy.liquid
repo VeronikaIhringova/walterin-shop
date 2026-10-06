@@ -83,7 +83,9 @@
   endcapture
   assign selected_launch = selected_launch | strip
   assign selected_launched = true
-  if selected_launch != blank
+  if selected_launch == 'soon'
+    assign selected_launched = false
+  elsif selected_launch != blank
     assign selected_launch_n = selected_launch | plus: 0
     if selected_launch_n > today
       assign selected_launched = false
@@ -103,7 +105,9 @@
     endcapture
     assign v_launch = v_launch | strip
     assign v_launched = true
-    if v_launch != blank
+    if v_launch == 'soon'
+      assign v_launched = false
+    elsif v_launch != blank
       assign v_launch_n = v_launch | plus: 0
       if v_launch_n > today
         assign v_launched = false
@@ -137,7 +141,9 @@
     disappears on launch day with the rest.
   endcomment
   assign selected_launch_label = ''
-  if selected_launch != blank
+  if selected_launch == 'soon'
+    assign selected_launch_label = 'walterin.launch.soon' | t
+  elsif selected_launch != blank
     assign date_key = 'walterin.launch.date_' | append: selected_launch
     assign date_name = date_key | t
     assign selected_launch_label = 'walterin.launch.from' | t | replace: '[date]', date_name
@@ -329,45 +335,6 @@
                 data-option="{{ opt_index }}"
                 style="--wui-n: {{ values_count }};"
               >
-                {%- liquid
-                  comment
-                    Does this option group distinguish launch dates at all? On
-                    Walterin Prague the Format group does — the eBook opens on
-                    23 October, the printed book on 10 November. The Language
-                    group does not: both languages wait for the same two dates.
-                    A date beside English and Czech would say nothing and repeat
-                    the line above the email field, so a group whose values all
-                    share one date stays quiet.
-                  endcomment
-                  assign group_dates = ''
-                  for gv in option.values
-                    assign gv_date = ''
-                    for pv in product.variants
-                      if gv_date == blank
-                        assign gv_match = false
-                        if opt_index == 1 and pv.option1 == gv
-                          assign gv_match = true
-                        elsif opt_index == 2 and pv.option2 == gv
-                          assign gv_match = true
-                        elsif opt_index == 3 and pv.option3 == gv
-                          assign gv_match = true
-                        endif
-                        if gv_match
-                          capture gv_launch
-                            render 'launch-date', product: product, variant: pv
-                          endcapture
-                          assign gv_date = gv_launch | strip | default: 'none'
-                        endif
-                      endif
-                    endfor
-                    assign group_dates = group_dates | append: gv_date | append: '|'
-                  endfor
-                  assign group_date_list = group_dates | split: '|' | uniq
-                  assign group_varies = false
-                  if group_date_list.size > 1
-                    assign group_varies = true
-                  endif
-                -%}
                 {%- for value in option.values -%}
                   {%- liquid
                     assign key = value | downcase | strip
@@ -420,45 +387,15 @@
                       endif
                     endfor
 
-                    comment
-                      An option with a launch date still ahead of it gets the
-                      date, never "Sold out" — it has not been for sale yet —
-                      and it stays clickable, so the visitor can read about the
-                      edition and leave an email for it.
-                    endcomment
-                    assign v_value_launch = ''
-                    for pv in product.variants
-                      if v_value_launch == blank
-                        assign pv_match = false
-                        if opt_index == 1 and pv.option1 == value
-                          assign pv_match = true
-                        elsif opt_index == 2 and pv.option2 == value
-                          assign pv_match = true
-                        elsif opt_index == 3 and pv.option3 == value
-                          assign pv_match = true
-                        endif
-                        if pv_match
-                          capture pv_launch
-                            render 'launch-date', product: product, variant: pv
-                          endcapture
-                          assign pv_launch = pv_launch | strip
-                          if pv_launch != blank
-                            assign pv_launch_n = pv_launch | plus: 0
-                            if pv_launch_n > today
-                              assign v_value_launch = pv_launch
-                            endif
-                          endif
-                        endif
-                      endif
-                    endfor
 
+                    comment
+                      No launch date beside the options: the date or "Coming
+                      soon" is said once, above the email field. Repeating it on
+                      every row made the choice harder to read, not easier.
+                    endcomment
                     assign v_note = ''
                     assign v_disabled = false
-                    if v_value_launch != blank and group_varies
-                      assign v_date_key = 'walterin.launch.date_' | append: v_value_launch
-                      assign v_date_name = v_date_key | t
-                      assign v_note = 'walterin.launch.from' | t | replace: '[date]', v_date_name
-                    elsif product_state == 'available' and v_any_available == false
+                    if product_state == 'available' and v_any_available == false
                       comment
                         Sold out, but still selectable: the visitor must be able
                         to choose the edition they actually want and leave an
@@ -952,7 +889,9 @@
           endcapture
           assign j_launch = j_launch | strip
           assign j_launched = true
-          if j_launch != blank
+          if j_launch == 'soon'
+            assign j_launched = false
+          elsif j_launch != blank
             assign j_launch_n = j_launch | plus: 0
             if j_launch_n > today
               assign j_launched = false
@@ -963,9 +902,13 @@
           endif
           assign j_label = ''
           if j_launched == false
-            assign j_key = 'walterin.launch.date_' | append: j_launch
-            assign j_name = j_key | t
-            assign j_label = 'walterin.launch.from' | t | replace: '[date]', j_name
+            if j_launch == 'soon'
+              assign j_label = 'walterin.launch.soon' | t
+            else
+              assign j_key = 'walterin.launch.date_' | append: j_launch
+              assign j_name = j_key | t
+              assign j_label = 'walterin.launch.from' | t | replace: '[date]', j_name
+            endif
           endif
         -%}
         {

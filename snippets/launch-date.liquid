@@ -1,14 +1,23 @@
 {%- comment -%}
   The one place every launch date lives.
 
-  Echoes the launch date of a variant as `YYYYMMDD`, or nothing when that
-  variant has no launch date and is governed by stock alone.
+  Echoes one of three things for a variant:
+
+    `YYYYMMDD`  a CONFIRMED launch date  -> "Available from October 23rd"
+    `soon`      gated, but no date yet   -> "Coming soon"
+    (nothing)   no gate at all           -> stock decides
+
+  Only a date Veronka has confirmed is ever shown. Anything still being decided
+  says "Coming soon" and nothing more: a date on the page is a promise, and a
+  promise we are not sure of is worse than no date. When a date is confirmed,
+  replace `soon` with it here and the whole site follows.
 
   Walterin Prague sells two editions that launch a fortnight apart, so a date
   belongs to a VARIANT, not a product: the eBook on 23 October 2026, the
   printed book on 10 November. The tarot launches whole on 10 November.
 
-  The table is `handle|match|YYYYMMDD`, where `match` is one of:
+  The table is `handle|match|when`, where `when` is `YYYYMMDD` or `soon`, and
+  `match` is one of:
     - `*`         the whole product
     - `digital`   every variant that does not ship (the eBook)
     - `physical`  every variant that does ship (the printed book)
@@ -34,7 +43,11 @@
     {%- assign launch_ts = launch_ts | strip -%}
 {%- endcomment -%}
 {%- liquid
-  assign rows = 'tarot|*|20261110,walterin-prague|digital|20261023,walterin-prague|physical|20261110' | split: ','
+  comment
+    Confirmed: the Prague eBook, 23 October 2026 (Veronka, 30 Sep 2026).
+    Not yet confirmed: the Prague printed edition, the tarot, the stickers.
+  endcomment
+  assign rows = 'tarot|*|soon,stickers|*|soon,walterin-prague|digital|20261023,walterin-prague|physical|soon' | split: ','
   assign result = ''
 
   for row in rows

@@ -115,20 +115,6 @@
 
       // Per value: does a variant exist with this value and the rest of the choice, and is it available?
       groups.forEach(function (g, gi) {
-        // Does this group distinguish launch dates? On Walterin Prague the
-        // Format group does; the Language group does not, because both
-        // languages wait for the same two dates. A date beside every value in
-        // a group that does not vary says nothing and repeats the line above
-        // the email field, so that group stays quiet. Mirrors the same test in
-        // walterin-buy.liquid, so the page and the script agree.
-        var groupDates = $$('.wui-choice', g).map(function (label) {
-          var v = $('.wui-choice__input', label).value;
-          var withValue = variants.filter(function (x) { return x.options[gi] === v; });
-          var pending = withValue.filter(function (x) { return !launched(x); })[0];
-          return pending ? (pending.date || '') : '';
-        });
-        var groupVaries = groupDates.some(function (d) { return d !== groupDates[0]; });
-
         $$('.wui-choice', g).forEach(function (label) {
           var input = $('.wui-choice__input', label);
           var note = $('[data-wui-note]', label);
@@ -142,17 +128,17 @@
           // An edition whose date has not arrived shows the date and stays
           // clickable: it is not sold out, it has not opened yet, and the
           // visitor should be able to read about it and leave an email.
-          var waiting = anyWithValue.filter(function (v) { return !launched(v); });
-          if (waiting.length && waiting.length === anyWithValue.length) {
-            text = groupVaries ? (waiting[0].date || '') : '';
+          // No launch text beside the options: the date, or "Coming soon", is
+          // said once above the email field. An edition that has not opened
+          // yet simply carries no note.
+          if (!launched(exact || anyWithValue[0])) {
+            text = '';
           } else if (!exists) {
             // No such edition at all.
             text = soldOutText; disabled = true;
           } else if (!exact) {
             // This combination does not exist — the only case that is unclickable.
             text = unavailableText; disabled = true;
-          } else if (!launched(exact)) {
-            text = groupVaries ? (exact.date || '') : '';
           } else if (!exact.available) {
             // Sold out, but selectable: choosing it shows the notify form for
             // that edition, which is the whole point of saying "sold out".

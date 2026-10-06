@@ -567,6 +567,7 @@
       }
     },
     "launch": {
+      "soon": "Coming soon",
       "from": "Available from [date]",
       "date_20261023": "October 23rd",
       "date_20261110": "November 10th"
