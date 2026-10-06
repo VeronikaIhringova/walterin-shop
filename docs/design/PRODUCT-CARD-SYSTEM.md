@@ -108,7 +108,7 @@ All values come from the design system. No raw colours, no new tokens.
 | Padding | `9px 14px` | same |
 | Radius | `999px` (full round) | same |
 | Font | body, 600 weight, `14px` | `13px` |
-| Fill | `var(--wui-paper)` | same |
+| Fill | `var(--wui-card)` — the card grey | same |
 | Frame | `var(--wui-line-thin)` (1.5px) solid `var(--wui-ink)` | same |
 | Shadow | none | none |
 | Hover fill (buyable) | `var(--wui-yellow)` | n/a |
@@ -135,10 +135,28 @@ hide the one thing the card most needs to say. Two lines of a date beats half a 
 The card text keeps its existing `14px` top padding. Together with the bar's 12px inset that leaves
 **26px of clear space** between the bar and the title — enough that the two never read as one block.
 
+### `--wui-card` — the card grey  `#F3F3F3`
+
+**Decided 6 Oct 2026 (Veronka): this grey is intentional, not a leftover.** It is the ground behind
+a product card's title and price, and now the fill of the card's bar, so the bar reads as part of
+the card rather than a label floating on the artwork.
+
+It is a token — `--wui-card` — precisely so nobody later mistakes it for a stray Dawn grey and
+"cleans it up". Ink on it measures **14.34 : 1**.
+
+**The ink frame stays.** Tested both ways: without it the bar vanishes into a pale product
+photograph — the tarot box sits on a light grey ground, and a grey bar with no edge reads as a
+smudge rather than a control. Screenshots: `docs/design/proof/card-labels/v3/`.
+
+> **Open:** the card area is this grey on the **home page** but paper (`#FFFDF7`) on **Shop** and
+> "You may also like" — they use different Dawn colour schemes. If the grey is the intentional card
+> colour, those should match. That is a visible change to every card, so it is Veronka's call and is
+> not done here.
+
 ### The card itself
 
-**No frame around the card.** Paper ground, image, text beneath. This is the current live card and
-it does not change.
+**No frame around the card.** Image, then text beneath. This is the current live card and it does
+not change.
 
 ## 6. Hover and touch
 

@@ -19,6 +19,12 @@
   --wui-paper: #FFFDF7;
   --wui-ink: #222222;
   --wui-yellow: #FCF205;
+  /* The card ground. Not a leftover and not a grey we are trying to remove:
+     it is the deliberate tone behind a product card's title and price, and now
+     behind the card's bar as well, so the bar reads as part of the card rather
+     than a label floating on the artwork. Decided by Veronka, 6 Oct 2026.
+     Ink on it measures 14.3:1, so it passes AA with room to spare. */
+  --wui-card: #F3F3F3;
   /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
   --wui-sky: #6FE9FA;
   --wui-red: #F60403;
@@ -1541,7 +1547,7 @@
   text-align: center;
   text-decoration: none;
   color: var(--wui-ink);
-  background: var(--wui-paper);
+  background: var(--wui-card);
   border: var(--wui-line-thin) solid var(--wui-ink);
   transition: opacity 0.18s var(--wui-ease), transform 0.18s var(--wui-ease),
     background-color 0.18s var(--wui-ease);
