@@ -44,16 +44,10 @@
 {%- endcomment -%}
 {%- liquid
   comment
-    ######################################################################
-    # TEMPORARY — PREVIEW ONLY, FOR VERONKA'S CHECKOUT TEST (6 Oct 2026) #
-    # The Prague eBook date is set to 1 Jan 2026 so the buy button is on  #
-    # in the development theme. The real date is 20261023. Restore it as  #
-    # soon as the test is finished. The live theme is untouched.          #
-    ######################################################################
     Confirmed: the Prague eBook, 23 October 2026 (Veronka, 30 Sep 2026).
     Not yet confirmed: the Prague printed edition, the tarot, the stickers.
   endcomment
-  assign rows = 'tarot|*|soon,stickers|*|soon,walterin-prague|digital|20260101,walterin-prague|physical|soon' | split: ','
+  assign rows = 'tarot|*|soon,stickers|*|soon,walterin-prague|digital|20261023,walterin-prague|physical|soon' | split: ','
   assign result = ''
 
   for row in rows
