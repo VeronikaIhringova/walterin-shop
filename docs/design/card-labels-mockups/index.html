@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walterin · Card labels — overview</title>
+<link rel="stylesheet" href="card.css">
+<style>
+  .page { padding: 56px 0 96px; }
+  .intro { margin-bottom: 40px; }
+  .intro p + p { margin-top: 12px; }
+  .warn {
+    margin: 24px 0;
+    padding: 14px 16px;
+    border: var(--line-thin) solid var(--ink);
+    border-radius: var(--radius);
+    background: #fff8d6;
+    font-size: 14px;
+  }
+  .variation { margin-top: 56px; }
+  .variation__head { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: baseline; margin-bottom: 6px; }
+  .variation__head h2 { font-size: 26px; }
+  .tag {
+    padding: 2px 10px; border: var(--line-thin) solid var(--ink); border-radius: 999px;
+    font-size: 12px; letter-spacing: .04em; text-transform: uppercase; font-family: var(--display);
+  }
+  .variation__why { max-width: 60ch; margin: 0 0 24px; }
+  .grid {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px; align-items: start;
+  }
+  .cell > .state { margin: 0 0 10px; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; font-family: var(--display); }
+  .cell > .state small { display: block; font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 12px; color: #222222a8; }
+  .card { background: #fffdf7; }
+  .langs { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 28px; }
+  .langs h3 { margin-bottom: 14px; }
+  .langs .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin-top: 12px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: var(--line-thin) solid #2222221f; vertical-align: top; }
+  th { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 12px; letter-spacing: .04em; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .langs { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="show-hover">
+<div class="wrap page">
+
+  <div class="intro">
+    <h1>Card labels — three bars</h1>
+    <p class="lead">The card is unchanged: image, then title left and price right beneath it.
+      Two things are added. A small <strong>New</strong> pill at the top right of the image, and a
+      wide rounded <strong>bar</strong> near the bottom of it, with clear space between the bar and
+      the title.</p>
+    <p class="lead muted">Every bar below is shown in its <em>visible</em> state so the states can be
+      compared side by side. On the real card the buyable bar only appears on hover on a desk —
+      <a href="interactive.html">the interactive version</a> shows that, at 1440 and 390, in both
+      languages.</p>
+
+    <div class="warn">
+      <strong>One thing to check.</strong> The rhode screenshot
+      (<code>docs/design/bugs/reference-rhode-cards.png</code>) is not in the repo and I could not
+      find it anywhere, so these are drawn from your written description: a small "new" tag top
+      right, and a wide rounded bar sitting above the bottom edge of the image. If the proportions
+      or the weight are not what you saw, add the screenshot and I will match it properly.
+    </div>
+  </div>
+
+  <h2>What the bar says</h2>
+  <table>
+    <tr><th>State</th><th>English</th><th>Slovak</th><th>When</th></tr>
+    <tr><td>No confirmed date</td><td>Coming soon</td><td>Už čoskoro</td><td>always visible</td></tr>
+    <tr><td>Confirmed date</td><td>Available from October 23rd</td><td>Dostupné od 23. októbra</td><td>always visible</td></tr>
+    <tr><td>Buyable</td><td><em>per product, below</em></td><td><em>per product, below</em></td><td>hover on a desk · always on a phone</td></tr>
+    <tr><td>Sold out</td><td>Sold out</td><td>Vypredané</td><td>always visible</td></tr>
+  </table>
+
+  <h2 style="margin-top:40px">The call to action, per product</h2>
+  <p class="small muted" style="max-width:60ch">Written one by one rather than from a template:
+    "Buy the deck" is right for a tarot and wrong for stickers. Slovak is written natively, not
+    translated — <em>Kúpiť tarot</em>, not a literal "Kúpiť balíček kariet".</p>
+  <table>
+    <tr><th>Product</th><th>English</th><th>Slovak</th></tr>
+    <tr><td>Tarot of Consciousness</td><td>Buy the deck</td><td>Kúpiť tarot</td></tr>
+    <tr><td>Walterin Prague — eBook</td><td>Buy the e-book</td><td>Kúpiť e-knihu</td></tr>
+    <tr><td>Walterin Prague — printed</td><td>Buy the comic book</td><td>Kúpiť komiks</td></tr>
+    <tr><td>Prague Sticker Set</td><td>Buy the stickers</td><td>Kúpiť nálepky</td></tr>
+  </table>
+  <p class="small muted" style="max-width:60ch; margin-top:12px">
+    Prague carries two editions on one card, so its bar follows whichever is the cheaper buyable
+    one — the e-book while only that is on sale, the comic book once both are.</p>
+
+  <hr>
+
+  <div id="variations"></div>
+
+  <hr>
+
+  <h2>Sold out, and the notify-me</h2>
+  <p class="lead">A sold-out card says <strong>Sold out</strong> plainly. On hover — and always on a
+    phone — the bar offers the thing the visitor actually wants:
+    <strong>“Tell me when it is back”</strong> / <strong>“Dajte mi vedieť”</strong>, which opens the
+    same notify form the product page already uses. Saying only "Sold out" tells someone the door is
+    shut; this hands them the bell.</p>
+  <div class="langs">
+    <div>
+      <h3>English</h3>
+      <div class="grid" id="soldout-en"></div>
+    </div>
+    <div>
+      <h3>Slovak</h3>
+      <div class="grid" id="soldout-sk"></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>Recommendation</h2>
+  <p class="lead"><strong>B — Paper.</strong> It is the closest to what you liked about rhode: the
+    artwork stays the loudest thing on the card and the bar is quiet until it matters. A is the
+    design system's button shrunk onto a photograph, and four of them in a row shout over the work.
+    C is the prettiest and the least safe — <code>backdrop-filter</code> is the exact class of thing
+    that has behaved differently in Safari twice already, and a bar that turns unreadable over a
+    pale image is worse than a plain one.</p>
+  <p class="lead muted">If you want more presence than B, the smallest step is B with a yellow fill
+    on hover only, which is already how it behaves here.</p>
+
+</div>
+
+<script src="cards.js"></script>
+<script>
+  const VARIATIONS = [
+    { cls: 'v-a', name: 'A · Solid',   tag: 'loudest',
+      why: 'The design system’s own button, shrunk: ink on yellow, ink frame, hard shadow. Unmistakably Walterin, and unmistakably a button. The risk is noise — four of these in a row compete with the artwork they sit on.' },
+    { cls: 'v-b', name: 'B · Paper',   tag: 'recommended',
+      why: 'Paper fill, thin ink frame, no shadow. The closest to rhode: the bar is a quiet pill and the picture stays the loudest thing on the card. Turns yellow on hover, so it still answers when you reach for it.' },
+    { cls: 'v-c', name: 'C · Frosted', tag: 'lightest',
+      why: 'No frame: paper at 85% over a blur, so a little of the artwork shows through. The lightest of the three — and the one to watch, because backdrop-filter behaves differently in Safari and needs a solid fallback, which is built in here.' },
+  ];
+
+  const DEMO = [
+    { product: 'tarot',    state: 'waiting',  isNew: true  },
+    { product: 'ebook',    state: 'dated',    isNew: false },
+    { product: 'book',     state: 'buyable',  isNew: false },
+    { product: 'stickers', state: 'soldout',  isNew: false },
+  ];
+
+  const host = document.getElementById('variations');
+  host.innerHTML = VARIATIONS.map((v) => `
+    <section class="variation ${v.cls}">
+      <div class="variation__head">
+        <h2>${v.name}</h2><span class="tag">${v.tag}</span>
+      </div>
+      <p class="variation__why muted">${v.why}</p>
+      <div class="grid">
+        ${DEMO.map((d, i) => `
+          <div class="cell">
+            <p class="state">${STATES[i].en}<small>${STATES[i].note}</small></p>
+            ${cardHTML({ product: d.product, state: d.state, lang: 'en', isNew: d.isNew })}
+          </div>`).join('')}
+      </div>
+    </section>`).join('');
+
+  // sold-out row, both languages, in the recommended variation
+  const mk = (lang) => ['tarot', 'stickers'].map((p) =>
+    `<div class="cell">${cardHTML({ product: p, state: 'soldout', lang, isNew: false })}</div>`).join('');
+  const en = document.getElementById('soldout-en');
+  const sk = document.getElementById('soldout-sk');
+  en.innerHTML = mk('en'); sk.innerHTML = mk('sk');
+  en.closest('div').classList.add('v-b'); sk.closest('div').classList.add('v-b');
+  // show the notify wording rather than the plain label on these four
+  document.querySelectorAll('#soldout-en .bar__label').forEach((n) => n.textContent = WORDS.en.soldoutHover);
+  document.querySelectorAll('#soldout-sk .bar__label').forEach((n) => n.textContent = WORDS.sk.soldoutHover);
+</script>
+</body>
+</html>

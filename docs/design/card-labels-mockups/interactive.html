@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walterin · Card labels — interactive</title>
+<link rel="stylesheet" href="card.css">
+<style>
+  .page { padding: 40px 0 96px; }
+  .bar-controls {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center;
+    padding: 14px 0; margin-bottom: 28px;
+    background: var(--paper); border-bottom: var(--line-thin) solid var(--ink);
+  }
+  .group { display: flex; gap: 6px; align-items: center; }
+  .group > span { font-family: var(--display); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; margin-right: 4px; }
+  button.opt {
+    font-family: var(--display); font-size: 13px; letter-spacing: .03em; text-transform: uppercase;
+    padding: 7px 14px; min-height: 40px; cursor: pointer;
+    color: var(--ink); background: var(--paper);
+    border: var(--line-thin) solid var(--ink); border-radius: 999px;
+  }
+  button.opt[aria-pressed="true"] { background: var(--yellow); border-width: var(--line); }
+  button.opt:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  .stage { margin-top: 8px; }
+  .viewport {
+    margin: 0 auto;
+    border: var(--line) solid var(--ink); border-radius: var(--radius);
+    background: var(--paper); overflow: hidden;
+  }
+  .viewport[data-w="1440"] { width: 100%; max-width: 1180px; }
+  .viewport[data-w="390"]  { width: 390px; max-width: 100%; }
+  .viewport__bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 14px; font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+    font-family: var(--display); border-bottom: var(--line-thin) solid var(--ink);
+  }
+  .viewport__inner { padding: 22px; }
+  .shop { display: grid; gap: 22px; }
+  .viewport[data-w="1440"] .shop { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .viewport[data-w="390"]  .shop { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .viewport[data-w="390"] .card__title { font-size: 13px; }
+  .viewport[data-w="390"] .card__price { font-size: 13px; }
+  .viewport[data-w="390"] .card__text { grid-template-columns: minmax(0,1fr); row-gap: 2px; padding: 10px 12px 14px; }
+  .viewport[data-w="390"] .bar { font-size: 12px; left: 8px; right: 8px; bottom: 8px; min-height: 36px; }
+
+  /* The 390 viewport here is a narrow box inside a desktop browser, so the
+     device still reports hover and `@media (hover: none)` — which is what the
+     real theme uses — cannot fire. Forcing it on simulates the phone, which is
+     the behaviour being shown. */
+  .viewport[data-w="390"] .card[data-state="buyable"] .bar,
+  .viewport[data-w="390"] .card[data-state="soldout"] .bar {
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+  .hint { margin: 18px auto 0; max-width: 62ch; font-size: 14px; color: #222222a8; text-align: center; }
+  .note { max-width: 66ch; margin: 0 0 20px; }
+</style>
+</head>
+<body>
+<div class="wrap page">
+
+  <h1>Card labels — interactive</h1>
+  <p class="note lead muted">Pick a bar, a width and a language. On <strong>1440</strong> the buyable
+    bar appears only when you hover a card — that is the behaviour being tested. On <strong>390</strong>
+    it is always visible, because a hover that never happens is a feature nobody can reach.</p>
+
+  <div class="bar-controls">
+    <div class="group" id="g-var"><span>Bar</span></div>
+    <div class="group" id="g-width"><span>Width</span></div>
+    <div class="group" id="g-lang"><span>Language</span></div>
+    <div class="group" id="g-state"><span>State</span></div>
+  </div>
+
+  <div class="stage">
+    <div class="viewport" data-w="1440" id="viewport">
+      <div class="viewport__bar"><span id="vp-label">1440 · English · Paper</span><span id="vp-hint">hover a card</span></div>
+      <div class="viewport__inner"><div class="shop" id="shop"></div></div>
+    </div>
+    <p class="hint" id="hint"></p>
+  </div>
+
+</div>
+
+<script src="cards.js"></script>
+<script>
+  const state = { variation: 'v-b', width: '1440', lang: 'en', scenario: 'mixed' };
+
+  const OPTS = {
+    variation: [['v-a', 'A · Solid'], ['v-b', 'B · Paper'], ['v-c', 'C · Frosted']],
+    width: [['1440', '1440'], ['390', '390']],
+    lang: [['en', 'EN'], ['sk', 'SK']],
+    scenario: [
+      ['mixed', 'As it is today'],
+      ['waiting', 'No date'],
+      ['dated', 'Dated'],
+      ['buyable', 'Buyable'],
+      ['soldout', 'Sold out'],
+    ],
+  };
+
+  /* "As it is today" is the shop exactly as it stands on 6 October: the tarot and
+     the stickers have no confirmed date, the Prague eBook has one. */
+  const SCENARIOS = {
+    mixed: [
+      { product: 'tarot',    state: 'waiting', isNew: false },
+      { product: 'stickers', state: 'waiting', isNew: true  },
+      { product: 'ebook',    state: 'dated',   isNew: false },
+    ],
+    waiting: [
+      { product: 'tarot', state: 'waiting', isNew: false },
+      { product: 'stickers', state: 'waiting', isNew: true },
+      { product: 'ebook', state: 'waiting', isNew: false },
+    ],
+    dated: [
+      { product: 'tarot', state: 'dated', isNew: false },
+      { product: 'stickers', state: 'dated', isNew: false },
+      { product: 'ebook', state: 'dated', isNew: true },
+    ],
+    buyable: [
+      { product: 'ebook', state: 'buyable', isNew: true },
+      { product: 'book', state: 'buyable', isNew: false },
+      { product: 'stickers', state: 'buyable', isNew: false },
+    ],
+    soldout: [
+      { product: 'tarot', state: 'soldout', isNew: false },
+      { product: 'book', state: 'soldout', isNew: false },
+      { product: 'stickers', state: 'soldout', isNew: false },
+    ],
+  };
+
+  function buildControls() {
+    const map = { variation: 'g-var', width: 'g-width', lang: 'g-lang', scenario: 'g-state' };
+    Object.entries(map).forEach(([key, id]) => {
+      const host = document.getElementById(id);
+      OPTS[key].forEach(([val, label]) => {
+        const b = document.createElement('button');
+        b.className = 'opt'; b.textContent = label; b.type = 'button';
+        b.setAttribute('aria-pressed', String(state[key] === val));
+        b.onclick = () => { state[key] = val; render(); };
+        b.dataset.key = key; b.dataset.val = val;
+        host.appendChild(b);
+      });
+    });
+  }
+
+  function render() {
+    document.querySelectorAll('button.opt').forEach((b) => {
+      b.setAttribute('aria-pressed', String(state[b.dataset.key] === b.dataset.val));
+    });
+
+    const vp = document.getElementById('viewport');
+    vp.dataset.w = state.width;
+    vp.className = 'viewport ' + state.variation;
+
+    const shop = document.getElementById('shop');
+    shop.innerHTML = SCENARIOS[state.scenario]
+      .map((d) => cardHTML({ product: d.product, state: d.state, lang: state.lang, isNew: d.isNew }))
+      .join('');
+
+    // the sold-out bar offers the notify instead of repeating the word
+    if (state.scenario === 'soldout') {
+      const w = WORDS[state.lang];
+      shop.querySelectorAll('.card[data-state="soldout"]').forEach((c) => {
+        const label = c.querySelector('.bar__label');
+        c.addEventListener('mouseenter', () => { label.textContent = w.soldoutHover; });
+        c.addEventListener('mouseleave', () => { label.textContent = w.soldout; });
+      });
+    }
+
+    const varName = OPTS.variation.find((o) => o[0] === state.variation)[1];
+    document.getElementById('vp-label').textContent =
+      `${state.width} · ${state.lang.toUpperCase()} · ${varName.split('· ')[1]}`;
+
+    const phone = state.width === '390';
+    document.getElementById('vp-hint').textContent =
+      state.scenario === 'buyable'
+        ? (phone ? 'always visible' : 'hover a card')
+        : (state.scenario === 'soldout' ? (phone ? 'always visible' : 'hover for the notify') : 'always visible');
+
+    document.getElementById('hint').textContent = phone
+      ? 'At 390 the bar is always visible, including the buyable one — there is no hover on a phone.'
+      : 'At 1440 the buyable bar waits for a hover. Every other state is always visible.';
+  }
+
+  buildControls();
+  render();
+</script>
+</body>
+</html>

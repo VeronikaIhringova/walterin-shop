@@ -1,153 +1,200 @@
 # Product card system
 
-The single rule for every product card on walterin.com — collection pages, the home page,
-"You may also like", search results, the cart carousel. If a card appears anywhere else, it follows
-this.
+The single rule for every product card on walterin.com — the home page, Shop, "You may also like",
+search results, the cart recommendations. If a card appears anywhere else, it follows this.
 
-Mock-ups: `docs/design/product-card-system/` (`open docs/design/product-card-system/index.html`).
-Reference the direction came from: `docs/design/bugs/reference-myway-card-*.png`.
-Status: **decided 30 Sep 2026 — variation "Quiet". Built in the theme, in preview, awaiting
-"OK live".**
+**Decided 6 October 2026 (Veronka): variation B · Paper.**
+Mock-ups: `docs/design/card-labels-mockups/` — `open docs/design/card-labels-mockups/index.html`.
+Reference the direction came from: rhode.com product cards.
+
+> **This replaces the 30 September "Quiet" direction entirely.** That version put a category word
+> top-left, a 2.5px frame round every card and a flat bar welded to the foot of the image, kept
+> "New" for three months and called it *Novinka* in Slovak. All of that is superseded. Where an
+> older note disagrees with this file, this file wins.
 
 ---
 
 ## 1. The idea
 
-A card says three things: what it is, what it costs, and — only when true — when you can have it.
-Everything else is decoration, and decoration is what made the old cards noisy.
+The card is already right: image, then title left and price right beneath it. **Nothing about that
+changes.** Two things are added, and only two:
 
-So: **calm by default.** A category word top-left, at most one status pill top-right, and a wide flat
-bar along the foot of the image that carries the date. No soft chips, no blurred shadows, no grey.
+- a **New pill**, top right of the image;
+- a **bar**, wide and rounded, near the bottom of the image, clear of the title.
+
+The artwork stays the loudest thing on the card. The bar is quiet until it matters.
 
 ## 2. Anatomy
 
 ```
-┌─────────────────────────────┐
-│ PRAGUE              [ NEW ] │  ← category (plain text) · status pill (max one)
-│                             │
-│         product image       │
-│                             │
-│  [ AVAILABLE FROM OCT 23 ]  │  ← the bar: date / coming soon / sold out
-└─────────────────────────────┘
-  WALTERIN PRAGUE                ← title, WalterinBold, uppercase
-  from €18,99                    ← price, Inter 700
+┌───────────────────────────────┐
+│                      [ NEW ]  │  ← pill, top right, only when new
+│                               │
+│          product image        │
+│                               │
+│   (  Available from Oct 23  ) │  ← bar: inset from the edges, rounded
+└───────────────────────────────┘
+   WALTERIN PRAGUE      €16,00     ← unchanged: title left, price right
+   COMIC BOOK
 ```
 
-Media: `aspect-ratio: 3/4`, 2.5px ink border, 8px radius. Title and price sit on paper under it,
-never over the image.
+**The bar sits inside the image, not under it.** It is inset 12px from the left, right and bottom,
+so a strip of artwork shows beneath it, and the card's own 14px of top padding keeps clear space
+between the bar and the title. The bar never touches the title block.
 
-## 3. The label library
+## 3. The states
 
-| Slot | What goes there | Style | Rule |
+Exactly one bar state at a time. They are listed in the order a product lives through them.
+
+| State | Bar says (EN) | Bar says (SK) | When it shows |
 |---|---|---|---|
-| **Top-left** | *(not in use)* — reserved for a category word | Plain ink text, Inter 12px, `letter-spacing:.16em`, uppercase. **No chip, no fill** | **Deferred (Veronka, 30 Sep 2026).** Kept as a future option; see §11 |
-| **Top-right** | Status — `Sold out`, `New` | Pill, 12px, uppercase. Fill depends on the variation | **At most one, ever.** Sold out beats New |
-| **Bottom bar** | `Available from [date]` · `Coming soon` · `Sold out` | WalterinBold 15px, uppercase, full width minus 10px, min-height 46px | Only when there is something true to say |
+| **No confirmed date** | `Coming soon` | `Už čoskoro` | always visible |
+| **Confirmed date** | `Available from October 23rd` | `Dostupné od 23. októbra` | always visible |
+| **Buyable** | *per product, §4* | *per product, §4* | **hover** on a desk · **always** on a phone |
+| **Sold out** | `Sold out` → `Tell me when it is back` | `Vypredané` → `Dajte mi vedieť` | always visible; the second wording on hover, and always on a phone |
 
-**The crowding rule: one category + one status + one bar. Never more.** If a product qualifies for
-two statuses, the priority order decides and the loser is not shown.
+**Never "Sold out" before launch.** A thing that has not been for sale yet cannot be sold out — that
+is the whole reason the first two states exist. The date comes from `snippets/launch-date.liquid`
+and nowhere else, so a card and the page it opens can never disagree.
 
-**The bar never invents a reason to appear.** A buyable product with no date has no bar — hovering it
-underlines the title instead. A bar that said "View" was the first thing cut.
+**Sold out offers the bell, not just the shut door.** "Sold out" alone tells someone to go away;
+the second wording opens the same notify form the product page already uses.
 
-## 4. States
-
-Every state below is honest. **No discount badges, no ratings, no "bestseller", no scarcity
-language we cannot evidence** — see `docs/launch/BACKEND-AUDIT-2026-09-30.md` B8 for what happens
-when an unverifiable claim sits in the data.
-
-| State | Category | Status pill | Bar | Notes |
-|---|---|---|---|---|
-| Buyable | yes | — | — | The calm default |
-| Hover / keyboard focus | yes | — | bar if it has one | Focus shows **exactly** what hover shows |
-| Available from [date] | yes | — | `Available from October 23rd` | Date comes from the product, never hardcoded |
-| Coming soon (no date) | yes | — | `Coming soon` | **Never "Sold out" for something that never launched** |
-| New | — | `New` | — | **Automatic: three months from `published_at`, then it disappears by itself.** Nobody sets it and nobody has to remove it |
-| Sold out | yes | `Sold out` | `Sold out` | Image and text fade to 40%. Never a strike-through, never a grey fill |
-| Digital only | — | — | — | No pill: the format is a variant, and the page says it |
-| Digital + printed | yes | — | — | Price reads `from €18,99` |
-
-## 5. Mobile and touch
-
-**There is no hover on a phone, so nothing may depend on it.** Where the pointer is coarse
-(`@media (hover:none),(pointer:coarse)`) the bar is visible from the start. The date is never
-hidden behind an interaction that cannot happen.
-
-That is also why the bar carries information and not an action: a permanently visible "View" bar on
-every card on a phone would be noise on every card.
-
-## 6. Accessibility
-
-- **Focus shows what hover shows.** `:focus-visible` reveals the bar and underlines the title, plus
-  a 2.5px ink outline offset 3px.
-- **Status pills carry screen-reader text**: "New" is announced as "New product", "eBook" as
-  "Digital edition" — a two-letter pill is not self-explanatory read aloud.
-- **Contrast**: ink on paper, ink on yellow and paper on ink all clear 4.5:1. **Never yellow text on
-  paper, never white on yellow** (`docs/design/BUTTONS.md`).
-- The bar is real text, never an image, so it translates and scales with the browser's text size.
-- Faded (40%) is used only with a word — the pill and the bar both say "Sold out". Opacity alone is
-  not information.
-
-## 7. The matching product page
-
-A card and the page it opens must be recognisably the same thing. **The launch label on the product
-page uses the same shape and fill as that variation's card bar**, and sits directly above the email
-field of the notify-me form — it is the reason to sign up, so it belongs to the form, not to the top
-of the column.
-
-| Card state | Product page |
-|---|---|
-| Buyable | Price · Add to cart · express checkout · payment icons |
-| Available from [date] | Launch label above the email field · notify form · **no buy button, no express, no "Buy it now"** |
-| Coming soon | Same, label reads `Coming soon` |
-| Sold out | Faded, disabled button, no notify form |
-| Digital ↔ printed | Price, label and date all switch with the format |
-
-## 8. Copy
+### The New pill
 
 | | EN | SK |
 |---|---|---|
-| Dated | Available from October 23rd | Dostupné od 23. októbra |
-| No date | Coming soon | Už čoskoro |
-| Sold out | Sold out | Vypredané |
-| New | New | Novinka |
-| Digital | eBook | E-kniha |
-| From-price | from €18,99 | od 18,99 € |
+| Pill | `New` | `Nové` |
 
-Slovak is written natively, not translated. Dates take the natural form in each language —
-"October 23rd", "23. októbra" — never an ISO date in front of a customer.
+**One month from `published_at`, computed in Liquid, then it disappears by itself.** Nobody sets it
+and nobody has to remember to remove it. **Sold out beats New** — if a card would show both, the
+pill is dropped. At most one pill, ever.
 
-## 9. The variation in use: Quiet
+## 4. The call to action, per product
 
-**Paper fill, thin ink frame on both the bar and the pill. Nothing coloured.** Yellow stays for
-actions, so a grid of cards never competes with the buttons on the page.
+Written one product at a time, not assembled from a template: "Buy the deck" is right for a tarot
+and wrong for stickers. **Slovak is written natively, never translated** — *Kúpiť tarot*, not a
+literal *Kúpiť balíček kariet*.
 
-Chosen 30 Sep 2026 over *Marker* (yellow fill, fully rounded) and *Ink* (ink fill, paper text),
-which are kept in the mock-ups should the decision ever be revisited. The three differed only in
-fill and shape — structure, copy, states and rules were identical — so swapping is a CSS change.
+| Product | EN | SK |
+|---|---|---|
+| Tarot of Consciousness | `Buy the deck` | `Kúpiť tarot` |
+| Walterin Prague — eBook | `Buy the e-book` | `Kúpiť e-knihu` |
+| Walterin Prague — printed | `Buy the comic book` | `Kúpiť komiks` |
+| Prague Sticker Set | `Buy the stickers` | `Kúpiť nálepky` |
 
-## 9a. Where it lives in the theme
+**A product with two editions on one card** (Prague) follows whichever is the cheaper buyable one:
+the e-book while only that is on sale, the comic book once both are. The card links to the product
+page; it never adds to the cart directly, because the visitor has not chosen an edition yet.
+
+**A new product needs its own line here.** Without one the bar falls back to the neutral
+`Buy` / `Kúpiť`, which is correct but flat — so adding a product means adding its sentence.
+
+## 5. Sizes, spacing and colour
+
+All values come from the design system. No raw colours, no new tokens.
+
+### The bar
+
+| | Desktop | Phone (≤ 430px card) |
+|---|---|---|
+| Inset from image edges | `12px` left / right / bottom | `8px` |
+| Min height | `40px` | `36px` |
+| Padding | `9px 14px` | same |
+| Radius | `999px` (full round) | same |
+| Font | body, 600 weight, `13px` | `12px` |
+| Fill | `var(--wui-paper)` | same |
+| Frame | `var(--wui-line-thin)` (1.5px) solid `var(--wui-ink)` | same |
+| Shadow | none | none |
+| Hover fill (buyable) | `var(--wui-yellow)` | n/a |
+
+The label is one line: `white-space: nowrap`, with an ellipsis if a future product's wording is too
+long for a narrow card. **If a call to action needs two lines, the wording is wrong — shorten it.**
+
+### The New pill
 
 | | |
 |---|---|
-| `snippets/launch-date.liquid` | **The one source for every launch date.** Cards and product pages both read it, so they cannot disagree. Rows are `handle \| option value \| YYYYMMDD \| locale key`; the words are locale strings, the date is a number, and a row expires by comparison |
-| `snippets/wui-card-labels.liquid` | The status pill and the bar. Decides which, and never renders more than one pill |
-| `snippets/card-product.liquid` | Renders the labels into the card; the stock Dawn badge is hidden in CSS, not deleted |
-| `assets/walterin-ui.css` | `.wui-cl__*`, the card frame, the hover/focus reveal, the touch rule |
-| `sections/walterin-buy.liquid` | The matching product-page line, same shape and fill as the card bar |
+| Position | `top: 10px; right: 10px` |
+| Padding | `4px 10px` |
+| Font | display, `11px`, uppercase, `letter-spacing: .06em` |
+| Fill | `var(--wui-yellow)` |
+| Frame | `1.5px` solid `var(--wui-ink)` |
+| Radius | `999px` |
 
-**The date table should move to a product metafield** the next time a definition is created in
-admin — content does not belong in code. It is in one place, which is the part that matters.
+### Space between the bar and the words
 
-## 10. Open questions
+The card text keeps its existing `14px` top padding. Together with the bar's 12px inset that leaves
+**26px of clear space** between the bar and the title — enough that the two never read as one block.
 
-- ~~Which variation.~~ **Decided: Quiet.**
-- **The category label is deferred, not dropped.** It stays specified above so it can be switched on
-  later without another design pass. Before it is, the tags have to be fixed: the sticker set is
-  tagged `PARIS` and Paris is tagged `PRAGUE` (backend audit S1). Tags are being left as they are
-  for now (Veronka, 30 Sep 2026).
-- ~~"New" needs an expiry.~~ **Decided: three months from `published_at`, computed in Liquid.**
-  Nothing to set and nothing to remove, so it cannot become a lie.
-- ~~Does the tarot show `Coming soon`?~~ **It has a date: 10 November 2026**, so it shows
-  "Available from November 10th". `Coming soon` is now only for products with no confirmed date —
-  the sticker set today.
+### The card itself
+
+**No frame around the card.** Paper ground, image, text beneath. This is the current live card and
+it does not change.
+
+## 6. Hover and touch
+
+```css
+/* Only the buyable bar hides. Every other state is always visible. */
+.card[data-state="buyable"] .bar { opacity: 0; transform: translateY(6px); pointer-events: none; }
+.card[data-state="buyable"]:hover .bar,
+.card[data-state="buyable"]:focus-within .bar { opacity: 1; transform: none; pointer-events: auto; }
+
+@media (hover: none) {
+  .card[data-state="buyable"] .bar { opacity: 1; transform: none; pointer-events: auto; }
+}
+```
+
+Three rules behind that:
+
+1. **`:focus-within` as well as `:hover`.** A keyboard reaches the bar or it does not exist.
+2. **`@media (hover: none)` on touch.** A hover that never happens is a feature nobody can reach, so
+   on a phone the buyable bar is simply always there.
+3. **Only *buyable* hides.** A date or a "Coming soon" is information, and information does not wait
+   to be hovered.
+
+Transition: `opacity` and `transform`, `.18s var(--wui-ease)`. Respects `prefers-reduced-motion`
+through the design system's existing blanket rule.
+
+## 7. Accessibility
+
+- The bar is a link to the product page, not a button, except in the sold-out state where it opens
+  the notify form.
+- The pill carries screen-reader text: "New" is announced as **"New product"**, so it is not read as
+  a stray word.
+- Bar text on paper is ink: **15.6 : 1**. On the yellow hover fill it is **13.4 : 1**. Both pass AA
+  comfortably. **Never white text on yellow** — see `BUTTONS.md`.
+- Minimum target 40px tall on a desk, 36px on a phone, with the whole card clickable behind it.
+
+## 8. Where it lives
+
+| File | What it owns |
+|---|---|
+| `snippets/card-product.liquid` | the pill and the bar markup, and which state a card is in |
+| `snippets/launch-date.liquid` | the date, and whether one is confirmed at all |
+| `assets/walterin-ui.css` | every size, colour and the hover/touch behaviour |
+| `locales/en.default.json`, `locales/sk.json` | every word, including the per-product wording |
+
+## 9. Decided, and still open
+
+**Decided**
+
+- Variation **B · Paper** (Veronka, 6 Oct 2026).
+- `New` lasts **one month**, automatic from `published_at`. *(Changed from three months.)*
+- Slovak for the pill is **`Nové`**. *(Changed from `Novinka`.)*
+- No category word top-left. No frame around the card.
+- Sold out offers the notify wording on hover and always on a phone.
+
+**Still open**
+
+- The rhode reference screenshot was never added to the repo, so the proportions were taken from
+  Veronka's written description. If it is added and the weight is different, re-check §5.
+- Whether the bar should also appear on the home page's featured row, or only on Shop and
+  "You may also like".
+
+## 10. Related
+
+- [LINE-BREAKS.md](LINE-BREAKS.md) — the bar label is one line; if it wraps, the wording is wrong.
+- [BUTTONS.md](BUTTONS.md) — why the bar is not a yellow button.
+- [SPACING.md](SPACING.md) — the space between the bar and the title.
+- [../WALTERIN-GROUND-TRUTH.md](../WALTERIN-GROUND-TRUTH.md) — launch dates and what may be claimed.
