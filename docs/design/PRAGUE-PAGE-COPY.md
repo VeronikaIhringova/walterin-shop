@@ -24,17 +24,17 @@ Buy column → Look inside → Questions → You may also like → footer.
 | Slot | Slovensky | English |
 | --- | --- | --- |
 | Sticky bar | Walterin Praha | Walterin Prague |
-| Under the price | 140 strán Prahy, po anglicky alebo po česky. | 140 pages of Prague, in English or Czech. |
+| Under the price | 180 strán Prahy, po anglicky alebo po česky. | 180 pages of Prague, in English or Czech. |
 | Under the pills | E-kniha príde hneď, ako zaplatíte. Tlačená kniha je mäkká väzba, 129 × 207 mm. | The eBook arrives the moment you pay. The printed book is a softcover, 129 × 207 mm. |
 | Notify | Dajte mi vedieť · Napíšeme raz, keď to bude. To je všetko. | Notify me · One email when it's ready. That's all. |
 
 **About the book** ★
 
-> **SK** Praha na 140 stranách, rozkreslená do deväťobrázkových komiksov. Mesto, jeho história a to,
+> **SK** Praha na 180 stranách, rozkreslená do deväťobrázkových komiksov. Mesto, jeho história a to,
 > čo sa v ňom stalo — tak, ako to Walter Ihring videl a nakreslil.
 > Nie je to sprievodca s otváracími hodinami. Číta sa rovnako dobre pri kuchynskom stole ako cestou tam.
 >
-> **EN** Prague across 140 pages, drawn as nine‑frame comics. The city, its history and the things
+> **EN** Prague across 180 pages, drawn as nine‑frame comics. The city, its history and the things
 > that happened in it, the way Walter Ihring saw them and drew them.
 > It is not a guidebook with opening hours. It reads as well at a kitchen table as it does on the way there.
 
@@ -42,13 +42,13 @@ Buy column → Look inside → Questions → You may also like → footer.
 
 | Slovensky | English |
 | --- | --- |
-| Tlačená kniha — mäkká väzba, 129 × 207 mm, 140 strán, plnofarebná tlač | The printed book — softcover, 129 × 207 mm, 140 pages, full colour |
+| Tlačená kniha — mäkká väzba, 129 × 207 mm, 180 strán, plnofarebná tlač | The printed book — softcover, 129 × 207 mm, 180 pages, full colour |
 | E-kniha — PDF vo vysokom rozlíšení a EPUB s pevným rozložením, oboje spolu | The eBook — a high‑resolution PDF and a fixed‑layout EPUB, both together |
 | V e-knihe: preklikateľný obsah a odkaz na každú kapitolu | In the eBook: a clickable contents page and a jump link on every chapter |
 | Po anglicky alebo po česky — vyberiete si pred objednávkou | English or Czech — you choose before you order |
 
-**Specs:** Strany 140 · Rozmer 129 × 207 mm · Väzba Mäkká · Tlač Plnofarebná · Jazyky Angličtina · Čeština · E-kniha PDF · EPUB
-→ Pages 140 · Size 129 × 207 mm · Binding Softcover · Print Full colour · Languages English · Czech · eBook PDF · EPUB
+**Specs:** Strany 180 · Rozmer 129 × 207 mm · Väzba Mäkká · Tlač Plnofarebná · Jazyky Angličtina · Čeština · E-kniha PDF · EPUB
+→ Pages 180 · Size 129 × 207 mm · Binding Softcover · Print Full colour · Languages English · Czech · eBook PDF · EPUB
 
 **Delivery** ★ — *SK* E-kniha je vaša hneď po zaplatení: odkaz na stiahnutie príde e-mailom, obidva
 súbory naraz. / *EN* The eBook is yours the moment the payment goes through: a download link by

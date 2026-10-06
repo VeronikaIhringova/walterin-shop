@@ -82,6 +82,19 @@
 - Contract not signed yet: delivery times, prices and carriers are unknown. All delivery lines stay hidden until then.
 - Trust row wording: "Ships across the EU" (no carrier name).
 - eBooks (Prague, Paris) are digital (no shipping) and go on sale first. Printed books and the tarot are physical and stay unbuyable until Pack4you is signed.
+
+- **Walterin Prague — the facts that appear in copy** (Veronka, 6 Oct 2026):
+  - **180 pages. Exactly 180**, not "180+" and not "more than 180". The earlier figure of 140 was
+    wrong and has been corrected everywhere: `price_note`, `included`, `specs`, the product
+    description and the SEO description, in **both** English and Slovak.
+  - Printed edition: softcover, **129 × 207 mm**, full colour.
+  - Prices (Veronka, 6 Oct 2026): **eBook €16**, **printed €24**, the **same in English and
+    Czech**. No compare-at prices are set, so no "was" price is ever shown.
+  - There is **no bundle** until the printed edition is out.
+
+  A page count is a claim about the product. If it changes, it changes here first, and then in all
+  ten places listed above — five English, five Slovak — or the site contradicts itself in one
+  language only, which is the hardest kind of error to notice.
 - **Only a confirmed date is ever shown** (Veronka, 6 Oct 2026). This rule is absolute:
   - **Date confirmed** → "Available from [date]" / "Dostupné od [dátum]".
   - **Date not confirmed** → "Coming soon" / "Už čoskoro", and nothing more. Never a guess, never

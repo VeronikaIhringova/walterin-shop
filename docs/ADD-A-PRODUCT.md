@@ -32,7 +32,7 @@ the thing it feeds simply does not appear.
 | Line under the choices | What the options mean. Skip it if there is nothing to choose. |
 | About heading | *About the deck*, *About the book*. Empty gives "About this". |
 | What you get | A summary line, then a bullet per item. |
-| Specs | One per line, `Label: value`. `Pages: 140` |
+| Specs | One per line, `Label: value`. `Pages: 180` |
 | Extra accordions | Each **Heading 3** starts a new accordion; the text under it is the body. |
 | Accordion before launch only | Same format. It disappears by itself on launch day. |
 | Short name | Only if the full title is too long for the bar on phones. |

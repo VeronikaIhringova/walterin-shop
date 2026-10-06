@@ -18,7 +18,7 @@
 
 ## 2. What it is
 
-- Illustrated book of short comic stories about Prague: culture and history, told with humour. 140+ illustrated pages.
+- Illustrated book of short comic stories about Prague: culture and history, told with humour. 180 illustrated pages.
 - Stories in nine frames, original artwork by Walter Ihring, hidden details to discover.
 - Two formats (see §3).
 

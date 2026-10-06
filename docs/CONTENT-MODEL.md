@@ -33,11 +33,11 @@ empty accordion, no stray heading.
 
 | Field | Type | What it is | Example (Walterin Prague) |
 | --- | --- | --- | --- |
-| **Line under the price** `price_note` | one line, max 90 | The one sentence under the price. | *140 pages of Prague, in English or Czech.* |
+| **Line under the price** `price_note` | one line, max 90 | The one sentence under the price. | *180 pages of Prague, in English or Czech.* |
 | **Line under the choices** `choice_note` | one line, max 140 | Explains the options. Leave empty when there is nothing to choose. | *The eBook arrives the moment you pay. The printed book is a softcover, 129 × 207 mm.* |
 | **About heading** `about_heading` | one line, max 40 | The first accordion's title. Empty means "About this". | *About the book* |
 | **What you get** `included` | rich text | First line is the summary, then a bullet per item. | *Two editions of the same book.* + 4 bullets |
-| **Specs** `specs` | multi-line text | One per line, written `Label: value`. The order here is the order on the page. | `Pages: 140`<br>`Size: 129 × 207 mm` |
+| **Specs** `specs` | multi-line text | One per line, written `Label: value`. The order here is the order on the page. | `Pages: 180`<br>`Size: 129 × 207 mm` |
 | **Extra accordions** `notes` | rich text | Every **Heading 3** starts a new accordion; the text under it is that accordion's body. | *Reading it on a screen* · *As a gift* · *About Walter* |
 | **Accordion before launch only** `preorder_note` | rich text | Same format. Shown only while the product cannot be bought. | *When can I have it?* |
 | **Short name** `short_title` | one line, max 40 | For the bar that follows you down the page on phones. Empty uses the product title. | *Walterin Prague* |
