@@ -994,24 +994,33 @@
 }
 
 /* ------------------------------------------------------------------------- *
-   Cart (B1 · B3)
+   Cart (B)
 
-   Four faults, measured on the live cart on 6 Oct 2026.
+   Every fault here was measured on the live cart, then re-measured after.
+
+   The lesson that shaped this block: the cart drawer is 369px wide at a 1440px
+   viewport. A viewport media query is therefore the wrong tool for anything
+   inside it — the line has to respond to its OWN width. Container queries, the
+   same as the product cards.
  * ------------------------------------------------------------------------- */
+
+/* Each cart line answers for its own width, in the drawer and on the page. */
+.wui :is(.cart-item, .cart-drawer__item) {
+  container-type: inline-size;
+  container-name: wui-cartline;
+}
 
 /* 1 · The remove control is an icon, not a call to action.
 
-   There was already a rule saying so, but it lost: the generic button rule is
-   `.wui :is(.button, …):not(.wui-btn)`, which scores (0,3,1) because :is() takes
-   its heaviest argument and :not() adds another class. The old cart rule was
-   (0,2,1), so the yellow fill won and the bin — with no intrinsic size — left a
-   blank yellow block. Matching that weight is the fix, not !important. */
-.wui .cart-item cart-remove-button > .button:not(.wui-btn),
-.wui .cart-drawer cart-remove-button > .button:not(.wui-btn),
-.wui .cart-item cart-remove-button > a,
-.wui .cart-item cart-remove-button > button,
-.wui .cart-drawer cart-remove-button > a,
-.wui .cart-drawer cart-remove-button > button {
+   A rule already said so and lost: the generic button rule
+   `.wui :is(.button, …):not(.wui-btn)` scores (0,3,1) — :is() takes its
+   heaviest argument and :not() adds a class — while the cart's rule was
+   (0,2,1). Matching the weight is the fix, not !important. The bin also had no
+   width or height, so with no intrinsic size it collapsed to 0 x 15px inside a
+   flex row; that is fixed in snippets/icon-remove.liquid. */
+.wui :is(.cart-item, .cart-drawer) cart-remove-button > .button:not(.wui-btn),
+.wui :is(.cart-item, .cart-drawer) cart-remove-button > a,
+.wui :is(.cart-item, .cart-drawer) cart-remove-button > button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1030,25 +1039,27 @@
 }
 .wui :is(.cart-item, .cart-drawer) cart-remove-button > *:hover {
   background: none;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+  color: var(--wui-red);
 }
 
-/* 2 · One frame around − and +, never two.
+/* 2 · The stepper: one light frame, and the number always fully visible.
 
-   base.css draws its own ring with `.quantity::after { box-shadow: 0 0 0 … }`
-   inside whatever border we add, so the stepper showed a faint second outline.
-   The frame belongs to the group; the two buttons sit inside it without one. */
+   Two separate faults. The frame was the heavy 2.5px rule used for buttons and
+   inputs, which is far too loud for a control this small — it now uses the thin
+   rule, the same weight as the quantity buttons already had. And the input was
+   being squeezed to 16px wide (6px of content box) between two 40px buttons, so
+   a two-digit quantity was clipped. It now has a fixed, generous width and
+   cannot be compressed. base.css's own `.quantity::after` ring is removed, so
+   there is one frame, not two. */
 .wui .quantity {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: stretch;
-  width: 100%;
-  max-width: 132px;
+  width: auto;
+  max-width: none;
   min-width: 0;
-  overflow: hidden;
-  border: var(--wui-line) solid var(--wui-ink);
+  overflow: visible;
+  border: var(--wui-line-thin) solid var(--wui-ink);
   border-radius: var(--wui-radius);
   background: var(--wui-paper);
 }
@@ -1059,34 +1070,45 @@
   border: 0;
 }
 .wui .quantity .quantity__button {
-  flex: 0 0 40px;
-  min-width: 40px;
+  flex: 0 0 36px;
+  min-width: 36px;
+  min-height: 40px;
   border: 0;
   border-radius: 0;
   background: none;
+  box-shadow: none;
 }
 .wui .quantity .quantity__button:hover { background: var(--wui-yellow); }
 .wui .quantity .quantity__input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: auto;
+  /* 3ch holds "999" without the buttons ever stealing its room. */
+  flex: 0 0 auto;
+  width: 3ch;
+  min-width: 2.5rem;
+  padding: 0;
   text-align: center;
-  border: 0;
+  font-family: var(--wui-body);
+  font-size: var(--wui-fs-small);
+  line-height: 1;
+  color: var(--wui-ink);
   background: none;
+  border: 0;
   box-shadow: none;
 }
 
-/* 3 · The chosen edition reads as one line.
+/* 3 · The chosen edition.
 
-   Each option was its own flex row, so "Language: English" and
-   "Format: Digital Interactive Edition" stacked. They describe one thing, so
-   they sit on one line separated by a middot. The labels stay for screen
-   readers — hidden visually, not removed, or the values lose their meaning. */
+   One line when the line has room for one line, two clean lines when it does
+   not — and never a middot stranded on its own. The separator exists only in
+   the wide case, so it cannot be orphaned by a wrap.
+
+   The values drop to the small size here: this is secondary information, and at
+   body size "DIGITAL INTERACTIVE EDITION" could not fit the drawer's text
+   column and broke, leaving "EDITION" alone on a line. */
 .wui :is(.cart-item, .cart-drawer) dl:not([class]) {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--wui-8);
+  column-gap: 0;
   row-gap: 0;
   margin: var(--wui-space-control) 0 0;
 }
@@ -1097,6 +1119,8 @@
   margin-top: 0;
 }
 .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option dt {
+  /* Hidden from the eye, kept for a screen reader: without "Language" and
+     "Format" the two values lose their meaning. */
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -1108,23 +1132,31 @@
   border: 0;
 }
 .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option dd {
-  /* An edition name is a phrase, not a word that may be split letter by letter. */
+  font-size: var(--wui-fs-small);
+  line-height: 1.35;
   overflow-wrap: normal;
   word-break: normal;
 }
-.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option + .product-option::before {
-  content: '·';
-  margin-inline: 0.5em 0.4em;
-  opacity: 0.55;
-  font-family: var(--wui-body);
+/* Narrow line: each option takes a full row, no separator at all. */
+.wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option {
+  flex: 1 0 100%;
+}
+@container wui-cartline (min-width: 460px) {
+  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option {
+    flex: 0 1 auto;
+  }
+  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option + .product-option::before {
+    content: '·';
+    margin-inline: 0.5em 0.4em;
+    opacity: 0.55;
+    font-family: var(--wui-body);
+  }
 }
 
 /* 4 · No circle behind an option that cannot be chosen.
 
-   `:has(input:disabled)` scores (0,3,1) and so beat the input's own
-   `opacity: 0`, which left Safari painting the full-size native radio at 40%
-   behind our dot. Everything in the row still fades — except the input, which
-   stays invisible. */
+   `:has(input:disabled)` scores (0,3,1) and beat the input's own `opacity: 0`,
+   so Safari painted the full-size native radio at 40% behind our dot. */
 .wui .wui-choice:has(input:disabled) > *:not(.wui-choice__input) {
   opacity: var(--wui-faded);
 }
@@ -1132,17 +1164,194 @@
   opacity: 0;
 }
 
-/* On a phone the cart column is about 180px wide and
-   "CZECH · DIGITAL INTERACTIVE EDITION" cannot fit on one line. Left to wrap,
-   the middot ends up alone at the start of the second line, which reads like a
-   typo. So below the tablet breakpoint the two options stack cleanly and the
-   separator is removed — one line where there is room for one line, two tidy
-   lines where there is not. */
+/* 5 · The cart page reads as two columns on a desk.
+
+   The items were full width with the summary stranded bottom right, so the eye
+   crossed the whole screen to get from a line to its total. Items on the left,
+   the summary beside them on the right, where it stays in view while you read
+   the list. Everything after the cart (recommendations, newsletter) keeps the
+   full width. Below the breakpoint it stacks, summary last. */
+@media (min-width: 990px) {
+  .wui.t-cart #MainContent {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    column-gap: var(--wui-48);
+    align-items: start;
+  }
+  .wui.t-cart #MainContent > .shopify-section { grid-column: 1 / -1; }
+  .wui.t-cart #MainContent > .shopify-section:has(#main-cart-items) {
+    grid-column: 1;
+    grid-row: 1;
+    /* The inner .page-width padding is removed below, so the outer gutter is
+       restored here. It cannot go on the grid itself: the sections underneath
+       (recommendations, newsletter) run edge to edge and must stay that way. */
+    padding-inline-start: var(--wui-edge);
+  }
+  .wui.t-cart #MainContent > .shopify-section:has(#main-cart-footer) {
+    grid-column: 2;
+    grid-row: 1;
+    padding-inline-end: var(--wui-edge);
+    position: sticky;
+    top: var(--wui-24);
+  }
+  .wui.t-cart #main-cart-items.page-width,
+  .wui.t-cart #main-cart-footer.page-width {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+  .wui.t-cart #MainContent > .shopify-section:has(#main-cart-footer) .cart__blocks {
+    display: grid;
+    gap: var(--wui-16);
+  }
+}
+
+/* 6 · The drawer line: give the words room.
+
+   The stock drawer lays each line out as four equal columns — image, details
+   across two, total in the fourth. In a 369px drawer that leaves the text
+   column 154px, which is why "Digital Interactive Edition" could not fit on one
+   line at any readable size, and why shrinking the type never solved it. The
+   problem was the layout, not the typography.
+
+   Three columns instead: a small fixed image, everything else taking the room
+   that is left, and the price sized to its own content. The quantity and the
+   bin sit on their own row underneath, spanning the full width. */
+.wui .cart-drawer .cart-item {
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: var(--wui-12);
+  align-items: start;
+}
+.wui .cart-drawer .cart-item__media { grid-column: 1; grid-row: 1 / 3; }
+.wui .cart-drawer .cart-item__details { grid-column: 2; grid-row: 1; width: auto; }
+/* The price is a number, not a headline: it needs only its own width. */
+.wui .cart-drawer .cart-item__totals { grid-column: 3; grid-row: 1; white-space: nowrap; }
+.wui .cart-drawer .cart-item__totals :is(.price, .cart-item__price-wrapper, span) {
+  font-size: var(--wui-fs-small);
+}
+.wui .cart-drawer .cart-item__quantity { grid-column: 2 / 4; grid-row: 2; padding-top: 0; }
+.wui .cart-drawer .cart-item__quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--wui-12);
+}
+/* The stock rule hard-codes a width that re-squeezes the input. */
+.wui .cart-drawer .quantity {
+  width: auto;
+  min-height: 0;
+  border-radius: var(--wui-radius);
+}
+.wui .cart-drawer .cart-item__media {
+  /* The column is 56px; the image must be told so, or it keeps its own width
+     and sits on top of the title. */
+  width: 56px;
+  min-width: 0;
+  overflow: hidden;
+}
+.wui .cart-drawer .cart-item__image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  box-shadow: none;
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  border-radius: 6px;
+}
+
+/* ------------------------------------------------------------------------- *
+   Checkbox (B2) and the eBook consent
+
+   One checkbox for the whole site: the eBook consent, the newsletter opt-in,
+   anything that follows. Ink frame, yellow when ticked, and a 44px hit area
+   around a 22px box so a thumb can reach it.
+ * ------------------------------------------------------------------------- */
+.wui .wui-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wui-12);
+  cursor: pointer;
+  text-align: left;
+}
+.wui .wui-check__box {
+  flex: none;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  /* The box is 22px but the target is 44px: the padding is pushed outwards so
+     the hit area grows without moving anything around it. */
+  margin: 0 11px 0 0;
+  margin-inline-end: calc(var(--wui-12) * -1 + 11px);
+  padding: 11px;
+  background-clip: content-box;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--wui-paper);
+  border: 0;
+  box-shadow: inset 0 0 0 var(--wui-line) var(--wui-ink);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.wui .wui-check__box:checked { background-color: var(--wui-yellow); }
+.wui .wui-check__box:checked::after {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 14px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--wui-ink);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+.wui .wui-check__box:focus-visible {
+  outline: 3px solid var(--wui-ink);
+  outline-offset: 2px;
+}
+.wui .wui-check__text,
+.wui .wui-check > span {
+  font-size: var(--wui-fs-small);
+  line-height: 1.45;
+}
+
+/* The consent reads as a confirmation, not a wall. One sentence with the box;
+   the explanation is one tap away and closed by default. */
+.wui .wui-consent {
+  display: grid;
+  gap: var(--wui-space-item);
+  margin-block: var(--wui-16);
+}
+.wui .wui-consent__more { font-size: var(--wui-fs-small); }
+.wui .wui-consent__more > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 12px;
+  /* The 22px box plus its gap, so the link lines up under the sentence. */
+  margin-inline-start: calc(22px + var(--wui-12));
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.wui .wui-consent__more > summary::-webkit-details-marker { display: none; }
+.wui .wui-consent__more > p {
+  margin: 0 0 0 calc(22px + var(--wui-12));
+  line-height: 1.5;
+}
+
+/* 7 · The cart page line on a phone.
+
+   Same fault as the drawer, same cause: the product cell holds a large image
+   beside the words, so the text column is too narrow for an edition name and
+   "EDITION" ends up alone on a line. A smaller image gives the words the room
+   they need. Kept to the narrow case — on a desk the line is wide enough. */
 @media (max-width: 749px) {
-  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option {
-    flex: 1 0 100%;
+  .wui .cart-items .cart-item__media,
+  .wui .cart-items .cart-item__image {
+    width: 56px;
+    max-width: 56px;
   }
-  .wui :is(.cart-item, .cart-drawer) dl:not([class]) .product-option + .product-option::before {
-    content: none;
-  }
+  .wui .cart-items .cart-item__image { height: auto; }
 }

@@ -528,7 +528,8 @@
     },
     "ebook_consent": {
       "notice": "Your eBook comes as a download link. Once delivery starts, the 14-day right of withdrawal no longer applies to the eBook.",
-      "declaration": "I expressly agree that delivery of the eBook starts before the withdrawal period ends, and I confirm I have been told that I thereby lose my right of withdrawal."
+      "declaration": "I expressly agree that delivery of the eBook starts before the withdrawal period ends, and I confirm I have been told that I thereby lose my right of withdrawal.",
+      "more": "What does this mean?"
     },
     "gpsr": {
       "title": "Product safety",

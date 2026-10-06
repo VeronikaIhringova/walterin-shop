@@ -1,0 +1,28 @@
+{%- comment -%}
+  Echoes a string with the final space replaced by a no-break space, so the last
+  word can never be left standing alone on a line.
+
+  "Digital Interactive Edition" in a narrow cart column wraps to
+  "DIGITAL INTERACTIVE / EDITION", and a single stranded word is exactly what
+  docs/design/LINE-BREAKS.md rule 5 forbids. Gluing the last two words makes it
+  break as "DIGITAL / INTERACTIVE EDITION" instead: two words on the second
+  line, no orphan, and nothing about the wording changes.
+
+  It does nothing to a one-word string, and nothing at widths where the text
+  fits on one line anyway.
+
+  Accepts: text (required)
+
+  Usage: {%- render 'wui-tail-nbsp', text: option.value -%}
+{%- endcomment -%}
+{%- liquid
+  assign words = text | strip | split: ' '
+  if words.size > 1
+    assign cut = words.size | minus: 1
+    assign head = words | slice: 0, cut | join: ' '
+    assign tail = words | last
+    echo head | append: ' ' | append: tail
+  else
+    echo text
+  endif
+-%}

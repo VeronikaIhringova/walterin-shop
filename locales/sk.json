@@ -558,7 +558,8 @@
     },
     "ebook_consent": {
       "notice": "E-knihu dostanete ako odkaz na stiahnutie. Po začatí dodania pri e-knihe zaniká 14-dňové právo na odstúpenie od zmluvy.",
-      "declaration": "Výslovne súhlasím so začatím dodania e-knihy pred uplynutím lehoty na odstúpenie od zmluvy a potvrdzujem, že som bol(a) poučený(á), že tým strácam právo na odstúpenie od zmluvy."
+      "declaration": "Výslovne súhlasím so začatím dodania e-knihy pred uplynutím lehoty na odstúpenie od zmluvy a potvrdzujem, že som bol(a) poučený(á), že tým strácam právo na odstúpenie od zmluvy.",
+      "more": "Čo to znamená?"
     },
     "gpsr": {
       "title": "Bezpečnosť výrobku",

@@ -2,6 +2,13 @@
   eBook consent (§ 17(10) and § 19(1)(m) zákona 108/2024 Z. z.).
   Shown when the cart contains an item that needs no shipping (= digital: eBook via Digital Products).
   The checkbox is required and belongs to the cart form, so the browser blocks "Check out" until it is ticked.
+
+  UX: the consent is one sentence with the box, not a wall of text. The legal
+  declaration is complete and unchanged — it is the sentence the law asks for —
+  but the explanation behind it moved into a disclosure, so the last screen
+  before payment reads as a confirmation rather than an obstacle. Shopify Basic
+  cannot put this in the checkout: checkout extensibility is Plus-only, so the
+  cart is the last place we control. See docs/legal/ebook-consent.md.
   The declaration is saved as a cart attribute and appears on the order ("eBook consent").
   Accepts:
   - form_id: {String} id of the cart <form> ('cart' on the cart page, 'CartDrawer-Form' in the drawer)
@@ -17,25 +24,22 @@
   endfor
 -%}
 {%- if has_ebook -%}
-  <div class="cart-ebook-consent" data-ebook-consent>
-    <p class="cart-ebook-consent__notice">{{ 'walterin.ebook_consent.notice' | t }}</p>
-    <label class="cart-ebook-consent__label" for="EbookConsent-{{ form_id }}">
+  <div class="wui-consent" data-ebook-consent>
+    <label class="wui-check wui-consent__label" for="EbookConsent-{{ form_id }}">
       <input
         type="checkbox"
         id="EbookConsent-{{ form_id }}"
-        class="cart-ebook-consent__box"
+        class="wui-check__box"
         name="attributes[eBook consent]"
         value="{{ 'walterin.ebook_consent.declaration' | t | escape }}"
         form="{{ form_id }}"
         required
       >
-      <span>{{ 'walterin.ebook_consent.declaration' | t }}</span>
+      <span class="wui-check__text">{{ 'walterin.ebook_consent.declaration' | t }}</span>
     </label>
+    <details class="wui-consent__more">
+      <summary>{{ 'walterin.ebook_consent.more' | t }}</summary>
+      <p>{{ 'walterin.ebook_consent.notice' | t }}</p>
+    </details>
   </div>
-  <style>
-    .cart-ebook-consent { display: grid; gap: 0.8rem; margin: 1.2rem 0; padding: 1.2rem 1.4rem; border: 2px solid rgb(var(--color-foreground)); border-radius: 8px; font-size: 1.4rem; line-height: 1.45; text-align: left; }
-    .cart-ebook-consent__notice { margin: 0; }
-    .cart-ebook-consent__label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; }
-    .cart-ebook-consent__box { flex: none; width: 2rem; height: 2rem; margin: 0.1rem 0 0; accent-color: rgb(var(--color-foreground)); }
-  </style>
 {%- endif -%}
