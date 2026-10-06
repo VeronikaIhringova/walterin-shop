@@ -3,7 +3,7 @@
 
   Lets two choices be compared on the real site without building two themes:
 
-    ?card=cream | sand | sun     the card colour
+    ?card=white | tint           the card colour
     ?pill=a | b                  where the product page pill sits
 
   Both write a data attribute on <html>, which the CSS keys off. Nothing here
@@ -19,7 +19,7 @@
       var q = new URLSearchParams(location.search);
       var card = q.get('card');
       var pill = q.get('pill');
-      if (card && ['cream', 'sand', 'sun'].indexOf(card) !== -1) {
+      if (card && ['white', 'tint'].indexOf(card) !== -1) {
         document.documentElement.dataset.card = card;
       }
       if (pill && ['a', 'b'].indexOf(pill) !== -1) {

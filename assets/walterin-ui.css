@@ -20,20 +20,19 @@
   --wui-ink: #222222;
   --wui-yellow: #FCF205;
   /* The card ground: behind a product card's title and price, and the fill of
-     the card's bar, so the bar reads as part of the card rather than a label
-     floating on the artwork.
+     the card's pill, so the two are one material.
 
-     The grey #F3F3F3 was tried and rejected — cold against the paper page.
-     Three warm candidates are under review (Veronka, 6 Oct 2026); the chosen
-     one becomes --wui-card and the other two are deleted.
-       cream  #FAF4E4  a half-step darker than the page, barely there
-       sand   #EFE4CE  cardboard, clearly a different material
-       sun    #FBF3C4  a pale tint of the brand yellow
-     All three carry ink at better than 13:1. */
-  --wui-card-cream: #FAF4E4;
-  --wui-card-sand: #EFE4CE;
-  --wui-card-sun: #FBF3C4;
-  --wui-card: var(--wui-card-cream);
+     Rejected on 6 Oct: #F3F3F3 (cold against the paper page), and the warm
+     cream / sand / sun family (too strong). Veronka wants almost white, with at
+     most a hint of the page beige — so the card is now LIGHTER than the page it
+     sits on, not darker. Two candidates:
+       white  #FFFFFF  pure
+       tint   #FFFEFB  white carrying a trace of the page
+     Both are reviewed with the honest caveat that separation from the page is
+     about 1.01:1 either way — see docs/design/PRODUCT-CARD-SYSTEM.md. */
+  --wui-card-white: #FFFFFF;
+  --wui-card-tint: #FFFEFB;
+  --wui-card: var(--wui-card-white);
   /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
   --wui-sky: #6FE9FA;
   --wui-red: #F60403;
@@ -1644,9 +1643,8 @@
    Driven by ?card=cream|sand|sun. Delete this block, the two unused tokens and
    snippets/wui-preview-switch.liquid once the colour is chosen.
  * ------------------------------------------------------------------------- */
-html[data-card='cream'] .wui { --wui-card: var(--wui-card-cream); }
-html[data-card='sand']  .wui { --wui-card: var(--wui-card-sand); }
-html[data-card='sun']   .wui { --wui-card: var(--wui-card-sun); }
+html[data-card='white'] .wui { --wui-card: var(--wui-card-white); }
+html[data-card='tint']  .wui { --wui-card: var(--wui-card-tint); }
 
 /* The card's own ground follows the same token, so the bar and the card bottom
    are one material rather than two tones. */
@@ -1699,9 +1697,13 @@ html[data-card='sun']   .wui { --wui-card: var(--wui-card-sun); }
    A (default): above the email field.   B: in the price row.
    Driven by ?pill=a|b. Delete with the comparison switch.
  * ------------------------------------------------------------------------- */
-.wui [data-wui-pill-b] { display: none; }
-html[data-pill='b'] .wui [data-wui-pill-b] { display: block; }
-html[data-pill='b'] .wui [data-wui-launch-line] { display: none; }
+/* B is the chosen placement (Veronka, 6 Oct 2026), so it is the default now.
+   ?pill=a still shows the old one until the comparison is deleted. */
+.wui [data-wui-launch-line] { display: none; }
+.wui [data-wui-pill-b] { display: block; }
+html[data-pill='a'] .wui [data-wui-pill-b] { display: none; }
+html[data-pill='a'] .wui [data-wui-launch-line] { display: block; }
 /* With the pill in the price row, the shipping line would say two things at
    once about something nobody can buy, so it stands down. */
-html[data-pill='b'] .wui .wui-buy__price:has([data-wui-pill-b]) [data-wui-ship] { display: none; }
+.wui .wui-buy__price:has([data-wui-pill-b]) [data-wui-ship] { display: none; }
+html[data-pill='a'] .wui .wui-buy__price [data-wui-ship] { display: flex; }
