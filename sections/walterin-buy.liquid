@@ -283,6 +283,17 @@
             Tax wording only when Shopify's "Include tax in prices" is on (cart.taxes_included).
             Walterin is not a VAT payer: that setting stays off → no VAT wording, no theme change later.
           {%- endcomment -%}
+          {%- comment -%}
+            Placement B (comparison): the pill sits in the price row, taking the
+            place of the shipping line, because "Shipping calculated at
+            checkout" is not the thing a visitor needs to know about something
+            they cannot buy yet. Shown only under ?pill=b.
+          {%- endcomment -%}
+          {%- if selected_launch_label != blank -%}
+            <p class="wui-buy__pill-row" data-wui-pill-b>
+              <span class="wui-pill" data-wui-launch-pill-b>{{ selected_launch_label }}</span>
+            </p>
+          {%- endif -%}
           <p class="wui-buy__ship wui-iconline" data-wui-ship {% if digital %}hidden{% endif %}>
             {%- render 'wui-icon', icon: 'shipping' -%}
             <span>
@@ -566,8 +577,8 @@
               thing you do about it read as one thought. It is empty for an edition
               that is simply out of stock, and it removes itself on launch day.
             {%- endcomment -%}
-            <p class="wui-buy__launch wui-small" data-wui-launch-line {% if selected_launch_label == blank %}hidden{% endif %}>
-              {{- selected_launch_label -}}
+            <p class="wui-buy__launch" data-wui-launch-line {% if selected_launch_label == blank %}hidden{% endif %}>
+              <span class="wui-pill" data-wui-launch-pill>{{ selected_launch_label }}</span>
             </p>
             <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
               {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}

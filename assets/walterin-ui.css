@@ -19,12 +19,21 @@
   --wui-paper: #FFFDF7;
   --wui-ink: #222222;
   --wui-yellow: #FCF205;
-  /* The card ground. Not a leftover and not a grey we are trying to remove:
-     it is the deliberate tone behind a product card's title and price, and now
-     behind the card's bar as well, so the bar reads as part of the card rather
-     than a label floating on the artwork. Decided by Veronka, 6 Oct 2026.
-     Ink on it measures 14.3:1, so it passes AA with room to spare. */
-  --wui-card: #F3F3F3;
+  /* The card ground: behind a product card's title and price, and the fill of
+     the card's bar, so the bar reads as part of the card rather than a label
+     floating on the artwork.
+
+     The grey #F3F3F3 was tried and rejected — cold against the paper page.
+     Three warm candidates are under review (Veronka, 6 Oct 2026); the chosen
+     one becomes --wui-card and the other two are deleted.
+       cream  #FAF4E4  a half-step darker than the page, barely there
+       sand   #EFE4CE  cardboard, clearly a different material
+       sun    #FBF3C4  a pale tint of the brand yellow
+     All three carry ink at better than 13:1. */
+  --wui-card-cream: #FAF4E4;
+  --wui-card-sand: #EFE4CE;
+  --wui-card-sun: #FBF3C4;
+  --wui-card: var(--wui-card-cream);
   /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
   --wui-sky: #6FE9FA;
   --wui-red: #F60403;
@@ -1628,3 +1637,71 @@
   }
   .wui .wui-cl__pill { top: 8px; right: 8px; }
 }
+
+
+/* ------------------------------------------------------------------------- *
+   TEMPORARY — card colour comparison (Veronka, 6 Oct 2026)
+   Driven by ?card=cream|sand|sun. Delete this block, the two unused tokens and
+   snippets/wui-preview-switch.liquid once the colour is chosen.
+ * ------------------------------------------------------------------------- */
+html[data-card='cream'] .wui { --wui-card: var(--wui-card-cream); }
+html[data-card='sand']  .wui { --wui-card: var(--wui-card-sand); }
+html[data-card='sun']   .wui { --wui-card: var(--wui-card-sun); }
+
+/* The card's own ground follows the same token, so the bar and the card bottom
+   are one material rather than two tones. */
+.wui .card--card,
+.wui .card--standard .card__content {
+  background-color: var(--wui-card);
+}
+
+/* ------------------------------------------------------------------------- *
+   The bar never underlines.
+   Dawn's .underline-links-hover underlines every link inside a card on hover,
+   which struck a line through "Coming soon". A pill is a control, not prose.
+ * ------------------------------------------------------------------------- */
+.wui .wui-cl__bar,
+.wui .wui-cl__bar:hover,
+.wui .wui-cl__bar:focus,
+.wui .wui-cl__bar:focus-visible,
+.wui .card-wrapper:hover .wui-cl__bar,
+.wui .underline-links-hover:hover .wui-cl__bar,
+.wui .wui-cl__bar .wui-cl__label {
+  text-decoration: none !important;
+  text-underline-offset: 0;
+}
+
+/* ------------------------------------------------------------------------- *
+   The pill on a product page — same object as the card bar, standing still.
+   Spec: docs/design/PRODUCT-CARD-SYSTEM.md §5.
+ * ------------------------------------------------------------------------- */
+.wui .wui-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-family: var(--wui-body);
+  font-weight: 600;
+  font-size: var(--wui-fs-small);
+  line-height: 1.3;
+  color: var(--wui-ink);
+  background: var(--wui-card);
+  border: var(--wui-line-thin) solid var(--wui-ink);
+  text-decoration: none;
+}
+.wui .wui-buy__launch { margin: 0 0 var(--wui-space-item); }
+.wui .wui-buy__pill-row { margin: 0; }
+
+/* ------------------------------------------------------------------------- *
+   TEMPORARY — product page pill placement (Veronka, 6 Oct 2026)
+   A (default): above the email field.   B: in the price row.
+   Driven by ?pill=a|b. Delete with the comparison switch.
+ * ------------------------------------------------------------------------- */
+.wui [data-wui-pill-b] { display: none; }
+html[data-pill='b'] .wui [data-wui-pill-b] { display: block; }
+html[data-pill='b'] .wui [data-wui-launch-line] { display: none; }
+/* With the pill in the price row, the shipping line would say two things at
+   once about something nobody can buy, so it stands down. */
+html[data-pill='b'] .wui .wui-buy__price:has([data-wui-pill-b]) [data-wui-ship] { display: none; }
