@@ -1694,3 +1694,303 @@
    edition that is perfectly buyable. */
 .wui .wui-buy__price:has([data-wui-launch-line]:not([hidden])) [data-wui-ship] { display: none; }
 
+
+/* ========================================================================= *
+   PRODUCT CARDS — type hierarchy, card bottom, and the phone layouts
+   Brief: Veronka, 6 October 2026. Spec: docs/design/PRODUCT-CARD-SYSTEM.md §5.
+
+   Three separate problems were measured on the live phone view before any of
+   this was written:
+
+   1. The price was winning. Title 17px/500, price 16px/700 — the price was one
+      pixel smaller and two weights HEAVIER than the product name, so the eye
+      landed on "€39,00" first. The name is the thing being sold.
+   2. Big empty areas. Every card in a row is stretched to the tallest card, so
+      the two-line titles (Prague, Stickers) carried a whole dead line under
+      their price while the three-line title (Tarot) set the height.
+   3. The bar was heavy for a phone. 44px tall at 13px on a 170px card is a
+      control competing with the artwork it sits on.
+ * ========================================================================= */
+
+/* ---- 1 · The name leads, the price supports --------------------------------
+   The two are different typefaces — the name is the display face, the price a
+   bold sans — so weight alone would not settle it. Size does the work, weight
+   confirms it: the price steps DOWN a size and down to 500.
+
+   The price keeps full ink. Greying it is the obvious way to make it recede,
+   but the price was invisible yellow until 6 Oct and is not going back towards
+   low contrast to make a point about hierarchy. Ink on #FFFEFB is 15.77:1 and
+   stays there; size and weight carry the hierarchy on their own. */
+/* The specificity here is deliberate, not nervous. Dawn ships
+   `.grid--2-col-tablet-down .product-card-wrapper .card__heading.h5` at 1.3rem
+   — four classes, 13px — which is both more specific than a three-class
+   selector AND exactly the size this file gives the price. Losing to it made
+   the name and the price identical in size, which is the bug this section
+   exists to fix. Matching `.h5` explicitly is what beats it. */
+.wui .card-wrapper .card__content .card__heading,
+.wui .card-wrapper .card__content .card__heading.h5 {
+  font-size: 16px;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.wui .card__content .card-information .price-item,
+.wui .card__content .card-information .price__regular,
+.wui .card__content .card-information .price__sale {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+/* A card wide enough for two columns of text is a desk-sized card. Same ratio,
+   both steps larger. Keyed to the CARD, not the window, so Home, Shop and
+   "You may also like" each decide for themselves at their own column count. */
+@container wui-card (min-width: 260px) {
+  .wui .card-wrapper .card__content .card__heading,
+  .wui .card-wrapper .card__content .card__heading.h5 { font-size: 18px; }
+  .wui .card__content .card-information .price-item,
+  .wui .card__content .card-information .price__regular,
+  .wui .card__content .card-information .price__sale { font-size: 15px; }
+}
+
+/* ---- 2 · The card bottom ---------------------------------------------------
+   One consistent gap between the name and the price, and the block ends just
+   after the price. The padding is even on all four sides but for the extra at
+   the foot, which stops the price sitting on the card's edge. */
+.wui .card-wrapper .card__content {
+  padding: 12px 14px 14px;
+}
+@container wui-card (max-width: 259px) {
+  .wui .card-wrapper .card__content { padding: 10px 12px 12px; }
+  /* The one gap between name and price. Nothing else sits between them. */
+  .wui .card__content .card__information { row-gap: 6px; }
+}
+
+/* Dawn's price block carries `margin-bottom: 5px` and the row around it adds a
+   few more, which is where the last of the dead space under the price was
+   hiding — not in any padding this file sets. Zeroed, so the bottom padding
+   above is the whole of the space under the price and nothing is guessing. */
+.wui .card-wrapper .card__content .card-information,
+.wui .card-wrapper .card__content .card-information .price,
+.wui .card-wrapper .card__content .card-information .price__regular,
+.wui .card-wrapper .card__content .card-information .price__sale {
+  margin: 0;
+  padding: 0;
+}
+
+/* And the grid itself carries a 10px foot. Measured, one box at a time: of the
+   28px under the price, 12 was this file's padding, 10 was that, and 6 was the
+   price wrapper's own line-height strut hanging below the number it holds. */
+.wui .card-wrapper .card__content .card__information {
+  padding-bottom: 0;
+}
+
+/* The strut: .price sets its own font-size, so its line box is taller than the
+   13px number inside it and the gap lands under the price where it shows.
+   Matching the wrapper to its content is what removes it. */
+.wui .card-wrapper .card__content .card-information .price {
+  font-size: inherit;
+  line-height: 1.2;
+}
+.wui .card-wrapper .card__content .card-information {
+  font-size: 13px;
+  line-height: 1.2;
+}
+@container wui-card (min-width: 260px) {
+  .wui .card-wrapper .card__content .card-information { font-size: 15px; }
+}
+
+/* A card is as tall as its own words.
+
+   **This supersedes the 6 Oct decision that every card in a row ends at the
+   same height, and it needs Veronka's word before it goes live.** The two
+   cannot both be had: equal heights stretch every card to the tallest, and that
+   extra has to go somewhere — it goes under the price of the shorter titles, as
+   a block of card colour with nothing in it. That is the empty area in
+   docs/design/bugs/home-shop-phone-2026-10-06.png.
+
+   This was first written as a phone-only rule, on the reasoning that a desk
+   shows every title on two lines so the heights already match. **Measuring
+   proved that wrong**, which is why it is no longer phone-only:
+
+     768px and 1024px, both languages   36px and 57px of dead space
+     1440px, Slovak                     36px — "Komiksový tarot vedomia" runs
+                                        to three lines where the English runs
+                                        to two
+
+   So the void was never a phone problem. It was a long-title problem, and
+   Slovak is the longer language.
+
+   What it costs: the cards in a row no longer end on one line. The images still
+   do — they are the same height and they align — so the row still reads as a
+   row, and only the text blocks differ, by a line. If Veronka prefers the ruled
+   bottom edge, this rule comes out and the empty area comes back; it is one or
+   the other. */
+.wui .product-grid { align-items: flex-start; }
+.wui .product-grid .card-wrapper,
+.wui .product-grid .card-wrapper > .card,
+.wui .product-grid .card-wrapper > .card > .card__content { height: auto; }
+
+/* ---- 3 · A slimmer bar on a phone -----------------------------------------
+   32px rather than 44px, 11px rather than 13px. The bar is not the touch
+   target — the whole card is a link to the same page, and the bar sits on top
+   of it — so a smaller bar costs nothing a thumb can feel.
+
+   Keyed to the PHONE as well as to the card. The card-width rule alone left
+   layouts B and D with the 48px desktop bar, because a full-width card on a
+   390px phone is 360px wide — wide by the container's measure, still a phone by
+   the hand holding it. "Slimmer on phones" is about the screen, so the media
+   query is the one that has the final say. */
+@media screen and (max-width: 749px) {
+  .wui .product-grid .wui-cl__bar {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    min-height: 34px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.25;
+    /* The bar hugs its words rather than spanning the card. Stretched across a
+       full-width card — layouts B and D — a pill holding "Coming soon" in the
+       middle of 340px reads as an empty input field, not as a label. Hugging
+       also does what "slimmer and smaller" asks for on the narrow layouts,
+       where the pill stops being the widest thing on the artwork. */
+    width: fit-content;
+    max-width: calc(100% - 20px);
+    margin-inline: auto;
+  }
+  .wui .product-grid .wui-cl__pill {
+    top: 7px;
+    right: 7px;
+    padding: 3px 9px;
+    font-size: 10px;
+  }
+}
+@container wui-card (max-width: 259px) {
+  .wui .wui-cl__bar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .wui .wui-cl__pill {
+    top: 6px;
+    right: 6px;
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+}
+
+/* ------------------------------------------------------------------------- *
+   TEMPORARY — the four phone layouts (Veronka, 6 Oct 2026)
+   Driven by ?grid=a|b|c|d. A is the default and is what shows with no
+   parameter at all. DELETE this block, snippets/wui-grid-switch.liquid and its
+   render line in layout/theme.liquid once a layout is chosen.
+
+   The grid is Dawn's flex-wrap row, not a CSS grid: the <li> carries
+   `flex: 1 0 auto; width: 170px; max-width: calc(50% - 10px)`. So every layout
+   below works by changing the ITEM's width, never by inventing a new grid.
+ * ------------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+
+  /* ---- A · two per row, as now but tightened ---- */
+  html[data-grid='a'] .wui .product-grid { gap: 14px; }
+
+  /* ---- B · one per row, full width ----
+     With three products the row never has a half-empty slot, the artwork is
+     twice the size, and the card is wide enough for the title and price to sit
+     side by side — the container query above switches that on by itself. */
+  html[data-grid='b'] .wui .product-grid { gap: 22px; }
+  html[data-grid='b'] .wui .product-grid > .grid__item {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  /* ---- C · swipe row, the next card peeking in ----
+     overflow-x lives on the row itself, so the page body never scrolls
+     sideways. 78% leaves a clear slice of the next card visible, which is what
+     tells a thumb there is more to the right. */
+  html[data-grid='c'] .wui .product-grid {
+    flex-wrap: nowrap;
+    gap: 12px;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  html[data-grid='c'] .wui .product-grid::-webkit-scrollbar { display: none; }
+  html[data-grid='c'] .wui .product-grid > .grid__item {
+    width: 78%;
+    max-width: 78%;
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  /* ---- D · 1 + 2, the first product leading ----
+     The lead card is the one being pushed; the two under it are the rest of the
+     shop. With three products this is the only layout where the row below is
+     full rather than half-empty. */
+  html[data-grid='d'] .wui .product-grid { gap: 14px; }
+  html[data-grid='d'] .wui .product-grid > .grid__item {
+    width: calc(50% - 7px);
+    max-width: calc(50% - 7px);
+    flex: 0 0 calc(50% - 7px);
+  }
+  html[data-grid='d'] .wui .product-grid > .grid__item:first-child {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/* The switcher itself. Preview only — it is rendered only when ?grid= is in the
+   URL, so it can never appear for a visitor. */
+.wui-gridswitch {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--wui-paper, #FFFDF7);
+  border: 2px solid var(--wui-ink, #222);
+  box-shadow: 3px 3px 0 var(--wui-ink, #222);
+  font-family: var(--wui-display, sans-serif);
+}
+.wui-gridswitch a {
+  display: block;
+  min-width: 38px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  color: var(--wui-ink, #222);
+  border: 1.5px solid transparent;
+}
+.wui-gridswitch a[aria-current='true'] {
+  background: var(--wui-yellow, #FCF205);
+  border-color: var(--wui-ink, #222);
+}
+.wui-gridswitch span {
+  align-self: center;
+  padding: 0 8px 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}

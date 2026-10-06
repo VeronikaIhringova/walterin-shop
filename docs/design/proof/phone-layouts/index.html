@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walterin · Shopping row on phones — A, B, C, D</title>
+<style>
+  :root {
+    --paper: #FFFDF7; --ink: #222222; --yellow: #FCF205; --card: #FFFEFB;
+    --line: 2.5px; --line-thin: 1.5px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+         font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1500px; margin: 0 auto; padding: 28px 20px 80px; }
+  h1 { font-size: 30px; margin: 0 0 6px; letter-spacing: .01em; }
+  .lead { max-width: 70ch; margin: 0 0 22px; }
+  .muted { opacity: .72; }
+
+  .controls { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap;
+              gap: 10px 20px; align-items: center; padding: 12px 0; margin-bottom: 20px;
+              background: var(--paper); border-bottom: var(--line-thin) solid var(--ink); }
+  .group { display: flex; gap: 6px; align-items: center; }
+  .group > b { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; opacity: .65;
+               margin-right: 2px; font-weight: 600; }
+  button { font: inherit; font-size: 13px; padding: 7px 14px; min-height: 38px; cursor: pointer;
+           color: var(--ink); background: var(--paper); border: var(--line-thin) solid var(--ink);
+           border-radius: 999px; }
+  button[aria-pressed="true"] { background: var(--yellow); border-width: var(--line); font-weight: 600; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  .strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; align-items: start; }
+  @media (max-width: 1100px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px)  { .strip { grid-template-columns: minmax(0, 1fr); } }
+
+  figure { margin: 0; }
+  figcaption { display: flex; gap: 8px; align-items: baseline; margin: 0 0 8px; }
+  figcaption .k { font-size: 17px; font-weight: 700; }
+  figcaption .d { font-size: 13px; opacity: .72; }
+  .shot { background: var(--card); border: var(--line-thin) solid rgba(34,34,34,.25);
+          border-radius: 6px; overflow: hidden; }
+  .shot img { display: block; width: 100%; height: auto; }
+
+  .notes { margin-top: 40px; border-top: var(--line-thin) solid var(--ink); padding-top: 20px; }
+  .notes h2 { font-size: 20px; margin: 0 0 10px; }
+  .notes ul { margin: 0 0 18px; padding-left: 20px; }
+  .notes li { margin-bottom: 7px; max-width: 78ch; }
+  code { background: rgba(34,34,34,.07); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  .flag { border-left: var(--line) solid var(--yellow); padding: 10px 0 10px 14px; margin: 14px 0;
+          background: rgba(252,242,5,.10); max-width: 82ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>The shopping row on phones</h1>
+  <p class="lead">Four layouts, same build, same moment. Safari (WebKit), real phone widths with touch
+  emulated, so the pills behave as they do on a phone and not as they do in a narrow desktop window.
+  Pick a width, a language and a page; the four options stay side by side.</p>
+
+  <div class="controls">
+    <div class="group" id="g-w"><b>Width</b></div>
+    <div class="group" id="g-l"><b>Language</b></div>
+    <div class="group" id="g-p"><b>Page</b></div>
+  </div>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="notes">
+    <h2>What changed in all four</h2>
+    <ul>
+      <li><b>The name leads.</b> It was the other way round: the title was 17px at weight 500 and the
+        price 16px at weight <b>700</b> — a pixel smaller and two weights heavier, so the eye landed
+        on the price. Now the name is 16px on a narrow card and 18px on a wide one, and the price
+        steps down to 13px / 15px at weight 500.</li>
+      <li><b>The price keeps full ink.</b> Greying it is the easy way to make it recede, but it was
+        invisible yellow until this morning and is not going back towards low contrast to make a
+        point about hierarchy. Size and weight carry it; contrast stays 15.77:1.</li>
+      <li><b>No dead space under the price.</b> Three separate things were adding it, found one box
+        at a time: this file's own padding, a 10px foot on Dawn's information grid, and the price
+        wrapper's line-height strut hanging 6px below the number it holds. The space under the price
+        is now exactly the padding — 12px on a narrow card, 14px on a wide one — and nothing else.</li>
+      <li><b>One gap between name and price</b>, the same on every card: 6px when they stack, 24px
+        between the columns when they sit side by side.</li>
+      <li><b>Slimmer pills.</b> 34px tall at 12px rather than 44px at 13px, and the bar now hugs its
+        words instead of spanning the card — stretched across a full-width card, a pill holding
+        "Coming soon" in the middle of 340px reads as an empty input field.</li>
+    </ul>
+
+    <div class="flag">
+      <b>One decision is yours, and it is not a detail.</b> Cards no longer stretch to match the
+      tallest in the row. Equal heights and "no empty areas" cannot both be had: the stretch has to
+      go somewhere, and it goes under the price of the shorter titles as a block of card colour with
+      nothing in it — which is the empty area in your screenshot. This was first written as a
+      phone-only rule, on the reasoning that a desk shows every title on two lines anyway.
+      <b>Measuring proved that wrong:</b> 36px and 57px of dead space at 768 and 1024, and 36px at
+      1440 <b>in Slovak</b>, where <i>Komiksový tarot vedomia</i> runs to three lines and the English
+      runs to two. So it was never a phone problem — it was a long-title problem, and Slovak is the
+      longer language. The cost is that cards in a row no longer end on one line. The images still
+      do. If you prefer the ruled bottom edge, the rule comes out and the empty area comes back.
+    </div>
+
+    <h2>How they differ</h2>
+    <ul>
+      <li><b>A · two per row.</b> Closest to now. With three products the last card sits alone beside
+        an empty half-row, and at 390 the tarot title needs four lines — the narrowest column makes
+        the longest name work hardest.</li>
+      <li><b>B · one per row.</b> The artwork is roughly four times the area. Every title fits on two
+        lines, the name and price sit side by side on one baseline, and the date fits the pill on one
+        line. Three products is exactly the number this suits; it would get long at eight.</li>
+      <li><b>C · swipe row.</b> Keeps the section short and signals "there is more" with the next
+        card peeking. The cost is that products two and three are never seen by someone who does not
+        swipe — and on a shop with three products, hiding two of them is a real price to pay.</li>
+      <li><b>D · 1 + 2.</b> The only layout with no half-empty row. The lead card carries the product
+        being pushed, the two below are the rest of the shop. It also builds in an editorial
+        decision: something has to be first.</li>
+    </ul>
+
+    <h2>Still true</h2>
+    <ul>
+      <li>Card colour <code>#FFFEFB</code> everywhere, no frame, pills always visible on phones and
+        hover-revealed on a desk.</li>
+      <li>Nothing here is live. Preview only, and the <code>?grid=</code> switch and its snippet get
+        deleted once you pick one.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  const state = { w: '390', l: 'en', p: 'shop' };
+  const OPTS = {
+    w: [['360','360'],['390','390'],['430','430']],
+    l: [['en','EN'],['sk','SK']],
+    p: [['shop','Shop'],['home','Home']],
+  };
+  const DESC = {
+    a: 'two per row',
+    b: 'one per row, full width',
+    c: 'swipe, next card peeking',
+    d: '1 + 2',
+  };
+
+  function build() {
+    const map = { w: 'g-w', l: 'g-l', p: 'g-p' };
+    Object.entries(map).forEach(([key, id]) => {
+      const host = document.getElementById(id);
+      OPTS[key].forEach(([val, label]) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.textContent = label;
+        b.dataset.key = key; b.dataset.val = val;
+        b.onclick = () => { state[key] = val; render(); };
+        host.appendChild(b);
+      });
+    });
+  }
+
+  function render() {
+    document.querySelectorAll('button').forEach(b => {
+      b.setAttribute('aria-pressed', String(state[b.dataset.key] === b.dataset.val));
+    });
+    document.getElementById('strip').innerHTML = ['a','b','c','d'].map(g => `
+      <figure>
+        <figcaption><span class="k">${g.toUpperCase()}</span>
+          <span class="d">${DESC[g]}</span></figcaption>
+        <div class="shot">
+          <img src="${state.w}-${state.l}-${state.p}-${g}.png"
+               alt="Layout ${g.toUpperCase()}, ${state.p} page, ${state.l.toUpperCase()}, ${state.w}px"
+               loading="lazy">
+        </div>
+      </figure>`).join('');
+  }
+
+  build();
+  render();
+</script>
+</body>
+</html>
