@@ -126,6 +126,33 @@ Use these based on the task. They are the source of truth — read the relevant 
 ## Response Style
 Be concise and direct. Prioritize actionable output over explanation. Challenge weak assumptions. No fluff, no generic answers. Lead with the strongest version of the work; offer alternatives underneath.
 
+## Before and after every task (mandatory, from 6 Oct 2026)
+
+Three checks, every time. They take seconds and they have each already caught something.
+
+**1 · The dev server must never be connected to the live theme.**
+Preview is `shopify theme dev --store 0ed210-bf.myshopify.com` — **never with `--theme`**.
+`--theme` does not mean "preview that theme", it means *sync my local files into it*, and on
+30 Sep that silently pushed an unapproved change to the live theme. Before editing, run
+`ps -ax | grep "theme dev"` and confirm there is no `--theme`, then confirm the preview theme id
+the CLI prints is **not** 164726866249.
+
+**2 · Diff live against the approved state, before and after.**
+```
+shopify theme pull --theme 164726866249 --store 0ed210-bf.myshopify.com --nodelete   # into a scratch dir
+diff -r <scratch> <repo>        # expect: only the files this task is allowed to touch
+```
+Before the task it proves the starting point. After it, it proves nothing escaped. If a file you
+did not intend appears, stop and say so.
+
+**3 · A preview link follows the visitor onto walterin.com.**
+Opening `?preview_theme_id=…` makes the **primary domain** render that theme for that browser until
+the session ends. So "I can see it on walterin.com" is **not** evidence that something is live, from
+Veronka or from you. The only evidence is a pull of theme 164726866249, or a fetch of walterin.com
+with no cookies. Always say this when handing over a preview link, and say how to leave it:
+**open walterin.com in a private window**, or visit `https://walterin.com/?preview_theme_id=` to
+clear it.
+
 ## Theme Deployment Workflow (mandatory, from 22 Sep 2026)
 - **One theme only:** the live theme **ID 164726866249**, store `0ed210-bf.myshopify.com`. **No new draft themes.** The old draft 188994257225 is retired (Veronka deletes it).
 - **Preview:** `shopify theme dev --store 0ed210-bf.myshopify.com`. Give Veronka the local link (http://127.0.0.1:9292) and the shareable preview link it prints.
