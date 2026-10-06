@@ -19,20 +19,24 @@
   --wui-paper: #FFFDF7;
   --wui-ink: #222222;
   --wui-yellow: #FCF205;
-  /* The card ground: behind a product card's title and price, and the fill of
-     the card's pill, so the two are one material.
+  /* --wui-card · the card colour. Decided 6 Oct 2026 by Veronka.
 
-     Rejected on 6 Oct: #F3F3F3 (cold against the paper page), and the warm
-     cream / sand / sun family (too strong). Veronka wants almost white, with at
-     most a hint of the page beige — so the card is now LIGHTER than the page it
-     sits on, not darker. Two candidates:
-       white  #FFFFFF  pure
-       tint   #FFFEFB  white carrying a trace of the page
-     Both are reviewed with the honest caveat that separation from the page is
-     about 1.01:1 either way — see docs/design/PRODUCT-CARD-SYSTEM.md. */
-  --wui-card-white: #FFFFFF;
-  --wui-card-tint: #FFFEFB;
-  --wui-card: var(--wui-card-white);
+     The ground behind a product card's title and price, the fill of the card's
+     pill, and the fill of the product page's availability pill — one colour, so
+     all three read as the same material.
+
+     White carrying a trace of the page beige, which makes the card very
+     slightly LIGHTER than the page rather than darker. Ink on it is 15.77:1.
+
+     Rejected on the way here, so nobody tries them again: #F3F3F3 (cold against
+     the paper page), #FAF4E4 cream / #EFE4CE sand / #FBF3C4 pale yellow (too
+     strong), and pure #FFFFFF (indistinguishable from this, no gain).
+
+     Separation from the page is only about 1.009:1 — a contrast ratio measures
+     text legibility, not the edge of a large flat panel, and in practice the gap
+     between cards and the product photographs do most of the work. If a card
+     ever stops reading as a card, that is the number to revisit. */
+  --wui-card: #FFFEFB;
   /* Artwork only. The UI itself is ink, paper and yellow: no other colour carries meaning. */
   --wui-sky: #6FE9FA;
   --wui-red: #F60403;
@@ -1637,15 +1641,6 @@
   .wui .wui-cl__pill { top: 8px; right: 8px; }
 }
 
-
-/* ------------------------------------------------------------------------- *
-   TEMPORARY — card colour comparison (Veronka, 6 Oct 2026)
-   Driven by ?card=cream|sand|sun. Delete this block, the two unused tokens and
-   snippets/wui-preview-switch.liquid once the colour is chosen.
- * ------------------------------------------------------------------------- */
-html[data-card='white'] .wui { --wui-card: var(--wui-card-white); }
-html[data-card='tint']  .wui { --wui-card: var(--wui-card-tint); }
-
 /* The card's own ground follows the same token, so the bar and the card bottom
    are one material rather than two tones. */
 .wui .card--card,
@@ -1689,21 +1684,13 @@ html[data-card='tint']  .wui { --wui-card: var(--wui-card-tint); }
   border: var(--wui-line-thin) solid var(--wui-ink);
   text-decoration: none;
 }
-.wui .wui-buy__launch { margin: 0 0 var(--wui-space-item); }
 .wui .wui-buy__pill-row { margin: 0; }
+/* The pill takes the shipping line's place. "Shipping calculated at checkout"
+   is not an answer to a question anyone is asking about a thing they cannot buy
+   yet, and two notes in one price row read as noise.
 
-/* ------------------------------------------------------------------------- *
-   TEMPORARY — product page pill placement (Veronka, 6 Oct 2026)
-   A (default): above the email field.   B: in the price row.
-   Driven by ?pill=a|b. Delete with the comparison switch.
- * ------------------------------------------------------------------------- */
-/* B is the chosen placement (Veronka, 6 Oct 2026), so it is the default now.
-   ?pill=a still shows the old one until the comparison is deleted. */
-.wui [data-wui-launch-line] { display: none; }
-.wui [data-wui-pill-b] { display: block; }
-html[data-pill='a'] .wui [data-wui-pill-b] { display: none; }
-html[data-pill='a'] .wui [data-wui-launch-line] { display: block; }
-/* With the pill in the price row, the shipping line would say two things at
-   once about something nobody can buy, so it stands down. */
-.wui .wui-buy__price:has([data-wui-pill-b]) [data-wui-ship] { display: none; }
-html[data-pill='a'] .wui .wui-buy__price [data-wui-ship] { display: flex; }
+   :not([hidden]) matters: the row stays in the DOM for every edition so the
+   script can fill it, so a bare :has() would hide the shipping line even on an
+   edition that is perfectly buyable. */
+.wui .wui-buy__price:has([data-wui-launch-line]:not([hidden])) [data-wui-ship] { display: none; }
+

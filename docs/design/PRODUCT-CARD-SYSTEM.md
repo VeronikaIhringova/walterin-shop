@@ -51,11 +51,12 @@ Exactly one bar state at a time. They are listed in the order a product lives th
 | **No confirmed date** | `Coming soon` | `Už čoskoro` | always visible |
 | **Confirmed date** | `Available from October 23rd` | `Dostupné od 23. októbra` | always visible |
 | **Buyable** | *per product, §4* | *per product, §4* | **hover** on a desk · **always** on a phone |
+| **Sold out** | `Sold out` → `Tell me when it is back` | `Vypredané` → `Dajte mi vedieť` | **hover** on a desk · **always** on a phone; the second wording is the hover state |
 
 **Every state waits for a hover on a desk** (Veronka, 6 Oct 2026), not just the buyable one. At
 rest the card is image, title and price, and nothing else — the bar is the answer to "tell me
-more", so it arrives when the visitor reaches for the card.
-| **Sold out** | `Sold out` → `Tell me when it is back` | `Vypredané` → `Dajte mi vedieť` | always visible; the second wording on hover, and always on a phone |
+more", so it arrives when the visitor reaches for the card. On a phone there is no hover, so every
+bar is simply always there.
 
 **Never "Sold out" before launch.** A thing that has not been for sale yet cannot be sold out — that
 is the whole reason the first two states exist. The date comes from `snippets/launch-date.liquid`
@@ -108,7 +109,7 @@ All values come from the design system. No raw colours, no new tokens.
 | Padding | `9px 14px` | same |
 | Radius | `999px` (full round) | same |
 | Font | body, 600 weight, `14px` | `13px` |
-| Fill | `var(--wui-card)` — the card grey | same |
+| Fill | `var(--wui-card)` — the card colour, §5 | same |
 | Frame | `var(--wui-line-thin)` (1.5px) solid `var(--wui-ink)` | same |
 | Shadow | none | none |
 | Hover fill (buyable) | `var(--wui-yellow)` | n/a |
@@ -135,23 +136,71 @@ hide the one thing the card most needs to say. Two lines of a date beats half a 
 The card text keeps its existing `14px` top padding. Together with the bar's 12px inset that leaves
 **26px of clear space** between the bar and the title — enough that the two never read as one block.
 
-### `--wui-card` — the card grey  `#F3F3F3`
+### `--wui-card` — the card colour  `#FFFEFB`
 
-**Decided 6 Oct 2026 (Veronka): this grey is intentional, not a leftover.** It is the ground behind
-a product card's title and price, and now the fill of the card's bar, so the bar reads as part of
-the card rather than a label floating on the artwork.
+**Decided 6 October 2026 (Veronka), after three rounds.** One colour, used in exactly three places,
+so all three read as the same material:
 
-It is a token — `--wui-card` — precisely so nobody later mistakes it for a stray Dawn grey and
-"cleans it up". Ink on it measures **14.34 : 1**.
+- the ground behind a card's title and price;
+- the fill of the card's bar;
+- the fill of the **product page's availability pill** (§B below).
+
+It is white carrying a trace of the page beige, which makes a card very slightly **lighter** than
+the page it sits on rather than darker. Ink on it measures **15.77 : 1**.
+
+**What was rejected, so nobody walks the same road again:**
+
+| Tried | Why it went |
+|---|---|
+| `#F3F3F3` grey | the original Dawn leftover — reads cold against a warm paper page |
+| `#FAF4E4` cream · `#EFE4CE` sand · `#FBF3C4` pale yellow | "none of the three, they look bad" — all too strong; they turned the card into a panel competing with the artwork |
+| `#FFFFFF` pure white | indistinguishable from `#FFFEFB` in practice, and gains nothing |
+
+**The honest caveat.** Separation from the page is about **1.009 : 1**. A contrast ratio measures
+text legibility, not the edge of a large flat panel, so that number is not the test — but it is low,
+and the cards hold together because of the gaps between them and the product photographs, not
+because of the fill. **If a card ever stops reading as a card, that number is what to revisit** —
+and the answer is a frame or more space, not a darker fill, which has now been tried three ways.
+
+**No other card colour exists anywhere on the site.** Three things had to be removed to make that
+true, and all three are the kind that come back:
+
+1. `--wui-card-white` / `--wui-card-tint`, the two comparison tokens.
+2. `snippets/wui-preview-switch.liquid` and its `?card=` / `?pill=` switch.
+3. A **Shopify per-section Custom CSS** rule — `.card--card { background-color: #f3f3f3 !important; }`
+   on the home page's featured collection. It lives in the `custom_css` array of
+   `templates/index.json`, not in any stylesheet, which is why the home page kept showing the old
+   grey after the token changed and why grepping the CSS found nothing. **Look there first** if a
+   card colour ever disagrees with this file again.
 
 **The ink frame stays.** Tested both ways: without it the bar vanishes into a pale product
-photograph — the tarot box sits on a light grey ground, and a grey bar with no edge reads as a
-smudge rather than a control. Screenshots: `docs/design/proof/card-labels/v3/`.
+photograph — the tarot box sits on a light ground, and a bar with no edge reads as a smudge rather
+than a control. Screenshots: `docs/design/proof/card-labels/v3/`.
 
-> **Open:** the card area is this grey on the **home page** but paper (`#FFFDF7`) on **Shop** and
-> "You may also like" — they use different Dawn colour schemes. If the grey is the intentional card
-> colour, those should match. That is a visible change to every card, so it is Veronka's call and is
-> not done here.
+### B · The product page pill
+
+**Decided 6 October 2026 (Veronka): placement B.** The same pill as the card's bar, in the
+**price row** of the product page, where it takes the shipping line's place.
+
+| | |
+|---|---|
+| Lives in | `sections/walterin-buy.liquid`, inside `.wui-buy__price` |
+| Markup | `<p class="wui-buy__pill-row" data-wui-launch-line><span class="wui-pill" data-wui-launch-pill>` |
+| Words | `Coming soon` / `Available from [date]`, from `snippets/launch-date.liquid` |
+| Replaces | the `Shipping calculated at checkout` line, while a pill is showing |
+
+Two rules that are easy to break:
+
+- **The row is always in the markup**, hidden when there is nothing to say. `walterin-buy.js` fills
+  it as the visitor changes edition, so a row printed only when the *first* edition happens to carry
+  a label would leave a later edition silently blank. This matters after 23 October, when the eBook
+  launches and the printed edition is still waiting.
+- **The shipping line stands down via `:has([data-wui-launch-line]:not([hidden]))`.** Without the
+  `:not([hidden])` the row's permanent presence would hide the shipping line on every edition,
+  including a perfectly buyable one.
+
+Rejected: placement A, directly above the email field. It said the right thing too late — a visitor
+reads the price, and the answer to "can I have this" belongs there, not further down the page.
 
 ### The card itself
 
@@ -190,7 +239,7 @@ through the design system's existing blanket rule.
   the notify form.
 - The pill carries screen-reader text: "New" is announced as **"New product"**, so it is not read as
   a stray word.
-- Bar text on paper is ink: **15.6 : 1**. On the yellow hover fill it is **13.4 : 1**. Both pass AA
+- Bar text on the card colour is ink: **15.77 : 1**. On the yellow hover fill it is **13.4 : 1**. Both pass AA
   comfortably. **Never white text on yellow** — see `BUTTONS.md`.
 - Minimum target 40px tall on a desk, 36px on a phone, with the whole card clickable behind it.
 
@@ -200,7 +249,9 @@ through the design system's existing blanket rule.
 |---|---|
 | `snippets/card-product.liquid` | the pill and the bar markup, and which state a card is in |
 | `snippets/launch-date.liquid` | the date, and whether one is confirmed at all |
-| `assets/walterin-ui.css` | every size, colour and the hover/touch behaviour |
+| `assets/walterin-ui.css` | `--wui-card`, every size, and the hover/touch behaviour |
+| `sections/walterin-buy.liquid` | the product page pill, in the price row |
+| `templates/index.json` | watch the `custom_css` array — it can override all of the above |
 | `locales/en.default.json`, `locales/sk.json` | every word, including the per-product wording |
 
 ## 9. Decided, and still open
@@ -212,6 +263,8 @@ through the design system's existing blanket rule.
 - Slovak for the pill is **`Nové`**. *(Changed from `Novinka`.)*
 - No category word top-left. No frame around the card.
 - Sold out offers the notify wording on hover and always on a phone.
+- **`--wui-card` is `#FFFEFB`**, and it is the only card colour on the site.
+- The product page pill sits in the **price row** (placement B), not above the email field.
 
 **Still open**
 

@@ -287,7 +287,6 @@
     "featured_collection_NBNdar": {
       "type": "featured-collection",
       "custom_css": [
-        ".card--card {background-color: #f3f3f3 !important; }",
         ".slider-mobile-gutter {max-width: 1300px;}",
         ".slider-mobile-gutter {max-width: 1450px !important; margin: 0 auto; width: 100%;}"
       ],

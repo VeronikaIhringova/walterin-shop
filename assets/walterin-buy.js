@@ -178,20 +178,12 @@
       ctaNotify.forEach(function (n) { n.hidden = canBuy; });
       if (launchLine) {
         var dateText = launched(variant) ? '' : (variant.date || '');
-        // The text now lives inside a pill, so write to the pill, not the <p>,
-        // or the pill itself is replaced by a bare string.
+        // The words live inside the pill, so write to the pill and not to the
+        // <p> — writing to the <p> would replace the pill with a bare string.
         var pill = launchLine.querySelector('[data-wui-launch-pill]');
         var target = pill || launchLine;
         if (target.textContent.trim() !== dateText) target.textContent = dateText;
         launchLine.hidden = !dateText;
-      }
-      // Placement B carries the same words in the price row.
-      var pillB = root.querySelector('[data-wui-pill-b]');
-      if (pillB) {
-        var dateB = launched(variant) ? '' : (variant.date || '');
-        var inner = pillB.querySelector('[data-wui-launch-pill-b]');
-        if (inner && inner.textContent.trim() !== dateB) inner.textContent = dateB;
-        pillB.hidden = !dateB;
       }
 
       if (submit) {

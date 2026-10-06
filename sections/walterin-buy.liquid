@@ -284,16 +284,22 @@
             Walterin is not a VAT payer: that setting stays off → no VAT wording, no theme change later.
           {%- endcomment -%}
           {%- comment -%}
-            Placement B (comparison): the pill sits in the price row, taking the
-            place of the shipping line, because "Shipping calculated at
-            checkout" is not the thing a visitor needs to know about something
-            they cannot buy yet. Shown only under ?pill=b.
+            Availability sits in the price row (Veronka, 6 Oct 2026): the answer
+            to "can I have this" belongs next to the price, not further down the
+            page, and it takes the shipping line's place rather than crowding it.
+
+            The row is always in the markup and hidden when there is nothing to
+            say, because the script fills it as the visitor changes edition — if
+            it were only printed when the first edition happened to have a label,
+            an edition chosen later would silently show nothing.
           {%- endcomment -%}
-          {%- if selected_launch_label != blank -%}
-            <p class="wui-buy__pill-row" data-wui-pill-b>
-              <span class="wui-pill" data-wui-launch-pill-b>{{ selected_launch_label }}</span>
-            </p>
-          {%- endif -%}
+          <p
+            class="wui-buy__pill-row"
+            data-wui-launch-line
+            {% if selected_launch_label == blank %}hidden{% endif %}
+          >
+            <span class="wui-pill" data-wui-launch-pill>{{ selected_launch_label }}</span>
+          </p>
           <p class="wui-buy__ship wui-iconline" data-wui-ship {% if digital %}hidden{% endif %}>
             {%- render 'wui-icon', icon: 'shipping' -%}
             <span>
@@ -572,14 +578,6 @@
 
         {%- if any_waiting -%}
           <div data-wui-cta-notify {% if selected_buyable %}hidden{% endif %}>
-            {%- comment -%}
-              The launch line sits directly above the email field, so the date and the
-              thing you do about it read as one thought. It is empty for an edition
-              that is simply out of stock, and it removes itself on launch day.
-            {%- endcomment -%}
-            <p class="wui-buy__launch" data-wui-launch-line {% if selected_launch_label == blank %}hidden{% endif %}>
-              <span class="wui-pill" data-wui-launch-pill>{{ selected_launch_label }}</span>
-            </p>
             <div class="wui-buy__cta" id="{{ notify_id }}-wrap">
               {%- form 'customer', id: notify_id, class: 'wui-notify', data-wui-notify: '' -%}
                 {%- if form.posted_successfully? -%}
