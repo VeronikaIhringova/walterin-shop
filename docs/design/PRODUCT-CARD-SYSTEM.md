@@ -51,6 +51,10 @@ Exactly one bar state at a time. They are listed in the order a product lives th
 | **No confirmed date** | `Coming soon` | `Už čoskoro` | always visible |
 | **Confirmed date** | `Available from October 23rd` | `Dostupné od 23. októbra` | always visible |
 | **Buyable** | *per product, §4* | *per product, §4* | **hover** on a desk · **always** on a phone |
+
+**Every state waits for a hover on a desk** (Veronka, 6 Oct 2026), not just the buyable one. At
+rest the card is image, title and price, and nothing else — the bar is the answer to "tell me
+more", so it arrives when the visitor reaches for the card.
 | **Sold out** | `Sold out` → `Tell me when it is back` | `Vypredané` → `Dajte mi vedieť` | always visible; the second wording on hover, and always on a phone |
 
 **Never "Sold out" before launch.** A thing that has not been for sale yet cannot be sold out — that
@@ -98,18 +102,22 @@ All values come from the design system. No raw colours, no new tokens.
 
 | | Desktop | Phone (≤ 430px card) |
 |---|---|---|
-| Inset from image edges | `12px` left / right / bottom | `8px` |
-| Min height | `40px` | `36px` |
+| Inset from image edges | `14px` left / right, `16px` bottom | `10px` / `12px` |
+| Switches at | card wider than 320px | card 320px or narrower (a 1440 card is ~407px, a 390 card ~170px) |
+| Min height | `48px` | `44px`, growing when the label wraps |
 | Padding | `9px 14px` | same |
 | Radius | `999px` (full round) | same |
-| Font | body, 600 weight, `13px` | `12px` |
+| Font | body, 600 weight, `14px` | `13px` |
 | Fill | `var(--wui-paper)` | same |
 | Frame | `var(--wui-line-thin)` (1.5px) solid `var(--wui-ink)` | same |
 | Shadow | none | none |
 | Hover fill (buyable) | `var(--wui-yellow)` | n/a |
 
-The label is one line: `white-space: nowrap`, with an ellipsis if a future product's wording is too
-long for a narrow card. **If a call to action needs two lines, the wording is wrong — shorten it.**
+The label is one line on a desk. **On a narrow card it wraps instead of truncating**, and the bar
+grows to hold it: "Available from October 23rd" does not fit on a 170px card, and an ellipsis would
+hide the one thing the card most needs to say. Two lines of a date beats half a date.
+
+**A call to action still has to fit on one line.** If a "Buy the…" needs two, the wording is wrong.
 
 ### The New pill
 
@@ -135,13 +143,13 @@ it does not change.
 ## 6. Hover and touch
 
 ```css
-/* Only the buyable bar hides. Every other state is always visible. */
-.card[data-state="buyable"] .bar { opacity: 0; transform: translateY(6px); pointer-events: none; }
-.card[data-state="buyable"]:hover .bar,
-.card[data-state="buyable"]:focus-within .bar { opacity: 1; transform: none; pointer-events: auto; }
+/* Every state hides at rest. The card is calm until it is reached for. */
+.wui-cl__bar { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.card-wrapper:hover .wui-cl__bar,
+.card-wrapper:focus-within .wui-cl__bar { opacity: 1; transform: none; pointer-events: auto; }
 
 @media (hover: none) {
-  .card[data-state="buyable"] .bar { opacity: 1; transform: none; pointer-events: auto; }
+  .wui-cl__bar { opacity: 1; transform: none; pointer-events: auto; }
 }
 ```
 
@@ -150,8 +158,10 @@ Three rules behind that:
 1. **`:focus-within` as well as `:hover`.** A keyboard reaches the bar or it does not exist.
 2. **`@media (hover: none)` on touch.** A hover that never happens is a feature nobody can reach, so
    on a phone the buyable bar is simply always there.
-3. **Only *buyable* hides.** A date or a "Coming soon" is information, and information does not wait
-   to be hovered.
+3. **On a phone the bar is simply always there.** There is no hover to wait for, and the
+   alternatives are worse: tap-to-reveal costs a tap and steals the one the card already uses to
+   open the product, and moving the status under the price pushes the price down the screen and
+   makes the card taller than the artwork it is selling.
 
 Transition: `opacity` and `transform`, `.18s var(--wui-ease)`. Respects `prefers-reduced-motion`
 through the design system's existing blanket rule.

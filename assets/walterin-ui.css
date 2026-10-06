@@ -1520,19 +1520,23 @@
 /* ---- the bar ---- */
 .wui .wui-cl__bar {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
+  left: 14px;
+  right: 14px;
+  /* Clear space under the bar, so a strip of artwork always shows beneath it
+     and the bar never looks welded to the bottom edge. */
+  bottom: 16px;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 9px 14px;
+  /* A proper button height, not a strip: the design system's small button is
+     44px and this sits just above it, because it carries a whole sentence. */
+  min-height: 48px;
+  padding: 12px 18px;
   border-radius: 999px;
   font-family: var(--wui-body);
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--wui-fs-small);
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
@@ -1549,24 +1553,27 @@
   white-space: nowrap;
 }
 
-/* Only the buyable bar waits for a hover. A date, or "Coming soon", is
-   information, and information does not wait to be hovered. */
-.wui .wui-cl__bar[data-wui-card-state='buyable'] {
+/* Every state waits for a hover, not just the buyable one: at rest the card is
+   image, title and price, and nothing else. The bar is the answer to "tell me
+   more", so it arrives when the visitor reaches for the card. */
+.wui .wui-cl__bar {
   opacity: 0;
-  transform: translateY(6px);
+  transform: translateY(8px);
   pointer-events: none;
 }
-.wui .card-wrapper:hover .wui-cl__bar[data-wui-card-state='buyable'],
-.wui .card-wrapper:focus-within .wui-cl__bar[data-wui-card-state='buyable'] {
+.wui .card-wrapper:hover .wui-cl__bar,
+.wui .card-wrapper:focus-within .wui-cl__bar {
   opacity: 1;
   transform: none;
   pointer-events: auto;
 }
 .wui .wui-cl__bar[data-wui-card-state='buyable']:hover { background: var(--wui-yellow); }
 
-/* A hover that never happens is a feature nobody can reach. */
+/* A phone has no hover, so the bar would never arrive. It is simply always
+   there — see docs/design/PRODUCT-CARD-SYSTEM.md for why this is the chosen
+   answer rather than a tap-to-reveal. */
 @media (hover: none) {
-  .wui .wui-cl__bar[data-wui-card-state='buyable'] {
+  .wui .wui-cl__bar {
     opacity: 1;
     transform: none;
     pointer-events: auto;
@@ -1591,14 +1598,27 @@
 /* A narrow card gets a smaller bar, keyed to the card's own width rather than
    the window's: Home, Shop and "You may also like" run at different column
    counts and each one decides for itself. */
-@container wui-card (max-width: 430px) {
+/* 320px, not 430: a card at a 1440 viewport is about 407px wide, so a higher
+   threshold gave the desktop card the phone's smaller bar. Measured, not
+   guessed — three columns at 1440 is 407px, two at 390 is 170px. */
+@container wui-card (max-width: 320px) {
   .wui .wui-cl__bar {
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    min-height: 36px;
-    font-size: 12px;
-    padding: 8px 12px;
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    min-height: 44px;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  /* On a 170px card "Available from October 23rd" does not fit on one line, and
+     an ellipsis would hide the one thing the card most needs to say. So on a
+     narrow card the label wraps and the bar grows to hold it. Two lines of a
+     date beats half a date. */
+  .wui .wui-cl__bar .wui-cl__label {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    text-wrap: balance;
   }
   .wui .wui-cl__pill { top: 8px; right: 8px; }
 }
