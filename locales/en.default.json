@@ -543,7 +543,15 @@
       "goods": "We are liable for defects for 24 months from the day you receive the item. Below is the official EU notice — we are not allowed to change anything in it.",
       "alt": "Legal guarantee: EU harmonised notice on the legal guarantee of conformity",
       "more": "More about your rights in your country",
+      "in_terms": "The same notice in our Terms, clause 10",
       "digital": "For eBooks we are liable for defects for 24 months from the day the file is supplied. Write to support@walterin.com."
+    },
+    "cookies": {
+      "preferences": "Cookie preferences"
+    },
+    "newsletter": {
+      "consent_html": "By signing up, you agree to our {{ privacy }}.",
+      "privacy_name": "Privacy Policy"
     },
     "buy": {
       "shipping": "Shipping calculated at checkout",

@@ -1,0 +1,117 @@
+{%- comment -%}
+  "Legal guarantee" in the footer's OFFICIAL column, opening the official EU
+  notice in colour on the first click. Veronka, 7 October 2026.
+
+  This is now the ONLY place on the site that shows the notice, apart from
+  Terms clause 10 — it was removed from the product pages on the same decision.
+  See docs/legal/legal-guarantee-placement-research.md for the statutory
+  wording this has to satisfy (§ 5(1)(f) of Act 108/2024: before the consumer
+  sends the order, conspicuously, in the form of the harmonised notice).
+
+  Why a dialog and not a page: § 5(1)(f) wants the notice itself, in colour, not
+  a promise of it somewhere else. A dialog shows the artwork on the first click
+  from any page in the shop, which is what "opens on the first click" asks for.
+
+  WITHOUT JAVASCRIPT the link is still a link: its href goes to Terms clause 10,
+  which carries the same official image. Nothing here is the only route to the
+  notice, which is the point — a legal disclosure must not depend on a script.
+
+  The artwork is the Commission's own and may not be edited: not recoloured to
+  the brand palette, not cropped, not rebuilt as HTML. That is why a blue-and-
+  white EU block appears in a design system that otherwise has no blue.
+
+  Accepts: nothing.
+{%- endcomment -%}
+{%- liquid
+  comment
+    One artwork per language, and the two are not the same shape — the Slovak
+    sets wider and shorter. The intrinsic size travels with the file, or the box
+    reserved before the image loads is the wrong shape and the dialog jumps.
+  endcomment
+  assign notice = 'eu-legal-guarantee-notice-en.jpg'
+  assign notice_w = 1186
+  assign notice_h = 1675
+  if request.locale.iso_code == 'sk'
+    assign notice = 'eu-legal-guarantee-notice-sk.jpg'
+    assign notice_w = 1215
+    assign notice_h = 1569
+  endif
+  assign terms_url = ''
+  if shop.terms_of_service.url != blank
+    assign terms_url = shop.terms_of_service.url | append: '#legal-guarantee'
+  endif
+-%}
+
+<a
+  class="link link--text list-menu__item list-menu__item--link"
+  href="{{ terms_url | default: '#' }}"
+  data-wui-lg-open
+>
+  {{- 'walterin.legal_guarantee.title' | t -}}
+</a>
+
+<dialog class="wui-lg-dialog" data-wui-lg-dialog aria-labelledby="wui-lg-title">
+  <div class="wui-lg-dialog__inner">
+    <div class="wui-lg-dialog__head">
+      <h2 class="wui-lg-dialog__title wui-label" id="wui-lg-title">
+        {{- 'walterin.legal_guarantee.title' | t -}}
+      </h2>
+      <button
+        type="button"
+        class="wui-lg-dialog__close"
+        data-wui-lg-close
+        aria-label="{{ 'accessibility.close' | t | escape }}"
+      >
+        {%- render 'icon-close' -%}
+      </button>
+    </div>
+
+    <div class="wui-lg-dialog__body">
+      <p class="wui-guarantee__lead">{{ 'walterin.legal_guarantee.goods' | t }}</p>
+      <figure class="wui-guarantee__notice">
+        <img
+          src="{{ notice | asset_url }}"
+          alt="{{ 'walterin.legal_guarantee.alt' | t | escape }}"
+          width="{{ notice_w }}"
+          height="{{ notice_h }}"
+          loading="lazy"
+          decoding="async"
+        >
+      </figure>
+      <p class="wui-guarantee__digital">{{ 'walterin.legal_guarantee.digital' | t }}</p>
+      <p class="wui-guarantee__more">
+        <a href="https://europa.eu/youreurope/guarantees" rel="noopener" target="_blank">
+          {{- 'walterin.legal_guarantee.more' | t -}}
+        </a>
+      </p>
+      {%- if terms_url != blank -%}
+        <p class="wui-guarantee__more">
+          <a href="{{ terms_url }}">{{ 'walterin.legal_guarantee.in_terms' | t }}</a>
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    var link = document.querySelector('[data-wui-lg-open]');
+    var dlg = document.querySelector('[data-wui-lg-dialog]');
+    if (!link || !dlg || typeof dlg.showModal !== 'function') return;
+
+    link.addEventListener('click', function (e) {
+      // Let a modified click (new tab, new window) go to the Terms as asked.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      dlg.showModal();
+    });
+
+    dlg.addEventListener('click', function (e) {
+      // The backdrop is the dialog itself: a click outside the inner box closes.
+      if (e.target === dlg) dlg.close();
+    });
+
+    var close = dlg.querySelector('[data-wui-lg-close]');
+    if (close) close.addEventListener('click', function () { dlg.close(); });
+  })();
+</script>

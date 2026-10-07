@@ -1918,3 +1918,136 @@
     flex: 1 1 100%;
   }
 }
+
+/* ========================================================================= *
+   FOOTER — platform glyphs, the column extras, and the guarantee dialog
+   Veronka, 7 October 2026.
+ * ========================================================================= */
+
+/* ---- the platform mark beside a social link ----
+   Sized to the text it sits with rather than to a fixed pixel box, so it keeps
+   its relation to the label when the column's type scales. */
+.wui .footer-block__details-content .list-menu__item--link:has(.wui-social-glyph) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.wui .wui-social-glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 1.05em;
+  height: 1.05em;
+  color: var(--wui-ink);
+}
+.wui .wui-social-glyph .icon {
+  width: 100%;
+  height: 100%;
+  /* The marks are drawn on three different grids — Instagram on 18, TikTok on
+     16×18, LinkedIn on 24 — so a shared box is what makes them look like one
+     set rather than three pasted logos. */
+  display: block;
+}
+
+/* ---- "Cookie preferences": a button that has to pass for a link ----
+   It is a <button> because it goes nowhere, and it has to sit in a list of
+   links without looking like the odd one out. Everything here is undoing a
+   button's default chrome; nothing here is a new style. */
+.wui .wui-footer-linkish {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+}
+.wui .wui-footer-linkish:hover { text-decoration: underline; }
+.wui .wui-footer-linkish:focus-visible {
+  outline: 2px solid var(--wui-ink);
+  outline-offset: 2px;
+}
+
+/* The copyright sits in the column, so it reads as the quiet last line of it
+   rather than as another link. */
+.wui .footer-block__copyright { margin-top: var(--wui-space-item, 12px); }
+.wui .footer-block__copyright .copyright__content { opacity: 0.72; }
+
+/* ---- the newsletter consent line ---- */
+.wui .wui-newsletter__consent {
+  margin: var(--wui-space-control, 8px) 0 0;
+  font-size: var(--wui-fs-small);
+  line-height: 1.45;
+  opacity: 0.8;
+}
+.wui .wui-newsletter__consent a { color: inherit; text-decoration: underline; }
+
+/* ---- the legal-guarantee dialog ----
+   The one place in the interface where blue and white appear. That is the
+   Commission's artwork and it may not be recoloured, cropped or rebuilt as
+   HTML — see docs/legal/legal-guarantee-notice.md. Only the frame around it
+   belongs to this design system. */
+.wui-lg-dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(86vh, 900px);
+  padding: 0;
+  border: var(--wui-line, 2.5px) solid var(--wui-ink, #222);
+  border-radius: 10px;
+  background: var(--wui-paper, #FFFDF7);
+  color: var(--wui-ink, #222);
+  overflow: hidden;
+}
+.wui-lg-dialog::backdrop { background: rgba(34, 34, 34, 0.55); }
+.wui-lg-dialog__inner { display: flex; flex-direction: column; max-height: inherit; }
+.wui-lg-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: var(--wui-line-thin, 1.5px) solid var(--wui-ink, #222);
+  /* Sticky, because the notice is tall and the way out should not scroll away. */
+  position: sticky;
+  top: 0;
+  background: var(--wui-paper, #FFFDF7);
+}
+.wui-lg-dialog__title { margin: 0; }
+.wui-lg-dialog__close {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  padding: 0;
+  cursor: pointer;
+  color: var(--wui-ink, #222);
+  background: var(--wui-card, #FFFEFB);
+  border: var(--wui-line-thin, 1.5px) solid var(--wui-ink, #222);
+  border-radius: 999px;
+}
+.wui-lg-dialog__close:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 2px; }
+/* Dawn's close glyph carries no intrinsic size, so inside a flex button it
+   collapsed and the control rendered as an empty circle. */
+.wui-lg-dialog__close .icon,
+.wui-lg-dialog__close svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+  color: var(--wui-ink, #222);
+}
+.wui-lg-dialog__body { padding: 16px; overflow-y: auto; }
+.wui-lg-dialog__body > :first-child { margin-top: 0; }
+.wui-lg-dialog__body > :last-child { margin-bottom: 0; }
+.wui-lg-dialog .wui-guarantee__notice { margin: 14px 0; }
+.wui-lg-dialog .wui-guarantee__notice img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wui-lg-dialog .wui-guarantee__more { font-size: var(--wui-fs-small); }

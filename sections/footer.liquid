@@ -119,7 +119,14 @@
                                 href="{{ link.url }}"
                                 class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
                               >
-                                {{ link.title }}
+                                {%- comment -%}
+                                  The platform mark, matched from the URL rather than the title —
+                                  titles are typed in admin and translated, instagram.com is not.
+                                  Renders nothing for anything that is not a platform, so the other
+                                  columns are untouched and a new menu item cannot break a column.
+                                {%- endcomment -%}
+                                {%- render 'wui-social-glyph', url: link.url -%}
+                                <span>{{ link.title }}</span>
                               </a>
                             {%- else -%}
                               <span class="list-menu__item footer-block__note">
@@ -128,6 +135,45 @@
                             {%- endif -%}
                           </li>
                         {%- endfor -%}
+
+                        {%- comment -%}
+                          Three things that used to sit in the small bottom row, now in the columns
+                          (Veronka, 7 Oct 2026). Each is a checkbox on the block, so which column
+                          carries what is hers to move in the theme editor, not hard-coded here.
+                        {%- endcomment -%}
+
+                        {%- if block.settings.show_legal_guarantee -%}
+                          <li>{%- render 'wui-legal-guarantee-dialog' -%}</li>
+                        {%- endif -%}
+
+                        {%- comment -%}
+                          The withdrawal link is NOT optional and is not a tidy-up: § 20a requires
+                          the online withdrawal function to be reachable with no login. It lived in
+                          the bottom row; the bottom row is gone, so it moves here rather than
+                          disappearing with it.
+                        {%- endcomment -%}
+                        {%- if block.settings.show_withdrawal -%}
+                          <li>
+                            <a
+                              href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}"
+                              class="link link--text list-menu__item list-menu__item--link"
+                            >
+                              {{- 'walterin.withdrawal.link' | t -}}
+                            </a>
+                          </li>
+                        {%- endif -%}
+
+                        {%- if block.settings.show_cookie_preferences -%}
+                          <li>{%- render 'wui-cookie-preferences' -%}</li>
+                        {%- endif -%}
+
+                        {%- if block.settings.show_copyright -%}
+                          <li class="footer-block__copyright">
+                            <small class="copyright__content">
+                              &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}
+                            </small>
+                          </li>
+                        {%- endif -%}
                       </ul>
                     {%- endif -%}
                   {%- when 'brand_information' -%}
@@ -264,6 +310,34 @@
                             {{ block.settings.button_label }}
                           </button>
                         {% endif %}
+
+                        {%- comment -%}
+                          The consent line under the field (Veronka, 7 Oct 2026). It says what
+                          signing up means and links the policy that explains it — so the sign-up
+                          is informed at the moment it happens, not retrospectively in a footer
+                          column. Rendered only when the Privacy policy actually exists, because a
+                          sentence promising a policy with no link behind it is worse than none.
+                        {%- endcomment -%}
+                        {%- if shop.privacy_policy.url != blank -%}
+                          <p class="wui-newsletter__consent">
+                            {%- comment -%}
+                              The link text is a locale string, NOT shop.privacy_policy.title.
+
+                              Slovak declines: the sentence needs the instrumental — "súhlasíte so
+                              Zásadami ochrany osobných údajov" — while the policy's own title is
+                              the nominative "Pravidlá ochrany súkromia". Dropping the title into
+                              the sentence produced "so Pravidlá ochrany súkromia", which is the
+                              kind of broken case that makes a brand read as machine-translated.
+                              The URL still comes from the policy, so the link cannot go stale.
+                            {%- endcomment -%}
+                            {%- assign privacy_link = 'walterin.newsletter.privacy_name'
+                              | t
+                              | link_to: shop.privacy_policy.url
+                            -%}
+                            {{ 'walterin.newsletter.consent_html' | t: privacy: privacy_link }}
+                          </p>
+                        {%- endif -%}
+
                         {%- if form.posted_successfully? -%}
                           <h3
                             class="newsletter-form__message newsletter-form__message--success form__message"
@@ -302,228 +376,20 @@
   {%- endif -%}
 
   <div class="footer__content-bottom">
-    <div class="footer__content-bottom-wrapper page-width">
-      <div class="footer__column footer__localization isolate">
-        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-          <noscript>
-            {%- form 'localization', id: 'FooterCountryFormNoScript', class: 'localization-form' -%}
-              <div class="localization-form__select">
-                <h2 class="visually-hidden" id="FooterCountryLabelNoScript">{{ 'localization.country_label' | t }}</h2>
-                <select
-                  class="localization-selector link"
-                  name="country_code"
-                  aria-labelledby="FooterCountryLabelNoScript"
-                >
-                  {%- for country in localization.available_countries -%}
-                    <option
-                      value="{{ country.iso_code }}"
-                      {%- if country.iso_code == localization.country.iso_code %}
-                        selected
-                      {% endif %}
-                    >
-                      {{ country.name }} ({{ country.currency.iso_code }}
-                      {{ country.currency.symbol }})
-                    </option>
-                  {%- endfor -%}
-                </select>
-                {% render 'icon-caret' %}
-              </div>
-              <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
-            {%- endform -%}
-          </noscript>
-          <localization-form>
-            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-              <div class="no-js-hidden">
-                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                <div class="disclosure">
-                  <button
-                    type="button"
-                    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
-                    aria-expanded="false"
-                    aria-controls="FooterCountryList"
-                    aria-describedby="FooterCountryLabel"
-                  >
-                    {{ localization.country.name }} ({{ localization.country.currency.iso_code }}
-                    {{ localization.country.currency.symbol }})
-                    {% render 'icon-caret' %}
-                  </button>
-                  <div class="disclosure__list-wrapper" hidden>
-                    <ul id="FooterCountryList" role="list" class="disclosure__list list-unstyled">
-                      {%- for country in localization.available_countries -%}
-                        <li class="disclosure__item" tabindex="-1">
-                          <a
-                            class="link link--text disclosure__link caption-large{% if country.iso_code == localization.country.iso_code %} disclosure__link--active{% endif %} focus-inset"
-                            href="#"
-                            {% if country.iso_code == localization.country.iso_code %}
-                              aria-current="true"
-                            {% endif %}
-                            data-value="{{ country.iso_code }}"
-                          >
-                            {{ country.name }}
-                            <span class="localization-form__currency"
-                              >({{ country.currency.iso_code }}
-                              {{ country.currency.symbol }})</span
-                            >
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </div>
-                </div>
-                <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
+    {%- comment -%}
+      The small bottom row is gone (Veronka, 7 Oct 2026). Everything it carried now sits in the
+      footer columns, where it is read rather than skipped:
 
-        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-          <noscript>
-            {%- form 'localization', id: 'FooterLanguageFormNoScript', class: 'localization-form' -%}
-              <div class="localization-form__select">
-                <h2 class="visually-hidden" id="FooterLanguageLabelNoScript">
-                  {{ 'localization.language_label' | t }}
-                </h2>
-                <select
-                  class="localization-selector link"
-                  name="locale_code"
-                  aria-labelledby="FooterLanguageLabelNoScript"
-                >
-                  {%- for language in localization.available_languages -%}
-                    <option
-                      value="{{ language.iso_code }}"
-                      lang="{{ language.iso_code }}"
-                      {%- if language.iso_code == localization.language.iso_code %}
-                        selected
-                      {% endif %}
-                    >
-                      {{ language.endonym_name | capitalize }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-                {% render 'icon-caret' %}
-              </div>
-              <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
-            {%- endform -%}
-          </noscript>
+        · the copyright line        -> `show_copyright` on a column block
+        · Cookie preferences        -> `show_cookie_preferences`
+        · Legal guarantee           -> `show_legal_guarantee`, opening the notice on first click
+        · the § 20a withdrawal link -> `show_withdrawal`
 
-          <localization-form>
-            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-              <div class="no-js-hidden">
-                <h2 class="caption-large text-body" id="FooterLanguageLabel">
-                  {{ 'localization.language_label' | t }}
-                </h2>
-                <div class="disclosure">
-                  <button
-                    type="button"
-                    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
-                    aria-expanded="false"
-                    aria-controls="FooterLanguageList"
-                    aria-describedby="FooterLanguageLabel"
-                  >
-                    {{ localization.language.endonym_name | capitalize }}
-                    {% render 'icon-caret' %}
-                  </button>
-                  <div class="disclosure__list-wrapper" hidden>
-                    <ul id="FooterLanguageList" role="list" class="disclosure__list list-unstyled">
-                      {%- for language in localization.available_languages -%}
-                        <li class="disclosure__item" tabindex="-1">
-                          <a
-                            class="link link--text disclosure__link caption-large{% if language.iso_code == localization.language.iso_code %} disclosure__link--active{% endif %} focus-inset"
-                            href="#"
-                            hreflang="{{ language.iso_code }}"
-                            lang="{{ language.iso_code }}"
-                            {% if language.iso_code == localization.language.iso_code %}
-                              aria-current="true"
-                            {% endif %}
-                            data-value="{{ language.iso_code }}"
-                          >
-                            {{ language.endonym_name | capitalize }}
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </div>
-                </div>
-                <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
-      </div>
-      <div class="footer__column footer__column--info">
-        {%- if section.settings.payment_enable -%}
-          <div class="footer__payment">
-            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-            <ul class="list list-payment" role="list">
-              {% assign enabled_payment_types = shop.enabled_payment_types %}
-              {% if section.settings.enabled_payment_types != blank %}
-                {% assign enabled_payment_types = section.settings.enabled_payment_types | remove: ' ' | split: ',' %}
-              {% endif %}
+      The row also repeated shop.policies (Privacy, Terms, Refunds), which the OFFICIAL column
+      already lists. Those were duplicates and are not re-added anywhere.
 
-              {%- for type in enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      </div>
-    </div>
-    <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
-      <div class="footer__copyright caption">
-        <small class="copyright__content"
-          >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-        </small>
-        {% unless section.settings.branding_text == blank %}
-          <small class="copyright__content">{{ section.settings.branding_text }}</small>
-        {% endunless %}
-        {%- if section.settings.show_policy -%}
-          <ul class="policies list-unstyled">
-            {%- for policy in shop.policies -%}
-              {%- if policy != blank -%}
-                <li>
-                  <small class="copyright__content"
-                    ><a href="{{ policy.url }}">{{ policy.title }}</a></small
-                  >
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-            {%- comment -%} § 20a online withdrawal function: always visible, no login. {%- endcomment -%}
-            <li>
-              <small class="copyright__content"
-                ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
-              >
-            </li>
-            {%- comment -%}
-              Legal guarantee (Impl. Reg. (EU) 2025/1960). The notice itself is on every physical
-              product page, one tap inside Details; this is the every-page route to it, and lands
-              on Terms clause 10 where the same official image sits.
-            {%- endcomment -%}
-            {%- if shop.terms_of_service.url != blank -%}
-              <li>
-                <small class="copyright__content"
-                  ><a href="{{ shop.terms_of_service.url }}#legal-guarantee">{{ 'walterin.legal_guarantee.title' | t }}</a></small
-                >
-              </li>
-            {%- endif -%}
-          </ul>
-        {%- else -%}
-          <ul class="policies list-unstyled">
-            <li>
-              <small class="copyright__content"
-                ><a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">{{ 'walterin.withdrawal.link' | t }}</a></small
-              >
-            </li>
-            {%- if shop.terms_of_service.url != blank -%}
-              <li>
-                <small class="copyright__content"
-                  ><a href="{{ shop.terms_of_service.url }}#legal-guarantee">{{ 'walterin.legal_guarantee.title' | t }}</a></small
-                >
-              </li>
-            {%- endif -%}
-          </ul>
-        {%- endif -%}
+      The language and country selectors above are untouched.
+    {%- endcomment -%}
       </div>
     </div>
   </div>
@@ -608,6 +474,39 @@
           "default": "footer",
           "label": "t:sections.footer.blocks.link_list.settings.menu.label",
           "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+        },
+        {
+          "type": "header",
+          "content": "Extra items",
+          "info": "Added under this column's menu. They are theme items, not menu items, so they do not appear in Navigation."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_legal_guarantee",
+          "default": false,
+          "label": "Legal guarantee",
+          "info": "Opens the official EU notice in colour on the first click. Required before a customer orders — do not switch this off on every column at once."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_withdrawal",
+          "default": false,
+          "label": "Withdrawal from the contract",
+          "info": "Required by § 20a to be reachable with no login. Keep it on in exactly one column."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cookie_preferences",
+          "default": false,
+          "label": "Cookie preferences",
+          "info": "Reopens Shopify's consent banner. Hides itself if the privacy API is unavailable."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_copyright",
+          "default": false,
+          "label": "Copyright line",
+          "info": "© year, store name."
         },
         {
           "type": "header",

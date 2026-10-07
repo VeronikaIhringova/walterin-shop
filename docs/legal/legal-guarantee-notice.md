@@ -60,3 +60,64 @@ inside the same dialog, from `snippets/legal-guarantee.liquid`.
 
 Requirement is unchanged — one interaction from the words "Legal guarantee" — and a link that opens
 the notice meets it. **Do not put it back in the accordion.**
+
+---
+
+## Decided 7 October 2026 — one place in the shop, and it is the footer
+
+**This supersedes every placement note above, including the 30 September line that said "Do not put
+it back in the accordion."** That line and the code had drifted apart — the notice was in a Details
+accordion on the live product pages while this file said it was a link and a dialog. Both are now
+moot.
+
+**Veronka's decision, after reading `legal-guarantee-placement-research.md`:**
+
+| Where | What |
+|---|---|
+| Product pages | **Removed completely.** Not in the buy column, not in an accordion, not in a dialog |
+| Header, Shop page, cart, checkout | **Nowhere.** Never was, stays that way |
+| Order confirmation email | **Not included** |
+| Footer, OFFICIAL column | **"Legal guarantee" / "Zákonná záruka"** — a normal link beside Privacy, Terms, FAQ and Contact. Not a separate column, not highlighted. **Opens the official notice in colour on the first click** |
+| Terms clause 10 | **Kept**, carrying the same official image |
+
+### Why this is defensible, and where the risk sits
+
+The research recommended keeping a trigger on the product page, and Veronka decided otherwise. The
+decision is hers and the reasoning is recorded on both sides. What matters is that **her version is
+materially stronger than the "footer link to the Terms" the research argued against**: the notice
+itself opens, in colour, on the first click, from every page in the shop. That is close to the
+pattern the Commission's practical guidelines are reported to accept — a line that reveals the full
+notice on the first click — differing in *which* page carries the line, not in what the consumer
+gets.
+
+**The open risk, stated plainly so it is not lost:** § 5(1)(f) of Act 108/2024 requires the notice
+`zreteľným spôsobom` — conspicuously — before the consumer sends the order. A footer link is
+reachable from everywhere and is in time, but "conspicuous" is a judgement, and a footer is not
+where a regulator looks first. This is question 2 in `LAWYER-QUESTIONS.md` and should be asked.
+
+### How it is built
+
+| File | Role |
+|---|---|
+| `snippets/wui-legal-guarantee-dialog.liquid` | the link and the `<dialog>` holding the notice |
+| `snippets/wui-cookie-preferences.liquid` | unrelated, but added in the same footer pass |
+| `sections/footer.liquid` | renders it when a column block has `show_legal_guarantee` |
+| `sections/footer-group.json` | that checkbox is on, on the **OFFICIAL** column |
+| `assets/walterin-ui.css` | `.wui-lg-dialog*` |
+| `snippets/legal-guarantee.liquid` | **deleted** — nothing rendered it any more |
+
+**Without JavaScript the link still works.** Its `href` is Terms clause 10, which carries the same
+official image; the dialog is an enhancement on top. A legal disclosure must not depend on a script,
+so this is not a detail to optimise away later.
+
+**The artwork may not be edited** — not recoloured to the brand palette, not cropped, not rebuilt as
+HTML. The EN and SK files are different shapes (1186×1675 and 1215×1569), so the intrinsic size is
+set per language or the dialog jumps while the image loads.
+
+### Also moved in the same pass
+
+The small bottom row of the footer is gone. It carried the copyright, a duplicate of the policy
+links, and **the § 20a withdrawal link**. The duplicates were dropped; the withdrawal link was
+**not** — it is a legal requirement that it be reachable with no login, so it moved into the
+OFFICIAL column beside the legal guarantee. Deleting the row without moving it would have been a
+silent legal regression.

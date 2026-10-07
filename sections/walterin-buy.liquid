@@ -758,24 +758,17 @@
         {%- endif -%}
 
         {%- comment -%}
-          Legal guarantee. Goods get the official EU harmonised notice (Impl. Reg. (EU) 2025/1960,
-          applying from 27 Sep 2026); digital content gets a plain reminder, because no harmonised
-          template exists for it. One tap from the words "Legal guarantee" is what the guidance
-          asks for. The snippet decides what to show from the variants.
+          The legal guarantee is NOT on the product page (Veronka, 7 October 2026).
+
+          It lives in one place in the shop now — "Legal guarantee" in the footer's OFFICIAL
+          column, which opens the official EU notice in colour on the first click — plus Terms
+          clause 10. Not here, not in the header, not on Shop, not in the cart or checkout, and
+          not in the order email.
+
+          Before re-adding it here, read docs/legal/legal-guarantee-placement-research.md: this
+          was a decision taken against a written recommendation, with the reasoning on both sides
+          recorded. It is not an oversight and not a leftover.
         {%- endcomment -%}
-        <details class="wui-accordion" data-wui-acc>
-          <summary>
-            <span class="wui-accordion__title">
-              <span class="wui-label">{{ 'walterin.legal_guarantee.title' | t }}</span>
-            </span>
-            <span class="wui-accordion__icon" aria-hidden="true"></span>
-          </summary>
-          <div class="wui-accordion__wrap">
-            <div class="wui-accordion__body">
-              {%- render 'legal-guarantee', product: product -%}
-            </div>
-          </div>
-        </details>
 
         {%- comment -%}
           The extra accordions, from the product's own metafields. One rich-text field holds them

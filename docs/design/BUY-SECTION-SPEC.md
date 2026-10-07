@@ -129,3 +129,20 @@ with `?view=book`. The design system is switched on per template suffix in layou
 (`tarot,book,qa`); `qa` is kept in that list for a scratch template during testing.
 The preview states in the section (launch day, low stock, sold out) work in the theme editor and on
 preview/development themes only — never on the published theme.
+
+---
+
+## The legal guarantee — settled 7 October 2026
+
+**It is not on the product page at all.** Not in the buy column, not in the Details accordions, not
+in a dialog. The one place in the shop is a **"Legal guarantee" link in the footer's OFFICIAL
+column**, which opens the official EU notice in colour on the first click; Terms clause 10 keeps the
+same image.
+
+This file previously said *"The legal guarantee stays in the Terms, never in the column"*, which was
+then half-reversed on 29 Sep when the notice moved into the Details accordion. Both of those are now
+superseded: the spirit of the original line wins, and the buy column and the accordions are clean.
+
+**Before putting it back on this page, read `docs/legal/legal-guarantee-placement-research.md`.**
+The removal was a decision taken against a written recommendation, with the statutory wording quoted
+and the risk recorded. It is not an oversight.

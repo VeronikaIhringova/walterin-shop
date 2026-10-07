@@ -1,0 +1,43 @@
+{%- comment -%}
+  The platform glyph for a footer link, chosen from the link's own URL.
+
+  Matching on the URL rather than on the link's title is deliberate: the titles
+  are typed in admin and are translated, so "Instagram" today could be anything
+  tomorrow, while instagram.com is instagram.com in every language. It also
+  means the SOCIAL column needs no special setting — a menu item pointing at a
+  platform gets its mark wherever it sits, and anything else gets nothing.
+
+  Renders nothing at all for an unrecognised URL, so a new menu item can never
+  break the column.
+
+  Accepts: url (required)
+{%- endcomment -%}
+{%- liquid
+  assign u = url | downcase
+  assign glyph = ''
+  if u contains 'instagram.com'
+    assign glyph = 'icon-instagram'
+  elsif u contains 'tiktok.com'
+    assign glyph = 'icon-tiktok'
+  elsif u contains 'linkedin.com'
+    assign glyph = 'icon-linkedin'
+  elsif u contains 'facebook.com'
+    assign glyph = 'icon-facebook'
+  elsif u contains 'youtube.com'
+    assign glyph = 'icon-youtube'
+  elsif u contains 'pinterest.com'
+    assign glyph = 'icon-pinterest'
+  endif
+-%}
+{%- if glyph != blank -%}
+  <span class="wui-social-glyph" aria-hidden="true">
+    {%- case glyph -%}
+      {%- when 'icon-instagram' -%}{%- render 'icon-instagram' -%}
+      {%- when 'icon-tiktok' -%}{%- render 'icon-tiktok' -%}
+      {%- when 'icon-linkedin' -%}{%- render 'icon-linkedin' -%}
+      {%- when 'icon-facebook' -%}{%- render 'icon-facebook' -%}
+      {%- when 'icon-youtube' -%}{%- render 'icon-youtube' -%}
+      {%- when 'icon-pinterest' -%}{%- render 'icon-pinterest' -%}
+    {%- endcase -%}
+  </span>
+{%- endif -%}

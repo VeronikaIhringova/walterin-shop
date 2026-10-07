@@ -1,0 +1,60 @@
+{%- comment -%}
+  "Cookie preferences" in the footer, reopening Shopify's own consent banner.
+
+  Shopify's Customer Privacy API owns the banner and the stored choice, so this
+  only asks it to show itself again — it never writes a consent value and never
+  replaces the banner with a form of our own.
+
+  Rendered as a <button> rather than a link because it goes nowhere: it is a
+  control. Styled to sit in the column exactly like the links around it, but a
+  screen reader and a keyboard both get the truth about what it is.
+
+  HIDDEN WITHOUT JAVASCRIPT, on purpose. A dead "Cookie preferences" that does
+  nothing when clicked is worse than none at all, and unlike the legal-guarantee
+  notice there is no no-JS fallback that could work: the banner is a script.
+  The hidden attribute comes off only once the API has actually answered.
+
+  The method lives on `window.privacyBanner`, NOT on `window.Shopify.privacyBanner`
+  and not on `window.Shopify.customerPrivacy`. Both of those were tried first and
+  both left the button hidden for ever: customerPrivacy exposes consent getters
+  and setters but no `showPreferences` at all, and `Shopify.privacyBanner` is
+  undefined on this store. Enumerating the globals is what found it. Shopify's
+  own docs name it under the Shopify namespace, so that spelling is kept as a
+  fallback in case a future banner version moves it there.
+{%- endcomment -%}
+<button type="button" class="wui-footer-linkish" data-wui-cookie-prefs hidden>
+  {{- 'walterin.cookies.preferences' | t -}}
+</button>
+
+<script>
+  (function () {
+    var btn = document.querySelector('[data-wui-cookie-prefs]');
+    if (!btn) return;
+
+    function banner() {
+      var a = window.privacyBanner;
+      if (a && typeof a.showPreferences === 'function') return a;
+      var b = window.Shopify && window.Shopify.privacyBanner;
+      if (b && typeof b.showPreferences === 'function') return b;
+      return null;
+    }
+
+    function arm() {
+      var a = banner();
+      if (!a) return false;
+      btn.hidden = false;
+      btn.addEventListener('click', function () { a.showPreferences(); });
+      return true;
+    }
+
+    if (arm()) return;
+
+    // The banner script loads on its own schedule, so wait for it rather than
+    // assume. Give up quietly after a few seconds: a control with nothing
+    // behind it is worse than no control.
+    var tries = 0;
+    var t = setInterval(function () {
+      if (arm() || ++tries > 40) clearInterval(t);
+    }, 150);
+  })();
+</script>

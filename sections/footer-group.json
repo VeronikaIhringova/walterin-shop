@@ -65,7 +65,9 @@
             "heading": "OFFICIAL",
             "menu": "official",
             "width_desktop": 2,
-            "width_mobile": "2"
+            "width_mobile": "2",
+            "show_legal_guarantee": true,
+            "show_withdrawal": true
           }
         },
         "link_list_tCPkFp": {
@@ -74,7 +76,9 @@
             "heading": "SUPPORT",
             "menu": "footer-menu-support",
             "width_desktop": 2,
-            "width_mobile": "2"
+            "width_mobile": "2",
+            "show_cookie_preferences": true,
+            "show_copyright": true
           }
         }
       },
