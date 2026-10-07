@@ -336,8 +336,6 @@ h5,
     -%}
     {%- if wui_enabled -%}
       {{ 'walterin-ui.css' | asset_url | stylesheet_tag }}
-      {%- comment -%} TEMPORARY phone-layout comparison — delete with the choice {%- endcomment -%}
-      {%- render 'wui-grid-switch' -%}
     {%- endif -%}
   </head>
 

@@ -202,6 +202,79 @@ Two rules that are easy to break:
 Rejected: placement A, directly above the email field. It said the right thing too late — a visitor
 reads the price, and the answer to "can I have this" belongs there, not further down the page.
 
+### Type hierarchy — the name leads, the price supports
+
+**Decided 7 October 2026 (Veronka).** It used to be the other way round, by accident: the title was
+17px at weight 500 and the price 16px at weight **700** — a pixel smaller and two weights heavier —
+so the eye landed on the price.
+
+| | Narrow card (≤ 259px) | Wide card (≥ 260px) |
+|---|---|---|
+| Name | `16px` | `18px` |
+| Price | `13px`, weight `500` | `15px`, weight `500` |
+| Gap between them | `6px`, stacked | `24px`, between the columns |
+| Space under the price | `12px` | `14px` |
+
+**The price keeps full ink**, 15.77:1. Greying it is the obvious way to make it recede, and it is
+wrong here: the price was invisible yellow until 6 Oct 2026 and does not go back towards low
+contrast to make a point about hierarchy. Size and weight carry it.
+
+**Beating Dawn takes four classes, not three.** Dawn ships
+`.grid--2-col-tablet-down .product-card-wrapper .card__heading.h5` at `1.3rem` — which is 13px,
+*exactly* the size this table gives the price. A three-class selector loses to it and makes the name
+and the price identical. Match `.h5` explicitly or the hierarchy silently collapses.
+
+**Nothing but padding sits under the price.** Three separate things were adding space there, found
+one box at a time: this file's own padding, a `10px` foot on Dawn's `.card__information`, and the
+price wrapper's line-height strut hanging 6px below the number it holds. All three are zeroed.
+
+### Card heights — phones and desks differ
+
+**Decided 7 October 2026 (Veronka).**
+
+| | Phone (≤ 749px) | Desk (≥ 750px) |
+|---|---|---|
+| Height | natural — each card as tall as its own words | equal — every card matches the tallest |
+
+Equal heights and "no empty areas" cannot both be had at a given width: the stretch has to go
+somewhere, and it goes under the price of the shorter titles as a block of card colour with nothing
+in it. The split works because the answer genuinely differs — on a phone the row holds one card, so
+there is no neighbour to line up with and the stretch would buy nothing.
+
+**Known and accepted on a desk:** the void returns where titles differ in length. Measured at **36px
+and 57px at 768 and 1024**, and **36px at 1440 in Slovak**, where *Komiksový tarot vedomia* runs to
+three lines against the English two. That is the price of the ruled bottom edge, recorded here so
+nobody later reports it as a new bug.
+
+### The phone layout — one card per row
+
+**Decided 7 October 2026 (Veronka): layout B.** Chosen over three others, all built and compared in
+`docs/design/proof/phone-layouts/`:
+
+| | Why not |
+|---|---|
+| **A** two per row | with three products the last card sits beside an empty half-row, and at 390 the tarot name needs four lines |
+| **C** swipe row | products two and three are never seen by anyone who does not swipe — on a three-product shop, that hides two thirds of it |
+| **D** 1 + 2 | no half-empty row, but it forces an editorial call about what comes first |
+
+One per row costs length and nothing else, and at three products there is barely any length to pay.
+It is also the only layout where the card is wide enough for the name and price to sit side by side,
+every title to fit two lines, and the date to fit the pill on one line.
+
+**Queued, not built:** a customer-facing toggle between this and two-per-row, the way a shop offers
+grid or list. Post-launch — see the plan.
+
+### The bar hugs its words
+
+On a phone the bar is `width: fit-content`, centred, rather than inset to the card's edges. Stretched
+across a full-width card, a pill holding "Coming soon" in the middle of 340px reads as an empty input
+field rather than a label. It also does what "slimmer and smaller" asks: the pill stops being the
+widest thing on the artwork. Phone bar: `34px` tall at `12px`, against `48px` at `14px` on a desk.
+
+**Keyed to the phone as well as to the card width.** A full-width card on a 390px phone is 360px —
+wide by the container's measure, still a phone by the hand holding it — so the media query has the
+final say over the container query here.
+
 ### The card itself
 
 **No frame around the card.** Image, then text beneath. This is the current live card and it does
@@ -265,6 +338,8 @@ through the design system's existing blanket rule.
 - Sold out offers the notify wording on hover and always on a phone.
 - **`--wui-card` is `#FFFEFB`**, and it is the only card colour on the site.
 - The product page pill sits in the **price row** (placement B), not above the email field.
+- **The name leads, the price supports** — everywhere a card appears (7 Oct).
+- **One card per row on a phone**; natural heights there, equal heights on a desk (7 Oct).
 
 **Still open**
 
