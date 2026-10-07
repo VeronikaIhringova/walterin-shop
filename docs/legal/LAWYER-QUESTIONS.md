@@ -172,3 +172,20 @@ today (`docs/legal/prepared-terms-7-update.md`).
   acceptable description, or must the Terms describe the shared counter exactly?
 - Is any download limit at all a problem, given the consumer has bought the file outright and there
   is no DRM?
+
+## Legal guarantee — where the harmonised notice has to sit (added 7 Oct 2026)
+
+Research and the verbatim statutory text: `docs/legal/legal-guarantee-placement-research.md`.
+The binding provision is **§ 5(1)(f) of Act No. 108/2024 Coll.** (from 27 Sep 2026), which requires
+the notice **before the consumer sends the order**, `zreteľným spôsobom`, and `v podobe a v rozsahu`
+of Implementing Regulation (EU) 2025/1960. **§ 17(3) does not list letter (f)**, so it does not have
+to be repeated immediately before the order button.
+
+1. Does a line on the product page that reveals the harmonised notice **on one click** satisfy
+   `zreteľným spôsobom`, or must the notice itself be visible without any interaction?
+2. Can a **footer link**, present on every page, satisfy § 5(1)(f) at all — or does "conspicuously"
+   rule it out?
+3. For a product with both a printed and a digital edition (Walterin Prague), is it enough that the
+   goods notice shows whenever *any* variant is a good, or must it follow the **selected** variant?
+4. Letter (h) covers digital content with no prescribed form. Is a plain sentence of our own wording
+   enough, and does it also have to be given before the order is sent?
