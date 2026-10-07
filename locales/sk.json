@@ -576,6 +576,105 @@
       "in_terms": "To isté oznámenie v našich obchodných podmienkach, bod 10",
       "digital": "Pri e-knihách zodpovedáme za vady 24 mesiacov odo dňa dodania súboru. Napíšte nám na support@walterin.com."
     },
+    "faq": {
+      "heading": "Časté otázky",
+      "nav_label": "Kategórie častých otázok",
+      "nav_title": "Otázky",
+      "cat": {
+        "products": "Produkty",
+        "ebooks": "E-knihy",
+        "orders": "Objednávky a platba",
+        "shipping": "Doprava",
+        "returns": "Vrátenie, peniaze a záruka",
+        "contact": "Kontakt"
+      },
+      "q": {
+        "products_who": {
+          "q": "Kto tvorí to, čo tu predávate?",
+          "a_html": "<p>Všetko v tomto obchode napísal a nakreslil Walter Ihring. Cudzie veci tu nepredávame.</p>"
+        },
+        "products_tarot": {
+          "q": "Čo je Komiksový tarot vedomia?",
+          "a_html": "<p>Balíček 78 kariet — celá veľká aj malá arkána — nakreslený ako komiks, nie ako symboly. Je po slovensky alebo po anglicky.</p>"
+        },
+        "products_prague": {
+          "q": "Čo je Walterin Praha?",
+          "a_html": "<p>Komiksová kniha o Prahe, 180 strán, po anglicky alebo po česky. Môžete ju mať ako digitálne interaktívne vydanie alebo ako tlačené zberateľské vydanie.</p>"
+        },
+        "products_restock": {
+          "q": "Vrátia sa vypredané veci?",
+          "a_html": "<p>Niekedy áno, ale nesľubujeme to. Prvé vydanie je malé. Ak je preč to, čo ste chceli, nechajte nám na jeho stránke e-mail a ozveme sa vám, keď sa vráti.</p>"
+        },
+        "ebooks_what": {
+          "q": "Čo presne dostanem?",
+          "a_html": "<p>Dva súbory: PDF a EPUB. Vždy oba, nevyberáte si.</p>"
+        },
+        "ebooks_read": {
+          "q": "Prečítam si to na čomkoľvek?",
+          "a_html": "<p>Áno. Súbory nemajú žiadnu ochranu proti kopírovaniu, takže sa otvoria v ktorejkoľvek čítačke, na toľkých vašich zariadeniach, koľko chcete, a fungujú aj keď zariadenie vymeníte.</p>"
+        },
+        "ebooks_downloads": {
+          "q": "Koľkokrát si to môžem stiahnuť?",
+          "a_html": "<p>Spolu šesťkrát, dokopy za oba súbory. Odkaz nemá časové obmedzenie.</p>"
+        },
+        "ebooks_link": {
+          "q": "Prestal mi fungovať odkaz.",
+          "a_html": "<p>Napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a> a pošleme vám nový. To isté, ak ste už minuli všetky stiahnutia.</p>"
+        },
+        "ebooks_when": {
+          "q": "Kedy mi e-kniha príde?",
+          "a_html": "<p>Hneď. Odkaz vám pošleme e-mailom, len čo prejde platba, a nájdete ho aj na stránke s potvrdením.</p>"
+        },
+        "orders_pay": {
+          "q": "Čím môžem zaplatiť?",
+          "a_html": "<p>Visa, Mastercard, American Express, JCB, Discover a Diners Club, plus Apple&nbsp;Pay a Google&nbsp;Pay. Platby spracúva Stripe. Dobierku neponúkame.</p>"
+        },
+        "orders_safe": {
+          "q": "Je platba u vás bezpečná?",
+          "a_html": "<p>Údaje o vašej karte nikdy nevidíme ani neukladáme. Platbu vybaví Stripe a nám povie len to, či prešla.</p>"
+        },
+        "orders_soon": {
+          "q": "Čo znamená „Už čoskoro“?",
+          "a_html": "<p>Že ešte nemáme dátum. Keď ho potvrdíme, bude priamo na karte — <em>Dostupné od 23. októbra</em> — a skôr nie.</p>"
+        },
+        "orders_notify": {
+          "q": "Dáte mi vedieť, keď to bude v predaji?",
+          "a_html": "<p>Nechajte nám na stránke produktu e-mail a raz sa vám ozveme, keď to bude hotové. Na nič iné ho nepoužijeme.</p>"
+        },
+        "orders_change": {
+          "q": "Môžem objednávku zmeniť alebo zrušiť?",
+          "a_html": "<p>Napíšte čo najskôr na <a href=\"mailto:support@walterin.com\">support@walterin.com</a>. Ak objednávka ešte neodišla, zmeníme ju alebo zrušíme. Ak už odišla, stále môžete do 14 dní od kúpy odstúpiť.</p>"
+        },
+        "shipping_cost": {
+          "q": "Koľko stojí doprava a ako dlho trvá?",
+          "a_html": "<p>Zatiaľ to nevieme povedať — ešte to dojednávame a radšej nepovieme nič, než by sme sľúbili termín, ktorý nedodržíme. Nič tlačené nejde do predaja, kým to nebude vybavené, a celé podmienky uvidíte na stránke produktu skôr, než za čokoľvek zaplatíte.</p>"
+        },
+        "shipping_ebook": {
+          "q": "Posiela sa e-kniha poštou?",
+          "a_html": "<p>Nie. Príde e-mailom, takže niet čo doručovať ani čo platiť.</p>"
+        },
+        "returns_send_back": {
+          "q": "Môžem niečo vrátiť?",
+          "a_html": "<p>Áno. Máte 14 dní odo dňa, keď vám balík príde, a nemusíte uvádzať dôvod. Použite <a href=\"[WITHDRAW_URL]\">Odstúpiť od zmluvy&nbsp;tu</a> alebo napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Tovar pošlite späť do 14 dní odvtedy, ako nám to oznámite. Poštovné za vrátenie platíte vy. Vrátime vám všetko, čo ste zaplatili, vrátane najlacnejšej bežnej dopravy, ktorú ponúkame, a to do 14 dní.</p>"
+        },
+        "returns_ebooks": {
+          "q": "A čo e-knihy?",
+          "a_html": "<p>Tie sú iné a súhlasíte s tým ešte pred zaplatením: len čo sa sťahovanie začne, právo odstúpiť zaniká. To je to zaškrtávacie políčko v košíku — je tam preto, že súbor dostanete okamžite.</p>"
+        },
+        "returns_faulty": {
+          "q": "Čo ak príde kniha chybná?",
+          "a_html": "<p>Zo zákona zodpovedáme za vady dva roky odo dňa, keď vám tovar príde, a tie isté dva roky platia aj pre e-knihu, počítané odo dňa, keď vám súbor pošleme. Napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a> a opravíme to alebo vymeníme. Ak nepôjde ani jedno, dostanete peniaze späť.</p><p>S rozmyslením si to nesúvisí — to je tých 14 dní vyššie. Oficiálne oznámenie EÚ o týchto právach, ktoré nesmieme nijako meniť, nájdete v našich <a href=\"[TERMS_URL]#legal-guarantee\">obchodných podmienkach, bod&nbsp;10</a>, a pod odkazom <strong>Zákonná záruka</strong> v pätičke každej stránky.</p>"
+        },
+        "contact_reach": {
+          "q": "Ako vás zastihnem?",
+          "a_html": "<p><a href=\"mailto:support@walterin.com\">support@walterin.com</a>. Čítame to cez pracovné dni, 9:00–17:00&nbsp;SEČ.</p>"
+        },
+        "contact_where": {
+          "q": "Kde sídlite?",
+          "a_html": "<p>Walterin s.&nbsp;r.&nbsp;o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto. Je to kancelária, nie predajňa — neposielajte tam prosím vrátený tovar bez toho, aby ste nám najprv napísali.</p>"
+        }
+      }
+    },
     "cookies": {
       "preferences": "Nastavenia cookies"
     },

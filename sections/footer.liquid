@@ -383,6 +383,33 @@
 
       The language and country selectors above are untouched.
     {%- endcomment -%}
+    {%- comment -%}
+      Payment icons are back, at the foot of the footer (Veronka, 7 Oct 2026). They belong with
+      the legal row rather than in a column: they are reassurance at the end of the page, not a
+      list anyone navigates. shop.enabled_payment_types, so the row cannot claim a method that is
+      not switched on.
+    {%- endcomment -%}
+    {%- if section.settings.payment_enable -%}
+      <div class="footer__content-bottom-wrapper page-width">
+        <div class="wui-footer-payment">
+          <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+          <ul class="list list-payment list-unstyled" role="list">
+            {%- liquid
+              assign enabled_payment_types = shop.enabled_payment_types
+              if section.settings.enabled_payment_types != blank
+                assign enabled_payment_types = section.settings.enabled_payment_types | remove: ' ' | split: ','
+              endif
+            -%}
+            {%- for type in enabled_payment_types -%}
+              <li class="list-payment__item">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endif -%}
+
     <div class="footer__content-bottom-wrapper page-width">
       <ul class="wui-footer-legal list-unstyled">
         <li>{%- render 'wui-legal-guarantee-dialog' -%}</li>

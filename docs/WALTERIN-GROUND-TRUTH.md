@@ -6,6 +6,30 @@
 
 ---
 
+
+## Never show quantities or stock (Veronka, 7 October 2026)
+
+**No number that describes how many we have, or how many we made, appears anywhere a customer can
+see it.** Not on a product page, not in the FAQ, not in a policy, not in an email, not in a social
+caption.
+
+That covers: edition sizes, print runs, "100 copies in each language", "150 decks", inventory counts,
+"only N left", "N in stock", and any phrasing that lets a reader work the number out.
+
+**The real figures are internal: 150 EN + 150 SK for the tarot's first edition.** They live here and
+in the admin, and nowhere else.
+
+**Why:** a number invites arithmetic about how a small business is doing, dates the page the moment
+it changes, and turns scarcity into a promise we then have to keep. "The first edition is small" says
+what matters and stays true.
+
+**If scarcity needs saying, say it without counting.** Allowed: *a first edition*, *a small first
+edition*, *while it lasts*. Not allowed: any digit.
+
+Found live on 7 Oct 2026 and removed: `walterin.price_note`, `walterin.notes` and
+`walterin.preorder_note` on the tarot (EN and SK), and one FAQ answer. If a number reappears, it came
+back through a metafield — check those three first.
+
 ## 1. Company
 
 | | |

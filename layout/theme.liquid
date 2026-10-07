@@ -336,6 +336,13 @@ h5,
     -%}
     {%- if wui_enabled -%}
       {{ 'walterin-ui.css' | asset_url | stylesheet_tag }}
+      {%- comment -%}
+        Policy pages get a navigation built from their own headings. Only on
+        /policies/*, and only as an enhancement — see the snippet's comment.
+      {%- endcomment -%}
+      {%- if request.page_type == 'policy' -%}
+        {%- render 'wui-policy-nav' -%}
+      {%- endif -%}
     {%- endif -%}
   </head>
 

@@ -1,0 +1,125 @@
+{%- comment -%}
+  Left-side navigation for the policy pages, built from their own headings.
+  Veronka, 7 October 2026.
+
+  WHY THIS IS JAVASCRIPT and not a template.
+
+  Shopify renders /policies/* itself — there is no policy template in this
+  theme and the markup arrives as .shopify-policy__container with the body as
+  one block of HTML. The text is store data, edited in Settings → Policies, and
+  it must stay the single source: a Liquid copy of it would drift from the
+  contract the moment someone edits one and not the other.
+
+  So the nav is derived at render time from the h2 and h3 elements the policy
+  already has. Nothing is duplicated, nothing to keep in sync, and editing a
+  policy in admin updates its navigation by itself.
+
+  Without JavaScript the policy reads exactly as it does today — one column,
+  all headings, nothing hidden. The nav is an aid to finding things, never the
+  only route to them.
+
+  Anchors: Shopify's policy HTML has no ids, so they are derived from the
+  heading text. Clause 10 of the Terms additionally gets id="legal-guarantee",
+  because the footer and the FAQ both link there by that name.
+{%- endcomment -%}
+<script>
+  (function () {
+    // This snippet is rendered in <head>, so the policy markup does not exist
+    // yet. Without this the whole thing ran against an empty document and did
+    // nothing at all — silently, which is the worst kind of nothing.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', build);
+    } else {
+      build();
+    }
+
+    function build() {
+    var container = document.querySelector('.shopify-policy__container');
+    var body = document.querySelector('.shopify-policy__body');
+    if (!container || !body) return;
+
+    var heads = Array.prototype.slice.call(body.querySelectorAll('h2, h3'));
+    // Two headings is a list, not a navigation. Below that it is noise.
+    if (heads.length < 3) return;
+
+    function slug(s) {
+      return (s || '')
+        .toLowerCase()
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 60);
+    }
+
+    var used = {};
+    heads.forEach(function (h) {
+      var text = (h.textContent || '').trim();
+      var id = slug(text.normalize ? text.normalize('NFD') : text) || 'section';
+      if (used[id]) id = id + '-' + (++used[id]);
+      else used[id] = 1;
+      if (!h.id) h.id = id;
+      h.style.scrollMarginTop = '96px';
+
+      /* The one named anchor the rest of the site depends on. The footer link
+         and the FAQ both point at #legal-guarantee, and Shopify's own markup
+         has no ids at all, so without this the link lands at the top of a
+         thirteen-clause page instead of on the notice. */
+      if (/legal guarantee|zákonná záruka/i.test(text)) {
+        var a = document.createElement('span');
+        a.id = 'legal-guarantee';
+        a.className = 'wui-policy__anchor';
+        h.parentNode.insertBefore(a, h);
+      }
+    });
+
+    var nav = document.createElement('nav');
+    nav.className = 'wui-policy__nav';
+    nav.setAttribute('aria-label', container.getAttribute('data-nav-label') || 'On this page');
+
+    var title = document.createElement('p');
+    title.className = 'wui-policy__nav-title wui-label';
+    title.textContent = container.getAttribute('data-nav-title') || 'On this page';
+    nav.appendChild(title);
+
+    var list = document.createElement('ul');
+    list.className = 'wui-policy__nav-list list-unstyled';
+    heads.forEach(function (h) {
+      var li = document.createElement('li');
+      if (h.tagName === 'H3') li.className = 'is-sub';
+      var a = document.createElement('a');
+      a.className = 'wui-policy__nav-link';
+      a.href = '#' + h.id;
+      a.textContent = (h.textContent || '').trim();
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    nav.appendChild(list);
+
+    container.classList.add('wui-policy--split');
+    container.insertBefore(nav, body);
+
+    // Mark the heading being read, announced as well as painted.
+    if (!('IntersectionObserver' in window)) return;
+    var links = {};
+    Array.prototype.slice.call(list.querySelectorAll('a')).forEach(function (a) {
+      links[a.getAttribute('href').slice(1)] = a;
+    });
+    var ratios = {};
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          ratios[e.target.id] = e.isIntersecting ? 1 : 0;
+        });
+        var best = null;
+        heads.forEach(function (h) { if (ratios[h.id] && !best) best = h.id; });
+        Object.keys(links).forEach(function (id) {
+          if (id === best) links[id].setAttribute('aria-current', 'true');
+          else links[id].removeAttribute('aria-current');
+        });
+      },
+      { rootMargin: '-96px 0px -70% 0px' }
+    );
+    heads.forEach(function (h) { io.observe(h); });
+    }
+  })();
+</script>

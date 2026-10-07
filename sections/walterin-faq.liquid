@@ -1,131 +1,212 @@
 {% comment %}
-  Walterin · Questions — the general ones, in their own section.
+  Walterin · Frequently asked questions — two columns, after rhodeskin.com.
 
-  Not the product's accordions. Those live in the buy column and answer "what is this thing";
-  these answer "how does buying from you work": shipping, returns, payment, who made it, what
-  happens when something is sold out, and how to reach a person.
+  Categories on the left that jump to their section; the questions as accordions on the right,
+  grouped under a category heading. On a phone the left column becomes a compact row of category
+  chips above the questions. Research: docs/design/FAQ-RESEARCH.md.
 
-  Design system: assets/walterin-ui.css (body.wui). The rows are the same accordion component the
-  buy column uses, with the same 200ms height-and-opacity open, so the two never feel different.
+  WHY THE TEXT IS IN THE LOCALE FILES and not in section blocks.
 
-  Nothing here may promise anything that is not contracted. Delivery windows, carriers and prices
-  belong in the policies, and the answers link there instead of repeating them.
+  Blocks were the obvious choice and they are the wrong one here. A block setting is translated
+  through Translate & Adapt, which is STORE data: the Slovak lives outside the repo, cannot be
+  reviewed in a diff, and — measured on 7 Oct 2026 — had never been written, so /sk/pages/faq was
+  serving twenty-one English answers to Slovak readers. Locale files make the two languages the
+  same kind of object, versioned together, impossible to half-translate, and they need no store
+  write to publish.
+
+  The cost, stated plainly: Veronka cannot edit an answer in the theme editor any more. For a page
+  whose every sentence has to agree with the Terms, that is a feature. Adding a question is a line
+  in each locale file plus a key in the list below.
+
+  Structure lives here, words live in locales/*.json:
+    walterin.faq.cat.<category>            the category name
+    walterin.faq.q.<category>_<key>.q      the question
+    walterin.faq.q.<category>_<key>.a_html the answer, HTML, may contain links
+
+  Two placeholders are replaced at render time so the links follow the locale and never rot:
+    [WITHDRAW_URL]  ->  /pages/withdrawal, prefixed for the active locale
+    [TERMS_URL]     ->  the shop's own Terms URL
+
+  Nothing here may promise anything that is not in the Terms. Delivery windows, carriers and
+  prices are not stated at all while clauses 6.1 and 6.2 are unwritten.
 {% endcomment %}
 
-<div class="wui-scope wui-faq">
+{%- liquid
+  assign cats = 'products,ebooks,orders,shipping,returns,contact' | split: ','
+
+  comment
+    Which questions sit in which category, in order. The only list to touch when adding one.
+  endcomment
+  assign q_products = 'who,tarot,prague,restock' | split: ','
+  assign q_ebooks   = 'what,read,downloads,link,when' | split: ','
+  assign q_orders   = 'pay,safe,soon,notify,change' | split: ','
+  assign q_shipping = 'cost,ebook' | split: ','
+  assign q_returns  = 'send_back,ebooks,faulty' | split: ','
+  assign q_contact  = 'reach,where' | split: ','
+
+  assign withdraw_url = routes.root_url | append: '/pages/withdrawal' | replace: '//', '/'
+  assign terms_url = ''
+  if shop.terms_of_service.url != blank
+    assign terms_url = shop.terms_of_service.url
+  endif
+-%}
+
+<div class="wui-scope wui-faq wui-faq--split">
   <div class="wui-wrap">
-    <div class="wui-faq__head">
-      <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
-      {%- if section.settings.lead != blank -%}
-        <p class="wui-faq__lead">{{ section.settings.lead | escape }}</p>
-      {%- endif -%}
-    </div>
+    <h1 class="wui-heading wui-faq__title">{{ 'walterin.faq.heading' | t }}</h1>
 
-    <div class="wui-accordions">
-      {%- for block in section.blocks -%}
-        {%- if block.settings.heading != blank -%}
-          <details class="wui-accordion" data-wui-acc {{ block.shopify_attributes }}>
-            <summary>
-              <span class="wui-accordion__title">
-                <span class="wui-label">{{ block.settings.heading | escape }}</span>
-              </span>
-              <span class="wui-accordion__icon" aria-hidden="true"></span>
-            </summary>
-            <div class="wui-accordion__wrap">
-              <div class="wui-accordion__body wui-rte">{{ block.settings.text }}</div>
+    <div class="wui-faq__layout">
+      {%- comment -%}
+        The category list. A <nav> of real in-page links: they work with JavaScript off, they can
+        be copied and sent, and the browser's own find-on-page still reaches the answers.
+      {%- endcomment -%}
+      <nav class="wui-faq__nav" aria-label="{{ 'walterin.faq.nav_label' | t | escape }}">
+        <p class="wui-faq__nav-title wui-label">{{ 'walterin.faq.nav_title' | t }}</p>
+        <ul class="wui-faq__nav-list list-unstyled">
+          {%- for cat in cats -%}
+            {%- assign cat_key = 'walterin.faq.cat.' | append: cat -%}
+            <li>
+              <a class="wui-faq__nav-link" href="#faq-{{ cat }}" data-wui-faq-nav>
+                {{- cat_key | t -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      <div class="wui-faq__panel">
+        {%- for cat in cats -%}
+          {%- liquid
+            assign cat_key = 'walterin.faq.cat.' | append: cat
+            case cat
+              when 'products'
+                assign keys = q_products
+              when 'ebooks'
+                assign keys = q_ebooks
+              when 'orders'
+                assign keys = q_orders
+              when 'shipping'
+                assign keys = q_shipping
+              when 'returns'
+                assign keys = q_returns
+              when 'contact'
+                assign keys = q_contact
+            endcase
+          -%}
+
+          <section class="wui-faq__group" id="faq-{{ cat }}" aria-labelledby="faq-{{ cat }}-h">
+            <h2 class="wui-faq__group-title wui-label" id="faq-{{ cat }}-h">{{ cat_key | t }}</h2>
+
+            <div class="wui-accordions">
+              {%- for key in keys -%}
+                {%- liquid
+                  assign base = 'walterin.faq.q.' | append: cat | append: '_' | append: key
+                  assign q_text = base | append: '.q' | t
+                  assign a_text = base | append: '.a_html' | t
+                  assign a_text = a_text | replace: '[WITHDRAW_URL]', withdraw_url
+                  assign a_text = a_text | replace: '[TERMS_URL]', terms_url
+                  assign anchor = 'q-' | append: cat | append: '-' | append: key
+                -%}
+                {%- unless q_text contains 'Translation missing' -%}
+                  {%- comment -%}
+                    <details> rather than a scripted accordion: open/close, keyboard and the
+                    accessible name all come from the browser, and the answer is in the DOM for
+                    find-on-page and for a search engine whether or not it is open.
+
+                    The id is on the <details>, so /pages/faq#q-returns-faulty is a link to one
+                    question. assets/walterin-faq.js opens it on arrival.
+                  {%- endcomment -%}
+                  <details class="wui-accordion" id="{{ anchor }}" data-wui-acc>
+                    <summary>
+                      <span class="wui-accordion__title">
+                        {%- comment -%}
+                          An <h3> inside <summary>, not a <span>. The spec allows a heading as a
+                          summary's content, and it is what gives the page a real outline —
+                          h1 page title, h2 category, h3 question — so a screen reader can list
+                          the questions and jump between them. Of the nine shops surveyed for
+                          docs/design/FAQ-RESEARCH.md, only two did this.
+                        {%- endcomment -%}
+                        <h3 class="wui-faq__q">{{ q_text }}</h3>
+                      </span>
+                      <span class="wui-accordion__icon" aria-hidden="true"></span>
+                    </summary>
+                    <div class="wui-accordion__wrap">
+                      <div class="wui-accordion__body wui-rte">{{ a_text }}</div>
+                    </div>
+                  </details>
+                {%- endunless -%}
+              {%- endfor -%}
             </div>
-          </details>
-        {%- endif -%}
-      {%- endfor -%}
+          </section>
+        {%- endfor -%}
+      </div>
     </div>
-
-    {%- if section.settings.foot != blank -%}
-      <p class="wui-faq__foot wui-rte">{{ section.settings.foot }}</p>
-    {%- endif -%}
   </div>
 </div>
 
-{% stylesheet %}
-.wui .wui-faq__head { display: grid; gap: var(--wui-space-heading); margin-bottom: var(--wui-space-block); max-width: 62ch; }
-.wui .wui-faq__lead { font-size: var(--wui-fs-body); line-height: 1.45; margin: 0; }
-.wui .wui-faq__foot { font-size: var(--wui-fs-small); line-height: 1.5; margin: var(--wui-24) 0 0; max-width: 62ch; }
-.wui .wui-faq .wui-accordions { max-width: 74ch; }
-@media (min-width: 990px) {
-}
-{% endstylesheet %}
+{%- comment -%}
+  FAQPage structured data. Built from the same locale strings as the page, so the two can never
+  disagree — the usual failure is hand-written JSON-LD that keeps an answer the page has changed.
 
-{% javascript %}
-/* The same open as the buy column's accordions: height and opacity, never a jump. */
-(function () {
-  var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function init(root) {
-    (root || document).querySelectorAll('.wui-faq [data-wui-acc]').forEach(function (details) {
-      if (details.dataset.wuiFaqReady) return;
-      details.dataset.wuiFaqReady = '1';
-      var wrap = details.querySelector('.wui-accordion__wrap');
-      var summary = details.querySelector('summary');
-      if (!wrap || !summary) return;
-      var animation = null;
-      summary.addEventListener('click', function (event) {
-        event.preventDefault();
-        var open = !details.open;
-        if (animation) { animation.cancel(); animation = null; }
-        var start = wrap.offsetHeight;
-        if (open) details.open = true;
-        var end = open ? wrap.scrollHeight : 0;
-        if (REDUCE.matches) {
-          wrap.style.height = '';
-          details.open = open;
-          details.classList.remove('is-opening', 'is-closing');
-          return;
-        }
-        details.classList.toggle('is-opening', open);
-        details.classList.toggle('is-closing', !open);
-        wrap.style.height = start + 'px';
-        animation = wrap.animate(
-          { height: [start + 'px', end + 'px'], opacity: [open ? 0 : 1, open ? 1 : 0] },
-          { duration: 200, easing: 'cubic-bezier(0.2, 0.75, 0.2, 1)' }
-        );
-        animation.onfinish = function () {
-          animation = null;
-          wrap.style.height = '';
-          details.open = open;
-          details.classList.remove('is-opening', 'is-closing');
-        };
-        animation.oncancel = function () { wrap.style.height = ''; };
-      });
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { init(); });
-  else init();
-  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
-})();
-{% endjavascript %}
+  Tags are stripped and the result JSON-escaped: acceptedAnswer.text takes text, and an unescaped
+  quote in an answer would break the whole block silently.
+
+  Only on the FAQ page itself, and only once.
+{%- endcomment -%}
+{%- capture faq_jsonld -%}
+  {%- assign sep = '' -%}
+  [
+  {%- for cat in cats -%}
+    {%- liquid
+      case cat
+        when 'products'
+          assign keys = q_products
+        when 'ebooks'
+          assign keys = q_ebooks
+        when 'orders'
+          assign keys = q_orders
+        when 'shipping'
+          assign keys = q_shipping
+        when 'returns'
+          assign keys = q_returns
+        when 'contact'
+          assign keys = q_contact
+      endcase
+    -%}
+    {%- for key in keys -%}
+      {%- liquid
+        assign base = 'walterin.faq.q.' | append: cat | append: '_' | append: key
+        assign q_text = base | append: '.q' | t
+        assign a_text = base | append: '.a_html' | t
+        assign a_text = a_text | replace: '[WITHDRAW_URL]', withdraw_url
+        assign a_text = a_text | replace: '[TERMS_URL]', terms_url
+        assign a_plain = a_text | strip_html | strip | replace: '  ', ' '
+      -%}
+      {%- unless q_text contains 'Translation missing' -%}
+        {{ sep }}{"@type":"Question","name":{{ q_text | json }},"acceptedAnswer":{"@type":"Answer","text":{{ a_plain | json }}}}
+        {%- assign sep = ',' -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  ]
+{%- endcapture -%}
+<script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":{{ faq_jsonld }}}
+</script>
+
+<script src="{{ 'walterin-faq.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
-  "name": "Walterin · Questions",
+  "name": "Walterin FAQ",
   "tag": "section",
-  "class": "wui-section",
+  "class": "section",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "Questions" },
-    { "type": "text", "id": "lead", "label": "Line under the heading", "default": "How buying from us works." },
-    { "type": "richtext", "id": "foot", "label": "Note under the questions", "info": "For the link to the policies." }
-  ],
-  "blocks": [
     {
-      "type": "question",
-      "name": "Question",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Question" },
-        { "type": "richtext", "id": "text", "label": "Answer" }
-      ]
+      "type": "paragraph",
+      "content": "The questions and answers live in the theme's language files (locales/en.default.json and locales/sk.json) under walterin.faq, not in this section. That is deliberate: it keeps English and Slovak in one place, versioned together, and stops the Slovak page falling back to English. See the comment at the top of sections/walterin-faq.liquid."
     }
   ],
-  "max_blocks": 12,
-  "presets": [
-    { "name": "Walterin · Questions",
-      "blocks": [ { "type": "question" }, { "type": "question" }, { "type": "question" } ] }
-  ]
+  "presets": [{ "name": "Walterin FAQ" }]
 }
 {% endschema %}

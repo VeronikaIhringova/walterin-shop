@@ -546,6 +546,105 @@
       "in_terms": "The same notice in our Terms, clause 10",
       "digital": "For eBooks we are liable for defects for 24 months from the day the file is supplied. Write to support@walterin.com."
     },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "nav_label": "FAQ categories",
+      "nav_title": "FAQ",
+      "cat": {
+        "products": "Products",
+        "ebooks": "eBooks",
+        "orders": "Orders and payment",
+        "shipping": "Shipping",
+        "returns": "Returns, refunds and guarantee",
+        "contact": "Contact us"
+      },
+      "q": {
+        "products_who": {
+          "q": "Who makes what you sell here?",
+          "a_html": "<p>Walter Ihring. He writes and illustrates everything in this shop. We don’t resell other people’s work.</p>"
+        },
+        "products_tarot": {
+          "q": "What is the Tarot of Consciousness?",
+          "a_html": "<p>A 78-card deck — the full Major and Minor Arcana — drawn as comics rather than symbols. It comes in English or Slovak.</p>"
+        },
+        "products_prague": {
+          "q": "What is Walterin Prague?",
+          "a_html": "<p>A comic book about Prague, 180 pages, in English or Czech. You can have it as a digital interactive edition or as a printed collector’s edition.</p>"
+        },
+        "products_restock": {
+          "q": "Will sold-out items come back?",
+          "a_html": "<p>Sometimes, but we don’t promise it. The first edition is small. If something you want is gone, leave your email on its page and we’ll write to you if it returns.</p>"
+        },
+        "ebooks_what": {
+          "q": "What exactly do I get?",
+          "a_html": "<p>Two files: a PDF and an EPUB. Both, every time — you don’t choose between them.</p>"
+        },
+        "ebooks_read": {
+          "q": "Can I read it on anything?",
+          "a_html": "<p>Yes. The files carry no copy protection, so they open in any reader, on as many of your own devices as you like, and they keep working when you change device.</p>"
+        },
+        "ebooks_downloads": {
+          "q": "How many times can I download it?",
+          "a_html": "<p>Six times in total, shared between the two files. There is no time limit on the link.</p>"
+        },
+        "ebooks_link": {
+          "q": "My link stopped working.",
+          "a_html": "<p>Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we’ll send you a new one. Same if you have run out of downloads.</p>"
+        },
+        "ebooks_when": {
+          "q": "When does the eBook arrive?",
+          "a_html": "<p>Straight away. We email the link as soon as the payment goes through, and it’s on the confirmation page too.</p>"
+        },
+        "orders_pay": {
+          "q": "What can I pay with?",
+          "a_html": "<p>Visa, Mastercard, American Express, JCB, Discover and Diners Club, plus Apple&nbsp;Pay and Google&nbsp;Pay. Payments go through Stripe. We don’t offer cash on delivery.</p>"
+        },
+        "orders_safe": {
+          "q": "Is paying here safe?",
+          "a_html": "<p>We never see or store your card details. Stripe takes the payment and tells us only whether it went through.</p>"
+        },
+        "orders_soon": {
+          "q": "What does “Coming soon” mean?",
+          "a_html": "<p>That we haven’t set a date yet. When a date is confirmed, the card says it — <em>Available from October 23rd</em> — and not before.</p>"
+        },
+        "orders_notify": {
+          "q": "Can you tell me when something is on sale?",
+          "a_html": "<p>Leave your email on the product page and we’ll write to you once, when it’s ready. That’s all we use it for.</p>"
+        },
+        "orders_change": {
+          "q": "Can I change or cancel my order?",
+          "a_html": "<p>Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> as soon as you can. If the order hasn’t gone out yet, we’ll change it or cancel it. If it has, you can still withdraw from the purchase within 14 days.</p>"
+        },
+        "shipping_cost": {
+          "q": "How much is delivery and how long does it take?",
+          "a_html": "<p>We can’t tell you yet — we’re still arranging it, and we’d rather say nothing than promise a date we can’t keep. Nothing printed goes on sale until it’s settled, and you’ll see the full terms on the product page before you pay for anything.</p>"
+        },
+        "shipping_ebook": {
+          "q": "Does the eBook get shipped?",
+          "a_html": "<p>No. It arrives by email, so there’s nothing to deliver and nothing to pay for.</p>"
+        },
+        "returns_send_back": {
+          "q": "Can I send something back?",
+          "a_html": "<p>Yes. You have 14 days from the day the parcel arrives, and you don’t have to give a reason. Use <a href=\"[WITHDRAW_URL]\">Withdraw from contract&nbsp;here</a>, or write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Send the item back within 14 days of telling us. You pay the return postage. We refund everything you paid, including the cheapest standard delivery we offer, within 14 days.</p>"
+        },
+        "returns_ebooks": {
+          "q": "What about eBooks?",
+          "a_html": "<p>Different, and you agree to it before you pay: once the download starts, the right to withdraw is gone. That’s the tick-box in the cart, and it’s there because you get the file immediately.</p>"
+        },
+        "returns_faulty": {
+          "q": "What if a book turns up faulty?",
+          "a_html": "<p>By law we are responsible for faults for two years from the day the item reaches you, and the same two years apply to an eBook, counted from the day we send you the file. Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we’ll repair or replace it. If neither of those works, you get your money back.</p><p>This is separate from changing your mind, which is the 14 days above. The official EU notice about these rights, which we are not allowed to alter, is in our <a href=\"[TERMS_URL]#legal-guarantee\">Terms, clause&nbsp;10</a>, and behind <strong>Legal guarantee</strong> at the bottom of every page.</p>"
+        },
+        "contact_reach": {
+          "q": "How do I reach you?",
+          "a_html": "<p><a href=\"mailto:support@walterin.com\">support@walterin.com</a>. We read it on weekdays, 9:00–17:00&nbsp;CET.</p>"
+        },
+        "contact_where": {
+          "q": "Where are you?",
+          "a_html": "<p>Walterin s.&nbsp;r.&nbsp;o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia. It’s an office, not a shop — please don’t send returns there without writing to us first.</p>"
+        }
+      }
+    },
     "cookies": {
       "preferences": "Cookie preferences"
     },

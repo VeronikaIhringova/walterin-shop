@@ -2154,3 +2154,219 @@
 @media screen and (max-width: 749px) {
   .wui .wui-footer-legal { gap: 10px 20px; }
 }
+
+/* ========================================================================= *
+   FAQ — two columns, after rhodeskin.com. Veronka, 7 October 2026.
+   Research: docs/design/FAQ-RESEARCH.md · Section: sections/walterin-faq.liquid
+ * ========================================================================= */
+
+.wui .wui-faq--split .wui-faq__title { margin: 0 0 var(--wui-space-block); }
+
+.wui .wui-faq__layout {
+  display: grid;
+  /* The nav takes what it needs and no more; the questions take the rest.
+     A fixed sidebar width would either clip "Returns, refunds and guarantee"
+     or leave English looking under-filled, and Slovak is the longer language. */
+  grid-template-columns: minmax(200px, clamp(200px, 24%, 300px)) minmax(0, 1fr);
+  gap: var(--wui-space-section) var(--wui-space-block);
+  align-items: start;
+}
+
+/* ---- the category list ---- */
+.wui .wui-faq__nav {
+  position: sticky;
+  /* Clear of the site header, which is sticky too. */
+  top: var(--wui-space-block);
+  padding: var(--wui-space-block);
+  background: var(--wui-card);
+  border-radius: 10px;
+}
+.wui .wui-faq__nav-title { margin: 0 0 var(--wui-space-heading); }
+.wui .wui-faq__nav-list { display: grid; gap: var(--wui-space-item); margin: 0; padding: 0; }
+.wui .wui-faq__nav-link {
+  display: block;
+  padding: 2px 0;
+  font-size: var(--wui-footer-size);
+  line-height: 1.4;
+  color: var(--wui-ink);
+  text-decoration: none;
+  opacity: 0.72;
+}
+.wui .wui-faq__nav-link:hover { opacity: 1; text-decoration: underline; }
+.wui .wui-faq__nav-link:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 3px; opacity: 1; }
+/* The section you are reading. Set by walterin-faq.js via aria-current, so the
+   state is announced and not only painted. */
+.wui .wui-faq__nav-link[aria-current='true'] { opacity: 1; font-weight: 600; }
+
+/* ---- the questions ---- */
+.wui .wui-faq__panel { display: grid; gap: var(--wui-space-section); }
+.wui .wui-faq__group { scroll-margin-top: var(--wui-space-section); }
+.wui .wui-faq__group-title {
+  margin: 0 0 var(--wui-space-heading);
+  padding-bottom: var(--wui-space-heading);
+  border-bottom: var(--wui-line-thin) solid var(--wui-ink);
+}
+/* The category heading already draws the line that opens the group, and the
+   first accordion draws its own: two parallel rules, 2px apart. The heading's
+   wins, because it is the one that belongs to the group. */
+.wui .wui-faq__group .wui-accordions > .wui-accordion:first-child { border-top: 0; }
+
+.wui .wui-faq__q {
+  /* It is an <h3> for the outline's sake; it must not inherit heading size. */
+  margin: 0;
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: var(--wui-body);
+  font-weight: 600;
+  font-size: var(--wui-footer-size);
+  line-height: 1.4;
+}
+/* A deep link lands on a question, so each row needs its own clearance from the
+   top of the window as well. */
+.wui .wui-faq__panel .wui-accordion { scroll-margin-top: var(--wui-space-section); }
+
+/* ---- phones and small tablets: the nav becomes a row of chips ----
+   Sticky at the top of the page rather than pinned beside it, because a
+   sidebar on a 390px screen is just a list nobody scrolls back up to. */
+@media screen and (max-width: 989px) {
+  .wui .wui-faq__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--wui-space-block);
+  }
+  .wui .wui-faq__nav {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    margin: 0 calc(-1 * var(--wui-gutter, 15px));
+    padding: var(--wui-space-heading) var(--wui-gutter, 15px);
+    border-radius: 0;
+    border-bottom: var(--wui-line-thin) solid var(--wui-ink);
+  }
+  .wui .wui-faq__nav-title {
+    /* The heading is for a screen reader here: the chips say what this is. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .wui .wui-faq__nav-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--wui-space-item);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    /* The row can be wider than the screen; it scrolls, the page does not. */
+    max-width: 100%;
+    padding-bottom: 2px;
+  }
+  .wui .wui-faq__nav-list::-webkit-scrollbar { display: none; }
+  .wui .wui-faq__nav-list > li { flex: 0 0 auto; }
+  /* Chips, the same object as the card pill: paper fill, thin ink frame, fully
+     round. Same component language, one size smaller than a card's bar. */
+  .wui .wui-faq__nav-link {
+    padding: 7px 13px;
+    border: var(--wui-line-thin) solid var(--wui-ink);
+    border-radius: 999px;
+    background: var(--wui-card);
+    font-size: 13px;
+    line-height: 1.25;
+    white-space: nowrap;
+    opacity: 1;
+  }
+  .wui .wui-faq__nav-link:hover { text-decoration: none; }
+  .wui .wui-faq__nav-link[aria-current='true'] {
+    background: var(--wui-yellow);
+    border-width: var(--wui-line);
+    font-weight: 600;
+  }
+  .wui .wui-faq__group,
+  .wui .wui-faq__panel .wui-accordion {
+    /* Clear of the sticky chip row, or a jump lands behind it. */
+    scroll-margin-top: 72px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wui .wui-faq__panel { scroll-behavior: smooth; }
+}
+
+/* ========================================================================= *
+   POLICY PAGES — the same two columns as the FAQ
+   Built by snippets/wui-policy-nav.liquid from the policy's own headings.
+ * ========================================================================= */
+
+.wui .shopify-policy__container { max-width: var(--wui-max, 1400px); }
+
+.wui .wui-policy--split {
+  display: grid;
+  grid-template-columns: minmax(200px, clamp(200px, 26%, 320px)) minmax(0, 1fr);
+  /* Row gap is block, not section: the only row boundary is title-to-content,
+     and a section-sized gap there left a hole the height of a paragraph. */
+  gap: var(--wui-space-block);
+  align-items: start;
+}
+/* The title spans both columns and keeps its place above them. */
+.wui .wui-policy--split .shopify-policy__title { grid-column: 1 / -1; }
+
+.wui .wui-policy__nav {
+  position: sticky;
+  top: var(--wui-space-block);
+  max-height: calc(100vh - var(--wui-space-section));
+  overflow-y: auto;
+  padding: var(--wui-space-block);
+  background: var(--wui-card);
+  border-radius: 10px;
+}
+.wui .wui-policy__nav-title { margin: 0 0 var(--wui-space-heading); }
+.wui .wui-policy__nav-list { display: grid; gap: 6px; margin: 0; padding: 0; }
+/* A sub-clause is indented rather than made smaller: the whole page is one
+   size, and a 1.1 is not less important than a 1, only narrower in scope. */
+.wui .wui-policy__nav-list .is-sub { padding-left: var(--wui-space-heading); }
+.wui .wui-policy__nav-link {
+  display: block;
+  font-size: var(--wui-footer-size);
+  line-height: 1.4;
+  color: var(--wui-ink);
+  text-decoration: none;
+  opacity: 0.72;
+}
+.wui .wui-policy__nav-link:hover { opacity: 1; text-decoration: underline; }
+.wui .wui-policy__nav-link:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 3px; opacity: 1; }
+.wui .wui-policy__nav-link[aria-current='true'] { opacity: 1; font-weight: 600; }
+
+/* The invisible target that the footer and the FAQ both link to. */
+.wui .wui-policy__anchor { display: block; height: 0; scroll-margin-top: 96px; }
+
+.wui .shopify-policy__body { font-size: var(--wui-fs-body); line-height: 1.65; }
+.wui .shopify-policy__body h2 { margin-top: var(--wui-space-section); }
+.wui .shopify-policy__body h2:first-child { margin-top: 0; }
+.wui .shopify-policy__body h3 { margin-top: var(--wui-space-block); }
+.wui .shopify-policy__body img { max-width: 100%; height: auto; }
+
+@media screen and (max-width: 989px) {
+  .wui .wui-policy--split { grid-template-columns: minmax(0, 1fr); gap: var(--wui-space-block); }
+  .wui .wui-policy__nav {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  /* On a phone the contents list is long and the reader usually wants the text,
+     so it folds away. <details> again: the browser owns the behaviour. */
+  .wui .wui-policy__nav-list { gap: var(--wui-space-item); }
+}
+
+/* Payment icons, at the foot of the footer and above the legal row. */
+.wui .wui-footer-payment { padding-top: var(--wui-space-block); }
+.wui .wui-footer-payment .list-payment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wui-space-item);
+  margin: 0;
+  padding: 0;
+  justify-content: flex-start;
+}
+.wui .wui-footer-payment .list-payment__item { display: flex; }
+.wui .wui-footer-payment .list-payment__item svg { height: 24px; width: auto; display: block; }
