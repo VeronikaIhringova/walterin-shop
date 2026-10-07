@@ -77,7 +77,8 @@ moot.
 | Product pages | **Removed completely.** Not in the buy column, not in an accordion, not in a dialog |
 | Header, Shop page, cart, checkout | **Nowhere.** Never was, stays that way |
 | Order confirmation email | **Not included** |
-| Footer, OFFICIAL column | **"Legal guarantee" / "Zákonná záruka"** — a normal link beside Privacy, Terms, FAQ and Contact. Not a separate column, not highlighted. **Opens the official notice in colour on the first click** |
+| Footer, quiet row under the menu | **"Legal guarantee" / "Zákonná záruka"**, beside "Withdraw from contract here". **Opens the official notice in colour on the first click.** Moved out of the OFFICIAL column on 7 Oct (second pass): that column is for pages a visitor might want, and two consumer-law links among them made it read as small print |
+| FAQ | A question — *"What if a book turns up faulty?"* — pointing at Terms clause 10 and at the footer link |
 | Terms clause 10 | **Kept**, carrying the same official image |
 
 ### Why this is defensible, and where the risk sits
@@ -102,7 +103,8 @@ where a regulator looks first. This is question 2 in `LAWYER-QUESTIONS.md` and s
 | `snippets/wui-legal-guarantee-dialog.liquid` | the link and the `<dialog>` holding the notice |
 | `snippets/wui-cookie-preferences.liquid` | unrelated, but added in the same footer pass |
 | `sections/footer.liquid` | renders it when a column block has `show_legal_guarantee` |
-| `sections/footer-group.json` | that checkbox is on, on the **OFFICIAL** column |
+| `sections/footer-group.json` | the column checkboxes for it are **off**; the row is rendered directly by the section |
+| `templates/page.faq.json` | the FAQ question that links to it |
 | `assets/walterin-ui.css` | `.wui-lg-dialog*` |
 | `snippets/legal-guarantee.liquid` | **deleted** — nothing rendered it any more |
 
@@ -121,3 +123,18 @@ links, and **the § 20a withdrawal link**. The duplicates were dropped; the with
 **not** — it is a legal requirement that it be reachable with no login, so it moved into the
 OFFICIAL column beside the legal guarantee. Deleting the row without moving it would have been a
 silent legal regression.
+
+### Quiet means tone, not size
+
+The row sits below the footer menu, in a lower-contrast ink, with a hairline rule above it. It is
+**the same size as everything else in the footer**. § 5(1)(f) asks for `zreteľným spôsobom`, so
+making the one notice that has a statutory prominence test the smallest thing on the page would be
+the wrong direction. Position and tone carry "quiet"; size does not.
+
+### Slovak is still missing from the FAQ
+
+Found while adding the question: **`/sk/pages/faq` renders the English questions.** The FAQ blocks
+live in `templates/page.faq.json` and their Slovak comes from Translate & Adapt (store data), which
+has never been written. So the new guarantee question is English-only for now, like the seven
+around it. It is part of plan item 7, but worth deciding whether it waits that long — the FAQ is
+one of the pages a Slovak customer is most likely to open.

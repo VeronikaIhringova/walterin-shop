@@ -68,6 +68,13 @@
             "heading": "How do I reach you?",
             "text": "<p><a href=\"mailto:support@walterin.com\">support@walterin.com</a>. We read it on weekdays, 9:00–17:00 CET.</p>"
           }
+        },
+        "question_legal_guarantee": {
+          "type": "question",
+          "settings": {
+            "heading": "What if a book turns up faulty?",
+            "text": "<p>By law we are responsible for faults for two years from the day the item reaches you. If a book arrives damaged, misprinted or with pages missing, write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we will repair or replace it. If neither of those works, you get your money back.</p><p>This is separate from changing your mind, which is the 14 days above. The official EU notice about these rights, which we are not allowed to alter, is in our <a href=\"/policies/terms-of-service#legal-guarantee\">Terms, clause 10</a>, and behind “Legal guarantee” at the bottom of every page.</p>"
+          }
         }
       },
       "block_order": [
@@ -77,6 +84,7 @@
         "q_pay",
         "q_safe",
         "q_return",
+        "question_legal_guarantee",
         "q_contact"
       ],
       "settings": {

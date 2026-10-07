@@ -142,26 +142,13 @@
                           carries what is hers to move in the theme editor, not hard-coded here.
                         {%- endcomment -%}
 
-                        {%- if block.settings.show_legal_guarantee -%}
-                          <li>{%- render 'wui-legal-guarantee-dialog' -%}</li>
-                        {%- endif -%}
-
                         {%- comment -%}
-                          The withdrawal link is NOT optional and is not a tidy-up: § 20a requires
-                          the online withdrawal function to be reachable with no login. It lived in
-                          the bottom row; the bottom row is gone, so it moves here rather than
-                          disappearing with it.
+                          The legal guarantee and the withdrawal link are NOT here. They sit in
+                          their own quiet row under the whole footer menu (Veronka, 7 Oct 2026):
+                          the OFFICIAL column is for pages a visitor might actually want, and two
+                          consumer-law links among them made the column read as a legal notice.
+                          Search for wui-footer-legal below.
                         {%- endcomment -%}
-                        {%- if block.settings.show_withdrawal -%}
-                          <li>
-                            <a
-                              href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}"
-                              class="link link--text list-menu__item list-menu__item--link"
-                            >
-                              {{- 'walterin.withdrawal.link' | t -}}
-                            </a>
-                          </li>
-                        {%- endif -%}
 
                         {%- if block.settings.show_cookie_preferences -%}
                           <li>{%- render 'wui-cookie-preferences' -%}</li>
@@ -377,19 +364,41 @@
 
   <div class="footer__content-bottom">
     {%- comment -%}
-      The small bottom row is gone (Veronka, 7 Oct 2026). Everything it carried now sits in the
-      footer columns, where it is read rather than skipped:
+      The quiet row under the footer menu. Two items only, on every page:
 
-        · the copyright line        -> `show_copyright` on a column block
-        · Cookie preferences        -> `show_cookie_preferences`
-        · Legal guarantee           -> `show_legal_guarantee`, opening the notice on first click
-        · the § 20a withdrawal link -> `show_withdrawal`
+        · Legal guarantee            opens the official EU notice on the first click
+        · Withdraw from contract here  the § 20a online withdrawal function, no login
 
-      The row also repeated shop.policies (Privacy, Terms, Refunds), which the OFFICIAL column
-      already lists. Those were duplicates and are not re-added anywhere.
+      Everything else the old bottom row carried has moved into the columns — the copyright and
+      Cookie preferences are block settings now — and its duplicate policy links (Privacy, Terms,
+      Refunds) are gone, because the OFFICIAL column already lists them.
+
+      Why these two are down here rather than in a column: they are obligations, not destinations.
+      A visitor looking for the refund policy is not looking for these, and putting them among
+      Privacy / Terms / FAQ / Contact made that column read as small print.
+
+      Quiet is about tone and position, NOT size: the guarantee notice has to be given
+      `zreteľným spôsobom` under § 5(1)(f), so this row is the same size as the columns above it.
+      See docs/legal/legal-guarantee-placement-research.md.
 
       The language and country selectors above are untouched.
     {%- endcomment -%}
+    <div class="footer__content-bottom-wrapper page-width">
+      <ul class="wui-footer-legal list-unstyled">
+        <li>{%- render 'wui-legal-guarantee-dialog' -%}</li>
+        <li>
+          {%- comment -%}
+            "here" must not be left alone on a line — a one-word last line reads as a mistake and
+            the word carrying the link would be the orphan. The no-break space glues it to the
+            word before it; the wording itself is unchanged (Veronka).
+          {%- endcomment -%}
+          {%- assign withdraw_label = 'walterin.withdrawal.link' | t -%}
+          <a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">
+            {%- render 'wui-tail-nbsp', text: withdraw_label -%}
+          </a>
+        </li>
+      </ul>
+    </div>
       </div>
     </div>
   </div>
@@ -479,20 +488,6 @@
           "type": "header",
           "content": "Extra items",
           "info": "Added under this column's menu. They are theme items, not menu items, so they do not appear in Navigation."
-        },
-        {
-          "type": "checkbox",
-          "id": "show_legal_guarantee",
-          "default": false,
-          "label": "Legal guarantee",
-          "info": "Opens the official EU notice in colour on the first click. Required before a customer orders — do not switch this off on every column at once."
-        },
-        {
-          "type": "checkbox",
-          "id": "show_withdrawal",
-          "default": false,
-          "label": "Withdrawal from the contract",
-          "info": "Required by § 20a to be reachable with no login. Keep it on in exactly one column."
         },
         {
           "type": "checkbox",
