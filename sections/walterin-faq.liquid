@@ -26,6 +26,7 @@
   Two placeholders are replaced at render time so the links follow the locale and never rot:
     [WITHDRAW_URL]  ->  /pages/withdrawal, prefixed for the active locale
     [TERMS_URL]     ->  the shop's own Terms URL
+    [REFUND_URL]    ->  the shop's own Refund policy URL
 
   Nothing here may promise anything that is not in the Terms. Delivery windows, carriers and
   prices are not stated at all while clauses 6.1 and 6.2 are unwritten.
@@ -48,6 +49,10 @@
   assign terms_url = ''
   if shop.terms_of_service.url != blank
     assign terms_url = shop.terms_of_service.url
+  endif
+  assign refund_url = ''
+  if shop.refund_policy.url != blank
+    assign refund_url = shop.refund_policy.url
   endif
 -%}
 
@@ -105,6 +110,7 @@
                   assign a_text = base | append: '.a_html' | t
                   assign a_text = a_text | replace: '[WITHDRAW_URL]', withdraw_url
                   assign a_text = a_text | replace: '[TERMS_URL]', terms_url
+                  assign a_text = a_text | replace: '[REFUND_URL]', refund_url
                   assign anchor = 'q-' | append: cat | append: '-' | append: key
                 -%}
                 {%- unless q_text contains 'Translation missing' -%}
@@ -180,6 +186,7 @@
         assign a_text = base | append: '.a_html' | t
         assign a_text = a_text | replace: '[WITHDRAW_URL]', withdraw_url
         assign a_text = a_text | replace: '[TERMS_URL]', terms_url
+        assign a_text = a_text | replace: '[REFUND_URL]', refund_url
         assign a_plain = a_text | strip_html | strip | replace: '  ', ' '
       -%}
       {%- unless q_text contains 'Translation missing' -%}

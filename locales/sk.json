@@ -655,7 +655,7 @@
         },
         "returns_send_back": {
           "q": "Môžem niečo vrátiť?",
-          "a_html": "<p>Áno. Máte 14 dní odo dňa, keď vám balík príde, a nemusíte uvádzať dôvod. Použite <a href=\"[WITHDRAW_URL]\">Odstúpiť od zmluvy&nbsp;tu</a> alebo napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Tovar pošlite späť do 14 dní odvtedy, ako nám to oznámite. Poštovné za vrátenie platíte vy. Vrátime vám všetko, čo ste zaplatili, vrátane najlacnejšej bežnej dopravy, ktorú ponúkame, a to do 14 dní.</p>"
+          "a_html": "<p>Áno. Máte 14 dní odo dňa, keď vám balík príde, a nemusíte uvádzať dôvod. Použite <a href=\"[WITHDRAW_URL]\">Odstúpiť od zmluvy&nbsp;tu</a> alebo napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a>. Celé znenie nájdete v našich <a href=\"[REFUND_URL]\">pravidlách vrátenia peňazí</a>.</p><p>Tovar pošlite späť do 14 dní odvtedy, ako nám to oznámite. Poštovné za vrátenie platíte vy. Vrátime vám všetko, čo ste zaplatili, vrátane najlacnejšej bežnej dopravy, ktorú ponúkame, a to do 14 dní.</p>"
         },
         "returns_ebooks": {
           "q": "A čo e-knihy?",
@@ -663,7 +663,7 @@
         },
         "returns_faulty": {
           "q": "Čo ak príde kniha chybná?",
-          "a_html": "<p>Zo zákona zodpovedáme za vady dva roky odo dňa, keď vám tovar príde, a tie isté dva roky platia aj pre e-knihu, počítané odo dňa, keď vám súbor pošleme. Napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a> a opravíme to alebo vymeníme. Ak nepôjde ani jedno, dostanete peniaze späť.</p><p>S rozmyslením si to nesúvisí — to je tých 14 dní vyššie. Oficiálne oznámenie EÚ o týchto právach, ktoré nesmieme nijako meniť, nájdete v našich <a href=\"[TERMS_URL]#legal-guarantee\">obchodných podmienkach, bod&nbsp;10</a>, a pod odkazom <strong>Zákonná záruka</strong> v pätičke každej stránky.</p>"
+          "a_html": "<p>Zo zákona zodpovedáme za vady dva roky odo dňa, keď vám tovar príde, a tie isté dva roky platia aj pre e-knihu, počítané odo dňa, keď vám súbor pošleme. Napíšte na <a href=\"mailto:support@walterin.com\">support@walterin.com</a> a opravíme to alebo vymeníme. Ak nepôjde ani jedno, dostanete peniaze späť.</p><p>S rozmyslením si to nesúvisí — to je tých 14 dní vyššie. Oficiálne oznámenie EÚ o týchto právach, ktoré nesmieme nijako meniť, nájdete v našich <a href=\"[TERMS_URL]#legal-guarantee\">obchodných podmienkach, bod&nbsp;10</a>.</p>"
         },
         "contact_reach": {
           "q": "Ako vás zastihnem?",
@@ -674,6 +674,9 @@
           "a_html": "<p>Walterin s.&nbsp;r.&nbsp;o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto. Je to kancelária, nie predajňa — neposielajte tam prosím vrátený tovar bez toho, aby ste nám najprv napísali.</p>"
         }
       }
+    },
+    "policy": {
+      "on_this_page": "Na tejto stránke"
     },
     "cookies": {
       "preferences": "Nastavenia cookies"

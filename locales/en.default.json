@@ -625,7 +625,7 @@
         },
         "returns_send_back": {
           "q": "Can I send something back?",
-          "a_html": "<p>Yes. You have 14 days from the day the parcel arrives, and you don’t have to give a reason. Use <a href=\"[WITHDRAW_URL]\">Withdraw from contract&nbsp;here</a>, or write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a>.</p><p>Send the item back within 14 days of telling us. You pay the return postage. We refund everything you paid, including the cheapest standard delivery we offer, within 14 days.</p>"
+          "a_html": "<p>Yes. You have 14 days from the day the parcel arrives, and you don’t have to give a reason. Use <a href=\"[WITHDRAW_URL]\">Withdraw from contract&nbsp;here</a>, or write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a>. The full wording is in our <a href=\"[REFUND_URL]\">Refund policy</a>.</p><p>Send the item back within 14 days of telling us. You pay the return postage. We refund everything you paid, including the cheapest standard delivery we offer, within 14 days.</p>"
         },
         "returns_ebooks": {
           "q": "What about eBooks?",
@@ -633,7 +633,7 @@
         },
         "returns_faulty": {
           "q": "What if a book turns up faulty?",
-          "a_html": "<p>By law we are responsible for faults for two years from the day the item reaches you, and the same two years apply to an eBook, counted from the day we send you the file. Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we’ll repair or replace it. If neither of those works, you get your money back.</p><p>This is separate from changing your mind, which is the 14 days above. The official EU notice about these rights, which we are not allowed to alter, is in our <a href=\"[TERMS_URL]#legal-guarantee\">Terms, clause&nbsp;10</a>, and behind <strong>Legal guarantee</strong> at the bottom of every page.</p>"
+          "a_html": "<p>By law we are responsible for faults for two years from the day the item reaches you, and the same two years apply to an eBook, counted from the day we send you the file. Write to <a href=\"mailto:support@walterin.com\">support@walterin.com</a> and we’ll repair or replace it. If neither of those works, you get your money back.</p><p>This is separate from changing your mind, which is the 14 days above. The official EU notice about these rights, which we are not allowed to alter, is in our <a href=\"[TERMS_URL]#legal-guarantee\">Terms, clause&nbsp;10</a>.</p>"
         },
         "contact_reach": {
           "q": "How do I reach you?",
@@ -644,6 +644,9 @@
           "a_html": "<p>Walterin s.&nbsp;r.&nbsp;o., Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia. It’s an office, not a shop — please don’t send returns there without writing to us first.</p>"
         }
       }
+    },
+    "policy": {
+      "on_this_page": "On this page"
     },
     "cookies": {
       "preferences": "Cookie preferences"

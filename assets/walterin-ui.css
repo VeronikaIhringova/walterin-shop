@@ -2109,51 +2109,6 @@
 }
 .wui .footer-block__copyright .copyright__content { opacity: 0.72; }
 
-/* ---- the quiet row under the footer menu ----------------------------------
-   The two consumer-law links live here and nowhere else in the footer: out of
-   the OFFICIAL column, which is for the pages a visitor might actually want,
-   and into their own line in the register that suits them. On every page.
-
-   Quiet, not hidden: same size as the columns, so the row is legible — only
-   its position and its tone are lower. The statutory test for the guarantee is
-   `zreteľným spôsobom`, and shrinking it would be the wrong direction. */
-/* Dawn centres .footer__content-bottom-wrapper and lets its child shrink to
-   its content, which left the row and its rule floating in the middle of the
-   footer, starting under the third column. It has to begin where the columns
-   begin or it reads as a stray caption rather than the footer's last line. */
-.wui .footer__content-bottom-wrapper:has(.wui-footer-legal) {
-  display: block;
-  text-align: left;
-}
-.wui .wui-footer-legal {
-  width: 100%;
-  justify-content: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px var(--wui-space-block, 28px);
-  margin: 0;
-  padding: var(--wui-space-block, 28px) 0 0;
-  border-top: 1px solid rgba(34, 34, 34, 0.14);
-  list-style: none;
-}
-.wui .wui-footer-legal li { margin: 0; }
-.wui .wui-footer-legal a {
-  font-size: var(--wui-footer-size);
-  line-height: var(--wui-footer-line);
-  color: var(--wui-ink);
-  opacity: 0.72;
-  text-decoration: none;
-}
-.wui .wui-footer-legal a:hover { opacity: 1; text-decoration: underline; }
-.wui .wui-footer-legal a:focus-visible {
-  outline: 2px solid var(--wui-ink);
-  outline-offset: 2px;
-  opacity: 1;
-}
-@media screen and (max-width: 749px) {
-  .wui .wui-footer-legal { gap: 10px 20px; }
-}
 
 /* ========================================================================= *
    FAQ — two columns, after rhodeskin.com. Veronka, 7 October 2026.
@@ -2179,7 +2134,7 @@
   top: var(--wui-space-block);
   padding: var(--wui-space-block);
   background: var(--wui-card);
-  border-radius: 10px;
+  border-radius: var(--wui-radius, 10px);
 }
 .wui .wui-faq__nav-title { margin: 0 0 var(--wui-space-heading); }
 .wui .wui-faq__nav-list { display: grid; gap: var(--wui-space-item); margin: 0; padding: 0; }
@@ -2201,22 +2156,26 @@
 /* ---- the questions ---- */
 .wui .wui-faq__panel { display: grid; gap: var(--wui-space-section); }
 .wui .wui-faq__group { scroll-margin-top: var(--wui-space-section); }
+/* The category heading is a heading, not a ruled band. The rule under it was
+   invented for this page and the site has no other like it; the accordion
+   component already draws the only line this list needs. WalterinBold here and
+   nowhere else on the page (Veronka, 7 Oct 2026). */
 .wui .wui-faq__group-title {
   margin: 0 0 var(--wui-space-heading);
-  padding-bottom: var(--wui-space-heading);
-  border-bottom: var(--wui-line-thin) solid var(--wui-ink);
 }
-/* The category heading already draws the line that opens the group, and the
-   first accordion draws its own: two parallel rules, 2px apart. The heading's
-   wins, because it is the one that belongs to the group. */
-.wui .wui-faq__group .wui-accordions > .wui-accordion:first-child { border-top: 0; }
+/* The question is an <h3> so the page has a real outline, and it must NOT look
+   like a heading: body font, for legibility over twenty-one rows (Veronka,
+   7 Oct 2026). WalterinBold is for the category headings and nothing else here.
 
+   !important is needed and is not laziness: the theme sets
+   `font-family: var(--wui-display) !important` on h1–h5, so the moment the
+   question became an h3 it silently turned into WalterinBold. An !important
+   can only be beaten by another one. */
 .wui .wui-faq__q {
-  /* It is an <h3> for the outline's sake; it must not inherit heading size. */
   margin: 0;
   letter-spacing: 0;
   text-transform: none;
-  font-family: var(--wui-body);
+  font-family: var(--wui-body) !important;
   font-weight: 600;
   font-size: var(--wui-footer-size);
   line-height: 1.4;
@@ -2360,6 +2319,16 @@
 
 /* Payment icons, at the foot of the footer and above the legal row. */
 .wui .wui-footer-payment { padding-top: var(--wui-space-block); }
+
+/* The thin line was the legal row's border-top: full page width, directly
+   under the icons. The row is gone, so the line moves to the WRAPPER, which is
+   the page-width element — putting it on the icon strip itself made it shrink
+   to the width of the icons. Same place, same width, same colour; the icons
+   keep their own centring, size and spacing untouched. */
+.wui .wui-footer-paywrap {
+  padding-bottom: var(--wui-space-block);
+  border-bottom: 1px solid rgba(34, 34, 34, 0.14);
+}
 .wui .wui-footer-payment .list-payment {
   display: flex;
   flex-wrap: wrap;

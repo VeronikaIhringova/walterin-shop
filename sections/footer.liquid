@@ -143,11 +143,10 @@
                         {%- endcomment -%}
 
                         {%- comment -%}
-                          The legal guarantee and the withdrawal link are NOT here. They sit in
-                          their own quiet row under the whole footer menu (Veronka, 7 Oct 2026):
-                          the OFFICIAL column is for pages a visitor might actually want, and two
-                          consumer-law links among them made the column read as a legal notice.
-                          Search for wui-footer-legal below.
+                          The legal guarantee and the withdrawal link are NOT in the footer at
+                          all (Veronka, 7 Oct 2026) — not in this column and not in the strip
+                          below. They live in the FAQ's Returns category, in the Refund policy and
+                          in Terms clause 10. See the comment above the payment strip.
                         {%- endcomment -%}
 
                         {%- if block.settings.show_cookie_preferences -%}
@@ -390,7 +389,7 @@
       not switched on.
     {%- endcomment -%}
     {%- if section.settings.payment_enable -%}
-      <div class="footer__content-bottom-wrapper page-width">
+      <div class="footer__content-bottom-wrapper page-width wui-footer-paywrap">
         <div class="wui-footer-payment">
           <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
           <ul class="list list-payment list-unstyled" role="list">
@@ -410,22 +409,22 @@
       </div>
     {%- endif -%}
 
-    <div class="footer__content-bottom-wrapper page-width">
-      <ul class="wui-footer-legal list-unstyled">
-        <li>{%- render 'wui-legal-guarantee-dialog' -%}</li>
-        <li>
-          {%- comment -%}
-            "here" must not be left alone on a line — a one-word last line reads as a mistake and
-            the word carrying the link would be the orphan. The no-break space glues it to the
-            word before it; the wording itself is unchanged (Veronka).
-          {%- endcomment -%}
-          {%- assign withdraw_label = 'walterin.withdrawal.link' | t -%}
-          <a href="{{ routes.root_url | append: '/pages/withdrawal' | replace: '//', '/' }}">
-            {%- render 'wui-tail-nbsp', text: withdraw_label -%}
-          </a>
-        </li>
-      </ul>
-    </div>
+    {%- comment -%}
+      The legal row is gone (Veronka, 7 Oct 2026). "Legal guarantee" and "Withdraw from contract
+      here" are NOT in the footer at all any more — not here, not in a column.
+
+      They live where a customer is already reading about the thing they describe:
+        · the guarantee  -> FAQ "Returns, refunds and guarantee", and Terms clause 10
+        · withdrawal     -> FAQ "Returns, refunds and guarantee", and the Refund policy, which
+                            carries the "Withdraw from contract here" wording in clause 1.1
+
+      Both are reachable from the footer in one more click, through FAQ and Terms, which the
+      OFFICIAL column lists. Before putting either back here, read
+      docs/legal/legal-guarantee-placement-research.md — § 5(1)(f) is why this keeps moving.
+
+      The payment strip above keeps its own rule, which is the line that used to belong to this
+      row, in the same place and the same colour.
+    {%- endcomment -%}
       </div>
     </div>
   </div>
