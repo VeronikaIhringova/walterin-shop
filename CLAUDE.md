@@ -73,6 +73,31 @@ languages** — on a phone the lines are shorter but still paragraphs. Use `text
 `<span>`, so use `<br>` and no-break spaces there. Run `python3 tools/check-line-breaks.py` before
 showing any text.
 
+## Ask before changing anything visual (mandatory, from 7 Oct 2026)
+
+**If Veronka did not ask for a visual change, do not make it. Ask first, and show the options.**
+
+This covers **size, width, shape, colour, layout, spacing and wording** — on any surface, in either
+language, however small the change looks.
+
+- **"It looked better to me" is not a reason to do it.** It is a reason to *propose* it.
+- **Applies inside work she did ask for.** Being told to fix the card bottoms is not permission to
+  change the shape of the pill above them.
+- **Applies to reversals too.** If an instruction from a previous day now seems wrong, say so and ask
+  — do not quietly overrule it with a newer idea.
+- **When an instruction is ambiguous, ask rather than pick.** Two readings of "the same padding" are
+  two different designs, and guessing costs a redo.
+- **Show the options, with the numbers.** Not a description of what might be done — the actual
+  choices, side by side, so she can decide by looking.
+
+The reason, in her words: *so we don't have to redo things.* An unrequested change costs two rounds
+— one to notice it, one to undo it — and it buries the change she actually wanted underneath one she
+did not.
+
+This does not cut against the Creative Mandate below. Propose freely, invent freely, argue for the
+stronger idea. **Proposing is the job; deciding is not.** The line is whether it ships without her
+word, not whether it gets suggested.
+
 ## Hard Constraints
 - **Comics Tarot of Consciousness is a product, not a therapy tool.** Never frame it through Jungian, psychological, or self-help language. It is illustration, story, and collectible — first.
 - **Walter has strong personal preferences.** When a creative suggestion conflicts with what is provably more market-effective, flag the conflict clearly and explain both sides — don't quietly override either way.
@@ -81,6 +106,12 @@ showing any text.
 
 ## Creative Mandate
 When something is unclear — propose. Invent. Suggest. Veronka needs a creative collaborator, not a prompt executor. If you see a stronger angle than the one being asked for, say it. If something is missing — make the best creative call and flag it. Don't stop and ask.
+
+**Read this with the rule above, not against it.** The mandate is about *ideas*: bring them, argue
+for them, don't wait to be asked. It is not a licence to ship a visual change she did not ask for.
+"Make the best creative call and flag it" applies to copy drafts, structure and strategy — where a
+proposal is the deliverable. For anything visual that is already built and agreed, the call goes to
+her first.
 
 ## Reference Documents in This Folder
 Use these based on the task. They are the source of truth — read the relevant one before writing copy or making strategy calls.

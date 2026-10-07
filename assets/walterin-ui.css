@@ -1598,8 +1598,17 @@
 
 /* A phone has no hover, so the bar would never arrive. It is simply always
    there — see docs/design/PRODUCT-CARD-SYSTEM.md for why this is the chosen
-   answer rather than a tap-to-reveal. */
-@media (hover: none) {
+   answer rather than a tap-to-reveal.
+
+   Width as well as hover. `(hover: none)` alone was the whole test, and it let
+   the bar hide at rest in any browser that reports a pointer — which includes a
+   desktop window dragged narrow, and that is exactly where the pill was seen to
+   "appear and disappear" at phone sizes (Veronka, 7 Oct 2026).
+
+   The comma is OR: no hover at all, OR a viewport no wider than a tablet.
+   1024px is an iPad in portrait; an iPad in landscape is 1366 and is caught by
+   `hover: none` instead. Above both, the bar still waits for the reach. */
+@media (hover: none), screen and (max-width: 1024px) {
   .wui .wui-cl__bar {
     opacity: 1;
     transform: none;
@@ -1617,7 +1626,10 @@
 .wui .card-wrapper:focus-within .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover {
   display: block;
 }
-@media (hover: none) {
+/* The same test as the bar's own visibility, for the same reason: a sold-out
+   card on a tablet would otherwise sit there saying "Sold out" and offer the
+   bell only to a hover that is never coming. */
+@media (hover: none), screen and (max-width: 1024px) {
   .wui .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label { display: none; }
   .wui .wui-cl__bar[data-wui-card-state='sold_out'] .wui-cl__label--hover { display: block; }
 }
@@ -1853,14 +1865,6 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 1.25;
-    /* The bar hugs its words rather than spanning the card. Stretched across a
-       full-width card — layouts B and D — a pill holding "Coming soon" in the
-       middle of 340px reads as an empty input field, not as a label. Hugging
-       also does what "slimmer and smaller" asks for on the narrow layouts,
-       where the pill stops being the widest thing on the artwork. */
-    width: fit-content;
-    max-width: calc(100% - 20px);
-    margin-inline: auto;
   }
   .wui .product-grid .wui-cl__pill {
     top: 7px;

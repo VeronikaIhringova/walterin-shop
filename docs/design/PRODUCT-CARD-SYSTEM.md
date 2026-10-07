@@ -264,16 +264,45 @@ every title to fit two lines, and the date to fit the pill on one line.
 **Queued, not built:** a customer-facing toggle between this and two-per-row, the way a shop offers
 grid or list. Post-launch — see the plan.
 
-### The bar hugs its words
+### The bar spans the card, at a smaller scale on a phone
 
-On a phone the bar is `width: fit-content`, centred, rather than inset to the card's edges. Stretched
-across a full-width card, a pill holding "Coming soon" in the middle of 340px reads as an empty input
-field rather than a label. It also does what "slimmer and smaller" asks: the pill stops being the
-widest thing on the artwork. Phone bar: `34px` tall at `12px`, against `48px` at `14px` on a desk.
+**Decided 7 October 2026 (Veronka): full width everywhere, never hugging its text.** The bar is
+inset from the card's left and right edges at every size; only the numbers change.
+
+| | Phone (≤ 749px) | Desk |
+|---|---|---|
+| Inset left / right | `10px` | `14px` |
+| Height | `34px` | `48px` |
+| Padding | `7px 12px` | `12px 18px` |
+| Type | `12px` | `14px` |
+
+The same object at a smaller scale, not a different shape. **A hugging, content-width pill was tried
+and rejected** — it was never asked for, and it made the bar read as a label floating on the artwork
+rather than the control it is.
 
 **Keyed to the phone as well as to the card width.** A full-width card on a 390px phone is 360px —
 wide by the container's measure, still a phone by the hand holding it — so the media query has the
 final say over the container query here.
+
+### The bar never disappears on a phone or a tablet
+
+**Fixed 7 October 2026.** Visibility used to be decided by `@media (hover: none)` and nothing else,
+so any browser that reports a pointer hid the bar at rest — **including a desktop window dragged to
+phone width**, which is where the pill was seen to "appear and disappear".
+
+```css
+@media (hover: none), screen and (max-width: 1024px) { /* always visible */ }
+```
+
+The comma is OR: no hover at all, **or** a viewport no wider than a tablet. 1024px is an iPad in
+portrait; an iPad in landscape is 1366 and is caught by `hover: none`. Above both, the bar still
+waits for the reach.
+
+**The sold-out wording follows the same test**, or a sold-out card on a tablet would sit there saying
+"Sold out" and offer the bell only to a hover that is never coming.
+
+**Testing this needs both.** Touch emulation alone would have passed the broken version: the fault
+only shows with a pointer present at a small width. Every check runs with touch *and* without.
 
 ### The card itself
 
@@ -340,6 +369,8 @@ through the design system's existing blanket rule.
 - The product page pill sits in the **price row** (placement B), not above the email field.
 - **The name leads, the price supports** — everywhere a card appears (7 Oct).
 - **One card per row on a phone**; natural heights there, equal heights on a desk (7 Oct).
+- **The bar spans the card at every size** — slimmer on a phone, never hugging its text (7 Oct).
+- **The bar never hides at or below 1024px**, hover or no hover (7 Oct).
 
 **Still open**
 
