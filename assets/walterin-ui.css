@@ -2128,13 +2128,18 @@
 }
 
 /* ---- the category list ---- */
+/* No panel on a desk. The card's own padding pushed the category list 32px in
+   from the page edge while the title and the questions started at it, so the
+   menu read as floating rather than as the page's left column. It is a list,
+   aligned with everything else (Veronka, 8 Oct 2026) — and dropping the panel
+   also drops a component this page had invented for itself.
+   The phone keeps its chips, which are the card pill and belong to the system. */
 .wui .wui-faq__nav {
   position: sticky;
   /* Clear of the site header, which is sticky too. */
   top: var(--wui-space-block);
-  padding: var(--wui-space-block);
-  background: var(--wui-card);
-  border-radius: var(--wui-radius, 10px);
+  padding: 0;
+  background: none;
 }
 .wui .wui-faq__nav-title { margin: 0 0 var(--wui-space-heading); }
 .wui .wui-faq__nav-list { display: grid; gap: var(--wui-space-item); margin: 0; padding: 0; }
@@ -2317,25 +2322,24 @@
   .wui .wui-policy__nav-list { gap: var(--wui-space-item); }
 }
 
-/* Payment icons, at the foot of the footer and above the legal row. */
-.wui .wui-footer-payment { padding-top: var(--wui-space-block); }
 
-/* The thin line was the legal row's border-top: full page width, directly
-   under the icons. The row is gone, so the line moves to the WRAPPER, which is
-   the page-width element — putting it on the icon strip itself made it shrink
-   to the width of the icons. Same place, same width, same colour; the icons
-   keep their own centring, size and spacing untouched. */
-.wui .wui-footer-paywrap {
-  padding-bottom: var(--wui-space-block);
-  border-bottom: 1px solid rgba(34, 34, 34, 0.14);
-}
-.wui .wui-footer-payment .list-payment {
+/* ---- Questions about this product -----------------------------------------
+   The FAQ page's rows, on a product page. Only the head differs: a heading and
+   the way out to the full FAQ, on one line. */
+.wui .wui-product-faq__head {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--wui-space-item);
-  margin: 0;
-  padding: 0;
-  justify-content: flex-start;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wui-space-item) var(--wui-space-block);
+  margin: 0 0 var(--wui-space-heading);
 }
-.wui .wui-footer-payment .list-payment__item { display: flex; }
-.wui .wui-footer-payment .list-payment__item svg { height: 24px; width: auto; display: block; }
+.wui .wui-product-faq__title { margin: 0; }
+.wui .wui-product-faq__all {
+  font-size: var(--wui-footer-size);
+  line-height: 1.4;
+  color: var(--wui-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.wui .wui-product-faq__all:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 3px; }

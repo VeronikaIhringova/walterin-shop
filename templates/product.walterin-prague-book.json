@@ -31,64 +31,8 @@
       }
     },
     "faq": {
-      "type": "walterin-faq",
-      "blocks": {
-        "q_ship": {
-          "type": "question",
-          "settings": {
-            "heading": "Where do you send it, and when?",
-            "text": "<p>Anything digital arrives by email the moment you pay.</p><p>Everything printed we send across the European Union. If a product is still being prepared, we write to everyone on its list when it is ready, and the delivery time is shown before you pay.</p>"
-          }
-        },
-        "q_return": {
-          "type": "question",
-          "settings": {
-            "heading": "Can I send it back?",
-            "text": "<p>Yes. You can withdraw within 14 days without giving a reason, using the form in the footer of every page.</p><p>One exception for anything digital: if you agreed that we could send it straight away and confirmed that you were giving up the right to withdraw, it can no longer be returned. Everything else is in the refund policy.</p>"
-          }
-        },
-        "q_pay": {
-          "type": "question",
-          "settings": {
-            "heading": "What can I pay with?",
-            "text": "<p>Visa, Mastercard, American Express, and Apple Pay or Google Pay.</p><p>The payment is handled by our payment provider — your card number never reaches us.</p>"
-          }
-        },
-        "q_real": {
-          "type": "question",
-          "settings": {
-            "heading": "Is this original work?",
-            "text": "<p>Yes. Walter Ihring draws it and we publish it. Nothing here is somebody else’s work with a new cover on it.</p>"
-          }
-        },
-        "q_back": {
-          "type": "question",
-          "settings": {
-            "heading": "What if it is sold out?",
-            "text": "<p>Leave your email on the product and we write once, when it is back. No newsletter unless you ask for one.</p>"
-          }
-        },
-        "q_help": {
-          "type": "question",
-          "settings": {
-            "heading": "How do I reach a person?",
-            "text": "<p>support@walterin.com, or +421 905 549 907 on working days between 9:00 and 17:00 (CET).</p><p>We’ll get back to you as soon as we can.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q_ship",
-        "q_return",
-        "q_pay",
-        "q_real",
-        "q_back",
-        "q_help"
-      ],
-      "settings": {
-        "title": "Questions",
-        "lead": "How buying from us works.",
-        "foot": "<p>The full rules are in the <a href=\"/policies/refund-policy\">refund policy</a> and the <a href=\"/policies/terms-of-service\">terms</a>.</p>"
-      }
+      "type": "walterin-product-faq",
+      "settings": {}
     },
     "related": {
       "type": "featured-collection",

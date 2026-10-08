@@ -1,0 +1,93 @@
+{% comment %}
+  Walterin · Questions about THIS product.
+
+  Replaces the general FAQ that used to sit on every product page (Veronka,
+  8 Oct 2026). "Where do you send it", "What can I pay with" and "Can I send it
+  back" are the same answers on all three pages and they belong on /pages/faq —
+  a product page should answer the things you want to know before buying THAT
+  thing, and then get out of the way.
+
+  Same component as the FAQ page: the accordion, WalterinBold for the heading,
+  the question in body text. No new design objects.
+
+  The questions are chosen per product handle below, and their words live in
+  locales/*.json under walterin.product_faq, for the same reason the FAQ page's
+  do: the Slovak is versioned with the theme and cannot be half-written.
+
+  ONLY TRUE FACTS. Every answer here is checked against
+  docs/WALTERIN-GROUND-TRUTH.md — 80 cards in the box, 84 × 138 mm, 180 pages,
+  129 × 207 mm softcover, 30 stickers on two sheets — or against the Terms
+  (six downloads, no DRM). No quantities, no stock, nothing about an edition
+  size. A product with no entry below renders nothing at all, which is the
+  correct behaviour: silence beats an invented answer.
+{% endcomment %}
+
+{%- liquid
+  assign handle = product.handle
+  assign keys = ''
+  case handle
+    when 'tarot'
+      assign keys = 'box,lang,size,know'
+    when 'walterin-prague'
+      assign keys = 'formats,ebook,lang,pages'
+    when 'stickers'
+      comment
+        One question, because one fact is all we have. Veronka, 8 Oct: "only
+        what we know (30 stickers on two sheets), nothing invented."
+      endcomment
+      assign keys = 'what'
+  endcase
+-%}
+
+{%- if keys != blank -%}
+  {%- assign key_list = keys | split: ',' -%}
+  <div class="wui-scope wui-faq wui-product-faq">
+    <div class="wui-wrap">
+      <div class="wui-product-faq__head">
+        <h2 class="wui-product-faq__title wui-label">{{ 'walterin.product_faq.title' | t }}</h2>
+        <a class="wui-product-faq__all" href="{{ routes.root_url | append: '/pages/faq' | replace: '//', '/' }}">
+          {{- 'walterin.product_faq.all' | t -}}
+        </a>
+      </div>
+
+      <div class="wui-accordions">
+        {%- for key in key_list -%}
+          {%- liquid
+            assign base = 'walterin.product_faq.q.' | append: handle | append: '_' | append: key
+            assign q_text = base | append: '.q' | t
+            assign a_text = base | append: '.a_html' | t
+            assign anchor = 'pq-' | append: handle | append: '-' | append: key
+          -%}
+          {%- unless q_text contains 'Translation missing' -%}
+            <details class="wui-accordion" id="{{ anchor }}" data-wui-acc>
+              <summary>
+                <span class="wui-accordion__title">
+                  <h3 class="wui-faq__q">{{ q_text }}</h3>
+                </span>
+                <span class="wui-accordion__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="wui-accordion__wrap">
+                <div class="wui-accordion__body wui-rte">{{ a_text }}</div>
+              </div>
+            </details>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product questions",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Three to five questions about this product only. Which questions appear is chosen by product handle in the section file; the words are in the theme's language files under walterin.product_faq. A product with no entry shows nothing. The general questions — shipping, payment, returns — live on the FAQ page, which this section links to."
+    }
+  ],
+  "presets": [{ "name": "Product questions" }]
+}
+{% endschema %}

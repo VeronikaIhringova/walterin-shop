@@ -546,6 +546,48 @@
       "in_terms": "The same notice in our Terms, clause 10",
       "digital": "For eBooks we are liable for defects for 24 months from the day the file is supplied. Write to support@walterin.com."
     },
+    "product_faq": {
+      "title": "Questions about this one",
+      "all": "All questions",
+      "q": {
+        "tarot_box": {
+          "q": "What is in the box?",
+          "a_html": "<p>Eighty cards: the 78 tarot cards — 22 Major and 56 Minor Arcana — plus two extra. They come in a tuck box.</p>"
+        },
+        "tarot_lang": {
+          "q": "What language is it in?",
+          "a_html": "<p>English or Slovak, whichever you pick. The cards speak in pictures first; the captions and the two extra cards are in the language you choose.</p>"
+        },
+        "tarot_size": {
+          "q": "How big are the cards?",
+          "a_html": "<p>84 × 138&nbsp;mm, printed in full colour.</p>"
+        },
+        "tarot_know": {
+          "q": "Do I need to know tarot?",
+          "a_html": "<p>No. It works the same whether this is your first deck or you read every day.</p>"
+        },
+        "walterin-prague_formats": {
+          "q": "What is the difference between the digital and the printed edition?",
+          "a_html": "<p>The digital edition is two files you read on a screen, and it arrives by email. The printed edition is a softcover book, 129 × 207&nbsp;mm, full colour, and it comes by post.</p>"
+        },
+        "walterin-prague_ebook": {
+          "q": "What do I get with the eBook?",
+          "a_html": "<p>A PDF and an EPUB — both, every time. Six downloads in total between the two files, and no copy protection, so they open in any reader on as many of your own devices as you like.</p>"
+        },
+        "walterin-prague_lang": {
+          "q": "What language is it in?",
+          "a_html": "<p>English or Czech, whichever you pick.</p>"
+        },
+        "walterin-prague_pages": {
+          "q": "How long is it?",
+          "a_html": "<p>180 pages.</p>"
+        },
+        "stickers_what": {
+          "q": "What do I get?",
+          "a_html": "<p>Thirty stickers on two sheets.</p>"
+        }
+      }
+    },
     "faq": {
       "heading": "Frequently asked questions",
       "nav_label": "FAQ categories",

@@ -576,6 +576,48 @@
       "in_terms": "To isté oznámenie v našich obchodných podmienkach, bod 10",
       "digital": "Pri e-knihách zodpovedáme za vady 24 mesiacov odo dňa dodania súboru. Napíšte nám na support@walterin.com."
     },
+    "product_faq": {
+      "title": "Otázky k tomuto kúsku",
+      "all": "Všetky otázky",
+      "q": {
+        "tarot_box": {
+          "q": "Čo je v krabičke?",
+          "a_html": "<p>Osemdesiat kariet: 78 tarotových — 22 veľkej a 56 malej arkány — a k tomu dve navyše. Sú v zasúvacej krabičke.</p>"
+        },
+        "tarot_lang": {
+          "q": "V akom jazyku to je?",
+          "a_html": "<p>Po slovensky alebo po anglicky, podľa toho, čo si vyberiete. Karty hovoria najskôr obrazom; popisky a dve karty navyše sú v jazyku, ktorý zvolíte.</p>"
+        },
+        "tarot_size": {
+          "q": "Aké veľké sú karty?",
+          "a_html": "<p>84 × 138&nbsp;mm, tlačené plnofarebne.</p>"
+        },
+        "tarot_know": {
+          "q": "Musím vedieť vykladať tarot?",
+          "a_html": "<p>Nie. Funguje to rovnako, či je to váš prvý balíček, alebo vykladáte každý deň.</p>"
+        },
+        "walterin-prague_formats": {
+          "q": "Aký je rozdiel medzi digitálnym a tlačeným vydaním?",
+          "a_html": "<p>Digitálne vydanie sú dva súbory, ktoré čítate na obrazovke, a príde e-mailom. Tlačené vydanie je kniha v mäkkej väzbe, 129 × 207&nbsp;mm, plnofarebná, a príde poštou.</p>"
+        },
+        "walterin-prague_ebook": {
+          "q": "Čo dostanem s e-knihou?",
+          "a_html": "<p>PDF aj EPUB — vždy oba. Spolu šesť stiahnutí dokopy za oba súbory a žiadna ochrana proti kopírovaniu, takže sa otvoria v ktorejkoľvek čítačke na toľkých vašich zariadeniach, koľko chcete.</p>"
+        },
+        "walterin-prague_lang": {
+          "q": "V akom jazyku to je?",
+          "a_html": "<p>Po anglicky alebo po česky, podľa toho, čo si vyberiete.</p>"
+        },
+        "walterin-prague_pages": {
+          "q": "Aké je to dlhé?",
+          "a_html": "<p>180 strán.</p>"
+        },
+        "stickers_what": {
+          "q": "Čo dostanem?",
+          "a_html": "<p>Tridsať nálepiek na dvoch hárkoch.</p>"
+        }
+      }
+    },
     "faq": {
       "heading": "Časté otázky",
       "nav_label": "Kategórie častých otázok",

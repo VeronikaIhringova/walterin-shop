@@ -383,48 +383,194 @@
       The language and country selectors above are untouched.
     {%- endcomment -%}
     {%- comment -%}
-      Payment icons are back, at the foot of the footer (Veronka, 7 Oct 2026). They belong with
-      the legal row rather than in a column: they are reassurance at the end of the page, not a
-      list anyone navigates. shop.enabled_payment_types, so the row cannot claim a method that is
-      not switched on.
+      No payment strip here. The icons are in the info column above, exactly as on live — a second
+      row of them was added on 7 Oct and removed again the same day, because it changed the
+      spacing of a strip Veronka wanted left alone. The hairline above this point is
+      .footer__content-bottom's own border, 1px rgba(34,34,34,.08), full bleed: also live's.
     {%- endcomment -%}
-    {%- if section.settings.payment_enable -%}
-      <div class="footer__content-bottom-wrapper page-width wui-footer-paywrap">
-        <div class="wui-footer-payment">
-          <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-          <ul class="list list-payment list-unstyled" role="list">
-            {%- liquid
-              assign enabled_payment_types = shop.enabled_payment_types
-              if section.settings.enabled_payment_types != blank
-                assign enabled_payment_types = section.settings.enabled_payment_types | remove: ' ' | split: ','
-              endif
-            -%}
-            {%- for type in enabled_payment_types -%}
-              <li class="list-payment__item">
-                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </div>
+
+    <div class="footer__content-bottom-wrapper page-width">
+      <div class="footer__column footer__localization isolate">
+        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+          <noscript>
+            {%- form 'localization', id: 'FooterCountryFormNoScript', class: 'localization-form' -%}
+              <div class="localization-form__select">
+                <h2 class="visually-hidden" id="FooterCountryLabelNoScript">{{ 'localization.country_label' | t }}</h2>
+                <select
+                  class="localization-selector link"
+                  name="country_code"
+                  aria-labelledby="FooterCountryLabelNoScript"
+                >
+                  {%- for country in localization.available_countries -%}
+                    <option
+                      value="{{ country.iso_code }}"
+                      {%- if country.iso_code == localization.country.iso_code %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ country.name }} ({{ country.currency.iso_code }}
+                      {{ country.currency.symbol }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+                {% render 'icon-caret' %}
+              </div>
+              <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
+            {%- endform -%}
+          </noscript>
+          <localization-form>
+            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+              <div class="no-js-hidden">
+                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                <div class="disclosure">
+                  <button
+                    type="button"
+                    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
+                    aria-expanded="false"
+                    aria-controls="FooterCountryList"
+                    aria-describedby="FooterCountryLabel"
+                  >
+                    {{ localization.country.name }} ({{ localization.country.currency.iso_code }}
+                    {{ localization.country.currency.symbol }})
+                    {% render 'icon-caret' %}
+                  </button>
+                  <div class="disclosure__list-wrapper" hidden>
+                    <ul id="FooterCountryList" role="list" class="disclosure__list list-unstyled">
+                      {%- for country in localization.available_countries -%}
+                        <li class="disclosure__item" tabindex="-1">
+                          <a
+                            class="link link--text disclosure__link caption-large{% if country.iso_code == localization.country.iso_code %} disclosure__link--active{% endif %} focus-inset"
+                            href="#"
+                            {% if country.iso_code == localization.country.iso_code %}
+                              aria-current="true"
+                            {% endif %}
+                            data-value="{{ country.iso_code }}"
+                          >
+                            {{ country.name }}
+                            <span class="localization-form__currency"
+                              >({{ country.currency.iso_code }}
+                              {{ country.currency.symbol }})</span
+                            >
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                </div>
+                <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          <noscript>
+            {%- form 'localization', id: 'FooterLanguageFormNoScript', class: 'localization-form' -%}
+              <div class="localization-form__select">
+                <h2 class="visually-hidden" id="FooterLanguageLabelNoScript">
+                  {{ 'localization.language_label' | t }}
+                </h2>
+                <select
+                  class="localization-selector link"
+                  name="locale_code"
+                  aria-labelledby="FooterLanguageLabelNoScript"
+                >
+                  {%- for language in localization.available_languages -%}
+                    <option
+                      value="{{ language.iso_code }}"
+                      lang="{{ language.iso_code }}"
+                      {%- if language.iso_code == localization.language.iso_code %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ language.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                {% render 'icon-caret' %}
+              </div>
+              <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
+            {%- endform -%}
+          </noscript>
+
+          <localization-form>
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div class="no-js-hidden">
+                <h2 class="caption-large text-body" id="FooterLanguageLabel">
+                  {{ 'localization.language_label' | t }}
+                </h2>
+                <div class="disclosure">
+                  <button
+                    type="button"
+                    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
+                    aria-expanded="false"
+                    aria-controls="FooterLanguageList"
+                    aria-describedby="FooterLanguageLabel"
+                  >
+                    {{ localization.language.endonym_name | capitalize }}
+                    {% render 'icon-caret' %}
+                  </button>
+                  <div class="disclosure__list-wrapper" hidden>
+                    <ul id="FooterLanguageList" role="list" class="disclosure__list list-unstyled">
+                      {%- for language in localization.available_languages -%}
+                        <li class="disclosure__item" tabindex="-1">
+                          <a
+                            class="link link--text disclosure__link caption-large{% if language.iso_code == localization.language.iso_code %} disclosure__link--active{% endif %} focus-inset"
+                            href="#"
+                            hreflang="{{ language.iso_code }}"
+                            lang="{{ language.iso_code }}"
+                            {% if language.iso_code == localization.language.iso_code %}
+                              aria-current="true"
+                            {% endif %}
+                            data-value="{{ language.iso_code }}"
+                          >
+                            {{ language.endonym_name | capitalize }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                </div>
+                <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
       </div>
-    {%- endif -%}
+      <div class="footer__column footer__column--info">
+        {%- if section.settings.payment_enable -%}
+          <div class="footer__payment">
+            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+            <ul class="list list-payment" role="list">
+              {% assign enabled_payment_types = shop.enabled_payment_types %}
+              {% if section.settings.enabled_payment_types != blank %}
+                {% assign enabled_payment_types = section.settings.enabled_payment_types | remove: ' ' | split: ',' %}
+              {% endif %}
 
-    {%- comment -%}
-      The legal row is gone (Veronka, 7 Oct 2026). "Legal guarantee" and "Withdraw from contract
-      here" are NOT in the footer at all any more — not here, not in a column.
+              {%- for type in enabled_payment_types -%}
+                <li class="list-payment__item">
+                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
+      {%- comment -%}
+        The copyright row is empty on purpose and so renders nothing.
 
-      They live where a customer is already reading about the thing they describe:
-        · the guarantee  -> FAQ "Returns, refunds and guarantee", and Terms clause 10
-        · withdrawal     -> FAQ "Returns, refunds and guarantee", and the Refund policy, which
-                            carries the "Withdraw from contract here" wording in clause 1.1
+        · the © line moved into the SUPPORT column (Veronka, 7 Oct) and is not repeated here;
+        · Privacy, Terms and Refunds duplicated the OFFICIAL column;
+        · "Legal guarantee" and "Withdraw from contract here" are not in the footer at all
+          (Veronka, 7 Oct) — they are in the FAQ's Returns category, the Refund policy and
+          Terms clause 10.
 
-      Both are reachable from the footer in one more click, through FAQ and Terms, which the
-      OFFICIAL column lists. Before putting either back here, read
-      docs/legal/legal-guarantee-placement-research.md — § 5(1)(f) is why this keeps moving.
-
-      The payment strip above keeps its own rule, which is the line that used to belong to this
-      row, in the same place and the same colour.
-    {%- endcomment -%}
+        Everything above this — the language and country selectors, the payment icons in the info
+        column, and this wrapper's own hairline — is live's markup untouched, so the strip keeps
+        live's spacing exactly.
+      {%- endcomment -%}
       </div>
     </div>
   </div>
