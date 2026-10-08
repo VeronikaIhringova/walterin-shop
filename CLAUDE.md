@@ -73,6 +73,43 @@ languages** — on a phone the lines are shorter but still paragraphs. Use `text
 `<span>`, so use `<br>` and no-break spaces there. Run `python3 tools/check-line-breaks.py` before
 showing any text.
 
+## The device matrix (mandatory, from 8 Oct 2026)
+
+**Every visual change is checked at all of these before Veronka sees it**, in **Safari (WebKit) and
+Chrome (Chromium)**, in **EN and SK**:
+
+| | Width × height | Why it is in the list |
+|---|---|---|
+| Phone | 360 × 800 | the narrowest real Android |
+| Phone | 390 × 844 | iPhone, the commonest visitor |
+| Phone | 430 × 932 | iPhone Pro Max |
+| **Tablet portrait** | **768 × 1024** | iPad |
+| **Tablet portrait** | **1024 × 1366** | iPad Pro — **the one that keeps breaking** |
+| **Tablet landscape** | **1024 × 768** | iPad rotated |
+| **Tablet landscape** | **1366 × 1024** | iPad Pro rotated |
+| Desk | 1440 × 900 | the design target |
+
+**Tablets are not wide phones and not narrow desks.** Both tablet bugs found on 8 Oct lived only
+between 990 and 1300: a breakpoint set at the width where columns first *fit* rather than the width
+where they are *readable*, and a fixed-width row that happened to fit above 1300. Neither is visible
+at 390 or at 1440, which is exactly why they survived weeks of checking.
+
+**Rotate.** 1024 × 1366 and 1366 × 1024 are the same device and behaved completely differently; one
+was fine and the other collapsed the text to one character per line.
+
+### Three rules for the checking itself
+
+1. **Emulate touch on phones and tablets.** `has_touch`, and `is_mobile` in Chromium. A desktop
+   browser dragged narrow still reports `hover`, so `@media (hover: none)` never fires and a bug
+   that only appears with a pointer at a small width hides from a touch-emulated run — and the
+   reverse. The pill that "appeared and disappeared" was exactly this. **Run both.**
+2. **A screenshot proves what it was taken after.** Shots taken before the last edit have twice
+   shown a problem as fixed when it was not. Re-shoot after the final change, every time.
+3. **When hunting an overflow, ignore anything inside a scrolling ancestor.** A slider's slides sit
+   thousands of pixels to the right by design and will be the top "offender" in any naive sort. The
+   cart drawer is parked off-page at every width and is never the cause. Walk up from each
+   candidate and skip it if an ancestor has `overflow-x: auto | scroll | hidden | clip`.
+
 ## Ask before changing anything visual (mandatory, from 7 Oct 2026)
 
 **If Veronka did not ask for a visual change, do not make it. Ask first, and show the options.**

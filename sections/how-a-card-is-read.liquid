@@ -285,7 +285,7 @@
    column of 99px — three words to a line, and clipping as soon as the reader has text scaling on.
    Now the note keeps the room and the card gives way, which is the right priority: the note is
    what you read, the card is what it points at. */
-@media (max-width: 989px) {
+@media (max-width: 1249px) {
   .wui .wui-read__grid {
     grid-template-columns: minmax(0, 1fr) clamp(12px, 5vw, 34px) clamp(88px, 26vw, 132px);
     gap: var(--wui-16) 0;
@@ -298,19 +298,55 @@
   .wui .wui-read__note :is(.wui-read__cap, .wui-read__why, .wui-read__n) { overflow-wrap: break-word; }
 }
 
-/* from 990px the width does the work: intro · note · card, one spacing step apart, and the row
-   starts and ends on the page's content edges */
-@media (min-width: 990px) {
+/* 990-1249: a tablet, not a tall phone.
+
+   Moving the desk breakpoint up to 1250 fixed the collapse but handed tablets
+   the phone layout, where the crop takes the full column — a 640px tarot card
+   at a 1024 viewport, with the words pushed a screen and a half below it. The
+   note gets its two columns back here; only the outer three-column row waits
+   for 1250. */
+@media (min-width: 990px) and (max-width: 1249px) {
+  .wui .wui-read__note { grid-template-columns: clamp(180px, 34%, 280px) minmax(0, 1fr); }
+  .wui .wui-read__n { grid-column: 1 / -1; margin-bottom: -6px; }
+  .wui .wui-read__crop { width: 100%; max-width: 280px; align-self: start; }
+}
+
+/* From 1250px, not 990px. Fixed 1250, measured, after the section collapsed on an iPad Pro in
+   portrait (1024 x 1366) — reported by Veronka, reproduced 8 Oct 2026.
+
+   The three columns below are 340 + 280 fixed with two 48px gaps: 716px before the middle column
+   gets anything. The middle then spends another 210px + gap on the card crop. At a 1024 viewport,
+   after the page gutter, that left the note's text about 20px wide — one character per line, the
+   title running down the page as a vertical stack of letters, and the card image spilling out of
+   its own frame.
+
+   The arithmetic for the floor: 340 + 48 + (210 + 24 + 200 of text) + 48 + 280 = 1150 of content,
+   plus a 100px gutter = 1250. Below that the layout above does the work, and it already handles
+   990-1249 the way it handles a phone.
+
+   So the bug was never about the iPad. It was a breakpoint set to the width where the columns
+   first FIT ON PAPER rather than the width where they are readable. */
+@media (min-width: 1250px) {
   .wui .wui-read__grid {
-    grid-template-columns: 340px minmax(0, 1fr) 280px; align-items: start;
+    /* Fluid, not fixed. Two fixed side columns plus a fixed crop inside the
+       middle meant the text got whatever happened to be left — 72px at 1250,
+       179px at 1366. Each side column now gives way before the words do, and
+       the clamps keep the desk layout its old size once there is room. */
+    grid-template-columns:
+      clamp(260px, 26%, 340px)
+      minmax(0, 1fr)
+      clamp(200px, 22%, 280px);
+    align-items: start;
     gap: 0 var(--wui-48); margin-top: var(--wui-48);
   }
   .wui .wui-read__intro { grid-column: 1; }
   .wui .wui-read__noteslot { grid-column: 2; }
-  .wui .wui-read__card { grid-column: 3; width: 280px; }
-  .wui .wui-read__note { grid-template-columns: 210px minmax(0, 1fr); min-height: 408px; }
+  .wui .wui-read__card { grid-column: 3; width: 100%; }
+  /* The crop gives way too: it is the picture the words point at, so the words
+     win when the two compete. */
+  .wui .wui-read__note { grid-template-columns: clamp(140px, 30%, 210px) minmax(0, 1fr); min-height: 408px; }
   .wui .wui-read__n { grid-column: 1 / -1; margin-bottom: -6px; }
-  .wui .wui-read__crop { width: 210px; max-width: none; align-self: start; }
+  .wui .wui-read__crop { width: 100%; max-width: 210px; align-self: start; }
   .wui .wui-read__cap { font-size: 23px; }
   .wui .wui-read__coord dd { font-size: 17px; }
   .wui .wui-read__name { font-size: 21px; }

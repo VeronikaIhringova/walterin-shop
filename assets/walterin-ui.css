@@ -392,6 +392,29 @@
    -------------------------------------------------------------------------- */
 .wui [class*="ai-four-image-gallery__image-wrapper"],
 .wui [class*="ai-four-image-gallery__image-wrapper"] img { max-width: 100%; }
+
+/* The four-image gallery is a flex row with `nowrap` and four FIXED widths —
+   250 + 230 + 280 + 250 and three 30px gaps, 1100px in all. Its container is
+   784px at a 1024 viewport, so the row simply hung out of the page: the first
+   image started at -45 and the last ended at 1105, which is the whole of the
+   sideways scroll Veronka saw at 768 and 1024. Above about 1300 the row fits
+   and the page is clean, which is why it only ever showed on a tablet.
+
+   Letting it wrap turns it into two rows of two and keeps every image visible.
+   Scrolling it would have hidden half the gallery behind a gesture nobody is
+   told about; shrinking the images would have fought the app's inline widths.
+
+   Reproduced 8 Oct 2026 by excluding elements with a scrolling ancestor — the
+   slideshow's own slides sit 2816px to the right inside a scroller and look
+   like the culprit until you account for that. The earlier note blaming the
+   cart drawer was wrong: the drawer is parked off-page at EVERY width,
+   including 1366 where nothing overflows. */
+@media screen and (max-width: 1299px) {
+  .wui [class*="ai-four-image-gallery__container"] {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 .wui :is(.card__heading, .card__information, .full-unstyled-link, .card__inner) {
   min-width: 0;
   overflow-wrap: anywhere;
