@@ -687,6 +687,9 @@
         }
       }
     },
+    "footer": {
+      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. All rights reserved."
+    },
     "policy": {
       "on_this_page": "On this page"
     },

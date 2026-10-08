@@ -155,8 +155,24 @@
 
                         {%- if block.settings.show_copyright -%}
                           <li class="footer-block__copyright">
+                            {%- comment -%}
+                              The legal name, not shop.name. Shopify's store name is "Walterin" and
+                              stays that way (ground truth); the company is Walterin s. r. o., and a
+                              copyright line names the company. So the whole sentence is a locale
+                              string with the year substituted, rather than the store object.
+
+                              The year comes from `now`, so it rolls over on its own and nobody has
+                              to remember it in January.
+                            {%- endcomment -%}
+                            {%- comment -%}
+                              The year is assigned first on purpose. Written inline as
+                              `| t: year: 'now' | date: '%Y'` the date filter applies to the
+                              TRANSLATED STRING, not to 'now', and the line renders "© now
+                              Walterin s. r. o." — which is what it did until this was measured.
+                            {%- endcomment -%}
+                            {%- assign this_year = 'now' | date: '%Y' -%}
                             <small class="copyright__content">
-                              &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}
+                              {{- 'walterin.footer.copyright' | t: year: this_year -}}
                             </small>
                           </li>
                         {%- endif -%}

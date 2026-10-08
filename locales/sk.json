@@ -717,6 +717,9 @@
         }
       }
     },
+    "footer": {
+      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené."
+    },
     "policy": {
       "on_this_page": "Na tejto stránke"
     },
