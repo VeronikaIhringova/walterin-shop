@@ -253,12 +253,19 @@
     line-height: 1.5;
     margin: 0;
     color: {{ block.settings.text_color }};
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    /* No clamp. Two lines cut the Slovak preview mid-word — "takže ho
+       prečítat…" instead of "prečítate" — and docs/design/LINE-BREAKS.md does
+       not allow a sentence to be truncated, in the collapsed state either
+       (Veronka, 8 Oct 2026). The preview is one sentence; it is allowed to take
+       the lines that sentence needs, and Slovak needs more of them than English
+       for the same thing.
+
+       max-height stays generous rather than removed, because it is what the
+       collapse animates to and from. */
+    display: block;
     overflow: hidden;
     opacity: 1;
-    max-height: 100px;
+    max-height: 200px;
     transition: opacity 0.2s ease, max-height 0.3s ease;
   }
 
@@ -450,6 +457,20 @@
             assign banner = block.settings[banner_key]
             assign show_banner = block.settings[show_banner_key]
             assign full_text = 'walterin.home.f' | append: i | append: '_full' | t
+
+            comment
+              Glue the last two words of each text together. `text-wrap: balance`
+              evens the lines but will still happily leave one short word alone on
+              the final line, which docs/design/LINE-BREAKS.md rule 5 forbids.
+              Nothing about the wording changes — only the space before the last
+              word becomes a no-break space.
+            endcomment
+            capture preview
+              render 'wui-tail-nbsp', text: preview
+            endcapture
+            capture full_text
+              render 'wui-tail-nbsp', text: full_text
+            endcapture
             assign expanded_bg = block.settings[expanded_bg_key]
           %}
 

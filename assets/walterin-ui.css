@@ -2445,3 +2445,21 @@
     grid-column: 1 / -1;
   }
 }
+
+/* ---- the home page's three expandable texts -------------------------------
+   docs/design/LINE-BREAKS.md, applied to the collapsed state as well as the
+   expanded one (Veronka, 8 Oct 2026).
+
+   No <br> anywhere in these texts, and that is the point: the previous pair of
+   sentences was cut one per line, which is the "poem" shape the rules forbid.
+   They are paragraphs now, so the only job left is to stop the browser ending a
+   line badly — `balance` evens the lines out, and the no-break space in the
+   markup keeps the last two words together so a single word can never be left
+   on a line of its own.
+
+   `balance` and not `pretty`: measured 30 Sep, WebKit re-balances and Chromium
+   does nothing, so `pretty` looks right in Safari and wrong in Chrome. */
+.wui [class*="ai-feature-preview-"],
+.wui [class*="ai-feature-full-text-"] {
+  text-wrap: balance;
+}

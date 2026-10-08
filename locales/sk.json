@@ -724,14 +724,14 @@
       "title": "Walterin: mestá v komikse",
       "shop_heading": "Obchod",
       "f1_heading": "Krátke príbehy",
-      "f1_preview": "História v skratke, ale ostrá. Päť minút či päťdesiat — začnite kdekoľvek.",
-      "f1_full": "História v skratke, ale ostrá. Päť minút či päťdesiat — začnite kdekoľvek. Každý príbeh má deväť políčok: presný, zhustený, živý. Pre chvíle medzi dvoma zastávkami. A pre tie, ktoré sa neoplatí uponáhľať.",
+      "f1_preview": "Každý príbeh je vyrozprávaný v deviatich krokoch na jednej strane, takže ho prečítate za pár minút.",
+      "f1_full": "Každý príbeh je vyrozprávaný v deviatich krokoch na jednej strane, takže ho prečítate za pár minút. Dozviete sa niečo, o čom ste asi ešte nikdy nepočuli. A keďže jedna strana je jeden príbeh, začať môžete kdekoľvek.",
       "f2_heading": "Vtipná história",
-      "f2_preview": "Ostré postrehy. Čisté linky. Jasný uhol pohľadu.",
-      "f2_full": "Ostré postrehy. Čisté linky. Jasný uhol pohľadu. História rozprávaná s citom pre načasovanie, kde jediný detail dokáže obrátiť celý pohľad. Poznanie, ktoré vydrží dlhšie než stránka.",
+      "f2_preview": "Všetko je nakreslené vtipne a výstižne.",
+      "f2_full": "Všetko je nakreslené vtipne a výstižne. Či ide o slávnu osobnosť, alebo známe miesto, vždy sa pousmejete a kresba vám ostane v pamäti. História tak zrazu pôsobí sviežo.",
       "f3_heading": "Univerzálny jazyk",
-      "f3_preview": "Komiks ide tam, kde jazyk zaváha.",
-      "f3_full": "Komiks ide tam, kde jazyk zaváha. Z miest sa stávajú symboly, z faktov scény. Myšlienky cestujú naľahko, a aj tak vám zostanú. Toto nie je história, ktorú len čítate. Spoznávate ju."
+      "f3_preview": "Komiks je jazyk, ktorému rozumie každý, mladší aj starší.",
+      "f3_full": "Komiks je jazyk, ktorému rozumie každý, mladší aj starší. Kresby hovoria samy za seba, takže si príbeh užijete, aj keď o histórii veľa neviete."
     },
     "footer": {
       "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené.",
