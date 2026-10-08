@@ -717,6 +717,22 @@
         }
       }
     },
+    "home": {
+      "announcement": "Vitajte, zvedaví cestovatelia",
+      "read_more": "Čítať ďalej →",
+      "read_less": "Zbaliť ←",
+      "title": "Walterin: mestá v komikse",
+      "shop_heading": "Obchod",
+      "f1_heading": "Krátke príbehy",
+      "f1_preview": "História v skratke, ale ostrá. Päť minút či päťdesiat — začnite kdekoľvek.",
+      "f1_full": "História v skratke, ale ostrá. Päť minút či päťdesiat — začnite kdekoľvek. Každý príbeh má deväť políčok: presný, zhustený, živý. Pre chvíle medzi dvoma zastávkami. A pre tie, ktoré sa neoplatí uponáhľať.",
+      "f2_heading": "Vtipná história",
+      "f2_preview": "Ostré postrehy. Čisté linky. Jasný uhol pohľadu.",
+      "f2_full": "Ostré postrehy. Čisté linky. Jasný uhol pohľadu. História rozprávaná s citom pre načasovanie, kde jediný detail dokáže obrátiť celý pohľad. Poznanie, ktoré vydrží dlhšie než stránka.",
+      "f3_heading": "Univerzálny jazyk",
+      "f3_preview": "Komiks ide tam, kde jazyk zaváha.",
+      "f3_full": "Komiks ide tam, kde jazyk zaváha. Z miest sa stávajú symboly, z faktov scény. Myšlienky cestujú naľahko, a aj tak vám zostanú. Toto nie je história, ktorú len čítate. Spoznávate ju."
+    },
     "footer": {
       "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené.",
       "credits_html": "ilustrácie {{ walter }} · dizajn a vývoj {{ veronika }}"

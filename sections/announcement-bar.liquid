@@ -8,7 +8,16 @@
           {%- endif -%}
               <div class="page-width">
                 <p class="announcement-bar__message {{ block.settings.text_alignment }} h5">
-                  <span>{{ block.settings.text | escape }}</span>
+{%- comment -%}
+                  The words come from the theme's language files, not from this setting. Section
+                  settings are translated through Translate & Adapt — store data, outside the repo
+                  — and had never been written, so every line of the home page was served in
+                  ENGLISH on /sk/. Measured 8 Oct 2026: nine strings, nine untranslated.
+
+                  In locales/*.json the two languages sit side by side, are reviewed in a diff and
+                  publish with the theme. The setting is left in place but is no longer read.
+                {%- endcomment -%}
+                  <span>{{ 'walterin.home.announcement' | t }}</span>
                   {%- if block.settings.link != blank -%}
                     {% render 'icon-arrow' %}
                   {%- endif -%}

@@ -1549,7 +1549,10 @@
    the image, and a wide rounded bar inset from its bottom, clear of the title.
  * ------------------------------------------------------------------------- */
 
-/* The old stock chip is replaced by the bar, so it goes. */
+/* The old stock chip was hidden here from 6 Oct and removed from the markup on
+   8 Oct, because hiding it left it in the text layer and a screen reader read
+   "Coming Soon" twice on every card. The rule stays as a guard: Dawn re-adds
+   the badge in some card paths, and nothing should bring it back silently. */
 .wui .card__badge { display: none !important; }
 
 .wui .card__inner { position: relative; }

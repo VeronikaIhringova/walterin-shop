@@ -178,47 +178,11 @@
             "expanded_background_3": "#fffdf7"
           },
           "blocks": {}
-        },
-        "ai_gen_block_65a0071_nMHgxN": {
-          "type": "ai_gen_block_65a0071",
-          "disabled": true,
-          "settings": {
-            "max_width": 1200,
-            "gap": 24,
-            "force_vertical_on_desktop": false,
-            "text_alignment": "center",
-            "padding_top": 100,
-            "padding_bottom": 45,
-            "background_color": "#fffdf7",
-            "icon_1": "shopify://shop_images/icons1_1.png",
-            "icon_width_1": 60,
-            "icon_alignment_1": "top",
-            "heading_1": "Page by page short stories",
-            "heading_color_1": "",
-            "subtext_1": "<p>Discover cities with <br/>quick, engaging stories, <br/>perfect for brief reads!</p>",
-            "link_1": "",
-            "icon_2": "shopify://shop_images/Group_1066.png",
-            "icon_width_2": 80,
-            "icon_alignment_2": "top",
-            "heading_2": "Witty history",
-            "heading_color_2": "",
-            "subtext_2": "<p>Snappy historical <br/>insights, enriched with <br/>lively banter!</p>",
-            "link_2": "",
-            "icon_3": "shopify://shop_images/iconsbrushes_1.png",
-            "icon_width_3": 70,
-            "icon_alignment_3": "top",
-            "heading_3": "Illustrated guide for everyone",
-            "heading_color_3": "",
-            "subtext_3": "<p>Explore clever, colourful<br/> illustrations, witty and<br/> lovable for all!</p>",
-            "link_3": ""
-          },
-          "blocks": {}
         }
       },
       "block_order": [
         "ai_gen_block_a2369f9_TKcaPy",
-        "ai_gen_block_e56fc5e_WD46cP",
-        "ai_gen_block_65a0071_nMHgxN"
+        "ai_gen_block_e56fc5e_WD46cP"
       ],
       "name": "H1 pagetitle 3 feature icons row",
       "settings": {}

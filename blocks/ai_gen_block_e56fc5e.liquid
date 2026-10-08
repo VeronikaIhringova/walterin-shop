@@ -438,11 +438,18 @@
 
             assign icon = block.settings[icon_key]
             assign icon_width = block.settings[icon_width_key]
-            assign heading = block.settings[heading_key]
-            assign preview = block.settings[preview_key]
+            comment
+              The three texts come from the theme's language files, not from these settings.
+              Section and block settings are translated through Translate & Adapt — store data,
+              outside the repo — and had never been written, so all three read in ENGLISH on /sk/.
+              In locales/*.json the two languages sit together, are reviewed in a diff and publish
+              with the theme. The settings stay in place but are no longer read.
+            endcomment
+            assign heading = 'walterin.home.f' | append: i | append: '_heading' | t
+            assign preview = 'walterin.home.f' | append: i | append: '_preview' | t
             assign banner = block.settings[banner_key]
             assign show_banner = block.settings[show_banner_key]
-            assign full_text = block.settings[full_text_key]
+            assign full_text = 'walterin.home.f' | append: i | append: '_full' | t
             assign expanded_bg = block.settings[expanded_bg_key]
           %}
 
@@ -485,7 +492,7 @@
                   <div class="ai-feature-preview-{{ ai_gen_id }}">
                     {{ preview }}
                   </div>
-                  <span class="ai-feature-read-more-{{ ai_gen_id }}">Read more →</span>
+                  <span class="ai-feature-read-more-{{ ai_gen_id }}">{{ 'walterin.home.read_more' | t }}</span>
                 {% endif %}
               </div>
             </div>
@@ -514,7 +521,7 @@
                 </div>
               {% endif %}
 
-              <span class="ai-feature-read-less-{{ ai_gen_id }}">Read less ←</span>
+              <span class="ai-feature-read-less-{{ ai_gen_id }}">{{ 'walterin.home.read_less' | t }}</span>
             </div>
           </div>
         {% endfor %}

@@ -13,7 +13,8 @@
 {% endstyle %}
 
 <div class="ai-custom-html-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  {{ block.settings.custom_html }}
+  {%- comment -%} Words from the language files — see sections/announcement-bar.liquid. {%- endcomment -%}
+  <h1 class="pagetitle">{{ 'walterin.home.title' | t }}</h1>
 </div>
 
 {% schema %}

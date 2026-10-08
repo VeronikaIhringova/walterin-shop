@@ -687,6 +687,22 @@
         }
       }
     },
+    "home": {
+      "announcement": "Welcome, curious traveller",
+      "read_more": "Read more →",
+      "read_less": "Read less ←",
+      "title": "Walterin: cities told in comics",
+      "shop_heading": "The shop",
+      "f1_heading": "Short stories",
+      "f1_preview": "History, in its sharpest form. Five minutes or fifty, enter anywhere.",
+      "f1_full": "History, in its sharpest form. Five minutes or fifty, enter anywhere. Each story unfolds in nine frames: precise, distilled, alive. Made for the spaces in between. And for moments you’d rather not rush.",
+      "f2_heading": "Witty history",
+      "f2_preview": "Sharp insights. Clean lines. A point of view.",
+      "f2_full": "Sharp insights. Clean lines. A point of view. History told with timing, where observation meets nuance, and a single detail can tilt the whole perspective. The kind of knowledge that lingers longer than the page.",
+      "f3_heading": "A universal language",
+      "f3_preview": "Comics move where language hesitates.",
+      "f3_full": "Comics move where language hesitates. Cities become symbols. Facts become scenes. Ideas travel lightly, but stay with you. This is history you don’t just read. You recognize it."
+    },
     "footer": {
       "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. All rights reserved.",
       "credits_html": "illustrations by {{ walter }} · design & development by {{ veronika }}"
