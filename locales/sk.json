@@ -718,7 +718,8 @@
       }
     },
     "footer": {
-      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené."
+      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené.",
+      "credits_html": "ilustrácie {{ walter }} · dizajn a vývoj {{ veronika }}"
     },
     "policy": {
       "on_this_page": "Na tejto stránke"

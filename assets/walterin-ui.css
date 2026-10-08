@@ -2366,3 +2366,79 @@
   text-underline-offset: 3px;
 }
 .wui .wui-product-faq__all:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 3px; }
+
+/* ---- the quiet sign-off row, after mywaynd.com ----------------------------
+   Copyright left, credits right, under the payment icons. Small and low in
+   contrast: it is the last thing on the page and should read as a signature,
+   not as another menu. */
+/* Dawn centres .footer__content-bottom-wrapper and lets its child shrink to
+   content, so this row sat as one centred block instead of splitting left and
+   right. Same trap as the legal row on 7 Oct; the fix is the same. */
+.wui .footer__content-bottom-wrapper:has(.wui-footer-signoff) {
+  display: block;
+  text-align: left;
+}
+.wui .wui-footer-signoff {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wui-space-item) var(--wui-space-block);
+  padding-top: var(--wui-space-block);
+}
+.wui .wui-footer-signoff > small {
+  font-size: var(--wui-fs-small);
+  line-height: 1.5;
+  color: var(--wui-ink);
+  opacity: 0.6;
+}
+.wui .wui-footer-signoff a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.wui .wui-footer-signoff a:hover { opacity: 1; }
+.wui .wui-footer-signoff a:focus-visible { outline: 2px solid var(--wui-ink); outline-offset: 2px; }
+
+/* On a phone the two stack and both sit left, lined up with everything else in
+   the footer. Centring them would be the only centred text on the page. */
+@media screen and (max-width: 749px) {
+  .wui .wui-footer-signoff {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--wui-space-item);
+  }
+}
+
+/* ---- the tablet footer: two columns, not five -----------------------------
+   At 768 the four menu columns were 78px wide, which turned "Sme tu Po-Pi
+   9:00-17:00." into five lines and the copyright into five more. Dawn's
+   12-column widths are set for a desk and nothing told them a tablet is not
+   one. Below 990 the newsletter takes the full width and the menus go two up. */
+/* 750-1249, not 750-989. Veronka asked about 768; measuring the rest of the
+   range showed the same cramping all the way up — columns of 121px at 1024 and
+   150px at 1199, with the opening hours on three lines throughout. 1250 is
+   where they reach 158px and, not coincidentally, the same boundary the tarot
+   section now uses: one tablet edge in the theme rather than two. */
+@media screen and (min-width: 750px) and (max-width: 1249px) {
+  /* A grid, not width arithmetic. Two attempts at `calc(50% - something)` both
+     left the columns a few pixels too wide for the row's own gap, so they
+     wrapped to one per row and the footer got LONGER instead of shorter — 334px
+     columns in a 684px row with 40px between them. A two-column grid subtracts
+     the gap itself and cannot be off by a pixel.
+
+     The newsletter block spans both columns: it holds a field and a button and
+     is useless at half width. */
+  .wui .footer__content-top .footer__blocks-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wui .footer__content-top .footer-block {
+    width: auto;
+    max-width: none;
+  }
+  .wui .footer__content-top .footer-block:not(.footer-block--menu) {
+    grid-column: 1 / -1;
+  }
+}

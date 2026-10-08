@@ -575,18 +575,38 @@
     </div>
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
       {%- comment -%}
-        The copyright row is empty on purpose and so renders nothing.
+        The quiet bottom row, after mywaynd.com (Veronka, 8 Oct 2026): the copyright on the left,
+        the credits on the right, small and low-contrast, under the whole footer.
 
-        · the © line moved into the SUPPORT column (Veronka, 7 Oct) and is not repeated here;
-        · Privacy, Terms and Refunds duplicated the OFFICIAL column;
-        · "Legal guarantee" and "Withdraw from contract here" are not in the footer at all
-          (Veronka, 7 Oct) — they are in the FAQ's Returns category, the Refund policy and
-          Terms clause 10.
+        It sits BELOW the payment icons on purpose. The icons are reassurance about buying and
+        belong with the shop; the copyright and the credits are the sign-off and belong last.
+        Read top to bottom, the bottom section goes: hairline, who takes your money, who made the
+        thing. MyWay orders it the same way.
 
-        Everything above this — the language and country selectors, the payment icons in the info
-        column, and this wrapper's own hairline — is live's markup untouched, so the strip keeps
-        live's spacing exactly.
+        The copyright left the SUPPORT column in this same change — it lived there for one day,
+        and in a 78px tablet column it ran to five lines.
+
+        Also gone from here, and not coming back: the duplicate policy links, and "Legal
+        guarantee" / "Withdraw from contract here", which are in the FAQ's Returns category, the
+        Refund policy and Terms clause 10.
       {%- endcomment -%}
+      {%- liquid
+        assign this_year = 'now' | date: '%Y'
+        capture walter_link
+          echo '<a href="https://instagram.com/walterihring" target="_blank" rel="noopener">Walter Ihring</a>'
+        endcapture
+        capture veronika_link
+          echo '<a href="https://instagram.com/veronikaihringova" target="_blank" rel="noopener">Veronika Ihringová</a>'
+        endcapture
+      -%}
+      <div class="wui-footer-signoff">
+        <small class="wui-footer-signoff__copy">
+          {{- 'walterin.footer.copyright' | t: year: this_year -}}
+        </small>
+        <small class="wui-footer-signoff__credits">
+          {{- 'walterin.footer.credits_html' | t: walter: walter_link, veronika: veronika_link -}}
+        </small>
+      </div>
       </div>
     </div>
   </div>
