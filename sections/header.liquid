@@ -289,7 +289,13 @@
           <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}" tabindex="-1">
             <div class="menu-drawer__inner-container">
               <div class='menu-drawer__mobile-content menu-drawer__title-and-close-btn'>
-                <h3 class='menu-drawer__title'>{{ section.settings.mobile_menu_title }}</h3>
+                {%- comment -%}
+                  Only when there is something to say. The setting is empty, so this rendered as
+                  an <h3></h3> — a heading a screen reader announces with no words after it.
+                {%- endcomment -%}
+                {%- if section.settings.mobile_menu_title != blank -%}
+                  <h3 class='menu-drawer__title'>{{ section.settings.mobile_menu_title }}</h3>
+                {%- endif -%}
                 <button class='menu-drawer__close-btn menu-drawer__close-menu-btn header__icon header__icon--menu header__icon--summary link focus-inset'>
                   {% render 'icon-close' %}
                 </button>
@@ -730,7 +736,15 @@
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
+        {%- comment -%}
+          A <span>, not an <h1>. Dawn makes the logo the page's h1 on the home page, on the
+          assumption that the home page has no other title — this one does, set in the first
+          content block ("Walterin: Cities Told in Comics"), so the page carried TWO h1s.
+
+          The page title is the real one and keeps the h1; the logo is a link to the home page,
+          which is not a heading. The class is unchanged, so nothing about it moves.
+        {%- endcomment -%}
+        <span class="header__heading">
       {%- endif -%}
           <{% if section.settings.logo_link != blank %}a href="{{ section.settings.logo_link }}"{% else %}div{% endif %} class="header__heading{% if section.settings.logo_link != blank %}-link link link--text focus-inset{% endif %}">
             {%- if settings.logo != blank -%}
@@ -748,7 +762,7 @@
             {%- endif -%}
           </{% if section.settings.logo_link != blank %}a{% else %}div{% endif %}>
       {%- if request.page_type == 'index' -%}
-        </h1>
+        </span>
       {%- endif -%}
     {%- endif -%}
 

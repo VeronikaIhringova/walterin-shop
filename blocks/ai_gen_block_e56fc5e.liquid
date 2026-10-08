@@ -472,7 +472,13 @@
 
               <div class="ai-feature-text-{{ ai_gen_id }}">
                 {% if heading != blank %}
-                  <h3 class="ai-feature-heading-{{ ai_gen_id }}">{{ heading }}</h3>
+                  {%- comment -%}
+                    h2, not h3. These are the first headings after the page's h1, so an h3 skipped
+                    a level and left the outline reading 1 -> 3. Every size, weight, colour and
+                    margin comes from .ai-feature-heading-{{ ai_gen_id }} below, so the tag change
+                    moves nothing on screen.
+                  {%- endcomment -%}
+                  <h2 class="ai-feature-heading-{{ ai_gen_id }}">{{ heading }}</h2>
                 {% endif %}
 
                 {% if preview != blank %}
