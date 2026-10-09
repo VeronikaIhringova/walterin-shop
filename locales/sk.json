@@ -530,17 +530,6 @@
     }
   },
   "walterin": {
-    "about_draft": {
-      "heading": "Ahoj, volám sa Walter Ihring",
-      "lead": "Kreslím humor a karikatúry už viac ako tridsať rokov. A najradšej kreslím príbehy, o ktorých ste ešte nepočuli.",
-      "x1_heading": "Ako vznikol Walterin",
-      "x1_lead": "Raz v horúci letný deň som sedel na námestí pri káve a pozoroval turistov, ako sa ponáhľajú od radnice ku katedrále.",
-      "x1_text": "Míňali domy, v ktorých sa odohrali neuveriteľné príbehy, a nikto o nich nevedel. Vtedy som sa rozhodol spojiť kreslenie s históriou a humorom. V roku 2015 vyšla moja prvá kniha, Walterin Bratislava. Po nej prišla Praha a ďalšie mestá sú na ceste.",
-      "read_more": "Čítať ďalej",
-      "read_less": "Zbaliť",
-      "caption_biography": "• Walterov ilustrovaný životopis •",
-      "caption_desert": "• India a dlhá cesta okolo •"
-    },
     "contact": {
       "intro": "Napíšte nám kedykoľvek. Pomôžeme s objednávkou, poradíme s produktmi a radi si vypočujeme, čo si myslíte.",
       "hours_html": "Pondelok až piatok, <strong>9:00–17:00&nbsp;SEČ</strong>. Ozveme sa vám čo&nbsp;najskôr.",
