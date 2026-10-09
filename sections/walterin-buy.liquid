@@ -737,9 +737,13 @@
               {%- endcomment -%}
               {%- comment -%}
                 The box list from the language files when the product has one, otherwise the
-                metafield. The nested bullet under "2 bonus cards" is why this is written out
-                rather than split from rich text: a rich-text metafield cannot nest a list, and
-                the second bonus card's description has to sit under it.
+                metafield.
+
+                One flat list, every line on the same left edge (Veronka, 9 Oct). The two bonus
+                cards are marked with an en dash rather than an indent, and "The box" is the last
+                line of the same list, not a paragraph after it — so the spacing between all five
+                lines is identical. The dash lives here and not in the language files, so the
+                strings stay exactly her words.
               {%- endcomment -%}
               {%- liquid
                 assign box_lead = loc_prefix | append: 'box_lead' | t
@@ -754,18 +758,11 @@
                   <p>{%- render 'wui-tail-nbsp', text: box_lead -%}</p>
                   <ul>
                     <li>{%- assign v = loc_prefix | append: 'box_cards' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                    <li>
-                      {{ loc_prefix | append: 'box_bonus' | t }}
-                      <ul>
-                        <li>
-                          {%- assign b1 = loc_prefix | append: 'box_bonus_1_html' | t -%}
-                          {{ b1 | replace: '[READ_ANCHOR]', read_anchor }}
-                        </li>
-                        <li>{%- assign v = loc_prefix | append: 'box_bonus_2' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                      </ul>
-                    </li>
+                    <li>{%- assign v = loc_prefix | append: 'box_bonus' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
+                    <li>–&nbsp;{%- assign b1 = loc_prefix | append: 'box_bonus_1_html' | t -%}{{ b1 | replace: '[READ_ANCHOR]', read_anchor }}</li>
+                    <li>–&nbsp;{%- assign v = loc_prefix | append: 'box_bonus_2' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
+                    <li>{%- assign v = loc_prefix | append: 'box_box' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
                   </ul>
-                  <p>{%- assign v = loc_prefix | append: 'box_box' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</p>
                 </div>
               {%- elsif wui.included != blank -%}
                 <div class="wui-rte wui-included">{{ wui.included | metafield_tag }}</div>

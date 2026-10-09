@@ -31,14 +31,17 @@
     <div class="wui-accordion__wrap">
       <div class="wui-accordion__body wui-rte">
         {%- comment -%}
-          First paragraph is the lead and the stylesheet sizes it as such; the rest is body.
-          The two-readings paragraph is kept word for word from the old copy (Veronka, 9 Oct).
+          Two paragraphs, not three (Veronka, 9 Oct): the lead, which the stylesheet sets large,
+          then everything else in one smaller paragraph. The two-readings text keeps its own key
+          so it stays word for word what it was; it is only joined to the sentence before it.
         {%- endcomment -%}
+        {%- liquid
+          assign how_text = prefix | append: 'how_text' | t
+          assign how_readings = prefix | append: 'how_readings' | t
+          assign how_body = how_text | append: ' ' | append: how_readings
+        -%}
         <p>{%- render 'wui-tail-nbsp', text: how_lead -%}</p>
-        {%- assign v = prefix | append: 'how_text' | t -%}
-        <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
-        {%- assign v = prefix | append: 'how_readings' | t -%}
-        <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+        <p>{%- render 'wui-tail-nbsp', text: how_body -%}</p>
       </div>
     </div>
   </details>
@@ -53,10 +56,21 @@
   </summary>
   <div class="wui-accordion__wrap">
     <div class="wui-accordion__body wui-rte">
+      {%- comment -%}
+        The lead is shared by every product. The text is not: "Pick the language they love to
+        read in" is nonsense under the stickers, which have no language. So a product may carry
+        its own <handle>_gift_text and it wins over the shared one. Nothing else forks — if a
+        second product ever needs its own, it adds one key, not a new accordion.
+      {%- endcomment -%}
+      {%- liquid
+        assign gift_text = prefix | append: 'gift_text' | t
+        if gift_text contains 'Translation missing'
+          assign gift_text = 'walterin.product.gift_text' | t
+        endif
+      -%}
       {%- assign v = 'walterin.product.gift_lead' | t -%}
       <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
-      {%- assign v = 'walterin.product.gift_text' | t -%}
-      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      <p>{%- render 'wui-tail-nbsp', text: gift_text -%}</p>
     </div>
   </div>
 </details>

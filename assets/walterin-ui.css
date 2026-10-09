@@ -2489,13 +2489,3 @@ html:has(a[data-wui-scroll]) { scroll-behavior: smooth; }
   text-underline-offset: 0.18em;
 }
 
-/* The box list's second level.
-   The theme hides list markers everywhere (:where(.wui-scope) :is(ul, ol)), so a
-   nested list would otherwise sit flush with its parent and the two bonus cards
-   would read as two more top-level items. The indent is the only thing saying
-   they belong under "2 bonus cards:".
-   FLAGGED FOR VERONKA — the live list is flat; this indent is new. */
-.wui .wui-included ul ul {
-  padding-left: var(--wui-space-block, 24px);
-  margin-top: var(--wui-space-control, 4px);
-}

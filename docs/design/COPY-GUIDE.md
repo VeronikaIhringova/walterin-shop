@@ -100,3 +100,91 @@ si príbeh užijete, aj keď o histórii veľa neviete.
 **Slovak is written, not translated.** The two versions above say the same thing and are not the
 same sentences — compare *"the drawing stays with you"* with *"kresba vám ostane v pamäti"*. Draft
 each language on its own, then check they promise the same thing.
+
+---
+
+## The product-page reference texts (Veronka, 9 October 2026)
+
+**The three home-page texts above are the standard for the site. These are the standard for every
+product page.** Same voice, different job: the home page says what the work is like, a product page
+says what is in the box and who it is for.
+
+The shape, and it is not optional:
+
+> **A large lead sentence that says the main thing.**
+> A shorter text under it with what the reader gets.
+
+The stylesheet does the sizing — the first paragraph of an accordion is the lead. So the first
+sentence has to be able to carry the whole item on its own, and everything that is detail goes
+below it.
+
+### How to read
+
+**EN lead** Whether it’s your first time holding a tarot deck or you read the cards every morning,
+you won’t need a book. Everything is drawn right there on the card.
+**EN text** That’s why this deck is for everyone. Just take a look and read what the card is
+telling you. Use any spread you already know. Two come with the deck. […]
+
+**SK lead** Či tarot držíte v ruke prvýkrát, alebo si vykladáte každé ráno, knižku nepotrebujete.
+Všetko je nakreslené priamo na karte.
+**SK text** Preto je tento balíček pre každého. Stačí sa pozrieť a prečítať si, čo vám karta hovorí.
+Použite ktorýkoľvek výklad, ktorý poznáte. […]
+
+### About the deck
+
+**EN lead** Walter Ihring’s Tarot of Consciousness grew out of the classic Rider–Waite tarot. Every
+card is a nine-frame path, a little journey in nine steps.
+**EN text** The cards are like a mirror. They show you what’s going on inside, how you feel and
+where you’re headed. Look at the picture first, then read the words, and notice what the card
+leaves you with.
+
+**SK lead** Komiksový tarot vedomia od Waltera Ihringa vychádza z klasického tarotu Rider–Waite.
+Každá karta je cesta v deviatich krokoch, nakreslená v deviatich okienkach.
+**SK text** Karty fungujú ako zrkadlo. Ukážu vám, čo sa vo vás deje, čo cítite a kam smerujete.
+Najprv sa pozrite na obrázok, potom si prečítajte text a všimnite si, čo vo vás karta zanechá.
+
+### As a gift
+
+**EN lead** An original gift for the people closest to you: your partner, your mum, your dad or a
+friend.
+**EN text** You’re giving a piece of art unlike anything they already have. Pick the language they
+love to read in. It’s sure to make anyone happy, and it lasts a lifetime.
+
+**SK lead** Originálny darček pre blízkych: pre partnera, maminu, ocina či kamaráta.
+**SK text** Darujete kúsok umenia, aký váš blízky ešte nemá. Vyberte jazyk, v ktorom rád číta.
+Poteší každého a vydrží celý život.
+
+### About Walter
+
+**EN lead** Walter Ihring is a Slovak author who turns what he knows and has experienced into
+short, funny stories. They become books and other things that make people happy.
+**EN text** He loves drawing funny cartoons, characters and caricatures, and has plenty of
+competitions under his belt. In 2015 he published Walterin Bratislava, a city told in comics.
+Since then, more cities have followed, and not just books, but tarot cards and stickers too.
+
+**SK lead** Walter Ihring je slovenský autor, ktorý svoje vedomosti a zážitky premieňa na krátke
+vtipné príbehy. Vznikajú z nich knihy a iné produkty, ktoré ľudí tešia.
+**SK text** Rád kreslí humor, postavičky a karikatúry a má za sebou množstvo súťaží. V roku 2015
+vyšla jeho kniha Walterin Bratislava, mesto rozprávané komiksom. Odvtedy pribúdajú ďalšie mestá a
+nielen knihy, ale aj tarotové karty či nálepky.
+
+### What makes them the standard
+
+1. **A large lead that says the main thing.** "You won't need a book." "It grew out of the classic
+   Rider–Waite tarot." If the reader only reads the first sentence, they still know the answer.
+2. **A shorter text under it with what the reader gets**, never a second attempt at the same point.
+3. **Formal "vy" in Slovak**, on every product page, every time. *Vyberte*, *pozrite sa*,
+   *prečítajte si*. Never *vyber si*.
+4. **Warm and concrete.** A partner, a mum, a dad, a friend. A mirror. A morning. Not "connection",
+   not "journey of discovery".
+5. **No abstract lines.** The deck is illustration, story and an object you own — never a therapy
+   tool, never Jungian, never self-help.
+6. **English as warm and natural as the Slovak, and never a literal translation.** *"Darujete kúsok
+   umenia, aký váš blízky ešte nemá"* became *"You're giving a piece of art unlike anything they
+   already have"* — the same promise, built out of English, not out of Slovak word order.
+
+**A shared text stays shared.** "As a gift" and "About Walter" say the same thing under every
+product, so they live in one place and one edit changes them everywhere. A product only forks a
+text when the shared one would be *wrong* for it — the stickers have no language, so "Pick the
+language they love to read in" cannot stand under them, and they get their own sentence. Liking a
+variation is not a reason to fork.

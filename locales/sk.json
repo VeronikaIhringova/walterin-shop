@@ -723,7 +723,7 @@
       "walter_heading": "O Walterovi",
       "tarot_how_lead": "Či tarot držíte v ruke prvýkrát, alebo si vykladáte každé ráno, knižku nepotrebujete. Všetko je nakreslené priamo na karte.",
       "tarot_how_text": "Preto je tento balíček pre každého. Stačí sa pozrieť a prečítať si, čo vám karta hovorí.",
-      "tarot_how_readings": "Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo zmeniť.",
+      "tarot_how_readings": "Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo zmeniť.",
       "tarot_about_lead": "Komiksový tarot vedomia od Waltera Ihringa vychádza z klasického tarotu Rider⁠–⁠Waite. Každá karta je cesta v deviatich krokoch, nakreslená v deviatich okienkach.",
       "tarot_about_text": "Karty fungujú ako zrkadlo. Ukážu vám, čo sa vo vás deje, čo cítite a kam smerujete. Najprv sa pozrite na obrázok, potom si prečítajte text a všimnite si, čo vo vás karta zanechá.",
       "tarot_box_lead": "Spolu 80 kariet:",
@@ -732,9 +732,10 @@
       "tarot_box_bonus_1_html": "úvod do tarotu vedomia a cesta v deviatich krokoch. <a href=\"[READ_ANCHOR]\" data-wui-scroll>Pozrite si, ako sa karta číta ↓</a>",
       "tarot_box_bonus_2": "dva výklady: Karta dňa a Čítanie vedomia",
       "tarot_box_box": "Krabička",
+      "stickers_gift_text": "Darujete kúsok umenia, aký váš blízky ešte nemá. Hodí sa k inému darčeku aj ako malá radosť len tak.",
       "gift_lead": "Originálny darček pre blízkych: pre partnera, maminu, ocina či kamaráta.",
-      "gift_text": "Walterove kresby, aké váš blízky určite ešte nedostal. Vyberte jazyk, v ktorom rád číta. Poteší každého a vydrží celý život.",
-      "walter_lead": "Walter Ihring je slovenský autor, ktorý to, čo vie a zažil, premieňa na kresby. Vznikajú z nich knihy a ďalšie veci, ktoré ľudí potešia.",
+      "gift_text": "Darujete kúsok umenia, aký váš blízky ešte nemá. Vyberte jazyk, v ktorom rád číta. Poteší každého a vydrží celý život.",
+      "walter_lead": "Walter Ihring je slovenský autor, ktorý svoje vedomosti a zážitky premieňa na krátke vtipné príbehy. Vznikajú z nich knihy a iné produkty, ktoré ľudí tešia.",
       "walter_text": "Rád kreslí humor, postavičky a karikatúry a má za sebou množstvo súťaží. V roku 2015 vyšla jeho kniha Walterin Bratislava, mesto rozprávané komiksom. Odvtedy pribúdajú ďalšie mestá a nielen knihy, ale aj tarotové karty či nálepky."
     },
     "home": {
