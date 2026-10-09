@@ -32,7 +32,7 @@ added that is not already published.
 > support@walterin.com · +421 905 549 907
 > Company ID (IČO): 57297991 · Tax ID (DIČ): 2122655755
 >
-> Monday to Friday, 9:00–17:00 CET. We answer within two working days.
+> Monday to Friday, 9:00–17:00 CET. We’ll get back to you as soon as we can.
 
 ### Slovak
 
@@ -41,25 +41,69 @@ added that is not already published.
 > support@walterin.com · +421 905 549 907
 > IČO: 57297991 · DIČ: 2122655755
 >
-> Pondelok až piatok, 9:00–17:00 SEČ. Odpovedáme do dvoch pracovných dní.
+> Pondelok až piatok, 9:00–17:00 SEČ. Ozveme sa vám čo najskôr.
 
 ---
 
-## Three decisions for you
+## Two decisions for you, and one thing already settled
 
-**1 · The last line is already on the page, in English only, and it is a promise.** The live page
-says the team is available `Monday–Friday, 9:00–17:00 CET` and will reply `within 2 business days`.
-I have kept it because removing it is a change you did not ask for — but it is a service promise
-nobody has signed off, and it is the kind of sentence a customer quotes back. **Keep it, soften it,
-or cut it?** My vote: keep the hours, cut the two-day promise.
+**Settled (Veronka, 9 Oct):** the live page's English-only promise *"We'll aim to get back to you
+within 2 business days"* is replaced by **"We'll get back to you as soon as we can." / "Ozveme sa
+vám čo najskôr."** The opening hours stay. This replacement is part of the proposal above and
+applies whether or not you take the company details.
 
-**2 · The registration line.** IČO and DIČ are required on business documents and are already
-public in the Terms. On a contact page they read as officialdom. **Keep them here, or leave them in
-the Terms?** My vote: keep them — this is the page that is doing the legal-notice job, so it should
-do it properly.
+**1 · The registration line.** IČO and DIČ are required on business documents and are already
+public in the Terms. On a contact page they read as officialdom. **Keep them here, or leave them
+in the Terms?** My vote: keep them — this is the page doing the legal-notice job, so it should do
+it properly.
 
-**3 · Where it sits.** Above the form, under the page title, before "Contact form". The alternative
-is a quiet block below the form. **Above** is the right call: someone who only wants the address
-should not have to scroll past a nine-field form to find it.
+**2 · Where it sits.** Above the form, under the page title, before "Contact form". The
+alternative is a quiet block below the form. **Above** is the right call: someone who only wants
+the address should not have to scroll past a nine-field form to find it.
+
+---
+
+## The whole page, as it would read
+
+### English
+
+> # Contact
+>
+> **Walterin s. r. o.**
+> Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovakia
+> support@walterin.com · +421 905 549 907
+> Company ID (IČO): 57297991 · Tax ID (DIČ): 2122655755
+>
+> Monday to Friday, 9:00–17:00 CET. We’ll get back to you as soon as we can.
+>
+> ## Contact form
+>
+> Feel free to reach out at any time. We’re here to help with orders, product questions, and any
+> feedback you may have.
+>
+> *(the form, unchanged: name, email, contact reason, details)*
+
+### Slovak
+
+> # Kontakt
+>
+> **Walterin s. r. o.**
+> Ľubochnianska 4, 831 04 Bratislava – Nové Mesto, Slovensko
+> support@walterin.com · +421 905 549 907
+> IČO: 57297991 · DIČ: 2122655755
+>
+> Pondelok až piatok, 9:00–17:00 SEČ. Ozveme sa vám čo najskôr.
+>
+> ## Kontaktný formulár
+>
+> Napíšte nám kedykoľvek. Pomôžeme s objednávkou, poradíme s produktmi a radi si vypočujeme, čo si
+> myslíte.
+>
+> *(formulár bez zmeny: meno, e-mail, dôvod kontaktu, podrobnosti)*
+
+**The intro sentence is on the live page in English only**, like everything else here — the page's
+Slovak was never written. The Slovak above is written natively, not translated: *"Napíšte nám
+kedykoľvek"* is what a person says; a literal rendering of "Feel free to reach out at any time"
+is not.
 
 Nothing is applied. Correct the wording and I will build it as its own step.

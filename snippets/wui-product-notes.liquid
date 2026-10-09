@@ -1,47 +1,64 @@
 {%- comment -%}
   The product page's lower accordions, from the theme's language files.
 
-  Why here and not in the product's metafields: see the long comment in
-  sections/walterin-buy.liquid where this is rendered. Short version — a
-  metafield's Slovak lives outside the repo and has never once been written,
-  and it cannot be previewed before it goes live.
+  Why here and not in the product's metafields: a metafield's Slovak lives in Translate & Adapt,
+  which is STORE data — outside the repo, invisible in a diff, and impossible to preview before it
+  is live. The language files make the two languages the same kind of object.
 
-  "As a gift" and "About Walter" are deliberately NOT product-specific: they
-  say the same thing under every product, so they come from shared keys and one
-  edit changes them everywhere.
+  Three slots, in this order:
+
+    1. The product's own note — "How to read" on the tarot, "Reading it on a screen" on the
+       Prague book. One lead and one shorter paragraph, which is the shape every product-page
+       text takes (docs/design/COPY-GUIDE.md). Rendered only when <handle>_note_lead exists.
+    2. As a gift — shared lead, shared text, and a per-product text when the shared one would be
+       wrong. The stickers have no language, so "Pick the language they love to read in" cannot
+       stand under them and they carry their own <handle>_gift_text.
+    3. About Walter — shared, always the same under every product.
+
+  Keys:
+    walterin.product.<handle>_note_heading / _note_lead / _note_text
+    walterin.product.<handle>_gift_text          optional override
+    walterin.product.gift_heading / gift_lead / gift_text
+    walterin.product.walter_heading / walter_lead / walter_text
+
+  Every paragraph goes through wui-tail-nbsp so its last word is never left alone on a line
+  (docs/design/LINE-BREAKS.md).
 
   Accepts: product (required), prefix (required, e.g. "walterin.product.tarot_")
 {%- endcomment -%}
 {%- liquid
-  assign how_lead = prefix | append: 'how_lead' | t
-  assign has_how = false
-  unless how_lead contains 'Translation missing'
-    assign has_how = true
-  endunless
+  assign note_lead = prefix | append: 'note_lead' | t
+  assign has_note = true
+  if note_lead contains 'Translation missing'
+    assign has_note = false
+  endif
+
+  assign note_heading = prefix | append: 'note_heading' | t
+  assign note_text = prefix | append: 'note_text' | t
+
+  assign gift_text = prefix | append: 'gift_text' | t
+  if gift_text contains 'Translation missing'
+    assign gift_text = 'walterin.product.gift_text' | t
+  endif
+  assign gift_lead = 'walterin.product.gift_lead' | t
+  assign walter_lead = 'walterin.product.walter_lead' | t
+  assign walter_text = 'walterin.product.walter_text' | t
 -%}
 
-{%- if has_how -%}
+{%- if has_note -%}
   <details class="wui-accordion wui-accordion--suggest" data-wui-acc>
     <summary>
       <span class="wui-accordion__title">
-        <span class="wui-label">{{ 'walterin.product.how_heading' | t }}</span>
+        <span class="wui-label">{{ note_heading }}</span>
       </span>
       <span class="wui-accordion__icon" aria-hidden="true"></span>
     </summary>
     <div class="wui-accordion__wrap">
       <div class="wui-accordion__body wui-rte">
-        {%- comment -%}
-          Two paragraphs, not three (Veronka, 9 Oct): the lead, which the stylesheet sets large,
-          then everything else in one smaller paragraph. The two-readings text keeps its own key
-          so it stays word for word what it was; it is only joined to the sentence before it.
-        {%- endcomment -%}
-        {%- liquid
-          assign how_text = prefix | append: 'how_text' | t
-          assign how_readings = prefix | append: 'how_readings' | t
-          assign how_body = how_text | append: ' ' | append: how_readings
-        -%}
-        <p>{%- render 'wui-tail-nbsp', text: how_lead -%}</p>
-        <p>{%- render 'wui-tail-nbsp', text: how_body -%}</p>
+        <p>{%- render 'wui-tail-nbsp', text: note_lead -%}</p>
+        {%- unless note_text contains 'Translation missing' -%}
+          <p>{%- render 'wui-tail-nbsp', text: note_text -%}</p>
+        {%- endunless -%}
       </div>
     </div>
   </details>
@@ -56,20 +73,7 @@
   </summary>
   <div class="wui-accordion__wrap">
     <div class="wui-accordion__body wui-rte">
-      {%- comment -%}
-        The lead is shared by every product. The text is not: "Pick the language they love to
-        read in" is nonsense under the stickers, which have no language. So a product may carry
-        its own <handle>_gift_text and it wins over the shared one. Nothing else forks — if a
-        second product ever needs its own, it adds one key, not a new accordion.
-      {%- endcomment -%}
-      {%- liquid
-        assign gift_text = prefix | append: 'gift_text' | t
-        if gift_text contains 'Translation missing'
-          assign gift_text = 'walterin.product.gift_text' | t
-        endif
-      -%}
-      {%- assign v = 'walterin.product.gift_lead' | t -%}
-      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      <p>{%- render 'wui-tail-nbsp', text: gift_lead -%}</p>
       <p>{%- render 'wui-tail-nbsp', text: gift_text -%}</p>
     </div>
   </div>
@@ -84,10 +88,8 @@
   </summary>
   <div class="wui-accordion__wrap">
     <div class="wui-accordion__body wui-rte">
-      {%- assign v = 'walterin.product.walter_lead' | t -%}
-      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
-      {%- assign v = 'walterin.product.walter_text' | t -%}
-      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      <p>{%- render 'wui-tail-nbsp', text: walter_lead -%}</p>
+      <p>{%- render 'wui-tail-nbsp', text: walter_text -%}</p>
     </div>
   </div>
 </details>

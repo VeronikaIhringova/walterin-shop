@@ -676,7 +676,17 @@
             endif
           endcapture
         -%}
-        {%- assign about_heading = wui.about_heading | default: section.settings.about_heading -%}
+        {%- comment -%}
+          Heading order: the language files, then the product's metafield, then the section
+          setting. The language files come first because they are the only one of the three
+          whose Slovak lives in the repo and can be previewed.
+        {%- endcomment -%}
+        {%- liquid
+          assign about_heading = loc_prefix | append: 'about_heading' | t
+          if about_heading contains 'Translation missing'
+            assign about_heading = wui.about_heading | default: section.settings.about_heading
+          endif
+        -%}
         {%- if about_body != blank -%}
           <details class="wui-accordion" data-wui-acc>
             <summary>
@@ -724,7 +734,13 @@
         <details class="wui-accordion" data-wui-acc>
           <summary>
             <span class="wui-accordion__title">
-              <span class="wui-label">{{ section.settings.box_heading | escape }}</span>
+              {%- liquid
+                assign box_heading = loc_prefix | append: 'box_heading' | t
+                if box_heading contains 'Translation missing'
+                  assign box_heading = section.settings.box_heading
+                endif
+              -%}
+              <span class="wui-label">{{ box_heading | escape }}</span>
               {%- render 'wui-icon', icon: 'star', class: 'wui-accordion__star' -%}
             </span>
             <span class="wui-accordion__icon" aria-hidden="true"></span>
@@ -739,11 +755,14 @@
                 The box list from the language files when the product has one, otherwise the
                 metafield.
 
-                One flat list, every line on the same left edge (Veronka, 9 Oct). The two bonus
-                cards are marked with an en dash rather than an indent, and "The box" is the last
-                line of the same list, not a paragraph after it — so the spacing between all five
-                lines is identical. The dash lives here and not in the language files, so the
-                strings stay exactly her words.
+                One flat list, every line on the same left edge (Veronka, 9 Oct). A line that
+                belongs under the one above it is marked with an en dash in the string itself,
+                never with an indent, and the closing line ("The box") is the last item of the
+                same list rather than a paragraph after it — so the spacing never changes.
+
+                The items are numbered keys, box_1 upward, and the loop stops at the first one
+                that is missing. A product with a lead and no items (the stickers) gets the lead
+                and the spec table and nothing else.
               {%- endcomment -%}
               {%- liquid
                 assign box_lead = loc_prefix | append: 'box_lead' | t
@@ -754,15 +773,37 @@
                 assign read_anchor = '#how-a-card-is-read'
               -%}
               {%- if has_box -%}
+                {%- liquid
+                  assign box_items = ''
+                  for i in (1..9)
+                    # The `t` filter HTML-escapes unless the key ends in _html, so an item that
+                    # carries a link lives under box_<n>_html. Checked first; plain text second.
+                    assign item_key = loc_prefix | append: 'box_' | append: i | append: '_html'
+                    assign item = item_key | t
+                    if item contains 'Translation missing'
+                      assign item_key = loc_prefix | append: 'box_' | append: i
+                      assign item = item_key | t
+                    endif
+                    if item contains 'Translation missing'
+                      break
+                    endif
+                    assign item = item | replace: '[READ_ANCHOR]', read_anchor
+                    # wui-tail-nbsp glues the last two WORDS, so it must not see markup: on an
+                    # item ending in </a> it would tie the tag to the word before it. An _html
+                    # item carries its own no-break spaces instead.
+                    if item contains '<'
+                      assign item_html = item
+                    else
+                      capture item_html
+                        render 'wui-tail-nbsp', text: item
+                      endcapture
+                    endif
+                    assign box_items = box_items | append: '<li>' | append: item_html | append: '</li>'
+                  endfor
+                -%}
                 <div class="wui-rte wui-included">
                   <p>{%- render 'wui-tail-nbsp', text: box_lead -%}</p>
-                  <ul>
-                    <li>{%- assign v = loc_prefix | append: 'box_cards' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                    <li>{%- assign v = loc_prefix | append: 'box_bonus' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                    <li>–&nbsp;{%- assign b1 = loc_prefix | append: 'box_bonus_1_html' | t -%}{{ b1 | replace: '[READ_ANCHOR]', read_anchor }}</li>
-                    <li>–&nbsp;{%- assign v = loc_prefix | append: 'box_bonus_2' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                    <li>{%- assign v = loc_prefix | append: 'box_box' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
-                  </ul>
+                  {%- if box_items != blank -%}<ul>{{ box_items }}</ul>{%- endif -%}
                 </div>
               {%- elsif wui.included != blank -%}
                 <div class="wui-rte wui-included">{{ wui.included | metafield_tag }}</div>
