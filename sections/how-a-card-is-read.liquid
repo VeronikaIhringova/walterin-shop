@@ -41,7 +41,12 @@
 
 <script src="{{ 'walterin-read.js' | asset_url }}" defer="defer"></script>
 
-<div class="wui-scope wui-read" data-wui-read data-wui-hold="{{ hold }}">
+{%- comment -%}
+  id="how-a-card-is-read" is the target of the "See how a card is read ↓" link in the product
+  page's box list. A fixed id, not Shopify's generated section id, so the link survives the
+  section being moved, renamed or added to another template.
+{%- endcomment -%}
+<div class="wui-scope wui-read" id="how-a-card-is-read" data-wui-read data-wui-hold="{{ hold }}">
   <div class="wui-wrap">
     <h2 class="wui-heading">{{ section.settings.title | escape }}</h2>
 

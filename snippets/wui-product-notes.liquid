@@ -1,0 +1,79 @@
+{%- comment -%}
+  The product page's lower accordions, from the theme's language files.
+
+  Why here and not in the product's metafields: see the long comment in
+  sections/walterin-buy.liquid where this is rendered. Short version — a
+  metafield's Slovak lives outside the repo and has never once been written,
+  and it cannot be previewed before it goes live.
+
+  "As a gift" and "About Walter" are deliberately NOT product-specific: they
+  say the same thing under every product, so they come from shared keys and one
+  edit changes them everywhere.
+
+  Accepts: product (required), prefix (required, e.g. "walterin.product.tarot_")
+{%- endcomment -%}
+{%- liquid
+  assign how_lead = prefix | append: 'how_lead' | t
+  assign has_how = false
+  unless how_lead contains 'Translation missing'
+    assign has_how = true
+  endunless
+-%}
+
+{%- if has_how -%}
+  <details class="wui-accordion wui-accordion--suggest" data-wui-acc>
+    <summary>
+      <span class="wui-accordion__title">
+        <span class="wui-label">{{ 'walterin.product.how_heading' | t }}</span>
+      </span>
+      <span class="wui-accordion__icon" aria-hidden="true"></span>
+    </summary>
+    <div class="wui-accordion__wrap">
+      <div class="wui-accordion__body wui-rte">
+        {%- comment -%}
+          First paragraph is the lead and the stylesheet sizes it as such; the rest is body.
+          The two-readings paragraph is kept word for word from the old copy (Veronka, 9 Oct).
+        {%- endcomment -%}
+        <p>{%- render 'wui-tail-nbsp', text: how_lead -%}</p>
+        {%- assign v = prefix | append: 'how_text' | t -%}
+        <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+        {%- assign v = prefix | append: 'how_readings' | t -%}
+        <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      </div>
+    </div>
+  </details>
+{%- endif -%}
+
+<details class="wui-accordion wui-accordion--suggest" data-wui-acc>
+  <summary>
+    <span class="wui-accordion__title">
+      <span class="wui-label">{{ 'walterin.product.gift_heading' | t }}</span>
+    </span>
+    <span class="wui-accordion__icon" aria-hidden="true"></span>
+  </summary>
+  <div class="wui-accordion__wrap">
+    <div class="wui-accordion__body wui-rte">
+      {%- assign v = 'walterin.product.gift_lead' | t -%}
+      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      {%- assign v = 'walterin.product.gift_text' | t -%}
+      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+    </div>
+  </div>
+</details>
+
+<details class="wui-accordion wui-accordion--suggest" data-wui-acc>
+  <summary>
+    <span class="wui-accordion__title">
+      <span class="wui-label">{{ 'walterin.product.walter_heading' | t }}</span>
+    </span>
+    <span class="wui-accordion__icon" aria-hidden="true"></span>
+  </summary>
+  <div class="wui-accordion__wrap">
+    <div class="wui-accordion__body wui-rte">
+      {%- assign v = 'walterin.product.walter_lead' | t -%}
+      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+      {%- assign v = 'walterin.product.walter_text' | t -%}
+      <p>{%- render 'wui-tail-nbsp', text: v -%}</p>
+    </div>
+  </div>
+</details>

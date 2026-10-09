@@ -158,7 +158,6 @@
     assign digital = false
   endif
 
-  assign gpsr_physical = product.variants | where: 'requires_shipping', true
 -%}
 
 {%- comment -%}
@@ -647,7 +646,36 @@
           With nothing written in the section, the product's own description carries this accordion,
           so a brand-new product has a real page from the moment it is created.
         {%- endcomment -%}
-        {%- assign about_body = product.description -%}
+        {%- liquid
+          assign loc_prefix = 'walterin.product.' | append: product.handle | append: '_'
+          assign about_lead = loc_prefix | append: 'about_lead' | t
+          assign about_text = loc_prefix | append: 'about_text' | t
+          assign has_locale = false
+          unless about_lead contains 'Translation missing'
+            assign has_locale = true
+          endunless
+
+          comment
+            Each paragraph goes through wui-tail-nbsp so its last word is never left standing
+            alone on a line — LINE-BREAKS.md, and the same treatment the cart options get.
+          endcomment
+          capture about_lead_t
+            render 'wui-tail-nbsp', text: about_lead
+          endcapture
+          capture about_text_t
+            render 'wui-tail-nbsp', text: about_text
+          endcapture
+          capture about_body
+            if has_locale
+              echo '<p>' | append: about_lead_t | append: '</p>'
+              unless about_text contains 'Translation missing'
+                echo '<p>' | append: about_text_t | append: '</p>'
+              endunless
+            else
+              echo product.description
+            endif
+          endcapture
+        -%}
         {%- assign about_heading = wui.about_heading | default: section.settings.about_heading -%}
         {%- if about_body != blank -%}
           <details class="wui-accordion" data-wui-acc>
@@ -680,7 +708,12 @@
           endfor
 
           assign box_has = false
-          if wui.included != blank or spec_count > 0
+          assign loc_box_probe = 'walterin.product.' | append: product.handle | append: '_box_lead' | t
+          assign has_loc_box = false
+          unless loc_box_probe contains 'Translation missing'
+            assign has_loc_box = true
+          endunless
+          if wui.included != blank or spec_count > 0 or has_loc_box
             assign box_has = true
           endif
           if section.settings.box_heading == blank
@@ -702,7 +735,39 @@
                 The first line of "What you get" is the summary and the bullets follow it. Both come
                 from the one rich-text metafield, so the shape of the list is the merchant's choice.
               {%- endcomment -%}
-              {%- if wui.included != blank -%}
+              {%- comment -%}
+                The box list from the language files when the product has one, otherwise the
+                metafield. The nested bullet under "2 bonus cards" is why this is written out
+                rather than split from rich text: a rich-text metafield cannot nest a list, and
+                the second bonus card's description has to sit under it.
+              {%- endcomment -%}
+              {%- liquid
+                assign box_lead = loc_prefix | append: 'box_lead' | t
+                assign has_box = false
+                unless box_lead contains 'Translation missing'
+                  assign has_box = true
+                endunless
+                assign read_anchor = '#how-a-card-is-read'
+              -%}
+              {%- if has_box -%}
+                <div class="wui-rte wui-included">
+                  <p>{%- render 'wui-tail-nbsp', text: box_lead -%}</p>
+                  <ul>
+                    <li>{%- assign v = loc_prefix | append: 'box_cards' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
+                    <li>
+                      {{ loc_prefix | append: 'box_bonus' | t }}
+                      <ul>
+                        <li>
+                          {%- assign b1 = loc_prefix | append: 'box_bonus_1_html' | t -%}
+                          {{ b1 | replace: '[READ_ANCHOR]', read_anchor }}
+                        </li>
+                        <li>{%- assign v = loc_prefix | append: 'box_bonus_2' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p>{%- assign v = loc_prefix | append: 'box_box' | t -%}{%- render 'wui-tail-nbsp', text: v -%}</p>
+                </div>
+              {%- elsif wui.included != blank -%}
                 <div class="wui-rte wui-included">{{ wui.included | metafield_tag }}</div>
               {%- endif -%}
               {%- if spec_count > 0 -%}
@@ -718,10 +783,18 @@
                   {%- endfor -%}
                 </dl>
               {%- endif -%}
-              {%- comment -%} GPSR (Reg. (EU) 2023/988, Art. 19): two small lines, physical products only {%- endcomment -%}
-              {%- if gpsr_physical.size > 0 -%}
-                {%- render 'gpsr-row', product: product -%}
-              {%- endif -%}
+              {%- comment -%}
+                The GPSR row is OFF the product page (Veronka, 9 Oct 2026): it printed
+                "Manufacturer: Walterin s. r. o., Ľubochnianska 4 … · support@walterin.com" and
+                "Product: <title>" under every physical product.
+
+                This is a legal question, not a tidy-up. Reg. (EU) 2023/988 Art. 19 asks for the
+                manufacturer's name, postal and electronic address and a product identifier in the
+                online offer, and taking them off the offer page leaves them only in the policies
+                and the FAQ. It is written up as a question for the lawyer in
+                docs/legal/LAWYER-QUESTIONS.md. Do not put it back, and do not delete the snippet,
+                until that question is answered.
+              {%- endcomment -%}
             </div>
           </div>
         </details>
@@ -787,6 +860,13 @@
           So take the wrapper off each field before the split, not after. The rendered rich text
           itself is untouched: only metafield_tag's own container goes.
         {%- endcomment -%}
+        {%- comment -%}
+          The "When can I have it?" accordion is gone (Veronka, 9 Oct 2026). It came from
+          wui.preorder_note while a product could not be bought; nothing replaces it. The launch
+          pill in the price row already says "Coming soon" or the date, and the notify form below
+          it already asks for the email, so this said a third time what the page says twice.
+          The metafield is left alone in admin — nothing reads it now.
+        {%- endcomment -%}
         {%- liquid
           capture notes_html
             if wui.notes != blank
@@ -795,15 +875,34 @@
               endcapture
               echo notes_raw | remove_first: '<div class="metafield-rich_text_field">' | remove_last: '</div>'
             endif
-            if product_state == 'coming_soon' and wui.preorder_note != blank
-              capture preorder_raw
-                echo wui.preorder_note | metafield_tag
-              endcapture
-              echo preorder_raw | remove_first: '<div class="metafield-rich_text_field">' | remove_last: '</div>'
-            endif
           endcapture
           assign note_chunks = notes_html | split: '<h3'
         -%}
+        {%- comment -%}
+          Words from the theme's language files for the products that have them, and from the
+          product's own metafields for the ones that do not.
+
+          This is a deliberate departure from docs/CONTENT-MODEL.md, which says a product's words
+          live in metafields because "metafields survive a theme change". That reason is real and
+          it is why the fallback below stays. It is outweighed here by the one failure this site
+          keeps repeating: a metafield's Slovak lives in Translate & Adapt, outside the repo, and
+          has gone unwritten every single time — the home page, the FAQ and these accordions were
+          all English on /sk/. In the locale files the two languages sit together, are reviewed in
+          a diff, publish with the theme, and can be previewed before they go live, which a
+          metafield cannot.
+
+          Veronka: if you would rather these lived in metafields, say so and I will move them —
+          it is the same text either way, and the fallback path below already does the work.
+        {%- endcomment -%}
+        {%- if has_locale -%}
+          {%- render 'wui-product-notes', product: product, prefix: loc_prefix -%}
+        {%- endif -%}
+
+        {%- comment -%}
+          The metafield path runs only for a product with no locale entry. Running both would
+          print "As a gift" twice on the tarot, whose metafield still holds the old wording.
+        {%- endcomment -%}
+        {%- unless has_locale -%}
         {%- for chunk in note_chunks -%}
           {%- if chunk contains '</h3>' -%}
             {%- liquid
@@ -824,6 +923,7 @@
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- endunless -%}
       </div>
     </div>
   </div>

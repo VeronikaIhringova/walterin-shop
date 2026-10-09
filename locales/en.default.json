@@ -687,6 +687,26 @@
         }
       }
     },
+    "product": {
+      "how_heading": "How to read",
+      "gift_heading": "As a gift",
+      "walter_heading": "About Walter",
+      "tarot_how_lead": "Whether it’s your first time holding a tarot deck or you read the cards every morning, you won’t need a book. Everything is drawn right there on the card.",
+      "tarot_how_text": "That’s why this deck is for everyone. Just take a look and read what the card is telling you.",
+      "tarot_how_readings": "Use any spread you already know. Two come with the deck. Card of the day: draw one in the morning, keep it with you or stand it somewhere you’ll see it, and let it work on you all day. Reading of consciousness: the longer one, in three steps — what to understand, what to accept, what to transform.",
+      "tarot_about_lead": "Walter Ihring’s Tarot of Consciousness grew out of the classic Rider⁠–⁠Waite tarot. Every card is a nine-frame path, a little journey in nine steps.",
+      "tarot_about_text": "The cards are like a mirror. They show you what’s going on inside, how you feel and where you’re headed. Look at the picture first, then read the words, and notice what the card leaves you with.",
+      "tarot_box_lead": "80 cards in all:",
+      "tarot_box_cards": "78 tarot cards: 22 Major and 56 Minor Arcana",
+      "tarot_box_bonus": "2 bonus cards:",
+      "tarot_box_bonus_1_html": "an introduction to the Tarot of Consciousness and the nine-frame path. <a href=\"[READ_ANCHOR]\" data-wui-scroll>See how a card is read ↓</a>",
+      "tarot_box_bonus_2": "two readings: Card of the day and Reading of consciousness",
+      "tarot_box_box": "The box",
+      "gift_lead": "An original gift for the people closest to you: your partner, your mum, your dad or a friend.",
+      "gift_text": "Walter’s drawings, something they’ve surely never been given before. Pick the language they love to read in. It’s sure to make anyone happy, and it lasts a lifetime.",
+      "walter_lead": "Walter Ihring is a Slovak author who turns everything he knows and has lived through into drawings. They become books and other little things that make people happy.",
+      "walter_text": "He loves drawing funny cartoons, characters and caricatures, and has plenty of competitions under his belt. In 2015 he published Walterin Bratislava, a city told in comics. Since then, more cities have followed, and not just books, but tarot cards and stickers too."
+    },
     "home": {
       "announcement": "Welcome, curious traveller",
       "read_more": "Read more →",

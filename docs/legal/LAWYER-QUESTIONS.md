@@ -189,3 +189,46 @@ to be repeated immediately before the order button.
    goods notice shows whenever *any* variant is a good, or must it follow the **selected** variant?
 4. Letter (h) covers digital content with no prescribed form. Is a plain sentence of our own wording
    enough, and does it also have to be given before the order is sent?
+
+## GPSR Art. 19 — manufacturer details in the online offer (added 9 Oct 2026)
+
+Veronka, 9 Oct 2026, verbatim:
+
+> GPSR Art. 19 requires manufacturer name, postal and electronic address and product
+> identification in the online offer. We removed them from the product pages. Is the legal notice /
+> contact page enough, and does it apply to printed books?
+
+What changed, so the question is answered against the real site: until 9 Oct every product page
+carried a line reading `Manufacturer: Walterin s. r. o., Ľubochnianska 4, 831 04 Bratislava,
+Slovakia · support@walterin.com` and `Product: <name>`, rendered by `snippets/gpsr-row.liquid`.
+That line is now gone from the product pages. It still exists as a snippet, unused.
+
+Where those details are today, measured on walterin.com the same day:
+
+| Surface | Name | Postal address | Email |
+|---|---|---|---|
+| Footer (every page) | yes, in the © line | no | no |
+| `/policies/contact-information` | yes | yes | yes |
+| `/policies/terms-of-service` | yes | yes | yes |
+| `/policies/privacy-policy` | yes | yes | yes |
+| `/policies/refund-policy` | yes | yes | yes |
+| `/pages/faq` — "Where are you?" | yes | yes | yes |
+| `/pages/contact` | no | no | no — a form only |
+| `/pages/about-us`, `/pages/where-to-find-us` | no | no | no |
+| Product pages | no | no | no |
+
+Two facts worth putting in front of the lawyer with the question:
+
+- **`/policies/contact-information` is not linked from anywhere on the site.** It is reachable only
+  by typing the URL. If that page is the answer, it has to be linked.
+- **`/pages/contact` is the page a customer would look at**, and it carries no company details at
+  all.
+
+So, alongside Veronka's question:
+
+1. If a product-page line is not required, **which** page satisfies Art. 19 — and does it have to
+   be reachable from the product page in one click?
+2. Does Art. 19 apply to **printed books and a printed tarot deck** at all, and does the answer
+   differ for the digital editions (eBook, PDF/EPUB)?
+3. "Product identification" — is the product name on the page enough, or does it need a type,
+   batch or model number?

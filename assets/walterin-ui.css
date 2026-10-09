@@ -2463,3 +2463,39 @@
 .wui [class*="ai-feature-full-text-"] {
   text-wrap: balance;
 }
+
+/* ---------------------------------------------------------------------------
+   In-page jump links  ([data-wui-scroll])
+   Used by the product page's box list to reach "How a card is read".
+
+   All three requirements are the browser's own job, so there is no JavaScript:
+   smooth scrolling via scroll-behavior, the sticky header cleared with
+   scroll-margin-top, and the motion switched off for anyone who asked for less.
+
+   --header-height is set on <html> by sections/header.liquid on load and on
+   resize; the fallback keeps the gap sane for the one frame before that runs
+   and on any page without a sticky header.
+   --------------------------------------------------------------------------- */
+html:has(a[data-wui-scroll]) { scroll-behavior: smooth; }
+
+#how-a-card-is-read { scroll-margin-top: calc(var(--header-height, 64px) + var(--wui-space-block, 24px)); }
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(a[data-wui-scroll]) { scroll-behavior: auto; }
+}
+
+/* The link reads as a link inside the list, not as another bullet. */
+.wui .wui-included a[data-wui-scroll] {
+  text-underline-offset: 0.18em;
+}
+
+/* The box list's second level.
+   The theme hides list markers everywhere (:where(.wui-scope) :is(ul, ol)), so a
+   nested list would otherwise sit flush with its parent and the two bonus cards
+   would read as two more top-level items. The indent is the only thing saying
+   they belong under "2 bonus cards:".
+   FLAGGED FOR VERONKA — the live list is flat; this indent is new. */
+.wui .wui-included ul ul {
+  padding-left: var(--wui-space-block, 24px);
+  margin-top: var(--wui-space-control, 4px);
+}
