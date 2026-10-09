@@ -2489,3 +2489,24 @@ html:has(a[data-wui-scroll]) { scroll-behavior: smooth; }
   text-underline-offset: 0.18em;
 }
 
+
+/* ---------------------------------------------------------------------------
+   Contact page — who you are writing to, under the form.
+   Quiet by design: it is a legal notice, not a call to action. The gap above
+   it is one section step, because the form and this block are two sections of
+   the page, not two paragraphs (docs/design/SPACING.md).
+   --------------------------------------------------------------------------- */
+.wui-contact-details {
+  margin-top: var(--wui-space-section, 72px);
+  padding-top: var(--wui-space-block, 24px);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 16px;
+  line-height: 1.8;
+  text-wrap: balance;
+}
+
+.wui-contact-details p { margin: 0; }
+.wui-contact-details__name { font-weight: 600; }
+.wui-contact-details a { color: inherit; }
+
+.contact-intro .wui-contact__required { font-size: 13px; opacity: 0.6; }

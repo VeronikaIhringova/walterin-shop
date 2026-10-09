@@ -1,0 +1,109 @@
+{
+  "stickers": {
+    "id": "gid://shopify/Product/9579275223369",
+    "title": "Walterin Prague Sticker Set",
+    "tags": [
+      "PARIS"
+    ],
+    "descriptionHtml": "<p>Thirty stickers off the pages of Walterin Prague: the characters, the city’s icons, and a few small jokes that only make sense once you have read the book.</p><p>Matte, and they stay where you put them.</p>",
+    "media": {
+      "nodes": [
+        {
+          "id": "gid://shopify/MediaImage/56550396133705",
+          "alt": "",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_1.jpg?v=1771592386"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/56550396395849",
+          "alt": "",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_2.jpg?v=1771592388"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/56550396428617",
+          "alt": "",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_3.jpg?v=1771592387"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/56550396166473",
+          "alt": "",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_4.jpg?v=1771592387"
+          }
+        },
+        {
+          "id": "gid://shopify/MediaImage/56551557628233",
+          "alt": "",
+          "image": {
+            "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_5.jpg?v=1771597267"
+          }
+        }
+      ]
+    }
+  },
+  "paris": {
+    "id": "gid://shopify/Product/10024621801801",
+    "title": "Walterin Paris",
+    "tags": [
+      "PRAGUE"
+    ],
+    "status": "DRAFT"
+  },
+  "pages": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Page/139368694089",
+        "handle": "contact",
+        "title": "Contact us",
+        "bodySummary": "Get in touch 📩support@walterin.com 📞+421 905 549 907 💬DM us on Instagram @walterincomics"
+      },
+      {
+        "id": "gid://shopify/Page/139414896969",
+        "handle": "about-us",
+        "title": "About Us",
+        "bodySummary": "Hi, My name is Walter Ihring I devote my time to animated humour and caricatures. I like travelling, especially across India. My pictures also like..."
+      },
+      {
+        "id": "gid://shopify/Page/153183453513",
+        "handle": "privacy-policy",
+        "title": "Privacy Policy",
+        "bodySummary": "Privacy Policy Effective Date: January 16, 2026 Walterin s.r.o.Ľubochnianska 4831 04 Bratislava – Nové MestoSlovak RepublicIČO: 57297991Email: supp..."
+      },
+      {
+        "id": "gid://shopify/Page/153222676809",
+        "handle": "terms-and-conditions",
+        "title": "Terms and Conditions",
+        "bodySummary": "Terms and Conditions Effective Date: January 16, 2026 Welcome to Walterin! These Terms and Conditions (\"Terms\") govern your use of our website (www..."
+      },
+      {
+        "id": "gid://shopify/Page/153259999561",
+        "handle": "faq",
+        "title": "FAQ",
+        "bodySummary": ""
+      },
+      {
+        "id": "gid://shopify/Page/153756926281",
+        "handle": "drop-us-a-note-anytime",
+        "title": "Drop us a note anytime.",
+        "bodySummary": ""
+      },
+      {
+        "id": "gid://shopify/Page/173791281481",
+        "handle": "withdrawal",
+        "title": "Withdraw from contract",
+        "bodySummary": ""
+      },
+      {
+        "id": "gid://shopify/Page/173866189129",
+        "handle": "where-to-find-us",
+        "title": "Where to find us",
+        "bodySummary": ""
+      }
+    ]
+  }
+}

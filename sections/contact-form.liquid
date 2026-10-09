@@ -117,10 +117,17 @@
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
 
+    {%- comment -%}
+      These three lines were hardcoded English, so /sk/pages/contact read in English. They are in
+      locales/*.json now, under walterin.contact, like the FAQ and the product pages.
+
+      The hours line no longer promises a reply "within 2 business days" — nobody signed that off
+      and a customer quotes it back (Veronka, 9 Oct).
+    {%- endcomment -%}
     <div class="contact-intro">
-      <p>Feel free to reach out at any time. We're here to help with orders, product questions, and any feedback you may have.</p>
-      <p>Our customer service team is available <strong>Monday–Friday, 9:00–17:00 CET</strong>. We'll aim to get back to you within <strong>2 business days</strong>.</p>
-      <p style="font-size: 13px; opacity: 0.6;">* indicates a required field</p>
+      <p>{{ 'walterin.contact.intro' | t }}</p>
+      <p>{{ 'walterin.contact.hours_html' | t }}</p>
+      <p class="wui-contact__required">{{ 'walterin.contact.required' | t }}</p>
     </div>
 
     {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
@@ -231,6 +238,24 @@
         </button>
       </div>
     {%- endform -%}
+
+    {%- comment -%}
+      Who the customer is writing to, below the form (Veronka, 9 Oct). The same details as
+      Terms clause 1, minus IČO and DIČ, which stay in the Terms.
+
+      Here rather than in the page body because the page body is not rendered at all — the
+      main-page section is disabled in templates/page.contact.json — and because a page body's
+      Slovak lives in Translate & Adapt, outside the repo.
+    {%- endcomment -%}
+    <div class="wui-scope wui-contact-details">
+      <p class="wui-contact-details__name">{{ 'walterin.contact.company' | t }}</p>
+      <p>
+        {{ 'walterin.contact.address' | t }}<br>
+        <a href="mailto:support@walterin.com">support@walterin.com</a>
+        <span aria-hidden="true"> · </span>
+        <a href="tel:+421905549907">+421&nbsp;905&nbsp;549&nbsp;907</a>
+      </p>
+    </div>
 
   </div>
 </div>

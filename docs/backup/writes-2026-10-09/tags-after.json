@@ -1,0 +1,44 @@
+{
+  "products": {
+    "nodes": [
+      {
+        "handle": "walterin-prague",
+        "status": "ACTIVE",
+        "tags": [
+          "PRAGUE"
+        ]
+      },
+      {
+        "handle": "t-shirt",
+        "status": "DRAFT",
+        "tags": [
+          "PRAGUE"
+        ]
+      },
+      {
+        "handle": "stickers",
+        "status": "ACTIVE",
+        "tags": [
+          "PRAGUE"
+        ]
+      },
+      {
+        "handle": "prague-tarot",
+        "status": "DRAFT",
+        "tags": []
+      },
+      {
+        "handle": "tarot",
+        "status": "ACTIVE",
+        "tags": []
+      },
+      {
+        "handle": "walterin-paris",
+        "status": "DRAFT",
+        "tags": [
+          "PARIS"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "productByHandle": {
+    "descriptionHtml": "<p>Thirty colourful stickers straight from the pages of Walterin Prague: characters, symbols, places and more.</p><p>They’re a perfect match for the book, but just as good on their own. Stick them on your laptop, a water bottle or a notebook.</p>",
+    "tags": [
+      "PRAGUE"
+    ]
+  },
+  "tr": {
+    "translations": [
+      {
+        "key": "title",
+        "value": "Sada nálepiek Walterin Praha"
+      },
+      {
+        "key": "meta_title",
+        "value": "Sada nálepiek Walterin Praha | Ilustrované symboly mesta a postavy"
+      },
+      {
+        "key": "meta_description",
+        "value": "Hravá sada ilustrovaných pražských nálepiek s postavami Walterin, symbolmi mesta a komiksovou kresbou. Na zápisníky, ako darček a pre milovníkov Prahy."
+      },
+      {
+        "key": "body_html",
+        "value": "<p>Tridsať farebných nálepiek priamo zo stránok knihy Walterin Praha: postavičky, symboly, miesta a iné.</p><p>Skvele doplnia knihu, ale parádne sú aj samy osebe. Nalepte si ich na notebook, fľašu alebo zápisník.</p>"
+      }
+    ]
+  }
+}

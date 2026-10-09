@@ -1,0 +1,55 @@
+{
+  "page": {
+    "id": "gid://shopify/Page/139368694089",
+    "handle": "contact",
+    "title": "Contact us",
+    "body": "<h1 style=\"text-align: center;\">Get in touch </h1>\n<p style=\"text-align: center;\"><span><meta charset=\"utf-8\">📩</span><span><br>support@walterin.com<br><br></span><span></span></p>\n<p style=\"text-align: center;\">📞<br>+421 905 549 907<br><br></p>\n<p style=\"text-align: center;\">💬<br>DM us on Instagram <br>@walterincomics</p>\n<p style=\"text-align: center;\"><span><br></span></p>"
+  },
+  "tr": {
+    "translations": [
+      {
+        "key": "title",
+        "value": "Kontakt"
+      },
+      {
+        "key": "body_html",
+        "value": "<h1 style=\"text-align: center;\">Napíšte nám</h1> <p style=\"text-align: center;\">📩<br>support@walterin.com<br><br></p> <p style=\"text-align: center;\">📞<br>+421 905 549 907<br><br></p> <p style=\"text-align: center;\">💬<br>Napíšte nám na Instagrame<br>@walterincomics</p>"
+      },
+      {
+        "key": "meta_title",
+        "value": "Kontakt Walterin: podpora, otázky a knihy"
+      },
+      {
+        "key": "meta_description",
+        "value": "Napíšte Walterinovi. Otázky ku knihám, objednávkam, doprave, spolupráci alebo podpore nám pošlite e-mailom, zavolajte alebo napíšte na Instagrame. Radi pomôžeme."
+      }
+    ],
+    "translatableContent": [
+      {
+        "key": "title",
+        "value": "Contact us",
+        "digest": "47aaf31b83d6bfd705b80bcd5b6269be4caa3cf54cfa546b0ae7bc4078b39b0f"
+      },
+      {
+        "key": "body_html",
+        "value": "<h1 style=\"text-align: center;\">Get in touch </h1>\n<p style=\"text-align: center;\"><span><meta charset=\"utf-8\">📩</span><span><br>support@walterin.com<br><br></span><span></span></p>\n<p style=\"text-align: center;\">📞<br>+421 905 549 907<br><br></p>\n<p style=\"text-align: center;\">💬<br>DM us on Instagram <br>@walterincomics</p>\n<p style=\"text-align: center;\"><span><br></span></p>",
+        "digest": "6e80a1029853545028f94ac59657de507e1e10785414eaa1be2aa0fcc541c744"
+      },
+      {
+        "key": "handle",
+        "value": "contact",
+        "digest": "093e7d5fdbaacfa92448861b11075b3fba532a07d945b49a44919252f5e830ad"
+      },
+      {
+        "key": "meta_title",
+        "value": "Contact Walterin — Support, Questions & Book Inquiries",
+        "digest": "30f12de1e6281e6304e32daf8ee353dda577f82eeb8bc4aebbcd9eb692b4a38c"
+      },
+      {
+        "key": "meta_description",
+        "value": "Get in touch with Walterin. For questions about our books, orders, shipping, collaborations, or support, contact us via email, phone, or Instagram. We're here to help.",
+        "digest": "05ab4a831a693a6264a98d6096278e7c862b883896fcd3f404eedd4ed59ddfba"
+      }
+    ]
+  }
+}

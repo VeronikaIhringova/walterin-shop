@@ -530,6 +530,13 @@
     }
   },
   "walterin": {
+    "contact": {
+      "intro": "Napíšte nám kedykoľvek. Pomôžeme s objednávkou, poradíme s produktmi a radi si vypočujeme, čo si myslíte.",
+      "hours_html": "Pondelok až piatok, <strong>9:00–17:00&nbsp;SEČ</strong>. Ozveme sa vám čo&nbsp;najskôr.",
+      "required": "* povinné pole",
+      "company": "Walterin s.&nbsp;r.&nbsp;o.",
+      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovensko"
+    },
     "notify": {
       "newsletter": "Aj newsletter: čo je nové a čo chystáme.",
       "note": "Jeden e-mail, keď bude hotový. Nič viac.",

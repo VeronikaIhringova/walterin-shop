@@ -500,6 +500,13 @@
     }
   },
   "walterin": {
+    "contact": {
+      "intro": "Feel free to reach out at any time. We’re here to help with orders, product questions, and any feedback you may have.",
+      "hours_html": "Monday to Friday, <strong>9:00–17:00&nbsp;CET</strong>. We’ll get back to you as soon as we&nbsp;can.",
+      "required": "* indicates a required field",
+      "company": "Walterin s. r. o.",
+      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovakia"
+    },
     "notify": {
       "newsletter": "And the newsletter: what's new, what's next.",
       "note": "One email when it's ready. That's all.",
