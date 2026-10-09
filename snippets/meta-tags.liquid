@@ -2,7 +2,17 @@
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  comment
+    shop.description is a single untranslatable field, so /sk/search and any other page with no
+    page_description served the English shop blurb to Slovak readers (measured 9 Oct 2026). The
+    fallback is a locale string now; shop.description stays as the last resort for a locale that
+    has no key.
+  endcomment
+  assign seo_fallback = 'walterin.seo.description' | t
+  if seo_fallback contains 'Translation missing'
+    assign seo_fallback = shop.description
+  endif
+  assign og_description = page_description | default: seo_fallback | default: shop.name
 
   if request.page_type == 'product'
     assign og_type = 'product'

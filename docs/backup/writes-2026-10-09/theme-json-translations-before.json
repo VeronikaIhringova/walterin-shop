@@ -1,0 +1,20 @@
+{
+ "gid://shopify/OnlineStoreThemeJsonTemplate/index?theme_id=164726866249": [
+  {
+   "key": "section.index.json.e6750b05-7703-4f69-ab7c-9ffb0acf18fb.accessibility_info:26x1g37ms3y2q",
+   "en": "Slideshow about our brand"
+  }
+ ],
+ "gid://shopify/OnlineStoreThemeJsonTemplate/product.tarot?theme_id=164726866249": [
+  {
+   "key": "section.product.tarot.json.meet_walter.photo_alt:2kw2rvtve8mzm",
+   "en": "Walter Ihring, the illustrator behind Walterin"
+  }
+ ],
+ "gid://shopify/OnlineStoreThemeJsonTemplate/cart?theme_id=164726866249": [
+  {
+   "key": "section.cart.json.newsletter.heading.heading:fg4m8cnl244g",
+   "en": "Subscribe to our emails"
+  }
+ ]
+}

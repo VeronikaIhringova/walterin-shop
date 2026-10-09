@@ -1,0 +1,2450 @@
+{
+ "files": {
+  "nodes": [
+   {
+    "id": "gid://shopify/MediaImage/48672327827785",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Screenshot_2024-09-01_at_13.42.10.png?v=1725192190"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48672770589001",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WhatsApp_Image_2024-08-20_at_13.11.49.jpg?v=1725192888"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48673231339849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Logo-17.png?v=1725193617"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48673555808585",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SPIRAL_BLOOM_-_LOGO_BANNERS-27.png?v=1725194342"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48673669448009",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Screenshot_2024-09-01_at_14.29.17.png?v=1739373261"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48673669480777",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clients_Pitch.png?v=1739373261"
+    }
+   },
+   {
+    "id": "gid://shopify/GenericFile/48674208088393",
+    "alt": ""
+   },
+   {
+    "id": "gid://shopify/MediaImage/48674331459913",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/image-2.png?v=1725196450"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48691624640841",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/witty-guide-walterin-6-1_jpg.webp?v=1725298742"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48691669795145",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/witty-guide-walterin-6-1.jpg?v=1725299059"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48692020281673",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/unnamed-2.jpg?v=1725301100"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/48692064518473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/unnamed-2_921e8915-68db-4a67-83ea-653ce1e18a2f.jpg?v=1725301374"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/49536711065929",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/LOGO.svg?v=1731494956"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314459021641",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clip_path_group.svg?v=1737931262"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314488054089",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_868.jpg?v=1737931824"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314492641609",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_868_ea3b38f6-8c15-4c8d-8512-eb11f3b09ddc.jpg?v=1737931928"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314501685577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_869.jpg?v=1737932109"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314536943945",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_973.jpg?v=1737932814"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50314537271625",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_972.jpg?v=1737932820"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50525591503177",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOME_PAGE_-_Page_by_page.jpg?v=1739366210"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50526131978569",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPadFlying_Transparent_-2.png?v=1739373048"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50526593679689",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOME_PAGE_-_Page_by_page-2.jpg?v=1739371026"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50526604230985",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOME_PAGE_-_Discover_prague_with_walterin-2.jpg?v=1739371079"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50527055675721",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPad_Flying_with_text_Transparent.png?v=1739373048"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50527083364681",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Book_Product_Text_Transparent.png?v=1739373261"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50537963422025",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/panel.png?v=1739453994"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50538021290313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Your_best_friend_text_este_poopravujem.png?v=1739454294"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50676185465161",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOME_PAGE_-_Daily_Inpiration_with_prague_tarot-2.jpg?v=1740320151"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50676190445897",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Phone_Homepage_Button.jpg?v=1740320215"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50690810085705",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Logo.svg?v=1740414630"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50817877082441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot-1.jpg?v=1741259034"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50817902051657",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot.jpg?v=1741259212"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50817902575945",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Discover_prague_with_walterin.jpg?v=1741259217"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50823525564745",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Page_by_page.jpg?v=1741270817"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824330707273",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Page_by_page_128c1900-ed10-4dbb-8ee4-4cb346bb27be.jpg?v=1741274933"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824332149065",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot-1_d10b77d4-8ef2-4aef-9324-c1096420ee41.jpg?v=1741274937"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824333590857",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Discover_prague_with_walterin_2d016af0-777b-49a2-977e-574437912eed.jpg?v=1741274938"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824369733961",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot_229bbaee-f849-446d-a40f-cf91114e5991.jpg?v=1741275042"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824405516617",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot_8f62a62a-a94c-4da0-814c-5f4c7bcd43a1.jpg?v=1741275145"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824690336073",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Test.png?v=1741276378"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824690827593",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Screenshot_2025-03-06_at_16.47.26_1.png?v=1741276385"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824691024201",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1015.png?v=1741276388"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824710848841",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_890.jpg?v=1741276521"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824719827273",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1015_e3739fa3-5790-42d0-8831-6d3abae154a7.png?v=1741276564"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824747090249",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_891.jpg?v=1741276766"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824747123017",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_890_da68a64b-ebf1-4aaf-b788-3c76f4646e46.jpg?v=1741276767"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824747221321",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_892.jpg?v=1741276768"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824779792713",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_891_5f987d82-3e3b-4f93-87b9-6feaabeb77a5.jpg?v=1741276944"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824779825481",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_892_3778c503-1a15-4e67-b041-17d87dd51e26.jpg?v=1741276944"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824779891017",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_890_f31fd693-cc11-4e64-a0fa-de1ffa9e7247.jpg?v=1741276943"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824807973193",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clip_path_group.png?v=1741277107"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824808005961",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clip_path_group-1.png?v=1741277107"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824813871433",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clip_path_group-1.svg?v=1741277143"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50824813904201",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Clip_path_group_ddff98da-67d8-4851-8d0f-0edcb4322ed0.svg?v=1741277143"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50883470360905",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/GIF_Pendulum.gif?v=1741679509"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925208393",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK_COLLECTION.png?v=1741691339"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925241161",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_EBOOK1.png?v=1741691340"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925306697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK2.png?v=1741692008"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925437769",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_EBOOK_COLLECTION.png?v=1741691340"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925470537",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK4.png?v=1753378479"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925503305",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_EBOOK2.png?v=1741691340"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885925732681",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1.png?v=1753378479"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50885991465289",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK3.png?v=1753378479"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50886097338697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRT.png?v=1741692328"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50886099075401",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRT-1.png?v=1741705505"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50886205964617",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRT_93b93ee1-cd9c-4dc5-a9d1-147d04806951.png?v=1741705825"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50888544649545",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICK1.png?v=1741704567"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50888544682313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICK2.png?v=1741704567"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50888544715081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICK3.png?v=1741704567"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50888721465673",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRTFRONT.png?v=1741705825"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50888743190857",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRT_CLOSE_LOOK.png?v=1741705825"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50890912170313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone3.png?v=1741716849"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50890912203081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone2.png?v=1741716849"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50890912235849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone.png?v=1741716849"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50891236213065",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_phone.png?v=1741718861"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50893558284617",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_COMPUTER.png?v=1741732876"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50893902610761",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TATA.png?v=1741735582"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50900145897801",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone3-1.png?v=1741768396"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50900145930569",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone3_0bdd1018-e787-4ee2-9587-f27d8f26fb78.png?v=1741768397"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50900146061641",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone_b9d81a9d-e212-4fcd-9ba5-ce3a1ac68754.png?v=1741768399"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50900146356553",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone2_5b723083-bbc8-40a0-8fdb-a2597fd10eb6.png?v=1741768400"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/50900397392201",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walter.png?v=1741769578"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/51433455157577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/FULL_STORY.jpg?v=1744974211"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/51434984931657",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/website.jpg?v=1744981120"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52722286264649",
+    "alt": "Look inside the Walterin Prague book showing illustrated comic pages and witty 9 frame mini stories",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-comic-pages-illustrated-stories-look-inside.jpg?v=1764241394"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52722286297417",
+    "alt": "Walterin Prague illustrated comic guide book with witty cover design stacked on a white background",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-illustrated-comic-guide-book-cover.jpg?v=1764241286"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52722286362953",
+    "alt": "Person holding the Walterin Prague illustrated comic guide book featuring witty cultural stories",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-illustrated-comic-guide-book-in-hands.jpg?v=1764241354"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52722286395721",
+    "alt": "Witty illustrated Prague comic guide book by Walterin photographed outdoors on stone pavement",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-witty-illustrated-comic-guide-book-outdoor.jpg?v=1764241307"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52759682908489",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_computer.jpg?v=1753379425"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52759786684745",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_computer_e8a3cdb1-7683-4e6a-b4e1-0e8a3978babb.png?v=1753379671"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52759877812553",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_computer_b5be06cc-ce3a-4596-8b2d-39816f7c5176.png?v=1753379898"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52759879975241",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/SECTION_computer-1.png?v=1753379906"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52989723410761",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PHILOSOPHY.png?v=1754913105"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52989735108937",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_932.png?v=1754913237"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52989741826377",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/lll.png?v=1754913305"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52989964484937",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/ourphilosphy.png?v=1754914721"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990423302473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_927.png?v=1754917174"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990442930505",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_926.png?v=1754917297"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990475895113",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_928.png?v=1754917503"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990536646985",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Exclude.png?v=1754917871"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990557192521",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1041.png?v=1754917983"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990595301705",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_928_ced549ab-f5a2-4c67-a2ac-22e66e75f9fb.png?v=1754918226"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990595367241",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_927_49d84378-af0d-40e5-a644-9c56a9ed4aa3.png?v=1754918227"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990595400009",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_926_22d20ff4-2cbf-4e50-974e-5bd15e08f6f2.png?v=1754918228"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990729322825",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/philosophy2.png?v=1754919075"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990754488649",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/phone.png?v=1754919192"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990831591753",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/phone2.png?v=1754919491"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990909350217",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/telefon.png?v=1754919766"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/52990926750025",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/tel.png?v=1754919808"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53002276962633",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Dizajn_bez_nazvu-6.gif?v=1755007090"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53012800864585",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Flow_3_512p-25fps.gif?v=1755085687"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53013508325705",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_939.png?v=1755089604"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53013524545865",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_939_148e57b1-b96a-406f-882f-9e2efba2c33d.png?v=1755089706"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53013802484041",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/phonebook.png?v=1755090149"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53013962752329",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/helo_world.png?v=1755090298"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53014046933321",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/lol.png?v=1755090463"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53014051881289",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/final.png?v=1755090491"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53014115254601",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/stranka.png?v=1755090717"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53022933254473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/knihadoodle.png?v=1755160090"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53065290580297",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/mac_philosophy.png?v=1755594922"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53065290645833",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/phone_philosophy.png?v=1755594921"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53195602395465",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/jedna.png?v=1756721185"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53195602526537",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/dva.png?v=1756721187"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53195853857097",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/new.png?v=1756722215"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53196484542793",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/este_raz.png?v=1756726274"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53196542280009",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone_a562b586-b879-413b-948a-459146b04a33.png?v=1756727068"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53196542738761",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Discover_prague_with_walterin_0f481622-5ebb-4f53-b65b-9021ffb2a564.jpg?v=1756727072"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53196607947081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/HOMEPAGE_phone3_b7f02ece-fc52-4b8f-bfde-1e9a2bde7d46.png?v=1756727775"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53196607979849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Daily_Inpiration_with_prague_tarot.png?v=1756727776"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53198486929737",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/new_7c08c35f-badb-4abe-bae8-8beb19026e73.png?v=1756737133"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53198490435913",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/kratsie.png?v=1756737141"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53198504558921",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_946.png?v=1756737198"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53198520713545",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_946_6c0a8487-711e-4413-a4af-b32eb2d0c19a.png?v=1756737264"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53198754283849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/kniha.png?v=1756738287"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53564927770953",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/describiton.png?v=1759311552"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53729901969737",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Ukazka_Pre_Web.jpg?v=1760444535"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53730330181961",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/halo.jpg?v=1760446508"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53745003757897",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Walterin_Logo_SVG.svg?v=1760528209"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746475991369",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TSHIRT-1.jpg?v=1760537345"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746476024137",
+    "alt": "Close-up of Walterin Prague green fairy and absinth drinker illustrated emblem on the T-shirt",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-green-fairy-absinth-drinker-tshirt-detail.jpg?v=1764252420"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746476056905",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS-1.jpg?v=1760537345"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746476089673",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS.jpg?v=1760537345"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746476155209",
+    "alt": "Walterin Prague T-shirt with full comic-style illustration of the absinth drinker and green fairy on the back",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-absinth-drinker-green-fairy-comic-tshirt-back.jpg?v=1764252458"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746476187977",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS-2.jpg?v=1760537345"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746495684937",
+    "alt": "White Walterin Prague T-shirt with green fairy and absinth drinker illustration on the front",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-green-fairy-absinth-drinker-tshirt-front.jpg?v=1764252393"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53746565415241",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TAROT.jpg?v=1760538150"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756330967369",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TAROT_73f92b09-13d6-4e13-be80-582affbe4f78.jpg?v=1776253559"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756402729289",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Philosophy_74dce5c6-b501-4e2f-8cfd-920a695225cd.png?v=1760599752"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756428550473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Philosophy_cdb0fcff-e97d-4032-8eb8-354ddfa2534f.png?v=1760600008"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756799877449",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PhonePhilosophy.png?v=1760600559"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756804759881",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Phone_Version_Philosphy.png?v=1760600635"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756808495433",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Phone_Version_Philosphy_4041c660-1aae-48a2-8b62-e88d2690716c.png?v=1760600681"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756856533321",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Explaining_Phone.png?v=1760601250"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756899000649",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_936.png?v=1760601618"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756911747401",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_936_1594bddf-d62b-4794-a1a0-169de81d9d62.png?v=1760601717"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756915450185",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_936_6bd677be-af7b-4284-9aae-9cc911f8a9ae.png?v=1760601761"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756970205513",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/explaining.png?v=1760602294"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53756977054025",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_937.png?v=1760602368"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53757505438025",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/new_6fcb76c2-d43a-46ae-9fb7-0504ca383867.png?v=1760606046"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53758325195081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Egypt.png?v=1760613702"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53758365270345",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/egypt_statue.png?v=1760614014"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53758382244169",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/egypt_statue_3c968eac-30b4-406e-bbfa-32a5f6e454d9.png?v=1760614132"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53758473306441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/egypt_statue_d8042ec5-1875-4539-a581-609de68eb37e.png?v=1760614968"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53758478877001",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/egypt_statue_c4099195-8235-4971-8ace-ac89c5cba238.png?v=1760615017"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53759612649801",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/gif_castle.gif?v=1760618547"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53759617466697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/CastleImage.png?v=1760618602"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/53759638339913",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/castle.png?v=1760618783"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54109825466697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Ukazka_Pre_Web2.jpg?v=1762180867"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54110270816585",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Untitled-1.png?v=1762183275"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138010075465",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Shop_Background.png?v=1762254700"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138376454473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/jooo.png?v=1762256403"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138405978441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/no.png?v=1762256506"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138555433289",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/ol.png?v=1762257182"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138603602249",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/yay.png?v=1762257385"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54138727170377",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Walterin_Logo_SVG_fc83768d-124b-4404-9f6d-371feea5fa11.svg?v=1762257964"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54139959738697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/llll.png?v=1762261593"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54140068266313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/image.png?v=1762262063"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54140118892873",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/paper.png?v=1762262509"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54140119023945",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/juuu.png?v=1762262511"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54140154708297",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/tt.png?v=1762262643"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54140260122953",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/ioi.png?v=1762263565"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158031290697",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Untitled-1_337d8f15-05ed-4be9-949c-aa79c2dfd4f2.png?v=1762343028"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158097973577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/konik.png?v=1762343531"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158107771209",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/konik2.png?v=1762343606"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158125302089",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_1065.png?v=1762343745"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158329250121",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/ll.png?v=1762345219"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158336459081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/haha.png?v=1762345281"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158481949001",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/wencelsuas.png?v=1762346218"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158498464073",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/book.png?v=1762346410"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158510588233",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_1066.png?v=1762346530"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158527496521",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_764.png?v=1762346634"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54158537457993",
+    "alt": "illustration of a book",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/illustration-of-a-book.png?v=1762346693"
+    }
+   },
+   {
+    "id": "gid://shopify/Video/54158626160969",
+    "alt": ""
+   },
+   {
+    "id": "gid://shopify/MediaImage/54159232008521",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/tatino_1.png?v=1762351172"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54239134843209",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_674.png?v=1762774969"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54239134875977",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_676.png?v=1762774969"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54239134908745",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_673.png?v=1762774968"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54239134941513",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1060.png?v=1762774968"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54258158240073",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1063.svg?v=1762868360"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54258174099785",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/jj.svg?v=1762868442"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54297633882441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1062.svg?v=1763032231"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54439629160777",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/jej.png?v=1763637025"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54439674970441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_939_818bdbb1-68cd-4914-966f-455ebcbff321.png?v=1763637157"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54439705772361",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_939_3ebcd8b3-cac9-4d2e-a2d2-eaaca308dc2e.png?v=1763637233"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54440134443337",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/juj.png?v=1763638494"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54465451393353",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/icons.png?v=1763727396"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54465462534473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/icons2.png?v=1763727462"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54465487864137",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/again.png?v=1763727610"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54465940881737",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/book_pages_look_inside.png?v=1763729848"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54465973322057",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/one_mor_etime.png?v=1763730089"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54466014806345",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/hehe.png?v=1763730361"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485531328841",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/kol.png?v=1763812443"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485560951113",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/kol_09bb7681-a32a-49c5-bb35-8f13f1893941.png?v=1763812765"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485578154313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/kooo.png?v=1763812904"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485581267273",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/loo.png?v=1763812946"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485582872905",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/looo.png?v=1763812975"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54485685403977",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/jij.png?v=1763813861"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486788145481",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/wohoo.png?v=1763820988"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486804136265",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/huhu.png?v=1763821125"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486827041097",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/yes.png?v=1763821329"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486834610505",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_1069.png?v=1763821379"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486839263561",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/l.png?v=1763821411"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54486849126729",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/oooo.png?v=1763821533"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54517686600009",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPhone_16_Pro_-_4.png?v=1763982706"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54517732835657",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPhone_16_Pro_-_4_96c6397e-a75a-43be-b523-e2c19ad2b4d8.png?v=1763983043"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54517824815433",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPhone_16_Pro_-_4_13e4bd92-7668-4da9-af10-e96b63ee1530.png?v=1763983559"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54517861155145",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iPhone_16_Pro_-_4_747cfefb-e722-4137-980a-47cce78e7f67.png?v=1763983741"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54517972533577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/nove_desktop.png?v=1763984398"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518031843657",
+    "alt": "Look inside pages from Walterin Prague showing full-colour 9-frame comic stories and illustrated mini-scenes.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-look-inside-comic-illustrated-pages.png?v=1764251098"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518208627017",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features.png?v=1763985798"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518227435849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_28763432-9f5e-4555-8137-8a4e86d72740.png?v=1763985934"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518235693385",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_e0963ef3-daf5-4f16-8e36-e29ebe8d22da.png?v=1763986007"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518242443593",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_bac6fb26-a8a2-49c6-9c6b-338955062ada.png?v=1763986072"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518260465993",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_01614e21-fc23-46a9-9f15-4db3079de973.png?v=1763986280"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518268395849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_f71d76af-a0b7-4746-9929-8c0f65444f31.png?v=1763986374"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518277079369",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_573a63b3-be38-4630-b1ee-3b4fb0c2e1ab.png?v=1763986462"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518494626121",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside.png?v=1763987716"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518504030537",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_small_ed5fa48e-d1bf-4d75-83cc-1d6c66545f9f.png?v=1763987781"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518522347849",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_6c2a6ba5-358a-4a6f-8b67-fbc18b3c02a2.png?v=1763987920"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54518568714569",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_c2e56891-c733-41fc-ab75-41a237b620d4.png?v=1763988364"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519356129609",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_aaf735d2-51ca-4849-93e3-639dad23e99e.png?v=1763990572"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519481172297",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_5df4a5f5-049b-4f5d-844f-d6bc43f5b229.png?v=1763990974"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519506960713",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_69195a3b-87fd-4a90-854b-b3f336b36685.png?v=1763991071"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519535862089",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_73dd6c98-13f9-4e29-8f5a-f94965d7baca.png?v=1763991177"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519547986249",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_6036378c-57f9-427b-9db6-6da88ac9d5e3.png?v=1763991247"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519575347529",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_28e3db62-456e-4240-8d44-746312243dd0.png?v=1763991398"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519606575433",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_d49b477e-bef6-4818-8742-17ee9e8084cb.png?v=1763991545"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519663722825",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_00fdebef-7437-434e-8a3c-9bce0808f45c.png?v=1763991842"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519989928265",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_bae6811a-0e34-4828-8351-d46087b8f4e5.png?v=1763993637"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54519996809545",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_ecaa8b1a-dfcc-4aa0-b2f1-0cc553aaa1d3.png?v=1763993695"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520016601417",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_5c00776a-6079-40bb-8ca9-ec27877a0361.png?v=1763993813"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520027185481",
+    "alt": "Look inside pages from Walterin Prague showing full-colour 9-frame comic stories and illustrated mini-scenes.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-prague-look-inside-comic-pages-mobile.png?v=1764252187"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520248369481",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_6dc47648-8382-4c5a-a23a-84ac8de21bca.png?v=1763995032"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520263704905",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_0f1f4a44-4666-44a0-afcc-c20231a990e7.png?v=1763995110"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520391106889",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_bcf6b13f-56b2-4988-b898-9d7b65b34184.png?v=1763995736"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520430199113",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_ef57b3ef-76e3-4576-8879-f45185597330.png?v=1763995934"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520475517257",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_1085155a-1305-4984-9bda-3d6532fb60fd.png?v=1763996129"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520510120265",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_c7aef364-5c3c-416c-babb-40f092b078ac.png?v=1763996272"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54520559796553",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_2f8887bf-e168-4616-b4dd-698c9e8b242a.png?v=1763996475"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537780789577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_11bf2397-cafb-4386-8f93-fb5f19ca4306.png?v=1764065682"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537896657225",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion.png?v=1764066628"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537906913609",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_61d12057-3794-4c82-aeec-b09488daefcb.png?v=1764066698"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537911075145",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_34b22a1d-5cd5-45b8-afc4-75952b71ee0a.png?v=1764066737"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537924247881",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_0a25c326-a2da-404a-9844-41f2da453367.png?v=1764066840"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537954132297",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Icons_Describtion.png?v=1764067020"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537971368265",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Icons_Describtion_fdfd8478-4a6a-4e70-a71e-957eb33b83d9.png?v=1764067143"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54537981722953",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Icons_Describtion_6d77c311-955d-4f6b-8822-f6c9724134e5.png?v=1764067221"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538001842505",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Icons_Describtion_9e4a9837-c1c6-4552-9c72-c19c64ef1450.png?v=1764067327"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538006135113",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_20170ae1-ee26-446e-b607-13962a030fc1.png?v=1764067342"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538006987081",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_f9089867-b2fe-4404-a5df-8d109eab5dc1.png?v=1764067352"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538022093129",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_ae608ab3-6c5c-4091-a67e-2de670e959d2.png?v=1764067456"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538030022985",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_579c2700-5823-4271-8a4c-fbcb62e69fc8.png?v=1764067501"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538075341129",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_020b8947-d2d9-4889-8b53-841b9e40fe8a.png?v=1764067808"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538083500361",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Icons_Describtion_6ab8c37d-4785-4466-bd39-c14a253fee2f.png?v=1764067873"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538118955337",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_2cf27cf9-a682-44a6-8912-d2f751df5457.png?v=1764068150"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538134028617",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Mobile_Take_a_look_inside_3e3dcc75-81b6-49ab-b068-1f0aee72a778.png?v=1764068288"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538746986825",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_36.png?v=1764073010"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538819797321",
+    "alt": "a young woman",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/a-young-woman.png?v=1764073606"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538828120393",
+    "alt": "40 years old man, profile picture",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/40-years-old-man-profile-picture.png?v=1764073662"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54538842440009",
+    "alt": "50 years old woman pretty",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/50-years-old-woman-pretty.png?v=1764073782"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54539103174985",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_4134fe99-6bfd-47da-9886-2ba690a0e401.png?v=1764075479"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54539214422345",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Desktop_Key_Features_25bcfcbd-48fe-4dba-904e-c3db7d1f4d41.png?v=1764076473"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54561457406281",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/illustrated_biography.png?v=1764155677"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54561544831305",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/illustrated_biography_pixel.png?v=1764156155"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54561554694473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/illustrated_biography_pixel_1d4f2f61-6608-4a0d-a204-21d4599e27d0.png?v=1764156215"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54562304885065",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/icons1_1.png?v=1764159349"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54562358722889",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1066.png?v=1764159520"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54562358755657",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/iconsbrushes_1.png?v=1764159520"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54591608455497",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Group_1062_c797e0dc-c20c-4316-bfde-4f9ba9321603.svg?v=1764265958"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54750221467977",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/WhatsApp_Image_2025-12-05_at_14.24.06_1.jpg?v=1764942155"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54875059126601",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/logohhh.jpg?v=1765456429"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54875068137801",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/logonew.png?v=1765456457"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54875937898825",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterihring_qr.png?v=1765458335"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54876113961289",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Screenshot_2025-12-11_at_14.11.52.png?v=1765458731"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54876221079881",
+    "alt": "Collage of Walterin illustrations created for Instagram stories, featuring playful sketches, Prague themes, and current-event inspired drawings.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/socialmedia-walterin-illustrations-collage-instagram-stories_png.png?v=1765458951"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54876733047113",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Screenshot_2025-12-11_at_14.31.31.png?v=1765459907"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877077078345",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram-1.png?v=1765460554"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877077406025",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram.png?v=1765460556"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877112500553",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram_446fdffc-a41a-49d0-a7d8-a26d3d17a818.png?v=1765460608"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877441622345",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram.jpg?v=1765461267"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877545824585",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram_2bb693d5-e758-4d8b-804a-99e8b29539f2.png?v=1765461493"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877546021193",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/instagram-1_da644e68-d17e-4893-b705-6dfb92b7e864.png?v=1765461493"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877699178825",
+    "alt": "Walterin illustration used as the Instagram profile image, showing two characters in the brand’s signature comic style with bold, colorful line work and patterns.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-instagram-profile-illustration_png.png?v=1765461842"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877705699657",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-instagram-profile-illustration_png_29fa65e7-4d98-4e62-99d2-497f2f6fa197.png?v=1765461850"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877711761737",
+    "alt": "Walterin illustration used as the Instagram profile image, showing two characters in the brand’s signature comic style with bold, colorful line work and patterns.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-instagram-profile-illustration_png_2e501da3-fbe0-4d52-a295-ba322fe97894.png?v=1765461866"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54877717922121",
+    "alt": "Walterin illustration used as the TikTok profile image, featuring two characters drawn in the brand’s distinctive comic style with vibrant colors and playful shapes.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin-tiktok-profile-illustration_png.png?v=1765461900"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54901392802121",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/fun_image.png?v=1765547195"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54901414134089",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/fun_image_08aa4f72-f5bc-4bda-9f5f-9b6519600054.png?v=1765547439"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54901438513481",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/fun_image2.png?v=1765547693"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54901445722441",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/fun_image_d0627402-99d2-4224-8fe3-2aa72de9e08b.png?v=1765547793"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54901953429833",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Walterin_Logo_SVG.png?v=1765550770"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54902030074185",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black_Walterin_Logo_SVGWHITE.png?v=1765551307"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54902133162313",
+    "alt": "Black-Walterin-Logo",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Black-Walterin-Logo.png?v=1765551547"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54952803238217",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Walterin-stack-of-books-english.png?v=1765804988"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54952917041481",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK_ENGLISH.png?v=1765805387"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54952966717769",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK4-1.jpg?v=1765805576"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54952973467977",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK4-1_026ea273-b9f8-495f-ba18-73508d827707.jpg?v=1765805617"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54953008824649",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK4.jpg?v=1765805853"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54973392224585",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/EBOOK_1.jpg?v=1765875778"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54973437870409",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1.jpg?v=1765876058"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54973478142281",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK2.jpg?v=1765876324"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54973478175049",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1_99ef0a51-c27f-4e13-9bbd-df9aa39e6669.jpg?v=1765876325"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/54973518250313",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK.jpg?v=1765876506"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/55737098993993",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/versialless.png?v=1768834186"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56014420050249",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin_currentCollor_logo.svg?v=1769760460"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56014452949321",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/walterin_currentCollor_logo_827049bc-8889-42e8-b877-2bed229c82d5.svg?v=1769760575"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56550396133705",
+    "alt": "Two sheets of Walterin Prague stickers in clear sleeves, overlapping on a white surface. Each sheet is headed “Walterin · Prague stickers”.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_1.jpg?v=1771592386"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56550396166473",
+    "alt": "The corner of an open laptop with two stickers on it: the yellow equestrian statue of Saint Wenceslas, and a small red winged devil above it.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_4.jpg?v=1771592387"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56550396395849",
+    "alt": "One sheet of Walterin Prague stickers: a grey whale, beer mugs, an absinthe glass with a sugar cube, a plate of seafood, a red winged devil, a green face, a pink dragon in a basin, and a gentleman in a top hat with a beer.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_2.jpg?v=1771592388"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56550396428617",
+    "alt": "One sheet of Walterin Prague stickers: the equestrian statue of Saint Wenceslas, a knight riding a dragon, the orange Golem, the Charles University seal, the Prague coat of arms, the astronomical clock’s skeleton with its hourglass, the zodiac dial, a sun face, a skull under a glass dome, and the castle skyline.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_3.jpg?v=1771592387"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56551557628233",
+    "alt": "A silver laptop on a wooden table with three Walterin Prague stickers on the lid: a grey whale above the maker’s logo, a yellow plate of seafood below it, and a shield with a black prancing horse.",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/STICKERS_5.jpg?v=1771597267"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/56692974289225",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/TAROT_1.jpg?v=1772192249"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57406909153609",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Comics_Tarot_of_Consciousness_Packaging_Box_Card_standing.jpg?v=1776252536"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57407164383561",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Generated_Image_April_15_2026_-_1_45PM.jpg?v=1776253559"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57689000280393",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Generated_Image_April_09_2026_-_12_55PM.jpg?v=1778074984"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57689000640841",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Generated_Image_April_09_2026_-_1_57PM.jpg?v=1778074986"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57689000804681",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Generated_Image_April_09_2026_-_12_47PM.jpg?v=1778074986"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57689195086153",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1_f3f0dc79-452c-4817-ad72-522a357d20fa.jpg?v=1778075946"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/57699850387785",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/illustrated_biography_pixel_e4117d82-0460-4764-857f-344ed512bf0f.png?v=1778147273"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59604901691721",
+    "alt": "EU legal guarantee harmonised notice (EN)",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/eu-legal-guarantee-notice-en.jpg?v=1790091391"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59604901724489",
+    "alt": "Zákonná záruka – harmonizované oznámenie EÚ (SK)",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/eu-legal-guarantee-notice-sk.jpg?v=1790091391"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59620425269577",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/0c82b7c8-b002-44a7-a718-2f804f84bdec.png?v=1790166067"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59620491395401",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/PRODUCT_BOOK1_fb72874e-9084-4d31-b052-f7bdac64b1f2.jpg?v=1790166567"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59621508481353",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/129d37be-02fa-4a89-8673-a0c2de8850d9.png?v=1790172898"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59633619009865",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Frame_1096.jpg?v=1790244365"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59634255298889",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/card_close_up.png?v=1790245959"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59634359107913",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/card_close_up_414fe4f0-100b-4c3a-911b-9618199f69d1.png?v=1790246086"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59634887295305",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/close_up_card_blue.png?v=1790246872"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59635134726473",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/d1fd0f7e-a4e9-4308-8080-661a5c5f71fd.png?v=1790247419"
+    }
+   },
+   {
+    "id": "gid://shopify/MediaImage/59635199705417",
+    "alt": "",
+    "image": {
+     "url": "https://cdn.shopify.com/s/files/1/0897/8864/5705/files/Walterin_Tarot_of_Consciousness_A_Graphic_Journey_Scene_Photo.jpg?v=1790247558"
+    }
+   }
+  ]
+ }
+}
