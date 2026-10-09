@@ -500,12 +500,45 @@
     }
   },
   "walterin": {
+    "about_draft": {
+      "heading": "Hi, my name is Walter Ihring",
+      "lead": "I’ve been drawing humour and caricatures for more than thirty years. And what I love drawing most are stories you’ve never heard.",
+      "x1_heading": "How Walterin began",
+      "x1_lead": "One hot summer day I was sitting over a coffee on the square, watching tourists hurry from the town hall to the cathedral.",
+      "x1_text": "They walked past houses where incredible things had happened, and nobody knew. That’s when I decided to bring drawing, history and humour together. In 2015 my first book came out, Walterin Bratislava.",
+      "read_more": "Read more",
+      "read_less": "Read less",
+      "caption_biography": "• Walter’s illustrated autobiography •",
+      "caption_desert": "• India, and the long way round •"
+    },
     "contact": {
       "intro": "Feel free to reach out at any time. We’re here to help with orders, product questions, and any feedback you may have.",
       "hours_html": "Monday to Friday, <strong>9:00–17:00&nbsp;CET</strong>. We’ll get back to you as soon as we&nbsp;can.",
       "required": "* indicates a required field",
       "company": "Walterin s. r. o.",
-      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovakia"
+      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovakia",
+      "reason": {
+        "order-status": "Order status",
+        "cancel-or-modify-an-order": "Cancel or modify an order",
+        "returns-or-exchanges": "Returns or exchanges",
+        "my-order-is-missing": "My order is missing",
+        "my-order-arrived-damaged": "My order arrived damaged",
+        "issue-with-my-product": "Issue with my product",
+        "shipping-questions": "Shipping questions",
+        "product-questions": "Product questions",
+        "general-feedback": "General feedback",
+        "partnership-collaboration": "Partnership / Collaboration",
+        "other": "Other"
+      },
+      "heading": {
+        "contact-form": "Contact form",
+        "drop-us-a-note-anytime": "drop us a note anytime."
+      },
+      "name_placeholder": "First and Last Name *",
+      "name_label": "First and Last Name",
+      "reason_label": "Contact Reason *",
+      "details_placeholder": "Tell us the details *",
+      "details_label": "Tell us the details"
     },
     "notify": {
       "newsletter": "And the newsletter: what's new, what's next.",
@@ -748,8 +781,17 @@
       "f3_full": "Comics are a language everyone understands, young and old. The drawings tell the story on their own, so you’ll enjoy it even if you don’t know much about history."
     },
     "footer": {
-      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. All rights reserved.",
-      "credits_html": "illustrations by {{ walter }} · design & development by {{ veronika }}"
+      "copyright": "© {{ year }} Walterin s. r. o. All rights reserved.",
+      "credits_html": "illustrations by {{ walter }} · design & development by {{ veronika }}",
+      "block": {
+        "subscribe-to-our-emails": "Subscribe to our emails",
+        "subscribe": "Subscribe",
+        "navigate": "NAVIGATE",
+        "social": "SOCIAL",
+        "official": "OFFICIAL",
+        "support": "SUPPORT"
+      },
+      "newsletter_subtext_html": "<p><strong>For curious minds who love witty history.</strong><br/>Stories full of lively banter and wanderings, straight to your inbox.</p>"
     },
     "policy": {
       "on_this_page": "On this page"

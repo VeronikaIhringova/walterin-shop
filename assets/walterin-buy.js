@@ -68,7 +68,6 @@
     var delivery = $('[data-wui-delivery]', root);
     var deliveryDigital = $('[data-wui-delivery-digital]', root);
     var deliveryPhysical = $('[data-wui-delivery-physical]', root);
-    var remainingTpl = $('[data-wui-remaining-template]', root);
     var atcHTML = submitLabel ? submitLabel.innerHTML : '';
     var soldOutText = root.dataset.soldOut || '';
     var unavailableText = root.dataset.unavailable || '';
@@ -143,8 +142,6 @@
             // Sold out, but selectable: choosing it shows the notify form for
             // that edition, which is the whole point of saying "sold out".
             text = soldOutText;
-          } else if (exact.left && remainingTpl) {
-            text = remainingTpl.textContent.replace('[n]', exact.left);
           }
           input.disabled = disabled && !input.checked;
           if (note && note.textContent !== text) {

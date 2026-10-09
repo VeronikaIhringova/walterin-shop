@@ -1,0 +1,70 @@
+{%- comment -%}
+  One of Walter's two hand-drawn frames, with content sitting inside its opening.
+
+  The frames are photographs of ink on paper: transparent inside the opening AND outside the
+  drawing, so a frame can sit over anything. That also means the opening is not a CSS box — it is
+  a hole in a picture — and the only way to put content in it is to position the content against
+  measured insets.
+
+  Measured off the source PNGs on 9 Oct 2026 by walking out from the centre of the alpha channel
+  to the first opaque pixel:
+
+    rect     2000 × 3200   opening inset  L 11.75%  R 12.20%  T 7.72%   B 8.94%
+    scallop  2934 × 4698   opening inset  L 17.35%  R 15.71%  T 11.22%  B 11.24%
+
+  The frame is never stretched: its own aspect ratio is held by `aspect-ratio` on the wrapper, and
+  the picture fills it exactly. Change the width, the height follows. If content needs more room
+  than the opening gives, the content scrolls or shrinks — the frame does not.
+
+  Both widths and heights are set on the <img> so nothing shifts while it loads.
+
+  Accepts:
+    shape   'rect' (default) or 'scallop'
+    width   600 | 900 | 1400  — the asset to load (default 900)
+    class   extra classes on the wrapper
+    content the markup to place inside the opening (use a capture)
+
+  Usage:
+    {%- capture inner -%}<p>…</p>{%- endcapture -%}
+    {%- render 'wui-frame', shape: 'rect', width: 900, content: inner -%}
+{%- endcomment -%}
+{%- liquid
+  assign f_shape = shape | default: 'rect'
+  assign f_width = width | default: 900
+
+  if f_shape == 'scallop'
+    assign f_ratio = '2934 / 4698'
+    assign f_native_h = 1441
+  else
+    assign f_ratio = '2000 / 3200'
+    assign f_native_h = 1440
+  endif
+
+  case f_width
+    when 600
+      assign f_h = f_native_h | times: 600 | divided_by: 900
+    when 1400
+      assign f_h = f_native_h | times: 1400 | divided_by: 900
+    else
+      assign f_width = 900
+      assign f_h = f_native_h
+  endcase
+
+  assign png = 'wui-frame-' | append: f_shape | append: '-' | append: f_width | append: '.png'
+  assign webp = 'wui-frame-' | append: f_shape | append: '-' | append: f_width | append: '.webp'
+-%}
+<div class="wui-frame wui-frame--{{ f_shape }} {{ class }}" style="aspect-ratio: {{ f_ratio }};">
+  <picture>
+    <source srcset="{{ webp | asset_url }}" type="image/webp">
+    <img
+      class="wui-frame__edge"
+      src="{{ png | asset_url }}"
+      width="{{ f_width }}"
+      height="{{ f_h }}"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    >
+  </picture>
+  <div class="wui-frame__opening">{{ content }}</div>
+</div>

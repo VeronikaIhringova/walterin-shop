@@ -76,8 +76,17 @@
                 class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %} footer-block--desktop-{{ block.settings.width_desktop }} footer-block--mobile-{{ block.settings.width_mobile }}"
                 {{ block.shopify_attributes }}
               >
+                {%- comment -%}
+                  The four column headings are section settings, so their Slovak would live in
+                  Translate & Adapt and had never been written — NAVIGATE / SOCIAL / OFFICIAL /
+                  SUPPORT showed in English on every page of /sk/. wui-setting-text looks the
+                  English value up in the language files instead.
+                {%- endcomment -%}
                 {%- if block.settings.heading != blank -%}
-                  <h2 class="footer-block__heading">{{- block.settings.heading | escape -}}</h2>
+                  {%- capture block_heading -%}
+                    {%- render 'wui-setting-text', text: block.settings.heading, prefix: 'walterin.footer.block.' -%}
+                  {%- endcapture -%}
+                  <h2 class="footer-block__heading">{{- block_heading | strip | escape -}}</h2>
                 {%- endif -%}
 
                 {%- case block.type -%}
@@ -250,9 +259,16 @@
                       %}
                     </div>
                   {% when 'email_signup' %}
+                    {%- liquid
+                      # Rich text, so it cannot be handleized into a key like the headings above.
+                      assign news_subtext = 'walterin.footer.newsletter_subtext_html' | t
+                      if news_subtext contains 'Translation missing'
+                        assign news_subtext = block.settings.subtext
+                      endif
+                    -%}
                     <div>
                       <div class="footer-block__details-content footer-block__details-content-mb rte">
-                        {{ block.settings.subtext }}
+                        {{ news_subtext }}
                       </div>
                       {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
                         <input type="hidden" name="contact[tags]" value="newsletter">
@@ -309,7 +325,7 @@
                             id="Subscribe"
                             aria-label="{{ 'newsletter.button_label' | t }}"
                           >
-                            {{ block.settings.button_label }}
+                            {%- render 'wui-setting-text', text: block.settings.button_label, prefix: 'walterin.footer.block.' -%}
                           </button>
                         {% endif %}
 

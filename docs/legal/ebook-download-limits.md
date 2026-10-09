@@ -81,7 +81,7 @@ mandatory pre-contract information for digital content (§ 5(1) of 108/2024).
 ### EN
 
 > **7.1** We deliver the eBook as a download link sent by email after payment. The link can be used
-> up to 10 times. There is no time limit on it. If it stops working, or you run out of downloads,
+> up to six times in total, shared between the PDF and the EPUB. There is no time limit on it. If it stops working, or you run out of downloads,
 > write to support@walterin.com and we will send you a new one.
 >
 > **7.2** eBooks are in PDF and EPUB format. To open them you need a device and an application that
@@ -92,7 +92,7 @@ mandatory pre-contract information for digital content (§ 5(1) of 108/2024).
 ### SK
 
 > **7.1** E-knihu dodáme ako odkaz na stiahnutie, ktorý vám pošleme e-mailom po zaplatení. Odkaz sa
-> dá použiť najviac 10-krát. Časovo obmedzený nie je. Ak prestane fungovať alebo vyčerpáte počet
+> dá použiť spolu najviac šesťkrát, dokopy za PDF aj EPUB. Časovo obmedzený nie je. Ak prestane fungovať alebo vyčerpáte počet
 > stiahnutí, napíšte na support@walterin.com a pošleme vám nový.
 >
 > **7.2** E-knihy sú vo formáte PDF a EPUB. Na ich otvorenie potrebujete zariadenie a aplikáciu,
@@ -112,3 +112,12 @@ Notes on the drafting:
   Terms say "or", which is why 7.2 is being rewritten.
 - 7.3 (personal use, no sharing) is unchanged and does not conflict: keeping your own copies on your
   own devices is not sharing.
+
+---
+
+> **Decided and live, 9 October 2026: six downloads, shared between the two files.**
+> Not ten. The recommendation above was written before the decision and was never updated, so for
+> a fortnight this document and the site disagreed. The wording in this file now matches what is
+> actually published: Terms 7.1, the FAQ answer "Six times in total, shared between the two
+> files", and the Prague product FAQ. If you change the number, change it in all four places and
+> here, in the same step.

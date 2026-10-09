@@ -1,0 +1,153 @@
+{
+  "products": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Product/9279897338185",
+        "handle": "walterin-prague",
+        "title": "Walterin Prague – Comic Book",
+        "status": "ACTIVE",
+        "metafields": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Metafield/164358104383817",
+              "key": "price_note",
+              "type": "single_line_text_field",
+              "value": "180 pages of Prague, in English or Czech."
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104416585",
+              "key": "choice_note",
+              "type": "single_line_text_field",
+              "value": "The eBook arrives the moment you pay. The printed book is a softcover, 129 × 207 mm."
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104449353",
+              "key": "about_heading",
+              "type": "single_line_text_field",
+              "value": "About the book"
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104482121",
+              "key": "short_title",
+              "type": "single_line_text_field",
+              "value": "Walterin Prague"
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104547657",
+              "key": "specs",
+              "type": "multi_line_text_field",
+              "value": "Pages: 180\nSize: 129 × 207 mm\nBinding: Softcover\nPrint: Full colour\nLanguages: English · Czech\neBook: PDF · EPUB"
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579076911433",
+        "handle": "t-shirt",
+        "title": "Walterin Prague T-shirt (The Absinth Drinker & Green Fairy)",
+        "status": "DRAFT",
+        "metafields": {
+          "nodes": []
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9579275223369",
+        "handle": "stickers",
+        "title": "Walterin Prague Sticker Set",
+        "status": "ACTIVE",
+        "metafields": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Metafield/164358104613193",
+              "key": "price_note",
+              "type": "single_line_text_field",
+              "value": "30 stickers on two sheets."
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104645961",
+              "key": "about_heading",
+              "type": "single_line_text_field",
+              "value": "About the stickers"
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104678729",
+              "key": "short_title",
+              "type": "single_line_text_field",
+              "value": "Prague stickers"
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104744265",
+              "key": "specs",
+              "type": "multi_line_text_field",
+              "value": "Stickers: 30\nSheets: 2 · 210 × 210 mm\nFinish: Matte\nPrint: Full colour\nAdhesive: Long-lasting"
+            },
+            {
+              "id": "gid://shopify/Metafield/164588973719881",
+              "key": "card_line_2",
+              "type": "single_line_text_field",
+              "value": "Sticker Set"
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9869964673353",
+        "handle": "prague-tarot",
+        "title": "Walterin Prague Tarot Cards",
+        "status": "DRAFT",
+        "metafields": {
+          "nodes": []
+        }
+      },
+      {
+        "id": "gid://shopify/Product/9872039575881",
+        "handle": "tarot",
+        "title": "Tarot of Consciousness: A Graphic Journey",
+        "status": "ACTIVE",
+        "metafields": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Metafield/164358104219977",
+              "key": "price_note",
+              "type": "single_line_text_field",
+              "value": "First edition."
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104252745",
+              "key": "choice_note",
+              "type": "single_line_text_field",
+              "value": "The cards speak in pictures first. The captions and the two extra cards are in the language you pick."
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104285513",
+              "key": "about_heading",
+              "type": "single_line_text_field",
+              "value": "About the deck"
+            },
+            {
+              "id": "gid://shopify/Metafield/164358104318281",
+              "key": "short_title",
+              "type": "single_line_text_field",
+              "value": "Tarot of Consciousness"
+            },
+            {
+              "id": "gid://shopify/Metafield/164362811703625",
+              "key": "specs",
+              "type": "multi_line_text_field",
+              "value": "Size: 84 × 138 mm\nPrint: Full colour (CMYK)\nPaper: 270 g/m²\nFinish: Matte"
+            }
+          ]
+        }
+      },
+      {
+        "id": "gid://shopify/Product/10024621801801",
+        "handle": "walterin-paris",
+        "title": "Walterin Paris",
+        "status": "DRAFT",
+        "metafields": {
+          "nodes": []
+        }
+      }
+    ]
+  }
+}

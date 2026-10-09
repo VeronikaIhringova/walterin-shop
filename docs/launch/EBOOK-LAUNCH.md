@@ -36,8 +36,12 @@ Also: download limit and delivery "after payment", and the email text from
 > **Corrected 29 Sep 2026.** This line used to say "5 downloads, link valid 30 days". Both numbers
 > were wrong. Shopify's own Digital Products app has **no expiry setting at all** — "days available
 > to download" belongs to Filemonk, a third-party app with a similar name. And 5 is too low: each
-> variant has two files, so 5 is two and a half sets. Recommendation is now **10 downloads, no
-> expiry stated**, with the reasoning and the Terms wording in `docs/legal/ebook-download-limits.md`.
+> variant has two files, so 5 is two and a half sets. The recommendation at the time was 10.
+>
+> **Superseded 9 Oct 2026: the decision is SIX downloads, shared between the PDF and the EPUB, no
+> expiry stated.** That is what Terms 7.1, the FAQ and the Prague product FAQ have said since they
+> were published; this line said 10 for a fortnight and was simply never updated. Reasoning and
+> the Terms wording: `docs/legal/ebook-download-limits.md`.
 **If a variant has no file, it must stay tracked with stock 0 (not buyable).** Tracking is switched off only for variants with a file (item 13).
 
 ## Order of steps tomorrow

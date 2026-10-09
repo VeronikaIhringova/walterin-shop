@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "about": {
+      "type": "walterin-about",
+      "settings": {
+        "direction": "c",
+        "biography": "shopify://shop_images/illustrated_biography_pixel_e4117d82-0460-4764-857f-344ed512bf0f.png",
+        "biography_alt": "Walter Ihring's illustrated autobiography, drawn as a single tall page"
+      }
+    },
+    "desert": {
+      "type": "walter-desert",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "about",
+    "desert",
+    "main"
+  ]
+}

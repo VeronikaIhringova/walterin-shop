@@ -1,0 +1,83 @@
+{
+ "walterin-prague.included": {
+  "gid": "gid://shopify/Metafield/164358104514889",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Dve vydania tej istej knihy.\"}]},{\"type\":\"list\",\"listType\":\"unordered\",\"children\":[{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Tlačená kniha — mäkká väzba, 129 × 207 mm, 180 strán, plnofarebná tlač\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"E-kniha — PDF vo vysokom rozlíšení a EPUB s pevným rozložením, oboje spolu\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"V e-knihe: preklikateľný obsah a odkaz na každú kapitolu\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Po anglicky alebo po česky — vyberiete si pred objednávkou\"}]}]}]}"
+   }
+  ]
+ },
+ "walterin-prague.notes": {
+  "gid": "gid://shopify/Metafield/164359269613897",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Čítanie na obrazovke\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Dostanete obidva súbory: PDF vo vysokom rozlíšení a EPUB s pevným rozložením. Kresby si na oboch držia proporcie — o to ide, strany boli navrhnuté ako strany.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Obsah je preklikateľný a každá kapitola má svoj odkaz. Číta sa na počítači, tablete, telefóne aj na čítačkách s pevným rozložením.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Ako darček\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Pre niekoho, kto ide do Prahy — alebo tam bol a stále o tom rozpráva.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Tlačená kniha je mäkká väzba, zmestí sa do vrecka kabáta. Ak to má prísť na konkrétny deň, napíšte nám pred objednávkou a povieme vám, či sa to dá.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"O Walterovi\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Praha je ďalšie mesto a tarot je prvý balíček kariet.\"}]}]}"
+   }
+  ]
+ },
+ "walterin-prague.preorder_note": {
+  "gid": "gid://shopify/Metafield/164359269646665",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Kedy ju dostanem?\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Zatiaľ nie. Nechajte nám e-mail vyššie a napíšeme raz — v deň, keď sa dá kúpiť. Nič iné.\"}]}]}"
+   }
+  ]
+ },
+ "stickers.included": {
+  "gid": "gid://shopify/Metafield/164358104711497",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Dva hárky, tridsať nálepiek.\"}]},{\"type\":\"list\",\"listType\":\"unordered\",\"children\":[{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"30 nálepiek nakreslených pre pražské vydanie\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Dva štvorcové hárky, 210 × 210 mm\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Matný povrch a lepidlo, ktoré drží\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Na notebook, do zošita, na fľašu — alebo na balík, ktorý posielate ďalej\"}]}]}]}"
+   }
+  ]
+ },
+ "stickers.notes": {
+  "gid": "gid://shopify/Metafield/164359269679433",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Ako darček\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Zmestia sa do obálky a jedna stojí menej ako káva.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Fungujú ako sada — vedľa knihy, alebo samy o sebe, keď je kniha priveľa.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"O Walterovi\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Praha je ďalšie mesto a tarot je prvý balíček kariet.\"}]}]}"
+   }
+  ]
+ },
+ "stickers.preorder_note": {
+  "gid": "gid://shopify/Metafield/164359269712201",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Kedy ich dostanem?\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Zatiaľ nie. Nechajte nám e-mail vyššie a napíšeme raz — v deň, keď sa dajú kúpiť. Nič iné.\"}]}]}"
+   }
+  ]
+ },
+ "tarot.included": {
+  "gid": "gid://shopify/Metafield/164358104351049",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Spolu 80 kariet.\"}]},{\"type\":\"list\",\"listType\":\"unordered\",\"children\":[{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"78 tarotových kariet: 22 veľkých a 56 malých arkán\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"1 karta navyše: na jednej strane úvod, na druhej vysvetlená cesta v deviatich krokoch\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"1 karta navyše: dve čítania\"}]},{\"type\":\"list-item\",\"children\":[{\"type\":\"text\",\"value\":\"Krabička\"}]}]}]}"
+   }
+  ]
+ },
+ "tarot.notes": {
+  "gid": "gid://shopify/Metafield/164359269548361",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Ako čítať\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Tarot poznať nemusíte. Funguje rovnako, či je to váš prvý balíček, alebo si vykladáte každý deň.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Použite ktorýkoľvek výklad, ktorý poznáte. Dva sú priamo v balíčku. Karta dňa: ráno si jednu vytiahnite, noste ju pri sebe alebo si ju postavte tam, kde na ňu uvidíte, a nechajte ju cez deň pôsobiť. Čítanie vedomia: dlhší výklad v troch krokoch — čo pochopiť, čo prijať, čo zmeniť.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Ako darček\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Darček pre niekoho blízkeho: pre partnera, pre kamarátku, pre mamu.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Pôvodné ilustrácie, prvé vydanie — a niečo, čo ešte takmer určite nedostal. Vyberte vydanie v jazyku, v ktorom číta. Chcete mu balíček poslať rovno? V pokladni zadajte jeho adresu ako adresu doručenia.\"}]},{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"O Walterovi\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Walter Ihring kreslí humor a karikatúru. Kresby cestujú na výstavy do zahraničia a občas sa vrátia s cenou.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"V roku 2015 vyšiel Walterin Bratislava, mesto rozprávané komiksom. Tarot je prvý balíček kariet.\"}]}]}"
+   }
+  ]
+ },
+ "tarot.preorder_note": {
+  "gid": "gid://shopify/Metafield/164359269581129",
+  "sk": [
+   {
+    "key": "value",
+    "value": "{\"type\":\"root\",\"children\":[{\"type\":\"heading\",\"level\":3,\"children\":[{\"type\":\"text\",\"value\":\"Kedy ho dostanem?\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Zatiaľ nie. Pripravujeme prvé vydanie.\"}]},{\"type\":\"paragraph\",\"children\":[{\"type\":\"text\",\"value\":\"Dátum ešte nemáme a vymýšľať si ho nebudeme. Nechajte nám e-mail vyššie a keď bude hotový, pošleme vám jednu správu.\"}]}]}"
+   }
+  ]
+ }
+}

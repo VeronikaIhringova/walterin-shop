@@ -1,0 +1,37 @@
+{%- comment -%}
+  Translates a section or block SETTING through the theme's language files.
+
+  The problem it solves: a setting's value lives in templates/*.json or
+  sections/*-group.json, and its Slovak lives in Translate & Adapt — store data, outside the repo,
+  invisible in a diff, and impossible to preview. Measured on 9 Oct 2026, eight footer strings had
+  never been written in Slovak and were showing in English on every page of /sk/.
+
+  How it works: the English value is handleized into a key under `prefix`. If that key exists in
+  locales/*.json the translation is used; if not, the setting's own value is echoed unchanged. So
+  a setting Veronka edits in the theme editor keeps working — it just stops being translated until
+  someone adds the key, and the English never breaks.
+
+  This is deliberately NOT a general translation layer. It is for the handful of settings whose
+  text is effectively fixed furniture (column headings, a newsletter label) rather than content.
+  Real content belongs in the language files from the start, the way the product pages do.
+
+  Accepts:
+    text   (required) the setting's value
+    prefix (required) locale namespace, e.g. 'walterin.footer.block.'
+
+  Usage: {%- render 'wui-setting-text', text: block.settings.heading, prefix: 'walterin.footer.block.' -%}
+{%- endcomment -%}
+{%- liquid
+  assign key = text | strip | handleize
+  if key == blank
+    echo text
+  else
+    assign full_key = prefix | append: key
+    assign translated = full_key | t
+    if translated contains 'Translation missing'
+      echo text
+    else
+      echo translated
+    endif
+  endif
+-%}

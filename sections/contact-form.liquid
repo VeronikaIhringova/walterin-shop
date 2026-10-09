@@ -109,9 +109,18 @@
 <div class="color-{{ section.settings.color_scheme }} color-scheme-{{ section.id }} gradient">
   <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
 
+    {%- comment -%}
+      The heading is a section setting, so its Slovak would sit in Translate & Adapt and never
+      was written: /sk/pages/contact and /sk/pages/drop-us-a-note-anytime both showed an English
+      heading. Looked up in the language files by its English value instead — the same treatment
+      the footer column headings get.
+    {%- endcomment -%}
     {%- if section.settings.heading != blank -%}
+      {%- capture contact_heading -%}
+        {%- render 'wui-setting-text', text: section.settings.heading, prefix: 'walterin.contact.heading.' -%}
+      {%- endcapture -%}
       <h2 class="title title-wrapper--no-top-margin {{ section.settings.heading_size }}">
-        {{ section.settings.heading | escape }}
+        {{ contact_heading | strip | escape }}
       </h2>
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
@@ -163,10 +172,10 @@
             id="ContactForm-name"
             name="contact[{{ 'templates.contact.form.name' | t }}]"
             value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="First and Last Name *"
+            placeholder="{{ 'walterin.contact.name_placeholder' | t }}"
             required
           >
-          <label class="field__label" for="ContactForm-name">First and Last Name <span aria-hidden="true">*</span></label>
+          <label class="field__label" for="ContactForm-name">{{ 'walterin.contact.name_label' | t }} <span aria-hidden="true">*</span></label>
         </div>
 
         <!-- Email -->
@@ -207,13 +216,22 @@
       <!-- Contact Reason custom dropdown -->
       <div class="wlt-select" id="wlt-select">
         <div class="wlt-select__display" id="wlt-select-display" onclick="wltToggle()">
-          <span id="wlt-select-text">Contact Reason *</span>
+          <span id="wlt-select-text">{{ 'walterin.contact.reason_label' | t }}</span>
           <span class="wlt-select__arrow" id="wlt-select-arrow">▼</span>
         </div>
+        {%- comment -%}
+          The reasons are shown in the visitor's language but SUBMITTED in English. The value lands
+          in contact[Contact Reason] and then in Veronka's inbox, where one set of English values is
+          sortable and two languages are not. So the English list below stays the canonical one and
+          only the label is looked up.
+        {%- endcomment -%}
         <div class="wlt-select__options" id="wlt-select-options">
           {%- assign reasons = "Order status,Cancel or modify an order,Returns or exchanges,My order is missing,My order arrived damaged,Issue with my product,Shipping questions,Product questions,General feedback,Partnership / Collaboration,Other" | split: "," -%}
           {%- for reason in reasons -%}
-            <div class="wlt-select__option" onclick="wltSelect('{{ reason }}')">{{ reason }}</div>
+            {%- capture reason_label -%}
+              {%- render 'wui-setting-text', text: reason, prefix: 'walterin.contact.reason.' -%}
+            {%- endcapture -%}
+            <div class="wlt-select__option" onclick="wltSelect('{{ reason | escape }}', '{{ reason_label | strip | escape }}')">{{ reason_label | strip }}</div>
           {%- endfor -%}
         </div>
         <input type="hidden" id="ContactForm-reason" name="contact[Contact Reason]" required>
@@ -226,10 +244,10 @@
           id="ContactForm-body"
           class="text-area field__input"
           name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="Tell us the details *"
+          placeholder="{{ 'walterin.contact.details_placeholder' | t }}"
           required
         >{{- form.body -}}</textarea>
-        <label class="form__label field__label" for="ContactForm-body">Tell us the details <span aria-hidden="true">*</span></label>
+        <label class="form__label field__label" for="ContactForm-body">{{ 'walterin.contact.details_label' | t }} <span aria-hidden="true">*</span></label>
       </div>
 
       <div class="contact__button">
@@ -287,12 +305,14 @@
       arrow.classList.toggle('open', !isOpen);
     }
 
-    function wltSelect(value) {
+    // value is the canonical English that gets submitted; label is what the visitor reads.
+    // Called with one argument from older markup, so label falls back to value.
+    function wltSelect(value, label) {
       var text = document.getElementById('wlt-select-text');
       var opts = document.getElementById('wlt-select-options');
       var arrow = document.getElementById('wlt-select-arrow');
       var display = document.getElementById('wlt-select-display');
-      text.innerText = value;
+      text.innerText = label || value;
       display.classList.add('selected');
       document.getElementById('ContactForm-reason').value = value;
       opts.classList.remove('open');

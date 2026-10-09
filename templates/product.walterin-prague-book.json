@@ -77,8 +77,7 @@
         "spread_1": {
           "type": "spread",
           "settings": {
-            "image": "shopify://shop_images/walterin-prague-look-inside-comic-illustrated-pages.png",
-            "image_mobile": "shopify://shop_images/walterin-prague-look-inside-comic-pages-mobile.png",
+            "image": "shopify://shop_images/walterin-prague-comic-pages-illustrated-stories-look-inside.jpg",
             "caption": ""
           }
         }

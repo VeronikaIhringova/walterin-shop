@@ -394,12 +394,6 @@
                         elsif variant.available
                           assign v_any_available = true
                         endif
-                        if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold
-                          assign v_left = variant.inventory_quantity
-                        endif
-                        if preview == 'low_stock' and forloop.first
-                          assign v_left = 12
-                        endif
                       endif
                     endfor
 
@@ -421,8 +415,6 @@
                       assign v_note = 'walterin.buy.sold_out' | t
                     elsif product_state == 'sold_out'
                       assign v_note = 'walterin.buy.sold_out' | t
-                    elsif v_left > 0 and section.settings.remaining_text != blank
-                      assign v_note = section.settings.remaining_text | replace: '[n]', v_left
                     endif
 
                     assign is_selected = false
@@ -1064,14 +1056,19 @@
           "date": {{ j_label | json }},
           "price": {{ variant.price | money_without_trailing_zeros | json }},
           "shipping": {{ variant.requires_shipping }},
-          "left": {% if section.settings.show_remaining and variant.inventory_management == 'shopify' and variant.inventory_quantity > 0 and variant.inventory_quantity <= section.settings.remaining_threshold %}{{ variant.inventory_quantity }}{% elsif preview == 'low_stock' and forloop.first %}12{% else %}0{% endif %}
+          "left": 0
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
   </script>
-  {%- if section.settings.remaining_text != blank -%}
-    <span hidden data-wui-remaining-template>{{ section.settings.remaining_text | escape }}</span>
-  {%- endif -%}
+  {%- comment -%}
+    There was a hidden "[n] of 100 left" template here, and three settings behind it, that
+    JavaScript copied into the option note when stock ran low. Removed on 9 Oct 2026: we never
+    publish quantities, and docs/WALTERIN-GROUND-TRUTH.md forbids it anywhere a customer can see.
+    "Hidden markup" counts — it is in the page source and one setting away from being visible.
+    The per-variant "left" value stays in the JSON below, hardcoded to 0, because the script reads
+    the key; it never carries a real count.
+  {%- endcomment -%}
 </div>
 
 {%- liquid
@@ -1336,30 +1333,6 @@
     {
       "type": "paragraph",
       "content": "One group per product option, added automatically. The name of each value follows the site language via Translate & Adapt, and the waitlist tag uses the variant SKU."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_remaining",
-      "label": "Show copies left when stock is low",
-      "info": "Needs inventory tracking on the variants. Switch on at launch.",
-      "default": false
-    },
-    {
-      "type": "range",
-      "id": "remaining_threshold",
-      "label": "Show below",
-      "min": 1,
-      "max": 50,
-      "step": 1,
-      "unit": "pcs",
-      "default": 20
-    },
-    {
-      "type": "text",
-      "id": "remaining_text",
-      "label": "Copies left text",
-      "info": "[n] = copies left.",
-      "default": "[n] of 100 left"
     },
     {
       "type": "header",

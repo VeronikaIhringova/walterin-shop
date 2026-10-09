@@ -530,12 +530,45 @@
     }
   },
   "walterin": {
+    "about_draft": {
+      "heading": "Ahoj, volám sa Walter Ihring",
+      "lead": "Kreslím humor a karikatúry už viac ako tridsať rokov. A najradšej kreslím príbehy, o ktorých ste ešte nepočuli.",
+      "x1_heading": "Ako vznikol Walterin",
+      "x1_lead": "Raz v horúci letný deň som sedel na námestí pri káve a pozoroval turistov, ako sa ponáhľajú od radnice ku katedrále.",
+      "x1_text": "Míňali domy, v ktorých sa odohrali neuveriteľné príbehy, a nikto o nich nevedel. Vtedy som sa rozhodol spojiť kreslenie s históriou a humorom. V roku 2015 vyšla moja prvá kniha, Walterin Bratislava. Po nej prišla Praha a ďalšie mestá sú na ceste.",
+      "read_more": "Čítať ďalej",
+      "read_less": "Zbaliť",
+      "caption_biography": "• Walterov ilustrovaný životopis •",
+      "caption_desert": "• India a dlhá cesta okolo •"
+    },
     "contact": {
       "intro": "Napíšte nám kedykoľvek. Pomôžeme s objednávkou, poradíme s produktmi a radi si vypočujeme, čo si myslíte.",
       "hours_html": "Pondelok až piatok, <strong>9:00–17:00&nbsp;SEČ</strong>. Ozveme sa vám čo&nbsp;najskôr.",
       "required": "* povinné pole",
       "company": "Walterin s.&nbsp;r.&nbsp;o.",
-      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovensko"
+      "address": "Ľubochnianska&nbsp;4, 831&nbsp;04 Bratislava – Nové&nbsp;Mesto, Slovensko",
+      "reason": {
+        "order-status": "Kde je moja objednávka",
+        "cancel-or-modify-an-order": "Zmeniť alebo zrušiť objednávku",
+        "returns-or-exchanges": "Vrátenie alebo výmena",
+        "my-order-is-missing": "Objednávka mi neprišla",
+        "my-order-arrived-damaged": "Zásielka prišla poškodená",
+        "issue-with-my-product": "Niečo nie je v poriadku s tovarom",
+        "shipping-questions": "Otázka k doprave",
+        "product-questions": "Otázka k produktom",
+        "general-feedback": "Chcem len niečo odkázať",
+        "partnership-collaboration": "Spolupráca",
+        "other": "Niečo iné"
+      },
+      "heading": {
+        "contact-form": "Napíšte nám",
+        "drop-us-a-note-anytime": "napíšte nám kedykoľvek."
+      },
+      "name_placeholder": "Meno a priezvisko *",
+      "name_label": "Meno a priezvisko",
+      "reason_label": "Čoho sa to týka *",
+      "details_placeholder": "Napíšte nám, o čo ide *",
+      "details_label": "Napíšte nám, o čo ide"
     },
     "notify": {
       "newsletter": "Aj newsletter: čo je nové a čo chystáme.",
@@ -584,7 +617,7 @@
       "digital": "Pri e-knihách zodpovedáme za vady 24 mesiacov odo dňa dodania súboru. Napíšte nám na support@walterin.com."
     },
     "product_faq": {
-      "title": "FAQ",
+      "title": "Časté otázky",
       "all": "Všetky otázky",
       "q": {
         "tarot_box": {
@@ -778,8 +811,17 @@
       "f3_full": "Komiks je jazyk, ktorému rozumie každý, mladší aj starší. Kresby hovoria samy za seba, takže si príbeh užijete, aj keď o histórii veľa neviete."
     },
     "footer": {
-      "copyright": "© {{ year }} Walterin\u00a0s.\u00a0r.\u00a0o. Všetky práva vyhradené.",
-      "credits_html": "ilustrácie {{ walter }} · dizajn a vývoj {{ veronika }}"
+      "copyright": "© {{ year }} Walterin s. r. o. Všetky práva vyhradené.",
+      "credits_html": "ilustrácie {{ walter }} · dizajn a vývoj {{ veronika }}",
+      "block": {
+        "subscribe-to-our-emails": "Novinky e-mailom",
+        "subscribe": "Odoberať",
+        "navigate": "MENU",
+        "social": "SOCIÁLNE SIETE",
+        "official": "INFORMÁCIE",
+        "support": "PODPORA"
+      },
+      "newsletter_subtext_html": "<p><strong>Pre zvedavých, ktorí majú radi vtipnú históriu.</strong><br/>Príbehy plné humoru a potuliek, priamo do vašej schránky.</p>"
     },
     "policy": {
       "on_this_page": "Na tejto stránke"

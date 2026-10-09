@@ -1,0 +1,197 @@
+{% comment %}
+  Walterin · About — three directions behind one section.
+
+  Veronka asked for three alternate templates (page.about-a / -b / -c) to choose between. They are
+  the SAME content in three presentations, so they are one section with a `direction` setting
+  rather than three near-identical files: a copy fix then lands in all three at once, and the
+  comparison is fair because nothing differs except the layout.
+
+    A · "A life in nine frames" — the page as one nine-frame comic page, the way a page of the
+         book is built. The autobiography and the desert are two of the nine.
+    B · "Into the autobiography" — the autobiography is the page. Scrolling moves through it and
+         zooms into its parts; at Egypt the desert section opens out of it.
+    C · "The exhibition" — a gallery wall. The autobiography hangs in a frame, pinned while the
+         text scrolls beside it; the desert plays inside the other frame as a full-width interlude.
+
+  Nothing new is invented: colours, type, spacing and the button all come from walterin-ui.css,
+  and the two hand-drawn frames come from snippets/wui-frame.liquid.
+
+  The words live in locales/*.json under `walterin.about_draft` — a namespace of its own, so this
+  draft cannot collide with the live About page until a direction is chosen.
+
+  The desert animation is NOT rendered here. It is its own section (sections/walter-desert.liquid)
+  so Veronka can place and configure it in the theme editor; these templates leave it a slot and
+  the templates include it by name.
+{% endcomment %}
+
+{%- liquid
+  assign t = 'walterin.about_draft.'
+  assign dir = section.settings.direction | default: 'a'
+
+  assign heading = t | append: 'heading' | t
+  assign lead = t | append: 'lead' | t
+
+  capture lead_t
+    render 'wui-tail-nbsp', text: lead
+  endcapture
+
+  assign bio = section.settings.biography
+-%}
+
+<div class="wui-scope wui-about wui-about--{{ dir }}" data-wui-about="{{ dir }}">
+  <div class="wui-wrap">
+
+    {%- comment -%}
+      One h1 on the page, always, whichever direction is showing. The lead is a sibling, not a
+      second heading — docs/design/SPACING.md step "heading" owns the gap between them.
+    {%- endcomment -%}
+    <header class="wui-about__intro">
+      <h1 class="wui-heading wui-about__title">{{ heading | escape }}</h1>
+      <p class="wui-about__lead">{{ lead_t | strip }}</p>
+    </header>
+
+    {%- comment -%}
+      ---- The autobiography, the heart of the page ----
+      Direction A hangs it in a rect frame as one cell of the grid; B gives it the whole stage and
+      moves the viewport over it; C pins it in a frame beside the scrolling text.
+    {%- endcomment -%}
+    {%- capture bio_img -%}
+      {%- if bio != blank -%}
+        <img
+          class="wui-about__bio-img"
+          src="{{ bio | image_url: width: 1400 }}"
+          srcset="{{ bio | image_url: width: 700 }} 700w, {{ bio | image_url: width: 1100 }} 1100w, {{ bio | image_url: width: 1800 }} 1800w"
+          sizes="(min-width: 990px) 46vw, 92vw"
+          width="{{ bio.width }}"
+          height="{{ bio.height }}"
+          alt="{{ bio.alt | default: section.settings.biography_alt | escape }}"
+          loading="lazy"
+          decoding="async"
+        >
+      {%- else -%}
+        <div class="wui-about__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- case dir -%}
+
+      {%- when 'a' -%}
+        {%- comment -%}
+          Nine cells, the same grid a story page uses. The autobiography takes a tall cell and the
+          desert a wide one; the rest are quiet — they are the paper between the frames, not
+          decoration, so they hold nothing rather than being filled for the sake of it.
+        {%- endcomment -%}
+        <div class="wui-about__grid" role="group" aria-label="{{ heading | escape }}">
+          <figure class="wui-about__cell wui-about__cell--bio">
+            {%- capture framed -%}{{ bio_img }}{%- endcapture -%}
+            {%- render 'wui-frame', shape: 'rect', width: 900, content: framed -%}
+            <figcaption class="wui-about__caption">{{ t | append: 'caption_biography' | t }}</figcaption>
+          </figure>
+          <div class="wui-about__cell wui-about__cell--desert" data-wui-about-desert-slot></div>
+        </div>
+
+      {%- when 'b' -%}
+        {%- comment -%}
+          The autobiography fills the stage and the scroll drives a scale and a pan over it, so
+          the reader travels through the drawing instead of past it. Everything is a transform on
+          one element; prefers-reduced-motion parks it at the full view and shortens the track so
+          nobody scrolls through dead space.
+        {%- endcomment -%}
+        <div class="wui-about__track" data-wui-about-track>
+          <div class="wui-about__stage" data-wui-about-stage>
+            <div class="wui-about__zoom" data-wui-about-zoom>{{ bio_img }}</div>
+          </div>
+        </div>
+        <p class="wui-about__caption wui-about__caption--centre">{{ t | append: 'caption_biography' | t }}</p>
+        <div data-wui-about-desert-slot></div>
+
+      {%- when 'c' -%}
+        {%- comment -%}
+          A wall: the frame is pinned by position: sticky — no JavaScript — and the text scrolls
+          past it. Below 990 the pin is dropped and the two stack, because a sticky image on a
+          phone eats the screen the text needs.
+        {%- endcomment -%}
+        <div class="wui-about__wall">
+          <figure class="wui-about__hang">
+            {%- capture framed -%}{{ bio_img }}{%- endcapture -%}
+            {%- render 'wui-frame', shape: 'scallop', width: 900, content: framed -%}
+            <figcaption class="wui-about__caption">{{ t | append: 'caption_biography' | t }}</figcaption>
+          </figure>
+          <div class="wui-about__beside" data-wui-about-beside></div>
+        </div>
+        <div data-wui-about-desert-slot></div>
+
+    {%- endcase -%}
+
+    {%- comment -%}
+      ---- For people who want more ----
+      The same pattern as the three expandable texts on the home page: a lead that stands on its
+      own, and the rest behind "Read more". Only one is written so far; the loop takes however
+      many exist, so adding x2 and x3 to the language files is all the next one needs.
+    {%- endcomment -%}
+    <div class="wui-about__more">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign k = t | append: 'x' | append: i
+          assign x_heading = k | append: '_heading' | t
+          assign x_lead = k | append: '_lead' | t
+          assign x_text = k | append: '_text' | t
+        -%}
+        {%- unless x_heading contains 'Translation missing' -%}
+          {%- capture x_lead_t -%}{%- render 'wui-tail-nbsp', text: x_lead -%}{%- endcapture -%}
+          {%- capture x_text_t -%}{%- render 'wui-tail-nbsp', text: x_text -%}{%- endcapture -%}
+          <details class="wui-about__x" data-wui-about-x>
+            <summary>
+              <span class="wui-label wui-about__x-heading">{{ x_heading }}</span>
+              <p class="wui-about__x-lead">{{ x_lead_t | strip }}</p>
+              <span class="wui-about__x-toggle" aria-hidden="true">
+                <span data-more>{{ t | append: 'read_more' | t }} →</span>
+                <span data-less>{{ t | append: 'read_less' | t }} ←</span>
+              </span>
+            </summary>
+            {%- unless x_text contains 'Translation missing' -%}
+              <div class="wui-about__x-body"><p>{{ x_text_t | strip }}</p></div>
+            {%- endunless -%}
+          </details>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+<script src="{{ 'walterin-about.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Walterin About",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The words come from locales/*.json under walterin.about_draft, not from this section — so English and Slovak stay side by side in one file. The desert animation is its own section; add it under this one."
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "a", "label": "A · A life in nine frames" },
+        { "value": "b", "label": "B · Into the autobiography" },
+        { "value": "c", "label": "C · The exhibition" }
+      ],
+      "default": "a"
+    },
+    { "type": "image_picker", "id": "biography", "label": "Illustrated autobiography" },
+    {
+      "type": "text",
+      "id": "biography_alt",
+      "label": "Autobiography alt text",
+      "info": "Used only when the file itself has none."
+    }
+  ],
+  "presets": [{ "name": "Walterin About" }],
+  "enabled_on": { "templates": ["page"] }
+}
+{% endschema %}
