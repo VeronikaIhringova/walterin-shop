@@ -2561,12 +2561,17 @@ html:has(a[data-wui-scroll]) { scroll-behavior: smooth; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--wui-space-block, 24px);
 }
-.wui-about--a .wui-about__cell--bio { grid-column: span 1; grid-row: span 2; margin: 0; }
-.wui-about--a .wui-about__cell--desert { grid-column: span 2; }
+.wui-about--a .wui-about__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
+.wui-about--a .wui-about__cell--bio { margin: 0; }
+.wui-about--a .wui-about__cell--note {
+  margin: 0 0 var(--wui-space-block, 24px);
+  font-size: var(--wui-fs-small);
+  letter-spacing: 0.04em;
+  opacity: 0.72;
+}
 @media screen and (max-width: 749px) {
   .wui-about--a .wui-about__grid { grid-template-columns: minmax(0, 1fr); }
-  .wui-about--a .wui-about__cell--bio,
-  .wui-about--a .wui-about__cell--desert { grid-column: span 1; grid-row: auto; }
+  .wui-about--a .wui-about__cell--note { margin-bottom: 0; }
 }
 
 /* --- B · into the autobiography ------------------------------------------ */

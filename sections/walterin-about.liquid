@@ -81,13 +81,19 @@
           desert a wide one; the rest are quiet — they are the paper between the frames, not
           decoration, so they hold nothing rather than being filled for the sake of it.
         {%- endcomment -%}
-        <div class="wui-about__grid" role="group" aria-label="{{ heading | escape }}">
+        {%- comment -%}
+          The desert is its own section, so it cannot literally be a cell of this grid. Instead
+          the grid ends flush and the desert runs full width directly under it, at the same
+          gutter — so the two read as one page of frames rather than a grid with a hole in it.
+          Reserving an empty cell for it was the first attempt and it looked broken.
+        {%- endcomment -%}
+        <div class="wui-about__grid">
           <figure class="wui-about__cell wui-about__cell--bio">
             {%- capture framed -%}{{ bio_img }}{%- endcapture -%}
             {%- render 'wui-frame', shape: 'rect', width: 900, content: framed -%}
             <figcaption class="wui-about__caption">{{ t | append: 'caption_biography' | t }}</figcaption>
           </figure>
-          <div class="wui-about__cell wui-about__cell--desert" data-wui-about-desert-slot></div>
+          <p class="wui-about__cell wui-about__cell--note">{{ t | append: 'caption_desert' | t }}</p>
         </div>
 
       {%- when 'b' -%}
